@@ -7,12 +7,12 @@ export interface MapViewBox {
   h: number;
 }
 
-export const WORLD_VIEWBOX: MapViewBox = { x: 0, y: 0, w: 100, h: 45 };
+export const WORLD_VIEWBOX: MapViewBox = { x: 0, y: 0, w: 100, h: 50 };
 
-const MIN_WIDTH = 22;
-const MIN_HEIGHT = 12;
+const MIN_WIDTH = 15;
+const MIN_HEIGHT = 8;
 const MAP_WIDTH = 100;
-const MAP_HEIGHT = 45;
+const MAP_HEIGHT = 50;
 
 export const clampMapViewBox = (viewBox: MapViewBox): MapViewBox => {
   const w = Math.max(MIN_WIDTH, Math.min(MAP_WIDTH, viewBox.w));
@@ -50,7 +50,7 @@ export const fitMapViewToLegs = (
   const minY = Math.min(...ys);
   const maxY = Math.max(...ys);
 
-  const paddingX = Math.max(4, (maxX - minX) * 0.22);
+  const paddingX = Math.max(5, (maxX - minX) * 0.22);
   const paddingY = Math.max(3, (maxY - minY) * 0.3);
 
   return clampMapViewBox({
