@@ -13,6 +13,9 @@ const stages = [
 
 const MembershipPipelinePage = () => {
   const { getMembershipApplications, updateStatus } = useCrmApi();
+  const [apps, setApps] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [filter, setFilter] = useState("");
 
   useEffect(() => {
     const load = async () => {
@@ -24,9 +27,9 @@ const MembershipPipelinePage = () => {
     load();
   }, [filter]);
 
-  const handleUpdateStatus = async (id: string, status: string) => {
-    await updateStatus("membership_applications", id, status);
-    setApps((prev) => prev.map((a) => (a.id === id ? { ...a, status } : a)));
+  const handleUpdateStatus = async (id: string, newStatus: string) => {
+    await updateStatus("membership_applications", id, newStatus);
+    setApps((prev) => prev.map((a) => (a.id === id ? { ...a, status: newStatus } : a)));
   };
 
   return (
