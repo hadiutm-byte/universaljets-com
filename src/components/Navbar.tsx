@@ -85,7 +85,7 @@ const Navbar = () => {
           </Link>
 
           {/* Center Nav — Desktop */}
-          <div className="hidden xl:flex items-center gap-8 absolute left-1/2 -translate-x-1/2">
+          <div className="hidden xl:flex items-center gap-6 absolute left-1/2 -translate-x-1/2">
             {centerLinks.map((l) => (
               <NavLink
                 key={l.label}
