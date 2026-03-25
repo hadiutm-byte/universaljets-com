@@ -10,8 +10,10 @@ const pillars = [
 ];
 
 const ExperienceSection = () => (
-  <section id="experience" className="section-padding overflow-hidden">
-    <div className="container mx-auto px-8">
+  <section id="experience" className="section-padding overflow-hidden relative">
+    <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[hsl(228,22%,4.5%)] to-transparent pointer-events-none" />
+
+    <div className="container mx-auto px-8 relative z-10">
       <div className="grid lg:grid-cols-2 gap-20 items-center">
         {/* Left - Image */}
         <motion.div
@@ -22,16 +24,20 @@ const ExperienceSection = () => (
           className="relative order-2 lg:order-1"
         >
           <div className="rounded-2xl overflow-hidden glow-subtle">
-            <img
+            <motion.img
               src={interiorImage}
               alt="Luxury private jet interior"
               className="w-full h-auto object-cover"
               loading="lazy"
               width={1280}
               height={720}
+              whileInView={{ scale: 1.03 }}
+              initial={{ scale: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 1.5, ease: "easeOut" }}
             />
           </div>
-          <div className="absolute -bottom-6 -right-6 w-40 h-40 bg-gradient-to-br from-gold/10 to-transparent rounded-full blur-3xl" />
+          <div className="absolute -bottom-6 -right-6 w-40 h-40 bg-gradient-to-br from-primary/10 to-transparent rounded-full blur-3xl" />
         </motion.div>
 
         {/* Right - Content */}
@@ -42,8 +48,8 @@ const ExperienceSection = () => (
           transition={{ duration: 0.8 }}
           className="order-1 lg:order-2"
         >
-          <p className="text-[9px] tracking-[0.5em] uppercase text-gold/70 mb-6 font-light">The Standard</p>
-          <h2 className="text-3xl md:text-5xl font-display font-semibold mb-16 leading-tight">
+          <p className="text-[9px] tracking-[0.5em] uppercase text-primary/60 mb-6 font-light">The Standard</p>
+          <h2 className="text-3xl md:text-5xl font-display font-semibold mb-16 leading-tight text-foreground">
             The Experience
           </h2>
 
@@ -58,11 +64,11 @@ const ExperienceSection = () => (
                 className="flex gap-6 group"
               >
                 <div className="flex-shrink-0 w-12 h-12 rounded-full luxury-border flex items-center justify-center group-hover:glow-subtle transition-all duration-700">
-                  <p.icon className="w-4 h-4 text-gold/70" strokeWidth={1.2} />
+                  <p.icon className="w-4 h-4 text-primary/60" strokeWidth={1.2} />
                 </div>
                 <div>
-                  <h3 className="font-display text-lg mb-2">{p.title}</h3>
-                  <p className="text-[12px] text-muted-foreground font-extralight leading-[2]">{p.desc}</p>
+                  <h3 className="font-display text-lg mb-2 text-foreground">{p.title}</h3>
+                  <p className="text-[12px] text-foreground/40 font-extralight leading-[2]">{p.desc}</p>
                 </div>
               </motion.div>
             ))}

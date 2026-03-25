@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
-import { MapPin, Calendar, Users, ArrowRight, Loader2 } from "lucide-react";
+import { MapPin, Calendar, Users, ArrowRight, Loader2, RotateCcw } from "lucide-react";
 import { useAirportSearch, type Airport } from "@/hooks/useAviapages";
 
 const FlightSearchBox = () => {
@@ -13,6 +13,7 @@ const FlightSearchBox = () => {
   const [selectedFrom, setSelectedFrom] = useState<Airport | null>(null);
   const [selectedTo, setSelectedTo] = useState<Airport | null>(null);
   const [date, setDate] = useState("");
+  const [returnDate, setReturnDate] = useState("");
   const [passengers, setPassengers] = useState("");
   const [showFromDropdown, setShowFromDropdown] = useState(false);
   const [showToDropdown, setShowToDropdown] = useState(false);
@@ -23,7 +24,6 @@ const FlightSearchBox = () => {
   const { data: fromAirports, isLoading: fromLoading } = useAirportSearch(fromQuery);
   const { data: toAirports, isLoading: toLoading } = useAirportSearch(toQuery);
 
-  // Close dropdowns on outside click
   useEffect(() => {
     const handler = (e: MouseEvent) => {
       if (fromRef.current && !fromRef.current.contains(e.target as Node)) setShowFromDropdown(false);
@@ -50,7 +50,6 @@ const FlightSearchBox = () => {
     airports,
     loading,
     onSelect,
-    type,
   }: {
     airports?: Airport[];
     loading: boolean;
@@ -70,7 +69,7 @@ const FlightSearchBox = () => {
         <button
           key={airport.id}
           onClick={() => onSelect(airport)}
-          className="w-full px-4 py-2.5 text-left hover:bg-white/[0.03] transition-colors border-b border-white/[0.03] last:border-0"
+          className="w-full px-4 py-2.5 text-left hover:bg-white/[0.04] transition-colors border-b border-white/[0.03] last:border-0"
         >
           <span className="text-[12px] text-foreground/90 font-light">{airport.city}</span>
           <span className="text-[10px] text-muted-foreground ml-2">
@@ -86,13 +85,13 @@ const FlightSearchBox = () => {
       initial={{ opacity: 0, y: 30 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 1, delay: 1.25, ease: [0.16, 1, 0.3, 1] }}
-      className="w-full max-w-3xl mx-auto mt-4"
+      className="w-full max-w-4xl mx-auto mt-4"
     >
-      <div className="glass-search rounded-2xl p-3 group/box hover:shadow-[0_0_70px_-20px_hsla(38,52%,50%,0.15)] transition-all duration-700">
-        <div className="grid grid-cols-2 md:grid-cols-[1fr_1fr_1fr_0.7fr_auto] gap-0">
+      <div className="glass-search rounded-2xl p-3 group/box">
+        <div className="grid grid-cols-2 md:grid-cols-[1fr_1fr_0.9fr_0.9fr_0.6fr_auto] gap-0">
           {/* From */}
           <div className="md:border-r md:border-r-[hsla(0,0%,100%,0.04)] relative" ref={fromRef}>
-            <div className="px-5 py-4">
+            <div className="px-4 py-4">
               <label className="flex items-center gap-1.5 text-[7.5px] tracking-[0.35em] uppercase text-primary/55 mb-2 font-light">
                 <MapPin size={8} strokeWidth={1.5} /> From
               </label>
@@ -107,7 +106,7 @@ const FlightSearchBox = () => {
                 }}
                 onFocus={() => fromQuery.length >= 2 && setShowFromDropdown(true)}
                 placeholder="City or airport"
-                className="w-full bg-transparent text-[13px] text-foreground/90 placeholder:text-foreground/15 font-light focus:outline-none tracking-wide"
+                className="w-full bg-transparent text-[13px] text-foreground/90 placeholder:text-foreground/20 font-light focus:outline-none tracking-wide"
               />
             </div>
             {showFromDropdown && fromQuery.length >= 2 && (
@@ -117,7 +116,7 @@ const FlightSearchBox = () => {
 
           {/* To */}
           <div className="md:border-r md:border-r-[hsla(0,0%,100%,0.04)] relative" ref={toRef}>
-            <div className="px-5 py-4">
+            <div className="px-4 py-4">
               <label className="flex items-center gap-1.5 text-[7.5px] tracking-[0.35em] uppercase text-primary/55 mb-2 font-light">
                 <MapPin size={8} strokeWidth={1.5} /> To
               </label>
@@ -132,7 +131,7 @@ const FlightSearchBox = () => {
                 }}
                 onFocus={() => toQuery.length >= 2 && setShowToDropdown(true)}
                 placeholder="City or airport"
-                className="w-full bg-transparent text-[13px] text-foreground/90 placeholder:text-foreground/15 font-light focus:outline-none tracking-wide"
+                className="w-full bg-transparent text-[13px] text-foreground/90 placeholder:text-foreground/20 font-light focus:outline-none tracking-wide"
               />
             </div>
             {showToDropdown && toQuery.length >= 2 && (
@@ -140,11 +139,11 @@ const FlightSearchBox = () => {
             )}
           </div>
 
-          {/* Date */}
+          {/* Departure Date */}
           <div className="md:border-r md:border-r-[hsla(0,0%,100%,0.04)]">
-            <div className="px-5 py-4">
+            <div className="px-4 py-4">
               <label className="flex items-center gap-1.5 text-[7.5px] tracking-[0.35em] uppercase text-primary/55 mb-2 font-light">
-                <Calendar size={8} strokeWidth={1.5} /> Date
+                <Calendar size={8} strokeWidth={1.5} /> Departure
               </label>
               <input
                 type="date"
@@ -155,9 +154,24 @@ const FlightSearchBox = () => {
             </div>
           </div>
 
+          {/* Return Date */}
+          <div className="md:border-r md:border-r-[hsla(0,0%,100%,0.04)]">
+            <div className="px-4 py-4">
+              <label className="flex items-center gap-1.5 text-[7.5px] tracking-[0.35em] uppercase text-primary/55 mb-2 font-light">
+                <RotateCcw size={8} strokeWidth={1.5} /> Return
+              </label>
+              <input
+                type="date"
+                value={returnDate}
+                onChange={(e) => setReturnDate(e.target.value)}
+                className="w-full bg-transparent text-[13px] text-foreground/90 font-light focus:outline-none [color-scheme:dark] tracking-wide"
+              />
+            </div>
+          </div>
+
           {/* Passengers */}
           <div>
-            <div className="px-5 py-4">
+            <div className="px-4 py-4">
               <label className="flex items-center gap-1.5 text-[7.5px] tracking-[0.35em] uppercase text-primary/55 mb-2 font-light">
                 <Users size={8} strokeWidth={1.5} /> Guests
               </label>
@@ -186,6 +200,7 @@ const FlightSearchBox = () => {
                   to_label: `${selectedTo.city} (${selectedTo.icao || selectedTo.iata})`,
                 });
                 if (date) params.set("date", date);
+                if (returnDate) params.set("return_date", returnDate);
                 if (passengers) params.set("passengers", passengers);
                 navigate(`/search?${params.toString()}`);
               }}
