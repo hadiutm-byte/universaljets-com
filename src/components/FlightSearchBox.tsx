@@ -248,38 +248,23 @@ const FlightSearchBox = () => {
               />
 
               {/* Departure Date */}
-              <div className="md:border-r md:border-r-[hsla(0,0%,100%,0.04)]">
-                <div className="px-4 py-4">
-                  <label className="flex items-center gap-1.5 text-[7.5px] tracking-[0.35em] uppercase text-primary/55 mb-2 font-light">
-                    <Calendar size={8} strokeWidth={1.5} /> Departure
-                  </label>
-                  <input
-                    type="date"
-                    value={primaryLeg.date}
-                    onChange={(e) => updateLeg(0, { date: e.target.value })}
-                    className="w-full bg-transparent text-[13px] text-foreground/90 font-light focus:outline-none [color-scheme:dark] tracking-wide"
-                  />
-                </div>
-              </div>
+              <DateTimePicker
+                label="Departure"
+                icon={Calendar}
+                value={primaryLeg.date}
+                onChange={(d) => updateLeg(0, { date: d })}
+                placeholder="Select date"
+              />
 
               {/* Return Date */}
-              <div className="md:border-r md:border-r-[hsla(0,0%,100%,0.04)]">
-                <div className="px-4 py-4">
-                  <label className="flex items-center gap-1.5 text-[7.5px] tracking-[0.35em] uppercase text-primary/55 mb-2 font-light">
-                    <RotateCcw size={8} strokeWidth={1.5} /> Return
-                  </label>
-                  {tripType === "round-trip" ? (
-                    <input
-                      type="date"
-                      value={returnDate}
-                      onChange={(e) => setReturnDate(e.target.value)}
-                      className="w-full bg-transparent text-[13px] text-foreground/90 font-light focus:outline-none [color-scheme:dark] tracking-wide"
-                    />
-                  ) : (
-                    <p className="text-[13px] text-foreground/15 font-light tracking-wide">—</p>
-                  )}
-                </div>
-              </div>
+              <DateTimePicker
+                label="Return"
+                icon={RotateCcw}
+                value={returnDate}
+                onChange={setReturnDate}
+                disabled={tripType !== "round-trip"}
+                placeholder="Select date"
+              />
 
               {/* Passengers */}
               <div>
