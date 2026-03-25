@@ -2,10 +2,10 @@ import { motion } from "framer-motion";
 import { Clock, Globe, Headphones, ShieldCheck } from "lucide-react";
 
 const items = [
-  { icon: ShieldCheck, text: "WYVERN Certified Broker" },
-  { icon: Clock, text: "18+ Years of Private Aviation Expertise" },
-  { icon: Globe, text: "Access to 7,000+ Aircraft Worldwide" },
-  { icon: Headphones, text: "24/7 Global Flight Support" },
+  { icon: ShieldCheck, text: "WYVERN Certified" },
+  { icon: Clock, text: "18+ Years Experience" },
+  { icon: Globe, text: "Global Aircraft Access" },
+  { icon: Headphones, text: "24/7 Flight Support" },
 ];
 
 const TrustStrip = () => (
@@ -31,7 +31,7 @@ const TrustStrip = () => (
         </div>
 
         <p className="text-[9px] tracking-[0.3em] text-foreground/20 font-extralight uppercase text-center">
-          Trusted by global executives, royal families, and private clients
+          Trusted by executives, family offices, and global clients
         </p>
       </motion.div>
       <div className="divider-gold mt-14" />
