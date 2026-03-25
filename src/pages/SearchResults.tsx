@@ -2,6 +2,7 @@ import { useSearchParams, useNavigate } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { motion } from "framer-motion";
 import { ArrowLeft, Plane, Calendar, Users, Clock, Loader2, MessageCircle, Phone, Shield, Star } from "lucide-react";
+import { Gauge, Ruler } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { getAircraftImage, getAircraftCategory } from "@/lib/aircraftImages";
@@ -12,6 +13,8 @@ interface AircraftResult {
   aircraft_type: string;
   year_of_production?: number;
   max_passengers?: number;
+  range_km?: number;
+  speed_kmh?: number;
   images: {
     exterior?: string;
     cabin?: string;
@@ -221,6 +224,16 @@ const SearchResults = () => {
                         {result.year_of_production && (
                           <span className="flex items-center gap-1.5">
                             <Calendar size={11} className="text-primary/60" /> {result.year_of_production}
+                          </span>
+                        )}
+                        {result.range_km && (
+                          <span className="flex items-center gap-1.5">
+                            <Ruler size={11} className="text-primary/60" /> {result.range_km.toLocaleString()} km
+                          </span>
+                        )}
+                        {result.speed_kmh && (
+                          <span className="flex items-center gap-1.5">
+                            <Gauge size={11} className="text-primary/60" /> {result.speed_kmh.toLocaleString()} km/h
                           </span>
                         )}
                       </div>

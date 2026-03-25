@@ -85,6 +85,8 @@ serve(async (req) => {
           aircraft_type: aircraft.ac_type || 'Private Jet',
           year_of_production: aircraft.year_of_production || null,
           max_passengers: aircraft.max_passengers || null,
+          range_km: aircraft.range || null,
+          speed_kmh: aircraft.speed || null,
           images: {
             exterior: exteriorImage,
             cabin: cabinImage,
