@@ -35,6 +35,59 @@ export interface EmptyLeg {
   } | null;
 }
 
+/** Safely coerce a value to number or null */
+function toNum(v: unknown): number | null {
+  if (v == null) return null;
+  const n = Number(v);
+  return isFinite(n) ? n : null;
+}
+
+function toStr(v: unknown, fallback = ""): string {
+  return typeof v === "string" ? v : fallback;
+}
+
+/** Normalize a single airport-like object from the API into a safe shape */
+function normalizeAirport(raw: unknown): EmptyLeg["departure"] {
+  if (raw == null || typeof raw !== "object") return null;
+  const o = raw as Record<string, unknown>;
+  return {
+    id: typeof o.id === "number" ? o.id : 0,
+    name: toStr(o.name),
+    iata: toStr(o.iata),
+    icao: toStr(o.icao),
+    city: toStr(o.city),
+    country: toStr(o.country),
+    lat: toNum(o.lat ?? o.latitude),
+    lng: toNum(o.lng ?? o.lon ?? o.longitude),
+  };
+}
+
+/** Normalize a raw API empty-leg object into our known EmptyLeg shape */
+export function normalizeEmptyLeg(raw: unknown): EmptyLeg | null {
+  if (raw == null || typeof raw !== "object") return null;
+  const o = raw as Record<string, unknown>;
+
+  const departure = normalizeAirport(o.departure);
+  const arrival = normalizeAirport(o.arrival);
+
+  return {
+    id: typeof o.id === "number" ? o.id : Math.random(),
+    aircraft_type: toStr(o.aircraft_type, "Unknown"),
+    aircraft_class: typeof o.aircraft_class === "string" ? o.aircraft_class : null,
+    aircraft_image: typeof o.aircraft_image === "string" ? o.aircraft_image : null,
+    aircraft_max_pax: toNum(o.aircraft_max_pax),
+    aircraft_range_km: toNum(o.aircraft_range_km),
+    company: toStr(o.company),
+    from_date: toStr(o.from_date),
+    to_date: toStr(o.to_date),
+    price: toNum(o.price),
+    currency: toStr(o.currency, "USD"),
+    comment: toStr(o.comment),
+    departure,
+    arrival,
+  };
+}
+
 export interface Airport {
   id: number;
   name: string;
@@ -87,7 +140,13 @@ export function useEmptyLegs(region: string = "All") {
         throw new Error("Failed to fetch empty legs");
       }
 
-      return (await response.json()) as { count: number; results: EmptyLeg[] };
+      const raw = await response.json();
+      const rawResults = Array.isArray(raw?.results) ? raw.results : [];
+      const results = rawResults
+        .map(normalizeEmptyLeg)
+        .filter((l): l is EmptyLeg => l !== null);
+
+      return { count: typeof raw?.count === "number" ? raw.count : results.length, results };
     },
     staleTime: 5 * 60 * 1000,
     retry: 1,
