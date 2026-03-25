@@ -233,9 +233,7 @@ const Ricky3D = () => {
                   className="ricky-speech-cloud absolute bottom-[480px] right-[60px] z-[2] w-[320px] px-6 py-5"
                   style={{ pointerEvents: "auto" }}
                 >
-                  <span className="ricky-bubble-tail" />
-                  <span className="ricky-bubble-orb ricky-bubble-orb-primary" />
-                  <span className="ricky-bubble-orb ricky-bubble-orb-secondary" />
+                  {/* Cloud tail/orbs now handled by CSS ::before/::after */}
                   <p className="text-[13px] font-light leading-[1.85] text-foreground/80 whitespace-pre-wrap">
                     {displayedText}
                     {!showActions && <span className="animate-pulse text-primary">|</span>}
