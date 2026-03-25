@@ -407,6 +407,30 @@ const ACMILeasingPage = () => {
           </div>
         </div>
       </section>
+
+      {/* Jet Card Membership */}
+      <section className="py-20 md:py-28 relative">
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[hsl(228,22%,4.5%)] to-transparent pointer-events-none" />
+        <div className="container mx-auto px-8 relative z-10 max-w-3xl">
+          <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.8 }} className="text-center mb-10">
+            <p className="text-[9px] tracking-[0.5em] uppercase text-primary/60 mb-6 font-light">Jet Card Membership</p>
+            <h2 className="text-2xl md:text-4xl font-display font-semibold text-foreground mb-5">Fly on your terms. Fixed hours. Full flexibility.</h2>
+            <p className="text-[13px] text-foreground/45 font-extralight leading-[2] max-w-lg mx-auto mb-4">
+              Secure access to private aviation with guaranteed availability, transparent pricing, and priority service.
+            </p>
+            <p className="text-[10px] tracking-[0.2em] text-foreground/25 font-extralight">
+              Priority access • Fixed hourly rates • No ownership commitment
+            </p>
+          </motion.div>
+
+          <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.2, duration: 0.8 }} className="text-center">
+            <a href="/jet-card" className="inline-block px-10 py-4 bg-gradient-gold text-primary-foreground text-[10px] tracking-[0.3em] uppercase font-medium rounded-sm hover:shadow-[0_0_30px_-8px_hsla(38,52%,50%,0.45)] transition-all duration-500">
+              Explore Jet Card
+            </a>
+          </motion.div>
+        </div>
+      </section>
+
       {/* Immediate Assistance CTA */}
       <section className="py-16 md:py-24">
         <div className="container mx-auto px-8 max-w-xl">
