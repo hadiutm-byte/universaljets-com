@@ -244,12 +244,16 @@ const Ricky3D = () => {
                   animate={{ opacity: 1, y: 0, scale: 1 }}
                   exit={{ opacity: 0, scale: 0.97 }}
                   transition={{ duration: 0.4 }}
-                  className="mx-5 mb-3 px-6 py-5 rounded-xl relative"
+                  className="mx-5 mb-3 px-6 py-5 rounded-2xl relative"
                   style={{
-                    background: "hsl(var(--muted))",
-                    border: "1px solid hsla(0,0%,0%,0.04)",
+                    background: "hsl(0, 0%, 100%)",
+                    border: "1px solid hsla(0,0%,0%,0.05)",
+                    boxShadow: "0 4px 20px -4px hsla(0,0%,0%,0.06)",
+                    borderRadius: "20px 20px 20px 6px",
                   }}
                 >
+                  {/* Cloud tail */}
+                  <div className="absolute -bottom-1.5 left-6 w-3 h-3 rotate-45" style={{ background: "hsl(0, 0%, 100%)", borderRight: "1px solid hsla(0,0%,0%,0.05)", borderBottom: "1px solid hsla(0,0%,0%,0.05)" }} />
                   <p className="text-[13px] text-foreground/80 font-light leading-[2] whitespace-pre-wrap">
                     {displayedText}
                     {!showActions && <span className="animate-pulse text-primary">|</span>}
