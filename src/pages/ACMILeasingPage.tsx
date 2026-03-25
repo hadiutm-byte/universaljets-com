@@ -455,6 +455,15 @@ const ACMILeasingPage = () => {
             <h2 className="text-2xl md:text-4xl font-display font-semibold text-foreground mb-5">Why access beats ownership.</h2>
           </motion.div>
 
+          <motion.div initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} transition={{ delay: 0.2, duration: 0.8 }}
+            className="text-center mb-14"
+          >
+            <p className="text-[13px] text-foreground/40 font-extralight leading-[2.2] italic">
+              Operators sell their aircraft.<br />
+              <span className="text-primary/60 font-light not-italic">We source the best aircraft for your mission.</span>
+            </p>
+          </motion.div>
+
           <div className="grid md:grid-cols-2 gap-6">
             <motion.div initial={{ opacity: 0, x: -20 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ duration: 0.7 }}
               className="p-7 rounded-xl border border-border/20 bg-card/20 backdrop-blur-sm"
