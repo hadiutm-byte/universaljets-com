@@ -97,8 +97,6 @@ const GuidedBookingFlow = ({ onComplete, onSpeaking }: Props) => {
     }
   }, [step, typing, booking, onComplete]);
 
-  const stepTransition = { duration: 0.4, ease: [0.16, 1, 0.3, 1] as const };
-  const exitTransition = { duration: 0.25 };
 
   return (
     <div className="flex flex-col h-full">
