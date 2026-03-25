@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { MapPin, Calendar, Users, Search, ArrowLeftRight, RotateCcw, Plus, X, PlaneTakeoff } from "lucide-react";
 import { format } from "date-fns";
 import { useAirportSearch, type Airport } from "@/hooks/useAviapages";
+import { useCrmApi } from "@/hooks/useCrmApi";
 import DateTimePicker from "@/components/flight-search/DateTimePicker";
 import AirportField from "@/components/flight-search/AirportField";
 
@@ -56,6 +57,7 @@ const SwapButton = ({ onClick }: { onClick: () => void }) => (
 
 const FlightSearchBox = () => {
   const navigate = useNavigate();
+  const { capture } = useCrmApi();
   const [tripType, setTripType] = useState<TripType>("one-way");
   const [legs, setLegs] = useState<Leg[]>([emptyLeg()]);
   const [returnDate, setReturnDate] = useState<Date | undefined>(undefined);
@@ -93,6 +95,18 @@ const FlightSearchBox = () => {
 
   const handleSearch = () => {
     if (!canSearch) return;
+
+    // Fire CRM capture in background (non-blocking)
+    capture({
+      name: "Website Visitor",
+      email: "search@universaljets.com",
+      departure: `${primaryLeg.selectedFrom!.city} (${primaryLeg.selectedFrom!.icao || primaryLeg.selectedFrom!.iata})`,
+      destination: `${primaryLeg.selectedTo!.city} (${primaryLeg.selectedTo!.icao || primaryLeg.selectedTo!.iata})`,
+      date: primaryLeg.date ? format(primaryLeg.date, "yyyy-MM-dd'T'HH:mm") : undefined,
+      passengers: passengers || "1",
+      source: "homepage_widget",
+    }).catch(() => {}); // Silent — don't block search
+
     const params = new URLSearchParams({
       trip_type: tripType,
       from_icao: primaryLeg.selectedFrom!.icao || primaryLeg.selectedFrom!.iata,

@@ -1,10 +1,10 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
-import { Plane, Users, MapPin, Wifi, ChevronRight } from "lucide-react";
+import { Plane, Users, MapPin } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { supabase } from "@/integrations/supabase/client";
+import { useCrmApi } from "@/hooks/useCrmApi";
 import { toast } from "sonner";
 
 interface Aircraft {
@@ -97,25 +97,24 @@ const aircraft: Aircraft[] = [
 const AircraftGuidePage = () => {
   const [activeCategory, setActiveCategory] = useState("All");
   const [requestingAircraft, setRequestingAircraft] = useState<string | null>(null);
+  const { capture } = useCrmApi();
 
   const filtered = activeCategory === "All" ? aircraft : aircraft.filter(a => a.category === activeCategory);
 
   const handleRequestAircraft = async (aircraftName: string) => {
     setRequestingAircraft(aircraftName);
     try {
-      await supabase.functions.invoke("crm-capture", {
-        body: {
-          name: "Aircraft Guide Inquiry",
-          email: "inquiry@universaljets.com",
-          departure: "TBD",
-          destination: "TBD",
-          source: "aircraft_guide",
-          passengers: "1",
-        },
+      await capture({
+        name: "Aircraft Guide Inquiry",
+        email: "inquiry@universaljets.com",
+        departure: "TBD",
+        destination: "TBD",
+        source: "aircraft_guide",
+        aircraft: aircraftName,
+        passengers: "1",
       });
       toast.success(`Request submitted for ${aircraftName}. An advisor will contact you shortly.`);
     } catch {
-      // Open Ricky as fallback
       document.dispatchEvent(new CustomEvent("open-ricky"));
     }
     setRequestingAircraft(null);

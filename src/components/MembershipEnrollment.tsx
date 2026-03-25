@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Plane, UserCheck, Tag, Sparkles, CreditCard, Download, MessageCircle } from "lucide-react";
-import { supabase } from "@/integrations/supabase/client";
+import { useCrmApi } from "@/hooks/useCrmApi";
 import { toast } from "sonner";
 
 const benefits = [
@@ -20,6 +20,7 @@ const MembershipEnrollment = () => {
   const [form, setForm] = useState({ name: "", email: "", phone: "", location: "", flights: "" });
   const [loading, setLoading] = useState(false);
   const [member, setMember] = useState<{ name: string; id: string; memberSince: string } | null>(null);
+  const { capture } = useCrmApi();
 
   const update = (field: string, value: string) => setForm((prev) => ({ ...prev, [field]: value }));
 
@@ -28,8 +29,14 @@ const MembershipEnrollment = () => {
     if (!form.name || !form.email) return;
     setLoading(true);
     try {
-      await supabase.functions.invoke("crm-capture", {
-        body: { name: form.name, email: form.email, phone: form.phone, departure: form.location || "N/A", destination: "Membership Application", source: "membership_enrollment" },
+      await capture({
+        name: form.name,
+        email: form.email,
+        phone: form.phone,
+        departure: form.location || "N/A",
+        destination: "Membership Application",
+        source: "membership_enrollment",
+        notes: form.flights ? `Est. flights/year: ${form.flights}` : undefined,
       });
       const seq = Math.floor(1000 + Math.random() * 9000);
       setMember({ name: form.name.toUpperCase(), id: `5000 ${seq.toString().padStart(4, "0")}`, memberSince: String(new Date().getFullYear()) });
