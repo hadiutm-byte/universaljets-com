@@ -466,7 +466,7 @@ const ACMILeasingPage = () => {
 
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.2, duration: 0.8 }} className="text-center">
             <a href="/jet-card" className="inline-block px-10 py-4 bg-gradient-gold text-primary-foreground text-[10px] tracking-[0.3em] uppercase font-medium rounded-sm hover:shadow-[0_0_30px_-8px_hsla(38,52%,50%,0.45)] transition-all duration-500">
-              Request Jet Card Details
+              Apply for Jet Card
             </a>
             <p className="text-[10px] tracking-[0.2em] text-foreground/25 font-extralight mt-5">Programs starting from $150,000</p>
             <p className="text-[11px] text-foreground/20 font-extralight mt-3 italic">Lock your hourly rate. Avoid market fluctuations. Fly on your terms.</p>
