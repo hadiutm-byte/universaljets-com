@@ -136,6 +136,23 @@ const ACMILeasingPage = () => {
             </p>
           </motion.div>
 
+          {/* Stats strip */}
+          <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.1, duration: 0.8 }}
+            className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-16"
+          >
+            {[
+              { value: "10,000+", label: "Destinations" },
+              { value: "160", label: "Countries" },
+              { value: "40,000", label: "Airports" },
+              { value: "24/7", label: "Global Availability" },
+            ].map((s, i) => (
+              <div key={i} className="text-center py-6 rounded-lg border border-border/20 bg-card/20">
+                <p className="font-display text-2xl md:text-3xl font-semibold text-gradient-gold mb-2">{s.value}</p>
+                <p className="text-[9px] tracking-[0.3em] uppercase text-foreground/35 font-light">{s.label}</p>
+              </div>
+            ))}
+          </motion.div>
+
           <div className="grid sm:grid-cols-2 gap-4">
             {useCases.map((uc, i) => (
               <motion.div key={i} initial={{ opacity: 0, x: i % 2 === 0 ? -20 : 20 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.06, duration: 0.6 }}
