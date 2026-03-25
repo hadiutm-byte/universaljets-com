@@ -43,6 +43,7 @@ const App = () => (
           <Route path="/search" element={<SearchResults />} />
           <Route path="/acmi-leasing" element={<ACMILeasingPage />} />
           <Route path="/destinations" element={<DestinationsPage />} />
+          <Route path="/partners" element={<PartnerPage />} />
           <Route path="/crm" element={<ProtectedRoute allowedRoles={["admin", "sales", "operations", "finance", "account_management"]}><CrmLayout /></ProtectedRoute>}>
             <Route index element={<CrmDashboard />} />
             <Route path="clients" element={<ClientsPage />} />
