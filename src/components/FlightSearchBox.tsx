@@ -113,10 +113,10 @@ const FlightSearchBox = () => {
           <button
             key={tab.value}
             onClick={() => setTripType(tab.value)}
-            className={`relative px-5 py-2 text-[10px] tracking-[0.2em] uppercase font-light rounded-full transition-all duration-400 cursor-pointer ${
+            className={`relative px-5 py-2 text-[11px] tracking-[0.2em] uppercase font-medium rounded-full transition-all duration-400 cursor-pointer ${
               tripType === tab.value
                 ? "text-white"
-                : "text-foreground/40 hover:text-foreground/70"
+                : "text-foreground/50 hover:text-foreground"
             }`}
           >
             {tripType === tab.value && (
