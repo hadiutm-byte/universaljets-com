@@ -224,7 +224,7 @@ const AboutPage = () => (
                 transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
                 className="w-64 h-64 md:w-72 md:h-72"
               >
-                <RickyAvatar pose="neutral" />
+                <RickyAvatar pose="idle" />
               </motion.div>
             </FadeReveal>
           </div>
