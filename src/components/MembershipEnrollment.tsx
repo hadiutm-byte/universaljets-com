@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Plane, UserCheck, Tag, Sparkles, CreditCard, Download, MessageCircle } from "lucide-react";
+import { Plane, UserCheck, Tag, Sparkles, CreditCard, Download, MessageCircle, Globe, Building2 } from "lucide-react";
 import { useCrmApi } from "@/hooks/useCrmApi";
 import { toast } from "sonner";
 
@@ -12,34 +12,73 @@ const benefits = [
 ];
 
 const flightOptions = ["1–2", "3–10", "10+"];
+const aircraftCategories = ["Light Jet", "Midsize", "Super Midsize", "Heavy Jet", "Ultra Long Range", "No Preference"];
 
 const inputClass =
   "w-full bg-card rounded-lg px-4 py-3.5 text-[13px] text-foreground placeholder:text-muted-foreground/60 font-light focus:outline-none focus:ring-1 focus:ring-primary/30 border border-border";
 
+const labelClass = "block text-[11px] tracking-[0.2em] uppercase text-foreground/60 mb-2.5 font-medium";
+
 const MembershipEnrollment = () => {
-  const [form, setForm] = useState({ name: "", email: "", phone: "", location: "", flights: "" });
+  const [step, setStep] = useState(1);
   const [loading, setLoading] = useState(false);
   const [member, setMember] = useState<{ name: string; id: string; memberSince: string } | null>(null);
   const { capture } = useCrmApi();
 
-  const update = (field: string, value: string) => setForm((prev) => ({ ...prev, [field]: value }));
+  // Step 1: Identity
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
+  const [whatsapp, setWhatsapp] = useState("");
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!form.name || !form.email) return;
+  // Step 2: Background
+  const [city, setCity] = useState("");
+  const [country, setCountry] = useState("");
+  const [nationality, setNationality] = useState("");
+  const [company, setCompany] = useState("");
+  const [title, setTitle] = useState("");
+
+  // Step 3: Travel Profile
+  const [flights, setFlights] = useState("");
+  const [typicalRoutes, setTypicalRoutes] = useState("");
+  const [passengerCount, setPassengerCount] = useState("");
+  const [aircraftPref, setAircraftPref] = useState("");
+  const [reason, setReason] = useState("");
+  const [invitationCode, setInvitationCode] = useState("");
+  const [termsAccepted, setTermsAccepted] = useState(false);
+
+  const canStep1 = name && email;
+  const canStep2 = true; // optional fields
+  const canSubmit = canStep1 && termsAccepted;
+
+  const handleSubmit = async () => {
+    if (!canSubmit) return;
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { toast.error("Please enter a valid email"); return; }
     setLoading(true);
     try {
       await capture({
-        name: form.name,
-        email: form.email,
-        phone: form.phone,
-        departure: form.location || "N/A",
+        name,
+        email,
+        phone: phone || undefined,
+        whatsapp: whatsapp || undefined,
+        city: city || undefined,
+        country: country || undefined,
+        nationality: nationality || undefined,
+        company: company || undefined,
+        title: title || undefined,
+        departure: city || "N/A",
         destination: "Membership Application",
         source: "membership_enrollment",
-        notes: form.flights ? `Est. flights/year: ${form.flights}` : undefined,
+        travel_frequency: flights || undefined,
+        typical_routes: typicalRoutes ? typicalRoutes.split(",").map((r) => r.trim()) : undefined,
+        passenger_count: passengerCount || undefined,
+        preferred_aircraft_category: aircraftPref || undefined,
+        reason: reason || undefined,
+        invitation_code: invitationCode || undefined,
+        terms_accepted: termsAccepted,
       });
       const seq = Math.floor(1000 + Math.random() * 9000);
-      setMember({ name: form.name.toUpperCase(), id: `5000 ${seq.toString().padStart(4, "0")}`, memberSince: String(new Date().getFullYear()) });
+      setMember({ name: name.toUpperCase(), id: `5000 ${seq.toString().padStart(4, "0")}`, memberSince: String(new Date().getFullYear()) });
       toast.success("Welcome to the Universal Jets network.");
     } catch {
       toast.error("Something went wrong. Please try again.");
@@ -53,10 +92,10 @@ const MembershipEnrollment = () => {
         <div className="max-w-4xl mx-auto">
           {/* Header */}
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.8 }} className="text-center mb-16">
-            <p className="text-[11px] tracking-[0.5em] uppercase text-primary mb-6 font-medium">Digital Membership</p>
+            <p className="text-[11px] tracking-[0.5em] uppercase text-primary mb-6 font-medium">Private Access Network</p>
             <h2 className="text-3xl md:text-4xl lg:text-5xl font-display font-semibold text-foreground mb-5 leading-tight">
-              Join the Universal Jets{" "}
-              <span className="text-gradient-gold italic">Private Access Network</span>
+              Membership{" "}
+              <span className="text-gradient-gold italic">By Invitation Only</span>
             </h2>
             <p className="text-[15px] text-muted-foreground font-light leading-[1.9] max-w-xl mx-auto">
               Apply online and receive your digital membership card instantly.
@@ -89,60 +128,100 @@ const MembershipEnrollment = () => {
                   </motion.div>
                 </div>
 
-                {/* Form */}
+                {/* Multi-step Form */}
                 <div className="lg:col-span-3">
-                  <motion.form onSubmit={handleSubmit} initial={{ opacity: 0, x: 15 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ duration: 0.7, delay: 0.2 }}
-                    className="rounded-2xl border border-border bg-card p-8 md:p-10 space-y-5 shadow-sm"
+                  <motion.div initial={{ opacity: 0, x: 15 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ duration: 0.7, delay: 0.2 }}
+                    className="rounded-2xl border border-border bg-card p-8 md:p-10 shadow-sm"
                   >
-                    <div className="grid sm:grid-cols-2 gap-5">
-                      <div>
-                        <label className="block text-[11px] tracking-[0.2em] uppercase text-foreground/60 mb-2.5 font-medium">Full Name *</label>
-                        <input type="text" required value={form.name} onChange={(e) => update("name", e.target.value)} className={inputClass} placeholder="Alexander Hartwell" />
-                      </div>
-                      <div>
-                        <label className="block text-[11px] tracking-[0.2em] uppercase text-foreground/60 mb-2.5 font-medium">Email *</label>
-                        <input type="email" required value={form.email} onChange={(e) => update("email", e.target.value)} className={inputClass} placeholder="alex@example.com" />
-                      </div>
+                    {/* Progress */}
+                    <div className="flex gap-1 mb-6">
+                      {[1, 2, 3].map((s) => (
+                        <div key={s} className={`flex-1 h-1 rounded-full transition-all duration-500 ${s <= step ? "bg-primary/60" : "bg-border"}`} />
+                      ))}
                     </div>
 
-                    <div className="grid sm:grid-cols-2 gap-5">
-                      <div>
-                        <label className="block text-[11px] tracking-[0.2em] uppercase text-foreground/60 mb-2.5 font-medium">Phone / WhatsApp</label>
-                        <input type="tel" value={form.phone} onChange={(e) => update("phone", e.target.value)} className={inputClass} placeholder="+971 50 000 0000" />
-                      </div>
-                      <div>
-                        <label className="block text-[11px] tracking-[0.2em] uppercase text-foreground/60 mb-2.5 font-medium">Location</label>
-                        <input type="text" value={form.location} onChange={(e) => update("location", e.target.value)} className={inputClass} placeholder="Dubai, UAE" />
-                      </div>
-                    </div>
-
-                    <div>
-                      <label className="block text-[11px] tracking-[0.2em] uppercase text-foreground/60 mb-2.5 font-medium">Estimated Flights Per Year</label>
-                      <div className="grid grid-cols-3 gap-2">
-                        {flightOptions.map((opt) => (
-                          <button key={opt} type="button" onClick={() => update("flights", opt)}
-                            className={`py-2.5 rounded-lg text-[12px] font-medium border transition-all duration-300 ${
-                              form.flights === opt
-                                ? "border-primary bg-primary/10 text-primary"
-                                : "border-border bg-card text-foreground/50 hover:border-primary/30 hover:text-foreground"
-                            }`}
-                          >
-                            {opt}
+                    <AnimatePresence mode="wait">
+                      {step === 1 && (
+                        <motion.div key="s1" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} className="space-y-4">
+                          <p className="text-[10px] tracking-[0.3em] uppercase text-primary/60 font-medium mb-4">Step 1 — Your Identity</p>
+                          <div className="grid sm:grid-cols-2 gap-4">
+                            <div><label className={labelClass}>Full Name *</label><input required value={name} onChange={(e) => setName(e.target.value)} className={inputClass} placeholder="Alexander Hartwell" /></div>
+                            <div><label className={labelClass}>Email *</label><input type="email" required value={email} onChange={(e) => setEmail(e.target.value)} className={inputClass} placeholder="alex@example.com" /></div>
+                          </div>
+                          <div className="grid sm:grid-cols-2 gap-4">
+                            <div><label className={labelClass}>Phone</label><input type="tel" value={phone} onChange={(e) => setPhone(e.target.value)} className={inputClass} placeholder="+971 50 000 0000" /></div>
+                            <div><label className={labelClass}>WhatsApp</label><input type="tel" value={whatsapp} onChange={(e) => setWhatsapp(e.target.value)} className={inputClass} placeholder="+971 50 000 0000" /></div>
+                          </div>
+                          <button type="button" disabled={!canStep1} onClick={() => setStep(2)}
+                            className="w-full mt-2 py-3.5 bg-gradient-gold text-primary-foreground text-[10px] tracking-[0.25em] uppercase font-medium rounded-xl transition-all duration-500 hover:shadow-[0_0_40px_-10px_hsla(45,79%,46%,0.4)] disabled:opacity-40">
+                            Continue
                           </button>
-                        ))}
-                      </div>
-                    </div>
+                        </motion.div>
+                      )}
 
-                    <button type="submit" disabled={loading}
-                      className="w-full mt-3 py-4 bg-gradient-gold text-primary-foreground text-[11px] tracking-[0.3em] uppercase font-medium rounded-xl transition-all duration-500 hover:shadow-[0_0_40px_-10px_hsla(45,79%,46%,0.4)] hover:scale-[1.01] disabled:opacity-50"
-                    >
-                      {loading ? "Processing..." : "Apply for Membership"}
-                    </button>
+                      {step === 2 && (
+                        <motion.div key="s2" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} className="space-y-4">
+                          <p className="text-[10px] tracking-[0.3em] uppercase text-primary/60 font-medium mb-4">Step 2 — Background</p>
+                          <div className="grid sm:grid-cols-2 gap-4">
+                            <div><label className={labelClass}>City</label><input value={city} onChange={(e) => setCity(e.target.value)} className={inputClass} placeholder="Dubai" /></div>
+                            <div><label className={labelClass}>Country</label><input value={country} onChange={(e) => setCountry(e.target.value)} className={inputClass} placeholder="UAE" /></div>
+                          </div>
+                          <div><label className={labelClass}>Nationality</label><input value={nationality} onChange={(e) => setNationality(e.target.value)} className={inputClass} placeholder="British" /></div>
+                          <div className="grid sm:grid-cols-2 gap-4">
+                            <div><label className={labelClass}>Company</label><input value={company} onChange={(e) => setCompany(e.target.value)} className={inputClass} placeholder="Company name" /></div>
+                            <div><label className={labelClass}>Title / Role</label><input value={title} onChange={(e) => setTitle(e.target.value)} className={inputClass} placeholder="CEO, Founder, etc." /></div>
+                          </div>
+                          <div className="flex gap-3">
+                            <button type="button" onClick={() => setStep(1)} className="flex-1 py-3.5 border border-border text-foreground/50 text-[10px] tracking-[0.2em] uppercase font-medium rounded-xl transition-all hover:border-primary/30">Back</button>
+                            <button type="button" onClick={() => setStep(3)} className="flex-1 py-3.5 bg-gradient-gold text-primary-foreground text-[10px] tracking-[0.25em] uppercase font-medium rounded-xl transition-all duration-500 hover:shadow-[0_0_40px_-10px_hsla(45,79%,46%,0.4)]">Continue</button>
+                          </div>
+                        </motion.div>
+                      )}
 
-                    <p className="text-[11px] text-muted-foreground text-center font-light pt-1">
-                      No commitment required. Your information is handled with absolute discretion.
-                    </p>
-                  </motion.form>
+                      {step === 3 && (
+                        <motion.div key="s3" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} className="space-y-4">
+                          <p className="text-[10px] tracking-[0.3em] uppercase text-primary/60 font-medium mb-4">Step 3 — Travel Profile</p>
+                          <div>
+                            <label className={labelClass}>Estimated Flights Per Year</label>
+                            <div className="grid grid-cols-3 gap-2">
+                              {flightOptions.map((opt) => (
+                                <button key={opt} type="button" onClick={() => setFlights(opt)}
+                                  className={`py-2.5 rounded-lg text-[12px] font-medium border transition-all duration-300 ${
+                                    flights === opt ? "border-primary bg-primary/10 text-primary" : "border-border bg-card text-foreground/50 hover:border-primary/30"
+                                  }`}>{opt}</button>
+                              ))}
+                            </div>
+                          </div>
+                          <div><label className={labelClass}>Typical Routes</label><input value={typicalRoutes} onChange={(e) => setTypicalRoutes(e.target.value)} className={inputClass} placeholder="Dubai → London, NYC → Miami" /></div>
+                          <div className="grid sm:grid-cols-2 gap-4">
+                            <div><label className={labelClass}>Usual Passengers</label><input value={passengerCount} onChange={(e) => setPassengerCount(e.target.value)} className={inputClass} placeholder="e.g. 2-4" /></div>
+                            <div><label className={labelClass}>Aircraft Preference</label>
+                              <select value={aircraftPref} onChange={(e) => setAircraftPref(e.target.value)} className={inputClass}>
+                                <option value="">Select...</option>
+                                {aircraftCategories.map((c) => <option key={c} value={c}>{c}</option>)}
+                              </select>
+                            </div>
+                          </div>
+                          <div><label className={labelClass}>Why are you applying?</label><textarea value={reason} onChange={(e) => setReason(e.target.value)} rows={2} className={inputClass} placeholder="Tell us about your travel needs..." /></div>
+                          <div><label className={labelClass}>Invitation / Referral Code</label><input value={invitationCode} onChange={(e) => setInvitationCode(e.target.value)} className={inputClass} placeholder="If you have one" /></div>
+                          <label className="flex items-center gap-2.5 cursor-pointer">
+                            <input type="checkbox" checked={termsAccepted} onChange={(e) => setTermsAccepted(e.target.checked)} className="w-4 h-4 accent-primary" />
+                            <span className="text-[11px] text-foreground/50 font-light">I accept the membership terms and privacy policy *</span>
+                          </label>
+                          <div className="flex gap-3 pt-1">
+                            <button type="button" onClick={() => setStep(2)} className="flex-1 py-3.5 border border-border text-foreground/50 text-[10px] tracking-[0.2em] uppercase font-medium rounded-xl transition-all hover:border-primary/30">Back</button>
+                            <button type="button" disabled={!canSubmit || loading} onClick={handleSubmit}
+                              className="flex-1 py-3.5 bg-gradient-gold text-primary-foreground text-[10px] tracking-[0.25em] uppercase font-medium rounded-xl transition-all duration-500 hover:shadow-[0_0_40px_-10px_hsla(45,79%,46%,0.4)] disabled:opacity-40">
+                              {loading ? "Processing..." : "Request Invitation"}
+                            </button>
+                          </div>
+                          <p className="text-[11px] text-muted-foreground text-center font-light pt-1">
+                            No commitment required. Your information is handled with absolute discretion.
+                          </p>
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+                  </motion.div>
                 </div>
               </motion.div>
             ) : (

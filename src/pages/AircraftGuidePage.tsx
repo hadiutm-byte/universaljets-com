@@ -96,7 +96,6 @@ const aircraft: Aircraft[] = [
 
 const AircraftGuidePage = () => {
   const [activeCategory, setActiveCategory] = useState("All");
-  const [requestingAircraft, setRequestingAircraft] = useState<string | null>(null);
   const [requestModalOpen, setRequestModalOpen] = useState(false);
   const [selectedAircraft, setSelectedAircraft] = useState("");
 
