@@ -132,7 +132,7 @@ const GuidedBookingFlow = ({ onComplete, onSpeaking }: Props) => {
         <AnimatePresence mode="wait">
           {/* STEP 0 — Trip Type */}
           {step === 0 && (
-            <motion.div key="trip" initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -12 }} transition={{ duration: 0.4 }} initial="hidden" animate="visible" exit="exit" className="space-y-2">
+            <motion.div key="trip" initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -12 }} transition={{ duration: 0.4 }} className="space-y-2">
               {tripOptions.map((opt) => (
                 <motion.button
                   key={opt.value}
@@ -157,7 +157,7 @@ const GuidedBookingFlow = ({ onComplete, onSpeaking }: Props) => {
 
           {/* STEP 1 — Route */}
           {step === 1 && (
-            <motion.div key="route" initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -12 }} transition={{ duration: 0.4 }} initial="hidden" animate="visible" exit="exit" className="space-y-1">
+            <motion.div key="route" initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -12 }} transition={{ duration: 0.4 }} className="space-y-1">
               <div className="rounded-xl border border-white/[0.04] bg-white/[0.02] overflow-hidden">
                 <AirportField
                   label="From"
@@ -200,7 +200,7 @@ const GuidedBookingFlow = ({ onComplete, onSpeaking }: Props) => {
 
           {/* STEP 2 — Date & Time */}
           {step === 2 && (
-            <motion.div key="date" initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -12 }} transition={{ duration: 0.4 }} initial="hidden" animate="visible" exit="exit" className="space-y-2">
+            <motion.div key="date" initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -12 }} transition={{ duration: 0.4 }} className="space-y-2">
               <div className="rounded-xl border border-white/[0.04] bg-white/[0.02] overflow-hidden">
                 <DateTimePicker
                   label="Departure"
@@ -235,7 +235,7 @@ const GuidedBookingFlow = ({ onComplete, onSpeaking }: Props) => {
 
           {/* STEP 3 — Passengers */}
           {step === 3 && (
-            <motion.div key="pax" initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -12 }} transition={{ duration: 0.4 }} initial="hidden" animate="visible" exit="exit">
+            <motion.div key="pax" initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -12 }} transition={{ duration: 0.4 }}>
               <div className="grid grid-cols-4 gap-2">
                 {[1, 2, 3, 4, 5, 6, 8, 10, 12, 14, 16, 19].map((n) => (
                   <motion.button
@@ -261,7 +261,7 @@ const GuidedBookingFlow = ({ onComplete, onSpeaking }: Props) => {
 
           {/* STEP 4 — Preference */}
           {step === 4 && (
-            <motion.div key="pref" initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -12 }} transition={{ duration: 0.4 }} initial="hidden" animate="visible" exit="exit" className="space-y-2">
+            <motion.div key="pref" initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -12 }} transition={{ duration: 0.4 }} className="space-y-2">
               {prefOptions.map((opt) => (
                 <motion.button
                   key={opt.value}
@@ -285,7 +285,7 @@ const GuidedBookingFlow = ({ onComplete, onSpeaking }: Props) => {
 
           {/* STEP 5 — Summary */}
           {step === 5 && (
-            <motion.div key="summary" initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -12 }} transition={{ duration: 0.4 }} initial="hidden" animate="visible" exit="exit">
+            <motion.div key="summary" initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -12 }} transition={{ duration: 0.4 }}>
               <div className="rounded-xl border border-primary/10 bg-primary/[0.03] p-4 space-y-3">
                 <div className="flex items-center justify-between">
                   <span className="text-[9px] tracking-[0.3em] uppercase text-primary/40 font-light">Your Request</span>
