@@ -25,30 +25,30 @@ const EmptyLegPopup = ({ leg, onClose }: EmptyLegPopupProps) => {
         >
           <button
             onClick={onClose}
-            className="absolute top-4 right-4 text-muted-foreground hover:text-foreground transition-colors"
+            className="absolute top-4 right-4 text-foreground/40 hover:text-foreground transition-colors"
           >
             <X size={14} />
           </button>
-          <p className="text-[9px] tracking-[0.3em] uppercase text-gold/70 mb-4 font-light">{date}</p>
+          <p className="text-[9px] tracking-[0.3em] uppercase text-primary/60 mb-4 font-light">{date}</p>
           <div className="flex items-center gap-3 mb-4">
-            <span className="font-display text-lg">{leg.departure?.city || "Unknown"}</span>
-            <ArrowRight size={14} className="text-gold/50" />
-            <span className="font-display text-lg">{leg.arrival?.city || "Unknown"}</span>
+            <span className="font-display text-lg text-foreground">{leg.departure?.city || "Unknown"}</span>
+            <ArrowRight size={14} className="text-primary/50" />
+            <span className="font-display text-lg text-foreground">{leg.arrival?.city || "Unknown"}</span>
           </div>
           <div className="space-y-2 mb-6">
             <div className="flex justify-between text-[11px]">
-              <span className="text-muted-foreground font-extralight">Aircraft</span>
+              <span className="text-foreground/35 font-extralight">Aircraft</span>
               <span className="text-foreground/80 font-light">{leg.aircraft_type}</span>
             </div>
             {leg.price && (
               <div className="flex justify-between text-[11px]">
-                <span className="text-muted-foreground font-extralight">Price</span>
-                <span className="text-gold font-medium">{leg.currency} {leg.price.toLocaleString()}</span>
+                <span className="text-foreground/35 font-extralight">Price</span>
+                <span className="text-primary font-medium">{leg.currency} {leg.price.toLocaleString()}</span>
               </div>
             )}
             {leg.company && (
               <div className="flex justify-between text-[11px]">
-                <span className="text-muted-foreground font-extralight">Operator</span>
+                <span className="text-foreground/35 font-extralight">Operator</span>
                 <span className="text-foreground/80 font-light">{leg.company}</span>
               </div>
             )}
