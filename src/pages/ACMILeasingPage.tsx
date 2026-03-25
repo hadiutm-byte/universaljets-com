@@ -321,6 +321,11 @@ const ACMILeasingPage = () => {
               </div>
             </div>
 
+            <div className="pt-2 pb-1">
+              <p className="text-[9px] tracking-[0.4em] uppercase text-primary/50 font-light">Flight Details</p>
+              <div className="mt-3 h-px bg-border/20" />
+            </div>
+
             <div className="grid sm:grid-cols-2 gap-5">
               <div className="space-y-2">
                 <label className="text-[10px] tracking-[0.2em] uppercase text-foreground/40 font-light">Lease Type</label>
