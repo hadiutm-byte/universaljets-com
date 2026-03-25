@@ -220,7 +220,7 @@ const Ricky3D = () => {
               transition={{ type: "spring", damping: 15, delay: 0.2 }}
               className="my-2"
             >
-              <RickyAvatar speaking={speaking} size={140} pose="wave" />
+              <RickyAvatar speaking={speaking} size={180} pose="wave" />
             </motion.div>
 
             {/* Title & role */}
