@@ -34,7 +34,7 @@ const JetCardSection = () => (
       </motion.div>
 
       <div className="grid grid-cols-2 md:grid-cols-4 gap-8 max-w-3xl mx-auto mb-14">
-        {benefits.map((b, i) => (
+        {pillars.map((b, i) => (
           <motion.div
             key={i}
             initial={{ opacity: 0, y: 20 }}
@@ -56,14 +56,21 @@ const JetCardSection = () => (
         whileInView={{ opacity: 1 }}
         viewport={{ once: true }}
         transition={{ delay: 0.3, duration: 0.7 }}
-        className="text-center"
+        className="flex flex-col sm:flex-row items-center justify-center gap-4"
       >
-        <Link
-          to="/jet-card"
-          className="inline-block px-12 py-4 bg-gradient-gold text-primary-foreground text-[10px] tracking-[0.3em] uppercase font-medium rounded-sm transition-all duration-500 hover:shadow-[0_0_40px_-8px_hsla(38,52%,50%,0.5)] hover:scale-[1.02]"
+        <a
+          href="#cta"
+          className="px-10 py-4 bg-gradient-gold text-primary-foreground text-[9px] tracking-[0.28em] uppercase font-medium rounded-sm transition-all duration-500 hover:shadow-[0_0_40px_-8px_hsla(38,52%,50%,0.5)] hover:scale-[1.02]"
         >
-          Explore Jet Card
-        </Link>
+          Request Proposal
+        </a>
+        <button
+          type="button"
+          onClick={() => document.dispatchEvent(new CustomEvent("open-ricky"))}
+          className="px-10 py-4 luxury-border text-foreground/50 hover:text-foreground/80 text-[9px] tracking-[0.28em] uppercase font-light rounded-sm transition-all duration-500 hover:border-[hsla(0,0%,100%,0.15)] hover:scale-[1.02]"
+        >
+          Speak to an Advisor
+        </button>
       </motion.div>
     </div>
   </section>
