@@ -54,8 +54,6 @@ const EmptyLegsMap = () => {
 
   return (
     <section id="empty-legs" className="section-padding overflow-hidden relative">
-      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[hsl(225,28%,6%)] to-transparent pointer-events-none" />
-
       <div className="container mx-auto px-8 relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -78,14 +76,14 @@ const EmptyLegsMap = () => {
           transition={{ duration: 0.8, delay: 0.2 }}
           className="max-w-lg mx-auto text-center mb-16"
         >
-          <p className="text-[13px] text-foreground/45 font-extralight leading-[2] mb-2">
+          <p className="text-[14px] text-muted-foreground font-light leading-[2] mb-2">
             One-way repositioning flights at up to 75% lower cost.
           </p>
-          <p className="text-[11px] text-foreground/25 font-extralight leading-[2]">
+          <p className="text-[12px] text-muted-foreground/70 font-extralight leading-[2]">
             When aircraft need to reposition, you benefit. Same jet. Same service. Fraction of the price.
           </p>
           {!data?.results?.length && !isLoading && !error && (
-            <p className="text-[10px] text-foreground/15 mt-3 font-extralight">Showing curated routes</p>
+            <p className="text-[10px] text-muted-foreground/50 mt-3 font-extralight">Showing curated routes</p>
           )}
         </motion.div>
 
@@ -103,7 +101,7 @@ const EmptyLegsMap = () => {
               className={`px-5 py-2 rounded-full text-[9px] tracking-[0.25em] uppercase font-light transition-all duration-500 ${
                 activeRegion === r
                   ? "bg-gradient-gold text-primary-foreground glow-gold"
-                  : "luxury-border text-foreground/40 hover:text-foreground/70 luxury-border-hover"
+                  : "border border-border text-foreground/40 hover:text-foreground/70 hover:border-foreground/20"
               }`}
             >
               {r}
@@ -147,7 +145,7 @@ const EmptyLegsMap = () => {
         >
           <a
             href="#cta"
-            className="inline-flex items-center gap-2 px-10 py-3.5 bg-gradient-gold text-primary-foreground text-[9px] tracking-[0.25em] uppercase font-medium rounded-sm hover:shadow-[0_0_30px_-8px_hsla(38,52%,50%,0.45)] transition-all duration-500"
+            className="inline-flex items-center gap-2 px-10 py-3.5 bg-gradient-gold text-primary-foreground text-[9px] tracking-[0.25em] uppercase font-medium rounded-xl hover:shadow-[0_0_30px_-8px_hsla(38,52%,50%,0.45)] transition-all duration-500"
           >
             View All Empty Legs <ArrowRight size={10} />
           </a>

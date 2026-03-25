@@ -11,7 +11,6 @@ const certifications = [
 const SafetySection = () => (
   <section id="safety" className="section-padding relative overflow-hidden">
     <div className="grid-overlay" />
-    <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[hsl(225,28%,6%)] to-transparent pointer-events-none" />
 
     <div className="container mx-auto px-8 relative z-10">
       <FadeReveal className="text-center mb-16">
@@ -30,13 +29,13 @@ const SafetySection = () => (
             <GlassCard breathe className="py-8 px-4 text-center h-full">
               <FloatingElement amplitude={4} speed={4 + i}>
                 <div className="w-10 h-10 rounded-full glass-panel flex items-center justify-center mx-auto mb-4">
-                  <ShieldCheck className="w-4 h-4 text-foreground/30" strokeWidth={1.2} />
+                  <ShieldCheck className="w-4 h-4 text-primary/50" strokeWidth={1.2} />
                 </div>
               </FloatingElement>
-              <p className="text-[11px] tracking-[0.2em] uppercase text-foreground/50 font-medium mb-1">
+              <p className="text-[11px] tracking-[0.2em] uppercase text-foreground/70 font-medium mb-1">
                 {cert.name}
               </p>
-              <p className="text-[9px] text-foreground/20 font-extralight text-center">
+              <p className="text-[9px] text-muted-foreground font-extralight text-center">
                 {cert.sub}
               </p>
             </GlassCard>
@@ -45,7 +44,7 @@ const SafetySection = () => (
       </StaggerContainer>
 
       <FadeReveal delay={0.3}>
-        <p className="text-center text-[11px] text-foreground/25 font-extralight italic">
+        <p className="text-center text-[12px] text-muted-foreground font-extralight italic">
           Every flight is verified before confirmation.
         </p>
       </FadeReveal>

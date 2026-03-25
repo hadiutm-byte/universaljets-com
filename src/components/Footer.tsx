@@ -35,7 +35,7 @@ const socials = [
 ];
 
 const LinkItem = ({ label, href }: { label: string; href: string }) => {
-  const cls = "block text-[13px] mb-2 text-white/70 hover:text-white hover:translate-x-[5px] transition-all duration-300";
+  const cls = "block text-[13px] mb-2 text-foreground/50 hover:text-foreground hover:translate-x-[5px] transition-all duration-300";
   return href.startsWith("/") && !href.startsWith("/#") ? (
     <Link to={href} className={cls}>{label}</Link>
   ) : (
@@ -44,24 +44,17 @@ const LinkItem = ({ label, href }: { label: string; href: string }) => {
 };
 
 const Footer = () => (
-  <footer
-    className="relative"
-    style={{
-      background: "#1C1C1E",
-      color: "#fff",
-      padding: "80px 60px 40px",
-    }}
-  >
+  <footer className="relative bg-muted" style={{ padding: "80px 60px 40px" }}>
     {/* TOP: Brand + Nav */}
     <div className="flex flex-col lg:flex-row justify-between mb-[60px] gap-12 lg:gap-0">
       <div>
         <Link to="/">
           <h2 className="text-[22px] tracking-[4px] font-light mb-2.5 uppercase">
-            <span className="text-white/80">Universal</span>{" "}
+            <span className="text-foreground/80">Universal</span>{" "}
             <span className="text-gradient-gold font-normal">Jets</span>
           </h2>
         </Link>
-        <p className="text-[14px] text-white/60 max-w-[300px] leading-[1.6] font-light">
+        <p className="text-[14px] text-muted-foreground max-w-[300px] leading-[1.6] font-light">
           Private aviation, redefined.<br />
           Seamless global charter solutions for those who expect more.
         </p>
@@ -69,28 +62,22 @@ const Footer = () => (
 
       <div className="flex flex-wrap gap-12 lg:gap-20">
         <div>
-          <h4 className="text-[13px] tracking-[2px] mb-4 font-semibold" style={{ color: "#C8A96A" }}>Company</h4>
+          <h4 className="text-[13px] tracking-[2px] mb-4 font-semibold text-primary">Company</h4>
           {companyLinks.map((l) => <LinkItem key={l.label} {...l} />)}
         </div>
         <div>
-          <h4 className="text-[13px] tracking-[2px] mb-4 font-semibold" style={{ color: "#C8A96A" }}>Services</h4>
+          <h4 className="text-[13px] tracking-[2px] mb-4 font-semibold text-primary">Services</h4>
           {serviceLinks.map((l) => <LinkItem key={l.label} {...l} />)}
         </div>
         <div>
-          <h4 className="text-[13px] tracking-[2px] mb-4 font-semibold" style={{ color: "#C8A96A" }}>Explore</h4>
+          <h4 className="text-[13px] tracking-[2px] mb-4 font-semibold text-primary">Explore</h4>
           {exploreLinks.map((l) => <LinkItem key={l.label} {...l} />)}
         </div>
       </div>
     </div>
 
     {/* TRUST STRIP */}
-    <div
-      className="flex flex-wrap justify-between gap-4 py-[25px] mb-10"
-      style={{
-        borderTop: "1px solid rgba(200,169,106,0.2)",
-        borderBottom: "1px solid rgba(200,169,106,0.2)",
-      }}
-    >
+    <div className="flex flex-wrap justify-between gap-4 py-[25px] mb-10 border-t border-border border-b">
       {certifications.map((cert, i) => (
         <motion.div
           key={i}
@@ -100,8 +87,8 @@ const Footer = () => (
           transition={{ duration: 0.6, delay: i * 0.1 }}
           className="flex items-center gap-2.5"
         >
-          <cert.icon className="w-4 h-4 flex-shrink-0" strokeWidth={1.4} style={{ color: "#C8A96A" }} />
-          <span className="text-[12px] text-white/70">{cert.text}</span>
+          <cert.icon className="w-4 h-4 flex-shrink-0 text-primary" strokeWidth={1.4} />
+          <span className="text-[12px] text-foreground/60">{cert.text}</span>
         </motion.div>
       ))}
     </div>
@@ -111,13 +98,12 @@ const Footer = () => (
       {["Visa", "Mastercard", "Amex"].map((name) => (
         <span
           key={name}
-          className="px-4 py-1.5 rounded border text-[11px] tracking-[0.15em] uppercase font-light"
-          style={{ borderColor: "rgba(255,255,255,0.12)", color: "rgba(255,255,255,0.8)", opacity: 0.8 }}
+          className="px-4 py-1.5 rounded border border-border text-[11px] tracking-[0.15em] uppercase font-light text-foreground/60"
         >
           {name}
         </span>
       ))}
-      <span className="text-[12px] text-white/60">
+      <span className="text-[12px] text-muted-foreground">
         Co-branded & White Label Card Programs Available
       </span>
     </div>
@@ -134,25 +120,7 @@ const Footer = () => (
           whileHover={{ y: -3, scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
           transition={{ duration: 0.3 }}
-          className="flex items-center justify-center"
-          style={{
-            width: 40,
-            height: 40,
-            borderRadius: "50%",
-            background: "rgba(255,255,255,0.05)",
-            color: "#C8A96A",
-            transition: "all 0.3s ease",
-          }}
-          onMouseEnter={(e) => {
-            const el = e.currentTarget;
-            el.style.background = "#C8A96A";
-            el.style.color = "#000";
-          }}
-          onMouseLeave={(e) => {
-            const el = e.currentTarget;
-            el.style.background = "rgba(255,255,255,0.05)";
-            el.style.color = "#C8A96A";
-          }}
+          className="flex items-center justify-center w-10 h-10 rounded-full bg-background border border-border text-primary hover:bg-primary hover:text-white transition-all duration-300"
         >
           <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
             <path d={s.path} />
@@ -162,11 +130,8 @@ const Footer = () => (
     </div>
 
     {/* BOTTOM */}
-    <div
-      className="pt-5 flex flex-col md:flex-row items-start md:items-center justify-between gap-3"
-      style={{ borderTop: "1px solid rgba(255,255,255,0.08)" }}
-    >
-      <p className="text-[12px] text-white/50">
+    <div className="pt-5 flex flex-col md:flex-row items-start md:items-center justify-between gap-3 border-t border-border">
+      <p className="text-[12px] text-muted-foreground">
         © {new Date().getFullYear()} Universal Jets Aviation Brokerage FZCO. All rights reserved.
       </p>
       <div className="flex items-center gap-5">
@@ -175,7 +140,7 @@ const Footer = () => (
           { label: "Privacy", href: "/privacy" },
           { label: "Cookies", href: "/cookies" },
         ].map((l) => (
-          <Link key={l.label} to={l.href} className="text-[10px] tracking-[0.15em] text-white/30 hover:text-white/60 transition-colors uppercase">
+          <Link key={l.label} to={l.href} className="text-[10px] tracking-[0.15em] text-muted-foreground hover:text-foreground transition-colors uppercase">
             {l.label}
           </Link>
         ))}

@@ -12,7 +12,6 @@ const pillars = [
 const JetCardSection = () => (
   <section className="section-padding relative">
     <div className="grid-overlay" />
-    <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[hsl(225,28%,6%)] to-transparent pointer-events-none" />
 
     <div className="container mx-auto px-8 relative z-10">
       <FadeReveal className="text-center mb-16">
@@ -20,10 +19,10 @@ const JetCardSection = () => (
         <h2 className="text-3xl md:text-4xl lg:text-5xl font-display font-semibold text-foreground mb-5">
           Jet Card <span className="text-gradient-gold italic">Membership</span>
         </h2>
-        <p className="text-[13px] md:text-[14px] text-foreground/40 font-extralight leading-[2] max-w-lg mx-auto mb-2">
+        <p className="text-[14px] md:text-[15px] text-muted-foreground font-light leading-[2] max-w-lg mx-auto mb-2">
           Access tailored flight hours with priority availability and fixed structure.
         </p>
-        <p className="text-[11px] text-foreground/25 font-extralight tracking-wide italic">
+        <p className="text-[12px] text-muted-foreground/70 font-extralight tracking-wide italic">
           Available by consultation only.
         </p>
       </FadeReveal>
@@ -48,14 +47,14 @@ const JetCardSection = () => (
       <FadeReveal delay={0.3} className="flex flex-col sm:flex-row items-center justify-center gap-4">
         <a
           href="#cta"
-          className="btn-luxury px-10 py-4 bg-gradient-gold text-primary-foreground text-[9px] tracking-[0.28em] uppercase font-medium rounded-sm"
+          className="btn-luxury px-10 py-4 bg-gradient-gold text-primary-foreground text-[9px] tracking-[0.28em] uppercase font-medium rounded-xl"
         >
           Request Proposal
         </a>
         <button
           type="button"
           onClick={() => document.dispatchEvent(new CustomEvent("open-ricky"))}
-          className="btn-luxury px-10 py-4 glass-panel text-foreground/50 hover:text-foreground/80 text-[9px] tracking-[0.28em] uppercase font-light rounded-sm"
+          className="btn-luxury px-10 py-4 glass-panel text-foreground/60 hover:text-foreground/80 text-[9px] tracking-[0.28em] uppercase font-light rounded-xl"
         >
           Speak to an Advisor
         </button>

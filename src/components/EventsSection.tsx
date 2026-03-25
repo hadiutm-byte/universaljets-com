@@ -19,8 +19,6 @@ const events = [
 
 const EventsSection = () => (
   <section className="section-padding relative">
-    <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[hsl(225,28%,6%)] to-transparent pointer-events-none" />
-
     <div className="container mx-auto px-8 relative z-10">
       <FadeReveal className="text-center mb-16">
         <p className="text-[9px] tracking-[0.5em] uppercase text-primary/60 mb-6 font-light">Events</p>
@@ -38,8 +36,8 @@ const EventsSection = () => (
               transition={{ type: "spring", stiffness: 300 }}
               className="flex items-center gap-3 p-4 rounded-xl glass-panel hover:border-primary/15 transition-all duration-500 group block"
             >
-              <Calendar className="w-3.5 h-3.5 text-primary/40 flex-shrink-0" strokeWidth={1.2} />
-              <span className="font-display text-[12px] md:text-[13px] text-foreground/60 group-hover:text-foreground/80 transition-colors">
+              <Calendar className="w-3.5 h-3.5 text-primary/50 flex-shrink-0" strokeWidth={1.2} />
+              <span className="font-display text-[12px] md:text-[13px] text-foreground/70 group-hover:text-foreground transition-colors">
                 {name}
               </span>
             </motion.a>

@@ -10,8 +10,6 @@ const items = [
 
 const ConciergeSection = () => (
   <section id="concierge" className="section-padding relative">
-    <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[hsl(228,22%,4%)] to-transparent pointer-events-none" />
-
     <div className="container mx-auto px-8 relative z-10">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
@@ -24,7 +22,7 @@ const ConciergeSection = () => (
         <h2 className="text-3xl md:text-5xl lg:text-6xl font-display font-semibold text-foreground mb-6">
           Beyond <span className="text-gradient-gold italic">Aviation</span>
         </h2>
-        <p className="text-[12px] md:text-[13px] text-foreground/40 font-extralight leading-[2] max-w-xl mx-auto">
+        <p className="text-[13px] md:text-[14px] text-muted-foreground font-light leading-[2] max-w-xl mx-auto">
           We collaborate with premium concierge providers, luxury hotels, and ground transportation partners to deliver a seamless end-to-end experience.
         </p>
       </motion.div>
@@ -39,11 +37,11 @@ const ConciergeSection = () => (
             transition={{ delay: i * 0.1, duration: 0.7 }}
             className="text-center group"
           >
-            <div className="w-16 h-16 rounded-full luxury-border flex items-center justify-center mx-auto mb-8 group-hover:glow-subtle transition-all duration-700">
+            <div className="w-16 h-16 rounded-full border border-border flex items-center justify-center mx-auto mb-8 group-hover:shadow-[0_0_30px_-8px_hsla(38,52%,50%,0.15)] transition-all duration-700">
               <item.icon className="w-5 h-5 text-primary/60" strokeWidth={1.2} />
             </div>
             <h3 className="font-display text-lg mb-4 text-foreground">{item.title}</h3>
-            <p className="text-[12px] text-foreground/40 font-extralight leading-[2]">{item.desc}</p>
+            <p className="text-[13px] text-muted-foreground font-light leading-[2]">{item.desc}</p>
           </motion.div>
         ))}
       </div>
