@@ -211,62 +211,47 @@ const Ricky3D = () => {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 30, scale: 0.95 }}
             transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-            className="fixed bottom-4 right-4 z-50 flex w-[360px] max-w-[calc(100vw-1rem)] cursor-grab flex-col items-end gap-3 active:cursor-grabbing"
+            className="fixed bottom-0 right-0 z-50 cursor-grab active:cursor-grabbing"
+            style={{ pointerEvents: "none" }}
           >
-            <motion.div
-              initial={{ opacity: 0, y: 8 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.1 }}
-              className="flex items-center gap-2 pr-4"
-            >
-              <p className="text-[10px] font-medium uppercase tracking-[0.28em] text-foreground/45">
-                Ricky Concierge
-              </p>
-              <div className="flex items-center gap-1">
-                <button
-                  onClick={toggleMute}
-                  className="ricky-control"
-                  title={muted ? "Unmute Ricky" : "Mute Ricky"}
-                >
-                  {muted ? <VolumeX size={12} /> : <Volume2 size={12} />}
-                </button>
-                <button
-                  onClick={dismiss}
-                  className="ricky-control"
-                >
-                  <X size={13} />
-                </button>
-              </div>
-            </motion.div>
-
+            {/* Speech cloud above Ricky's head */}
             <AnimatePresence>
               {showBubble && (
                 <motion.div
-                  initial={{ opacity: 0, y: 12, scale: 0.97 }}
+                  initial={{ opacity: 0, y: 16, scale: 0.94 }}
                   animate={{ opacity: 1, y: 0, scale: 1 }}
-                  exit={{ opacity: 0, scale: 0.97 }}
+                  exit={{ opacity: 0, y: 8, scale: 0.96 }}
                   transition={{ duration: 0.4 }}
-                  className="ricky-speech-bubble relative mr-10 max-w-[320px] px-6 py-5"
+                  className="ricky-speech-bubble absolute bottom-[310px] right-[30px] z-[2] w-[280px] px-5 py-4"
+                  style={{ pointerEvents: "auto" }}
                 >
+                  <span className="ricky-bubble-tail" />
                   <span className="ricky-bubble-orb ricky-bubble-orb-primary" />
                   <span className="ricky-bubble-orb ricky-bubble-orb-secondary" />
-                  <span className="ricky-bubble-tail" />
-                  <p className="text-[14px] font-light leading-[1.9] text-foreground/82 whitespace-pre-wrap">
+                  <p className="text-[13px] font-light leading-[1.85] text-foreground/80 whitespace-pre-wrap">
                     {displayedText}
                     {!showActions && <span className="animate-pulse text-primary">|</span>}
                   </p>
+                  <div className="mt-3 flex items-center justify-end gap-1.5" style={{ pointerEvents: "auto" }}>
+                    <button onClick={toggleMute} className="ricky-control" title={muted ? "Unmute" : "Mute"}>
+                      {muted ? <VolumeX size={11} /> : <Volume2 size={11} />}
+                    </button>
+                    <button onClick={dismiss} className="ricky-control" title="Minimize">
+                      <ChevronDown size={11} />
+                    </button>
+                  </div>
                 </motion.div>
               )}
             </AnimatePresence>
 
-            {/* Quick actions */}
             <AnimatePresence>
               {showActions && (
                 <motion.div
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.4 }}
-                  className="mr-4 flex max-w-[340px] flex-wrap justify-end gap-2"
+                  className="absolute bottom-[270px] right-[20px] z-[2] flex max-w-[290px] flex-wrap justify-end gap-2"
+                  style={{ pointerEvents: "auto" }}
                 >
                   {quickActions.map((action, i) => (
                     <motion.button
@@ -289,35 +274,25 @@ const Ricky3D = () => {
               )}
             </AnimatePresence>
 
+            {/* Ricky — large, transparent, anchored bottom-right */}
             <motion.button
               initial={{ scale: 0.86, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               transition={{ type: "spring", damping: 16, delay: 0.12 }}
               onClick={replayGreeting}
-              className="relative mr-1 cursor-pointer focus:outline-none"
+              className="relative cursor-pointer focus:outline-none"
               whileHover={{ y: -4, scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
+              style={{ pointerEvents: "auto" }}
             >
               <div className="ricky-presence">
                 <RickyAvatar
                   speaking={rickySpeaking}
-                  size={phase === "arriving" ? 280 : 264}
+                  size={320}
                   pose={phase === "arriving" || rickySpeaking ? "wave" : "idle"}
                 />
               </div>
             </motion.button>
-
-            {showActions && (
-              <motion.button
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.6 }}
-                onClick={dismiss}
-                className="mr-4 flex items-center gap-1 text-[9px] font-medium uppercase tracking-[0.22em] text-muted-foreground/65 transition-colors hover:text-foreground/75"
-              >
-                <ChevronDown size={10} /> Minimize
-              </motion.button>
-            )}
           </motion.div>
         )}
       </AnimatePresence>
