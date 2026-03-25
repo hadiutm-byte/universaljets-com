@@ -21,6 +21,7 @@ import MemberProfilePage from "./pages/MemberProfilePage.tsx";
 import ProtectedRoute from "./components/ProtectedRoute.tsx";
 import CrmLayout from "./components/crm/CrmLayout.tsx";
 import CrmDashboard from "./pages/crm/CrmDashboard.tsx";
+import PipelinePage from "./pages/crm/PipelinePage.tsx";
 import ClientsPage from "./pages/crm/ClientsPage.tsx";
 import LeadsPage from "./pages/crm/LeadsPage.tsx";
 import RequestsPage from "./pages/crm/RequestsPage.tsx";
@@ -29,6 +30,8 @@ import ContractsPage from "./pages/crm/ContractsPage.tsx";
 import InvoicesPage from "./pages/crm/InvoicesPage.tsx";
 import TripsPage from "./pages/crm/TripsPage.tsx";
 import OutreachPage from "./pages/crm/OutreachPage.tsx";
+import AdminUsersPage from "./pages/crm/AdminUsersPage.tsx";
+import AdminSettingsPage from "./pages/crm/AdminSettingsPage.tsx";
 import CareersPage from "./pages/CareersPage.tsx";
 import ContactPage from "./pages/ContactPage.tsx";
 import CharterPage from "./pages/CharterPage.tsx";
@@ -38,8 +41,9 @@ import CookieConsent from "./components/CookieConsent.tsx";
 import ContentProtection from "./components/ContentProtection.tsx";
 import FloatingWhatsApp from "./components/FloatingWhatsApp.tsx";
 
-
 const queryClient = new QueryClient();
+
+const CRM_ROLES = ["admin", "sales", "operations", "finance", "account_management"] as const;
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
@@ -64,8 +68,9 @@ const App = () => (
           <Route path="/terms" element={<TermsPage />} />
           <Route path="/privacy" element={<PrivacyPage />} />
           <Route path="/cookies" element={<CookiesPage />} />
-          <Route path="/crm" element={<ProtectedRoute allowedRoles={["admin", "sales", "operations", "finance", "account_management"]}><CrmLayout /></ProtectedRoute>}>
+          <Route path="/crm" element={<ProtectedRoute allowedRoles={[...CRM_ROLES]}><CrmLayout /></ProtectedRoute>}>
             <Route index element={<CrmDashboard />} />
+            <Route path="pipeline" element={<PipelinePage />} />
             <Route path="clients" element={<ClientsPage />} />
             <Route path="leads" element={<LeadsPage />} />
             <Route path="requests" element={<RequestsPage />} />
@@ -74,6 +79,8 @@ const App = () => (
             <Route path="invoices" element={<InvoicesPage />} />
             <Route path="trips" element={<TripsPage />} />
             <Route path="outreach" element={<OutreachPage />} />
+            <Route path="admin/users" element={<AdminUsersPage />} />
+            <Route path="admin/settings" element={<AdminSettingsPage />} />
           </Route>
           <Route path="/careers" element={<CareersPage />} />
           <Route path="/contact" element={<ContactPage />} />
