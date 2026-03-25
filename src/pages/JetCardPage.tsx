@@ -52,29 +52,28 @@ const JetCardPage = () => (
     <Navbar />
 
     {/* Hero */}
-    <section className="relative pt-32 pb-20 md:pt-44 md:pb-28 overflow-hidden">
-      <div className="absolute inset-0 bg-gradient-to-b from-[hsl(228,28%,5%)] via-background to-background" />
-      <div className="absolute inset-0 opacity-[0.02] pointer-events-none" style={{ backgroundImage: "linear-gradient(hsla(38,52%,50%,0.3) 1px, transparent 1px), linear-gradient(90deg, hsla(38,52%,50%,0.3) 1px, transparent 1px)", backgroundSize: "80px 80px" }} />
+    <section className="relative pt-32 pb-20 md:pt-44 md:pb-28 overflow-hidden section-white">
+      <div className="grid-overlay" />
 
       <div className="container mx-auto px-8 relative z-10">
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.9 }} className="text-center max-w-3xl mx-auto">
-          <p className="text-[9px] tracking-[0.5em] uppercase text-primary/60 mb-6 font-light">Jet Card Membership</p>
+          <p className="text-[11px] tracking-[0.5em] uppercase text-primary mb-6 font-medium">Jet Card Membership</p>
           <h1 className="text-3xl md:text-5xl lg:text-6xl font-display font-semibold text-foreground mb-6 leading-tight">
             Guaranteed Access. Fixed Rates.<span className="text-gradient-gold"> Total Control.</span>
           </h1>
-          <p className="text-[14px] md:text-[16px] text-foreground/55 font-light leading-[1.9] max-w-xl mx-auto mb-4">
+          <p className="text-[15px] md:text-[17px] text-muted-foreground font-light leading-[1.9] max-w-xl mx-auto mb-4">
             Lock your hourly rate. Avoid market fluctuations. Fly on your terms.
           </p>
-          <p className="text-[12px] md:text-[13px] text-foreground/35 font-extralight leading-[2] max-w-lg mx-auto mb-10">
+          <p className="text-[13px] md:text-[14px] text-muted-foreground font-light leading-[1.9] max-w-lg mx-auto mb-10">
             Designed for frequent flyers, corporate executives, and UHNW individuals.
           </p>
 
-          <a href="#jet-card-tiers" className="inline-block px-8 py-3.5 bg-gradient-gold text-primary-foreground text-[10px] tracking-[0.25em] uppercase font-medium rounded-sm hover:shadow-[0_0_30px_-8px_hsla(38,52%,50%,0.45)] transition-all duration-500">
+          <a href="#jet-card-tiers" className="inline-block px-8 py-3.5 bg-gradient-gold text-primary-foreground text-[11px] tracking-[0.25em] uppercase font-medium rounded-xl hover:shadow-[0_0_30px_-8px_hsla(38,52%,50%,0.45)] transition-all duration-500">
             View Programs
           </a>
 
           <div className="divider-gold mt-14 mb-8" />
-          <p className="text-[10px] tracking-[0.2em] text-foreground/25 font-extralight">
+          <p className="text-[11px] tracking-[0.2em] text-muted-foreground font-light">
             Priority aircraft access • Fixed hourly rates • No ownership complexity • Global fleet flexibility
           </p>
         </motion.div>
