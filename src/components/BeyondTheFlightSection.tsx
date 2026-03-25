@@ -1,11 +1,11 @@
 import { motion } from "framer-motion";
-import { Gem, Car, Utensils, ShieldCheck } from "lucide-react";
+import { Gem, Car, Utensils, ShieldCheck, MapPin } from "lucide-react";
 
 const conciergeItems = [
-  { icon: Gem, title: "Luxury Concierge", desc: "Hotels, villas, yacht charters, and bespoke experiences arranged alongside your flight." },
-  { icon: Car, title: "Ground Transport", desc: "Chauffeured arrivals and departures — armoured, classic, or electric — anywhere in the world." },
-  { icon: Utensils, title: "In-Flight Catering", desc: "From dietary-specific menus to Michelin-level service at 40,000 feet." },
-  { icon: ShieldCheck, title: "Security & Privacy", desc: "Discreet travel planning with executive protection, NDA protocols, and secure logistics." },
+  { icon: MapPin, title: "Concierge Services", desc: "We don't just fly you there — we make sure you arrive. Ground transport, hotel suites, dinner reservations, event access. Your trip is orchestrated, not just booked." },
+  { icon: Car, title: "Ground Transport", desc: "Chauffeured arrivals and departures — armoured, classic, or electric — coordinated to your landing time, anywhere in the world." },
+  { icon: Utensils, title: "In-Flight Catering", desc: "From dietary-specific menus to Michelin-level service at 40,000 feet. Every detail handled before you board." },
+  { icon: ShieldCheck, title: "Security & Privacy", desc: "Discreet travel planning with executive protection, NDA protocols, and secure logistics for high-profile movements." },
 ];
 
 const BeyondTheFlightSection = () => (

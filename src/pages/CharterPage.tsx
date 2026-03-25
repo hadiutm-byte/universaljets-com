@@ -4,42 +4,54 @@ import { Plane, ArrowLeft } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
-const charterData: Record<string, { title: string; headline: string; description: string; aircraft: string[] }> = {
+const charterData: Record<string, {
+  title: string;
+  headline: string;
+  description: string;
+  image: string;
+  aircraft: string[];
+}> = {
   leisure: {
     title: "Leisure Charter",
-    headline: "Travel on Your Terms",
-    description: "Whether it's a Mediterranean villa, a Caribbean island, or a ski resort in the Alps — your leisure charter is built around your schedule, your preferences, and your privacy. We source the ideal aircraft for families, couples, and groups seeking seamless holiday travel.",
-    aircraft: ["Citation XLS", "Learjet 75", "Challenger 350", "Global 7500"],
+    headline: "Your Island Doesn't Have a Runway? We'll Find One Nearby.",
+    description: "Ski trips, honeymoons, family escapes — 10,000+ destinations with zero layovers and zero strangers on board. Whether it's a Mediterranean villa, a Caribbean island, or a lodge in the Alps — your leisure charter is built around your schedule, your preferences, and your privacy.",
+    image: "https://d2xsxph8kpxj0f.cloudfront.net/310519663441238946/F94ypwks3ADk2wFrxZVnWB/leisure-travel-luxury-azcFavRQuX4DrgSwWAoAtx.webp",
+    aircraft: ["Citation CJ3", "Phenom 300", "Challenger 350", "Global 7500"],
   },
   corporate: {
-    title: "Corporate Charter",
-    headline: "Precision for Business",
-    description: "Multi-city roadshows, board meetings across borders, and last-minute executive travel — all with total discretion and maximum efficiency. We match the aircraft to the mission, whether that's a light jet for a day trip or an ultra-long-range cabin for transatlantic strategy sessions.",
+    title: "Corporate Solutions",
+    headline: "Three Cities in One Day. Boardroom at 40,000 Feet.",
+    description: "Your NDA starts at the cabin door. Multi-city roadshows, investor meetings, and retreats built around your schedule — not an airline's. We match the aircraft to the mission, whether that's a light jet for a day trip or an ultra-long-range cabin for transatlantic strategy sessions.",
+    image: "https://d2xsxph8kpxj0f.cloudfront.net/310519663441238946/F94ypwks3ADk2wFrxZVnWB/corporate-executive-jet-a3dWZJiLaShszow9sv8fuB.webp",
     aircraft: ["Phenom 300E", "Citation Latitude", "Challenger 650", "Gulfstream G650"],
   },
-  group: {
-    title: "Group Charter",
-    headline: "Move Teams. Seamlessly.",
-    description: "Sports franchises, incentive travel programmes, concert tours, and corporate retreats. We handle group logistics for 12 to 200+ passengers with coordinated scheduling, ground handling, and catering.",
-    aircraft: ["Embraer Lineage 1000", "Boeing BBJ", "Airbus ACJ319", "Challenger 850"],
-  },
   medevac: {
-    title: "Medical Evacuation",
-    headline: "When Every Minute Counts",
-    description: "Air ambulance coordination with full medical crew, stretcher configuration, ICU equipment, and bed-to-bed transfers. We operate globally with 24/7 availability for urgent medical repatriation and evacuation missions.",
-    aircraft: ["Learjet 45", "King Air 350", "Challenger 604", "Gulfstream G550"],
+    title: "Medical Evacuations",
+    headline: "When Minutes Decide Outcomes, We Don't Wait for Morning.",
+    description: "ICU-equipped jets, trained medical crews, and clearance through conflict zones — we've brought people home from places others won't fly into. Air ambulance coordination with full medical crew, stretcher configuration, ICU equipment, and bed-to-bed transfers. We operate globally with 24/7 availability for urgent medical repatriation and evacuation missions.",
+    image: "https://d2xsxph8kpxj0f.cloudfront.net/310519663441238946/F94ypwks3ADk2wFrxZVnWB/medical-jet-evacuation_c1c73ba0.png",
+    aircraft: ["Learjet 35A", "Citation CJ3", "Challenger 604", "Gulfstream G550"],
   },
   cargo: {
     title: "Cargo & Special Missions",
-    headline: "Beyond Passengers",
-    description: "Oversized freight, hazardous materials, sensitive government shipments, humanitarian aid, and NGO operations. We arrange cargo charters with specialist operators and full customs/logistic coordination.",
+    headline: "Hazmat-Certified. Government-Cleared.",
+    description: "From humanitarian aid drops to classified freight, we move what others can't — or won't. Permits, customs, and compliance handled before you finish your coffee. Oversized freight, hazardous materials, sensitive government shipments, humanitarian aid, and NGO operations — we arrange cargo charters with specialist operators and full customs/logistic coordination.",
+    image: "https://d2xsxph8kpxj0f.cloudfront.net/310519663441238946/F94ypwks3ADk2wFrxZVnWB/cargo-charter-loading-UNLEgPt7hoTHe7qWvdfsRq.webp",
     aircraft: ["Boeing 737F", "Antonov AN-12", "Pilatus PC-12", "Beechcraft 1900D"],
   },
   helicopter: {
-    title: "Helicopter Transfers",
-    headline: "The First & Last Mile",
-    description: "City-to-airport, yacht-to-shore, event transfers, and aerial tours. VIP helicopter movements with executive interiors, noise-reduced cabins, and door-to-door timing precision.",
+    title: "VIP Helicopter Transfers",
+    headline: "Dubai Traffic Is Someone Else's Problem.",
+    description: "Airport to hotel in minutes, not hours. Premium rotorcraft for executives who treat time like the currency it is. City-to-airport, yacht-to-shore, event transfers, and aerial tours — VIP helicopter movements with executive interiors, noise-reduced cabins, and door-to-door timing precision.",
+    image: "https://d2xsxph8kpxj0f.cloudfront.net/310519663441238946/F94ypwks3ADk2wFrxZVnWB/vip-helicopter-transfer-kAGxmTqso7jNsiQQtZLzEv.webp",
     aircraft: ["Airbus H145", "Bell 429", "AgustaWestland AW139", "Sikorsky S-76"],
+  },
+  group: {
+    title: "Group Charter",
+    headline: "50,000+ Passengers Across Six Continents.",
+    description: "Corporate delegations, sports teams, concert tours, religious pilgrimages. We've moved 50,000+ passengers across six continents — including FIFA World Cup 2022. We handle group logistics for 12 to 200+ passengers with coordinated scheduling, ground handling, and catering.",
+    image: "https://d2xsxph8kpxj0f.cloudfront.net/310519663441238946/F94ypwks3ADk2wFrxZVnWB/group-charter-boarding_c6a14ad9.jpg",
+    aircraft: ["Embraer Lineage 1000", "Boeing BBJ", "Airbus ACJ319", "Challenger 850"],
   },
 };
 
@@ -64,28 +76,24 @@ const CharterPage = () => {
     <div className="min-h-screen bg-background">
       <Navbar />
 
-      <section className="pt-32 pb-20 max-w-4xl mx-auto px-6 md:px-10">
-        <Link to="/" className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground mb-8 transition-colors">
-          <ArrowLeft size={14} /> Back to Home
-        </Link>
+      {/* Hero image */}
+      <div className="relative h-[50vh] min-h-[360px] overflow-hidden">
+        <img src={data.image} alt={data.title} className="w-full h-full object-cover" />
+        <div className="absolute inset-0 bg-gradient-to-t from-background via-background/40 to-transparent" />
+        <div className="absolute bottom-0 left-0 right-0 max-w-4xl mx-auto px-6 md:px-10 pb-10">
+          <Link to="/" className="inline-flex items-center gap-2 text-sm text-white/70 hover:text-white mb-4 transition-colors">
+            <ArrowLeft size={14} /> Back to Home
+          </Link>
+          <p className="text-[11px] tracking-[0.3em] uppercase font-medium text-primary mb-3">
+            {data.title}
+          </p>
+          <h1 className="font-display text-3xl md:text-5xl font-semibold text-white leading-tight">
+            {data.headline}
+          </h1>
+        </div>
+      </div>
 
-        <motion.p
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="text-[11px] tracking-[0.3em] uppercase font-medium text-primary mb-3"
-        >
-          {data.title}
-        </motion.p>
-
-        <motion.h1
-          initial={{ opacity: 0, y: 16 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.05 }}
-          className="font-display text-4xl md:text-5xl font-semibold text-foreground mb-6"
-        >
-          {data.headline}
-        </motion.h1>
-
+      <section className="py-16 md:py-24 max-w-4xl mx-auto px-6 md:px-10">
         <motion.p
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
@@ -106,7 +114,7 @@ const CharterPage = () => {
           </h3>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-12">
             {data.aircraft.map((name) => (
-              <div key={name} className="rounded-xl border border-border bg-card p-5 text-center">
+              <div key={name} className="rounded-xl border border-border bg-card p-5 text-center hover:shadow-[0_10px_30px_rgba(0,0,0,0.06)] transition-all">
                 <p className="font-display text-sm font-medium text-foreground">{name}</p>
                 <Link
                   to="/contact"
