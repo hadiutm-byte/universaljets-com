@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { ShieldCheck, Search, Wrench, Users, ClipboardCheck, Shield } from "lucide-react";
+import { ShieldCheck, Search, Wrench, Users, ClipboardCheck } from "lucide-react";
 
 const certifications = [
   { name: "WYVERN", sub: "Wingman Certified" },
@@ -20,84 +20,93 @@ const SafetySection = () => (
     <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[hsl(228,22%,4%)] to-transparent pointer-events-none" />
 
     <div className="container mx-auto px-8 relative z-10">
-      {/* Header */}
+      {/* Label */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 0.8 }}
-        className="max-w-2xl mx-auto text-center mb-20"
+        className="text-center mb-16"
       >
-        <div className="w-16 h-16 rounded-full luxury-border flex items-center justify-center mx-auto mb-10 glow-subtle">
-          <ShieldCheck className="w-6 h-6 text-primary/60" strokeWidth={1.2} />
-        </div>
-
         <p className="text-[9px] tracking-[0.5em] uppercase text-primary/60 mb-6 font-light">
           Safety & Compliance
         </p>
-
-        <h2 className="text-3xl md:text-4xl lg:text-5xl font-display font-semibold text-foreground mb-6 leading-tight">
-          Safety is not a feature.{" "}
-          <span className="text-gradient-gold italic">It's the foundation.</span>
-        </h2>
-
-        <p className="text-[12px] md:text-[13px] text-foreground/40 font-extralight leading-[2.1] max-w-xl mx-auto mb-4">
-          We work exclusively with operators that meet the highest international
-          safety standards, including WYVERN and ARGUS certifications where
-          applicable.
-        </p>
-        <p className="text-[12px] md:text-[13px] text-foreground/35 font-extralight leading-[2.1] max-w-xl mx-auto">
-          Every aircraft is vetted based on operator history, crew experience,
-          maintenance records, and operational compliance.
-        </p>
       </motion.div>
 
-      {/* Trust statement */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        whileInView={{ opacity: 1 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.8 }}
-        className="max-w-xl mx-auto text-center mb-20"
-      >
-        <div className="border-l-[1px] border-primary/20 pl-6 py-2">
-          <p className="text-[12px] md:text-[13px] text-foreground/50 font-extralight leading-[2] italic">
-            "Every flight is carefully matched with operators that meet strict international safety benchmarks."
+      {/* 2-column: Text left, Badges right */}
+      <div className="max-w-5xl mx-auto grid lg:grid-cols-2 gap-16 lg:gap-20 mb-24">
+        {/* Left — Text */}
+        <motion.div
+          initial={{ opacity: 0, x: -20 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8 }}
+          className="flex flex-col justify-center"
+        >
+          <div className="w-14 h-14 rounded-full luxury-border flex items-center justify-center mb-8 glow-subtle">
+            <ShieldCheck className="w-5 h-5 text-primary/55" strokeWidth={1.2} />
+          </div>
+
+          <h2 className="text-2xl md:text-3xl lg:text-4xl font-display font-semibold text-foreground mb-6 leading-tight">
+            Safety is not a feature.{" "}
+            <span className="text-gradient-gold italic">It's the foundation.</span>
+          </h2>
+
+          <p className="text-[12px] md:text-[13px] text-foreground/40 font-extralight leading-[2.1] mb-4">
+            We work exclusively with operators that meet the highest international
+            safety standards, including WYVERN and ARGUS certifications where
+            applicable.
           </p>
-        </div>
-      </motion.div>
+          <p className="text-[12px] md:text-[13px] text-foreground/35 font-extralight leading-[2.1] mb-8">
+            Every aircraft is vetted based on operator history, crew experience,
+            maintenance records, and operational compliance.
+          </p>
 
-      {/* Certification badges */}
-      <motion.div
-        initial={{ opacity: 0, y: 15 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.7 }}
-        className="max-w-3xl mx-auto mb-24"
-      >
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
-          {certifications.map((cert, i) => (
-            <motion.div
-              key={cert.name}
-              initial={{ opacity: 0, scale: 0.9 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: i * 0.08 }}
-              className="relative group"
-            >
-              <div className="flex flex-col items-center py-7 px-4 rounded-xl border border-border/8 bg-card/10 transition-all duration-500 group-hover:border-primary/15 group-hover:bg-card/20">
-                <Shield className="w-6 h-6 text-primary/30 mb-4 group-hover:text-primary/50 transition-colors duration-500" strokeWidth={1} />
-                <p className="text-[11px] tracking-[0.15em] uppercase text-foreground/60 font-medium mb-1">
-                  {cert.name}
-                </p>
-                <p className="text-[9px] text-foreground/25 font-extralight text-center">
-                  {cert.sub}
-                </p>
-              </div>
-            </motion.div>
-          ))}
-        </div>
-      </motion.div>
+          {/* Trust quote */}
+          <div className="border-l border-primary/15 pl-5 py-1">
+            <p className="text-[11px] text-foreground/40 font-extralight leading-[2] italic">
+              "Every flight is carefully matched with operators that meet strict international safety benchmarks."
+            </p>
+          </div>
+        </motion.div>
+
+        {/* Right — Badges */}
+        <motion.div
+          initial={{ opacity: 0, x: 20 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8, delay: 0.1 }}
+          className="flex items-center"
+        >
+          <div className="grid grid-cols-2 gap-4 w-full">
+            {certifications.map((cert, i) => (
+              <motion.div
+                key={cert.name}
+                initial={{ opacity: 0, scale: 0.92 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: 0.15 + i * 0.08 }}
+                className="group"
+              >
+                <div className="flex flex-col items-center justify-center py-8 px-5 rounded-xl border border-border/8 bg-card/8 transition-all duration-500 group-hover:border-border/15 group-hover:bg-card/15 aspect-square">
+                  {/* Monochrome shield mark */}
+                  <div className="w-10 h-10 rounded-full border border-foreground/8 flex items-center justify-center mb-5 group-hover:border-foreground/12 transition-colors duration-500">
+                    <span className="text-[10px] font-display font-semibold text-foreground/25 tracking-wider group-hover:text-foreground/40 transition-colors duration-500">
+                      {cert.name.charAt(0)}
+                    </span>
+                  </div>
+                  <p className="text-[11px] tracking-[0.2em] uppercase text-foreground/50 font-medium mb-1.5 group-hover:text-foreground/65 transition-colors duration-500">
+                    {cert.name}
+                  </p>
+                  <p className="text-[9px] text-foreground/20 font-extralight text-center leading-relaxed">
+                    {cert.sub}
+                  </p>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </motion.div>
+      </div>
 
       {/* Vetting Process */}
       <div className="max-w-3xl mx-auto">
@@ -130,7 +139,6 @@ const SafetySection = () => (
               transition={{ duration: 0.6, delay: i * 0.1 }}
               className="flex gap-6 relative"
             >
-              {/* Vertical line */}
               <div className="flex flex-col items-center flex-shrink-0">
                 <div className="w-10 h-10 rounded-full border border-border/12 bg-card/15 flex items-center justify-center">
                   <step.icon className="w-4 h-4 text-primary/45" strokeWidth={1.3} />
@@ -139,8 +147,6 @@ const SafetySection = () => (
                   <div className="w-[1px] flex-1 bg-border/10 my-1" />
                 )}
               </div>
-
-              {/* Content */}
               <div className={`pb-10 ${i === vettingSteps.length - 1 ? "pb-0" : ""}`}>
                 <h3 className="text-[13px] font-display font-medium text-foreground/70 mb-2 mt-2">
                   {step.title}
@@ -154,7 +160,7 @@ const SafetySection = () => (
         </div>
       </div>
 
-      {/* Closing line */}
+      {/* Closing */}
       <motion.p
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
