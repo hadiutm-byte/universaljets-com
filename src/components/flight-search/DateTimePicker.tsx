@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import { format } from "date-fns";
-import { Calendar as CalendarIcon, Clock, ChevronLeft, ChevronRight } from "lucide-react";
+import { Calendar as CalendarIcon, Clock } from "lucide-react";
 import { Calendar } from "@/components/ui/calendar";
 import {
   Popover,
@@ -39,7 +39,6 @@ const DateTimePicker = ({
   );
   const timeRef = useRef<HTMLDivElement>(null);
 
-  // Auto-scroll to selected time
   useEffect(() => {
     if (open && timeRef.current && selectedTime) {
       const el = timeRef.current.querySelector(`[data-time="${selectedTime}"]`);
@@ -70,34 +69,33 @@ const DateTimePicker = ({
 
   return (
     <div className="relative">
-      <div className="px-4 py-5 rounded-[14px] bg-white/[0.02] border border-transparent hover:bg-white/[0.04] hover:shadow-[0_0_20px_-8px_hsla(45,79%,46%,0.12)] transition-all duration-300 focus-within:border-primary/40 focus-within:shadow-[0_0_24px_-6px_hsla(45,79%,46%,0.2)]">
-        <label className="flex items-center gap-1.5 text-[7.5px] tracking-[0.35em] uppercase text-primary/55 mb-2.5 font-light">
-          <Icon size={8} strokeWidth={1.5} /> {label}
+      <div className="search-field">
+        <label className="search-label">
+          <Icon size={10} strokeWidth={1.5} /> {label}
         </label>
 
         {disabled ? (
-          <p className="text-[13px] text-foreground/15 font-light tracking-wide">—</p>
+          <p className="text-[14px] text-muted-foreground/40 font-normal">{placeholder}</p>
         ) : (
           <Popover open={open} onOpenChange={setOpen}>
             <PopoverTrigger asChild>
               <button
                 className={cn(
-                  "w-full text-left bg-transparent text-[13px] font-light focus:outline-none tracking-wide cursor-pointer transition-colors duration-200",
+                  "w-full text-left bg-transparent text-[14px] font-normal focus:outline-none cursor-pointer transition-colors duration-200",
                   value
-                    ? "text-foreground/90 hover:text-foreground"
-                    : "text-foreground/20 hover:text-foreground/40"
+                    ? "text-foreground"
+                    : "text-muted-foreground/40"
                 )}
               >
                 {displayValue || placeholder}
               </button>
             </PopoverTrigger>
             <PopoverContent
-              className="w-auto p-0 bg-[hsl(var(--background))]/95 backdrop-blur-xl border border-white/[0.08] rounded-xl shadow-[0_20px_60px_-15px_rgba(0,0,0,0.6)] overflow-hidden"
+              className="w-auto p-0 bg-background border-2 border-border rounded-xl shadow-[0_20px_60px_-15px_hsla(0,0%,0%,0.15)] overflow-hidden"
               align="start"
               sideOffset={12}
             >
               <div className="flex">
-                {/* Calendar */}
                 <div className="p-1">
                   <Calendar
                     mode="single"
@@ -109,13 +107,12 @@ const DateTimePicker = ({
                   />
                 </div>
 
-                {/* Time column */}
                 <div
                   ref={timeRef}
-                  className="border-l border-white/[0.06] w-[76px] max-h-[300px] overflow-y-auto py-1.5 scrollbar-thin"
+                  className="border-l-2 border-border w-[80px] max-h-[300px] overflow-y-auto py-1.5 scrollbar-thin"
                 >
-                  <p className="px-3 pb-2 pt-1 text-[7px] tracking-[0.3em] uppercase text-primary/40 font-light flex items-center gap-1 sticky top-0 bg-[hsl(var(--background))]/95 backdrop-blur-sm z-10">
-                    <Clock size={7} /> Time
+                  <p className="px-3 pb-2 pt-1 text-[8px] tracking-[0.3em] uppercase text-primary font-medium flex items-center gap-1 sticky top-0 bg-background z-10">
+                    <Clock size={8} /> Time
                   </p>
                   {timeOptions.map((time) => (
                     <button
@@ -123,10 +120,10 @@ const DateTimePicker = ({
                       data-time={time}
                       onClick={() => handleTimeSelect(time)}
                       className={cn(
-                        "w-full px-3 py-1.5 text-[11px] text-left font-light tracking-wider transition-all duration-200 cursor-pointer rounded-md mx-auto",
+                        "w-full px-3 py-1.5 text-[12px] text-left font-normal tracking-wider transition-all duration-200 cursor-pointer rounded-md",
                         selectedTime === time
-                          ? "text-primary bg-primary/10 font-normal"
-                          : "text-foreground/50 hover:text-foreground/80 hover:bg-white/[0.04]"
+                          ? "text-primary bg-primary/10 font-semibold"
+                          : "text-foreground/60 hover:text-foreground hover:bg-muted"
                       )}
                     >
                       {time}
@@ -135,19 +132,18 @@ const DateTimePicker = ({
                 </div>
               </div>
 
-              {/* Confirm bar */}
               {value && (
                 <motion.div
                   initial={{ opacity: 0, y: 4 }}
                   animate={{ opacity: 1, y: 0 }}
-                  className="border-t border-white/[0.06] px-4 py-2.5 flex items-center justify-between"
+                  className="border-t-2 border-border px-4 py-3 flex items-center justify-between"
                 >
-                  <span className="text-[11px] text-foreground/60 font-light tracking-wide">
+                  <span className="text-[12px] text-foreground/70 font-medium tracking-wide">
                     {displayValue}
                   </span>
                   <button
                     onClick={() => setOpen(false)}
-                    className="text-[9px] tracking-[0.2em] uppercase text-primary font-medium hover:text-primary/80 transition-colors cursor-pointer"
+                    className="text-[10px] tracking-[0.2em] uppercase text-white font-semibold bg-gradient-gold px-4 py-1.5 rounded-lg hover:shadow-[0_4px_16px_-4px_hsla(45,79%,46%,0.4)] transition-all cursor-pointer"
                   >
                     Confirm
                   </button>
