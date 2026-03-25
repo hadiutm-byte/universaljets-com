@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { MapPin, FileCheck, Phone, Mail, Clock, Send, Shield, Globe } from "lucide-react";
+import { MapPin, FileCheck, Phone, Mail, Clock, Send, Shield, Globe, MessageCircle } from "lucide-react";
 import { Link } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
