@@ -6,52 +6,52 @@
 
 @layer base {
   :root {
-    /* FINAL LUXURY PALETTE — LOCKED */
-    --background: 0 0% 96%;        /* #F5F5F5 */
-    --foreground: 0 0% 4%;         /* #0A0A0A */
+    /* FINAL PALETTE — LOCKED */
+    --background: 210 17% 98%;        /* #F8F9FA */
+    --foreground: 240 4% 3%;          /* #0B0B0C */
 
-    --card: 0 0% 100%;             /* #FFFFFF */
-    --card-foreground: 0 0% 4%;
+    --card: 0 0% 100%;                /* #FFFFFF */
+    --card-foreground: 240 4% 3%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 0 0% 4%;
+    --popover-foreground: 240 4% 3%;
 
-    --primary: 38 52% 53%;         /* #C8A96A */
+    --primary: 38 52% 60%;            /* #C8A96A */
     --primary-foreground: 0 0% 100%;
 
     --secondary: 0 0% 100%;
-    --secondary-foreground: 0 0% 4%;
+    --secondary-foreground: 240 4% 3%;
 
-    --muted: 0 0% 93%;             /* #EEEEEE */
-    --muted-foreground: 0 0% 42%;  /* #6B6B6B */
+    --muted: 210 14% 96%;             /* #F1F3F5 */
+    --muted-foreground: 208 7% 46%;   /* #6C757D */
 
-    --accent: 38 52% 53%;
+    --accent: 38 52% 60%;
     --accent-foreground: 0 0% 100%;
 
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 98%;
 
     --border: 0 0% 0% / 0.08;
-    --input: 0 0% 93%;
-    --ring: 38 52% 53%;
+    --input: 210 14% 96%;
+    --ring: 38 52% 60%;
 
     --radius: 0.75rem;
 
-    --gold: 38 52% 53%;
+    --gold: 38 52% 60%;
     --gold-light: 38 42% 65%;
-    --gold-dark: 38 58% 38%;
-    --charcoal: 240 2% 12%;
-    --charcoal-deep: 240 3% 17%;
-    --midnight: 240 3% 24%;
+    --gold-dark: 38 47% 52%;          /* #B89652 */
+    --charcoal: 220 10% 8%;           /* #121416 */
+    --charcoal-deep: 220 8% 12%;
+    --midnight: 220 6% 18%;
 
     --sidebar-background: 0 0% 98%;
-    --sidebar-foreground: 0 0% 4%;
-    --sidebar-primary: 38 52% 53%;
+    --sidebar-foreground: 240 4% 3%;
+    --sidebar-primary: 38 52% 60%;
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 0 0% 95%;
-    --sidebar-accent-foreground: 0 0% 4%;
+    --sidebar-accent: 210 14% 96%;
+    --sidebar-accent-foreground: 240 4% 3%;
     --sidebar-border: 0 0% 90%;
-    --sidebar-ring: 38 52% 53%;
+    --sidebar-ring: 38 52% 60%;
   }
 }
 
@@ -62,7 +62,7 @@
   body {
     @apply text-foreground font-body antialiased;
     overflow-x: hidden;
-    background: hsl(0, 0%, 96%);
+    background: hsl(210, 17%, 98%);
     min-height: 100vh;
   }
   h1, h2, h3, h4, h5, h6 {
@@ -86,16 +86,16 @@
   }
 
   .section-light {
-    background: hsl(0, 0%, 96%);
+    background: hsl(210, 14%, 96%);
   }
 
   .section-alt {
-    background: hsl(0, 0%, 93%);
+    background: hsl(210, 17%, 98%);
   }
 
   /* === DARK CONTRAST SECTIONS (limited use) === */
   .section-dark {
-    background: hsl(240, 2%, 12%);
+    background: hsl(220, 10%, 8%);
     color: hsl(0, 0%, 100%);
   }
 
