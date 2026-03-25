@@ -117,12 +117,12 @@ const HeroSection = () => {
           transition={{ duration: 1, delay: 0.85 }}
           className="max-w-lg mx-auto mb-12"
         >
-          <p className="text-[13px] md:text-[15px] text-foreground/55 font-extralight leading-[2] tracking-[0.02em] mb-2">
+          <p className="text-[14px] md:text-[16px] text-foreground/65 font-extralight leading-[2] tracking-[0.02em] mb-2">
             Access the entire global private jet market —
             <br className="hidden sm:block" />
             not just one fleet.
           </p>
-          <p className="text-[11px] md:text-[12px] text-foreground/35 font-extralight leading-[1.8] tracking-wide">
+          <p className="text-[12px] md:text-[13px] text-foreground/45 font-extralight leading-[1.8] tracking-wide">
             Better aircraft. Better pricing. Total flexibility.
           </p>
         </motion.div>
