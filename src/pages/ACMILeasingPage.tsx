@@ -172,6 +172,47 @@ const ACMILeasingPage = () => {
         </div>
       </section>
 
+      {/* High-Demand Global Events */}
+      <section className="py-20 md:py-28 relative">
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[hsl(228,22%,4.5%)] to-transparent pointer-events-none" />
+        <div className="container mx-auto px-8 relative z-10 max-w-4xl">
+          <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.8 }} className="text-center mb-16">
+            <p className="text-[9px] tracking-[0.5em] uppercase text-primary/60 mb-6 font-light">Fly for the Moments That Matter</p>
+            <h2 className="text-2xl md:text-4xl font-display font-semibold text-foreground mb-5">High-Demand Global Events</h2>
+            <p className="text-[13px] text-foreground/45 font-extralight leading-[2] max-w-lg mx-auto mb-2">
+              Strategic access to the world's most important events — where aircraft availability, slot coordination, and timing are critical.
+            </p>
+            <p className="text-[11px] text-foreground/30 font-extralight leading-[2] max-w-md mx-auto">
+              Global events, elite destinations, and peak travel periods — where timing, access, and precision define the experience.
+            </p>
+          </motion.div>
+
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+            {[
+              { title: "Hajj & Umrah", desc: "Large-scale pilgrimage operations with dedicated aircraft and crew rotations." },
+              { title: "Formula 1 & Motorsport", desc: "Peak-demand race weekends requiring precise slot coordination and positioning." },
+              { title: "World Cup & Olympics", desc: "Multi-city delegation transport with complex scheduling and VIP protocols." },
+              { title: "Davos & G20 Summits", desc: "Diplomatic and executive movements under tight security and airspace windows." },
+              { title: "Art Basel & Fashion Weeks", desc: "High-net-worth travel surges across multiple global hubs in rapid succession." },
+              { title: "Ramadan & Holiday Peaks", desc: "Seasonal demand spikes requiring advance fleet planning and guaranteed availability." },
+            ].map((event, i) => (
+              <motion.div key={i} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.08, duration: 0.6 }}
+                className="p-6 rounded-lg border border-border/20 bg-card/20 backdrop-blur-sm group hover:border-primary/20 transition-all duration-500"
+              >
+                <h3 className="font-display text-[15px] font-medium text-foreground mb-3 group-hover:text-primary/80 transition-colors duration-500">{event.title}</h3>
+                <p className="text-[11px] text-foreground/35 font-extralight leading-[1.9]">{event.desc}</p>
+              </motion.div>
+            ))}
+          </div>
+
+          <motion.p initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} transition={{ delay: 0.5, duration: 0.8 }}
+            className="text-center text-[11px] tracking-[0.3em] uppercase text-foreground/25 font-extralight mt-14 italic"
+          >
+            When the world moves — we're already there.
+          </motion.p>
+        </div>
+      </section>
+
       {/* Proposal Form */}
       <section id="acmi-form" className="py-20 md:py-28 relative">
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[hsl(228,22%,4.5%)] to-transparent pointer-events-none" />
