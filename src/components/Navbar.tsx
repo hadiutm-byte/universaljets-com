@@ -26,6 +26,7 @@ const overlayLinks = [
   { label: "About", href: "/#why" },
   { label: "Resources", href: "/resources" },
   { label: "Contact", href: "/#cta" },
+];
 
 const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
