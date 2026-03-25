@@ -3,9 +3,7 @@ import { motion, useScroll, useTransform } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import { useMouseParallax } from "@/hooks/useScrollEffects";
 import Logo3D from "@/components/Logo3D";
-
-// Cinematic private jet above clouds — pure aviation feel
-const HERO_VIDEO_URL = "https://videos.pexels.com/video-files/3996580/3996580-hd_1920_1080_30fps.mp4";
+import heroJet from "@/assets/hero-jet.jpg";
 
 const HeroSection = () => {
   const ref = useRef<HTMLElement>(null);
@@ -18,7 +16,7 @@ const HeroSection = () => {
   const logoY = useTransform(scrollYProgress, [0, 1], [0, 120]);
   const logoRotate = useTransform(scrollYProgress, [0, 1], [-7, -14]);
   const foregroundY = useTransform(scrollYProgress, [0, 1], [0, 90]);
-  const videoZoom = useTransform(scrollYProgress, [0, 1], [1, 1.1]);
+  const imgZoom = useTransform(scrollYProgress, [0, 1], [1, 1.1]);
 
   return (
     <section
@@ -30,17 +28,14 @@ const HeroSection = () => {
         className="absolute inset-0 pointer-events-none"
         style={{ scale: bgScale, opacity: bgOpacity }}
       >
-        <motion.div style={{ x: mouse.x * 0.3, y: mouse.y * 0.3, scale: videoZoom }} className="h-full w-full">
-          <video
-            autoPlay
-            muted
-            loop
-            playsInline
+        <motion.div style={{ x: mouse.x * 0.3, y: mouse.y * 0.3, scale: imgZoom }} className="h-full w-full">
+          <img
+            src={heroJet}
+            alt="Private jet flying above clouds at golden hour"
+            width={1920}
+            height={1080}
             className="h-full w-full object-cover"
-            poster=""
-          >
-            <source src={HERO_VIDEO_URL} type="video/mp4" />
-          </video>
+          />
         </motion.div>
       </motion.div>
 
