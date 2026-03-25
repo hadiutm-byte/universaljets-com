@@ -2,26 +2,16 @@ import { motion } from "framer-motion";
 import { ShieldCheck, Globe, Award } from "lucide-react";
 
 const pillars = [
-  {
-    icon: ShieldCheck,
-    title: "Safety First",
-    desc: "We work exclusively with operators that meet internationally recognised safety standards, including ARGUS, WYVERN, and equivalent certifications.",
-  },
-  {
-    icon: Globe,
-    title: "Global Reach",
-    desc: "From major international hubs to remote destinations, our network allows seamless access wherever your journey takes you.",
-  },
-  {
-    icon: Award,
-    title: "Operational Excellence",
-    desc: "Every flight is carefully selected and managed to ensure consistency, reliability, and a flawless client experience from departure to arrival.",
-  },
+  { icon: ShieldCheck, label: "Trusted Standards" },
+  { icon: Globe, label: "Verified Operators" },
+  { icon: Award, label: "Zero Compromise" },
 ];
 
 const TrustedNetworkSection = () => (
-  <section className="section-padding relative overflow-hidden">
-    <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[hsl(228,22%,4%)] to-transparent pointer-events-none" />
+  <section className="relative py-16 md:py-20 overflow-hidden">
+    <div className="absolute inset-0 pointer-events-none opacity-[0.03]" style={{
+      backgroundImage: "radial-gradient(ellipse 50% 40% at 50% 50%, hsla(38,52%,50%,0.2) 0%, transparent 70%)",
+    }} />
 
     <div className="container mx-auto px-8 relative z-10">
       <motion.div
@@ -29,78 +19,49 @@ const TrustedNetworkSection = () => (
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 0.8 }}
-        className="text-center mb-10"
+        className="max-w-2xl mx-auto text-center"
       >
-        <p className="text-[9px] tracking-[0.5em] uppercase text-primary/60 mb-6 font-light">
-          Trusted Global Network
-        </p>
-        <h2 className="text-3xl md:text-5xl lg:text-6xl font-display font-semibold mb-6 text-foreground">
-          Access to the World's{" "}
-          <span className="text-gradient-gold italic">Finest Aircraft</span>
+        <motion.div
+          initial={{ scaleX: 0 }}
+          whileInView={{ scaleX: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+          className="w-10 h-[1px] bg-primary/25 mx-auto mb-10 origin-center"
+        />
+
+        <h2 className="text-2xl md:text-3xl lg:text-4xl font-display font-semibold text-foreground leading-[1.4] mb-4">
+          Trusted standards. Verified operators.
         </h2>
-      </motion.div>
+        <h2 className="text-2xl md:text-3xl lg:text-4xl font-display font-semibold leading-[1.4]">
+          <span className="text-gradient-gold italic">Zero compromise.</span>
+        </h2>
 
-      <motion.div
-        initial={{ opacity: 0 }}
-        whileInView={{ opacity: 1 }}
-        viewport={{ once: true }}
-        transition={{ duration: 1, delay: 0.2 }}
-        className="max-w-2xl mx-auto text-center mb-20"
-      >
-        <p className="text-[13px] text-foreground/45 font-extralight leading-[2.2] mb-4">
-          At Universal Jets, we don't operate aircraft — we curate them.
-        </p>
-        <p className="text-[12px] text-foreground/35 font-extralight leading-[2.2]">
-          Through our global network of carefully vetted operators, we provide access to over 7,000 aircraft worldwide, ensuring every flight meets the highest standards of safety, performance, and service.
-        </p>
-      </motion.div>
+        {/* Pillars */}
+        <div className="flex items-center justify-center gap-8 md:gap-12 mt-12">
+          {pillars.map((p, i) => (
+            <motion.div
+              key={p.label}
+              initial={{ opacity: 0, y: 10 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.2 + i * 0.1, duration: 0.5 }}
+              className="flex items-center gap-2.5"
+            >
+              <p.icon className="w-4 h-4 text-primary/40" strokeWidth={1.2} />
+              <span className="text-[10px] tracking-[0.15em] uppercase text-foreground/35 font-light">
+                {p.label}
+              </span>
+            </motion.div>
+          ))}
+        </div>
 
-      <div className="divider-gold mb-20" />
-
-      <motion.p
-        initial={{ opacity: 0 }}
-        whileInView={{ opacity: 1 }}
-        viewport={{ once: true }}
-        className="text-center text-[9px] tracking-[0.5em] uppercase text-gold/60 mb-16 font-light"
-      >
-        Our Three Pillars
-      </motion.p>
-
-      <div className="grid md:grid-cols-3 gap-10 max-w-5xl mx-auto mb-20">
-        {pillars.map((p, i) => (
-          <motion.div
-            key={p.title}
-            initial={{ opacity: 0, y: 25 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: i * 0.12, duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-            className="text-center group"
-          >
-            <div className="w-16 h-16 rounded-full luxury-border flex items-center justify-center mx-auto mb-8 group-hover:glow-subtle transition-all duration-700">
-              <p.icon className="w-6 h-6 text-gold/60" strokeWidth={1.2} />
-            </div>
-            <h3 className="font-display text-lg mb-4">{p.title}</h3>
-            <p className="text-[12px] text-muted-foreground font-extralight leading-[2.1]">
-              {p.desc}
-            </p>
-          </motion.div>
-        ))}
-      </div>
-
-      <motion.div
-        initial={{ opacity: 0, y: 15 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.8, delay: 0.1 }}
-        className="max-w-2xl mx-auto text-center mt-20"
-      >
-        <div className="divider-gold mb-16" />
-        <p className="text-[13px] text-foreground/50 font-extralight leading-[2] mb-4">
-          Access the entire global private jet market —<br />not just one fleet.
-        </p>
-        <p className="text-[11px] text-foreground/30 font-extralight leading-[2] tracking-wide">
-          Better aircraft. Better pricing. Total flexibility.
-        </p>
+        <motion.div
+          initial={{ scaleX: 0 }}
+          whileInView={{ scaleX: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6, delay: 0.3 }}
+          className="w-10 h-[1px] bg-primary/25 mx-auto mt-12 origin-center"
+        />
       </motion.div>
     </div>
   </section>
