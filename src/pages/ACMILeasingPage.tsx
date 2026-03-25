@@ -358,6 +358,10 @@ const ACMILeasingPage = () => {
               <Textarea value={form.details} onChange={e => update("details", e.target.value)} rows={4} className="bg-input/50 border-border/30 text-foreground/80 text-[13px] resize-none" placeholder="Routes, schedule, capacity requirements, regulatory considerations..." />
             </div>
 
+            <p className="text-[10px] text-foreground/25 font-extralight leading-[1.8] text-center">
+              Our team reviews every request manually to secure the most suitable aircraft, routing, and pricing based on your requirements.
+            </p>
+
             <div className="flex flex-col sm:flex-row gap-4">
               <Button type="submit" disabled={loading} className="flex-1 py-6 bg-gradient-gold text-primary-foreground text-[11px] tracking-[0.25em] uppercase font-medium hover:shadow-[0_0_30px_-8px_hsla(38,52%,50%,0.45)] transition-all duration-500">
                 <FileText className="w-4 h-4 mr-2" />
