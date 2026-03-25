@@ -26,6 +26,7 @@ const Index = () => (
       <FleetSection />
       <EmptyLegsMap />
       <FlyYourWaySection />
+      <TrustedNetworkSection />
       <ExperienceSection />
       <ConciergeSection />
       <CTASection />
