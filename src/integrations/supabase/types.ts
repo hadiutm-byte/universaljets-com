@@ -98,6 +98,81 @@ export type Database = {
         }
         Relationships: []
       }
+      bd_opportunities: {
+        Row: {
+          assigned_to: string | null
+          company_name: string | null
+          contact_email: string | null
+          contact_name: string | null
+          contact_phone: string | null
+          created_at: string
+          created_by: string | null
+          estimated_value: number | null
+          handed_to_client_id: string | null
+          handed_to_sales_at: string | null
+          id: string
+          last_contact_date: string | null
+          market: string | null
+          meeting_notes: string | null
+          name: string
+          next_follow_up: string | null
+          notes: string | null
+          opportunity_type: string
+          sector: string | null
+          source: string | null
+          status: string
+          updated_at: string | null
+        }
+        Insert: {
+          assigned_to?: string | null
+          company_name?: string | null
+          contact_email?: string | null
+          contact_name?: string | null
+          contact_phone?: string | null
+          created_at?: string
+          created_by?: string | null
+          estimated_value?: number | null
+          handed_to_client_id?: string | null
+          handed_to_sales_at?: string | null
+          id?: string
+          last_contact_date?: string | null
+          market?: string | null
+          meeting_notes?: string | null
+          name: string
+          next_follow_up?: string | null
+          notes?: string | null
+          opportunity_type?: string
+          sector?: string | null
+          source?: string | null
+          status?: string
+          updated_at?: string | null
+        }
+        Update: {
+          assigned_to?: string | null
+          company_name?: string | null
+          contact_email?: string | null
+          contact_name?: string | null
+          contact_phone?: string | null
+          created_at?: string
+          created_by?: string | null
+          estimated_value?: number | null
+          handed_to_client_id?: string | null
+          handed_to_sales_at?: string | null
+          id?: string
+          last_contact_date?: string | null
+          market?: string | null
+          meeting_notes?: string | null
+          name?: string
+          next_follow_up?: string | null
+          notes?: string | null
+          opportunity_type?: string
+          sector?: string | null
+          source?: string | null
+          status?: string
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
       candidates: {
         Row: {
           ai_score: number | null
