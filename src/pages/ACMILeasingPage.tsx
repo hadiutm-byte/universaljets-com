@@ -442,7 +442,7 @@ const ACMILeasingPage = () => {
               Designed for frequent flyers, corporate executives, and UHNW individuals who value consistency, priority, and transparency.
             </p>
             <p className="text-[10px] tracking-[0.2em] text-foreground/25 font-extralight">
-              Priority access • Fixed hourly rates • No ownership commitment
+              Priority aircraft access • Fixed hourly rates • No ownership complexity • Global fleet flexibility
             </p>
           </motion.div>
 
