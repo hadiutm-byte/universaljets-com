@@ -110,6 +110,28 @@ const FlyYourWaySection = () => (
           </motion.div>
         ))}
       </div>
+
+      {/* Advisor guidance CTA */}
+      <motion.div
+        initial={{ opacity: 0, y: 15 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.8, delay: 0.3 }}
+        className="text-center mt-20 max-w-lg mx-auto"
+      >
+        <p className="text-[13px] text-foreground/50 font-extralight leading-[2] mb-2">
+          Not sure which option fits you best?
+        </p>
+        <p className="text-[11px] text-foreground/30 font-extralight leading-[2] mb-8">
+          Our advisors will guide you based on your travel frequency, routes, and preferences.
+        </p>
+        <Link
+          to="/#cta"
+          className="inline-flex items-center gap-2 px-10 py-3.5 bg-gradient-gold text-primary-foreground text-[9px] tracking-[0.25em] uppercase font-medium rounded-sm hover:shadow-[0_0_30px_-8px_hsla(38,52%,50%,0.45)] transition-all duration-500"
+        >
+          Speak to an Advisor <ArrowRight size={10} />
+        </Link>
+      </motion.div>
     </div>
   </section>
 );
