@@ -113,6 +113,15 @@ const TrustedNetworkSection = () => (
           You access the entire market.
         </p>
 
+        <div className="mt-10 space-y-2">
+          <p className="text-[12px] text-foreground/40 font-extralight leading-[2]">
+            In private aviation, access is everything.
+          </p>
+          <p className="text-[13px] text-foreground/55 font-medium italic">
+            Our partnerships give you that advantage.
+          </p>
+        </div>
+
         <motion.div
           initial={{ scaleX: 0 }}
           whileInView={{ scaleX: 1 }}
