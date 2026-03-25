@@ -2,6 +2,7 @@ import { useEffect, useState, useCallback } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import CrmTable from "@/components/crm/CrmTable";
 import { StatusBadge } from "@/components/crm/StatusBadge";
+import { TemplateDownloadCard, charterContractTemplate } from "@/components/crm/CrmTemplates";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { toast } from "sonner";
 import type { Database } from "@/integrations/supabase/types";
