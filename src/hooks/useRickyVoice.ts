@@ -17,13 +17,16 @@ export function useRickyVoice() {
     if (!("speechSynthesis" in window)) return null;
 
     const voices = window.speechSynthesis.getVoices();
+    // Prefer younger, warmer voices — not old/robotic
     const priority = [
-      "Google UK English Male",
-      "Daniel",
+      "Samantha",        // younger female, warm
       "Google UK English Female",
-      "Samantha",
-      "Alex",
-      "Karen",
+      "Karen",           // warm Australian
+      "Microsoft Mark",  // younger male
+      "Google UK English Male",
+      "Aaron",           // younger male
+      "Tessa",           // younger female
+      "Reed",            // younger male
     ];
 
     for (const name of priority) {
