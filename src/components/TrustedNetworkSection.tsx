@@ -66,6 +66,30 @@ const TrustedNetworkSection = () => (
           Allowing fast aircraft positioning and global coverage.
         </p>
 
+        {/* Specialized partnerships */}
+        <div className="w-full h-[1px] bg-border/8 my-12" />
+
+        <p className="text-[10px] tracking-[0.4em] uppercase text-primary/45 font-light mb-5">
+          Specialized partnerships for
+        </p>
+        <div className="flex flex-wrap items-center justify-center gap-4 md:gap-6 mb-6">
+          {["Cargo operations", "Humanitarian missions", "Diplomatic and government flights"].map((item, i) => (
+            <motion.span
+              key={item}
+              initial={{ opacity: 0, y: 8 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.2 + i * 0.08, duration: 0.5 }}
+              className="text-[12px] text-foreground/50 font-light tracking-wide"
+            >
+              {item}
+            </motion.span>
+          ))}
+        </div>
+        <p className="text-[11px] text-foreground/30 font-extralight">
+          Handled with precision, discretion, and operational expertise.
+        </p>
+
         <motion.div
           initial={{ scaleX: 0 }}
           whileInView={{ scaleX: 1 }}
