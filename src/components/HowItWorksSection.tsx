@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { Send, Globe, Plane } from "lucide-react";
-import { FadeReveal, GlassCard } from "./ui/ScrollEffects";
+import { FadeReveal, StaggerContainer, StaggerItem, GlassCard, FloatingElement } from "./ui/ScrollEffects";
 
 const steps = [
   { num: "01", icon: Send, title: "Tell Us Your Mission" },
@@ -29,17 +29,15 @@ const HowItWorksSection = () => (
         </h2>
       </FadeReveal>
 
-      <div className="max-w-4xl mx-auto grid md:grid-cols-3 gap-8 md:gap-12">
+      <StaggerContainer className="max-w-4xl mx-auto grid md:grid-cols-3 gap-8 md:gap-12">
         {steps.map((step, i) => (
-          <FadeReveal key={step.num} delay={i * 0.15}>
-            <GlassCard className="p-8 text-center">
-              <motion.div
-                whileHover={{ scale: 1.1 }}
-                transition={{ type: "spring", stiffness: 300 }}
-                className="w-16 h-16 rounded-full glass-panel flex items-center justify-center mx-auto mb-6"
-              >
-                <step.icon className="w-5 h-5 text-primary/60" strokeWidth={1.2} />
-              </motion.div>
+          <StaggerItem key={step.num}>
+            <GlassCard breathe className="p-8 text-center h-full">
+              <FloatingElement amplitude={5} speed={4 + i}>
+                <div className="w-16 h-16 rounded-full glass-panel flex items-center justify-center mx-auto mb-6">
+                  <step.icon className="w-5 h-5 text-primary/60" strokeWidth={1.2} />
+                </div>
+              </FloatingElement>
               <p className="text-[10px] tracking-[0.3em] text-primary/40 font-light mb-3">
                 {step.num}
               </p>
@@ -47,11 +45,10 @@ const HowItWorksSection = () => (
                 {step.title}
               </h3>
             </GlassCard>
-          </FadeReveal>
+          </StaggerItem>
         ))}
-      </div>
+      </StaggerContainer>
 
-      {/* Connecting line — desktop */}
       <div className="hidden md:block max-w-4xl mx-auto mt-8">
         <div className="divider-shimmer" />
       </div>
