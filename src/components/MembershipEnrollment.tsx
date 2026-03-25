@@ -98,8 +98,11 @@ const MembershipEnrollment = () => {
               Join the Universal Jets{" "}
               <span className="text-gradient-gold italic">Private Access Network</span>
             </h2>
-            <p className="text-[13px] md:text-[14px] text-foreground/40 font-extralight leading-[2] max-w-xl mx-auto">
+            <p className="text-[13px] md:text-[14px] text-foreground/40 font-extralight leading-[2] max-w-xl mx-auto mb-2">
               Apply online and receive your digital membership card instantly.
+            </p>
+            <p className="text-[11px] text-foreground/25 font-extralight tracking-wide">
+              This is your gateway to global private aviation.
             </p>
           </motion.div>
 
