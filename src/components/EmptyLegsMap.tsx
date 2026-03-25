@@ -102,16 +102,24 @@ const EmptyLegsMap = () => {
     return raw.filter((l) => l.departure && getRegionForCountry(l.departure.country) === activeRegion);
   }, [data, activeRegion]);
 
-  // For map, only show legs with valid coordinates
+  // For map, only show legs with valid coordinates — strict checks for undefined AND null
   const mappableLegs = useMemo(
-    () => legs.filter((l) => l.departure?.lat !== null && l.departure?.lng !== null && l.arrival?.lat !== null && l.arrival?.lng !== null),
+    () => legs.filter((l) => {
+      const dep = l.departure;
+      const arr = l.arrival;
+      return dep != null && arr != null
+        && typeof dep.lat === "number" && !isNaN(dep.lat)
+        && typeof dep.lng === "number" && !isNaN(dep.lng)
+        && typeof arr.lat === "number" && !isNaN(arr.lat)
+        && typeof arr.lng === "number" && !isNaN(arr.lng);
+    }),
     [legs]
   );
 
   const handleLegClick = useCallback((leg: EmptyLeg) => setSelectedLeg(leg), []);
 
-  const toMapCoords = useCallback((lat: number | null, lng: number | null): [number, number] => {
-    if (lat === null || lng === null) return [50, 22.5];
+  const toMapCoords = useCallback((lat: number | null | undefined, lng: number | null | undefined): [number, number] => {
+    if (lat == null || lng == null || isNaN(lat) || isNaN(lng)) return [50, 22.5];
     return [((lng + 180) / 360) * 100, ((90 - lat) / 180) * 45];
   }, []);
 

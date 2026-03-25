@@ -28,7 +28,7 @@ export const clampMapViewBox = (viewBox: MapViewBox): MapViewBox => {
 
 export const fitMapViewToLegs = (
   legs: EmptyLeg[],
-  toMapCoords: (lat: number | null, lng: number | null) => [number, number]
+  toMapCoords: (lat: number | null | undefined, lng: number | null | undefined) => [number, number]
 ): MapViewBox => {
   const points = legs.flatMap((leg) => {
     if (!leg.departure || !leg.arrival) return [];
