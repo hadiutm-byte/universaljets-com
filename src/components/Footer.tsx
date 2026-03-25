@@ -7,6 +7,10 @@ const partnerLogos = [
   "Rolls-Royce",
   "Hertz Prestige",
   "Aman Resorts",
+  "St. Regis",
+  "Bulgari Hotels",
+  "Bentley",
+  "Emirates Palace",
 ];
 
 const footerLinks = [
@@ -23,20 +27,27 @@ const Footer = () => (
     <div className="absolute inset-0 opacity-[0.015] pointer-events-none" style={{ backgroundImage: "url(\"data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E\")", backgroundRepeat: "repeat" }} />
 
     <div className="container mx-auto px-8 relative z-10">
-      {/* Partner Logos */}
-      <div className="mb-16">
+      {/* Partner Logo Carousel */}
+      <div className="mb-16 overflow-hidden">
         <p className="text-center text-[8px] tracking-[0.4em] uppercase text-foreground/15 font-extralight mb-8">
-          Trusted Partners
+          Our Partners
         </p>
-        <div className="flex flex-wrap items-center justify-center gap-8 md:gap-12">
-          {partnerLogos.map((name) => (
-            <span
-              key={name}
-              className="text-[10px] tracking-[0.2em] uppercase text-foreground/15 font-extralight hover:text-foreground/30 transition-colors duration-500"
-            >
-              {name}
-            </span>
-          ))}
+        <div className="relative">
+          {/* Fade edges */}
+          <div className="absolute left-0 top-0 bottom-0 w-20 bg-gradient-to-r from-background to-transparent z-10 pointer-events-none" />
+          <div className="absolute right-0 top-0 bottom-0 w-20 bg-gradient-to-l from-background to-transparent z-10 pointer-events-none" />
+
+          <div className="flex animate-scroll-logos">
+            {/* Double the logos for seamless loop */}
+            {[...partnerLogos, ...partnerLogos].map((name, i) => (
+              <span
+                key={`${name}-${i}`}
+                className="flex-shrink-0 mx-8 md:mx-12 text-[10px] md:text-[11px] tracking-[0.25em] uppercase text-foreground/12 font-extralight whitespace-nowrap select-none"
+              >
+                {name}
+              </span>
+            ))}
+          </div>
         </div>
       </div>
 
