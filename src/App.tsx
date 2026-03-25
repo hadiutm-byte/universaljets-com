@@ -44,6 +44,8 @@ import PaymentsPage from "./pages/crm/PaymentsPage.tsx";
 import CreditsPage from "./pages/crm/CreditsPage.tsx";
 import BankReconciliationPage from "./pages/crm/BankReconciliationPage.tsx";
 import FinancialStatementsPage from "./pages/crm/FinancialStatementsPage.tsx";
+import ClientFinanceHistoryPage from "./pages/crm/ClientFinanceHistoryPage.tsx";
+import SupplierHistoryPage from "./pages/crm/SupplierHistoryPage.tsx";
 import CareersPage from "./pages/CareersPage.tsx";
 import ContactPage from "./pages/ContactPage.tsx";
 import CharterPage from "./pages/CharterPage.tsx";
