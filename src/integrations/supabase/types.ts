@@ -56,6 +56,48 @@ export type Database = {
         }
         Relationships: []
       }
+      bank_transactions: {
+        Row: {
+          amount: number
+          bank_account: string
+          created_at: string
+          currency: string
+          description: string | null
+          id: string
+          matched_payment_id: string | null
+          reconciled: boolean | null
+          reference: string | null
+          transaction_date: string
+          transaction_type: string
+        }
+        Insert: {
+          amount?: number
+          bank_account?: string
+          created_at?: string
+          currency?: string
+          description?: string | null
+          id?: string
+          matched_payment_id?: string | null
+          reconciled?: boolean | null
+          reference?: string | null
+          transaction_date?: string
+          transaction_type?: string
+        }
+        Update: {
+          amount?: number
+          bank_account?: string
+          created_at?: string
+          currency?: string
+          description?: string | null
+          id?: string
+          matched_payment_id?: string | null
+          reconciled?: boolean | null
+          reference?: string | null
+          transaction_date?: string
+          transaction_type?: string
+        }
+        Relationships: []
+      }
       candidates: {
         Row: {
           ai_score: number | null
@@ -288,6 +330,57 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      credit_notes: {
+        Row: {
+          amount: number
+          client_id: string | null
+          created_at: string
+          created_by: string | null
+          currency: string
+          id: string
+          issued_date: string | null
+          note_type: string
+          reason: string | null
+          related_invoice_id: string | null
+          related_payment_id: string | null
+          status: string
+          supplier_name: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          amount?: number
+          client_id?: string | null
+          created_at?: string
+          created_by?: string | null
+          currency?: string
+          id?: string
+          issued_date?: string | null
+          note_type?: string
+          reason?: string | null
+          related_invoice_id?: string | null
+          related_payment_id?: string | null
+          status?: string
+          supplier_name?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          amount?: number
+          client_id?: string | null
+          created_at?: string
+          created_by?: string | null
+          currency?: string
+          id?: string
+          issued_date?: string | null
+          note_type?: string
+          reason?: string | null
+          related_invoice_id?: string | null
+          related_payment_id?: string | null
+          status?: string
+          supplier_name?: string | null
+          updated_at?: string | null
+        }
+        Relationships: []
       }
       flight_requests: {
         Row: {
@@ -658,6 +751,69 @@ export type Database = {
           placeholders?: string[] | null
           subject?: string | null
           updated_at?: string
+        }
+        Relationships: []
+      }
+      payments: {
+        Row: {
+          amount: number
+          client_id: string | null
+          created_at: string
+          created_by: string | null
+          currency: string
+          id: string
+          notes: string | null
+          payment_date: string | null
+          payment_method: string | null
+          payment_type: string
+          reconciled: boolean | null
+          reconciled_at: string | null
+          reference: string | null
+          related_entity_id: string | null
+          related_entity_type: string | null
+          status: string
+          supplier_name: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          amount?: number
+          client_id?: string | null
+          created_at?: string
+          created_by?: string | null
+          currency?: string
+          id?: string
+          notes?: string | null
+          payment_date?: string | null
+          payment_method?: string | null
+          payment_type?: string
+          reconciled?: boolean | null
+          reconciled_at?: string | null
+          reference?: string | null
+          related_entity_id?: string | null
+          related_entity_type?: string | null
+          status?: string
+          supplier_name?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          amount?: number
+          client_id?: string | null
+          created_at?: string
+          created_by?: string | null
+          currency?: string
+          id?: string
+          notes?: string | null
+          payment_date?: string | null
+          payment_method?: string | null
+          payment_type?: string
+          reconciled?: boolean | null
+          reconciled_at?: string | null
+          reference?: string | null
+          related_entity_id?: string | null
+          related_entity_type?: string | null
+          status?: string
+          supplier_name?: string | null
+          updated_at?: string | null
         }
         Relationships: []
       }
