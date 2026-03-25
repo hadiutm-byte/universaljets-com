@@ -20,6 +20,7 @@ const items = [
   { title: "Contracts", url: "/crm/contracts", icon: ScrollText },
   { title: "Invoices", url: "/crm/invoices", icon: Receipt },
   { title: "Trips", url: "/crm/trips", icon: Map },
+  { title: "Outreach", url: "/crm/outreach", icon: MessageSquare },
 ];
 
 export function CrmSidebar() {
