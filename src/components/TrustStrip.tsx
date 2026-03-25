@@ -2,13 +2,11 @@ import { motion } from "framer-motion";
 import { Clock, Globe, Headphones, ShieldCheck } from "lucide-react";
 
 const items = [
-  { icon: Clock, text: "18+ Years Experience" },
-  { icon: Globe, text: "Global Operator Network" },
-  { icon: Headphones, text: "24/7 Availability" },
-  { icon: ShieldCheck, text: "Safety-First Sourcing" },
+  { icon: ShieldCheck, text: "WYVERN Certified Broker" },
+  { icon: Clock, text: "18+ Years of Private Aviation Expertise" },
+  { icon: Globe, text: "Access to 7,000+ Aircraft Worldwide" },
+  { icon: Headphones, text: "24/7 Global Flight Support" },
 ];
-
-const badges = ["WYVERN", "ARGUS", "DCAA"];
 
 const TrustStrip = () => (
   <section className="relative z-10 py-20 md:py-24">
@@ -21,33 +19,19 @@ const TrustStrip = () => (
         transition={{ duration: 1 }}
         className="flex flex-col items-center gap-10"
       >
-        {/* Trust metrics */}
-        <div className="flex flex-col md:flex-row items-center justify-center gap-10 md:gap-20">
+        <div className="grid grid-cols-2 md:flex md:flex-row items-center justify-center gap-8 md:gap-16">
           {items.map((item, i) => (
             <div key={i} className="flex items-center gap-3">
               <item.icon className="w-4 h-4 text-primary/60" strokeWidth={1.2} />
-              <span className="text-[10px] md:text-[11px] tracking-[0.3em] uppercase text-foreground/50 font-extralight">
+              <span className="text-[10px] md:text-[11px] tracking-[0.25em] uppercase text-foreground/50 font-extralight">
                 {item.text}
               </span>
             </div>
           ))}
         </div>
 
-        {/* Safety badges */}
-        <div className="flex items-center gap-8">
-          {badges.map((badge) => (
-            <div key={badge} className="flex items-center gap-2">
-              <ShieldCheck className="w-3.5 h-3.5 text-primary/40" strokeWidth={1.2} />
-              <span className="text-[8px] tracking-[0.4em] uppercase text-foreground/25 font-extralight">
-                {badge}
-              </span>
-            </div>
-          ))}
-        </div>
-
-        {/* Tagline */}
         <p className="text-[9px] tracking-[0.3em] text-foreground/20 font-extralight uppercase text-center">
-          Trusted by global executives, family offices, and UHNW clients
+          Trusted by global executives, royal families, and private clients
         </p>
       </motion.div>
       <div className="divider-gold mt-14" />
