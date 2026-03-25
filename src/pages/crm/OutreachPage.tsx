@@ -83,6 +83,10 @@ const OutreachPage = () => {
 
   return (
     <div className="space-y-6">
+      <div>
+        <p className="text-[10px] tracking-[0.3em] uppercase text-muted-foreground/50 font-medium mb-2">Templates</p>
+        <TemplateDownloadCard template={membershipTermsTemplate} />
+      </div>
       <div className="flex items-center justify-between">
           <div>
             <h1 className="text-2xl font-display font-semibold text-foreground">Outreach Templates</h1>

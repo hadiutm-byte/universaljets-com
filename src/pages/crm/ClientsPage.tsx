@@ -48,7 +48,7 @@ const ClientsPage = () => {
         onDelete={handleDelete}
       />
       <ClientForm open={formOpen} onOpenChange={setFormOpen} onSuccess={fetch} initial={editing} />
-    </>
+    </div>
   );
 };
 
