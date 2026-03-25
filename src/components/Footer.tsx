@@ -60,10 +60,14 @@ const Footer = () => (
             <span className="text-gradient-gold font-normal">Jets</span>
           </h2>
         </Link>
-        <p className="text-[14px] text-white/50 max-w-[300px] leading-[1.6] font-light">
+        <p className="text-[14px] text-white/50 max-w-[300px] leading-[1.6] font-light mb-4">
           Private aviation, redefined.<br />
           Seamless global charter solutions for those who expect more.
         </p>
+        <div className="space-y-2">
+          <a href="mailto:sales@universaljets.com" className="block text-[13px] text-white/60 hover:text-primary transition-colors">sales@universaljets.com</a>
+          <a href="https://wa.me/447888999944" target="_blank" rel="noopener noreferrer" className="block text-[13px] text-white/60 hover:text-primary transition-colors">+44 7888 999944</a>
+        </div>
       </div>
 
       <div className="flex flex-wrap gap-12 lg:gap-20">
