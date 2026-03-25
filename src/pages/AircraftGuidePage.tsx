@@ -197,10 +197,9 @@ const AircraftGuidePage = () => {
                   <div className="flex gap-2">
                     <button
                       onClick={() => handleRequestAircraft(ac.name)}
-                      disabled={requestingAircraft === ac.name}
-                      className="flex-1 py-2.5 bg-gradient-gold text-primary-foreground text-[9px] tracking-[0.2em] uppercase font-medium rounded-lg hover:shadow-[0_0_30px_-8px_hsla(45,79%,46%,0.4)] transition-all duration-500 disabled:opacity-50"
+                      className="flex-1 py-2.5 bg-gradient-gold text-primary-foreground text-[9px] tracking-[0.2em] uppercase font-medium rounded-lg hover:shadow-[0_0_30px_-8px_hsla(45,79%,46%,0.4)] transition-all duration-500"
                     >
-                      {requestingAircraft === ac.name ? "Submitting..." : "Request This Aircraft"}
+                      Request This Aircraft
                     </button>
                   </div>
                 </div>
