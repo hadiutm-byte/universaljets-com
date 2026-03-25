@@ -110,9 +110,7 @@ const Navbar = () => {
           <div className="flex items-center gap-4 flex-shrink-0">
             <Link
               to="/auth"
-              className={`hidden xl:inline-block text-[9px] tracking-[0.2em] hover:text-primary/70 transition-colors duration-500 uppercase font-light ${
-                scrolled ? "text-foreground/40" : "text-white/50"
-              }`}
+              className="hidden xl:inline-block text-[10px] tracking-[0.2em] hover:text-primary/70 transition-colors duration-500 uppercase font-light text-foreground/40"
             >
               Members Login
             </Link>
