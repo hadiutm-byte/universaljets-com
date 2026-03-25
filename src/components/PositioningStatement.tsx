@@ -32,13 +32,17 @@ const PositioningStatement = () => (
         </p>
 
         <h2 className="text-2xl md:text-4xl lg:text-[2.8rem] font-display font-semibold text-foreground leading-[1.3] mb-6">
-          We don't sell aircraft.
+          We don't operate aircraft.
         </h2>
-        <h2 className="text-2xl md:text-4xl lg:text-[2.8rem] font-display font-semibold leading-[1.3]">
+        <h2 className="text-2xl md:text-4xl lg:text-[2.8rem] font-display font-semibold leading-[1.3] mb-8">
           <span className="text-gradient-gold italic">
-            We unlock global aviation access.
+            We control access to the entire global private aviation market.
           </span>
         </h2>
+
+        <p className="text-[12px] md:text-[13px] text-foreground/35 font-extralight leading-[2.2] max-w-xl mx-auto">
+          Through real-time availability, operator relationships, and strategic positioning, we secure the right aircraft, at the right price, for every mission.
+        </p>
 
         <motion.div
           initial={{ scaleX: 0 }}
