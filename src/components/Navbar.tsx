@@ -98,9 +98,7 @@ const Navbar = () => {
               <NavLink
                 key={l.label}
                 href={l.href}
-                className={`text-[9px] tracking-[0.22em] hover:text-primary transition-colors duration-500 uppercase font-light relative group whitespace-nowrap ${
-                  scrolled ? "text-foreground/50" : "text-white/60"
-                }`}
+                className={`text-[10px] tracking-[0.22em] hover:text-primary transition-colors duration-500 uppercase font-light relative group whitespace-nowrap text-foreground/50`}
               >
                 {l.label}
                 <span className="absolute -bottom-1 left-0 w-0 h-[0.5px] bg-primary/60 group-hover:w-full transition-all duration-500" />
