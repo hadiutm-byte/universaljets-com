@@ -1,4 +1,7 @@
 import { motion } from "framer-motion";
+import { MapPin } from "lucide-react";
+
+const hubs = ["Dubai", "London", "Geneva", "Paris", "New York", "Riyadh"];
 
 const TrustedNetworkSection = () => (
   <section className="relative py-16 md:py-20 overflow-hidden">
@@ -36,8 +39,31 @@ const TrustedNetworkSection = () => (
         <p className="text-[12px] md:text-[13px] text-foreground/45 font-light leading-[2] max-w-md mx-auto mb-3">
           This is not a supplier list.
         </p>
-        <p className="text-[12px] md:text-[13px] text-foreground/50 font-light leading-[2] max-w-md mx-auto">
+        <p className="text-[12px] md:text-[13px] text-foreground/50 font-light leading-[2] max-w-md mx-auto mb-12">
           This is access to the global private aviation ecosystem.
+        </p>
+
+        {/* Hub cities */}
+        <p className="text-[10px] tracking-[0.4em] uppercase text-primary/45 font-light mb-6">
+          Our partnerships span key aviation hubs
+        </p>
+        <div className="flex flex-wrap items-center justify-center gap-4 md:gap-6 mb-8">
+          {hubs.map((hub, i) => (
+            <motion.div
+              key={hub}
+              initial={{ opacity: 0, y: 8 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.2 + i * 0.06, duration: 0.5 }}
+              className="flex items-center gap-2"
+            >
+              <MapPin className="w-3 h-3 text-primary/35" strokeWidth={1.2} />
+              <span className="text-[12px] text-foreground/50 font-light tracking-wide">{hub}</span>
+            </motion.div>
+          ))}
+        </div>
+        <p className="text-[11px] text-foreground/30 font-extralight">
+          Allowing fast aircraft positioning and global coverage.
         </p>
 
         <motion.div
