@@ -226,20 +226,26 @@ const ACMILeasingPage = () => {
 
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
             {[
-              { region: "French Riviera", tag: "Nice · Cannes · Monaco" },
-              { region: "Greek Islands", tag: "Mykonos · Santorini · Athens" },
-              { region: "Swiss Alps", tag: "Geneva · Zurich · St. Moritz" },
-              { region: "Gulf States", tag: "Dubai · Riyadh · Jeddah" },
-              { region: "Caribbean", tag: "St. Barts · Turks & Caicos" },
-              { region: "East Africa", tag: "Nairobi · Zanzibar · Seychelles" },
-              { region: "London & Paris", tag: "Farnborough · Le Bourget" },
-              { region: "Maldives & Indian Ocean", tag: "Malé · Mauritius" },
+              { region: "French Riviera", tag: "Nice · Cannes · Monaco", demand: "Very High", booking: "2–4 weeks", airports: "Nice, Cannes Mandelieu", aircraft: "Midsize / Heavy Jets" },
+              { region: "Greek Islands", tag: "Mykonos · Santorini · Athens", demand: "High", booking: "1–3 weeks", airports: "Mykonos, Santorini, Athens Intl", aircraft: "Light / Midsize Jets" },
+              { region: "Swiss Alps", tag: "Geneva · Zurich · St. Moritz", demand: "Very High", booking: "2–4 weeks", airports: "Geneva, Zurich, Samedan", aircraft: "Midsize / Heavy Jets" },
+              { region: "Gulf States", tag: "Dubai · Riyadh · Jeddah", demand: "Extreme", booking: "3–6 weeks", airports: "DWC, OERK, OEJN", aircraft: "Heavy / VIP Airliners" },
+              { region: "Caribbean", tag: "St. Barts · Turks & Caicos", demand: "High", booking: "2–4 weeks", airports: "SBH, PLS, SXM", aircraft: "Light / Midsize Jets" },
+              { region: "East Africa", tag: "Nairobi · Zanzibar · Seychelles", demand: "Moderate", booking: "1–2 weeks", airports: "JKIA, ZNZ, SEZ", aircraft: "Midsize / Heavy Jets" },
+              { region: "London & Paris", tag: "Farnborough · Le Bourget", demand: "Very High", booking: "1–3 weeks", airports: "Farnborough, Le Bourget, Luton", aircraft: "All Categories" },
+              { region: "Maldives & Indian Ocean", tag: "Malé · Mauritius", demand: "High", booking: "2–4 weeks", airports: "Velana Intl, SSR Intl", aircraft: "Heavy / Ultra-Long Range" },
             ].map((d, i) => (
               <motion.div key={i} initial={{ opacity: 0, scale: 0.95 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true }} transition={{ delay: i * 0.06, duration: 0.5 }}
-                className="p-5 rounded-lg border border-border/20 bg-card/20 backdrop-blur-sm text-center group hover:border-primary/20 transition-all duration-500"
+                className="p-5 rounded-lg border border-border/20 bg-card/20 backdrop-blur-sm group hover:border-primary/20 transition-all duration-500"
               >
-                <p className="font-display text-[14px] font-medium text-foreground mb-2 group-hover:text-primary/80 transition-colors duration-500">{d.region}</p>
-                <p className="text-[10px] text-foreground/30 font-extralight tracking-wide">{d.tag}</p>
+                <p className="font-display text-[14px] font-medium text-foreground mb-1 group-hover:text-primary/80 transition-colors duration-500">{d.region}</p>
+                <p className="text-[10px] text-foreground/30 font-extralight tracking-wide mb-4">{d.tag}</p>
+                <div className="space-y-1.5 text-[10px] text-foreground/35 font-extralight">
+                  <div className="flex justify-between"><span className="text-foreground/25">Demand</span><span className="text-primary/60 font-light">{d.demand}</span></div>
+                  <div className="flex justify-between"><span className="text-foreground/25">Booking</span><span>{d.booking}</span></div>
+                  <div className="flex justify-between"><span className="text-foreground/25">Airports</span><span className="text-right max-w-[60%]">{d.airports}</span></div>
+                  <div className="flex justify-between"><span className="text-foreground/25">Aircraft</span><span>{d.aircraft}</span></div>
+                </div>
               </motion.div>
             ))}
           </div>
