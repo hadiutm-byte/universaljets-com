@@ -30,78 +30,53 @@ const getRegionForCountry = (country: string): string => {
 const EmptyLegsMap = () => {
   const [selectedLeg, setSelectedLeg] = useState<EmptyLeg | null>(null);
   const [activeRegion, setActiveRegion] = useState("All");
-
   const { data, isLoading, error } = useEmptyLegs(activeRegion);
 
   const legs = useMemo(() => {
     const source = data?.results?.length ? data.results : fallbackLegs;
     if (activeRegion === "All") return source;
-    return source.filter(
-      (l) => l.departure && getRegionForCountry(l.departure.country) === activeRegion
-    );
+    return source.filter((l) => l.departure && getRegionForCountry(l.departure.country) === activeRegion);
   }, [data, activeRegion]);
 
-  const handleLegClick = useCallback((leg: EmptyLeg) => {
-    setSelectedLeg(leg);
-  }, []);
+  const handleLegClick = useCallback((leg: EmptyLeg) => setSelectedLeg(leg), []);
 
   const toMapCoords = (lat: number | null, lng: number | null): [number, number] => {
     if (lat === null || lng === null) return [50, 50];
-    const x = ((lng + 180) / 360) * 100;
-    const y = ((90 - lat) / 180) * 100;
-    return [x, y];
+    return [((lng + 180) / 360) * 100, ((90 - lat) / 180) * 100];
   };
 
   return (
     <section id="empty-legs" className="section-padding overflow-hidden relative">
       <div className="container mx-auto px-8 relative z-10">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8 }}
-          className="text-center mb-8"
-        >
-          <p className="text-[9px] tracking-[0.5em] uppercase text-primary/60 mb-6 font-light">Exclusive Opportunity</p>
+        <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.8 }} className="text-center mb-8">
+          <p className="text-[11px] tracking-[0.5em] uppercase text-primary mb-6 font-medium">Exclusive Opportunity</p>
           <h2 className="text-3xl md:text-5xl lg:text-6xl font-display font-semibold mb-6 text-foreground">
-            Fly Private for{" "}
-            <span className="text-gradient-gold italic">Less</span>
+            Fly Private for <span className="text-gradient-gold italic">Less</span>
           </h2>
         </motion.div>
 
-        <motion.div
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8, delay: 0.2 }}
-          className="max-w-lg mx-auto text-center mb-16"
-        >
-          <p className="text-[14px] text-muted-foreground font-light leading-[2] mb-2">
+        <motion.div initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} transition={{ duration: 0.8, delay: 0.2 }} className="max-w-lg mx-auto text-center mb-16">
+          <p className="text-[15px] text-muted-foreground font-light leading-[1.9] mb-2">
             One-way repositioning flights at up to 75% lower cost.
           </p>
-          <p className="text-[12px] text-muted-foreground/70 font-extralight leading-[2]">
+          <p className="text-[13px] text-muted-foreground font-light leading-[1.9]">
             When aircraft need to reposition, you benefit. Same jet. Same service. Fraction of the price.
           </p>
           {!data?.results?.length && !isLoading && !error && (
-            <p className="text-[10px] text-muted-foreground/50 mt-3 font-extralight">Showing curated routes</p>
+            <p className="text-[11px] text-muted-foreground/70 mt-3 font-light">Showing curated routes</p>
           )}
         </motion.div>
 
         {/* Filters */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          className="flex flex-wrap justify-center gap-3 mb-14"
-        >
+        <motion.div initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} className="flex flex-wrap justify-center gap-3 mb-14">
           {regions.map((r) => (
             <button
               key={r}
               onClick={() => setActiveRegion(r)}
-              className={`px-5 py-2 rounded-full text-[9px] tracking-[0.25em] uppercase font-light transition-all duration-500 ${
+              className={`px-5 py-2 rounded-full text-[10px] tracking-[0.25em] uppercase font-medium transition-all duration-500 ${
                 activeRegion === r
                   ? "bg-gradient-gold text-primary-foreground glow-gold"
-                  : "border border-border text-foreground/40 hover:text-foreground/70 hover:border-foreground/20"
+                  : "border border-border text-foreground/50 hover:text-foreground hover:border-foreground/20"
               }`}
             >
               {r}
@@ -109,25 +84,16 @@ const EmptyLegsMap = () => {
           ))}
         </motion.div>
 
-        {/* Loading */}
         {isLoading && (
           <div className="flex items-center justify-center py-20">
-            <Loader2 className="w-6 h-6 text-primary/50 animate-spin" />
+            <Loader2 className="w-6 h-6 text-primary animate-spin" />
           </div>
         )}
 
-        {/* Map */}
         {!isLoading && (
-          <EmptyLegsMapView
-            legs={legs}
-            selectedLeg={selectedLeg}
-            onLegClick={handleLegClick}
-            onClose={() => setSelectedLeg(null)}
-            toMapCoords={toMapCoords}
-          />
+          <EmptyLegsMapView legs={legs} selectedLeg={selectedLeg} onLegClick={handleLegClick} onClose={() => setSelectedLeg(null)} toMapCoords={toMapCoords} />
         )}
 
-        {/* Cards */}
         {!isLoading && (
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5 max-w-5xl mx-auto mb-14">
             {legs.map((leg, i) => (
@@ -136,17 +102,8 @@ const EmptyLegsMap = () => {
           </div>
         )}
 
-        {/* CTA */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          className="text-center"
-        >
-          <a
-            href="#cta"
-            className="inline-flex items-center gap-2 px-10 py-3.5 bg-gradient-gold text-primary-foreground text-[9px] tracking-[0.25em] uppercase font-medium rounded-xl hover:shadow-[0_0_30px_-8px_hsla(38,52%,50%,0.45)] transition-all duration-500"
-          >
+        <motion.div initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} className="text-center">
+          <a href="#cta" className="inline-flex items-center gap-2 px-10 py-3.5 bg-gradient-gold text-primary-foreground text-[10px] tracking-[0.25em] uppercase font-medium rounded-xl hover:shadow-[0_0_30px_-8px_hsla(38,52%,50%,0.45)] transition-all duration-500">
             View All Empty Legs <ArrowRight size={10} />
           </a>
         </motion.div>
