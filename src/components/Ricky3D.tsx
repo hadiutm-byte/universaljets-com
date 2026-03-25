@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { X, Send, Plane, CreditCard, Tag, Handshake, ChevronDown, Volume2, VolumeX, MessageCircle } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import RickyAvatar, { type RickyPose } from "./ricky/RickyAvatar";
-import RickyThreeAvatar from "./ricky/RickyThreeAvatar";
+import RickyAnimatedAvatar from "./ricky/RickyAnimatedAvatar";
 import { useRickyVoice } from "@/hooks/useRickyVoice";
 import GuidedBookingFlow from "./ricky/GuidedBookingFlow";
 
