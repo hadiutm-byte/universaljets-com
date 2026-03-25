@@ -34,11 +34,13 @@ const POSITIONS = [
   { title: "Finance Analyst", location: "Dubai, UAE", type: "Full-time" },
 ];
 
+const EASE = [0.22, 1, 0.36, 1] as const;
+
 const sectionFade = {
   initial: { opacity: 0, y: 24 },
   animate: { opacity: 1, y: 0 },
   exit: { opacity: 0, y: -20 },
-  transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] },
+  transition: { duration: 0.6, ease: EASE as unknown as [number, number, number, number] },
 };
 
 const stagger = {
@@ -47,7 +49,7 @@ const stagger = {
 
 const fadeUp = {
   initial: { opacity: 0, y: 20 },
-  animate: { opacity: 1, y: 0, transition: { duration: 0.5, ease: [0.22, 1, 0.36, 1] } },
+  animate: { opacity: 1, y: 0, transition: { duration: 0.5, ease: EASE as unknown as [number, number, number, number] } },
 };
 
 const CareersPage = () => {
