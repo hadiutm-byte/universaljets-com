@@ -26,8 +26,7 @@ const MembershipEnrollment = () => {
   const [member, setMember] = useState<{
     name: string;
     id: string;
-    tier: string;
-    validUntil: string;
+    memberSince: string;
   } | null>(null);
 
   const update = (field: string, value: string) =>
