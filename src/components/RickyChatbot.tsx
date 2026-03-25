@@ -9,7 +9,7 @@ import rickyThumbsup from "@/assets/ricky-thumbsup.png";
 type Msg = { role: "user" | "assistant"; content: string };
 
 const FIRST_MESSAGE =
-  "Hey… welcome to Universal Jets.\nI'm Ricky — your private aviation guy.\n\nQuick tip… you might wanna sign up.\nI can help you save serious money on your next flight — and handle everything around it too.";
+  "Hi Ricky, this is Hadi from Universal Jets.\n\nI saw you just activated your Private Access.\n\nCurious — do you have any upcoming trips we can assist with?";
 
 const RickyChatbot = () => {
   const [visible, setVisible] = useState(false);
@@ -129,10 +129,10 @@ const RickyChatbot = () => {
                   />
                   <div className="flex-1 min-w-0">
                     <p className="text-[11px] tracking-[0.2em] uppercase font-medium text-foreground/90">
-                      Ricky
+                      Hadi
                     </p>
                     <p className="text-[9px] text-gold/50 tracking-[0.15em] uppercase font-light">
-                      {loading ? "Thinking…" : "Aviation Concierge"}
+                      {loading ? "Thinking…" : "Aviation Advisor"}
                     </p>
                   </div>
                   <button
