@@ -31,6 +31,7 @@ const Ricky3D = () => {
   const [loading, setLoading] = useState(false);
   const [speaking, setSpeaking] = useState(false);
   const bottomRef = useRef<HTMLDivElement>(null);
+  const { speak: speakVoice, muted, toggleMute } = useRickyVoice();
 
   // Delayed entrance — 3 seconds after page load
   useEffect(() => {
