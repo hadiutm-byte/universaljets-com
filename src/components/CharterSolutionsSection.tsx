@@ -41,6 +41,20 @@ const charterCategories = [
   },
 ];
 
+const cardVariants = {
+  hidden: { opacity: 0, y: 40, scale: 0.97 },
+  visible: (i: number) => ({
+    opacity: 1,
+    y: 0,
+    scale: 1,
+    transition: {
+      delay: i * 0.12,
+      duration: 0.7,
+      ease: [0.16, 1, 0.3, 1],
+    },
+  }),
+};
+
 const CharterSolutionsSection = () => (
   <section className="py-24 md:py-32">
     <div className="max-w-7xl mx-auto px-6 md:px-10">
@@ -73,23 +87,25 @@ const CharterSolutionsSection = () => (
         Every mission is different. The broker shouldn't be.
       </motion.p>
 
-      {/* Cards grid */}
+      {/* Cards grid — staggered reveal with hover lift + image zoom + gold border */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
         {charterCategories.map((cat, i) => (
           <motion.div
             key={cat.slug}
-            initial={{ opacity: 0, y: 24 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: i * 0.07, duration: 0.5 }}
-            className="group relative rounded-2xl border border-border bg-card overflow-hidden hover:shadow-[0_18px_40px_rgba(0,0,0,0.08)] transition-all duration-300"
+            custom={i}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-40px" }}
+            variants={cardVariants}
+            whileHover={{ y: -8, transition: { duration: 0.35 } }}
+            className="group relative rounded-2xl border border-border bg-card overflow-hidden card-cinematic cursor-pointer"
           >
-            {/* Image */}
+            {/* Image with hover zoom */}
             <div className="relative h-48 overflow-hidden">
               <img
                 src={cat.image}
                 alt={cat.title}
-                className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-110"
                 loading="lazy"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />

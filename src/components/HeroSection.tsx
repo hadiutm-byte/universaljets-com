@@ -2,8 +2,9 @@ import { useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import { useMouseParallax } from "@/hooks/useScrollEffects";
-import heroBg from "@/assets/hero-bg.jpg";
 import Logo3D from "@/components/Logo3D";
+
+const HERO_VIDEO_URL = "https://videos.pexels.com/video-files/2169880/2169880-uhd_2560_1440_30fps.mp4";
 
 const HeroSection = () => {
   const ref = useRef<HTMLElement>(null);
@@ -16,32 +17,36 @@ const HeroSection = () => {
   const logoY = useTransform(scrollYProgress, [0, 1], [0, 120]);
   const logoRotate = useTransform(scrollYProgress, [0, 1], [-7, -14]);
   const foregroundY = useTransform(scrollYProgress, [0, 1], [0, 90]);
+  const videoZoom = useTransform(scrollYProgress, [0, 1], [1, 1.1]);
 
   return (
     <section
       ref={ref}
       className="relative min-h-screen w-full overflow-hidden flex flex-col items-center justify-center"
     >
-      {/* Cinematic background image */}
+      {/* Cinematic video background with slow zoom */}
       <motion.div
         className="absolute inset-0 pointer-events-none"
         style={{ scale: bgScale, opacity: bgOpacity }}
       >
-        <motion.div style={{ x: mouse.x * 0.3, y: mouse.y * 0.3 }} className="h-full w-full">
-          <img
-            src={heroBg}
-            alt=""
+        <motion.div style={{ x: mouse.x * 0.3, y: mouse.y * 0.3, scale: videoZoom }} className="h-full w-full">
+          <video
+            autoPlay
+            muted
+            loop
+            playsInline
             className="h-full w-full object-cover"
-            width={1920}
-            height={1080}
-          />
+            poster=""
+          >
+            <source src={HERO_VIDEO_URL} type="video/mp4" />
+          </video>
         </motion.div>
       </motion.div>
 
-      {/* Dark overlay with gradient to light */}
+      {/* Dark overlay with gradient */}
       <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-black/70 pointer-events-none" />
 
-      {/* Subtle yellow ambient glow */}
+      {/* Subtle gold ambient glow */}
       <motion.div className="absolute inset-0 pointer-events-none" style={{ scale: bgScale }}>
         <motion.div style={{ x: mouse.x * 0.5, y: mouse.y * 0.5 }}>
           <div className="absolute top-[20%] left-[50%] -translate-x-1/2 w-[700px] h-[400px] bg-[radial-gradient(ellipse,_hsla(45,79%,46%,0.08)_0%,_transparent_65%)]" />
