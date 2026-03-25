@@ -158,7 +158,75 @@ const DestinationsPage = () => (
       </div>
     </section>
 
-    {/* Events */}
+    {/* Popular Routes */}
+    <section className="py-16 md:py-24 relative">
+      <div className="container mx-auto px-8 relative z-10">
+        <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.8 }} className="text-center mb-12">
+          <p className="text-[9px] tracking-[0.5em] uppercase text-primary/60 mb-6 font-light">Popular Routes</p>
+          <h2 className="text-2xl md:text-3xl font-display font-semibold text-foreground mb-4">Most Requested Routes</h2>
+          <p className="text-[13px] text-foreground/40 font-extralight leading-[2] max-w-md mx-auto">
+            High-frequency corridors where we consistently deliver the best rates and availability.
+          </p>
+        </motion.div>
+
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4 max-w-5xl mx-auto">
+          {[
+            { from: "Dubai", to: "Mykonos", time: "5h 30m", demand: "Very High" },
+            { from: "Riyadh", to: "London", time: "6h 45m", demand: "High" },
+            { from: "Paris", to: "Nice", time: "1h 15m", demand: "High" },
+            { from: "Dubai", to: "Maldives", time: "4h 15m", demand: "High" },
+            { from: "New York", to: "Miami", time: "2h 45m", demand: "Very High" },
+          ].map((route, i) => (
+            <motion.div
+              key={i}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: i * 0.08, duration: 0.6 }}
+              className="rounded-xl border border-border/10 bg-card/15 backdrop-blur-sm p-5 text-center group hover:border-primary/15 transition-all duration-500"
+            >
+              <div className="flex items-center justify-center gap-2 mb-3">
+                <span className="text-[13px] font-display font-medium text-foreground/70">{route.from}</span>
+                <ArrowRight className="w-3 h-3 text-primary/40" strokeWidth={1.5} />
+                <span className="text-[13px] font-display font-medium text-foreground/70">{route.to}</span>
+              </div>
+              <div className="flex items-center justify-center gap-1.5 mb-3">
+                <Plane className="w-3 h-3 text-primary/40" strokeWidth={1.5} />
+                <span className="text-[10px] text-foreground/30 font-light">{route.time}</span>
+              </div>
+              <div className="flex items-center justify-center gap-1.5">
+                <TrendingUp className="w-3 h-3 text-primary/50" strokeWidth={1.5} />
+                <span className="text-[9px] tracking-[0.15em] uppercase text-primary/45 font-light">{route.demand}</span>
+              </div>
+              <Link
+                to="/#cta"
+                className="block mt-4 text-[9px] tracking-[0.2em] uppercase text-primary/40 font-medium hover:text-primary transition-colors duration-500"
+              >
+                Request Flight
+              </Link>
+            </motion.div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    {/* Demand Intelligence */}
+    <section className="py-10 md:py-14">
+      <div className="container mx-auto px-8 max-w-3xl">
+        <motion.div
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.7 }}
+          className="flex items-center justify-center gap-4 py-5 px-8 rounded-xl border border-primary/10 bg-card/10 backdrop-blur-sm"
+        >
+          <AlertTriangle className="w-4 h-4 text-primary/50 flex-shrink-0" strokeWidth={1.5} />
+          <p className="text-[11px] md:text-[12px] text-foreground/40 font-extralight leading-[1.8]">
+            <span className="text-primary/60 font-light">High demand periods</span> — early booking recommended. Aircraft availability during peak events is limited. Typical lead time: 2–4 weeks.
+          </p>
+        </motion.div>
+      </div>
+    </section>
     <section className="py-20 md:py-28">
       <div className="container mx-auto px-8 relative z-10">
         <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.8 }} className="text-center mb-16">
