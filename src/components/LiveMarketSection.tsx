@@ -42,8 +42,11 @@ const LiveMarketSection = () => {
             Market{" "}
             <span className="text-gradient-gold italic">Opportunities</span>
           </h2>
-          <p className="text-[12px] md:text-[13px] text-foreground/35 font-extralight leading-[2] max-w-md mx-auto">
+          <p className="text-[12px] md:text-[13px] text-foreground/35 font-extralight leading-[2] max-w-md mx-auto mb-2">
             Real-time positioning flights and demand alerts — updated continuously.
+          </p>
+          <p className="text-[9px] text-foreground/20 font-extralight tracking-wide">
+            Updated 2 hours ago
           </p>
         </motion.div>
 
