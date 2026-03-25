@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { motion } from "framer-motion";
 import { Link, useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
@@ -7,6 +7,8 @@ import { toast } from "sonner";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
+const STAFF_ROLES = ["admin", "sales", "operations", "finance", "account_management"];
+
 const AuthPage = () => {
   const [isLogin, setIsLogin] = useState(true);
   const [email, setEmail] = useState("");
@@ -14,34 +16,53 @@ const AuthPage = () => {
   const [fullName, setFullName] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const normalizedEmail = useMemo(() => email.trim().toLowerCase(), [email]);
+
+  const routeSignedInUser = async (userId: string) => {
+    const { data: roleRows } = await supabase
+      .from("user_roles")
+      .select("role")
+      .eq("user_id", userId);
+
+    const roles = roleRows?.map((row) => row.role) ?? [];
+    const isStaff = roles.some((role) => STAFF_ROLES.includes(role));
+
+    navigate(isStaff ? "/crm" : "/dashboard");
+  };
 
   const handleEmailAuth = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
 
     if (isLogin) {
-      const { error } = await supabase.auth.signInWithPassword({ email, password });
+      const { data, error } = await supabase.auth.signInWithPassword({
+        email: normalizedEmail,
+        password,
+      });
+
       if (error) {
         toast.error(error.message);
-      } else {
+      } else if (data.user) {
         toast.success("Welcome back.");
-        navigate("/dashboard");
+        await routeSignedInUser(data.user.id);
       }
     } else {
       const { error } = await supabase.auth.signUp({
-        email,
+        email: normalizedEmail,
         password,
         options: {
           data: { full_name: fullName },
           emailRedirectTo: window.location.origin,
         },
       });
+
       if (error) {
         toast.error(error.message);
       } else {
         toast.success("Check your email to verify your account.");
       }
     }
+
     setLoading(false);
   };
 
@@ -90,7 +111,6 @@ const AuthPage = () => {
             transition={{ duration: 0.7, delay: 0.2 }}
             className="glass rounded-2xl p-8"
           >
-            {/* OAuth Providers */}
             <div className="space-y-3 mb-6">
               <button
                 onClick={handleGoogleLogin}
@@ -110,7 +130,7 @@ const AuthPage = () => {
                 className="w-full py-3 luxury-border rounded-lg text-[11px] tracking-[0.15em] uppercase font-light text-foreground/60 hover:text-foreground/90 hover:border-gold/30 transition-all duration-500 flex items-center justify-center gap-3"
               >
                 <svg className="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
-                  <path d="M17.05 20.28c-.98.95-2.05.88-3.08.4-1.09-.5-2.08-.48-3.24 0-1.44.62-2.2.44-3.06-.4C2.79 15.25 3.51 7.59 9.05 7.31c1.35.07 2.29.74 3.08.8 1.18-.24 2.31-.93 3.57-.84 1.51.12 2.65.72 3.4 1.8-3.12 1.87-2.38 5.98.48 7.13-.57 1.5-1.31 2.99-2.54 4.09zM12.03 7.25c-.15-2.23 1.66-4.07 3.74-4.25.29 2.58-2.34 4.5-3.74 4.25z"/>
+                  <path d="M17.05 20.28c-.98.95-2.05.88-3.08.4-1.09-.5-2.08-.48-3.24 0-1.44.62-2.2.44-3.06-.4C2.79 15.25 3.51 7.59 9.05 7.31c1.35.07 2.29.74 3.08.8 1.18-.24 2.31-.93 3.57-.84 1.51.12 2.65.72 3.4 1.8-3.12 1.87-2.38 5.98.48 7.13-.57 1.5-1.31 2.99-2.54 4.09zM12.03 7.25c-.15-2.23 1.66-4.07 3.74-4.25.29 2.58-2.34 4.5-3.74 4.25z" />
                 </svg>
                 Continue with Apple
               </button>
@@ -122,11 +142,12 @@ const AuthPage = () => {
               <div className="flex-1 h-[0.5px] bg-foreground/10" />
             </div>
 
-            {/* Email form */}
             <form onSubmit={handleEmailAuth} className="space-y-4">
               {!isLogin && (
                 <div>
-                  <label className="text-[9px] tracking-[0.25em] uppercase text-gold/50 mb-2 block font-light">Full Name</label>
+                  <label className="text-[9px] tracking-[0.25em] uppercase text-gold/50 mb-2 block font-light">
+                    Full Name
+                  </label>
                   <input
                     type="text"
                     value={fullName}
@@ -137,8 +158,11 @@ const AuthPage = () => {
                   />
                 </div>
               )}
+
               <div>
-                <label className="text-[9px] tracking-[0.25em] uppercase text-gold/50 mb-2 block font-light">Email</label>
+                <label className="text-[9px] tracking-[0.25em] uppercase text-gold/50 mb-2 block font-light">
+                  Email
+                </label>
                 <input
                   type="email"
                   value={email}
@@ -148,8 +172,11 @@ const AuthPage = () => {
                   className="w-full bg-secondary/50 rounded-lg px-4 py-3 text-[13px] text-foreground placeholder:text-foreground/20 font-light focus:outline-none focus:ring-1 focus:ring-gold/20 transition-all luxury-border"
                 />
               </div>
+
               <div>
-                <label className="text-[9px] tracking-[0.25em] uppercase text-gold/50 mb-2 block font-light">Password</label>
+                <label className="text-[9px] tracking-[0.25em] uppercase text-gold/50 mb-2 block font-light">
+                  Password
+                </label>
                 <input
                   type="password"
                   value={password}
@@ -160,6 +187,7 @@ const AuthPage = () => {
                   className="w-full bg-secondary/50 rounded-lg px-4 py-3 text-[13px] text-foreground placeholder:text-foreground/20 font-light focus:outline-none focus:ring-1 focus:ring-gold/20 transition-all luxury-border"
                 />
               </div>
+
               <button
                 type="submit"
                 disabled={loading}
