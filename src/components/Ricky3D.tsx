@@ -186,7 +186,7 @@ const Ricky3D = () => {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 40, scale: 0.95 }}
             transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-            className="fixed bottom-6 right-6 z-50 w-[380px] max-w-[calc(100vw-2rem)] flex flex-col items-center rounded-2xl overflow-hidden"
+            className="fixed bottom-6 right-6 z-50 w-[420px] max-w-[calc(100vw-2rem)] flex flex-col items-center rounded-2xl overflow-hidden"
             style={panelStyle}
           >
             {/* Header with close */}
