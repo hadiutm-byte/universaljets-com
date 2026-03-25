@@ -97,11 +97,8 @@ const GuidedBookingFlow = ({ onComplete, onSpeaking }: Props) => {
     }
   }, [step, typing, booking, onComplete]);
 
-  const containerVariants = {
-    hidden: { opacity: 0, y: 12 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.4, ease: [0.16, 1, 0.3, 1] } },
-    exit: { opacity: 0, y: -12, transition: { duration: 0.25 } },
-  };
+  const stepTransition = { duration: 0.4, ease: [0.16, 1, 0.3, 1] as const };
+  const exitTransition = { duration: 0.25 };
 
   return (
     <div className="flex flex-col h-full">
