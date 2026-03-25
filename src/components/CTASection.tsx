@@ -60,14 +60,11 @@ const CTASection = () => {
             className="text-center mb-6"
           >
             <p className="text-[9px] tracking-[0.5em] uppercase text-primary/50 mb-8 font-light">Start Your Journey</p>
-            <h2 className="text-2xl md:text-3xl lg:text-4xl font-display font-semibold text-foreground mb-4 leading-[1.4]">
-              Private aviation is not about booking a jet.
+            <h2 className="text-3xl md:text-5xl lg:text-6xl font-display font-semibold text-foreground mb-5 leading-tight">
+              Request Your <span className="text-gradient-gold italic font-medium">Flight</span>
             </h2>
-            <h2 className="text-2xl md:text-3xl lg:text-4xl font-display font-semibold leading-[1.4] mb-4">
-              <span className="text-gradient-gold italic">It's about controlling access to the market.</span>
-            </h2>
-            <p className="text-[13px] md:text-[15px] text-foreground/45 font-light leading-[2] max-w-xl mx-auto">
-              Universal Jets gives you that control.
+            <p className="text-[13px] md:text-[15px] text-foreground/40 font-extralight leading-[2] max-w-xl mx-auto">
+              Access the entire global private jet market — instantly compared, optimized, and secured for your mission.
             </p>
           </motion.div>
 
