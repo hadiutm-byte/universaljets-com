@@ -8,6 +8,7 @@ import MembersPage from "./pages/MembersPage.tsx";
 import JetCardPage from "./pages/JetCardPage.tsx";
 import SearchResults from "./pages/SearchResults.tsx";
 import ACMILeasingPage from "./pages/ACMILeasingPage.tsx";
+import DestinationsPage from "./pages/DestinationsPage.tsx";
 import AuthPage from "./pages/AuthPage.tsx";
 import DashboardPage from "./pages/DashboardPage.tsx";
 import ProtectedRoute from "./components/ProtectedRoute.tsx";
