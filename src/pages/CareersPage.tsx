@@ -134,10 +134,19 @@ const CareersPage = () => {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.8 }}
-                className="text-foreground/30 text-sm font-light leading-relaxed mb-14 max-w-md mx-auto"
+                className="text-foreground/30 text-sm font-light leading-relaxed mb-8 max-w-md mx-auto"
               >
                 Your first conversation is not with HR.<br />
                 It's with Ricky.
+              </motion.p>
+              <motion.p
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.9 }}
+                className="text-foreground/40 text-xs font-light mb-14"
+              >
+                Or send your CV directly to{" "}
+                <a href="mailto:hr@universaljets.com" className="text-primary hover:text-primary/80 transition-colors underline underline-offset-2">hr@universaljets.com</a>
               </motion.p>
               <motion.button
                 initial={{ opacity: 0, y: 20 }}
