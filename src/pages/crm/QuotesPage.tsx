@@ -58,7 +58,11 @@ const QuotesPage = () => {
   const labelClass = "text-[9px] tracking-[0.2em] uppercase text-muted-foreground/60 mb-1.5 block font-light";
 
   return (
-    <>
+    <div className="space-y-6">
+      <div>
+        <p className="text-[10px] tracking-[0.3em] uppercase text-muted-foreground/50 font-medium mb-2">Templates</p>
+        <TemplateDownloadCard template={quoteRequestTemplate} />
+      </div>
       <CrmTable title="Quotes"
         columns={[
           { key: "route", label: "Route", render: (r: any) => r.flight_requests ? `${r.flight_requests.departure} → ${r.flight_requests.destination}` : "—" },
