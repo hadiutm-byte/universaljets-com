@@ -1,6 +1,6 @@
 import {
   LayoutDashboard, Users, Target, Plane, FileText,
-  ScrollText, Receipt, Map, LogOut, ChevronLeft,
+  ScrollText, Receipt, Map, LogOut, ChevronLeft, MessageSquare,
 } from "lucide-react";
 import { NavLink } from "@/components/NavLink";
 import { useLocation } from "react-router-dom";
