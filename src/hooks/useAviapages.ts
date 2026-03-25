@@ -147,6 +147,11 @@ export function useEmptyLegs(region: string = "All") {
         .filter((l): l is EmptyLeg => l !== null);
 
       return { count: typeof raw?.count === "number" ? raw.count : results.length, results };
+    },
+    staleTime: 5 * 60 * 1000,
+    retry: 1,
+  });
+}
 
 export function useAirportSearch(query: string) {
   return useQuery({
