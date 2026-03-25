@@ -3,6 +3,7 @@ import { supabase } from "@/integrations/supabase/client";
 import CrmTable from "@/components/crm/CrmTable";
 import ClientForm from "@/components/crm/ClientForm";
 import { toast } from "sonner";
+import { TemplateDownloadCard, partnershipAgreementTemplate } from "@/components/crm/CrmTemplates";
 
 const ClientsPage = () => {
   const [data, setData] = useState<any[]>([]);
