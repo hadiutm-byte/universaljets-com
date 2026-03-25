@@ -47,14 +47,18 @@ const Ricky3D = () => {
     return () => clearTimeout(timer);
   }, [phase]);
 
-  // Typewriter when arriving
+  // Typewriter when arriving — with 1.5s delay before speaking
   useEffect(() => {
     if (phase !== "arriving") return;
     setShowBubble(true);
     setShowActions(false);
     setDisplayedText("");
     setSpeaking(true);
-    speakVoice(INTRO_SPEECH);
+
+    // Delay voice by 1.5s for a natural entrance feel
+    const voiceDelay = window.setTimeout(() => {
+      speakVoice(INTRO_SPEECH);
+    }, 1500);
 
     let index = 0;
     const interval = window.setInterval(() => {
@@ -71,7 +75,10 @@ const Ricky3D = () => {
       }
     }, 26);
 
-    return () => window.clearInterval(interval);
+    return () => {
+      window.clearInterval(interval);
+      window.clearTimeout(voiceDelay);
+    };
   }, [phase, speakVoice]);
 
   useEffect(() => {
@@ -223,12 +230,10 @@ const Ricky3D = () => {
                   animate={{ opacity: 1, y: 0, scale: 1 }}
                   exit={{ opacity: 0, y: 8, scale: 0.96 }}
                   transition={{ duration: 0.4 }}
-                  className="ricky-speech-bubble absolute bottom-[360px] right-[44px] z-[2] w-[320px] px-5 py-4"
+                  className="ricky-speech-cloud absolute bottom-[480px] right-[60px] z-[2] w-[320px] px-6 py-5"
                   style={{ pointerEvents: "auto" }}
                 >
-                  <span className="ricky-bubble-tail" />
-                  <span className="ricky-bubble-orb ricky-bubble-orb-primary" />
-                  <span className="ricky-bubble-orb ricky-bubble-orb-secondary" />
+                  {/* Cloud tail/orbs now handled by CSS ::before/::after */}
                   <p className="text-[13px] font-light leading-[1.85] text-foreground/80 whitespace-pre-wrap">
                     {displayedText}
                     {!showActions && <span className="animate-pulse text-primary">|</span>}
@@ -251,7 +256,7 @@ const Ricky3D = () => {
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.4 }}
-                  className="absolute bottom-[314px] right-[30px] z-[2] flex max-w-[320px] flex-wrap justify-end gap-2"
+                  className="absolute bottom-[430px] right-[46px] z-[2] flex max-w-[320px] flex-wrap justify-end gap-2"
                   style={{ pointerEvents: "auto" }}
                 >
                   {quickActions.map((action, i) => (
@@ -287,7 +292,7 @@ const Ricky3D = () => {
               style={{ pointerEvents: "auto" }}
             >
               <div className="ricky-presence ricky-presence-3d">
-                <RickyThreeAvatar speaking={rickySpeaking} size={390} />
+                <RickyThreeAvatar speaking={rickySpeaking} size={520} />
               </div>
             </motion.button>
           </motion.div>
