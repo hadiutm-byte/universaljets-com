@@ -98,8 +98,10 @@ const ACMILeasingPage = () => {
             </p>
 
             <div className="divider-gold mb-8" />
-            <p className="text-[10px] md:text-[11px] tracking-[0.35em] uppercase text-foreground/30 font-extralight">
-              Trusted by airlines, governments, and operators for time-critical and complex missions.
+            <p className="text-[13px] text-foreground/50 font-light leading-[1.8] mb-1">We don't operate aircraft.</p>
+            <p className="text-[15px] text-primary/70 font-medium leading-[1.8] mb-4">We access them all.</p>
+            <p className="text-[11px] text-foreground/30 font-extralight leading-[2] max-w-md mx-auto">
+              By sourcing across a global network of operators, we secure the right aircraft, at the right price, for every mission.
             </p>
           </motion.div>
         </div>
