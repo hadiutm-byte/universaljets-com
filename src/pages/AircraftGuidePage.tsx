@@ -97,27 +97,14 @@ const aircraft: Aircraft[] = [
 const AircraftGuidePage = () => {
   const [activeCategory, setActiveCategory] = useState("All");
   const [requestingAircraft, setRequestingAircraft] = useState<string | null>(null);
-  const { capture } = useCrmApi();
+  const [requestModalOpen, setRequestModalOpen] = useState(false);
+  const [selectedAircraft, setSelectedAircraft] = useState("");
 
   const filtered = activeCategory === "All" ? aircraft : aircraft.filter(a => a.category === activeCategory);
 
-  const handleRequestAircraft = async (aircraftName: string) => {
-    setRequestingAircraft(aircraftName);
-    try {
-      await capture({
-        name: "Aircraft Guide Inquiry",
-        email: "inquiry@universaljets.com",
-        departure: "TBD",
-        destination: "TBD",
-        source: "aircraft_guide",
-        aircraft: aircraftName,
-        passengers: "1",
-      });
-      toast.success(`Request submitted for ${aircraftName}. An advisor will contact you shortly.`);
-    } catch {
-      document.dispatchEvent(new CustomEvent("open-ricky"));
-    }
-    setRequestingAircraft(null);
+  const handleRequestAircraft = (aircraftName: string) => {
+    setSelectedAircraft(aircraftName);
+    setRequestModalOpen(true);
   };
 
   return (
