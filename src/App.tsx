@@ -27,6 +27,7 @@ import ContractsPage from "./pages/crm/ContractsPage.tsx";
 import InvoicesPage from "./pages/crm/InvoicesPage.tsx";
 import TripsPage from "./pages/crm/TripsPage.tsx";
 import OutreachPage from "./pages/crm/OutreachPage.tsx";
+import CareersPage from "./pages/CareersPage.tsx";
 import NotFound from "./pages/NotFound.tsx";
 import RickyChatbot from "./components/RickyChatbot.tsx";
 import CookieConsent from "./components/CookieConsent.tsx";
