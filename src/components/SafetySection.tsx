@@ -52,6 +52,21 @@ const SafetySection = () => (
         </p>
       </motion.div>
 
+      {/* Trust statement */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.8 }}
+        className="max-w-xl mx-auto text-center mb-20"
+      >
+        <div className="border-l-[1px] border-primary/20 pl-6 py-2">
+          <p className="text-[12px] md:text-[13px] text-foreground/50 font-extralight leading-[2] italic">
+            "Every flight is carefully matched with operators that meet strict international safety benchmarks."
+          </p>
+        </div>
+      </motion.div>
+
       {/* Certification badges */}
       <motion.div
         initial={{ opacity: 0, y: 15 }}
