@@ -208,24 +208,23 @@ const ACMILeasingPage = () => {
             ))}
           </div>
 
-          {/* Available Opportunity Card */}
-          <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.4, duration: 0.8 }}
-            className="mt-14 max-w-sm mx-auto"
-          >
-            <div className="relative p-6 rounded-xl border border-primary/15 bg-gradient-to-br from-card/40 to-card/20 backdrop-blur-md overflow-hidden group hover:border-primary/30 transition-all duration-700">
-              <div className="absolute inset-0 bg-gradient-to-br from-primary/[0.03] to-transparent pointer-events-none" />
-              <div className="absolute top-0 right-0 w-24 h-24 bg-primary/[0.04] rounded-full blur-2xl pointer-events-none" />
-              <div className="relative z-10">
-                <p className="text-[9px] tracking-[0.4em] uppercase text-primary/50 font-light mb-4">Available Opportunity</p>
-                <p className="font-display text-lg font-medium text-foreground mb-1">Paris → Nice</p>
-                <p className="text-[11px] text-foreground/35 font-extralight mb-1">2 days before event</p>
-                <p className="text-[12px] text-primary/70 font-light mb-5">Up to 40% optimized pricing</p>
-                <a href="/search?from=Paris&to=Nice" className="inline-flex items-center gap-2 text-[10px] tracking-[0.25em] uppercase text-primary/60 font-medium hover:text-primary transition-colors duration-500">
-                  View Flight <ArrowRight className="w-3.5 h-3.5" strokeWidth={1.5} />
-                </a>
-              </div>
-            </div>
-          </motion.div>
+          {/* Featured Routes */}
+          <div className="mt-14 grid sm:grid-cols-2 lg:grid-cols-3 gap-4 max-w-3xl mx-auto">
+            {[
+              { route: "Dubai → Mykonos", tag: "Peak summer demand" },
+              { route: "Riyadh → London", tag: "Business & diplomatic corridor" },
+              { route: "Paris → Nice", tag: "Riviera season" },
+              { route: "Dubai → Maldives", tag: "Luxury leisure" },
+              { route: "New York → Miami", tag: "High-frequency route" },
+            ].map((r, i) => (
+              <motion.div key={i} initial={{ opacity: 0, y: 15 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.07, duration: 0.6 }}
+                className="relative p-5 rounded-lg border border-primary/10 bg-gradient-to-br from-card/30 to-card/10 backdrop-blur-sm group hover:border-primary/25 transition-all duration-500"
+              >
+                <p className="font-display text-[14px] font-medium text-foreground mb-1.5 group-hover:text-primary/80 transition-colors duration-500">{r.route}</p>
+                <p className="text-[10px] text-foreground/30 font-extralight">{r.tag}</p>
+              </motion.div>
+            ))}
+          </div>
 
           <motion.p initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} transition={{ delay: 0.5, duration: 0.8 }}
             className="text-center text-[11px] tracking-[0.3em] uppercase text-foreground/25 font-extralight mt-14 italic"
