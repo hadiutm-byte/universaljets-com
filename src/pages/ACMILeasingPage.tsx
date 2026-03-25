@@ -519,8 +519,11 @@ const ACMILeasingPage = () => {
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.8 }} className="text-center mb-16">
             <p className="text-[9px] tracking-[0.5em] uppercase text-primary/60 mb-6 font-light">Pricing Intelligence</p>
             <h2 className="text-2xl md:text-4xl font-display font-semibold text-foreground mb-5">How Private Jet Pricing Works</h2>
-            <p className="text-[13px] text-foreground/45 font-extralight leading-[2] max-w-lg mx-auto">
+            <p className="text-[13px] text-foreground/45 font-extralight leading-[2] max-w-lg mx-auto mb-2">
               More than just hourly rates.
+            </p>
+            <p className="text-[11px] text-foreground/30 font-extralight leading-[2] max-w-md mx-auto">
+              Private jet pricing is influenced by multiple factors — not just flight time.
             </p>
           </motion.div>
 
