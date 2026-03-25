@@ -22,8 +22,8 @@ const MembershipPipelinePage = () => {
       setLoading(true);
       const params: Record<string, string> = {};
       if (filter) params.status = filter;
-      const res = await call("membership-applications", "GET", {}, params);
-      setApps(res?.applications ?? []);
+      const res = await call("membership-applications", { method: "GET", params });
+      setApps(res?.data?.applications ?? []);
       setLoading(false);
     };
     load();
