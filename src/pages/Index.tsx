@@ -5,6 +5,7 @@ import WhySection from "@/components/WhySection";
 import ServicesSection from "@/components/ServicesSection";
 import FleetSection from "@/components/FleetSection";
 import EmptyLegsMap from "@/components/EmptyLegsMap";
+import FlyYourWaySection from "@/components/FlyYourWaySection";
 import ExperienceSection from "@/components/ExperienceSection";
 import ConciergeSection from "@/components/ConciergeSection";
 import CTASection from "@/components/CTASection";
@@ -23,6 +24,7 @@ const Index = () => (
       <ServicesSection />
       <FleetSection />
       <EmptyLegsMap />
+      <FlyYourWaySection />
       <ExperienceSection />
       <ConciergeSection />
       <CTASection />
