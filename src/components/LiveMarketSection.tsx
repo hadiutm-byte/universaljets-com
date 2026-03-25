@@ -5,10 +5,10 @@ import { useMemo } from "react";
 import { FadeReveal, StaggerContainer, StaggerItem } from "./ui/ScrollEffects";
 
 const fallbackRoutes = [
-  { from: "Dubai", to: "London", status: "Available now", statusColor: "text-emerald-400/70", urgency: null },
-  { from: "Nice", to: "Ibiza", status: "Available now", statusColor: "text-emerald-400/70", urgency: "Limited availability" },
-  { from: "Riyadh", to: "Geneva", status: "Available now", statusColor: "text-emerald-400/70", urgency: null },
-  { from: "Paris", to: "Mykonos", status: "Available now", statusColor: "text-emerald-400/70", urgency: null },
+  { from: "Dubai", to: "London", status: "Available now", statusColor: "text-emerald-600", urgency: null },
+  { from: "Nice", to: "Ibiza", status: "Available now", statusColor: "text-emerald-600", urgency: "Limited availability" },
+  { from: "Riyadh", to: "Geneva", status: "Available now", statusColor: "text-emerald-600", urgency: null },
+  { from: "Paris", to: "Mykonos", status: "Available now", statusColor: "text-emerald-600", urgency: null },
 ];
 
 function formatLegStatus(leg: EmptyLeg) {
@@ -16,10 +16,10 @@ function formatLegStatus(leg: EmptyLeg) {
   const fromDate = new Date(leg.from_date);
   const hoursUntil = (fromDate.getTime() - now.getTime()) / (1000 * 60 * 60);
 
-  if (hoursUntil < 0) return { status: "Available now", statusColor: "text-emerald-400/70", urgency: null };
-  if (hoursUntil < 24) return { status: "Departing today", statusColor: "text-primary/60", urgency: "Limited availability" };
-  if (hoursUntil < 72) return { status: "Available now", statusColor: "text-emerald-400/70", urgency: null };
-  return { status: "Available now", statusColor: "text-emerald-400/70", urgency: null };
+  if (hoursUntil < 0) return { status: "Available now", statusColor: "text-emerald-600", urgency: null };
+  if (hoursUntil < 24) return { status: "Departing today", statusColor: "text-primary", urgency: "Limited availability" };
+  if (hoursUntil < 72) return { status: "Available now", statusColor: "text-emerald-600", urgency: null };
+  return { status: "Available now", statusColor: "text-emerald-600", urgency: null };
 }
 
 const LiveMarketSection = () => {
@@ -46,16 +46,6 @@ const LiveMarketSection = () => {
 
   return (
     <section className="relative py-20 md:py-28 overflow-hidden">
-      <div
-        className="absolute inset-0 opacity-[0.012] pointer-events-none"
-        style={{
-          backgroundImage:
-            "linear-gradient(hsla(38,52%,50%,0.3) 1px, transparent 1px), linear-gradient(90deg, hsla(38,52%,50%,0.3) 1px, transparent 1px)",
-          backgroundSize: "60px 60px",
-        }}
-      />
-      <div className="absolute inset-0 bg-gradient-to-b from-background via-[hsl(225,28%,6%)] to-background pointer-events-none" />
-
       <div className="container mx-auto px-8 relative z-10">
         {/* Header */}
         <FadeReveal className="text-center mb-14">
@@ -63,7 +53,7 @@ const LiveMarketSection = () => {
             <motion.div
               animate={{ opacity: [0.4, 1, 0.4] }}
               transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-              className="w-2 h-2 rounded-full bg-emerald-500/70"
+              className="w-2 h-2 rounded-full bg-emerald-500"
             />
             <p className="text-[9px] tracking-[0.5em] uppercase text-primary/60 font-light">
               Live Market Intelligence
@@ -73,10 +63,10 @@ const LiveMarketSection = () => {
             Market{" "}
             <span className="text-gradient-gold italic">Opportunities</span>
           </h2>
-          <p className="text-[12px] md:text-[13px] text-foreground/35 font-extralight leading-[2] max-w-md mx-auto mb-2">
+          <p className="text-[13px] md:text-[14px] text-muted-foreground font-light leading-[2] max-w-md mx-auto mb-2">
             Real-time positioning flights and demand alerts — updated continuously.
           </p>
-          <p className="text-[9px] text-foreground/20 font-extralight tracking-wide">
+          <p className="text-[10px] text-muted-foreground/60 font-extralight tracking-wide">
             {liveCount > 0
               ? `Live global availability: ${liveCount} empty legs · ${availableNow} shown`
               : "Live global availability: updated continuously"}
@@ -102,7 +92,7 @@ const LiveMarketSection = () => {
                 >
                   <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-2">
                     <div className="flex items-center gap-2 md:gap-4 min-w-0">
-                      <Plane className="w-3.5 h-3.5 text-primary/40 flex-shrink-0" strokeWidth={1.3} />
+                      <Plane className="w-3.5 h-3.5 text-primary/50 flex-shrink-0" strokeWidth={1.3} />
                       <p className="text-[14px] md:text-[18px] font-display font-medium text-foreground/80 tracking-wide truncate">
                         {route.from}
                       </p>
@@ -113,7 +103,7 @@ const LiveMarketSection = () => {
                     </div>
                     <div className="flex items-center gap-3 flex-shrink-0 pl-7 md:pl-0">
                       {"price" in route && (route as any).price && (
-                        <p className="text-[11px] text-primary/60 font-light">
+                        <p className="text-[11px] text-primary/70 font-light">
                           {(route as any).currency === "EUR" ? "€" : "$"}
                           {Number((route as any).price).toLocaleString()}
                         </p>
@@ -124,19 +114,19 @@ const LiveMarketSection = () => {
                     </div>
                   </div>
 
-                  <div className="flex items-center justify-between mt-3 pt-3 border-t border-border/6">
+                  <div className="flex items-center justify-between mt-3 pt-3 border-t border-border/40">
                     {"aircraft" in route && (route as any).aircraft && (
-                      <p className="text-[9px] tracking-[0.15em] uppercase text-foreground/25 font-extralight">
+                      <p className="text-[9px] tracking-[0.15em] uppercase text-muted-foreground font-extralight">
                         {String((route as any).aircraft)}
                       </p>
                     )}
                     {route.urgency && (
                       <div className="flex items-center gap-2">
-                        <AlertTriangle className="w-3 h-3 text-primary/35" strokeWidth={1.3} />
+                        <AlertTriangle className="w-3 h-3 text-primary/50" strokeWidth={1.3} />
                         <motion.p
                           animate={{ opacity: [0.5, 1, 0.5] }}
                           transition={{ duration: 3, repeat: Infinity }}
-                          className="text-[9px] tracking-[0.2em] uppercase text-primary/45 font-light"
+                          className="text-[9px] tracking-[0.2em] uppercase text-primary/60 font-light"
                         >
                           {route.urgency}
                         </motion.p>
@@ -163,10 +153,10 @@ const LiveMarketSection = () => {
               <p className="text-[9px] tracking-[0.3em] uppercase text-primary/50 font-light mb-2">
                 Market Alert
               </p>
-              <p className="text-[11px] text-foreground/55 font-light mb-1">
+              <p className="text-[12px] text-foreground/60 font-light mb-1">
                 Monaco Grand Prix — high demand, limited availability.
               </p>
-              <p className="text-[10px] text-foreground/30 font-extralight leading-[1.8]">
+              <p className="text-[11px] text-muted-foreground font-extralight leading-[1.8]">
                 Early booking recommended to secure preferred aircraft.
               </p>
             </div>
@@ -179,7 +169,7 @@ const LiveMarketSection = () => {
             href="#cta"
             whileHover={{ scale: 1.04 }}
             whileTap={{ scale: 0.97 }}
-            className="inline-flex items-center gap-3 px-10 py-4 bg-gradient-gold text-primary-foreground text-[10px] tracking-[0.3em] uppercase font-medium rounded-sm transition-all duration-500 hover:shadow-[0_0_40px_-10px_hsla(38,52%,50%,0.4)]"
+            className="inline-flex items-center gap-3 px-10 py-4 bg-gradient-gold text-primary-foreground text-[10px] tracking-[0.3em] uppercase font-medium rounded-xl transition-all duration-500 hover:shadow-[0_0_40px_-10px_hsla(38,52%,50%,0.4)]"
           >
             Request Your Flight
             <ArrowRight className="w-3.5 h-3.5" strokeWidth={1.5} />

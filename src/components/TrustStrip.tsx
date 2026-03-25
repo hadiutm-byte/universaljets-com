@@ -23,11 +23,9 @@ const TrustStrip = () => (
         className="flex flex-col lg:flex-row items-center justify-between gap-8 lg:gap-0"
         style={{
           padding: "40px 60px",
-          background: "linear-gradient(to right, rgba(255,255,255,0.05), rgba(255,255,255,0.02))",
-          backdropFilter: "blur(12px)",
-          WebkitBackdropFilter: "blur(12px)",
-          borderTop: "1px solid rgba(200,169,106,0.2)",
-          borderBottom: "1px solid rgba(200,169,106,0.2)",
+          background: "hsl(0, 0%, 97%)",
+          borderTop: "1px solid hsla(0, 0%, 0%, 0.06)",
+          borderBottom: "1px solid hsla(0, 0%, 0%, 0.06)",
         }}
       >
         {/* LEFT: Certifications */}
@@ -43,18 +41,14 @@ const TrustStrip = () => (
               className="flex items-center gap-3 cursor-default group"
             >
               <cert.icon
-                className="w-[18px] h-[18px] flex-shrink-0"
+                className="w-[18px] h-[18px] flex-shrink-0 text-primary"
                 strokeWidth={1.4}
-                style={{ color: "#C8A96A" }}
               />
               <div className="flex flex-col">
-                <span
-                  className="text-[13px] font-semibold uppercase leading-tight"
-                  style={{ letterSpacing: "1.5px", color: "rgba(255,255,255,0.9)" }}
-                >
+                <span className="text-[13px] font-semibold uppercase leading-tight tracking-[1.5px] text-foreground">
                   {cert.name}
                 </span>
-                <small className="text-[11px] font-light leading-snug" style={{ color: "rgba(255,255,255,0.5)" }}>
+                <small className="text-[11px] font-light leading-snug text-muted-foreground">
                   {cert.detail}
                 </small>
               </div>
@@ -74,28 +68,7 @@ const TrustStrip = () => (
               whileHover={{ y: -3, scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               transition={{ duration: 0.3, ease: "easeOut" }}
-              className="flex items-center justify-center"
-              style={{
-                width: 40,
-                height: 40,
-                borderRadius: "50%",
-                background: "rgba(255,255,255,0.06)",
-                border: "1px solid rgba(200,169,106,0.2)",
-                color: "#C8A96A",
-                transition: "all 0.3s ease",
-              }}
-              onMouseEnter={(e) => {
-                const el = e.currentTarget;
-                el.style.background = "#C8A96A";
-                el.style.color = "#000";
-                el.style.boxShadow = "0 8px 25px rgba(200,169,106,0.4)";
-              }}
-              onMouseLeave={(e) => {
-                const el = e.currentTarget;
-                el.style.background = "rgba(255,255,255,0.06)";
-                el.style.color = "#C8A96A";
-                el.style.boxShadow = "none";
-              }}
+              className="flex items-center justify-center w-10 h-10 rounded-full bg-background border border-border text-primary hover:bg-primary hover:text-white hover:shadow-[0_8px_25px_-5px_hsla(38,52%,50%,0.3)] transition-all duration-300"
             >
               <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
                 <path d={s.path} />

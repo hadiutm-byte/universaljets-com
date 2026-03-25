@@ -44,102 +44,98 @@ const CinematicSection = ({
 
 const Index = () => (
   <div className="min-h-screen bg-background relative">
-    {/* Ambient lights — living background */}
+    {/* Ambient lights */}
     <div className="ambient-light-1" />
     <div className="ambient-light-2" />
 
     {/* Noise texture */}
     <div className="noise-overlay" />
 
-    {/* Scan line — futuristic */}
+    {/* Scan line */}
     <div className="scan-line" />
 
     <div className="relative z-[2]">
       <Navbar />
 
-      {/* 1. Hero — immersive entrance (dark section) */}
-      <div className="section-dark">
-        <HeroSection />
-      </div>
+      {/* Hero — keeps dark overlay on image for contrast */}
+      <HeroSection />
 
       <CinematicSection speed={0.06}>
-        <div className="section-dark">
-          <TrustStrip />
-        </div>
+        <TrustStrip />
       </CinematicSection>
 
-      {/* Light section: How It Works */}
+      {/* Light: How It Works */}
       <CinematicSection speed={0.1}>
         <HowItWorksSection />
       </CinematicSection>
 
       <div className="divider-shimmer" />
 
-      {/* Dark section: Services */}
+      {/* Alt bg: Services */}
       <CinematicSection speed={0.08}>
-        <div className="section-dark">
+        <div className="section-alt">
           <ServicesSection />
         </div>
       </CinematicSection>
 
       <div className="divider-shimmer" />
 
-      {/* Light section: Empty Legs & Live Market */}
+      {/* Light: Empty Legs & Live Market */}
       <CinematicSection speed={0.05}>
         <EmptyLegsMap />
       </CinematicSection>
       <CinematicSection speed={0.07}>
-        <LiveMarketSection />
+        <div className="section-alt">
+          <LiveMarketSection />
+        </div>
       </CinematicSection>
 
       <div className="divider-shimmer" />
 
-      {/* Dark section: Membership */}
+      {/* Light: Membership */}
       <CinematicSection speed={0.09}>
-        <div className="section-dark">
-          <MembershipEnrollment />
-        </div>
+        <MembershipEnrollment />
       </CinematicSection>
       <CinematicSection speed={0.06}>
-        <div className="section-dark">
+        <div className="section-alt">
           <MemberPrivileges />
         </div>
       </CinematicSection>
 
       <div className="divider-shimmer" />
 
-      {/* Light section: Flight request — conversion */}
+      {/* Light: Flight request */}
       <CinematicSection speed={0.08}>
         <CTASection />
       </CinematicSection>
 
       <div className="divider-shimmer" />
 
-      {/* Dark section: Jet Card & Referral */}
+      {/* Alt bg: Jet Card & Referral */}
       <CinematicSection speed={0.07}>
-        <div className="section-dark">
+        <div className="section-alt">
           <JetCardSection />
         </div>
       </CinematicSection>
       <CinematicSection speed={0.05}>
-        <div className="section-dark">
-          <ReferralSection />
-        </div>
+        <ReferralSection />
       </CinematicSection>
 
       <div className="divider-shimmer" />
 
-      {/* Light section: Destinations, Events */}
+      {/* Light: Destinations, Events */}
       <CinematicSection speed={0.1}>
-        <DestinationsSection />
+        <div className="section-alt">
+          <DestinationsSection />
+        </div>
       </CinematicSection>
       <CinematicSection speed={0.06}>
         <EventsSection />
       </CinematicSection>
 
-      {/* Dark section: Safety */}
+      {/* Alt bg: Safety */}
       <CinematicSection speed={0.08}>
-        <div className="section-dark">
+        <div className="section-alt">
           <SafetySection />
         </div>
       </CinematicSection>

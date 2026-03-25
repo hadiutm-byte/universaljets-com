@@ -51,26 +51,20 @@ const HeroSection = () => {
         <div className="hero-cloud hero-cloud-3" />
       </div>
 
-      {/* Cinematic overlays — dark tones for hero */}
-      <div className="absolute inset-0 bg-gradient-to-b from-[hsla(240,4%,12%,0.85)] via-[hsla(240,4%,12%,0.25)] to-[hsla(240,4%,12%,0.95)]" />
-      <div className="absolute inset-0 bg-gradient-to-r from-[hsla(240,4%,12%,0.6)] via-transparent to-[hsla(240,4%,12%,0.5)]" />
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_70%_50%_at_50%_45%,_transparent_20%,_hsla(240,4%,12%,0.7)_100%)]" />
+      {/* Cinematic overlays — dark enough for white text readability on hero image */}
+      <div className="absolute inset-0 bg-gradient-to-b from-[hsla(0,0%,0%,0.5)] via-[hsla(0,0%,0%,0.2)] to-[hsla(0,0%,0%,0.6)]" />
+      <div className="absolute inset-0 bg-gradient-to-r from-[hsla(0,0%,0%,0.3)] via-transparent to-[hsla(0,0%,0%,0.3)]" />
 
       {/* 3D Logo depth layer */}
       <motion.div
         className="absolute inset-0 flex items-center justify-center pointer-events-none"
-        style={{ opacity: useTransform(scrollYProgress, [0, 0.4], [0.08, 0]), y: imageY }}
+        style={{ opacity: useTransform(scrollYProgress, [0, 0.4], [0.06, 0]), y: imageY }}
       >
-        <Logo3D size={700} opacity={0.08} />
+        <Logo3D size={700} opacity={0.06} />
       </motion.div>
 
       {/* Progressive overlay on scroll */}
-      <motion.div className="absolute inset-0 pointer-events-none" style={{ opacity: overlayOpacity, background: "hsl(240, 4%, 12%)" }} />
-
-      {/* Horizontal scan lines */}
-      <div className="absolute inset-0 pointer-events-none opacity-[0.03]" style={{
-        backgroundImage: "repeating-linear-gradient(0deg, transparent, transparent 2px, hsla(0,0%,100%,0.03) 2px, hsla(0,0%,100%,0.03) 4px)",
-      }} />
+      <motion.div className="absolute inset-0 pointer-events-none" style={{ opacity: overlayOpacity, background: "hsl(0, 0%, 100%)" }} />
 
       {/* Content */}
       <motion.div
@@ -90,12 +84,12 @@ const HeroSection = () => {
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1, delay: 0.4 }}
-          className="text-[11px] md:text-[12px] tracking-[0.55em] uppercase text-primary/80 mb-10 font-light"
+          className="text-[11px] md:text-[12px] tracking-[0.55em] uppercase text-primary/90 mb-10 font-light"
         >
           Private Aviation Redefined
         </motion.p>
 
-        {/* Main title — LARGER */}
+        {/* Main title */}
         <motion.h1
           initial={{ opacity: 0, y: 60 }}
           animate={{ opacity: 1, y: 0 }}
@@ -110,19 +104,19 @@ const HeroSection = () => {
           </span>
         </motion.h1>
 
-        {/* Subtitle — BIGGER + BRIGHTER */}
+        {/* Subtitle */}
         <motion.div
           initial={{ opacity: 0, y: 18 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1, delay: 0.85 }}
           className="max-w-lg mx-auto mb-12"
         >
-          <p className="text-[15px] md:text-[17px] text-white/70 font-light leading-[2] tracking-[0.02em] mb-2">
+          <p className="text-[15px] md:text-[17px] text-white/80 font-light leading-[2] tracking-[0.02em] mb-2">
             Access the entire global private jet market —
             <br className="hidden sm:block" />
             not just one fleet.
           </p>
-          <p className="text-[13px] md:text-[14px] text-white/50 font-light leading-[1.8] tracking-wide">
+          <p className="text-[13px] md:text-[14px] text-white/60 font-light leading-[1.8] tracking-wide">
             Better aircraft. Better pricing. Total flexibility.
           </p>
         </motion.div>
@@ -138,13 +132,13 @@ const HeroSection = () => {
             whileHover={{ scale: 1.03, boxShadow: "0 0 40px -8px hsla(38,52%,50%,0.5)" }}
             whileTap={{ scale: 0.98 }}
             onClick={handleStartWithRicky}
-            className="btn-luxury px-10 py-4 bg-gradient-gold text-white text-[10px] tracking-[0.28em] uppercase font-medium rounded-sm cursor-pointer"
+            className="btn-luxury px-10 py-4 bg-gradient-gold text-white text-[10px] tracking-[0.28em] uppercase font-medium rounded-xl cursor-pointer"
           >
             Start with Ricky
           </motion.button>
           <a
             href="#empty-legs"
-            className="btn-luxury px-10 py-4 border border-white/10 bg-white/5 backdrop-blur-sm text-white/60 hover:text-white/90 text-[10px] tracking-[0.28em] uppercase font-light rounded-sm"
+            className="btn-luxury px-10 py-4 border border-white/20 bg-white/10 backdrop-blur-sm text-white/70 hover:text-white/90 text-[10px] tracking-[0.28em] uppercase font-light rounded-xl"
           >
             View Empty Legs
           </a>
@@ -161,11 +155,11 @@ const HeroSection = () => {
         transition={{ delay: 2.2, duration: 1 }}
         className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-2"
       >
-        <span className="text-[8px] tracking-[0.4em] uppercase text-white/25 font-extralight">Scroll</span>
+        <span className="text-[8px] tracking-[0.4em] uppercase text-white/30 font-extralight">Scroll</span>
         <motion.div
           animate={{ y: [0, 8, 0] }}
           transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-          className="w-[1px] h-10 bg-gradient-to-b from-gold/25 to-transparent"
+          className="w-[1px] h-10 bg-gradient-to-b from-gold/30 to-transparent"
         />
       </motion.div>
     </section>

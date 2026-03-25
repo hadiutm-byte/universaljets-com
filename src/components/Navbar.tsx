@@ -79,7 +79,7 @@ const Navbar = () => {
             : "bg-transparent py-5"
         }`}
         style={scrolled ? {
-          background: "hsla(0, 0%, 100%, 0.85)",
+          background: "hsla(0, 0%, 100%, 0.92)",
           backdropFilter: "blur(20px)",
           WebkitBackdropFilter: "blur(20px)",
           borderBottom: "1px solid hsla(0, 0%, 0%, 0.05)",
@@ -88,7 +88,7 @@ const Navbar = () => {
         <div className="container mx-auto flex items-center justify-between px-6 lg:px-8">
           {/* Logo */}
           <Link to="/" className="group font-display text-[13px] md:text-[15px] tracking-[0.45em] uppercase select-none font-light flex-shrink-0 transition-all duration-500 hover:drop-shadow-[0_0_12px_hsla(38,52%,50%,0.3)]">
-            <span className={scrolled ? "text-charcoal/90" : "text-white/90"}>Universal</span>
+            <span className={scrolled ? "text-foreground/90" : "text-white/90"}>Universal</span>
             <span className="text-gradient-gold ml-1.5 font-normal">Jets</span>
           </Link>
 
@@ -99,7 +99,7 @@ const Navbar = () => {
                 key={l.label}
                 href={l.href}
                 className={`text-[9px] tracking-[0.22em] hover:text-primary transition-colors duration-500 uppercase font-light relative group whitespace-nowrap ${
-                  scrolled ? "text-charcoal/50" : "text-white/50"
+                  scrolled ? "text-foreground/50" : "text-white/60"
                 }`}
               >
                 {l.label}
@@ -113,7 +113,7 @@ const Navbar = () => {
             <Link
               to="/auth"
               className={`hidden xl:inline-block text-[9px] tracking-[0.2em] hover:text-primary/70 transition-colors duration-500 uppercase font-light ${
-                scrolled ? "text-charcoal/40" : "text-white/40"
+                scrolled ? "text-foreground/40" : "text-white/50"
               }`}
             >
               Members Login
@@ -121,7 +121,7 @@ const Navbar = () => {
 
             <NavLink
               href="/#cta"
-              className="hidden xl:inline-block px-6 py-2.5 bg-gradient-gold text-white text-[9px] tracking-[0.25em] uppercase font-medium rounded-sm hover:shadow-[0_0_30px_-8px_hsla(38,52%,50%,0.45)] transition-all duration-500 hover:scale-[1.01]"
+              className="hidden xl:inline-block px-6 py-2.5 bg-gradient-gold text-white text-[9px] tracking-[0.25em] uppercase font-medium rounded-xl hover:shadow-[0_0_30px_-8px_hsla(38,52%,50%,0.45)] transition-all duration-500 hover:scale-[1.01]"
             >
               Request a Flight
             </NavLink>
@@ -130,7 +130,7 @@ const Navbar = () => {
             <button
               onClick={() => setOverlayOpen(!overlayOpen)}
               className={`relative w-10 h-10 flex items-center justify-center transition-colors duration-300 ${
-                scrolled ? "text-charcoal/60 hover:text-charcoal" : "text-white/60 hover:text-white"
+                scrolled ? "text-foreground/60 hover:text-foreground" : "text-white/60 hover:text-white"
               }`}
               aria-label="Menu"
             >
@@ -150,7 +150,7 @@ const Navbar = () => {
         </div>
       </motion.nav>
 
-      {/* Full-screen luxury overlay */}
+      {/* Full-screen luxury overlay — LIGHT theme */}
       <AnimatePresence>
         {overlayOpen && (
           <motion.div
@@ -166,7 +166,7 @@ const Navbar = () => {
               exit={{ opacity: 0 }}
               transition={{ duration: 0.4 }}
               className="absolute inset-0 backdrop-blur-2xl"
-              style={{ background: "hsla(240, 4%, 8%, 0.97)" }}
+              style={{ background: "hsla(0, 0%, 100%, 0.97)" }}
             />
 
             <div className="relative z-10 w-full h-full flex flex-col items-center justify-center px-8">
@@ -188,7 +188,7 @@ const Navbar = () => {
                   >
                     <NavLink
                       href={l.href}
-                      className="block py-2.5 text-[15px] md:text-[18px] tracking-[0.25em] text-white/50 hover:text-white transition-all duration-500 uppercase font-extralight relative group"
+                      className="block py-2.5 text-[15px] md:text-[18px] tracking-[0.25em] text-foreground/40 hover:text-foreground transition-all duration-500 uppercase font-extralight relative group"
                     >
                       {l.label}
                       <span className="absolute -bottom-0.5 left-1/2 -translate-x-1/2 w-0 h-[0.5px] bg-primary/50 group-hover:w-full transition-all duration-500" />
@@ -207,13 +207,13 @@ const Navbar = () => {
                 <Link
                   to="/auth"
                   onClick={() => setOverlayOpen(false)}
-                  className="text-[10px] tracking-[0.3em] text-white/30 hover:text-primary/70 uppercase font-extralight transition-colors duration-500"
+                  className="text-[10px] tracking-[0.3em] text-muted-foreground hover:text-primary/70 uppercase font-extralight transition-colors duration-500"
                 >
                   Members Login
                 </Link>
                 <NavLink
                   href="/#cta"
-                  className="px-10 py-3.5 bg-gradient-gold text-white text-[10px] tracking-[0.25em] uppercase font-medium rounded-sm hover:shadow-[0_0_40px_-8px_hsla(38,52%,50%,0.5)] transition-all duration-500"
+                  className="px-10 py-3.5 bg-gradient-gold text-white text-[10px] tracking-[0.25em] uppercase font-medium rounded-xl hover:shadow-[0_0_40px_-8px_hsla(38,52%,50%,0.5)] transition-all duration-500"
                 >
                   Request a Flight
                 </NavLink>
