@@ -47,7 +47,7 @@ export function useEmptyLegs(region: string = "All") {
   return useQuery({
     queryKey: ["empty-legs", region],
     queryFn: async () => {
-      const params = new URLSearchParams({ region, limit: "20" });
+      const params = new URLSearchParams({ region, limit: "50" });
       const response = await fetch(
         `${getSupabaseUrl()}/functions/v1/aviapages-empty-legs?${params.toString()}`,
         {
