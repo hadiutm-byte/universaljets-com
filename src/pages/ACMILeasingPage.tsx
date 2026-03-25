@@ -599,6 +599,7 @@ const ACMILeasingPage = () => {
               Speak to an Advisor
             </a>
             <p className="text-[10px] tracking-[0.3em] uppercase text-foreground/25 font-extralight mt-6">Typical Response Time: Under 30 minutes</p>
+            <p className="text-[11px] text-foreground/20 font-extralight mt-3 italic">Tell us your route — we'll handle the rest.</p>
           </motion.div>
         </div>
       </section>
