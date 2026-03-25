@@ -188,7 +188,7 @@ const Navbar = () => {
               >
                 <div className="w-10 h-[1px] bg-gradient-to-r from-transparent via-primary/30 to-transparent" />
                 <Link
-                  to="/members"
+                  to="/auth"
                   onClick={() => setOverlayOpen(false)}
                   className="text-[10px] tracking-[0.3em] text-foreground/30 hover:text-primary/70 uppercase font-extralight transition-colors duration-500"
                 >
