@@ -38,9 +38,7 @@ async function loadAircraftTypeCache(apiKey: string) {
 
 function lookupAircraftType(typeName: string) {
   const lower = typeName.toLowerCase();
-  // Exact match first
   if (aircraftTypeCache[lower]) return aircraftTypeCache[lower];
-  // Partial match
   for (const [key, val] of Object.entries(aircraftTypeCache)) {
     if (lower.includes(key) || key.includes(lower)) return val;
   }
@@ -58,18 +56,14 @@ serve(async (req) => {
       throw new Error('AVIAPAGES_API_KEY not configured');
     }
 
-    // Load aircraft type cache for image enrichment
     await loadAircraftTypeCache(apiKey);
 
     const url = new URL(req.url);
     const page = url.searchParams.get('page') || '1';
-    const limit = url.searchParams.get('limit') || '20';
+    const limit = url.searchParams.get('limit') || '50';
     const region = url.searchParams.get('region') || '';
 
-    const params = new URLSearchParams({
-      page,
-      page_size: limit,
-    });
+    const params = new URLSearchParams({ page, page_size: limit });
 
     if (region && region !== 'All') {
       const regionCountries: Record<string, string> = {
@@ -88,10 +82,7 @@ serve(async (req) => {
     console.log(`[empty-legs] Requesting: ${apiUrl}`);
 
     const response = await fetch(apiUrl, {
-      headers: {
-        'Authorization': `Token ${apiKey}`,
-        'Accept': 'application/json',
-      },
+      headers: { 'Authorization': `Token ${apiKey}`, 'Accept': 'application/json' },
     });
 
     const responseText = await response.text();
