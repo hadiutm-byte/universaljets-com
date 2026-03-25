@@ -1,11 +1,4 @@
 import { motion } from "framer-motion";
-import { ShieldCheck, Globe, Award } from "lucide-react";
-
-const pillars = [
-  { icon: ShieldCheck, label: "Trusted Standards" },
-  { icon: Globe, label: "Verified Operators" },
-  { icon: Award, label: "Zero Compromise" },
-];
 
 const TrustedNetworkSection = () => (
   <section className="relative py-16 md:py-20 overflow-hidden">
@@ -30,30 +23,22 @@ const TrustedNetworkSection = () => (
         />
 
         <h2 className="text-2xl md:text-3xl lg:text-4xl font-display font-semibold text-foreground leading-[1.4] mb-4">
-          Trusted standards. Verified operators.
+          Global Partnerships.
         </h2>
-        <h2 className="text-2xl md:text-3xl lg:text-4xl font-display font-semibold leading-[1.4]">
-          <span className="text-gradient-gold italic">Zero compromise.</span>
+        <h2 className="text-2xl md:text-3xl lg:text-4xl font-display font-semibold leading-[1.4] mb-8">
+          <span className="text-gradient-gold italic">Strategic Access.</span>
         </h2>
 
-        {/* Pillars */}
-        <div className="flex items-center justify-center gap-8 md:gap-12 mt-12">
-          {pillars.map((p, i) => (
-            <motion.div
-              key={p.label}
-              initial={{ opacity: 0, y: 10 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.2 + i * 0.1, duration: 0.5 }}
-              className="flex items-center gap-2.5"
-            >
-              <p.icon className="w-4 h-4 text-primary/40" strokeWidth={1.2} />
-              <span className="text-[10px] tracking-[0.15em] uppercase text-foreground/35 font-light">
-                {p.label}
-              </span>
-            </motion.div>
-          ))}
-        </div>
+        <p className="text-[12px] md:text-[13px] text-foreground/40 font-extralight leading-[2.2] max-w-xl mx-auto mb-6">
+          Universal Jets connects clients to a curated network of certified operators, aviation partners, and luxury service providers worldwide.
+        </p>
+
+        <p className="text-[12px] md:text-[13px] text-foreground/45 font-light leading-[2] max-w-md mx-auto mb-3">
+          This is not a supplier list.
+        </p>
+        <p className="text-[12px] md:text-[13px] text-foreground/50 font-light leading-[2] max-w-md mx-auto">
+          This is access to the global private aviation ecosystem.
+        </p>
 
         <motion.div
           initial={{ scaleX: 0 }}
