@@ -26,13 +26,14 @@ const AccountMgmtDetailPage = () => {
   useEffect(() => {
     if (!clientId) return;
     const load = async () => {
-      const [cRes, tRes, rRes, qRes, refRes, conRes, actRes] = await Promise.all([
-        supabase.from("clients").select("*").eq("id", clientId).single(),
+      const cRes = await supabase.from("clients").select("*").eq("id", clientId).single();
+      const userId = cRes.data?.user_id ?? "00000000-0000-0000-0000-000000000000";
+      const [tRes, rRes, qRes, refRes, conRes, actRes] = await Promise.all([
         supabase.from("trips").select("*").eq("client_id", clientId).order("date", { ascending: false }),
         supabase.from("flight_requests").select("*").eq("client_id", clientId).order("created_at", { ascending: false }),
         supabase.from("quotes").select("*, flight_requests!inner(client_id)").eq("flight_requests.client_id", clientId).order("created_at", { ascending: false }),
         supabase.from("referrals").select("*").eq("referrer_id", clientId).order("created_at", { ascending: false }),
-        supabase.from("concierge_preferences").select("*").eq("user_id", cRes.data?.user_id ?? "00000000-0000-0000-0000-000000000000").maybeSingle(),
+        supabase.from("concierge_preferences").select("*").eq("user_id", userId).maybeSingle(),
         supabase.from("activity_log").select("*").eq("entity_id", clientId).order("created_at", { ascending: false }).limit(30),
       ]);
       setClient(cRes.data);
