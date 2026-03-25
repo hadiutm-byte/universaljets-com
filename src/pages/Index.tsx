@@ -4,6 +4,7 @@ import TrustStrip from "@/components/TrustStrip";
 import HowItWorksSection from "@/components/HowItWorksSection";
 import ServicesSection from "@/components/ServicesSection";
 import MembershipEnrollment from "@/components/MembershipEnrollment";
+import MemberPrivileges from "@/components/MemberPrivileges";
 import WhatsAppCTA from "@/components/WhatsAppCTA";
 import CTASection from "@/components/CTASection";
 import JetCardSection from "@/components/JetCardSection";
