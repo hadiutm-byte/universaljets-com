@@ -20,6 +20,7 @@ import ContractsPage from "./pages/crm/ContractsPage.tsx";
 import InvoicesPage from "./pages/crm/InvoicesPage.tsx";
 import TripsPage from "./pages/crm/TripsPage.tsx";
 import NotFound from "./pages/NotFound.tsx";
+import RickyChatbot from "./components/RickyChatbot.tsx";
 
 const queryClient = new QueryClient();
 
