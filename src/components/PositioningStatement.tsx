@@ -7,7 +7,7 @@ const PositioningStatement = () => (
       className="absolute inset-0 pointer-events-none opacity-[0.03]"
       style={{
         backgroundImage:
-          "radial-gradient(ellipse 60% 50% at 50% 50%, hsla(38,52%,50%,0.2) 0%, transparent 70%)",
+          "radial-gradient(ellipse 60% 50% at 50% 50%, hsla(45,79%,46%,0.2) 0%, transparent 70%)",
       }}
     />
 

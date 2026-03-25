@@ -65,7 +65,7 @@ const FoundersCircleSection = () => {
   return (
     <section className="section-padding relative overflow-hidden">
       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[hsl(222,20%,8%)] to-transparent pointer-events-none" />
-      <div className="absolute inset-0 pointer-events-none opacity-[0.03]" style={{ backgroundImage: "radial-gradient(ellipse 60% 40% at 50% 30%, hsla(38,52%,53%,0.25) 0%, transparent 70%)" }} />
+      <div className="absolute inset-0 pointer-events-none opacity-[0.03]" style={{ backgroundImage: "radial-gradient(ellipse 60% 40% at 50% 30%, hsla(45,79%,46%,0.25) 0%, transparent 70%)" }} />
 
       <div className="container mx-auto px-8 relative z-10">
         <div className="max-w-5xl mx-auto">
@@ -110,7 +110,7 @@ const FoundersCircleSection = () => {
                 transition={{ delay: i * 0.12, duration: 0.7 }}
                 className={`relative rounded-2xl p-8 md:p-9 backdrop-blur-sm transition-all duration-700 group ${
                   tier.accent
-                    ? "border border-primary/25 bg-gradient-to-b from-card/50 to-card/20 shadow-[0_0_50px_-15px_hsla(38,52%,53%,0.15)]"
+                    ? "border border-primary/25 bg-gradient-to-b from-card/50 to-card/20 shadow-[0_0_50px_-15px_hsla(45,79%,46%,0.15)]"
                     : "border border-border/15 bg-card/15 hover:border-border/25"
                 }`}
               >
@@ -145,7 +145,7 @@ const FoundersCircleSection = () => {
                   onClick={() => document.getElementById("membership-cta")?.scrollIntoView({ behavior: "smooth" })}
                   className={`block w-full text-center py-3.5 text-[10px] tracking-[0.25em] uppercase font-medium rounded-lg transition-all duration-500 ${
                     tier.accent
-                      ? "bg-gradient-gold text-primary-foreground hover:shadow-[0_0_30px_-8px_hsla(38,52%,53%,0.45)]"
+                      ? "bg-gradient-gold text-primary-foreground hover:shadow-[0_0_30px_-8px_hsla(45,79%,46%,0.45)]"
                       : "border border-primary/20 text-primary/70 hover:border-primary/40 hover:text-primary"
                   }`}
                 >
@@ -229,7 +229,7 @@ const FoundersCircleSection = () => {
                 <button
                   type="submit"
                   disabled={loading}
-                  className="px-8 py-3.5 bg-gradient-gold text-primary-foreground text-[10px] tracking-[0.25em] uppercase font-medium rounded-lg transition-all duration-500 hover:shadow-[0_0_30px_-8px_hsla(38,52%,53%,0.4)] hover:scale-[1.02] disabled:opacity-50 whitespace-nowrap"
+                  className="px-8 py-3.5 bg-gradient-gold text-primary-foreground text-[10px] tracking-[0.25em] uppercase font-medium rounded-lg transition-all duration-500 hover:shadow-[0_0_30px_-8px_hsla(45,79%,46%,0.4)] hover:scale-[1.02] disabled:opacity-50 whitespace-nowrap"
                 >
                   {loading ? "Submitting..." : "Request Invitation"}
                 </button>

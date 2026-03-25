@@ -120,7 +120,7 @@ const DestinationsPage = () => (
     {/* Hero */}
     <section className="relative pt-32 pb-20 md:pt-44 md:pb-28 overflow-hidden">
       <div className="absolute inset-0 bg-gradient-to-b from-[hsl(228,28%,5%)] via-background to-background" />
-      <div className="absolute inset-0 opacity-[0.02] pointer-events-none" style={{ backgroundImage: "linear-gradient(hsla(38,52%,50%,0.3) 1px, transparent 1px), linear-gradient(90deg, hsla(38,52%,50%,0.3) 1px, transparent 1px)", backgroundSize: "80px 80px" }} />
+      <div className="absolute inset-0 opacity-[0.02] pointer-events-none" style={{ backgroundImage: "linear-gradient(hsla(45,79%,46%,0.3) 1px, transparent 1px), linear-gradient(90deg, hsla(45,79%,46%,0.3) 1px, transparent 1px)", backgroundSize: "80px 80px" }} />
 
       <div className="container mx-auto px-8 relative z-10">
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.9 }} className="text-center max-w-3xl mx-auto">
@@ -261,7 +261,7 @@ const DestinationsPage = () => (
           <p className="text-[12px] text-foreground/35 font-extralight leading-[2] mb-8">
             Tell us your destination or event — we'll handle aircraft, timing, and every detail.
           </p>
-          <Link to="/#cta" className="inline-block px-10 py-4 bg-gradient-gold text-primary-foreground text-[10px] tracking-[0.3em] uppercase font-medium rounded-sm hover:shadow-[0_0_30px_-8px_hsla(38,52%,50%,0.45)] transition-all duration-500">
+          <Link to="/#cta" className="inline-block px-10 py-4 bg-gradient-gold text-primary-foreground text-[10px] tracking-[0.3em] uppercase font-medium rounded-sm hover:shadow-[0_0_30px_-8px_hsla(45,79%,46%,0.45)] transition-all duration-500">
             Request Flight
           </Link>
           <p className="text-[10px] tracking-[0.3em] uppercase text-foreground/20 font-extralight mt-6">6,000+ aircraft • 40,000 airports • 24/7 global coverage</p>

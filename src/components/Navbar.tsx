@@ -87,7 +87,7 @@ const Navbar = () => {
       >
         <div className="container mx-auto flex items-center justify-between px-6 lg:px-8">
           {/* Logo */}
-          <Link to="/" className="group font-display text-[13px] md:text-[15px] tracking-[0.45em] uppercase select-none font-light flex-shrink-0 transition-all duration-500 hover:drop-shadow-[0_0_12px_hsla(38,52%,50%,0.3)]">
+          <Link to="/" className="group font-display text-[13px] md:text-[15px] tracking-[0.45em] uppercase select-none font-light flex-shrink-0 transition-all duration-500 hover:drop-shadow-[0_0_12px_hsla(45,79%,46%,0.3)]">
             <span className={scrolled ? "text-foreground/90" : "text-white/90"}>Universal</span>
             <span className="text-gradient-gold ml-1.5 font-normal">Jets</span>
           </Link>
@@ -207,13 +207,13 @@ const Navbar = () => {
                 </Link>
                 <NavLink
                   href="/#cta"
-                  className="px-10 py-3.5 bg-gradient-gold text-white text-[10px] tracking-[0.25em] uppercase font-medium rounded-xl hover:shadow-[0_0_40px_-8px_hsla(38,52%,50%,0.5)] transition-all duration-500"
+                  className="px-10 py-3.5 bg-gradient-gold text-white text-[10px] tracking-[0.25em] uppercase font-medium rounded-xl hover:shadow-[0_0_40px_-8px_hsla(45,79%,46%,0.5)] transition-all duration-500"
                 >
                   Request a Flight
                 </NavLink>
               </motion.div>
 
-              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-[radial-gradient(circle,_hsla(38,52%,50%,0.03)_0%,_transparent_70%)] pointer-events-none" />
+              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-[radial-gradient(circle,_hsla(45,79%,46%,0.03)_0%,_transparent_70%)] pointer-events-none" />
             </div>
           </motion.div>
         )}
