@@ -118,8 +118,8 @@ const EmptyLegsMap = () => {
 
   const handleLegClick = useCallback((leg: EmptyLeg) => setSelectedLeg(leg), []);
 
-  const toMapCoords = useCallback((lat: number | null, lng: number | null): [number, number] => {
-    if (lat === null || lng === null) return [50, 22.5];
+  const toMapCoords = useCallback((lat: number | null | undefined, lng: number | null | undefined): [number, number] => {
+    if (lat == null || lng == null || isNaN(lat) || isNaN(lng)) return [50, 22.5];
     return [((lng + 180) / 360) * 100, ((90 - lat) / 180) * 45];
   }, []);
 
