@@ -99,7 +99,6 @@ const Navbar = () => {
                 key={l.label}
                 href={l.href}
                 className={`text-[10px] tracking-[0.22em] hover:text-primary transition-colors duration-500 uppercase font-light relative group whitespace-nowrap text-foreground/50`}
-                className={`text-[10px] tracking-[0.22em] hover:text-primary transition-colors duration-500 uppercase font-light relative group whitespace-nowrap ${scrolled ? "text-foreground/50" : "text-white/50"}`}
               >
                 {l.label}
                 <span className="absolute -bottom-1 left-0 w-0 h-[0.5px] bg-primary/60 group-hover:w-full transition-all duration-500" />
@@ -112,7 +111,6 @@ const Navbar = () => {
             <Link
               to="/auth"
               className="hidden xl:inline-block text-[10px] tracking-[0.2em] hover:text-primary/70 transition-colors duration-500 uppercase font-light text-foreground/40"
-              className={`hidden xl:inline-block text-[10px] tracking-[0.2em] hover:text-primary/70 transition-colors duration-500 uppercase font-light ${scrolled ? "text-foreground/40" : "text-white/40"}`}
             >
               Members Login
             </Link>
@@ -120,7 +118,6 @@ const Navbar = () => {
             <NavLink
               href="/#cta"
               className="hidden xl:inline-block px-6 py-2.5 bg-gradient-gold text-white text-[10px] tracking-[0.25em] uppercase font-medium rounded-xl hover:shadow-[0_0_30px_-8px_hsla(38,52%,50%,0.45)] transition-all duration-500 hover:scale-[1.01]"
-              className="hidden xl:inline-block px-6 py-2.5 bg-gradient-gold text-white text-[10px] tracking-[0.25em] uppercase font-medium rounded-xl hover:shadow-[0_0_30px_-8px_hsla(45,79%,46%,0.45)] transition-all duration-500 hover:scale-[1.01]"
             >
               Request a Flight
             </NavLink>
