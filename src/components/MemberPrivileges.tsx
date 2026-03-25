@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
-import { Hotel, Car, Sparkles, Gem } from "lucide-react";
+import { Hotel, Car, Sparkles } from "lucide-react";
+import { FadeReveal, StaggerContainer, StaggerItem, GlassCard, FloatingElement } from "./ui/ScrollEffects";
 
 const privileges = [
   { icon: Hotel, text: "Complimentary suite upgrades at partner hotels" },
@@ -10,13 +11,7 @@ const privileges = [
 const MemberPrivileges = () => (
   <section className="py-20 relative">
     <div className="container mx-auto px-8 relative z-10">
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.8 }}
-        className="text-center mb-14"
-      >
+      <FadeReveal className="text-center mb-14">
         <p className="text-[9px] tracking-[0.5em] uppercase text-primary/60 mb-6 font-light">
           Beyond Aviation
         </p>
@@ -29,33 +24,26 @@ const MemberPrivileges = () => (
         <p className="text-[11px] text-foreground/30 font-extralight leading-[2] max-w-md mx-auto">
           Room upgrades at top-tier hotels, luxury car rental discounts, spa and concierge perks, and tailored experiences — wherever you travel.
         </p>
-      </motion.div>
+      </FadeReveal>
 
-      <div className="max-w-md mx-auto space-y-4 mb-12">
+      <StaggerContainer className="max-w-md mx-auto space-y-4 mb-12">
         {privileges.map((p, i) => (
-          <motion.div
-            key={i}
-            initial={{ opacity: 0, x: -15 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: i * 0.08, duration: 0.5 }}
-            className="flex items-center gap-4 py-4 px-5 rounded-xl border border-border/8 bg-card/8"
-          >
-            <p.icon className="w-4 h-4 text-primary/50 flex-shrink-0" strokeWidth={1.2} />
-            <span className="text-[12px] text-foreground/50 font-extralight">{p.text}</span>
-          </motion.div>
+          <StaggerItem key={i}>
+            <GlassCard hover breathe className="flex items-center gap-4 py-5 px-6">
+              <FloatingElement amplitude={4} speed={5 + i}>
+                <p.icon className="w-4 h-4 text-primary/50 flex-shrink-0" strokeWidth={1.2} />
+              </FloatingElement>
+              <span className="text-[12px] text-foreground/50 font-extralight">{p.text}</span>
+            </GlassCard>
+          </StaggerItem>
         ))}
-      </div>
+      </StaggerContainer>
 
-      <motion.p
-        initial={{ opacity: 0 }}
-        whileInView={{ opacity: 1 }}
-        viewport={{ once: true }}
-        transition={{ delay: 0.3, duration: 0.7 }}
-        className="text-center text-[11px] text-foreground/25 font-extralight italic"
-      >
-        Wherever you go, your membership travels with you — unlocking a world of added luxury.
-      </motion.p>
+      <FadeReveal delay={0.3} className="text-center">
+        <p className="text-[11px] text-foreground/25 font-extralight italic">
+          Wherever you go, your membership travels with you — unlocking a world of added luxury.
+        </p>
+      </FadeReveal>
     </div>
   </section>
 );

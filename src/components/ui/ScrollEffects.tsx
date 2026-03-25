@@ -1,6 +1,7 @@
 import { ReactNode, useRef } from "react";
-import { motion, useScroll, useTransform } from "framer-motion";
+import { motion, useScroll, useTransform, useInView } from "framer-motion";
 
+/* ─── Parallax Section ─── */
 interface ParallaxSectionProps {
   children: ReactNode;
   className?: string;
@@ -8,14 +9,12 @@ interface ParallaxSectionProps {
   id?: string;
 }
 
-/** Wraps a section with parallax scrolling effect */
 export const ParallaxSection = ({ children, className = "", speed = 0.15, id }: ParallaxSectionProps) => {
   const ref = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
     target: ref,
     offset: ["start end", "end start"],
   });
-
   const y = useTransform(scrollYProgress, [0, 1], [speed * 100, speed * -100]);
 
   return (
@@ -25,6 +24,7 @@ export const ParallaxSection = ({ children, className = "", speed = 0.15, id }: 
   );
 };
 
+/* ─── Fade + Slide Reveal ─── */
 interface FadeRevealProps {
   children: ReactNode;
   className?: string;
@@ -32,23 +32,21 @@ interface FadeRevealProps {
   direction?: "up" | "down" | "left" | "right";
 }
 
-/** Fade + slide reveal on scroll */
 export const FadeReveal = ({ children, className = "", delay = 0, direction = "up" }: FadeRevealProps) => {
-  const directionMap = {
-    up: { y: 40, x: 0 },
-    down: { y: -40, x: 0 },
-    left: { x: 40, y: 0 },
-    right: { x: -40, y: 0 },
+  const dirMap = {
+    up: { y: 50, x: 0 },
+    down: { y: -50, x: 0 },
+    left: { x: 50, y: 0 },
+    right: { x: -50, y: 0 },
   };
-
-  const { x, y } = directionMap[direction];
+  const { x, y } = dirMap[direction];
 
   return (
     <motion.div
       initial={{ opacity: 0, x, y }}
       whileInView={{ opacity: 1, x: 0, y: 0 }}
-      viewport={{ once: true, margin: "-50px" }}
-      transition={{ duration: 0.9, delay, ease: [0.16, 1, 0.3, 1] }}
+      viewport={{ once: true, margin: "-80px" }}
+      transition={{ duration: 1, delay, ease: [0.16, 1, 0.3, 1] }}
       className={className}
     >
       {children}
@@ -56,18 +54,60 @@ export const FadeReveal = ({ children, className = "", delay = 0, direction = "u
   );
 };
 
+/* ─── Staggered Children Container ─── */
+interface StaggerContainerProps {
+  children: ReactNode;
+  className?: string;
+  stagger?: number;
+  delay?: number;
+}
+
+export const StaggerContainer = ({ children, className = "", stagger = 0.08, delay = 0 }: StaggerContainerProps) => (
+  <motion.div
+    initial="hidden"
+    whileInView="visible"
+    viewport={{ once: true, margin: "-60px" }}
+    variants={{
+      hidden: {},
+      visible: { transition: { staggerChildren: stagger, delayChildren: delay } },
+    }}
+    className={className}
+  >
+    {children}
+  </motion.div>
+);
+
+/* ─── Stagger Item (child) ─── */
+interface StaggerItemProps {
+  children: ReactNode;
+  className?: string;
+}
+
+export const StaggerItem = ({ children, className = "" }: StaggerItemProps) => (
+  <motion.div
+    variants={{
+      hidden: { opacity: 0, y: 35, scale: 0.97 },
+      visible: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.7, ease: [0.16, 1, 0.3, 1] } },
+    }}
+    className={className}
+  >
+    {children}
+  </motion.div>
+);
+
+/* ─── Glass Card with breathing float ─── */
 interface GlassCardProps {
   children: ReactNode;
   className?: string;
   hover?: boolean;
   glow?: boolean;
+  breathe?: boolean;
 }
 
-/** Premium glassmorphism card */
-export const GlassCard = ({ children, className = "", hover = true, glow = false }: GlassCardProps) => (
+export const GlassCard = ({ children, className = "", hover = true, glow = false, breathe = false }: GlassCardProps) => (
   <motion.div
-    whileHover={hover ? { y: -4, scale: 1.01 } : undefined}
-    transition={{ duration: 0.4, ease: "easeOut" }}
+    whileHover={hover ? { y: -6, scale: 1.015 } : undefined}
+    transition={{ duration: 0.5, ease: "easeOut" }}
     className={`
       glass-panel rounded-2xl
       ${glow ? "glow-gold-soft" : ""}
@@ -75,10 +115,20 @@ export const GlassCard = ({ children, className = "", hover = true, glow = false
       ${className}
     `}
   >
-    {children}
+    {breathe ? (
+      <motion.div
+        animate={{ y: [-3, 3, -3] }}
+        transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
+      >
+        {children}
+      </motion.div>
+    ) : (
+      children
+    )}
   </motion.div>
 );
 
+/* ─── Floating Element ─── */
 interface FloatingElementProps {
   children: ReactNode;
   className?: string;
@@ -86,18 +136,56 @@ interface FloatingElementProps {
   speed?: number;
 }
 
-/** Gently floating element */
-export const FloatingElement = ({ children, className = "", amplitude = 10, speed = 3 }: FloatingElementProps) => (
+export const FloatingElement = ({ children, className = "", amplitude = 8, speed = 4 }: FloatingElementProps) => (
   <motion.div
     animate={{
       y: [-amplitude, amplitude, -amplitude],
-      rotateZ: [-1, 1, -1],
+      rotateZ: [-0.5, 0.5, -0.5],
     }}
     transition={{
       duration: speed,
       repeat: Infinity,
       ease: "easeInOut",
     }}
+    className={className}
+  >
+    {children}
+  </motion.div>
+);
+
+/* ─── Scale Reveal (zoom in from smaller) ─── */
+interface ScaleRevealProps {
+  children: ReactNode;
+  className?: string;
+  delay?: number;
+}
+
+export const ScaleReveal = ({ children, className = "", delay = 0 }: ScaleRevealProps) => (
+  <motion.div
+    initial={{ opacity: 0, scale: 0.9 }}
+    whileInView={{ opacity: 1, scale: 1 }}
+    viewport={{ once: true, margin: "-60px" }}
+    transition={{ duration: 0.8, delay, ease: [0.16, 1, 0.3, 1] }}
+    className={className}
+  >
+    {children}
+  </motion.div>
+);
+
+/* ─── Horizontal Slide Reveal ─── */
+interface SlideRevealProps {
+  children: ReactNode;
+  className?: string;
+  from?: "left" | "right";
+  delay?: number;
+}
+
+export const SlideReveal = ({ children, className = "", from = "left", delay = 0 }: SlideRevealProps) => (
+  <motion.div
+    initial={{ opacity: 0, x: from === "left" ? -80 : 80 }}
+    whileInView={{ opacity: 1, x: 0 }}
+    viewport={{ once: true, margin: "-60px" }}
+    transition={{ duration: 0.9, delay, ease: [0.16, 1, 0.3, 1] }}
     className={className}
   >
     {children}

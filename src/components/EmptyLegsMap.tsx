@@ -54,7 +54,7 @@ const EmptyLegsMap = () => {
 
   return (
     <section id="empty-legs" className="section-padding overflow-hidden relative">
-      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[hsl(228,22%,4%)] to-transparent pointer-events-none" />
+      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[hsl(225,28%,6%)] to-transparent pointer-events-none" />
 
       <div className="container mx-auto px-8 relative z-10">
         <motion.div

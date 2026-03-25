@@ -12,7 +12,7 @@ const pillars = [
 const JetCardSection = () => (
   <section className="section-padding relative">
     <div className="grid-overlay" />
-    <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[hsl(228,22%,4%)] to-transparent pointer-events-none" />
+    <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[hsl(225,28%,6%)] to-transparent pointer-events-none" />
 
     <div className="container mx-auto px-8 relative z-10">
       <FadeReveal className="text-center mb-16">

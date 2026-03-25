@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import { Plane, CreditCard, Tag, Settings } from "lucide-react";
 import { Link } from "react-router-dom";
-import { FadeReveal, GlassCard } from "./ui/ScrollEffects";
+import { FadeReveal, StaggerContainer, StaggerItem, GlassCard, FloatingElement } from "./ui/ScrollEffects";
 
 const services = [
   { icon: Plane, title: "Charter Flights", desc: "Any aircraft, anywhere, anytime. On-demand access to the global fleet.", link: "#cta" },
@@ -13,7 +13,7 @@ const services = [
 const ServicesSection = () => (
   <section id="services" className="section-padding relative">
     <div className="grid-overlay" />
-    <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[hsl(228,22%,4.5%)] to-transparent pointer-events-none" />
+    <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[hsl(225,28%,6%)] to-transparent pointer-events-none" />
 
     <div className="container mx-auto px-8 relative z-10">
       <FadeReveal className="text-center mb-28">
@@ -35,29 +35,27 @@ const ServicesSection = () => (
         </div>
       </FadeReveal>
 
-      <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-5xl mx-auto">
+      <StaggerContainer className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-5xl mx-auto">
         {services.map((s, i) => {
           const Wrapper = s.link.startsWith("/") ? Link : "a";
           const linkProps = s.link.startsWith("/") ? { to: s.link } : { href: s.link };
           return (
-            <FadeReveal key={i} delay={i * 0.1}>
-              <GlassCard className="p-8 text-center h-full">
+            <StaggerItem key={i}>
+              <GlassCard breathe className="p-8 text-center h-full">
                 <Wrapper {...(linkProps as any)} className="block">
-                  <motion.div
-                    whileHover={{ scale: 1.1, rotate: 5 }}
-                    transition={{ type: "spring", stiffness: 300 }}
-                    className="w-16 h-16 rounded-full glass-panel flex items-center justify-center mx-auto mb-8"
-                  >
-                    <s.icon className="w-5 h-5 text-primary/70" strokeWidth={1.2} />
-                  </motion.div>
+                  <FloatingElement amplitude={5} speed={4 + (i % 3)}>
+                    <div className="w-16 h-16 rounded-full glass-panel flex items-center justify-center mx-auto mb-8">
+                      <s.icon className="w-5 h-5 text-primary/70" strokeWidth={1.2} />
+                    </div>
+                  </FloatingElement>
                   <h3 className="font-display text-lg mb-4 text-foreground">{s.title}</h3>
                   <p className="text-[12px] text-foreground/40 font-extralight leading-[2]">{s.desc}</p>
                 </Wrapper>
               </GlassCard>
-            </FadeReveal>
+            </StaggerItem>
           );
         })}
-      </div>
+      </StaggerContainer>
     </div>
   </section>
 );
