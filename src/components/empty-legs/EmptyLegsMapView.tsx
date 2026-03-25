@@ -54,10 +54,13 @@ const EmptyLegsMapView = ({ legs, selectedLeg, onLegClick, onClose, toMapCoords 
 
   const handlePointerMove = useCallback((e: React.PointerEvent) => {
     if (!isPanning || !panStart.current || !containerRef.current) return;
+    const ps = panStart.current;
     const rect = containerRef.current.getBoundingClientRect();
-    const dx = ((panStart.current.x - e.clientX) / rect.width) * viewBox.w;
-    const dy = ((panStart.current.y - e.clientY) / rect.height) * viewBox.h;
-    setViewBox((prev) => clampMapViewBox({ ...prev, x: panStart.current!.vx + dx, y: panStart.current!.vy + dy }));
+    const dx = ((ps.x - e.clientX) / rect.width) * viewBox.w;
+    const dy = ((ps.y - e.clientY) / rect.height) * viewBox.h;
+    const newX = ps.vx + dx;
+    const newY = ps.vy + dy;
+    setViewBox((prev) => clampMapViewBox({ ...prev, x: newX, y: newY }));
   }, [isPanning, viewBox.w, viewBox.h]);
 
   const handlePointerUp = useCallback(() => {
