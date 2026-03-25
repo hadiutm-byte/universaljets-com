@@ -1,32 +1,35 @@
-import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 
-const MembershipBanner = () => (
+interface MembershipBannerProps {
+  onRequestInvitation: () => void;
+}
+
+const MembershipBanner = ({ onRequestInvitation }: MembershipBannerProps) => (
   <motion.div
     id="membership-banner"
     initial={{ opacity: 0, y: -20 }}
     animate={{ opacity: 1, y: 0 }}
     transition={{ duration: 0.8, delay: 0.1 }}
-    className="fixed top-0 left-0 right-0 z-[60] bg-[hsl(45,79%,46%)] h-9 flex items-center justify-center px-4"
+    className="fixed top-0 left-0 right-0 z-[60] bg-[hsl(220,10%,10%)] h-9 flex items-center justify-center px-4 border-b border-[hsl(45,79%,46%,0.15)]"
   >
-    {/* Mobile: entire banner is a link */}
-    <Link to="/auth" className="flex items-center gap-3 sm:hidden">
-      <span className="text-[8px] tracking-[0.2em] uppercase font-medium text-white/90">
-        Private Access — Apply Now
+    {/* Mobile: tappable */}
+    <button onClick={onRequestInvitation} className="flex items-center gap-3 sm:hidden cursor-pointer">
+      <span className="text-[8px] tracking-[0.2em] uppercase font-medium text-white/70">
+        Invitation Only — Request Access
       </span>
-    </Link>
+    </button>
 
-    {/* Desktop: text + button */}
+    {/* Desktop */}
     <div className="hidden sm:flex items-center gap-6">
-      <span className="text-[10px] tracking-[0.35em] uppercase font-medium text-white/90">
-        Private Access Membership — Limited Invitations Available
+      <span className="text-[10px] tracking-[0.35em] uppercase font-light text-white/50">
+        Private Access Membership — Invitation Only
       </span>
-      <Link
-        to="/auth"
-        className="text-[9px] tracking-[0.2em] uppercase font-semibold text-white bg-white/15 hover:bg-white/25 px-4 py-1 rounded-full transition-all duration-300 border border-white/20 whitespace-nowrap"
+      <button
+        onClick={onRequestInvitation}
+        className="text-[9px] tracking-[0.2em] uppercase font-medium text-[hsl(45,79%,46%)] hover:text-[hsl(45,79%,56%)] transition-colors duration-300 cursor-pointer"
       >
-        Apply Now
-      </Link>
+        Request Invitation →
+      </button>
     </div>
   </motion.div>
 );
