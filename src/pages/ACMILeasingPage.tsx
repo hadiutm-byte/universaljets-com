@@ -290,6 +290,9 @@ const ACMILeasingPage = () => {
             <p className="text-[11px] text-foreground/30 font-extralight leading-[2] max-w-md mx-auto">
               Our team analyzes aircraft availability, positioning, and pricing in real time to secure the best option for your mission.
             </p>
+            <p className="text-[10px] tracking-[0.2em] text-foreground/25 font-extralight mt-6">
+              6,000+ aircraft worldwide • 24/7 global coverage • Optimized pricing through full market access
+            </p>
           </motion.div>
 
           <motion.form initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.15, duration: 0.8 }}
