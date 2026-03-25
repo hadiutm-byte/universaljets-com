@@ -140,12 +140,13 @@ export function useEmptyLegs(region: string = "All") {
         throw new Error("Failed to fetch empty legs");
       }
 
-      return (await response.json()) as { count: number; results: EmptyLeg[] };
-    },
-    staleTime: 5 * 60 * 1000,
-    retry: 1,
-  });
-}
+      const raw = await response.json();
+      const rawResults = Array.isArray(raw?.results) ? raw.results : [];
+      const results = rawResults
+        .map(normalizeEmptyLeg)
+        .filter((l): l is EmptyLeg => l !== null);
+
+      return { count: typeof raw?.count === "number" ? raw.count : results.length, results };
 
 export function useAirportSearch(query: string) {
   return useQuery({
