@@ -93,6 +93,10 @@ const ACMILeasingPage = () => {
               </a>
             </div>
 
+            <p className="text-[10px] tracking-[0.2em] text-foreground/25 font-extralight mb-10">
+              6,000+ aircraft • 40,000 airports • 24/7 global coverage
+            </p>
+
             <div className="divider-gold mb-8" />
             <p className="text-[10px] md:text-[11px] tracking-[0.35em] uppercase text-foreground/30 font-extralight">
               Trusted by airlines, governments, and operators for time-critical and complex missions.
