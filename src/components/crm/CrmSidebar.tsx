@@ -2,6 +2,7 @@ import {
   LayoutDashboard, Users, Target, Plane, FileText, ScrollText, Receipt,
   Map, LogOut, ChevronLeft, MessageSquare, Kanban, Shield, Settings,
   UserCheck, DollarSign, Briefcase, Gift, Activity, FolderOpen,
+  ArrowDownLeft, ArrowUpRight, CreditCard, Landmark, TrendingUp,
 } from "lucide-react";
 import { NavLink } from "@/components/NavLink";
 import { useAuth, type AppRole } from "@/hooks/useAuth";
@@ -51,7 +52,14 @@ const sections: { label: string; items: NavItem[] }[] = [
   {
     label: "Finance",
     items: [
+      { title: "Overview", url: "/crm/finance", icon: DollarSign, roles: ["admin", "finance"] },
       { title: "Invoices", url: "/crm/invoices", icon: Receipt, roles: ["admin", "finance"] },
+      { title: "Receivables", url: "/crm/finance/receivables", icon: ArrowDownLeft, roles: ["admin", "finance"] },
+      { title: "Payables", url: "/crm/finance/payables", icon: ArrowUpRight, roles: ["admin", "finance"] },
+      { title: "Payments", url: "/crm/finance/payments", icon: CreditCard, roles: ["admin", "finance"] },
+      { title: "Credits", url: "/crm/finance/credits", icon: FileText, roles: ["admin", "finance"] },
+      { title: "Bank", url: "/crm/finance/bank", icon: Landmark, roles: ["admin", "finance"] },
+      { title: "Statements", url: "/crm/finance/statements", icon: TrendingUp, roles: ["admin", "finance"] },
     ],
   },
   {
