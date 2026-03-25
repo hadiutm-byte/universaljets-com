@@ -2,12 +2,13 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
-import { Check, Plane, Clock, Globe, Shield } from "lucide-react";
+import { Check, Plane, Clock, Globe, MapPin, Users } from "lucide-react";
 
 const trustSignals = [
-  { icon: Plane, label: "6,000+ Aircraft" },
-  { icon: Globe, label: "24/7 Global Coverage" },
-  { icon: Clock, label: "Response Under 30 Min" },
+  { icon: Plane, value: "6,000+", label: "Aircraft" },
+  { icon: MapPin, value: "40,000", label: "Airports" },
+  { icon: Globe, value: "24/7", label: "Global Coverage" },
+  { icon: Clock, value: "<30 min", label: "Response Time" },
 ];
 
 const CTASection = () => {
@@ -39,157 +40,178 @@ const CTASection = () => {
     setForm(p => ({ ...p, [key]: e.target.value }));
 
   const inputClass =
-    "w-full bg-secondary/40 backdrop-blur-sm rounded-lg px-4 py-3.5 text-[13px] text-foreground placeholder:text-foreground/20 font-light focus:outline-none focus:ring-1 focus:ring-primary/30 transition-all border border-border/15 hover:border-border/30";
-  const labelClass = "text-[9px] tracking-[0.25em] uppercase text-primary/50 mb-1.5 block font-light";
+    "w-full bg-secondary/30 backdrop-blur-sm rounded-lg px-4 py-3.5 text-[13px] text-foreground placeholder:text-foreground/20 font-light focus:outline-none focus:ring-1 focus:ring-primary/25 transition-all duration-300 border border-border/10 hover:border-primary/15";
+  const labelClass = "text-[9px] tracking-[0.25em] uppercase text-primary/45 mb-1.5 block font-light";
 
   return (
-    <section id="cta" className="py-20 md:py-32 relative">
-      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[hsl(228,22%,4%)] to-background pointer-events-none" />
+    <section id="cta" className="py-24 md:py-36 relative">
+      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[hsl(228,22%,3.5%)] to-background pointer-events-none" />
+      <div className="absolute inset-0 opacity-[0.015] pointer-events-none" style={{ backgroundImage: "radial-gradient(ellipse at 50% 0%, hsla(38,52%,50%,0.15) 0%, transparent 60%)" }} />
 
       <div className="container mx-auto px-8 relative z-10">
         <div className="max-w-4xl mx-auto">
+
           {/* Header */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.8 }}
-            className="text-center mb-12"
+            transition={{ duration: 0.9 }}
+            className="text-center mb-6"
           >
-            <p className="text-[9px] tracking-[0.5em] uppercase text-primary/60 mb-6 font-light">
-              Start Your Journey
-            </p>
-            <h2 className="text-3xl md:text-5xl font-display font-semibold text-foreground mb-4 leading-tight">
+            <p className="text-[9px] tracking-[0.5em] uppercase text-primary/50 mb-8 font-light">Start Your Journey</p>
+            <h2 className="text-3xl md:text-5xl lg:text-6xl font-display font-semibold text-foreground mb-5 leading-tight">
               Request Your <span className="text-gradient-gold italic font-medium">Flight</span>
             </h2>
-            <p className="text-[13px] md:text-[14px] text-foreground/45 font-extralight leading-[2] max-w-md mx-auto">
-              Access the entire global private jet market — instantly compared and optimized.
+            <p className="text-[13px] md:text-[15px] text-foreground/40 font-extralight leading-[2] max-w-xl mx-auto">
+              Access the entire global private jet market — instantly compared, optimized, and secured for your mission.
             </p>
           </motion.div>
 
           {/* Trust signals */}
           <motion.div
-            initial={{ opacity: 0, y: 10 }}
-            whileInView={{ opacity: 1, y: 0 }}
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
-            transition={{ delay: 0.2, duration: 0.6 }}
-            className="flex flex-wrap justify-center gap-6 md:gap-10 mb-14"
+            transition={{ delay: 0.2, duration: 0.7 }}
+            className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 mb-14 max-w-2xl mx-auto"
           >
             {trustSignals.map((s, i) => (
-              <div key={i} className="flex items-center gap-2.5">
-                <s.icon className="w-4 h-4 text-primary/50" strokeWidth={1.5} />
-                <span className="text-[11px] tracking-[0.15em] uppercase text-foreground/35 font-light">{s.label}</span>
+              <div key={i} className="text-center py-4 rounded-lg border border-border/5 bg-card/10">
+                <s.icon className="w-4 h-4 text-primary/40 mx-auto mb-2.5" strokeWidth={1.5} />
+                <p className="text-[16px] md:text-[18px] font-display font-semibold text-foreground/80 mb-0.5">{s.value}</p>
+                <p className="text-[9px] tracking-[0.2em] uppercase text-foreground/25 font-light">{s.label}</p>
               </div>
             ))}
           </motion.div>
+
+          {/* Micro copy */}
+          <motion.p
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.3, duration: 0.6 }}
+            className="text-center text-[11px] text-foreground/30 font-extralight tracking-wide mb-8"
+          >
+            Tell us your route — we'll handle the rest.
+          </motion.p>
 
           {/* Form card */}
           <motion.div
             initial={{ opacity: 0, y: 25 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ delay: 0.3, duration: 0.8 }}
-            className="rounded-2xl border border-primary/10 bg-card/20 backdrop-blur-md p-8 md:p-12"
+            transition={{ delay: 0.35, duration: 0.8 }}
+            className="rounded-2xl border border-primary/8 bg-gradient-to-br from-card/25 to-card/10 backdrop-blur-md p-8 md:p-12"
           >
             {submitted ? (
               <motion.div
                 initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
-                className="py-16 text-center"
+                className="py-20 text-center"
               >
-                <div className="w-16 h-16 rounded-full border border-primary/25 flex items-center justify-center mx-auto mb-6">
+                <div className="w-16 h-16 rounded-full border border-primary/20 flex items-center justify-center mx-auto mb-6">
                   <Check className="w-7 h-7 text-primary" strokeWidth={1.5} />
                 </div>
                 <h3 className="font-display text-xl mb-3 text-foreground">Request Received</h3>
-                <p className="text-[12px] text-foreground/40 font-extralight leading-[2] max-w-sm mx-auto">
-                  Our team is sourcing the best options now. Expect a personalised quote within minutes.
+                <p className="text-[12px] text-foreground/35 font-extralight leading-[2] max-w-sm mx-auto mb-2">
+                  Our aviation advisors are sourcing the best options now.
+                </p>
+                <p className="text-[11px] text-primary/40 font-light">
+                  Expect a personalised quote within minutes.
                 </p>
               </motion.div>
             ) : (
               <form onSubmit={handleSubmit}>
-                {/* Row 1 — Name, Email, Phone */}
-                <div className="grid md:grid-cols-3 gap-5 mb-5">
-                  <div>
-                    <label className={labelClass}>Full Name *</label>
-                    <input value={form.name} onChange={set("name")} placeholder="John Smith" required className={inputClass} />
-                  </div>
-                  <div>
-                    <label className={labelClass}>Email *</label>
-                    <input type="email" value={form.email} onChange={set("email")} placeholder="john@company.com" required className={inputClass} />
-                  </div>
-                  <div>
-                    <label className={labelClass}>Phone</label>
-                    <input value={form.phone} onChange={set("phone")} placeholder="+44 20 1234 5678" className={inputClass} />
-                  </div>
-                </div>
-
-                {/* Row 2 — From, To */}
-                <div className="grid md:grid-cols-2 gap-5 mb-5">
-                  <div>
-                    <label className={labelClass}>From *</label>
-                    <input value={form.departure} onChange={set("departure")} placeholder="London" required className={inputClass} />
-                  </div>
-                  <div>
-                    <label className={labelClass}>To *</label>
-                    <input value={form.destination} onChange={set("destination")} placeholder="Dubai" required className={inputClass} />
+                {/* Route */}
+                <div className="mb-6">
+                  <p className="text-[10px] tracking-[0.3em] uppercase text-foreground/20 font-light mb-4">Route</p>
+                  <div className="grid md:grid-cols-2 gap-5">
+                    <div>
+                      <label className={labelClass}>From *</label>
+                      <input value={form.departure} onChange={set("departure")} placeholder="City or airport" required className={inputClass} />
+                    </div>
+                    <div>
+                      <label className={labelClass}>To *</label>
+                      <input value={form.destination} onChange={set("destination")} placeholder="City or airport" required className={inputClass} />
+                    </div>
                   </div>
                 </div>
 
-                {/* Row 3 — Dates, Passengers, Aircraft */}
-                <div className="grid md:grid-cols-4 gap-5 mb-5">
-                  <div>
-                    <label className={labelClass}>Departure Date</label>
-                    <input type="date" value={form.date} onChange={set("date")} className={inputClass} />
-                  </div>
-                  <div>
-                    <label className={labelClass}>Return Date</label>
-                    <input type="date" value={form.returnDate} onChange={set("returnDate")} className={inputClass} />
-                  </div>
-                  <div>
-                    <label className={labelClass}>Passengers</label>
-                    <input type="number" min={1} max={50} value={form.passengers} onChange={set("passengers")} placeholder="4" className={inputClass} />
-                  </div>
-                  <div>
-                    <label className={labelClass}>Aircraft Type</label>
-                    <select value={form.aircraft} onChange={set("aircraft")} className={inputClass}>
-                      <option value="">Any</option>
-                      <option value="Light Jet">Light Jet</option>
-                      <option value="Midsize Jet">Midsize Jet</option>
-                      <option value="Super Midsize">Super Midsize</option>
-                      <option value="Heavy Jet">Heavy Jet</option>
-                      <option value="Ultra Long Range">Ultra Long Range</option>
-                      <option value="VIP Airliner">VIP Airliner</option>
-                    </select>
+                {/* Trip details */}
+                <div className="mb-6">
+                  <p className="text-[10px] tracking-[0.3em] uppercase text-foreground/20 font-light mb-4">Trip Details</p>
+                  <div className="grid md:grid-cols-4 gap-5">
+                    <div>
+                      <label className={labelClass}>Departure Date</label>
+                      <input type="date" value={form.date} onChange={set("date")} className={inputClass} />
+                    </div>
+                    <div>
+                      <label className={labelClass}>Return Date</label>
+                      <input type="date" value={form.returnDate} onChange={set("returnDate")} className={inputClass} />
+                    </div>
+                    <div>
+                      <label className={labelClass}>Passengers</label>
+                      <input type="number" min={1} max={50} value={form.passengers} onChange={set("passengers")} placeholder="4" className={inputClass} />
+                    </div>
+                    <div>
+                      <label className={labelClass}>Aircraft Preference</label>
+                      <select value={form.aircraft} onChange={set("aircraft")} className={inputClass}>
+                        <option value="">No preference</option>
+                        <option value="Light Jet">Light Jet</option>
+                        <option value="Midsize Jet">Midsize Jet</option>
+                        <option value="Super Midsize">Super Midsize</option>
+                        <option value="Heavy Jet">Heavy Jet</option>
+                        <option value="Ultra Long Range">Ultra Long Range</option>
+                        <option value="VIP Airliner">VIP Airliner</option>
+                      </select>
+                    </div>
                   </div>
                 </div>
 
-                {/* Row 4 — Notes */}
-                <div className="mb-8">
-                  <label className={labelClass}>Additional Notes</label>
+                {/* Notes */}
+                <div className="mb-6">
+                  <label className={labelClass}>Notes</label>
                   <textarea
                     value={form.notes}
                     onChange={set("notes")}
-                    placeholder="Catering preferences, ground transport, any special requirements..."
+                    placeholder="Catering, ground transport, special requirements..."
                     rows={3}
                     className={`${inputClass} resize-none`}
                   />
                 </div>
 
+                {/* Contact */}
+                <div className="mb-8">
+                  <p className="text-[10px] tracking-[0.3em] uppercase text-foreground/20 font-light mb-4">Contact</p>
+                  <div className="grid md:grid-cols-3 gap-5">
+                    <div>
+                      <label className={labelClass}>Full Name *</label>
+                      <input value={form.name} onChange={set("name")} placeholder="John Smith" required className={inputClass} />
+                    </div>
+                    <div>
+                      <label className={labelClass}>Email *</label>
+                      <input type="email" value={form.email} onChange={set("email")} placeholder="john@company.com" required className={inputClass} />
+                    </div>
+                    <div>
+                      <label className={labelClass}>Phone</label>
+                      <input value={form.phone} onChange={set("phone")} placeholder="+44 20 1234 5678" className={inputClass} />
+                    </div>
+                  </div>
+                </div>
+
                 {/* Submit */}
-                <div className="flex flex-col items-center gap-4">
+                <div className="flex flex-col items-center gap-3">
                   <button
                     type="submit"
                     disabled={loading}
-                    className="w-full md:w-auto px-16 py-4 bg-gradient-gold text-primary-foreground text-[10px] tracking-[0.3em] uppercase font-medium rounded-sm transition-all duration-500 hover:shadow-[0_0_40px_-8px_hsla(38,52%,50%,0.5)] hover:scale-[1.02] disabled:opacity-50"
+                    className="w-full md:w-auto px-16 py-4.5 bg-gradient-gold text-primary-foreground text-[10px] tracking-[0.3em] uppercase font-medium rounded-sm transition-all duration-500 hover:shadow-[0_0_40px_-8px_hsla(38,52%,50%,0.5)] hover:scale-[1.02] disabled:opacity-50"
                   >
                     {loading ? "Submitting..." : "Get My Aircraft Options"}
                   </button>
-                  <div className="flex items-center gap-2 mt-1">
-                    <Shield className="w-3 h-3 text-foreground/15" strokeWidth={1.5} />
-                    <span className="text-[10px] text-foreground/20 font-extralight">
-                      Typical response time: under 30 minutes
-                    </span>
-                  </div>
+                  <p className="text-[10px] text-foreground/18 font-extralight mt-2 tracking-wide">
+                    Handled by experienced aviation advisors — not automated systems.
+                  </p>
                 </div>
               </form>
             )}
