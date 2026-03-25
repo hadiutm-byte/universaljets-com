@@ -5,10 +5,11 @@ import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 
 const benefits = [
-  { icon: Plane, text: "Priority aircraft access" },
+  { icon: Plane, text: "Instant access to global aircraft availability" },
   { icon: UserCheck, text: "Dedicated aviation advisor" },
-  { icon: Tag, text: "Exclusive empty legs" },
-  { icon: Sparkles, text: "Preferential pricing" },
+  { icon: Shield, text: "Priority booking status" },
+  { icon: Tag, text: "Exclusive empty leg opportunities" },
+  { icon: Sparkles, text: "Preferential pricing access" },
 ];
 
 const flightOptions = ["1–5", "6–15", "16–30", "30+"];
