@@ -81,8 +81,8 @@ export default function ClientForm({ open, onOpenChange, onSuccess, initial }: P
     payload.profile_completeness = Math.round((filled / fields.length) * 100);
 
     const op = initial?.id
-      ? supabase.from("clients").update(payload).eq("id", initial.id)
-      : supabase.from("clients").insert(payload);
+      ? supabase.from("clients").update(payload as any).eq("id", initial.id)
+      : supabase.from("clients").insert(payload as any);
     const { error } = await op;
     if (error) toast.error(error.message);
     else { toast.success(initial?.id ? "Client updated" : "Client created"); onSuccess(); onOpenChange(false); }
