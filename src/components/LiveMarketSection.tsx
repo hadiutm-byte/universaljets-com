@@ -128,8 +128,11 @@ const LiveMarketSection = () => {
                   Market Alert
                 </p>
               </div>
-              <p className="text-[12px] text-foreground/45 font-extralight leading-[1.9]">
-                High demand expected for Monaco Grand Prix — limited availability. Early booking recommended.
+              <p className="text-[11px] text-foreground/55 font-light mb-1">
+                Monaco Grand Prix — high demand, limited availability.
+              </p>
+              <p className="text-[10px] text-foreground/30 font-extralight leading-[1.8]">
+                Early booking recommended to secure preferred aircraft.
               </p>
             </div>
           </motion.div>
