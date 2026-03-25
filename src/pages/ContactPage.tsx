@@ -213,7 +213,7 @@ const ContactPage = () => {
                         <textarea required value={form.message} onChange={(e) => update("message", e.target.value)} rows={5} className={inputClass + " resize-none"} placeholder="Tell us about your requirements..." maxLength={2000} />
                       </div>
 
-                      <button type="submit" disabled={loading} className="w-full py-4 bg-gradient-gold text-primary-foreground text-[11px] tracking-[0.3em] uppercase font-medium rounded-xl transition-all duration-500 hover:shadow-[0_0_40px_-10px_hsla(38,52%,50%,0.4)] hover:scale-[1.01] disabled:opacity-50 flex items-center justify-center gap-2">
+                      <button type="submit" disabled={loading} className="w-full py-4 bg-gradient-gold text-primary-foreground text-[11px] tracking-[0.3em] uppercase font-medium rounded-xl transition-all duration-500 hover:shadow-[0_0_40px_-10px_hsla(45,79%,46%,0.4)] hover:scale-[1.01] disabled:opacity-50 flex items-center justify-center gap-2">
                         <Send className="w-4 h-4" strokeWidth={1.3} />
                         {loading ? "Submitting..." : "Submit Request"}
                       </button>

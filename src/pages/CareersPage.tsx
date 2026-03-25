@@ -153,7 +153,7 @@ const CareersPage = () => {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 1 }}
                 onClick={() => setStage("warning")}
-                className="inline-flex items-center gap-3 px-10 py-4 bg-gradient-gold text-primary-foreground font-semibold text-sm tracking-[0.2em] uppercase rounded-sm hover:shadow-[0_0_40px_-5px_hsla(38,52%,50%,0.5)] transition-all duration-500"
+                className="inline-flex items-center gap-3 px-10 py-4 bg-gradient-gold text-primary-foreground font-semibold text-sm tracking-[0.2em] uppercase rounded-sm hover:shadow-[0_0_40px_-5px_hsla(45,79%,46%,0.5)] transition-all duration-500"
               >
                 Face Ricky
               </motion.button>
@@ -209,7 +209,7 @@ const CareersPage = () => {
               >
                 <button
                   onClick={() => setStage("details")}
-                  className="inline-flex items-center gap-3 px-10 py-4 bg-gradient-gold text-primary-foreground font-semibold text-sm tracking-[0.2em] uppercase rounded-sm hover:shadow-[0_0_40px_-5px_hsla(38,52%,50%,0.5)] transition-all duration-500"
+                  className="inline-flex items-center gap-3 px-10 py-4 bg-gradient-gold text-primary-foreground font-semibold text-sm tracking-[0.2em] uppercase rounded-sm hover:shadow-[0_0_40px_-5px_hsla(45,79%,46%,0.5)] transition-all duration-500"
                 >
                   Start Interview
                 </button>
@@ -268,7 +268,7 @@ const CareersPage = () => {
               <button
                 onClick={handleDetailsSubmit}
                 disabled={!form.name.trim() || !form.email.trim()}
-                className="inline-flex items-center gap-3 px-8 py-4 bg-gradient-gold text-primary-foreground font-semibold text-sm tracking-[0.2em] uppercase rounded-sm disabled:opacity-30 hover:shadow-[0_0_30px_-5px_hsla(38,52%,50%,0.4)] transition-all duration-500"
+                className="inline-flex items-center gap-3 px-8 py-4 bg-gradient-gold text-primary-foreground font-semibold text-sm tracking-[0.2em] uppercase rounded-sm disabled:opacity-30 hover:shadow-[0_0_30px_-5px_hsla(45,79%,46%,0.4)] transition-all duration-500"
               >
                 Enter
                 <ArrowRight size={16} />
@@ -348,7 +348,7 @@ const CareersPage = () => {
                   <button
                     onClick={send}
                     disabled={!input.trim() || loading}
-                    className="w-9 h-9 flex items-center justify-center rounded-full bg-gradient-gold text-primary-foreground disabled:opacity-20 hover:shadow-[0_0_15px_-3px_hsla(38,52%,50%,0.4)] transition-all duration-300"
+                    className="w-9 h-9 flex items-center justify-center rounded-full bg-gradient-gold text-primary-foreground disabled:opacity-20 hover:shadow-[0_0_15px_-3px_hsla(45,79%,46%,0.4)] transition-all duration-300"
                   >
                     <Send size={14} />
                   </button>
@@ -386,7 +386,7 @@ const CareersPage = () => {
                   </p>
                   <button
                     onClick={() => setStage("schedule")}
-                    className="inline-flex items-center gap-3 px-10 py-4 bg-gradient-gold text-primary-foreground font-semibold text-sm tracking-[0.2em] uppercase rounded-sm hover:shadow-[0_0_40px_-5px_hsla(38,52%,50%,0.5)] transition-all duration-500"
+                    className="inline-flex items-center gap-3 px-10 py-4 bg-gradient-gold text-primary-foreground font-semibold text-sm tracking-[0.2em] uppercase rounded-sm hover:shadow-[0_0_40px_-5px_hsla(45,79%,46%,0.5)] transition-all duration-500"
                   >
                     Schedule Meeting
                     <Calendar size={16} />
@@ -467,7 +467,7 @@ const CareersPage = () => {
                   }
                   alert("Confirmed. We'll be in touch.");
                 }}
-                className="inline-flex items-center gap-3 px-10 py-4 bg-gradient-gold text-primary-foreground font-semibold text-sm tracking-[0.2em] uppercase rounded-sm hover:shadow-[0_0_40px_-5px_hsla(38,52%,50%,0.5)] transition-all duration-500"
+                className="inline-flex items-center gap-3 px-10 py-4 bg-gradient-gold text-primary-foreground font-semibold text-sm tracking-[0.2em] uppercase rounded-sm hover:shadow-[0_0_40px_-5px_hsla(45,79%,46%,0.5)] transition-all duration-500"
               >
                 Confirm
                 <ArrowRight size={16} />

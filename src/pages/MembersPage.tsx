@@ -168,7 +168,7 @@ const MembersPage = () => (
                   to="/contact"
                   className={`block text-center py-3.5 text-[10px] tracking-[0.25em] uppercase font-medium rounded-xl transition-all duration-500 ${
                     tier.featured
-                      ? "bg-gradient-gold text-primary-foreground hover:shadow-[0_0_30px_-8px_hsla(38,52%,50%,0.45)]"
+                      ? "bg-gradient-gold text-primary-foreground hover:shadow-[0_0_30px_-8px_hsla(45,79%,46%,0.45)]"
                       : "border border-primary/20 text-primary hover:border-primary/40 hover:bg-primary/5"
                   }`}
                 >
@@ -203,7 +203,7 @@ const MembersPage = () => (
               transition={{ delay: i * 0.08, duration: 0.6 }}
               className="text-center group"
             >
-              <div className="w-14 h-14 rounded-full border border-border flex items-center justify-center mx-auto mb-7 group-hover:border-primary/30 group-hover:shadow-[0_0_20px_-5px_hsla(38,52%,50%,0.15)] transition-all duration-700">
+              <div className="w-14 h-14 rounded-full border border-border flex items-center justify-center mx-auto mb-7 group-hover:border-primary/30 group-hover:shadow-[0_0_20px_-5px_hsla(45,79%,46%,0.15)] transition-all duration-700">
                 <b.icon className="w-5 h-5 text-primary/60" strokeWidth={1.2} />
               </div>
               <h3 className="font-display text-lg mb-3 text-foreground">{b.title}</h3>
@@ -263,7 +263,7 @@ const MembersPage = () => (
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link
               to="/contact"
-              className="px-10 py-3.5 bg-gradient-gold text-primary-foreground text-[10px] tracking-[0.25em] uppercase font-medium rounded-xl hover:shadow-[0_0_30px_-8px_hsla(38,52%,50%,0.45)] transition-all duration-500"
+              className="px-10 py-3.5 bg-gradient-gold text-primary-foreground text-[10px] tracking-[0.25em] uppercase font-medium rounded-xl hover:shadow-[0_0_30px_-8px_hsla(45,79%,46%,0.45)] transition-all duration-500"
             >
               Contact Us
             </Link>

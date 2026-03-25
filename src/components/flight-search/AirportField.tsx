@@ -86,7 +86,7 @@ const AirportField = ({
 
   return (
     <div className={compact ? "relative" : "relative"} ref={ref}>
-      <div className="px-4 py-5 rounded-[14px] bg-white/[0.02] border border-transparent hover:bg-white/[0.04] hover:shadow-[0_0_20px_-8px_hsla(38,52%,50%,0.12)] transition-all duration-300 focus-within:border-primary/40 focus-within:shadow-[0_0_24px_-6px_hsla(38,52%,50%,0.2)]">
+      <div className="px-4 py-5 rounded-[14px] bg-white/[0.02] border border-transparent hover:bg-white/[0.04] hover:shadow-[0_0_20px_-8px_hsla(45,79%,46%,0.12)] transition-all duration-300 focus-within:border-primary/40 focus-within:shadow-[0_0_24px_-6px_hsla(45,79%,46%,0.2)]">
         <label className="flex items-center gap-1.5 text-[7.5px] tracking-[0.35em] uppercase text-primary/55 mb-2.5 font-light">
           <Icon size={8} strokeWidth={1.5} /> {label}
         </label>

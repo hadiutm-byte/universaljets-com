@@ -103,7 +103,7 @@ const FlightSearchBox = () => {
     navigate(`/search?${params.toString()}`);
   };
 
-  const fieldWrapperClass = "px-4 py-4 rounded-xl bg-muted/30 border border-transparent hover:bg-muted/50 hover:shadow-sm transition-all duration-300 focus-within:border-primary/30 focus-within:shadow-[0_0_20px_-8px_hsla(38,52%,50%,0.12)]";
+  const fieldWrapperClass = "px-4 py-4 rounded-xl bg-muted/30 border border-transparent hover:bg-muted/50 hover:shadow-sm transition-all duration-300 focus-within:border-primary/30 focus-within:shadow-[0_0_20px_-8px_hsla(45,79%,46%,0.12)]";
 
   return (
     <div className="w-full max-w-4xl mx-auto">
@@ -166,7 +166,7 @@ const FlightSearchBox = () => {
                     disabled={!canSearch}
                     whileHover={canSearch ? { scale: 1.05 } : {}}
                     whileTap={canSearch ? { scale: 0.97 } : {}}
-                    className="w-full md:w-[52px] h-[52px] bg-gradient-gold rounded-xl flex items-center justify-center gap-2 hover:shadow-[0_0_30px_-5px_hsla(38,52%,50%,0.4)] transition-all duration-500 disabled:opacity-30 disabled:cursor-not-allowed cursor-pointer"
+                    className="w-full md:w-[52px] h-[52px] bg-gradient-gold rounded-xl flex items-center justify-center gap-2 hover:shadow-[0_0_30px_-5px_hsla(45,79%,46%,0.4)] transition-all duration-500 disabled:opacity-30 disabled:cursor-not-allowed cursor-pointer"
                   >
                     <ArrowRight size={17} className="text-white" strokeWidth={2} />
                     <span className="md:hidden text-white text-[10px] tracking-[0.2em] uppercase font-medium">Search</span>
@@ -214,7 +214,7 @@ const FlightSearchBox = () => {
                     </select>
                   </div>
                 </div>
-                <motion.button onClick={handleSearch} disabled={!canSearch} whileHover={canSearch ? { scale: 1.05 } : {}} whileTap={canSearch ? { scale: 0.97 } : {}} className="flex items-center gap-2 px-6 py-2.5 bg-gradient-gold rounded-xl text-white text-[9px] tracking-[0.2em] uppercase font-medium hover:shadow-[0_0_30px_-5px_hsla(38,52%,50%,0.4)] transition-all duration-500 disabled:opacity-30 disabled:cursor-not-allowed cursor-pointer">
+                <motion.button onClick={handleSearch} disabled={!canSearch} whileHover={canSearch ? { scale: 1.05 } : {}} whileTap={canSearch ? { scale: 0.97 } : {}} className="flex items-center gap-2 px-6 py-2.5 bg-gradient-gold rounded-xl text-white text-[9px] tracking-[0.2em] uppercase font-medium hover:shadow-[0_0_30px_-5px_hsla(45,79%,46%,0.4)] transition-all duration-500 disabled:opacity-30 disabled:cursor-not-allowed cursor-pointer">
                   <ArrowRight size={13} strokeWidth={2} /> Search
                 </motion.button>
               </div>

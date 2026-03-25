@@ -1,12 +1,59 @@
 import { motion } from "framer-motion";
-import { CreditCard, Crown, Globe, Star, Gift, ArrowRight, Gem, ShieldCheck } from "lucide-react";
-import { FadeReveal, GlassCard } from "./ui/ScrollEffects";
+import { CreditCard, Crown, Globe, Star, Gift, ArrowRight, Gem, ShieldCheck, Layers, Handshake } from "lucide-react";
+import { FadeReveal } from "./ui/ScrollEffects";
 
 const partnerLogos = [
   "Rolls-Royce", "Bombardier", "Gulfstream", "Embraer",
   "Dassault Aviation", "Textron Aviation", "VistaJet",
   "Jetex", "Universal Aviation", "ExcelAire",
   "Four Seasons", "Bentley", "Aman Hotels",
+];
+
+const partnerCards = [
+  {
+    icon: CreditCard,
+    tag: "Featured",
+    title: "Co-Branded Card Program",
+    subtitle: "Visa Infinite · Mastercard World Elite",
+    desc: "Integrated flight credits, priority booking, and exclusive lifestyle rewards linked directly to card activity. Built with leading financial institutions.",
+    badges: ["Visa Infinite", "Mastercard World Elite", "Amex"],
+    featured: true,
+    cta: "Explore Program",
+    href: "/contact",
+  },
+  {
+    icon: Globe,
+    tag: "Enterprise",
+    title: "White-Label Aviation",
+    subtitle: "Your Brand. Our Infrastructure.",
+    desc: "Full charter operations under your brand identity. For banks, luxury brands, and corporate partners seeking seamless, branded aviation service.",
+    badges: [],
+    featured: false,
+    cta: "Learn More",
+    href: "/contact",
+  },
+  {
+    icon: Handshake,
+    tag: "Revenue Share",
+    title: "Affiliate Program",
+    subtitle: "Earn on Every Referral",
+    desc: "Refer clients to Universal Jets and earn competitive commissions on charter bookings. Perfect for travel advisors, family offices, and luxury concierge services.",
+    badges: [],
+    featured: false,
+    cta: "Join Program",
+    href: "/contact",
+  },
+  {
+    icon: Layers,
+    tag: "Members",
+    title: "Jet Card & Membership",
+    subtitle: "Guaranteed Access. Fixed Rates.",
+    desc: "Pre-purchased flight hours with guaranteed availability, fixed pricing, and priority positioning. The ultimate commitment to seamless private aviation.",
+    badges: [],
+    featured: false,
+    cta: "View Plans",
+    href: "/jet-card",
+  },
 ];
 
 const memberBenefits = [
@@ -46,52 +93,77 @@ const PartnersSection = () => (
         </div>
       </div>
 
-      {/* Co-Branded Card Program */}
-      <div className="grid lg:grid-cols-2 gap-14 max-w-5xl mx-auto mb-24">
-        <FadeReveal>
-          <div className="space-y-6">
-            <div className="flex items-center gap-3">
-              <CreditCard className="w-5 h-5 text-primary" strokeWidth={1.2} />
-              <p className="text-[11px] tracking-[0.4em] uppercase text-primary font-medium">Co-Branded Card Program</p>
-            </div>
-            <h3 className="text-2xl md:text-3xl font-display font-semibold text-foreground leading-tight">
-              Visa Infinite &<br />
-              Mastercard World Elite
-            </h3>
-            <p className="text-[14px] text-muted-foreground font-light leading-[2]">
-              Universal Jets offers co-branded card programs in partnership with leading financial institutions. Members benefit from integrated flight credits, priority booking, and exclusive lifestyle rewards linked directly to their card activity.
-            </p>
-            <div className="flex flex-wrap gap-3 pt-2">
-              {["Visa Infinite", "Mastercard World Elite", "Amex"].map((card) => (
-                <span key={card} className="px-4 py-2 rounded-lg border border-border text-[11px] tracking-[0.15em] uppercase font-medium text-foreground/60 bg-card">
-                  {card}
-                </span>
-              ))}
-            </div>
-          </div>
-        </FadeReveal>
-
-        <FadeReveal delay={0.15}>
-          <div className="space-y-6">
-            <div className="flex items-center gap-3">
-              <Globe className="w-5 h-5 text-primary" strokeWidth={1.2} />
-              <p className="text-[11px] tracking-[0.4em] uppercase text-primary font-medium">White-Label Aviation</p>
-            </div>
-            <h3 className="text-2xl md:text-3xl font-display font-semibold text-foreground leading-tight">
-              Your Brand.<br />
-              Our Infrastructure.
-            </h3>
-            <p className="text-[14px] text-muted-foreground font-light leading-[2]">
-              For financial institutions, luxury brands, and corporate partners — Universal Jets provides white-label charter solutions under your brand identity. Full operational support with your clients experiencing seamless, branded service.
-            </p>
-            <a
-              href="/contact"
-              className="inline-flex items-center gap-2 text-[11px] tracking-[0.2em] uppercase text-primary hover:text-primary/80 font-medium transition-colors group"
+      {/* Partner Cards — Co-Branded is dominant */}
+      <div className="grid lg:grid-cols-2 gap-6 max-w-5xl mx-auto mb-24">
+        {partnerCards.map((card, i) => (
+          <FadeReveal key={card.title} delay={i * 0.1}>
+            <motion.div
+              whileHover={{ y: -6, boxShadow: card.featured
+                ? "0 30px 80px -16px hsla(45, 79%, 46%, 0.22), 0 0 0 1px hsla(45, 79%, 46%, 0.15)"
+                : "0 20px 60px -16px hsla(0, 0%, 0%, 0.12)"
+              }}
+              transition={{ duration: 0.35 }}
+              className={`relative rounded-2xl p-8 md:p-10 h-full border transition-all duration-500 ${
+                card.featured
+                  ? "bg-gradient-to-br from-card via-card to-primary/[0.04] border-primary/20 shadow-[0_0_60px_-20px_hsla(45,79%,46%,0.1)]"
+                  : "bg-card border-border shadow-sm"
+              } ${card.featured ? "lg:col-span-2" : ""}`}
             >
-              Explore Partnership <ArrowRight size={12} className="group-hover:translate-x-1 transition-transform" />
-            </a>
-          </div>
-        </FadeReveal>
+              {/* Tag */}
+              <div className="flex items-center gap-3 mb-6">
+                <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${
+                  card.featured ? "bg-primary/12" : "bg-muted"
+                }`}>
+                  <card.icon className={`w-5 h-5 ${card.featured ? "text-primary" : "text-foreground/40"}`} strokeWidth={1.2} />
+                </div>
+                <span className={`px-3 py-1 rounded-full text-[8px] tracking-[0.2em] uppercase font-medium ${
+                  card.featured
+                    ? "bg-primary/10 text-primary border border-primary/15"
+                    : "bg-muted text-muted-foreground"
+                }`}>
+                  {card.tag}
+                </span>
+              </div>
+
+              <h3 className={`font-display font-semibold text-foreground leading-tight mb-2 ${
+                card.featured ? "text-2xl md:text-3xl" : "text-xl md:text-2xl"
+              }`}>
+                {card.title}
+              </h3>
+              <p className="text-[12px] tracking-[0.15em] uppercase text-primary/70 font-medium mb-4">{card.subtitle}</p>
+              <p className={`text-muted-foreground font-light leading-[2] mb-6 ${
+                card.featured ? "text-[15px] max-w-xl" : "text-[13px]"
+              }`}>
+                {card.desc}
+              </p>
+
+              {card.badges.length > 0 && (
+                <div className="flex flex-wrap gap-2 mb-6">
+                  {card.badges.map((badge) => (
+                    <span key={badge} className="px-4 py-2 rounded-lg border border-border text-[10px] tracking-[0.12em] uppercase font-medium text-foreground/55 bg-card/80">
+                      {badge}
+                    </span>
+                  ))}
+                </div>
+              )}
+
+              <a
+                href={card.href}
+                className={`inline-flex items-center gap-2 text-[11px] tracking-[0.2em] uppercase font-medium transition-all duration-300 group ${
+                  card.featured
+                    ? "btn-luxury px-8 py-3.5 bg-gradient-gold text-white rounded-xl"
+                    : "text-primary hover:text-primary/80"
+                }`}
+              >
+                {card.cta} <ArrowRight size={12} className="group-hover:translate-x-1 transition-transform" />
+              </a>
+
+              {card.featured && (
+                <div className="absolute top-0 right-0 w-40 h-40 bg-[radial-gradient(circle,_hsla(45,79%,46%,0.06)_0%,_transparent_70%)] pointer-events-none" />
+              )}
+            </motion.div>
+          </FadeReveal>
+        ))}
       </div>
 
       {/* Member Benefits */}
@@ -105,17 +177,20 @@ const PartnersSection = () => (
       <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5 max-w-4xl mx-auto mb-16">
         {memberBenefits.map((b, i) => (
           <FadeReveal key={i} delay={i * 0.1}>
-            <GlassCard className="py-8 px-5 text-center h-full">
+            <motion.div
+              whileHover={{ y: -4, boxShadow: "0 16px 40px -12px hsla(0, 0%, 0%, 0.1)" }}
+              className="py-8 px-5 text-center h-full rounded-2xl border border-border bg-card card-elevated"
+            >
               <motion.div
                 whileHover={{ scale: 1.1, rotate: 5 }}
                 transition={{ type: "spring", stiffness: 300 }}
-                className="w-14 h-14 rounded-full glass-panel flex items-center justify-center mx-auto mb-5"
+                className="w-14 h-14 rounded-full bg-muted flex items-center justify-center mx-auto mb-5"
               >
                 <b.icon className="w-5 h-5 text-primary" strokeWidth={1.2} />
               </motion.div>
               <h4 className="font-display text-[14px] text-foreground font-medium mb-2">{b.title}</h4>
               <p className="text-[12px] text-muted-foreground font-light leading-[1.8]">{b.desc}</p>
-            </GlassCard>
+            </motion.div>
           </FadeReveal>
         ))}
       </div>
@@ -131,7 +206,7 @@ const PartnersSection = () => (
           </a>
           <a
             href="/members"
-            className="btn-luxury px-10 py-4 glass-panel text-foreground/70 hover:text-foreground text-[10px] tracking-[0.28em] uppercase font-medium rounded-xl"
+            className="btn-luxury px-10 py-4 border border-border bg-card hover:bg-muted text-foreground/70 hover:text-foreground text-[10px] tracking-[0.28em] uppercase font-medium rounded-xl transition-all"
           >
             Member Access
           </a>

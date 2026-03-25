@@ -71,7 +71,7 @@ const FlyYourWaySection = () => (
             transition={{ delay: i * 0.12, duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
             className={`relative rounded-2xl p-8 md:p-10 flex flex-col transition-all duration-700 group ${
               tier.highlighted
-                ? "glass border border-gold/20 shadow-[0_0_40px_-12px_hsla(38,52%,50%,0.15)]"
+                ? "glass border border-gold/20 shadow-[0_0_40px_-12px_hsla(45,79%,46%,0.15)]"
                 : "glass luxury-border luxury-border-hover"
             }`}
           >
@@ -101,7 +101,7 @@ const FlyYourWaySection = () => (
               to={tier.cta.href}
               className={`inline-flex items-center justify-center gap-2 w-full py-3.5 rounded-sm text-[9px] tracking-[0.25em] uppercase font-medium transition-all duration-500 ${
                 tier.highlighted
-                  ? "bg-gradient-gold text-primary-foreground hover:shadow-[0_0_30px_-8px_hsla(38,52%,50%,0.45)]"
+                  ? "bg-gradient-gold text-primary-foreground hover:shadow-[0_0_30px_-8px_hsla(45,79%,46%,0.45)]"
                   : "luxury-border text-foreground/50 hover:text-foreground/80 luxury-border-hover"
               }`}
             >
@@ -127,7 +127,7 @@ const FlyYourWaySection = () => (
         </p>
         <Link
           to="/#cta"
-          className="inline-flex items-center gap-2 px-10 py-3.5 bg-gradient-gold text-primary-foreground text-[9px] tracking-[0.25em] uppercase font-medium rounded-sm hover:shadow-[0_0_30px_-8px_hsla(38,52%,50%,0.45)] transition-all duration-500"
+          className="inline-flex items-center gap-2 px-10 py-3.5 bg-gradient-gold text-primary-foreground text-[9px] tracking-[0.25em] uppercase font-medium rounded-sm hover:shadow-[0_0_30px_-8px_hsla(45,79%,46%,0.45)] transition-all duration-500"
         >
           Speak to an Advisor <ArrowRight size={10} />
         </Link>

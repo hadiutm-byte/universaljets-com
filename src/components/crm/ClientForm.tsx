@@ -51,7 +51,7 @@ export default function ClientForm({ open, onOpenChange, onSuccess, initial }: P
           {field("Company", "company")}
           {field("Notes", "notes")}
           <button type="submit" disabled={loading}
-            className="w-full py-3 bg-gradient-gold text-primary-foreground text-[9px] tracking-[0.25em] uppercase font-medium rounded-lg hover:shadow-[0_0_30px_-8px_hsla(38,52%,50%,0.45)] transition-all duration-500 disabled:opacity-50">
+            className="w-full py-3 bg-gradient-gold text-primary-foreground text-[9px] tracking-[0.25em] uppercase font-medium rounded-lg hover:shadow-[0_0_30px_-8px_hsla(45,79%,46%,0.45)] transition-all duration-500 disabled:opacity-50">
             {loading ? "Saving..." : "Save Client"}
           </button>
         </form>

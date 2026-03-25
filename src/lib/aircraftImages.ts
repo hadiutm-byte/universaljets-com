@@ -4,8 +4,40 @@ import superMidsizeJet from "@/assets/aircraft/super-midsize-jet.jpg";
 import heavyJet from "@/assets/aircraft/heavy-jet.jpg";
 import ultraLongRange from "@/assets/aircraft/ultra-long-range.jpg";
 import turboprop from "@/assets/aircraft/turboprop.jpg";
+import gulfstream from "@/assets/aircraft/gulfstream.jpg";
+import challenger from "@/assets/aircraft/challenger.jpg";
+import falcon from "@/assets/aircraft/falcon.jpg";
+import citation from "@/assets/aircraft/citation.jpg";
+import embraer from "@/assets/aircraft/embraer.jpg";
+import global from "@/assets/aircraft/global.jpg";
 
 type AircraftCategory = "light" | "midsize" | "super_midsize" | "heavy" | "ultra_long_range" | "turboprop";
+
+/** Model-specific images — checked first before falling back to category */
+const modelImages: Record<string, string> = {
+  gulfstream: gulfstream,
+  challenger: challenger,
+  falcon: falcon,
+  citation: citation,
+  embraer: embraer,
+  praetor: embraer,
+  phenom: embraer,
+  legacy: embraer,
+  lineage: embraer,
+  global: global,
+  learjet: midsizeJet,
+  hawker: midsizeJet,
+  pilatus: turboprop,
+  "king air": turboprop,
+  beechcraft: turboprop,
+  tbm: turboprop,
+  "pc-12": turboprop,
+  "pc-24": lightJet,
+  hondajet: lightJet,
+  nextant: lightJet,
+  bbj: global,
+  acj: global,
+};
 
 const categoryImages: Record<AircraftCategory, string> = {
   light: lightJet,
@@ -57,8 +89,19 @@ function classifyAircraft(name: string): AircraftCategory {
   return "midsize";
 }
 
+/** Match aircraft name to a specific model image first, then fall back to category */
+function getModelImage(name: string): string | null {
+  const n = name.toLowerCase();
+  for (const [key, img] of Object.entries(modelImages)) {
+    if (n.includes(key)) return img;
+  }
+  return null;
+}
+
 /** Get the aircraft image for a given aircraft name/type string */
 export function getAircraftImage(aircraftName: string): string {
+  const modelImg = getModelImage(aircraftName);
+  if (modelImg) return modelImg;
   const cat = classifyAircraft(aircraftName);
   return categoryImages[cat];
 }

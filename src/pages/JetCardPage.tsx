@@ -66,7 +66,7 @@ const JetCardPage = () => (
             Designed for frequent flyers, corporate executives, and UHNW individuals.
           </p>
 
-          <a href="#jet-card-tiers" className="inline-block px-8 py-3.5 bg-gradient-gold text-primary-foreground text-[11px] tracking-[0.25em] uppercase font-medium rounded-xl hover:shadow-[0_0_30px_-8px_hsla(38,52%,50%,0.45)] transition-all duration-500">
+          <a href="#jet-card-tiers" className="inline-block px-8 py-3.5 bg-gradient-gold text-primary-foreground text-[11px] tracking-[0.25em] uppercase font-medium rounded-xl hover:shadow-[0_0_30px_-8px_hsla(45,79%,46%,0.45)] transition-all duration-500">
             View Programs
           </a>
 
@@ -101,7 +101,7 @@ const JetCardPage = () => (
             <motion.div key={i} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.08, duration: 0.6 }}
               className="text-center group"
             >
-              <div className="w-14 h-14 rounded-full border border-border flex items-center justify-center mx-auto mb-7 group-hover:border-primary/30 group-hover:shadow-[0_0_20px_-5px_hsla(38,52%,50%,0.15)] transition-all duration-700">
+              <div className="w-14 h-14 rounded-full border border-border flex items-center justify-center mx-auto mb-7 group-hover:border-primary/30 group-hover:shadow-[0_0_20px_-5px_hsla(45,79%,46%,0.15)] transition-all duration-700">
                 <b.icon className="w-5 h-5 text-primary/60" strokeWidth={1.2} />
               </div>
               <h3 className="font-display text-lg mb-3 text-foreground">{b.title}</h3>
@@ -128,7 +128,7 @@ const JetCardPage = () => (
             <motion.div key={i} initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.12, duration: 0.7 }}
               className={`relative rounded-2xl p-8 md:p-10 transition-all duration-700 ${
                 tier.featured
-                  ? "border-2 border-primary/25 bg-card shadow-[0_0_40px_-12px_hsla(38,52%,50%,0.12)]"
+                  ? "border-2 border-primary/25 bg-card shadow-[0_0_40px_-12px_hsla(45,79%,46%,0.12)]"
                   : "border border-border bg-card"
               }`}
             >
@@ -155,7 +155,7 @@ const JetCardPage = () => (
 
               <Link to="/contact" className={`block text-center py-3.5 text-[10px] tracking-[0.25em] uppercase font-medium rounded-xl transition-all duration-500 ${
                 tier.featured
-                  ? "bg-gradient-gold text-primary-foreground hover:shadow-[0_0_30px_-8px_hsla(38,52%,50%,0.45)]"
+                  ? "bg-gradient-gold text-primary-foreground hover:shadow-[0_0_30px_-8px_hsla(45,79%,46%,0.45)]"
                   : "border border-primary/20 text-primary hover:border-primary/40 hover:bg-primary/5"
               }`}>
                 Apply for Jet Card
@@ -204,7 +204,7 @@ const JetCardPage = () => (
             Limited availability per region — acceptance subject to client profile.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link to="/contact" className="px-10 py-3.5 bg-gradient-gold text-primary-foreground text-[10px] tracking-[0.25em] uppercase font-medium rounded-xl hover:shadow-[0_0_30px_-8px_hsla(38,52%,50%,0.45)] transition-all duration-500">
+            <Link to="/contact" className="px-10 py-3.5 bg-gradient-gold text-primary-foreground text-[10px] tracking-[0.25em] uppercase font-medium rounded-xl hover:shadow-[0_0_30px_-8px_hsla(45,79%,46%,0.45)] transition-all duration-500">
               Apply for Jet Card
             </Link>
             <Link to="/members" className="inline-flex items-center justify-center gap-2 px-10 py-3.5 text-[10px] tracking-[0.2em] uppercase text-muted-foreground hover:text-foreground transition-all duration-500 border border-border rounded-xl">
