@@ -11,7 +11,7 @@ import SearchResults from "./pages/SearchResults.tsx";
 import ACMILeasingPage from "./pages/ACMILeasingPage.tsx";
 import PartnerPage from "./pages/PartnerPage.tsx";
 import DestinationsPage from "./pages/DestinationsPage.tsx";
-import ResourcesPage from "./pages/ResourcesPage.tsx";
+import CrmResourcesPage from "./pages/crm/ResourcesPage.tsx";
 import TermsPage from "./pages/TermsPage.tsx";
 import PrivacyPage from "./pages/PrivacyPage.tsx";
 import CookiesPage from "./pages/CookiesPage.tsx";
@@ -64,7 +64,7 @@ const App = () => (
           <Route path="/acmi-leasing" element={<ACMILeasingPage />} />
           <Route path="/destinations" element={<DestinationsPage />} />
           <Route path="/partners" element={<PartnerPage />} />
-          <Route path="/resources" element={<ResourcesPage />} />
+          <Route path="/resources" element={<ProtectedRoute allowedRoles={[...CRM_ROLES]}><CrmResourcesPage /></ProtectedRoute>} />
           <Route path="/terms" element={<TermsPage />} />
           <Route path="/privacy" element={<PrivacyPage />} />
           <Route path="/cookies" element={<CookiesPage />} />
@@ -79,6 +79,7 @@ const App = () => (
             <Route path="invoices" element={<InvoicesPage />} />
             <Route path="trips" element={<TripsPage />} />
             <Route path="outreach" element={<OutreachPage />} />
+            <Route path="resources" element={<CrmResourcesPage />} />
             <Route path="admin/users" element={<AdminUsersPage />} />
             <Route path="admin/settings" element={<AdminSettingsPage />} />
           </Route>

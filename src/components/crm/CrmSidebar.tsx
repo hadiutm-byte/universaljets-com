@@ -1,6 +1,6 @@
 import {
   LayoutDashboard, Users, Target, Plane, FileText, ScrollText, Receipt,
-  Map, LogOut, ChevronLeft, MessageSquare, Kanban, Shield, Settings, CreditCard,
+  Map, LogOut, ChevronLeft, MessageSquare, Kanban, Shield, Settings, CreditCard, FolderOpen,
   Heart, UserCheck, DollarSign,
 } from "lucide-react";
 import { NavLink } from "@/components/NavLink";
@@ -54,6 +54,12 @@ const sections: { label: string; items: NavItem[] }[] = [
     label: "Membership",
     items: [
       { title: "Outreach", url: "/crm/outreach", icon: MessageSquare, roles: ["admin", "sales"] },
+    ],
+  },
+  {
+    label: "Resources",
+    items: [
+      { title: "Templates", url: "/crm/resources", icon: FolderOpen, roles: [] },
     ],
   },
   {
