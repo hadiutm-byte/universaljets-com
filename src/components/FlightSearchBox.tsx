@@ -2,7 +2,9 @@ import { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { MapPin, Calendar, Users, ArrowRight, Loader2, RotateCcw, Plus, X } from "lucide-react";
+import { format } from "date-fns";
 import { useAirportSearch, type Airport } from "@/hooks/useAviapages";
+import DateTimePicker from "@/components/flight-search/DateTimePicker";
 
 type TripType = "one-way" | "round-trip" | "multi-city";
 
