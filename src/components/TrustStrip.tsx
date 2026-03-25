@@ -19,7 +19,6 @@ const TrustStrip = () => (
         transition={{ duration: 1 }}
         className="flex flex-col items-center gap-10"
       >
-        {/* Trust metrics */}
         <div className="grid grid-cols-2 md:flex md:flex-row items-center justify-center gap-8 md:gap-16">
           {items.map((item, i) => (
             <div key={i} className="flex items-center gap-3">
@@ -31,12 +30,9 @@ const TrustStrip = () => (
           ))}
         </div>
 
-        {/* Tagline */}
         <p className="text-[9px] tracking-[0.3em] text-foreground/20 font-extralight uppercase text-center">
           Trusted by global executives, royal families, and private clients
         </p>
-      </motion.div>
-      <div className="divider-gold mt-14" />
       </motion.div>
       <div className="divider-gold mt-14" />
     </div>
