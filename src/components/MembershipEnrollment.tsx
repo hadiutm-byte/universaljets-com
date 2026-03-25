@@ -29,8 +29,14 @@ const MembershipEnrollment = () => {
     if (!form.name || !form.email) return;
     setLoading(true);
     try {
-      await supabase.functions.invoke("crm-capture", {
-        body: { name: form.name, email: form.email, phone: form.phone, departure: form.location || "N/A", destination: "Membership Application", source: "membership_enrollment" },
+      await capture({
+        name: form.name,
+        email: form.email,
+        phone: form.phone,
+        departure: form.location || "N/A",
+        destination: "Membership Application",
+        source: "membership_enrollment",
+        notes: form.flights ? `Est. flights/year: ${form.flights}` : undefined,
       });
       const seq = Math.floor(1000 + Math.random() * 9000);
       setMember({ name: form.name.toUpperCase(), id: `5000 ${seq.toString().padStart(4, "0")}`, memberSince: String(new Date().getFullYear()) });
