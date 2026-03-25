@@ -1,6 +1,6 @@
 import {
   LayoutDashboard, Users, Target, Plane, FileText, ScrollText, Receipt,
-  Map, LogOut, ChevronLeft, MessageSquare, Kanban, Shield, Settings, CreditCard,
+  Map, LogOut, ChevronLeft, MessageSquare, Kanban, Shield, Settings, CreditCard, FolderOpen,
   Heart, UserCheck, DollarSign,
 } from "lucide-react";
 import { NavLink } from "@/components/NavLink";
