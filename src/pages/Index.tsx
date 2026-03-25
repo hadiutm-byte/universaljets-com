@@ -35,6 +35,7 @@ const Index = () => (
       <LiveMarketSection />
       <DestinationsSection />
       <EventsSection />
+      <TrustedNetworkSection />
       <SafetySection />
       <FoundersCircleSection />
       <MembershipEnrollment />
