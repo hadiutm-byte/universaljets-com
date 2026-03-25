@@ -5,7 +5,7 @@ import { ShieldCheck, Award, FileCheck, Globe } from "lucide-react";
 const companyLinks = [
   { label: "About", href: "/about" },
   { label: "Careers", href: "/careers" },
-  { label: "Contact", href: "/#cta" },
+  { label: "Contact", href: "/contact" },
 ];
 
 const serviceLinks = [
