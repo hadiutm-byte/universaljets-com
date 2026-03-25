@@ -162,8 +162,8 @@ const FlightSearchBox = () => {
       from_label: `${primaryLeg.selectedFrom!.city} (${primaryLeg.selectedFrom!.icao || primaryLeg.selectedFrom!.iata})`,
       to_label: `${primaryLeg.selectedTo!.city} (${primaryLeg.selectedTo!.icao || primaryLeg.selectedTo!.iata})`,
     });
-    if (primaryLeg.date) params.set("date", primaryLeg.date);
-    if (tripType === "round-trip" && returnDate) params.set("return_date", returnDate);
+    if (primaryLeg.date) params.set("date", format(primaryLeg.date, "yyyy-MM-dd'T'HH:mm"));
+    if (tripType === "round-trip" && returnDate) params.set("return_date", format(returnDate, "yyyy-MM-dd'T'HH:mm"));
     if (passengers) params.set("passengers", passengers);
     if (tripType === "multi-city") {
       legs.forEach((leg, i) => {
@@ -171,7 +171,7 @@ const FlightSearchBox = () => {
         if (leg.selectedFrom && leg.selectedTo) {
           params.set(`leg${i + 1}_from`, leg.selectedFrom.icao || leg.selectedFrom.iata);
           params.set(`leg${i + 1}_to`, leg.selectedTo.icao || leg.selectedTo.iata);
-          if (leg.date) params.set(`leg${i + 1}_date`, leg.date);
+          if (leg.date) params.set(`leg${i + 1}_date`, format(leg.date, "yyyy-MM-dd'T'HH:mm"));
         }
       });
     }
