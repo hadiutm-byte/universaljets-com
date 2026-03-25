@@ -85,18 +85,18 @@ const MembershipPipelinePage = () => {
                   </div>
                   <div className="flex items-center gap-1.5 ml-4">
                     {app.status === "applied" && (
-                      <button onClick={() => updateStatus(app.id, "under_review")}
+                      <button onClick={() => handleUpdateStatus(app.id, "under_review")}
                         className="p-2 rounded-lg border border-border/20 text-muted-foreground/40 hover:text-amber-400 hover:border-amber-400/30 transition-all" title="Move to Review">
                         <Eye size={14} strokeWidth={1.5} />
                       </button>
                     )}
                     {(app.status === "applied" || app.status === "under_review") && (
                       <>
-                        <button onClick={() => updateStatus(app.id, "approved")}
+                        <button onClick={() => handleUpdateStatus(app.id, "approved")}
                           className="p-2 rounded-lg border border-border/20 text-muted-foreground/40 hover:text-emerald-400 hover:border-emerald-400/30 transition-all" title="Approve">
                           <CheckCircle size={14} strokeWidth={1.5} />
                         </button>
-                        <button onClick={() => updateStatus(app.id, "rejected")}
+                        <button onClick={() => handleUpdateStatus(app.id, "rejected")}
                           className="p-2 rounded-lg border border-border/20 text-muted-foreground/40 hover:text-destructive hover:border-destructive/30 transition-all" title="Reject">
                           <XCircle size={14} strokeWidth={1.5} />
                         </button>
