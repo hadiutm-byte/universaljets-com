@@ -243,7 +243,7 @@ const Ricky3D = () => {
                   animate={{ opacity: 1, y: 0, scale: 1 }}
                   exit={{ opacity: 0, y: 8, scale: 0.96 }}
                   transition={{ duration: 0.4 }}
-                  className="ricky-speech-cloud absolute bottom-[150px] right-[20px] z-[2] w-[240px] px-4 py-3"
+                  className="ricky-speech-cloud absolute bottom-[90px] right-[10px] z-[2] w-[220px] px-3 py-2.5"
                   style={{ pointerEvents: "auto" }}
                 >
                   <p className="text-[12px] font-light leading-[1.85] text-foreground/80 whitespace-pre-wrap">
@@ -268,7 +268,7 @@ const Ricky3D = () => {
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.4 }}
-                  className="absolute bottom-[130px] right-[20px] z-[2] flex max-w-[240px] flex-wrap justify-end gap-2"
+                  className="absolute bottom-[75px] right-[10px] z-[2] flex max-w-[220px] flex-wrap justify-end gap-1.5"
                   style={{ pointerEvents: "auto" }}
                 >
                   {quickActions.map((action, i) => (
@@ -304,7 +304,7 @@ const Ricky3D = () => {
               style={{ pointerEvents: "auto" }}
             >
               <div className="ricky-presence ricky-presence-3d">
-                <RickyThreeAvatar speaking={rickySpeaking} size={160} />
+                <RickyThreeAvatar speaking={rickySpeaking} size={80} compact />
               </div>
             </motion.button>
           </motion.div>
