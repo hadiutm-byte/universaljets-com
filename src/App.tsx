@@ -28,6 +28,7 @@ import InvoicesPage from "./pages/crm/InvoicesPage.tsx";
 import TripsPage from "./pages/crm/TripsPage.tsx";
 import OutreachPage from "./pages/crm/OutreachPage.tsx";
 import CareersPage from "./pages/CareersPage.tsx";
+import ContactPage from "./pages/ContactPage.tsx";
 import NotFound from "./pages/NotFound.tsx";
 import Ricky3D from "./components/Ricky3D.tsx";
 import CookieConsent from "./components/CookieConsent.tsx";
@@ -69,6 +70,7 @@ const App = () => (
             <Route path="outreach" element={<OutreachPage />} />
           </Route>
           <Route path="/careers" element={<CareersPage />} />
+          <Route path="/contact" element={<ContactPage />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
