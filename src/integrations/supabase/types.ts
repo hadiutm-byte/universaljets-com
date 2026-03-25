@@ -80,6 +80,42 @@ export type Database = {
         }
         Relationships: []
       }
+      concierge_preferences: {
+        Row: {
+          chauffeur: boolean | null
+          created_at: string | null
+          hotel_preferences: string | null
+          id: string
+          notes: string | null
+          security_escort: boolean | null
+          special_assistance: string | null
+          updated_at: string | null
+          user_id: string
+        }
+        Insert: {
+          chauffeur?: boolean | null
+          created_at?: string | null
+          hotel_preferences?: string | null
+          id?: string
+          notes?: string | null
+          security_escort?: boolean | null
+          special_assistance?: string | null
+          updated_at?: string | null
+          user_id: string
+        }
+        Update: {
+          chauffeur?: boolean | null
+          created_at?: string | null
+          hotel_preferences?: string | null
+          id?: string
+          notes?: string | null
+          security_escort?: boolean | null
+          special_assistance?: string | null
+          updated_at?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
       contracts: {
         Row: {
           created_at: string
@@ -236,6 +272,33 @@ export type Database = {
           },
         ]
       }
+      member_documents: {
+        Row: {
+          created_at: string | null
+          doc_type: string | null
+          file_url: string
+          id: string
+          name: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string | null
+          doc_type?: string | null
+          file_url: string
+          id?: string
+          name: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string | null
+          doc_type?: string | null
+          file_url?: string
+          id?: string
+          name?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       outreach_templates: {
         Row: {
           body: string
@@ -271,28 +334,67 @@ export type Database = {
       }
       profiles: {
         Row: {
+          available_credit: number | null
           avatar_url: string | null
+          billing_address: string | null
+          city: string | null
+          company: string | null
+          country: string | null
           created_at: string
           full_name: string | null
           id: string
+          invitation_status: string | null
+          member_id: string | null
+          membership_tier: string | null
+          nationality: string | null
+          payment_preference: string | null
           phone: string | null
+          referrals_sent: number | null
+          title: string | null
           updated_at: string
+          whatsapp: string | null
         }
         Insert: {
+          available_credit?: number | null
           avatar_url?: string | null
+          billing_address?: string | null
+          city?: string | null
+          company?: string | null
+          country?: string | null
           created_at?: string
           full_name?: string | null
           id: string
+          invitation_status?: string | null
+          member_id?: string | null
+          membership_tier?: string | null
+          nationality?: string | null
+          payment_preference?: string | null
           phone?: string | null
+          referrals_sent?: number | null
+          title?: string | null
           updated_at?: string
+          whatsapp?: string | null
         }
         Update: {
+          available_credit?: number | null
           avatar_url?: string | null
+          billing_address?: string | null
+          city?: string | null
+          company?: string | null
+          country?: string | null
           created_at?: string
           full_name?: string | null
           id?: string
+          invitation_status?: string | null
+          member_id?: string | null
+          membership_tier?: string | null
+          nationality?: string | null
+          payment_preference?: string | null
           phone?: string | null
+          referrals_sent?: number | null
+          title?: string | null
           updated_at?: string
+          whatsapp?: string | null
         }
         Relationships: []
       }
@@ -339,6 +441,84 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      saved_routes: {
+        Row: {
+          created_at: string | null
+          departure: string
+          destination: string
+          id: string
+          name: string | null
+          user_id: string
+        }
+        Insert: {
+          created_at?: string | null
+          departure: string
+          destination: string
+          id?: string
+          name?: string | null
+          user_id: string
+        }
+        Update: {
+          created_at?: string | null
+          departure?: string
+          destination?: string
+          id?: string
+          name?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
+      travel_preferences: {
+        Row: {
+          catering_preference: string | null
+          created_at: string | null
+          default_passengers: number | null
+          ground_transport_preference: string | null
+          id: string
+          pets: boolean | null
+          preferred_aircraft_category: string | null
+          preferred_departure_cities: string[] | null
+          smoking: boolean | null
+          typical_routes: string[] | null
+          updated_at: string | null
+          user_id: string
+          vip_terminal: boolean | null
+          wifi_required: boolean | null
+        }
+        Insert: {
+          catering_preference?: string | null
+          created_at?: string | null
+          default_passengers?: number | null
+          ground_transport_preference?: string | null
+          id?: string
+          pets?: boolean | null
+          preferred_aircraft_category?: string | null
+          preferred_departure_cities?: string[] | null
+          smoking?: boolean | null
+          typical_routes?: string[] | null
+          updated_at?: string | null
+          user_id: string
+          vip_terminal?: boolean | null
+          wifi_required?: boolean | null
+        }
+        Update: {
+          catering_preference?: string | null
+          created_at?: string | null
+          default_passengers?: number | null
+          ground_transport_preference?: string | null
+          id?: string
+          pets?: boolean | null
+          preferred_aircraft_category?: string | null
+          preferred_departure_cities?: string[] | null
+          smoking?: boolean | null
+          typical_routes?: string[] | null
+          updated_at?: string | null
+          user_id?: string
+          vip_terminal?: boolean | null
+          wifi_required?: boolean | null
+        }
+        Relationships: []
       }
       trips: {
         Row: {

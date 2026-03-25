@@ -17,6 +17,7 @@ import PrivacyPage from "./pages/PrivacyPage.tsx";
 import CookiesPage from "./pages/CookiesPage.tsx";
 import AuthPage from "./pages/AuthPage.tsx";
 import DashboardPage from "./pages/DashboardPage.tsx";
+import MemberProfilePage from "./pages/MemberProfilePage.tsx";
 import ProtectedRoute from "./components/ProtectedRoute.tsx";
 import CrmLayout from "./components/crm/CrmLayout.tsx";
 import CrmDashboard from "./pages/crm/CrmDashboard.tsx";
@@ -53,6 +54,7 @@ const App = () => (
           <Route path="/jet-card" element={<JetCardPage />} />
           <Route path="/auth" element={<AuthPage />} />
           <Route path="/dashboard" element={<ProtectedRoute><DashboardPage /></ProtectedRoute>} />
+          <Route path="/profile" element={<ProtectedRoute><MemberProfilePage /></ProtectedRoute>} />
           <Route path="/search" element={<SearchResults />} />
           <Route path="/about" element={<AboutPage />} />
           <Route path="/acmi-leasing" element={<ACMILeasingPage />} />

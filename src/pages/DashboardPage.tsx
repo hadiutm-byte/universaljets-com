@@ -83,7 +83,7 @@ const DashboardPage = () => {
             className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6"
           >
             {[
-              { icon: Bookmark, label: "Saved Routes", desc: "Your preferred itineraries", href: "#" },
+              { icon: User, label: "My Profile", desc: "View & edit your profile", href: "/profile" },
               { icon: Send, label: "Quick Booking", desc: "Request a flight in seconds", href: "/#search" },
               { icon: Sparkles, label: "Exclusive Access", desc: "Member-only opportunities", href: "#" },
             ].map((item, i) => (
