@@ -4,7 +4,8 @@ import { ArrowRight } from "lucide-react";
 import { useMouseParallax } from "@/hooks/useScrollEffects";
 import Logo3D from "@/components/Logo3D";
 
-const HERO_VIDEO_URL = "https://videos.pexels.com/video-files/2169880/2169880-uhd_2560_1440_30fps.mp4";
+// Cinematic private jet above clouds — pure aviation feel
+const HERO_VIDEO_URL = "https://videos.pexels.com/video-files/3996580/3996580-hd_1920_1080_30fps.mp4";
 
 const HeroSection = () => {
   const ref = useRef<HTMLElement>(null);
@@ -44,7 +45,7 @@ const HeroSection = () => {
       </motion.div>
 
       {/* Dark overlay with gradient */}
-      <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-black/70 pointer-events-none" />
+      <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/50 to-black/80 pointer-events-none" />
 
       {/* Subtle gold ambient glow */}
       <motion.div className="absolute inset-0 pointer-events-none" style={{ scale: bgScale }}>
