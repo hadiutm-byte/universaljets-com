@@ -24,8 +24,9 @@ const HeroSection = () => {
           width={1920}
           height={1080}
         />
-        {/* Jet glow/reflection effect */}
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_40%_at_55%_45%,_hsla(38,60%,55%,0.08)_0%,_transparent_70%)]" />
+        {/* Jet glow/reflection — warm light around aircraft */}
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_50%_35%_at_55%_45%,_hsla(38,60%,55%,0.15)_0%,_transparent_65%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_30%_25%_at_55%_48%,_hsla(38,50%,60%,0.08)_0%,_transparent_55%)]" />
       </motion.div>
 
       {/* Animated cloud layers */}
