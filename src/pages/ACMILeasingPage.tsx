@@ -423,6 +423,22 @@ const ACMILeasingPage = () => {
             </p>
           </motion.div>
 
+          <div className="grid sm:grid-cols-2 gap-4 mb-10">
+            {[
+              "No aircraft ownership costs",
+              "Predictable pricing",
+              "Access to multiple aircraft types",
+              "Priority during peak demand",
+            ].map((item, i) => (
+              <motion.div key={i} initial={{ opacity: 0, x: i % 2 === 0 ? -20 : 20 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.06, duration: 0.6 }}
+                className="flex items-center gap-4 p-4 rounded-lg border border-border/20 bg-card/20 backdrop-blur-sm"
+              >
+                <ArrowRight className="w-4 h-4 text-primary/50 flex-shrink-0" strokeWidth={1.5} />
+                <span className="text-[12px] text-foreground/50 font-light">{item}</span>
+              </motion.div>
+            ))}
+          </div>
+
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.2, duration: 0.8 }} className="text-center">
             <a href="/jet-card" className="inline-block px-10 py-4 bg-gradient-gold text-primary-foreground text-[10px] tracking-[0.3em] uppercase font-medium rounded-sm hover:shadow-[0_0_30px_-8px_hsla(38,52%,50%,0.45)] transition-all duration-500">
               Explore Jet Card
