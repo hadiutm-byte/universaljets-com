@@ -9,6 +9,7 @@ import DestinationsSection from "@/components/DestinationsSection";
 import EventsSection from "@/components/EventsSection";
 import SafetySection from "@/components/SafetySection";
 import NewsletterSection from "@/components/NewsletterSection";
+import FoundersCircleSection from "@/components/FoundersCircleSection";
 import CTASection from "@/components/CTASection";
 import Footer from "@/components/Footer";
 
@@ -27,6 +28,7 @@ const Index = () => (
       <DestinationsSection />
       <EventsSection />
       <SafetySection />
+      <FoundersCircleSection />
       <NewsletterSection />
       <CTASection />
       <Footer />
