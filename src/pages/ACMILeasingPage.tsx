@@ -407,6 +407,22 @@ const ACMILeasingPage = () => {
           </div>
         </div>
       </section>
+      {/* Immediate Assistance CTA */}
+      <section className="py-16 md:py-24">
+        <div className="container mx-auto px-8 max-w-xl">
+          <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.8 }}
+            className="text-center p-10 md:p-14 rounded-xl border border-primary/15 bg-gradient-to-br from-card/30 to-card/10 backdrop-blur-md"
+          >
+            <h2 className="text-xl md:text-2xl font-display font-semibold text-foreground mb-4">Need Immediate Assistance?</h2>
+            <p className="text-[12px] text-foreground/35 font-extralight leading-[2] mb-8">
+              Speak directly with an aviation advisor for urgent or complex requests.
+            </p>
+            <a href="/#cta" className="inline-block px-10 py-4 bg-gradient-gold text-primary-foreground text-[10px] tracking-[0.3em] uppercase font-medium rounded-sm hover:shadow-[0_0_30px_-8px_hsla(38,52%,50%,0.45)] transition-all duration-500">
+              Speak to an Advisor
+            </a>
+          </motion.div>
+        </div>
+      </section>
 
       <Footer />
     </div>
