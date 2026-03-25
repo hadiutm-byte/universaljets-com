@@ -15,7 +15,7 @@ const HeroSection = () => {
     <section
       ref={ref}
       className="relative min-h-[92vh] w-full overflow-hidden flex flex-col items-center justify-center"
-      style={{ background: "linear-gradient(180deg, hsl(0,0%,100%) 0%, hsl(210,14%,97%) 100%)" }}
+      style={{ background: "linear-gradient(180deg, hsl(0,0%,100%) 0%, hsl(0,0%,97%) 100%)" }}
     >
       {/* Parallax zoom layer */}
       <motion.div className="absolute inset-0 pointer-events-none" style={{ scale: bgScale }}>
