@@ -396,7 +396,7 @@ const Ricky3D = () => {
               <div className="flex-1 min-w-0">
                 <p className="text-[11px] tracking-[0.2em] uppercase font-medium text-foreground/90">Ricky</p>
                 <p className="text-[9px] text-primary/40 tracking-[0.15em] uppercase font-light">
-                  {loading ? "Thinking..." : "Senior Aviation Advisor"}
+                  {loading ? "Thinking..." : "Personal Aviation Advisor"}
                 </p>
               </div>
               <div className="flex items-center gap-1">
