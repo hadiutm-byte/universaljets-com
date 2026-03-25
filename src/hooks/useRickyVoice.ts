@@ -13,6 +13,33 @@ export function useRickyVoice() {
   });
   const utteranceRef = useRef<SpeechSynthesisUtterance | null>(null);
 
+  const getPreferredVoice = useCallback(() => {
+    if (!("speechSynthesis" in window)) return null;
+
+    const voices = window.speechSynthesis.getVoices();
+    const priority = [
+      "Google UK English Male",
+      "Daniel",
+      "Google UK English Female",
+      "Samantha",
+      "Alex",
+      "Karen",
+    ];
+
+    for (const name of priority) {
+      const match = voices.find(
+        (voice) => voice.lang.startsWith("en") && voice.name.includes(name),
+      );
+      if (match) return match;
+    }
+
+    return (
+      voices.find((voice) => voice.lang === "en-GB") ??
+      voices.find((voice) => voice.lang.startsWith("en")) ??
+      null
+    );
+  }, []);
+
   const speak = useCallback(
     (text: string) => {
       if (muted || !("speechSynthesis" in window)) return;
@@ -21,20 +48,11 @@ export function useRickyVoice() {
       window.speechSynthesis.cancel();
 
       const utterance = new SpeechSynthesisUtterance(text);
-      utterance.rate = 0.88;
-      utterance.pitch = 0.95;
-      utterance.volume = 0.7;
+      utterance.rate = 0.9;
+      utterance.pitch = 0.92;
+      utterance.volume = 0.82;
 
-      // Pick a calm English voice
-      const voices = window.speechSynthesis.getVoices();
-      const preferred = voices.find(
-        (v) =>
-          v.lang.startsWith("en") &&
-          (v.name.includes("Google") ||
-            v.name.includes("Daniel") ||
-            v.name.includes("Samantha") ||
-            v.name.includes("Alex"))
-      );
+      const preferred = getPreferredVoice();
       if (preferred) utterance.voice = preferred;
 
       utterance.onstart = () => setIsSpeaking(true);
@@ -47,7 +65,7 @@ export function useRickyVoice() {
       utteranceRef.current = utterance;
       window.speechSynthesis.speak(utterance);
     },
-    [muted]
+    [getPreferredVoice, muted]
   );
 
   const stop = useCallback(() => {
@@ -68,7 +86,18 @@ export function useRickyVoice() {
 
   // Cleanup on unmount
   useEffect(() => {
+    if (!("speechSynthesis" in window)) return;
+
+    window.speechSynthesis.getVoices();
+
+    const handleVoicesChanged = () => {
+      window.speechSynthesis.getVoices();
+    };
+
+    window.speechSynthesis.addEventListener("voiceschanged", handleVoicesChanged);
+
     return () => {
+      window.speechSynthesis.removeEventListener("voiceschanged", handleVoicesChanged);
       window.speechSynthesis?.cancel();
     };
   }, []);
