@@ -106,33 +106,47 @@ const ContactPage = () => {
                   {/* Contact methods */}
                   <div className="space-y-6">
                     <p className="text-[11px] tracking-[0.4em] uppercase text-primary font-medium">Reach Us Directly</p>
-                    <a href="tel:+447888999944" className="flex items-center gap-4 group">
+                    
+                    <a href="mailto:sales@universaljets.com" className="flex items-center gap-4 group">
                       <div className="w-10 h-10 rounded-full border border-border flex items-center justify-center bg-card group-hover:border-primary/30 transition-colors">
-                        <Phone className="w-4 h-4 text-primary" strokeWidth={1.3} />
+                        <Mail className="w-4 h-4 text-primary" strokeWidth={1.3} />
                       </div>
                       <div>
-                        <p className="text-[14px] text-foreground font-medium group-hover:text-primary transition-colors">+44 7888 999944</p>
-                        <p className="text-[11px] text-muted-foreground font-light">Phone & WhatsApp</p>
+                        <p className="text-[14px] text-foreground font-medium group-hover:text-primary transition-colors">sales@universaljets.com</p>
+                        <p className="text-[11px] text-muted-foreground font-light">Sales & Charter Inquiries</p>
                       </div>
                     </a>
+
+                    <a href="mailto:info@universaljets.com" className="flex items-center gap-4 group">
+                      <div className="w-10 h-10 rounded-full border border-border flex items-center justify-center bg-card group-hover:border-primary/30 transition-colors">
+                        <Mail className="w-4 h-4 text-primary" strokeWidth={1.3} />
+                      </div>
+                      <div>
+                        <p className="text-[14px] text-foreground font-medium group-hover:text-primary transition-colors">info@universaljets.com</p>
+                        <p className="text-[11px] text-muted-foreground font-light">General Inquiries</p>
+                      </div>
+                    </a>
+
+                    <a href="mailto:hr@universaljets.com" className="flex items-center gap-4 group">
+                      <div className="w-10 h-10 rounded-full border border-border flex items-center justify-center bg-card group-hover:border-primary/30 transition-colors">
+                        <Mail className="w-4 h-4 text-primary" strokeWidth={1.3} />
+                      </div>
+                      <div>
+                        <p className="text-[14px] text-foreground font-medium group-hover:text-primary transition-colors">hr@universaljets.com</p>
+                        <p className="text-[11px] text-muted-foreground font-light">Careers & Applications</p>
+                      </div>
+                    </a>
+
                     <a href="https://wa.me/447888999944?text=Hello%2C%20I%20would%20like%20to%20request%20a%20private%20jet%20charter." target="_blank" rel="noopener noreferrer" className="flex items-center gap-4 group">
                       <div className="w-10 h-10 rounded-full border border-border flex items-center justify-center bg-card group-hover:border-primary/30 transition-colors">
                         <MessageCircle className="w-4 h-4 text-primary" strokeWidth={1.3} />
                       </div>
                       <div>
-                        <p className="text-[14px] text-foreground font-medium group-hover:text-primary transition-colors">WhatsApp</p>
-                        <p className="text-[11px] text-muted-foreground font-light">Tap to chat instantly</p>
+                        <p className="text-[14px] text-foreground font-medium group-hover:text-primary transition-colors">+44 7888 999944</p>
+                        <p className="text-[11px] text-muted-foreground font-light">WhatsApp — Tap to chat</p>
                       </div>
                     </a>
-                    <a href="mailto:charter@universaljets.aero" className="flex items-center gap-4 group">
-                      <div className="w-10 h-10 rounded-full border border-border flex items-center justify-center bg-card group-hover:border-primary/30 transition-colors">
-                        <Mail className="w-4 h-4 text-primary" strokeWidth={1.3} />
-                      </div>
-                      <div>
-                        <p className="text-[14px] text-foreground font-medium group-hover:text-primary transition-colors">charter@universaljets.aero</p>
-                        <p className="text-[11px] text-muted-foreground font-light">General & Charter Inquiries</p>
-                      </div>
-                    </a>
+
                     <div className="flex items-center gap-4">
                       <div className="w-10 h-10 rounded-full border border-border flex items-center justify-center bg-card">
                         <Clock className="w-4 h-4 text-primary" strokeWidth={1.3} />
