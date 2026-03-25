@@ -57,12 +57,6 @@ const sections: { label: string; items: NavItem[] }[] = [
     ],
   },
   {
-    label: "Resources",
-    items: [
-      { title: "Templates", url: "/crm/resources", icon: FolderOpen, roles: [] },
-    ],
-  },
-  {
     label: "Admin",
     items: [
       { title: "User Management", url: "/crm/admin/users", icon: Shield, roles: ["admin"] },
