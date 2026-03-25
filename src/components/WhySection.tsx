@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { XCircle, Globe, TrendingDown, Unlock, ShieldCheck } from "lucide-react";
+import { XCircle, Globe, TrendingDown, Unlock } from "lucide-react";
 
 const points = [
   { icon: Globe, title: "Access the Entire Global Market", desc: "6,000+ aircraft across every category. We find the right jet for every mission, anywhere in the world." },

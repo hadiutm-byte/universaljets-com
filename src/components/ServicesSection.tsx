@@ -1,11 +1,12 @@
 import { motion } from "framer-motion";
-import { Plane, Tag, Package, Star } from "lucide-react";
+import { Plane, CreditCard, Tag, Settings } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const services = [
-  { icon: Plane, title: "On-Demand Charter", desc: "Any aircraft, anywhere, anytime. Guaranteed availability worldwide." },
-  { icon: Tag, title: "Empty Legs", desc: "Repositioning flights at up to 75% below standard charter rates." },
-  { icon: Package, title: "Cargo & Special Missions", desc: "Time-critical freight, medical evacuations, bespoke operations." },
-  { icon: Star, title: "Concierge", desc: "End-to-end travel curation from ground transport to luxury stays." },
+  { icon: Plane, title: "Charter Flights", desc: "Any aircraft, anywhere, anytime. On-demand access to the global fleet.", link: "#cta" },
+  { icon: CreditCard, title: "Jet Card", desc: "Prepaid hours with fixed rates and guaranteed availability.", link: "/jet-card" },
+  { icon: Tag, title: "Empty Legs", desc: "Repositioning flights at up to 75% below standard charter rates.", link: "#cta" },
+  { icon: Settings, title: "ACMI & Leasing", desc: "Wet leases, fleet replacement, and capacity solutions for airlines and governments.", link: "/acmi-leasing" },
 ];
 
 const ServicesSection = () => (
