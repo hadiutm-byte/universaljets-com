@@ -176,7 +176,22 @@ const FlightSearchBox = () => {
 
           {/* Search Button */}
           <div className="col-span-2 md:col-span-1 flex items-center px-2.5 py-2.5">
-            <button className="w-full md:w-[52px] h-[52px] bg-gradient-gold rounded-xl flex items-center justify-center gap-2 hover:shadow-[0_0_30px_-5px_hsla(38,52%,50%,0.5)] transition-all duration-500 hover:scale-105 active:scale-100">
+            <button
+              onClick={() => {
+                if (!selectedFrom || !selectedTo) return;
+                const params = new URLSearchParams({
+                  from_icao: selectedFrom.icao || selectedFrom.iata,
+                  to_icao: selectedTo.icao || selectedTo.iata,
+                  from_label: `${selectedFrom.city} (${selectedFrom.icao || selectedFrom.iata})`,
+                  to_label: `${selectedTo.city} (${selectedTo.icao || selectedTo.iata})`,
+                });
+                if (date) params.set("date", date);
+                if (passengers) params.set("passengers", passengers);
+                navigate(`/search?${params.toString()}`);
+              }}
+              disabled={!selectedFrom || !selectedTo}
+              className="w-full md:w-[52px] h-[52px] bg-gradient-gold rounded-xl flex items-center justify-center gap-2 hover:shadow-[0_0_30px_-5px_hsla(38,52%,50%,0.5)] transition-all duration-500 hover:scale-105 active:scale-100 disabled:opacity-30 disabled:cursor-not-allowed disabled:hover:scale-100 disabled:hover:shadow-none"
+            >
               <ArrowRight size={17} className="text-primary-foreground" strokeWidth={2} />
               <span className="md:hidden text-primary-foreground text-[10px] tracking-[0.2em] uppercase font-medium">Search Flights</span>
             </button>
