@@ -14,6 +14,48 @@ export type Database = {
   }
   public: {
     Tables: {
+      activity_log: {
+        Row: {
+          action: string
+          action_by: string | null
+          created_at: string
+          department: string | null
+          entity_id: string
+          entity_type: string
+          id: string
+          metadata: Json | null
+          new_value: Json | null
+          notes: string | null
+          previous_value: Json | null
+        }
+        Insert: {
+          action: string
+          action_by?: string | null
+          created_at?: string
+          department?: string | null
+          entity_id: string
+          entity_type: string
+          id?: string
+          metadata?: Json | null
+          new_value?: Json | null
+          notes?: string | null
+          previous_value?: Json | null
+        }
+        Update: {
+          action?: string
+          action_by?: string | null
+          created_at?: string
+          department?: string | null
+          entity_id?: string
+          entity_type?: string
+          id?: string
+          metadata?: Json | null
+          new_value?: Json | null
+          notes?: string | null
+          previous_value?: Json | null
+        }
+        Relationships: []
+      }
       candidates: {
         Row: {
           ai_score: number | null
@@ -728,6 +770,57 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      referrals: {
+        Row: {
+          created_at: string
+          credit_issued: boolean | null
+          credit_used: boolean | null
+          id: string
+          notes: string | null
+          qualification_date: string | null
+          referred_client_id: string | null
+          referred_email: string
+          referred_name: string
+          referred_phone: string | null
+          referrer_id: string
+          reward_amount: number | null
+          status: string
+          updated_at: string | null
+        }
+        Insert: {
+          created_at?: string
+          credit_issued?: boolean | null
+          credit_used?: boolean | null
+          id?: string
+          notes?: string | null
+          qualification_date?: string | null
+          referred_client_id?: string | null
+          referred_email: string
+          referred_name: string
+          referred_phone?: string | null
+          referrer_id: string
+          reward_amount?: number | null
+          status?: string
+          updated_at?: string | null
+        }
+        Update: {
+          created_at?: string
+          credit_issued?: boolean | null
+          credit_used?: boolean | null
+          id?: string
+          notes?: string | null
+          qualification_date?: string | null
+          referred_client_id?: string | null
+          referred_email?: string
+          referred_name?: string
+          referred_phone?: string | null
+          referrer_id?: string
+          reward_amount?: number | null
+          status?: string
+          updated_at?: string | null
+        }
+        Relationships: []
       }
       saved_routes: {
         Row: {
