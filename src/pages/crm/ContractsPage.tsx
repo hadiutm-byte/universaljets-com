@@ -1,5 +1,6 @@
 import { useEffect, useState, useCallback } from "react";
 import { supabase } from "@/integrations/supabase/client";
+import { useAuth } from "@/hooks/useAuth";
 import CrmTable from "@/components/crm/CrmTable";
 import { StatusBadge } from "@/components/crm/StatusBadge";
 import { TemplateDownloadCard, charterContractTemplate } from "@/components/crm/CrmTemplates";
@@ -17,6 +18,10 @@ const ContractsPage = () => {
   const [editing, setEditing] = useState<any>(null);
   const [quotes, setQuotes] = useState<any[]>([]);
   const [form, setForm] = useState({ quote_id: "", file_url: "", status: "draft" as ContractStatus });
+  const { roles } = useAuth();
+
+  // Only Operations and Admin can manage contracts (supplier/partner documents)
+  const canManage = roles.includes("admin") || roles.includes("operations");
 
   const load = useCallback(async () => {
     setLoading(true);
@@ -31,6 +36,7 @@ const ContractsPage = () => {
   }, [load]);
 
   const openForm = (row?: any) => {
+    if (!canManage) { toast.error("Only Operations can manage contracts"); return; }
     setEditing(row ?? null);
     setForm({ quote_id: row?.quote_id ?? "", file_url: row?.file_url ?? "", status: (row?.status ?? "draft") as ContractStatus });
     setFormOpen(true);
@@ -38,6 +44,7 @@ const ContractsPage = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!canManage) return;
     const payload = { quote_id: form.quote_id || null, file_url: form.file_url || null, status: form.status };
     const op = editing?.id ? supabase.from("contracts").update(payload).eq("id", editing.id) : supabase.from("contracts").insert(payload);
     const { error } = await op;
@@ -45,6 +52,7 @@ const ContractsPage = () => {
   };
 
   const handleDelete = async (row: any) => {
+    if (!canManage) { toast.error("Only Operations can delete contracts"); return; }
     if (!confirm("Delete?")) return;
     const { error } = await supabase.from("contracts").delete().eq("id", row.id);
     if (error) toast.error(error.message); else { toast.success("Deleted"); load(); }
@@ -66,8 +74,16 @@ const ContractsPage = () => {
           { key: "status", label: "Status", render: (r: any) => <StatusBadge status={r.status} /> },
           { key: "created_at", label: "Created", render: (r: any) => new Date(r.created_at).toLocaleDateString() },
         ]}
-        data={data} loading={loading} onAdd={() => openForm()} onEdit={openForm} onDelete={handleDelete}
+        data={data} loading={loading}
+        onAdd={canManage ? () => openForm() : undefined}
+        onEdit={canManage ? openForm : undefined}
+        onDelete={canManage ? handleDelete : undefined}
       />
+      {!canManage && (
+        <p className="text-[10px] text-muted-foreground/30 font-light mt-2 text-center">
+          Contract management is handled by Operations. Contact Operations for changes.
+        </p>
+      )}
       <Dialog open={formOpen} onOpenChange={setFormOpen}>
         <DialogContent className="bg-card border-border/30 max-w-md">
           <DialogHeader><DialogTitle className="font-display text-lg">{editing?.id ? "Edit" : "New"} Contract</DialogTitle></DialogHeader>

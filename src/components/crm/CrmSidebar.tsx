@@ -44,8 +44,8 @@ const sections: { label: string; items: NavItem[] }[] = [
   {
     label: "Operations",
     items: [
-      { title: "Trips", url: "/crm/trips", icon: Map, roles: ["admin", "operations", "sales"] },
-      { title: "Contracts", url: "/crm/contracts", icon: ScrollText, roles: ["admin", "operations", "sales"] },
+      { title: "Trips", url: "/crm/trips", icon: Map, roles: ["admin", "operations"] },
+      { title: "Contracts", url: "/crm/contracts", icon: ScrollText, roles: ["admin", "operations"] },
     ],
   },
   {
