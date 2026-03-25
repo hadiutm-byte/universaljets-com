@@ -12,7 +12,8 @@ Deno.serve(async (req) => {
   }
 
   try {
-    const { name, email, phone, departure, destination, date, passengers } = await req.json();
+    const body = await req.json();
+    const { name, email, phone, departure, destination, date, passengers, source } = body;
 
     if (!name || !email || !departure || !destination) {
       return new Response(JSON.stringify({ error: "Name, email, departure, and destination are required" }), {
@@ -47,16 +48,19 @@ Deno.serve(async (req) => {
       clientId = newClient.id;
     }
 
+    // Determine lead source
+    const leadSource = source || "website";
+
     // 2. Create lead
     const { data: lead, error: leadErr } = await supabase
       .from("leads")
-      .insert({ client_id: clientId, status: "new", source: "website" })
+      .insert({ client_id: clientId, status: "new", source: leadSource })
       .select("id")
       .single();
 
     if (leadErr) throw leadErr;
 
-    // 3. Create flight request
+    // 3. Create flight request (or general inquiry)
     const { data: flightReq, error: reqErr } = await supabase
       .from("flight_requests")
       .insert({
@@ -67,6 +71,7 @@ Deno.serve(async (req) => {
         date: date || null,
         passengers: passengers ? parseInt(passengers) : 1,
         status: "pending",
+        notes: source ? `Source: ${source}` : null,
       })
       .select("id")
       .single();
