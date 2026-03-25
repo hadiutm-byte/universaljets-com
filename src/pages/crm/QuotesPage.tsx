@@ -1,5 +1,6 @@
 import { useEffect, useState, useCallback } from "react";
 import { supabase } from "@/integrations/supabase/client";
+import { useAuth } from "@/hooks/useAuth";
 import CrmTable from "@/components/crm/CrmTable";
 import { StatusBadge } from "@/components/crm/StatusBadge";
 import { TemplateDownloadCard, quoteRequestTemplate } from "@/components/crm/CrmTemplates";
@@ -17,6 +18,10 @@ const QuotesPage = () => {
   const [editing, setEditing] = useState<any>(null);
   const [requests, setRequests] = useState<any[]>([]);
   const [form, setForm] = useState({ request_id: "", aircraft: "", operator: "", price: "", valid_until: "", status: "draft" as QuoteStatus });
+  const { roles } = useAuth();
+
+  // Only Operations, Finance, and Admin can see operator/supplier details
+  const canSeeSupplierDetails = roles.includes("admin") || roles.includes("operations") || roles.includes("finance");
 
   const load = useCallback(async () => {
     setLoading(true);
@@ -57,6 +62,18 @@ const QuotesPage = () => {
   const inputClass = "w-full bg-secondary/50 rounded-lg px-3 py-2.5 text-[13px] text-foreground font-light focus:outline-none focus:ring-1 focus:ring-primary/20 transition-all border border-border/20";
   const labelClass = "text-[9px] tracking-[0.2em] uppercase text-muted-foreground/60 mb-1.5 block font-light";
 
+  // Build columns based on role — Sales sees limited internal summary, not operator details
+  const columns = [
+    { key: "route", label: "Route", render: (r: any) => r.flight_requests ? `${r.flight_requests.departure} → ${r.flight_requests.destination}` : "—" },
+    { key: "aircraft", label: "Aircraft" },
+    ...(canSeeSupplierDetails
+      ? [{ key: "operator", label: "Operator" }]
+      : [{ key: "operator_summary", label: "Source", render: (r: any) => r.operator ? "Sourced" : "Pending" }]),
+    { key: "price", label: "Price", render: (r: any) => r.price ? `$${Number(r.price).toLocaleString()}` : "—" },
+    { key: "valid_until", label: "Valid Until", render: (r: any) => r.valid_until ? new Date(r.valid_until).toLocaleDateString() : "—" },
+    { key: "status", label: "Status", render: (r: any) => <StatusBadge status={r.status} /> },
+  ];
+
   return (
     <div className="space-y-6">
       <div>
@@ -64,13 +81,7 @@ const QuotesPage = () => {
         <TemplateDownloadCard template={quoteRequestTemplate} />
       </div>
       <CrmTable title="Quotes"
-        columns={[
-          { key: "route", label: "Route", render: (r: any) => r.flight_requests ? `${r.flight_requests.departure} → ${r.flight_requests.destination}` : "—" },
-          { key: "aircraft", label: "Aircraft" }, { key: "operator", label: "Operator" },
-          { key: "price", label: "Price", render: (r: any) => r.price ? `$${Number(r.price).toLocaleString()}` : "—" },
-          { key: "valid_until", label: "Valid Until", render: (r: any) => r.valid_until ? new Date(r.valid_until).toLocaleDateString() : "—" },
-          { key: "status", label: "Status", render: (r: any) => <StatusBadge status={r.status} /> },
-        ]}
+        columns={columns}
         data={data} loading={loading} onAdd={() => openForm()} onEdit={openForm} onDelete={handleDelete}
       />
       <Dialog open={formOpen} onOpenChange={setFormOpen}>
@@ -85,7 +96,11 @@ const QuotesPage = () => {
             </div>
             <div className="grid grid-cols-2 gap-3">
               <div><label className={labelClass}>Aircraft</label><input value={form.aircraft} onChange={e => setForm(p => ({ ...p, aircraft: e.target.value }))} className={inputClass} /></div>
-              <div><label className={labelClass}>Operator</label><input value={form.operator} onChange={e => setForm(p => ({ ...p, operator: e.target.value }))} className={inputClass} /></div>
+              {canSeeSupplierDetails ? (
+                <div><label className={labelClass}>Operator</label><input value={form.operator} onChange={e => setForm(p => ({ ...p, operator: e.target.value }))} className={inputClass} /></div>
+              ) : (
+                <div><label className={labelClass}>Operator</label><p className="text-[11px] text-muted-foreground/40 font-light py-2.5">Managed by Operations</p></div>
+              )}
             </div>
             <div className="grid grid-cols-2 gap-3">
               <div><label className={labelClass}>Price ($)</label><input type="number" step="0.01" value={form.price} onChange={e => setForm(p => ({ ...p, price: e.target.value }))} className={inputClass} /></div>
