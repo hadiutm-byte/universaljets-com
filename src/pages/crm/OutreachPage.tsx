@@ -190,7 +190,6 @@ const OutreachPage = () => {
             ))}
           </div>
         )}
-      </div>
     </div>
   );
 };
