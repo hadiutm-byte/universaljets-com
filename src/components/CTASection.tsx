@@ -29,8 +29,8 @@ const QuickOption = ({ icon: Icon, label, onClick }: { icon: any; label: string;
 
 /* ─── Form field classes ─── */
 const inputClass =
-  "w-full bg-[hsla(0,0%,100%,0.06)] backdrop-blur-sm rounded-lg px-4 py-3.5 text-[13px] text-white placeholder:text-[hsla(0,0%,100%,0.5)] font-light focus:outline-none focus:ring-1 focus:ring-primary/30 transition-all duration-300 border border-[hsla(0,0%,100%,0.12)] hover:border-[hsla(0,0%,100%,0.2)]";
-const labelClass = "text-[10px] tracking-[0.25em] uppercase text-[hsla(0,0%,100%,0.7)] mb-1.5 block font-light";
+  "w-full bg-card/50 backdrop-blur-sm rounded-lg px-4 py-3.5 text-[13px] text-foreground placeholder:text-muted-foreground/60 font-light focus:outline-none focus:ring-1 focus:ring-primary/30 transition-all duration-300 border border-border hover:border-primary/20";
+const labelClass = "text-[10px] tracking-[0.25em] uppercase text-muted-foreground mb-1.5 block font-light";
 
 /* ─── Authority items ─── */
 const authorityItems = [

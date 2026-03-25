@@ -15,10 +15,10 @@ I'm Ricky — your personal aviation advisor.
 Tell me what you need, and I'll take care of the rest.`;
 
 const quickActions = [
-  { icon: Plane, label: "Book a Flight", action: "booking" as const },
+  { icon: Plane, label: "Request a Flight", action: "booking" as const },
   { icon: CreditCard, label: "Explore Jet Card", action: "chat" as const, msg: "Tell me about your Jet Card options." },
   { icon: Tag, label: "Find Empty Legs", action: "chat" as const, msg: "Show me available empty leg flights." },
-  { icon: Headphones, label: "Speak to Advisor", action: "chat" as const, msg: "I'd like to speak with an advisor." },
+  { icon: Headphones, label: "Partner With Us", action: "chat" as const, msg: "I'd like to explore partnership opportunities." },
 ];
 
 const Ricky3D = () => {
