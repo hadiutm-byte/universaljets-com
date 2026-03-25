@@ -211,17 +211,22 @@ const ACMILeasingPage = () => {
           {/* Featured Routes */}
           <div className="mt-14 grid sm:grid-cols-2 lg:grid-cols-3 gap-4 max-w-3xl mx-auto">
             {[
-              { route: "Dubai → Mykonos", tag: "Peak summer demand" },
-              { route: "Riyadh → London", tag: "Business & diplomatic corridor" },
-              { route: "Paris → Nice", tag: "Riviera season" },
-              { route: "Dubai → Maldives", tag: "Luxury leisure" },
-              { route: "New York → Miami", tag: "High-frequency route" },
+              { route: "Dubai → Mykonos", tag: "Peak summer demand", demand: "Very High", booking: "3–6 weeks", aircraft: "Heavy / Ultra-Long Range" },
+              { route: "Riyadh → London", tag: "Business & diplomatic corridor", demand: "High", booking: "2–4 weeks", aircraft: "Heavy Jets" },
+              { route: "Paris → Nice", tag: "Riviera season", demand: "High", booking: "2–4 weeks", aircraft: "Midsize / Heavy Jets" },
+              { route: "Dubai → Maldives", tag: "Luxury leisure", demand: "High", booking: "2–4 weeks", aircraft: "Heavy / Ultra-Long Range" },
+              { route: "New York → Miami", tag: "High-frequency route", demand: "Very High", booking: "1–2 weeks", aircraft: "Midsize / Heavy Jets" },
             ].map((r, i) => (
               <motion.div key={i} initial={{ opacity: 0, y: 15 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.07, duration: 0.6 }}
                 className="relative p-5 rounded-lg border border-primary/10 bg-gradient-to-br from-card/30 to-card/10 backdrop-blur-sm group hover:border-primary/25 transition-all duration-500"
               >
-                <p className="font-display text-[14px] font-medium text-foreground mb-1.5 group-hover:text-primary/80 transition-colors duration-500">{r.route}</p>
-                <p className="text-[10px] text-foreground/30 font-extralight">{r.tag}</p>
+                <p className="font-display text-[14px] font-medium text-foreground mb-1 group-hover:text-primary/80 transition-colors duration-500">{r.route}</p>
+                <p className="text-[10px] text-foreground/30 font-extralight mb-3">{r.tag}</p>
+                <div className="space-y-1 text-[10px] text-foreground/35 font-extralight">
+                  <div className="flex justify-between"><span className="text-foreground/25">Demand</span><span className="text-primary/60 font-light">{r.demand}</span></div>
+                  <div className="flex justify-between"><span className="text-foreground/25">Booking</span><span>{r.booking}</span></div>
+                  <div className="flex justify-between"><span className="text-foreground/25">Aircraft</span><span>{r.aircraft}</span></div>
+                </div>
               </motion.div>
             ))}
           </div>
