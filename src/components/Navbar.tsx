@@ -117,7 +117,7 @@ const Navbar = () => {
 
             <NavLink
               href="/#cta"
-              className="hidden xl:inline-block px-6 py-2.5 bg-gradient-gold text-white text-[9px] tracking-[0.25em] uppercase font-medium rounded-xl hover:shadow-[0_0_30px_-8px_hsla(38,52%,50%,0.45)] transition-all duration-500 hover:scale-[1.01]"
+              className="hidden xl:inline-block px-6 py-2.5 bg-gradient-gold text-white text-[10px] tracking-[0.25em] uppercase font-medium rounded-xl hover:shadow-[0_0_30px_-8px_hsla(38,52%,50%,0.45)] transition-all duration-500 hover:scale-[1.01]"
             >
               Request a Flight
             </NavLink>
