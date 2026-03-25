@@ -142,7 +142,15 @@ const MembershipEnrollment = () => {
                       ))}
                     </div>
                     <div className="mt-8 pt-8 border-t border-border/8">
-                      <p className="text-[10px] text-foreground/25 font-extralight leading-[2]">
+                      <p className="text-[11px] text-primary/50 font-light leading-[1.8] mb-1">
+                        Refer & Earn
+                      </p>
+                      <p className="text-[10px] text-foreground/30 font-extralight leading-[2]">
+                        Invite 3 qualified members to join the network and receive <span className="text-primary/60 font-light">$1,000 flight credit</span>.
+                      </p>
+                    </div>
+                    <div className="mt-5 pt-5 border-t border-border/8">
+                      <p className="text-[10px] text-foreground/20 font-extralight leading-[2]">
                         Membership is complimentary for qualified applicants. Acceptance is subject to review.
                       </p>
                     </div>
