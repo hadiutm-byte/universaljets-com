@@ -95,6 +95,8 @@ export interface Airport {
   icao: string;
   city: string;
   country: string;
+  lat: number | null;
+  lng: number | null;
 }
 
 export interface AircraftType {
