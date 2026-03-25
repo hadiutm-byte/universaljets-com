@@ -88,7 +88,7 @@ const Navbar = () => {
         <div className="container mx-auto flex items-center justify-between px-6 lg:px-8">
           {/* Logo */}
           <Link to="/" className="group font-display text-[13px] md:text-[15px] tracking-[0.45em] uppercase select-none font-light flex-shrink-0 transition-all duration-500 hover:drop-shadow-[0_0_12px_hsla(38,52%,50%,0.3)]">
-            <span className={scrolled ? "text-foreground/90" : "text-white/90"}>Universal</span>
+            <span className="text-foreground/90">Universal</span>
             <span className="text-gradient-gold ml-1.5 font-normal">Jets</span>
           </Link>
 
