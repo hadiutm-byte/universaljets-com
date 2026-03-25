@@ -10,9 +10,8 @@ const AccountMgmtPage = () => {
 
   useEffect(() => {
     const load = async () => {
-      const res = await call("clients", "GET", {}, { limit: "100" });
-      // Filter for active/member/VIP clients
-      const portfolio = (res?.clients ?? []).filter((c: any) =>
+      const res = await call("clients", { method: "GET", params: { limit: "100" } });
+      const portfolio = (res?.data?.clients ?? []).filter((c: any) =>
         ["active", "member", "vip", "corporate", "family_office"].includes(c.client_type)
       );
       setClients(portfolio);

@@ -30,7 +30,7 @@ const MembershipPipelinePage = () => {
   }, [filter]);
 
   const updateStatus = async (id: string, status: string) => {
-    await call("update-status", "POST", { table: "membership_applications", id, status });
+    await call("update-status", { method: "POST", body: { table: "membership_applications", id, status } });
     setApps((prev) => prev.map((a) => (a.id === id ? { ...a, status } : a)));
   };
 
