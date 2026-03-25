@@ -103,7 +103,7 @@ const RequestsPage = () => {
           </form>
         </DialogContent>
       </Dialog>
-    </>
+    </div>
   );
 };
 

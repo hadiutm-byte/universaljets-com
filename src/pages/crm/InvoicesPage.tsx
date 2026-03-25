@@ -97,7 +97,7 @@ const InvoicesPage = () => {
           </form>
         </DialogContent>
       </Dialog>
-    </>
+    </div>
   );
 };
 

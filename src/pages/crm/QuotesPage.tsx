@@ -100,7 +100,7 @@ const QuotesPage = () => {
           </form>
         </DialogContent>
       </Dialog>
-    </>
+    </div>
   );
 };
 

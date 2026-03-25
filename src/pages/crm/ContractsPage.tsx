@@ -88,7 +88,7 @@ const ContractsPage = () => {
           </form>
         </DialogContent>
       </Dialog>
-    </>
+    </div>
   );
 };
 
