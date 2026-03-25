@@ -205,9 +205,6 @@ const SearchResults = () => {
                       {/* Aircraft name overlay */}
                       <div className="absolute bottom-4 left-4 right-4">
                         <h3 className="font-display text-xl text-white font-semibold drop-shadow-lg">{result.aircraft_type}</h3>
-                        {result.tail_number && (
-                          <p className="text-[10px] text-white/70 font-light mt-0.5">{result.tail_number}</p>
-                        )}
                       </div>
                     </div>
 
