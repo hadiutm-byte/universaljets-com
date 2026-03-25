@@ -31,7 +31,7 @@ const TrustStrip = () => (
         </div>
 
         <p className="text-[9px] tracking-[0.3em] text-foreground/20 font-extralight uppercase text-center">
-          Trusted by global executives, royal families, and private clients
+          Trusted by executives, family offices, and global clients
         </p>
       </motion.div>
       <div className="divider-gold mt-14" />
