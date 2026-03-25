@@ -51,9 +51,9 @@ export function useRickyVoice() {
       window.speechSynthesis.cancel();
 
       const utterance = new SpeechSynthesisUtterance(text);
-      utterance.rate = 0.9;
-      utterance.pitch = 0.92;
-      utterance.volume = 0.82;
+      utterance.rate = 0.95;    // slightly faster = more youthful
+      utterance.pitch = 1.08;   // higher pitch = younger tone
+      utterance.volume = 0.85;
 
       const preferred = getPreferredVoice();
       if (preferred) utterance.voice = preferred;
