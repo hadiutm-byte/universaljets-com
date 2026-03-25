@@ -56,6 +56,8 @@ serve(async (req) => {
       icao: airport.icao || '',
       city: airport.city?.name || airport.city || '',
       country: airport.country?.name || airport.city?.country?.name || '',
+      lat: airport.latitude ?? airport.lat ?? null,
+      lng: airport.longitude ?? airport.lng ?? airport.lon ?? null,
     }));
 
     return new Response(JSON.stringify({ results }), {
