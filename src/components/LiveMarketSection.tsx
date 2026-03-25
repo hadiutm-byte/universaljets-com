@@ -2,27 +2,11 @@ import { motion } from "framer-motion";
 import { Plane, ArrowRight, Radio } from "lucide-react";
 
 const routes = [
-  {
-    from: "Dubai",
-    to: "London",
-    status: "Booked 2h ago",
-    statusColor: "text-foreground/30",
-    badge: null,
-  },
-  {
-    from: "Nice",
-    to: "Ibiza",
-    status: "Available now",
-    statusColor: "text-emerald-400/70",
-    badge: "Open",
-  },
-  {
-    from: "Riyadh",
-    to: "Geneva",
-    status: "High demand",
-    statusColor: "text-primary/60",
-    badge: "Limited",
-  },
+  { from: "Dubai", to: "London", status: "Booked 2 hours ago", statusColor: "text-foreground/30" },
+  { from: "Nice", to: "Ibiza", status: "Available now", statusColor: "text-emerald-400/70", badge: "Open" },
+  { from: "Riyadh", to: "Geneva", status: "High demand", statusColor: "text-primary/60", badge: "Limited" },
+  { from: "Paris", to: "Mykonos", status: "Filling fast", statusColor: "text-primary/50" },
+  { from: "Maldives", to: "Dubai", status: "Limited availability", statusColor: "text-primary/60", badge: "Limited" },
 ];
 
 const LiveMarketSection = () => {
@@ -54,7 +38,7 @@ const LiveMarketSection = () => {
               className="w-2 h-2 rounded-full bg-emerald-500/70"
             />
             <p className="text-[9px] tracking-[0.5em] uppercase text-primary/60 font-light">
-              Live Market Intelligence
+              Live Market Activity
             </p>
           </div>
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-display font-semibold text-foreground mb-5 leading-tight">
