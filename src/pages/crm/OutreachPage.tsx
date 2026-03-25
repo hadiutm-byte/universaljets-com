@@ -192,7 +192,7 @@ const OutreachPage = () => {
           </div>
         )}
       </div>
-    </CrmLayout>
+    </div>
   );
 };
 
