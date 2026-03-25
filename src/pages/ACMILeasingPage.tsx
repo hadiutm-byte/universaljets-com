@@ -388,12 +388,11 @@ const ACMILeasingPage = () => {
 
           <div className="space-y-4">
             {[
-              { title: "Full Market Access", desc: "Operators sell their own fleet. We search the entire global market to find the best aircraft, positioning, and price." },
-              { title: "Independent & Unbiased", desc: "We act in your interest — not the operator's. No fleet bias, no hidden markups, no inventory to push." },
-              { title: "Safety Vetted", desc: "Every aircraft in our network meets ARGUS/WYVERN safety standards. No exceptions." },
-              { title: "Optimized Pricing", desc: "We leverage positioning, empty legs, and operator availability to unlock pricing direct bookings can't match." },
-              { title: "One Point of Contact", desc: "From sourcing to wheels-up — a dedicated aviation advisor handles everything so you don't have to." },
-              { title: "24/7 Global Operations", desc: "Round-the-clock support across every time zone. Changes, upgrades, last-minute requests — handled instantly." },
+              { title: "Full Market Access", desc: "Access to the full global aircraft market — not limited to a single fleet or operator." },
+              { title: "Optimized Pricing", desc: "Better pricing through smart sourcing, positioning logic, and empty leg opportunities." },
+              { title: "Rapid Response", desc: "Fast response for urgent requests — aircraft on station within days, not weeks." },
+              { title: "Passenger & Cargo", desc: "Passenger and cargo capability across all aircraft categories, from light jets to VIP airliners." },
+              { title: "Discreet Service", desc: "Discreet, high-level service for governments, corporates, and private individuals." },
             ].map((item, i) => (
               <motion.div key={i} initial={{ opacity: 0, x: -20 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.08, duration: 0.6 }}
                 className="flex gap-5 p-5 rounded-lg border border-border/20 bg-card/20 backdrop-blur-sm group hover:border-primary/15 transition-all duration-500"
