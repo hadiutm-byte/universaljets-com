@@ -54,7 +54,11 @@ const ContractsPage = () => {
   const labelClass = "text-[9px] tracking-[0.2em] uppercase text-muted-foreground/60 mb-1.5 block font-light";
 
   return (
-    <>
+    <div className="space-y-6">
+      <div>
+        <p className="text-[10px] tracking-[0.3em] uppercase text-muted-foreground/50 font-medium mb-2">Templates</p>
+        <TemplateDownloadCard template={charterContractTemplate} />
+      </div>
       <CrmTable title="Contracts"
         columns={[
           { key: "quote", label: "Quote", render: (r: any) => r.quotes ? `${r.quotes.aircraft} — $${Number(r.quotes.price).toLocaleString()}` : "—" },
