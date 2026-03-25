@@ -226,6 +226,7 @@ const AircraftGuidePage = () => {
       </section>
 
       <Footer />
+      <AircraftRequestModal open={requestModalOpen} onOpenChange={setRequestModalOpen} aircraftName={selectedAircraft} />
     </div>
   );
 };
