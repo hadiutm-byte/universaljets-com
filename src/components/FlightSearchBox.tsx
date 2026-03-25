@@ -103,7 +103,7 @@ const FlightSearchBox = () => {
     navigate(`/search?${params.toString()}`);
   };
 
-  const fieldWrapperClass = "px-4 py-4 rounded-xl bg-muted/40 border border-transparent hover:bg-muted/70 hover:shadow-sm transition-all duration-300 focus-within:border-primary/30 focus-within:shadow-[0_0_20px_-8px_hsla(38,52%,50%,0.12)]";
+  const fieldWrapperClass = "px-4 py-4 rounded-xl bg-muted/30 border border-transparent hover:bg-muted/50 hover:shadow-sm transition-all duration-300 focus-within:border-primary/30 focus-within:shadow-[0_0_20px_-8px_hsla(38,52%,50%,0.12)]";
 
   return (
     <div className="w-full max-w-4xl mx-auto">
