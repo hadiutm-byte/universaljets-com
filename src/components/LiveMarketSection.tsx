@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import { Plane, ArrowRight, Radio, AlertTriangle, Loader2 } from "lucide-react";
 import { useEmptyLegs, type EmptyLeg } from "@/hooks/useAviapages";
 import { useMemo } from "react";
+import { FadeReveal, StaggerContainer, StaggerItem } from "./ui/ScrollEffects";
 
 const fallbackRoutes = [
   { from: "Dubai", to: "London", status: "Available now", statusColor: "text-emerald-400/70", urgency: null },
@@ -26,7 +27,6 @@ const LiveMarketSection = () => {
 
   const routes = useMemo(() => {
     if (!data?.results?.length) return fallbackRoutes;
-
     return data.results
       .filter((leg) => leg.departure && leg.arrival)
       .slice(0, 6)
@@ -54,17 +54,11 @@ const LiveMarketSection = () => {
           backgroundSize: "60px 60px",
         }}
       />
-      <div className="absolute inset-0 bg-gradient-to-b from-background via-[hsl(228,22%,4%)] to-background pointer-events-none" />
+      <div className="absolute inset-0 bg-gradient-to-b from-background via-[hsl(225,28%,6%)] to-background pointer-events-none" />
 
       <div className="container mx-auto px-8 relative z-10">
         {/* Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8 }}
-          className="text-center mb-14"
-        >
+        <FadeReveal className="text-center mb-14">
           <div className="flex items-center justify-center gap-2.5 mb-6">
             <motion.div
               animate={{ opacity: [0.4, 1, 0.4] }}
@@ -87,7 +81,7 @@ const LiveMarketSection = () => {
               ? `Live global availability: ${liveCount} empty legs · ${availableNow} shown`
               : "Live global availability: updated continuously"}
           </p>
-        </motion.div>
+        </FadeReveal>
 
         {/* Loading */}
         {isLoading && (
@@ -98,108 +92,99 @@ const LiveMarketSection = () => {
 
         {/* Route cards */}
         {!isLoading && (
-          <div className="max-w-2xl mx-auto space-y-4">
+          <StaggerContainer className="max-w-2xl mx-auto space-y-4">
             {routes.map((route, i) => (
-              <motion.div
-                key={i}
-                initial={{ opacity: 0, y: 15 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6, delay: i * 0.08 }}
-                className="rounded-xl border border-border/10 bg-card/15 backdrop-blur-sm px-6 py-5 md:px-8 md:py-6 group hover:border-border/15 hover:bg-card/20 transition-all duration-500"
-              >
-                <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-2">
-                  {/* Route */}
-                  <div className="flex items-center gap-2 md:gap-4 min-w-0">
-                    <Plane className="w-3.5 h-3.5 text-primary/40 flex-shrink-0" strokeWidth={1.3} />
-                    <p className="text-[14px] md:text-[18px] font-display font-medium text-foreground/80 tracking-wide truncate">
-                      {route.from}
-                    </p>
-                    <ArrowRight className="w-3.5 h-3.5 text-foreground/20 flex-shrink-0" strokeWidth={1.5} />
-                    <p className="text-[14px] md:text-[18px] font-display font-medium text-foreground/80 tracking-wide truncate">
-                      {route.to}
-                    </p>
+              <StaggerItem key={i}>
+                <motion.div
+                  whileHover={{ scale: 1.02, y: -3 }}
+                  transition={{ type: "spring", stiffness: 300 }}
+                  className="rounded-xl glass-panel px-6 py-5 md:px-8 md:py-6 group"
+                >
+                  <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-2">
+                    <div className="flex items-center gap-2 md:gap-4 min-w-0">
+                      <Plane className="w-3.5 h-3.5 text-primary/40 flex-shrink-0" strokeWidth={1.3} />
+                      <p className="text-[14px] md:text-[18px] font-display font-medium text-foreground/80 tracking-wide truncate">
+                        {route.from}
+                      </p>
+                      <ArrowRight className="w-3.5 h-3.5 text-foreground/20 flex-shrink-0" strokeWidth={1.5} />
+                      <p className="text-[14px] md:text-[18px] font-display font-medium text-foreground/80 tracking-wide truncate">
+                        {route.to}
+                      </p>
+                    </div>
+                    <div className="flex items-center gap-3 flex-shrink-0 pl-7 md:pl-0">
+                      {"price" in route && (route as any).price && (
+                        <p className="text-[11px] text-primary/60 font-light">
+                          {(route as any).currency === "EUR" ? "€" : "$"}
+                          {Number((route as any).price).toLocaleString()}
+                        </p>
+                      )}
+                      <p className={`text-[10px] md:text-[11px] font-light ${route.statusColor}`}>
+                        {route.status}
+                      </p>
+                    </div>
                   </div>
 
-                  {/* Status + Price */}
-                  <div className="flex items-center gap-3 flex-shrink-0 pl-7 md:pl-0">
-                    {"price" in route && (route as any).price && (
-                      <p className="text-[11px] text-primary/60 font-light">
-                        {(route as any).currency === "EUR" ? "€" : "$"}
-                        {Number((route as any).price).toLocaleString()}
+                  <div className="flex items-center justify-between mt-3 pt-3 border-t border-border/6">
+                    {"aircraft" in route && (route as any).aircraft && (
+                      <p className="text-[9px] tracking-[0.15em] uppercase text-foreground/25 font-extralight">
+                        {String((route as any).aircraft)}
                       </p>
                     )}
-                    <p className={`text-[10px] md:text-[11px] font-light ${route.statusColor}`}>
-                      {route.status}
-                    </p>
+                    {route.urgency && (
+                      <div className="flex items-center gap-2">
+                        <AlertTriangle className="w-3 h-3 text-primary/35" strokeWidth={1.3} />
+                        <motion.p
+                          animate={{ opacity: [0.5, 1, 0.5] }}
+                          transition={{ duration: 3, repeat: Infinity }}
+                          className="text-[9px] tracking-[0.2em] uppercase text-primary/45 font-light"
+                        >
+                          {route.urgency}
+                        </motion.p>
+                      </div>
+                    )}
                   </div>
-                </div>
-
-                {/* Aircraft + Urgency */}
-                <div className="flex items-center justify-between mt-3 pt-3 border-t border-border/6">
-                  {"aircraft" in route && (route as any).aircraft && (
-                    <p className="text-[9px] tracking-[0.15em] uppercase text-foreground/25 font-extralight">
-                      {String((route as any).aircraft)}
-                    </p>
-                  )}
-                  {route.urgency && (
-                    <div className="flex items-center gap-2">
-                      <AlertTriangle className="w-3 h-3 text-primary/35" strokeWidth={1.3} />
-                      <motion.p
-                        animate={{ opacity: [0.5, 1, 0.5] }}
-                        transition={{ duration: 3, repeat: Infinity }}
-                        className="text-[9px] tracking-[0.2em] uppercase text-primary/45 font-light"
-                      >
-                        {route.urgency}
-                      </motion.p>
-                    </div>
-                  )}
-                </div>
-              </motion.div>
+                </motion.div>
+              </StaggerItem>
             ))}
-          </div>
+          </StaggerContainer>
         )}
 
         {/* Market alert */}
-        <motion.div
-          initial={{ opacity: 0, y: 15 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.3 }}
-          className="max-w-2xl mx-auto mt-5 rounded-xl border border-primary/8 bg-gradient-to-r from-card/15 to-card/5 backdrop-blur-sm p-5 md:p-6 flex items-start gap-4"
-        >
-          <div className="w-8 h-8 rounded-full border border-primary/15 bg-primary/5 flex items-center justify-center flex-shrink-0 mt-0.5">
-            <Radio className="w-3.5 h-3.5 text-primary/50" strokeWidth={1.3} />
+        <FadeReveal delay={0.3}>
+          <div className="max-w-2xl mx-auto mt-5 rounded-xl glass-panel p-5 md:p-6 flex items-start gap-4">
+            <motion.div
+              animate={{ scale: [1, 1.15, 1] }}
+              transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+              className="w-8 h-8 rounded-full border border-primary/15 bg-primary/5 flex items-center justify-center flex-shrink-0 mt-0.5"
+            >
+              <Radio className="w-3.5 h-3.5 text-primary/50" strokeWidth={1.3} />
+            </motion.div>
+            <div className="flex-1">
+              <p className="text-[9px] tracking-[0.3em] uppercase text-primary/50 font-light mb-2">
+                Market Alert
+              </p>
+              <p className="text-[11px] text-foreground/55 font-light mb-1">
+                Monaco Grand Prix — high demand, limited availability.
+              </p>
+              <p className="text-[10px] text-foreground/30 font-extralight leading-[1.8]">
+                Early booking recommended to secure preferred aircraft.
+              </p>
+            </div>
           </div>
-          <div className="flex-1">
-            <p className="text-[9px] tracking-[0.3em] uppercase text-primary/50 font-light mb-2">
-              Market Alert
-            </p>
-            <p className="text-[11px] text-foreground/55 font-light mb-1">
-              Monaco Grand Prix — high demand, limited availability.
-            </p>
-            <p className="text-[10px] text-foreground/30 font-extralight leading-[1.8]">
-              Early booking recommended to secure preferred aircraft.
-            </p>
-          </div>
-        </motion.div>
+        </FadeReveal>
 
         {/* CTA */}
-        <motion.div
-          initial={{ opacity: 0, y: 15 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.4 }}
-          className="text-center pt-10"
-        >
-          <a
+        <FadeReveal delay={0.4} className="text-center pt-10">
+          <motion.a
             href="#cta"
-            className="inline-flex items-center gap-3 px-10 py-4 bg-gradient-gold text-primary-foreground text-[10px] tracking-[0.3em] uppercase font-medium rounded-sm transition-all duration-500 hover:shadow-[0_0_40px_-10px_hsla(38,52%,50%,0.4)] hover:scale-[1.02]"
+            whileHover={{ scale: 1.04 }}
+            whileTap={{ scale: 0.97 }}
+            className="inline-flex items-center gap-3 px-10 py-4 bg-gradient-gold text-primary-foreground text-[10px] tracking-[0.3em] uppercase font-medium rounded-sm transition-all duration-500 hover:shadow-[0_0_40px_-10px_hsla(38,52%,50%,0.4)]"
           >
             Request Your Flight
             <ArrowRight className="w-3.5 h-3.5" strokeWidth={1.5} />
-          </a>
-        </motion.div>
+          </motion.a>
+        </FadeReveal>
       </div>
     </section>
   );

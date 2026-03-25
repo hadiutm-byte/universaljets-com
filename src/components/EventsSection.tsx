@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import { Calendar } from "lucide-react";
+import { FadeReveal, StaggerContainer, StaggerItem } from "./ui/ScrollEffects";
 
 const events = [
   "Monaco Grand Prix",
@@ -18,40 +19,33 @@ const events = [
 
 const EventsSection = () => (
   <section className="section-padding relative">
-    <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[hsl(228,22%,4.5%)] to-transparent pointer-events-none" />
+    <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[hsl(225,28%,6%)] to-transparent pointer-events-none" />
 
     <div className="container mx-auto px-8 relative z-10">
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.8 }}
-        className="text-center mb-16"
-      >
+      <FadeReveal className="text-center mb-16">
         <p className="text-[9px] tracking-[0.5em] uppercase text-primary/60 mb-6 font-light">Events</p>
         <h2 className="text-3xl md:text-4xl lg:text-5xl font-display font-semibold text-foreground">
           Where the World's Elite <span className="text-gradient-gold italic">Gather</span>
         </h2>
-      </motion.div>
+      </FadeReveal>
 
-      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 max-w-5xl mx-auto">
-        {events.map((name, i) => (
-          <motion.a
-            key={name}
-            href="#cta"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: i * 0.05, duration: 0.6 }}
-            className="flex items-center gap-3 p-4 rounded-xl border border-border/8 bg-card/10 hover:border-primary/15 hover:bg-card/15 transition-all duration-500 group"
-          >
-            <Calendar className="w-3.5 h-3.5 text-primary/40 flex-shrink-0" strokeWidth={1.2} />
-            <span className="font-display text-[12px] md:text-[13px] text-foreground/60 group-hover:text-foreground/80 transition-colors">
-              {name}
-            </span>
-          </motion.a>
+      <StaggerContainer className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 max-w-5xl mx-auto">
+        {events.map((name) => (
+          <StaggerItem key={name}>
+            <motion.a
+              href="#cta"
+              whileHover={{ scale: 1.04, y: -3 }}
+              transition={{ type: "spring", stiffness: 300 }}
+              className="flex items-center gap-3 p-4 rounded-xl glass-panel hover:border-primary/15 transition-all duration-500 group block"
+            >
+              <Calendar className="w-3.5 h-3.5 text-primary/40 flex-shrink-0" strokeWidth={1.2} />
+              <span className="font-display text-[12px] md:text-[13px] text-foreground/60 group-hover:text-foreground/80 transition-colors">
+                {name}
+              </span>
+            </motion.a>
+          </StaggerItem>
         ))}
-      </div>
+      </StaggerContainer>
     </div>
   </section>
 );
