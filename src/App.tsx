@@ -21,6 +21,7 @@ import QuotesPage from "./pages/crm/QuotesPage.tsx";
 import ContractsPage from "./pages/crm/ContractsPage.tsx";
 import InvoicesPage from "./pages/crm/InvoicesPage.tsx";
 import TripsPage from "./pages/crm/TripsPage.tsx";
+import OutreachPage from "./pages/crm/OutreachPage.tsx";
 import NotFound from "./pages/NotFound.tsx";
 import RickyChatbot from "./components/RickyChatbot.tsx";
 

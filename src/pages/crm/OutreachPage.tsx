@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import CrmLayout from "@/components/crm/CrmLayout";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { Copy, Plus, Pencil, Trash2, MessageSquare } from "lucide-react";
