@@ -375,6 +375,40 @@ const ACMILeasingPage = () => {
         </div>
       </section>
 
+      {/* Why Clients Choose Us */}
+      <section className="py-20 md:py-28 relative">
+        <div className="container mx-auto px-8 relative z-10 max-w-3xl">
+          <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.8 }} className="text-center mb-16">
+            <p className="text-[9px] tracking-[0.5em] uppercase text-primary/60 mb-6 font-light">The Difference</p>
+            <h2 className="text-2xl md:text-4xl font-display font-semibold text-foreground mb-5">Why Clients Choose Universal Jets</h2>
+            <p className="text-[13px] text-foreground/45 font-extralight leading-[2] max-w-lg mx-auto">
+              We don't sell aircraft. We give you access to 7,000+ vetted aircraft worldwide — and find the best option for every mission.
+            </p>
+          </motion.div>
+
+          <div className="space-y-4">
+            {[
+              { title: "Full Market Access", desc: "Operators sell their own fleet. We search the entire global market to find the best aircraft, positioning, and price." },
+              { title: "Independent & Unbiased", desc: "We act in your interest — not the operator's. No fleet bias, no hidden markups, no inventory to push." },
+              { title: "Safety Vetted", desc: "Every aircraft in our network meets ARGUS/WYVERN safety standards. No exceptions." },
+              { title: "Optimized Pricing", desc: "We leverage positioning, empty legs, and operator availability to unlock pricing direct bookings can't match." },
+              { title: "One Point of Contact", desc: "From sourcing to wheels-up — a dedicated aviation advisor handles everything so you don't have to." },
+              { title: "24/7 Global Operations", desc: "Round-the-clock support across every time zone. Changes, upgrades, last-minute requests — handled instantly." },
+            ].map((item, i) => (
+              <motion.div key={i} initial={{ opacity: 0, x: -20 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.08, duration: 0.6 }}
+                className="flex gap-5 p-5 rounded-lg border border-border/20 bg-card/20 backdrop-blur-sm group hover:border-primary/15 transition-all duration-500"
+              >
+                <div className="w-1 rounded-full bg-primary/20 group-hover:bg-primary/40 transition-colors duration-500 flex-shrink-0" />
+                <div>
+                  <h3 className="font-display text-[14px] font-medium text-foreground mb-2 group-hover:text-primary/80 transition-colors duration-500">{item.title}</h3>
+                  <p className="text-[11px] text-foreground/35 font-extralight leading-[1.9]">{item.desc}</p>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       <Footer />
     </div>
   );
