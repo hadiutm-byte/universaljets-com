@@ -125,9 +125,7 @@ const Navbar = () => {
             {/* Hamburger */}
             <button
               onClick={() => setOverlayOpen(!overlayOpen)}
-              className={`relative w-10 h-10 flex items-center justify-center transition-colors duration-300 ${
-                scrolled ? "text-foreground/60 hover:text-foreground" : "text-white/60 hover:text-white"
-              }`}
+              className="relative w-10 h-10 flex items-center justify-center transition-colors duration-300 text-foreground/60 hover:text-foreground"
               aria-label="Menu"
             >
               <AnimatePresence mode="wait">
