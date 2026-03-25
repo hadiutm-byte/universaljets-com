@@ -33,6 +33,7 @@ import Ricky3D from "./components/Ricky3D.tsx";
 import CookieConsent from "./components/CookieConsent.tsx";
 import ContentProtection from "./components/ContentProtection.tsx";
 
+
 const queryClient = new QueryClient();
 
 const App = () => (
