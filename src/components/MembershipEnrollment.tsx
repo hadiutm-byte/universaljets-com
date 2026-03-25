@@ -56,18 +56,16 @@ const MembershipEnrollment = () => {
         },
       });
 
-      const memberId = `UJ-${Date.now().toString(36).toUpperCase().slice(-6)}`;
+      const seq = Math.floor(1000 + Math.random() * 9000);
+      const memberId = `5000 ${seq.toString().padStart(4, "0")}`;
       const valid = new Date();
-      valid.setFullYear(valid.getFullYear() + 1);
-
+      valid.setFullYear(valid.getFullYear() + 3);
+      const validStr = `${(valid.getMonth() + 1).toString().padStart(2, "0")}/${valid.getFullYear().toString().slice(-2)}`;
       setMember({
-        name: form.name,
+        name: form.name.toUpperCase(),
         id: memberId,
         tier: getTier(form.flights),
-        validUntil: valid.toLocaleDateString("en-US", {
-          month: "long",
-          year: "numeric",
-        }),
+        validUntil: validStr,
       });
       toast.success("Welcome to the Universal Jets network.");
     } catch {
@@ -263,60 +261,78 @@ const MembershipEnrollment = () => {
                 </p>
 
                 {/* Card */}
-                <div className="relative rounded-2xl overflow-hidden aspect-[1.586/1]"
+                <div
+                  className="relative rounded-2xl overflow-hidden aspect-[1.586/1] shadow-[0_25px_60px_-15px_rgba(0,0,0,0.7)]"
                   style={{
-                    background: "linear-gradient(145deg, hsl(228 22% 8%) 0%, hsl(228 28% 4%) 50%, hsl(228 22% 6%) 100%)",
+                    background: "linear-gradient(160deg, hsl(228 22% 10%) 0%, hsl(228 28% 4%) 40%, hsl(228 18% 7%) 100%)",
                   }}
                 >
                   {/* Holographic shimmer */}
-                  <div className="absolute inset-0 opacity-[0.06]" style={{
-                    backgroundImage: "linear-gradient(135deg, transparent 20%, hsla(38,52%,50%,0.3) 40%, transparent 60%, hsla(38,52%,50%,0.15) 80%, transparent 100%)",
-                  }} />
+                  <motion.div
+                    className="absolute inset-0 opacity-[0.07]"
+                    animate={{ backgroundPosition: ["0% 0%", "200% 200%"] }}
+                    transition={{ duration: 6, repeat: Infinity, ease: "linear" }}
+                    style={{
+                      backgroundImage: "linear-gradient(135deg, transparent 25%, hsla(38,52%,50%,0.4) 35%, transparent 45%, hsla(38,52%,50%,0.2) 55%, transparent 65%)",
+                      backgroundSize: "200% 200%",
+                    }}
+                  />
 
-                  {/* Gold edge line */}
-                  <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-primary/40 to-transparent" />
-                  <div className="absolute bottom-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-primary/20 to-transparent" />
+                  {/* Gold edge lines */}
+                  <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-primary/30 to-transparent" />
+                  <div className="absolute bottom-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-primary/15 to-transparent" />
+                  <div className="absolute top-0 left-0 bottom-0 w-[1px] bg-gradient-to-b from-transparent via-primary/15 to-transparent" />
+                  <div className="absolute top-0 right-0 bottom-0 w-[1px] bg-gradient-to-b from-transparent via-primary/10 to-transparent" />
 
-                  <div className="relative z-10 p-7 h-full flex flex-col justify-between">
-                    {/* Top row */}
+                  <div className="relative z-10 p-7 sm:p-8 h-full flex flex-col justify-between">
+                    {/* Top row — brand */}
                     <div className="flex items-start justify-between">
                       <div>
-                        <p className="text-[8px] tracking-[0.4em] uppercase text-primary/50 font-light">
+                        <p className="text-[10px] sm:text-[11px] tracking-[0.4em] uppercase text-primary/70 font-medium">
                           Universal Jets
                         </p>
-                        <p className="text-[7px] tracking-[0.3em] uppercase text-foreground/20 mt-1 font-extralight">
-                          Private Access Network
-                        </p>
                       </div>
-                      <Shield className="w-5 h-5 text-primary/30" strokeWidth={1} />
+                      <p className="text-[8px] tracking-[0.3em] uppercase text-primary/40 font-light">
+                        Founder Circle
+                      </p>
                     </div>
 
-                    {/* Chip */}
-                    <div className="flex items-center gap-3">
-                      <div className="w-9 h-7 rounded-[3px] border border-primary/20" style={{
-                        background: "linear-gradient(135deg, hsla(38,52%,50%,0.15), hsla(38,52%,50%,0.05))",
-                      }} />
-                      <p className="text-[10px] tracking-[0.15em] text-foreground/25 font-light">
+                    {/* Middle — chip + card number */}
+                    <div className="flex items-center gap-4">
+                      {/* EMV chip */}
+                      <div className="w-10 h-8 rounded-[4px] border border-primary/25 relative overflow-hidden" style={{
+                        background: "linear-gradient(145deg, hsla(38,52%,50%,0.2) 0%, hsla(38,52%,50%,0.08) 100%)",
+                      }}>
+                        <div className="absolute inset-[3px] border border-primary/15 rounded-[2px]" />
+                        <div className="absolute top-1/2 left-0 right-0 h-[1px] bg-primary/15" />
+                        <div className="absolute top-0 bottom-0 left-1/2 w-[1px] bg-primary/10" />
+                      </div>
+                      <p className="text-[15px] sm:text-[17px] tracking-[0.2em] text-foreground/60 font-light font-mono">
                         {member.id}
                       </p>
                     </div>
 
-                    {/* Bottom */}
+                    {/* Bottom — name, valid thru, tier */}
                     <div className="flex items-end justify-between">
                       <div>
-                        <p className="text-[14px] text-foreground/80 font-display font-medium tracking-wide">
+                        <p className="text-[15px] sm:text-[17px] text-foreground/85 font-display font-medium tracking-[0.05em] uppercase">
                           {member.name}
                         </p>
-                        <p className="text-[9px] text-foreground/25 font-extralight mt-1">
-                          Valid through {member.validUntil}
-                        </p>
+                        <div className="flex items-center gap-3 mt-2">
+                          <span className="text-[7px] tracking-[0.15em] uppercase text-foreground/25 font-extralight leading-tight">
+                            Valid<br />Thru
+                          </span>
+                          <span className="text-[12px] text-foreground/50 font-light tracking-wider">
+                            {member.validUntil}
+                          </span>
+                        </div>
                       </div>
                       <div className="text-right">
-                        <p className="text-[8px] tracking-[0.35em] uppercase text-primary/60 font-light">
-                          {member.tier}
+                        <p className="text-[8px] tracking-[0.35em] uppercase text-primary/50 font-light mb-1">
+                          Private Access Network
                         </p>
-                        <p className="text-[7px] text-foreground/15 font-extralight mt-0.5">
-                          Member
+                        <p className="text-[10px] tracking-[0.25em] uppercase text-primary/70 font-medium">
+                          {member.tier}
                         </p>
                       </div>
                     </div>
@@ -331,7 +347,7 @@ const MembershipEnrollment = () => {
                   className="text-center mt-10"
                 >
                   <p className="text-[12px] text-foreground/40 font-extralight leading-[2]">
-                    Your membership is now active. Our team will reach out within 24 hours.
+                    Your Private Access Card is now active. Our team will reach out within 24 hours.
                   </p>
                 </motion.div>
               </motion.div>
