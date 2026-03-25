@@ -55,6 +55,7 @@ import CharterPage from "./pages/CharterPage.tsx";
 import AircraftGuidePage from "./pages/AircraftGuidePage.tsx";
 import RequestFlightPage from "./pages/RequestFlightPage.tsx";
 import NotFound from "./pages/NotFound.tsx";
+import ScrollToTop from "./components/ScrollToTop.tsx";
 import Ricky3D from "./components/Ricky3D.tsx";
 import CookieConsent from "./components/CookieConsent.tsx";
 import ContentProtection from "./components/ContentProtection.tsx";
@@ -70,6 +71,7 @@ const App = () => (
       <Toaster />
       <Sonner />
       <BrowserRouter>
+        <ScrollToTop />
         <ContentProtection />
         <Routes>
           <Route path="/" element={<Index />} />

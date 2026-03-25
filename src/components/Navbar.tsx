@@ -56,8 +56,15 @@ const Navbar = () => {
   const handleNavClick = (href: string) => {
     setOverlayOpen(false);
     if (href.startsWith("/#") && isHome) {
-      const el = document.querySelector(href.replace("/", ""));
-      el?.scrollIntoView({ behavior: "smooth" });
+      const id = href.replace("/#", "");
+      // Scroll to top first, then smooth-scroll to target
+      window.scrollTo({ top: 0, behavior: "instant" });
+      requestAnimationFrame(() => {
+        setTimeout(() => {
+          const el = document.getElementById(id) || document.querySelector(`#${id}`);
+          el?.scrollIntoView({ behavior: "smooth", block: "start" });
+        }, 50);
+      });
     }
   };
 
