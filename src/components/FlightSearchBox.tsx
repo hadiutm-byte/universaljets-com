@@ -159,7 +159,7 @@ const FlightSearchBox = () => {
               exit={{ opacity: 0 }}
               transition={{ duration: 0.25 }}
             >
-              <div className="grid grid-cols-2 md:grid-cols-[1fr_1fr_0.85fr_0.85fr_0.5fr_auto] gap-0">
+              <div className="grid grid-cols-2 md:grid-cols-[1fr_1fr_0.85fr_0.85fr_0.5fr_auto] gap-2">
                 {/* From + To with swap */}
                 <div className="col-span-2 md:col-span-2 relative grid grid-cols-2">
                   <AirportField
