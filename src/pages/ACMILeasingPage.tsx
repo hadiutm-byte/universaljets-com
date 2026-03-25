@@ -80,8 +80,11 @@ const ACMILeasingPage = () => {
             <h1 className="text-3xl md:text-5xl lg:text-6xl font-display font-semibold text-foreground mb-6 leading-tight">
               Global ACMI &<br />Aircraft Leasing<span className="text-gradient-gold"> Solutions</span>
             </h1>
-            <p className="text-[13px] md:text-[15px] text-foreground/45 font-extralight leading-[2] max-w-xl mx-auto">
-              Whether you need a single aircraft for a week or a fleet for a season, Universal Jets structures and delivers leasing solutions across the global market.
+            <p className="text-[14px] md:text-[16px] text-foreground/55 font-light leading-[1.9] max-w-xl mx-auto mb-4">
+              Rapid, reliable aircraft sourcing for airlines, governments, and large-scale operations.
+            </p>
+            <p className="text-[12px] md:text-[13px] text-foreground/35 font-extralight leading-[2] max-w-lg mx-auto">
+              From urgent AOG replacement to long-term capacity support — we deliver the right aircraft, crew, and structure, worldwide.
             </p>
           </motion.div>
         </div>
