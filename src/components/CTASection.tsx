@@ -201,33 +201,22 @@ const CTASection = () => {
                     disabled={loading}
                     className="w-full md:w-auto px-16 py-4.5 bg-gradient-gold text-primary-foreground text-[10px] tracking-[0.3em] uppercase font-medium rounded-sm transition-all duration-500 hover:shadow-[0_0_40px_-8px_hsla(38,52%,50%,0.5)] hover:scale-[1.02] disabled:opacity-50"
                   >
-                    {loading ? "Submitting..." : "Get My Aircraft Options"}
+                    {loading ? "Submitting..." : "Request Your Flight"}
                   </button>
-                  <p className="text-[10px] text-foreground/18 font-extralight mt-2 tracking-wide">
+                  <p className="text-[10px] text-foreground/25 font-extralight mt-3 tracking-wide">or</p>
+                  <button
+                    type="button"
+                    onClick={() => document.dispatchEvent(new CustomEvent("open-ricky"))}
+                    className="text-[10px] tracking-[0.25em] uppercase text-primary/60 hover:text-primary/90 font-light transition-colors duration-300 cursor-pointer"
+                  >
+                    Speak to an Aviation Advisor →
+                  </button>
+                  <p className="text-[10px] text-foreground/18 font-extralight mt-4 tracking-wide">
                     Every request is handled by an experienced aviation advisor — not an automated system.
                   </p>
                 </div>
               </form>
             )}
-          </motion.div>
-
-          {/* Chat CTA */}
-          <motion.div
-            initial={{ opacity: 0, y: 15 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.5, duration: 0.7 }}
-            className="text-center mt-12"
-          >
-            <p className="text-[12px] text-foreground/35 font-extralight mb-3">
-              Need immediate assistance?
-            </p>
-            <button
-              onClick={() => document.dispatchEvent(new CustomEvent("open-ricky"))}
-              className="text-[10px] tracking-[0.25em] uppercase text-primary/60 hover:text-primary/90 font-light transition-colors duration-300 cursor-pointer"
-            >
-              Chat with an aviation advisor now →
-            </button>
           </motion.div>
         </div>
       </div>
