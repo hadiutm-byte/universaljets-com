@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { X, Send, Plane, CreditCard, Tag, Handshake, ChevronDown, Volume2, VolumeX, MessageCircle } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import RickyAvatar, { type RickyPose } from "./ricky/RickyAvatar";
-import RickyThreeAvatar from "./ricky/RickyThreeAvatar";
+import RickyAnimatedAvatar from "./ricky/RickyAnimatedAvatar";
 import { useRickyVoice } from "@/hooks/useRickyVoice";
 import GuidedBookingFlow from "./ricky/GuidedBookingFlow";
 
@@ -303,8 +303,8 @@ const Ricky3D = () => {
               whileTap={{ scale: 0.98 }}
               style={{ pointerEvents: "auto" }}
             >
-              <div className="ricky-presence ricky-presence-3d">
-                <RickyThreeAvatar speaking={rickySpeaking} size={80} compact />
+              <div className="ricky-presence">
+                <RickyAnimatedAvatar speaking={rickySpeaking} size={64} compact />
               </div>
             </motion.button>
           </motion.div>
