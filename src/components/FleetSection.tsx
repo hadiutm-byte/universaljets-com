@@ -8,8 +8,10 @@ const fleet = [
 ];
 
 const FleetSection = () => (
-  <section id="fleet" className="section-padding">
-    <div className="container mx-auto px-8">
+  <section id="fleet" className="section-padding relative">
+    <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[hsl(228,22%,4%)] to-transparent pointer-events-none" />
+
+    <div className="container mx-auto px-8 relative z-10">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -17,8 +19,8 @@ const FleetSection = () => (
         transition={{ duration: 0.8 }}
         className="text-center mb-28"
       >
-        <p className="text-[9px] tracking-[0.5em] uppercase text-gold/70 mb-6 font-light">Aircraft Categories</p>
-        <h2 className="text-3xl md:text-5xl lg:text-6xl font-display font-semibold">Our Fleet</h2>
+        <p className="text-[9px] tracking-[0.5em] uppercase text-primary/60 mb-6 font-light">Aircraft Categories</p>
+        <h2 className="text-3xl md:text-5xl lg:text-6xl font-display font-semibold text-foreground">Our Fleet</h2>
       </motion.div>
 
       <div className="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto">
@@ -31,16 +33,16 @@ const FleetSection = () => (
             transition={{ delay: i * 0.12, duration: 0.7 }}
             className="glass rounded-xl p-10 group hover:glow-subtle transition-all duration-700 flex flex-col"
           >
-            <div className="flex items-center gap-2 text-gold/60 mb-8">
+            <div className="flex items-center gap-2 text-primary/50 mb-8">
               <Users size={12} strokeWidth={1.5} />
               <span className="text-[9px] tracking-[0.3em] uppercase font-light">{f.passengers}</span>
             </div>
-            <h3 className="font-display text-2xl mb-2">{f.category}</h3>
-            <p className="text-[9px] text-muted-foreground tracking-[0.2em] uppercase mb-6">{f.range}</p>
-            <p className="text-[12px] text-muted-foreground font-extralight leading-[2] mb-8 flex-1">{f.desc}</p>
-            <p className="text-[10px] text-gold/30 font-extralight mb-8">{f.examples}</p>
+            <h3 className="font-display text-2xl mb-2 text-foreground">{f.category}</h3>
+            <p className="text-[9px] text-foreground/35 tracking-[0.2em] uppercase mb-6">{f.range}</p>
+            <p className="text-[12px] text-foreground/40 font-extralight leading-[2] mb-8 flex-1">{f.desc}</p>
+            <p className="text-[10px] text-primary/25 font-extralight mb-8">{f.examples}</p>
             <div className="pt-6 border-t border-border">
-              <a href="#cta" className="inline-flex items-center gap-2 text-[9px] tracking-[0.2em] uppercase text-gold/60 hover:text-gold transition-all duration-500 group/l">
+              <a href="#cta" className="inline-flex items-center gap-2 text-[9px] tracking-[0.2em] uppercase text-primary/50 hover:text-primary transition-all duration-500 group/l">
                 Inquire <ArrowRight size={10} className="group-hover/l:translate-x-1 transition-transform duration-300" />
               </a>
             </div>
