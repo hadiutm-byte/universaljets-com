@@ -294,7 +294,7 @@ const Ricky3D = () => {
               style={{ pointerEvents: "auto" }}
             >
               <div className="ricky-presence ricky-presence-3d">
-                <RickyThreeAvatar speaking={rickySpeaking} size={390} />
+                <RickyThreeAvatar speaking={rickySpeaking} size={520} />
               </div>
             </motion.button>
           </motion.div>
