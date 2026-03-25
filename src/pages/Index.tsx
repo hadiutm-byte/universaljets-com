@@ -12,6 +12,8 @@ import ReferralSection from "@/components/ReferralSection";
 import DestinationsSection from "@/components/DestinationsSection";
 import EventsSection from "@/components/EventsSection";
 import SafetySection from "@/components/SafetySection";
+import LiveMarketSection from "@/components/LiveMarketSection";
+import EmptyLegsMap from "@/components/EmptyLegsMap";
 import Footer from "@/components/Footer";
 
 const Index = () => (
@@ -26,22 +28,25 @@ const Index = () => (
       <HowItWorksSection />
       {/* 2. Services overview */}
       <ServicesSection />
-      {/* 3. Membership conversion */}
+      {/* 3. Empty Legs & Live Market */}
+      <EmptyLegsMap />
+      <LiveMarketSection />
+      {/* 4. Membership conversion */}
       <MembershipEnrollment />
-      {/* 4. Member Privileges */}
+      {/* 5. Member Privileges */}
       <MemberPrivileges />
-      {/* 5. WhatsApp — direct advisor contact */}
+      {/* 6. WhatsApp — direct advisor contact */}
       <WhatsAppCTA />
-      {/* 5. Flight request — first trip */}
+      {/* 7. Flight request — first trip */}
       <CTASection />
-      {/* 6. Jet Card upsell */}
+      {/* 8. Jet Card upsell */}
       <JetCardSection />
-      {/* 7. Referral program */}
+      {/* 9. Referral program */}
       <ReferralSection />
-      {/* 8. Destinations & Events — engagement */}
+      {/* 10. Destinations & Events — engagement */}
       <DestinationsSection />
       <EventsSection />
-      {/* 9. Trust & Safety — reinforcement */}
+      {/* 11. Trust & Safety — reinforcement */}
       <SafetySection />
       <Footer />
     </div>
