@@ -4,8 +4,7 @@ import { ShieldCheck, Search, Wrench, Users, ClipboardCheck } from "lucide-react
 const certifications = [
   { name: "WYVERN", sub: "Wingman Certified" },
   { name: "ARGUS", sub: "Platinum / Gold Rated" },
-  { name: "ICAO", sub: "International Standards" },
-  { name: "IOSA", sub: "Operational Safety Audit" },
+  { name: "ICAO", sub: "Compliant Operators" },
 ];
 
 const vettingSteps = [
