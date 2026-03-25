@@ -388,11 +388,10 @@ const ACMILeasingPage = () => {
 
           <div className="space-y-4">
             {[
-              { title: "Full Market Access", desc: "Access to the full global aircraft market — not limited to a single fleet or operator." },
-              { title: "Optimized Pricing", desc: "Better pricing through smart sourcing, positioning logic, and empty leg opportunities." },
-              { title: "Rapid Response", desc: "Fast response for urgent requests — aircraft on station within days, not weeks." },
-              { title: "Passenger & Cargo", desc: "Passenger and cargo capability across all aircraft categories, from light jets to VIP airliners." },
-              { title: "Discreet Service", desc: "Discreet, high-level service for governments, corporates, and private individuals." },
+              { title: "Full Market Access", desc: "Not limited to one fleet — we search the entire global market for the best aircraft." },
+              { title: "Better Pricing", desc: "Better pricing through real-time sourcing, positioning optimization, and empty leg matching." },
+              { title: "Rapid Response", desc: "Fast response for urgent missions — aircraft on station within days, not weeks." },
+              { title: "Proven Experience", desc: "Experience across corporate, VIP, and government travel — from routine charters to complex operations." },
             ].map((item, i) => (
               <motion.div key={i} initial={{ opacity: 0, x: -20 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.08, duration: 0.6 }}
                 className="flex gap-5 p-5 rounded-lg border border-border/20 bg-card/20 backdrop-blur-sm group hover:border-primary/15 transition-all duration-500"
