@@ -19,6 +19,7 @@ const overlayLinks = [
   { label: "Empty Legs", href: "/#empty-legs" },
   { label: "Fleet", href: "/#fleet" },
   { label: "Experience", href: "/#experience" },
+  { label: "ACMI & Leasing", href: "/acmi-leasing" },
   { label: "Membership", href: "/members" },
   { label: "Jet Card", href: "/members" },
   { label: "Concierge", href: "/#concierge" },
