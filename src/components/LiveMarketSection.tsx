@@ -123,10 +123,10 @@ const LiveMarketSection = () => {
 
                   {/* Status + Price */}
                   <div className="flex items-center gap-4 flex-shrink-0">
-                    {"price" in route && route.price && (
+                    {"price" in route && (route as any).price && (
                       <p className="text-[11px] text-primary/60 font-light">
-                        {route.currency === "EUR" ? "€" : "$"}
-                        {route.price.toLocaleString()}
+                        {(route as any).currency === "EUR" ? "€" : "$"}
+                        {Number((route as any).price).toLocaleString()}
                       </p>
                     )}
                     <p className={`text-[10px] md:text-[11px] font-light ${route.statusColor}`}>
@@ -137,9 +137,9 @@ const LiveMarketSection = () => {
 
                 {/* Aircraft + Urgency */}
                 <div className="flex items-center justify-between mt-3 pt-3 border-t border-border/6">
-                  {"aircraft" in route && route.aircraft && (
+                  {"aircraft" in route && (route as any).aircraft && (
                     <p className="text-[9px] tracking-[0.15em] uppercase text-foreground/25 font-extralight">
-                      {route.aircraft}
+                      {String((route as any).aircraft)}
                     </p>
                   )}
                   {route.urgency && (
