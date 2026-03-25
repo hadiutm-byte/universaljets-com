@@ -303,8 +303,8 @@ const Ricky3D = () => {
               whileTap={{ scale: 0.98 }}
               style={{ pointerEvents: "auto" }}
             >
-              <div className="ricky-presence ricky-presence-3d">
-                <RickyThreeAvatar speaking={rickySpeaking} size={80} compact />
+              <div className="ricky-presence">
+                <RickyAnimatedAvatar speaking={rickySpeaking} size={64} compact />
               </div>
             </motion.button>
           </motion.div>
