@@ -32,7 +32,6 @@ const tripTabs: { value: TripType; label: string }[] = [
 
 const jetSizes = [
   { value: "", label: "Any Size" },
-  { value: "turboprop", label: "Turboprop" },
   { value: "very_light", label: "Very Light Jet" },
   { value: "light", label: "Light Jet" },
   { value: "midsize", label: "Midsize Jet" },
