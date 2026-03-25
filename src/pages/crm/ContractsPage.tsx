@@ -2,6 +2,7 @@ import { useEffect, useState, useCallback } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import CrmTable from "@/components/crm/CrmTable";
 import { StatusBadge } from "@/components/crm/StatusBadge";
+import { TemplateDownloadCard, charterContractTemplate } from "@/components/crm/CrmTemplates";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { toast } from "sonner";
 import type { Database } from "@/integrations/supabase/types";
@@ -53,7 +54,11 @@ const ContractsPage = () => {
   const labelClass = "text-[9px] tracking-[0.2em] uppercase text-muted-foreground/60 mb-1.5 block font-light";
 
   return (
-    <>
+    <div className="space-y-6">
+      <div>
+        <p className="text-[10px] tracking-[0.3em] uppercase text-muted-foreground/50 font-medium mb-2">Templates</p>
+        <TemplateDownloadCard template={charterContractTemplate} />
+      </div>
       <CrmTable title="Contracts"
         columns={[
           { key: "quote", label: "Quote", render: (r: any) => r.quotes ? `${r.quotes.aircraft} — $${Number(r.quotes.price).toLocaleString()}` : "—" },
@@ -83,7 +88,7 @@ const ContractsPage = () => {
           </form>
         </DialogContent>
       </Dialog>
-    </>
+    </div>
   );
 };
 

@@ -3,6 +3,7 @@ import { supabase } from "@/integrations/supabase/client";
 import CrmTable from "@/components/crm/CrmTable";
 import ClientForm from "@/components/crm/ClientForm";
 import { toast } from "sonner";
+import { TemplateDownloadCard, partnershipAgreementTemplate } from "@/components/crm/CrmTemplates";
 
 const ClientsPage = () => {
   const [data, setData] = useState<any[]>([]);
@@ -26,7 +27,11 @@ const ClientsPage = () => {
   };
 
   return (
-    <>
+    <div className="space-y-6">
+      <div>
+        <p className="text-[10px] tracking-[0.3em] uppercase text-muted-foreground/50 font-medium mb-2">Templates</p>
+        <TemplateDownloadCard template={partnershipAgreementTemplate} />
+      </div>
       <CrmTable
         title="Clients"
         columns={[
@@ -43,7 +48,7 @@ const ClientsPage = () => {
         onDelete={handleDelete}
       />
       <ClientForm open={formOpen} onOpenChange={setFormOpen} onSuccess={fetch} initial={editing} />
-    </>
+    </div>
   );
 };
 
