@@ -589,6 +589,12 @@ const ACMILeasingPage = () => {
           </motion.div>
 
           <motion.p initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} transition={{ delay: 0.35, duration: 0.8 }}
+            className="text-center text-[12px] text-primary/60 font-light leading-[2] max-w-md mx-auto mb-2"
+          >
+            Save up to 75% on repositioning flights.
+          </motion.p>
+
+          <motion.p initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} transition={{ delay: 0.38, duration: 0.8 }}
             className="text-center text-[11px] text-foreground/30 font-extralight leading-[2] max-w-md mx-auto mb-6"
           >
             Empty legs are one-way repositioning flights that can offer up to 75% savings — depending on timing and flexibility.
