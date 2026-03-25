@@ -82,7 +82,7 @@ const OutreachPage = () => {
 
   return (
     <div className="space-y-6">
-        <div className="flex items-center justify-between">
+      <div className="flex items-center justify-between">
           <div>
             <h1 className="text-2xl font-display font-semibold text-foreground">Outreach Templates</h1>
             <p className="text-sm text-muted-foreground mt-1">LinkedIn & email outreach messages</p>
