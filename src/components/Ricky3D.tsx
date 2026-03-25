@@ -168,12 +168,12 @@ const Ricky3D = () => {
   }, []);
 
   const panelClasses =
-    "fixed bottom-6 right-6 z-50 w-[380px] max-w-[calc(100vw-2rem)] h-[560px] max-h-[calc(100vh-3rem)] flex flex-col rounded-2xl overflow-hidden";
+    "fixed bottom-6 right-6 z-50 w-[420px] max-w-[calc(100vw-2rem)] h-[600px] max-h-[calc(100vh-3rem)] flex flex-col rounded-2xl overflow-hidden";
   const panelStyle = {
     background: "hsla(0, 0%, 100%, 0.97)",
-    backdropFilter: "blur(24px)",
-    border: "1px solid hsla(0, 0%, 0%, 0.08)",
-    boxShadow: "0 25px 80px -15px hsla(0,0%,0%,0.15), 0 0 60px -15px hsla(38,52%,53%,0.08)",
+    backdropFilter: "blur(28px) saturate(1.3)",
+    border: "1px solid hsla(0, 0%, 0%, 0.06)",
+    boxShadow: "0 30px 100px -20px hsla(0,0%,0%,0.18), 0 0 80px -20px hsla(38,52%,53%,0.1), 0 2px 0 0 hsla(0,0%,100%,0.5) inset",
   };
 
   return (
