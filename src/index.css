@@ -6,24 +6,24 @@
 
 @layer base {
   :root {
-    /* BALANCED LUXURY PALETTE */
-    --background: 0 0% 97%;        /* #F7F7F7 */
-    --foreground: 0 0% 10%;        /* #1A1A1A */
+    /* FINAL LUXURY PALETTE — LOCKED */
+    --background: 0 0% 96%;        /* #F5F5F5 */
+    --foreground: 0 0% 4%;         /* #0A0A0A */
 
     --card: 0 0% 100%;             /* #FFFFFF */
-    --card-foreground: 0 0% 10%;
+    --card-foreground: 0 0% 4%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 0 0% 10%;
+    --popover-foreground: 0 0% 4%;
 
     --primary: 38 52% 53%;         /* #C8A96A */
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 0 0% 100%;        /* White sections */
-    --secondary-foreground: 0 0% 10%;
+    --secondary: 0 0% 100%;
+    --secondary-foreground: 0 0% 4%;
 
-    --muted: 0 0% 93%;             /* #ECECEC soft gray */
-    --muted-foreground: 0 0% 42%;  /* #6B6B6B — readable secondary text */
+    --muted: 0 0% 93%;             /* #EEEEEE */
+    --muted-foreground: 0 0% 42%;  /* #6B6B6B */
 
     --accent: 38 52% 53%;
     --accent-foreground: 0 0% 100%;
@@ -32,24 +32,24 @@
     --destructive-foreground: 0 0% 98%;
 
     --border: 0 0% 0% / 0.08;
-    --input: 0 0% 92%;
+    --input: 0 0% 93%;
     --ring: 38 52% 53%;
 
     --radius: 0.75rem;
 
     --gold: 38 52% 53%;
-    --gold-light: 38 42% 65%;     /* #E0C48A */
-    --gold-dark: 38 58% 38%;     /* #A8894F */
-    --charcoal: 240 2% 12%;      /* #1C1C1E */
-    --charcoal-deep: 240 3% 17%; /* #2A2A2D */
-    --midnight: 240 3% 24%;      /* #3A3A3F */
+    --gold-light: 38 42% 65%;
+    --gold-dark: 38 58% 38%;
+    --charcoal: 240 2% 12%;
+    --charcoal-deep: 240 3% 17%;
+    --midnight: 240 3% 24%;
 
     --sidebar-background: 0 0% 98%;
-    --sidebar-foreground: 0 0% 10%;
+    --sidebar-foreground: 0 0% 4%;
     --sidebar-primary: 38 52% 53%;
     --sidebar-primary-foreground: 0 0% 100%;
     --sidebar-accent: 0 0% 95%;
-    --sidebar-accent-foreground: 0 0% 10%;
+    --sidebar-accent-foreground: 0 0% 4%;
     --sidebar-border: 0 0% 90%;
     --sidebar-ring: 38 52% 53%;
   }
