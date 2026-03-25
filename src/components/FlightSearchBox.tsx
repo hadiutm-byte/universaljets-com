@@ -103,7 +103,7 @@ const FlightSearchBox = () => {
     navigate(`/search?${params.toString()}`);
   };
 
-  const fieldWrapperClass = "px-4 py-4 rounded-xl bg-muted/40 border border-transparent hover:bg-muted/70 hover:shadow-sm transition-all duration-300 focus-within:border-primary/30 focus-within:shadow-[0_0_20px_-8px_hsla(38,52%,50%,0.12)]";
+  const fieldWrapperClass = "px-4 py-4 rounded-xl bg-muted/30 border border-transparent hover:bg-muted/50 hover:shadow-sm transition-all duration-300 focus-within:border-primary/30 focus-within:shadow-[0_0_20px_-8px_hsla(38,52%,50%,0.12)]";
 
   return (
     <div className="w-full max-w-4xl mx-auto">
@@ -113,10 +113,10 @@ const FlightSearchBox = () => {
           <button
             key={tab.value}
             onClick={() => setTripType(tab.value)}
-            className={`relative px-5 py-2 text-[10px] tracking-[0.2em] uppercase font-light rounded-full transition-all duration-400 cursor-pointer ${
+            className={`relative px-5 py-2 text-[11px] tracking-[0.2em] uppercase font-medium rounded-full transition-all duration-400 cursor-pointer ${
               tripType === tab.value
                 ? "text-white"
-                : "text-foreground/40 hover:text-foreground/70"
+                : "text-foreground/50 hover:text-foreground"
             }`}
           >
             {tripType === tab.value && (
@@ -132,7 +132,7 @@ const FlightSearchBox = () => {
       </div>
 
       {/* Search Card */}
-      <div className="rounded-2xl bg-background border border-border shadow-[0_8px_40px_-12px_hsla(0,0%,0%,0.08)] p-5">
+      <div className="rounded-2xl bg-card border border-border shadow-[0_8px_40px_-12px_hsla(0,0%,0%,0.08)] p-5">
         <AnimatePresence mode="wait">
           {tripType !== "multi-city" ? (
             <motion.div key="standard" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.2 }}>

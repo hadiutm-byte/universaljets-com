@@ -21,8 +21,8 @@ const PartnersSection = () => (
 
       {/* Scrolling logo strip */}
       <div className="relative overflow-hidden py-8">
-        <div className="absolute left-0 top-0 bottom-0 w-24 bg-gradient-to-r from-[hsl(0,0%,97%)] to-transparent z-10" />
-        <div className="absolute right-0 top-0 bottom-0 w-24 bg-gradient-to-l from-[hsl(0,0%,97%)] to-transparent z-10" />
+        <div className="absolute left-0 top-0 bottom-0 w-24 bg-gradient-to-r from-[hsl(0,0%,96%)] to-transparent z-10" />
+        <div className="absolute right-0 top-0 bottom-0 w-24 bg-gradient-to-l from-[hsl(0,0%,96%)] to-transparent z-10" />
 
         <div className="animate-scroll-logos flex gap-16 items-center whitespace-nowrap">
           {[...partners, ...partners].map((name, i) => (

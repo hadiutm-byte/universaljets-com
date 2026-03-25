@@ -11,7 +11,7 @@ const INTRO_SCRIPT = `Welcome to Universal Jets.
 
 I'm Ricky — your personal aviation advisor.
 
-Tell me what you need, and I'll take care of the rest.`;
+Tell me your destination — I'll take care of everything.`;
 
 const quickActions = [
   { icon: Plane, label: "Request a Flight", action: "booking" as const },
