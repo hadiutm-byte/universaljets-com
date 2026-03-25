@@ -52,11 +52,23 @@ const HowItWorksSection = () => (
           The Process
         </p>
         <h2 className="text-3xl md:text-4xl lg:text-5xl font-display font-semibold text-foreground mb-5 leading-tight">
-          How It <span className="text-gradient-gold italic">Works</span>
+          How Private Jet Charter{" "}
+          <span className="text-gradient-gold italic">Really Works</span>
         </h2>
-        <p className="text-[13px] md:text-[14px] text-foreground/40 font-extralight leading-[2] max-w-lg mx-auto">
-          From request to wheels-up — a seamless, advisor-led experience.
-        </p>
+        <div className="max-w-xl mx-auto space-y-4 mt-6">
+          <p className="text-[12px] md:text-[13px] text-foreground/40 font-extralight leading-[2]">
+            Private aviation is not fixed pricing.
+          </p>
+          <p className="text-[12px] md:text-[13px] text-foreground/40 font-extralight leading-[2]">
+            Aircraft availability changes by the hour. Positioning flights, demand, airport slots, and routing all impact cost.
+          </p>
+          <p className="text-[12px] md:text-[13px] text-foreground/45 font-light leading-[2]">
+            We analyze these variables in real-time to secure optimal pricing and availability.
+          </p>
+          <p className="text-[12px] md:text-[13px] text-foreground/50 font-light leading-[2]">
+            That's the advantage of working with a broker — not a single operator.
+          </p>
+        </div>
       </motion.div>
 
       {/* Steps */}
