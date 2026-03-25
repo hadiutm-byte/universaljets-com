@@ -93,7 +93,7 @@ const FlightSearchBox = () => {
           {/* From */}
           <div className="md:border-r md:border-r-[hsla(0,0%,100%,0.04)] relative" ref={fromRef}>
             <div className="px-5 py-4">
-              <label className="flex items-center gap-1.5 text-[7.5px] tracking-[0.35em] uppercase text-gold/40 mb-2 font-light">
+              <label className="flex items-center gap-1.5 text-[7.5px] tracking-[0.35em] uppercase text-primary/55 mb-2 font-light">
                 <MapPin size={8} strokeWidth={1.5} /> From
               </label>
               <input
