@@ -68,7 +68,7 @@
 @layer utilities {
   .text-gradient-gold {
     @apply bg-clip-text text-transparent;
-    background-image: linear-gradient(135deg, hsl(38, 42%, 62%), hsl(38, 52%, 50%), hsl(38, 42%, 62%));
+    background-image: linear-gradient(135deg, hsl(38, 48%, 68%), hsl(38, 55%, 52%), hsl(38, 48%, 68%));
   }
 
   .bg-gradient-gold {

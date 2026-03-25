@@ -84,7 +84,7 @@ const HeroSection = () => {
           initial={{ opacity: 0, y: 18 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1, delay: 0.85 }}
-          className="text-[12px] md:text-[14px] text-foreground/35 max-w-lg mx-auto mb-12 font-extralight leading-[2.1] tracking-[0.02em]"
+          className="text-[12px] md:text-[14px] text-foreground/50 max-w-lg mx-auto mb-12 font-extralight leading-[2.1] tracking-[0.02em]"
         >
           Charter smarter. Access the global private jet market with better pricing, full flexibility, and 24/7 expert advisory.
         </motion.p>
