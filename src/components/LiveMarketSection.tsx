@@ -35,7 +35,7 @@ const LiveMarketSection = () => {
               className="w-2 h-2 rounded-full bg-emerald-500/70"
             />
             <p className="text-[9px] tracking-[0.5em] uppercase text-primary/60 font-light">
-              Live Market
+              Live Market Intelligence
             </p>
           </div>
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-display font-semibold text-foreground mb-5 leading-tight">
