@@ -83,9 +83,9 @@ const FlightSearchBox = () => {
 
   useEffect(() => {
     if (tripType === "multi-city") {
-      if (legs.length < 2) setLegs([emptyLeg(), emptyLeg()]);
+      setLegs((prev) => (prev.length < 2 ? [prev[0] || emptyLeg(), emptyLeg()] : prev));
     } else {
-      setLegs([legs[0] || emptyLeg()]);
+      setLegs((prev) => [prev[0] || emptyLeg()]);
     }
     if (tripType === "one-way") setReturnDate(undefined);
   }, [tripType]);
