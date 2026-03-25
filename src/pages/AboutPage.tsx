@@ -95,7 +95,7 @@ const AboutPage = () => (
           className="absolute bottom-8 right-8 md:bottom-12 md:right-16 z-20 hidden lg:block"
         >
           <div className="w-28 h-28">
-            <RickyAvatar pose="waving" />
+            <RickyAvatar pose="wave" />
           </div>
         </motion.div>
       </section>
