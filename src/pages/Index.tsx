@@ -10,6 +10,7 @@ import EmptyLegsSection from "@/components/EmptyLegsSection";
 import LiveMarketSection from "@/components/LiveMarketSection";
 import DestinationsSection from "@/components/DestinationsSection";
 import EventsSection from "@/components/EventsSection";
+import TrustedNetworkSection from "@/components/TrustedNetworkSection";
 import SafetySection from "@/components/SafetySection";
 import NewsletterSection from "@/components/NewsletterSection";
 import FoundersCircleSection from "@/components/FoundersCircleSection";
@@ -34,6 +35,7 @@ const Index = () => (
       <LiveMarketSection />
       <DestinationsSection />
       <EventsSection />
+      <TrustedNetworkSection />
       <SafetySection />
       <FoundersCircleSection />
       <MembershipEnrollment />
