@@ -10,11 +10,9 @@ type Msg = { role: "user" | "assistant"; content: string };
 
 const INTRO_SCRIPT = `Welcome to Universal Jets.
 
-I'm Ricky — Senior Aviation Advisor.
+I'm Ricky — your personal aviation advisor.
 
-Before you explore, tell me what brought you here. Are you looking to fly, to partner, or to join?
-
-I decide what happens next.`;
+Tell me what you need, and I'll take care of the rest.`;
 
 const quickActions = [
   { icon: Plane, label: "Book a Flight", action: "booking" as const },
