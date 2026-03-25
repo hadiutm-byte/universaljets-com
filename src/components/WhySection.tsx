@@ -1,68 +1,66 @@
 import { motion } from "framer-motion";
-import { Network, TrendingDown, Settings, ShieldCheck } from "lucide-react";
-import interiorImage from "@/assets/jet-interior.jpg";
+import { Globe, TrendingDown, Headphones, Settings } from "lucide-react";
 
 const reasons = [
-  { icon: Network, title: "Global Operator Network", desc: "Vetted access to 5,000+ aircraft across every continent." },
-  { icon: TrendingDown, title: "Market Intelligence Pricing", desc: "Real-time data ensures you never overpay for a charter." },
-  { icon: Settings, title: "Tailored Solutions", desc: "Every mission is unique. We build your flight around you." },
-  { icon: ShieldCheck, title: "Discretion & VIP Service", desc: "Privacy-first operations for high-profile clients." },
+  {
+    icon: Globe,
+    title: "Global Fleet Access",
+    desc: "Instant access to 5,000+ vetted aircraft across six continents. Any aircraft, any airport, any time.",
+  },
+  {
+    icon: TrendingDown,
+    title: "Better Pricing",
+    desc: "Real-time market intelligence ensures you never overpay. We negotiate directly with operators worldwide.",
+  },
+  {
+    icon: Headphones,
+    title: "24/7 Expert Advisory",
+    desc: "Dedicated aviation advisors available around the clock. One call is all it takes.",
+  },
+  {
+    icon: Settings,
+    title: "Tailored Solutions",
+    desc: "Every mission is unique. We engineer bespoke flight solutions around your exact requirements.",
+  },
 ];
 
 const WhySection = () => (
-  <section className="section-padding overflow-hidden">
-    <div className="container mx-auto px-6">
-      <div className="grid lg:grid-cols-2 gap-16 items-center">
-        <motion.div
-          initial={{ opacity: 0, x: -30 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          viewport={{ once: true }}
-        >
-          <p className="text-xs tracking-[0.3em] uppercase text-gold mb-4 font-light">The Difference</p>
-          <h2 className="text-4xl md:text-5xl font-display font-semibold mb-12">
-            Why Universal Jets
-          </h2>
+  <section id="why" className="section-padding">
+    <div className="container mx-auto px-8">
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.8 }}
+        className="text-center mb-24"
+      >
+        <p className="text-[10px] tracking-[0.4em] uppercase text-gold mb-6 font-light">The Difference</p>
+        <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-semibold leading-tight">
+          Why Universal Jets
+        </h2>
+      </motion.div>
 
-          <div className="space-y-8">
-            {reasons.map((r, i) => (
-              <motion.div
-                key={i}
-                initial={{ opacity: 0, x: -20 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.1 }}
-                className="flex gap-5"
-              >
-                <div className="flex-shrink-0 w-12 h-12 rounded-lg bg-secondary flex items-center justify-center">
-                  <r.icon className="w-5 h-5 text-gold" strokeWidth={1.5} />
-                </div>
-                <div>
-                  <h3 className="font-display text-lg mb-1">{r.title}</h3>
-                  <p className="text-sm text-muted-foreground font-light">{r.desc}</p>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-        </motion.div>
-
-        <motion.div
-          initial={{ opacity: 0, x: 30 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          viewport={{ once: true }}
-          className="relative"
-        >
-          <div className="rounded-lg overflow-hidden glow-subtle">
-            <img
-              src={interiorImage}
-              alt="Luxury private jet interior"
-              className="w-full h-auto object-cover"
-              loading="lazy"
-              width={1280}
-              height={720}
-            />
-          </div>
-          <div className="absolute -bottom-4 -left-4 w-32 h-32 rounded-lg bg-gradient-to-br from-gold/20 to-transparent blur-2xl" />
-        </motion.div>
+      <div className="grid md:grid-cols-2 gap-x-12 gap-y-16 max-w-4xl mx-auto">
+        {reasons.map((r, i) => (
+          <motion.div
+            key={i}
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: i * 0.12, duration: 0.7 }}
+            className="group"
+          >
+            <div className="flex items-start gap-6">
+              <div className="flex-shrink-0 w-14 h-14 rounded-full luxury-border flex items-center justify-center group-hover:glow-subtle transition-all duration-700">
+                <r.icon className="w-5 h-5 text-gold" strokeWidth={1.2} />
+              </div>
+              <div>
+                <h3 className="font-display text-xl mb-3 tracking-wide">{r.title}</h3>
+                <p className="text-sm text-muted-foreground font-extralight leading-[1.9]">{r.desc}</p>
+              </div>
+            </div>
+          </motion.div>
+        ))}
       </div>
     </div>
   </section>
