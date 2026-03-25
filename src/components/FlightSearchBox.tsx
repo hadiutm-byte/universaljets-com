@@ -305,92 +305,114 @@ const FlightSearchBox = () => {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.25 }}
-              className="space-y-3"
+              className="space-y-2"
             >
-              {legs.map((leg, idx) => (
-                <motion.div
-                  key={idx}
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: idx * 0.05 }}
-                  className="grid grid-cols-2 md:grid-cols-[auto_1fr_1fr_0.8fr_auto] gap-0 items-center"
-                >
-                  {/* Leg number */}
-                  <div className="hidden md:flex items-center justify-center px-3">
-                    <span className="text-[9px] tracking-[0.2em] uppercase text-primary/30 font-light">
-                      {String(idx + 1).padStart(2, "0")}
-                    </span>
-                  </div>
+              <AnimatePresence initial={false}>
+                {legs.map((leg, idx) => (
+                  <motion.div
+                    key={idx}
+                    initial={{ opacity: 0, height: 0, y: -8 }}
+                    animate={{ opacity: 1, height: "auto", y: 0 }}
+                    exit={{ opacity: 0, height: 0, y: -8 }}
+                    transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+                    className="overflow-hidden"
+                  >
+                    <div className="flex items-center gap-0 rounded-xl bg-white/[0.02] border border-white/[0.04]">
+                      {/* Leg number */}
+                      <div className="flex-shrink-0 w-10 flex items-center justify-center">
+                        <span className="text-[9px] tracking-[0.2em] text-primary/25 font-light">
+                          {String(idx + 1).padStart(2, "0")}
+                        </span>
+                      </div>
 
-                  <AirportField
-                    label="From"
-                    icon={MapPin}
-                    value={leg.from}
-                    onChangeValue={(v) => updateLeg(idx, { from: v })}
-                    query={leg.fromQuery}
-                    onChangeQuery={(v) => updateLeg(idx, { fromQuery: v })}
-                    selectedAirport={leg.selectedFrom}
-                    onSelect={(a) => updateLeg(idx, { from: `${a.city} (${a.icao || a.iata})`, selectedFrom: a })}
-                    onClearSelection={() => updateLeg(idx, { selectedFrom: null })}
-                  />
+                      {/* From */}
+                      <div className="flex-1 min-w-0">
+                        <AirportField
+                          label="From"
+                          icon={MapPin}
+                          value={leg.from}
+                          onChangeValue={(v) => updateLeg(idx, { from: v })}
+                          query={leg.fromQuery}
+                          onChangeQuery={(v) => updateLeg(idx, { fromQuery: v })}
+                          selectedAirport={leg.selectedFrom}
+                          onSelect={(a) => updateLeg(idx, { from: `${a.city} (${a.icao || a.iata})`, selectedFrom: a })}
+                          onClearSelection={() => updateLeg(idx, { selectedFrom: null })}
+                        />
+                      </div>
 
-                  <AirportField
-                    label="To"
-                    icon={MapPin}
-                    value={leg.to}
-                    onChangeValue={(v) => updateLeg(idx, { to: v })}
-                    query={leg.toQuery}
-                    onChangeQuery={(v) => updateLeg(idx, { toQuery: v })}
-                    selectedAirport={leg.selectedTo}
-                    onSelect={(a) => updateLeg(idx, { to: `${a.city} (${a.icao || a.iata})`, selectedTo: a })}
-                    onClearSelection={() => updateLeg(idx, { selectedTo: null })}
-                  />
+                      {/* Arrow */}
+                      <div className="flex-shrink-0 px-1">
+                        <ArrowRight size={10} className="text-primary/20" strokeWidth={1.5} />
+                      </div>
 
-                  <DateTimePicker
-                    label="Date"
-                    icon={Calendar}
-                    value={leg.date}
-                    onChange={(d) => updateLeg(idx, { date: d })}
-                    placeholder="Select date"
-                  />
+                      {/* To */}
+                      <div className="flex-1 min-w-0">
+                        <AirportField
+                          label="To"
+                          icon={MapPin}
+                          value={leg.to}
+                          onChangeValue={(v) => updateLeg(idx, { to: v })}
+                          query={leg.toQuery}
+                          onChangeQuery={(v) => updateLeg(idx, { toQuery: v })}
+                          selectedAirport={leg.selectedTo}
+                          onSelect={(a) => updateLeg(idx, { to: `${a.city} (${a.icao || a.iata})`, selectedTo: a })}
+                          onClearSelection={() => updateLeg(idx, { selectedTo: null })}
+                        />
+                      </div>
 
-                  {/* Remove leg */}
-                  <div className="flex items-center px-2">
-                    {legs.length > 2 && (
-                      <button
-                        onClick={() => removeLeg(idx)}
-                        className="w-8 h-8 rounded-full flex items-center justify-center text-foreground/20 hover:text-foreground/50 hover:bg-white/[0.04] transition-all cursor-pointer"
-                      >
-                        <X size={12} strokeWidth={1.5} />
-                      </button>
-                    )}
-                  </div>
-                </motion.div>
-              ))}
+                      {/* Divider */}
+                      <div className="flex-shrink-0 w-px h-8 bg-white/[0.06]" />
+
+                      {/* Date & Time */}
+                      <div className="flex-shrink-0">
+                        <DateTimePicker
+                          label="Date & Time"
+                          icon={Calendar}
+                          value={leg.date}
+                          onChange={(d) => updateLeg(idx, { date: d })}
+                          placeholder="Select"
+                        />
+                      </div>
+
+                      {/* Remove */}
+                      <div className="flex-shrink-0 w-9 flex items-center justify-center">
+                        {legs.length > 2 ? (
+                          <button
+                            onClick={() => removeLeg(idx)}
+                            className="w-7 h-7 rounded-full flex items-center justify-center text-foreground/15 hover:text-foreground/50 hover:bg-white/[0.04] transition-all cursor-pointer"
+                          >
+                            <X size={11} strokeWidth={1.5} />
+                          </button>
+                        ) : <div className="w-7" />}
+                      </div>
+                    </div>
+                  </motion.div>
+                ))}
+              </AnimatePresence>
 
               {/* Add leg + Passengers + Search */}
-              <div className="flex flex-col md:flex-row items-center justify-between gap-3 pt-2">
-                <div className="flex items-center gap-3">
+              <div className="flex items-center justify-between gap-3 pt-2 px-1">
+                <div className="flex items-center gap-4">
                   {legs.length < 5 && (
                     <button
                       onClick={addLeg}
-                      className="flex items-center gap-2 px-4 py-2 text-[9px] tracking-[0.2em] uppercase text-primary/50 hover:text-primary/80 font-light border border-border/10 hover:border-primary/15 rounded-lg transition-all cursor-pointer"
+                      className="flex items-center gap-1.5 px-3 py-1.5 text-[8px] tracking-[0.2em] uppercase text-primary/40 hover:text-primary/70 font-light border border-white/[0.06] hover:border-primary/20 rounded-lg transition-all duration-300 cursor-pointer"
                     >
-                      <Plus size={10} strokeWidth={1.5} /> Add Flight
+                      <Plus size={9} strokeWidth={1.5} /> Add Flight
                     </button>
                   )}
                   <div className="flex items-center gap-2">
-                    <label className="text-[7.5px] tracking-[0.35em] uppercase text-primary/55 font-light">
-                      <Users size={8} strokeWidth={1.5} className="inline mr-1" />Guests
+                    <label className="text-[7px] tracking-[0.3em] uppercase text-primary/40 font-light">
+                      <Users size={7} strokeWidth={1.5} className="inline mr-1" />Guests
                     </label>
                     <select
                       value={passengers}
                       onChange={(e) => setPassengers(e.target.value)}
-                      className="bg-transparent text-[13px] text-foreground/90 font-light focus:outline-none appearance-none cursor-pointer tracking-wide"
+                      className="bg-transparent text-[12px] text-foreground/80 font-light focus:outline-none appearance-none cursor-pointer tracking-wide"
                     >
-                      <option value="" className="bg-[hsl(225,28%,10%)] text-foreground">—</option>
+                      <option value="" className="bg-[hsl(var(--background))]">—</option>
                       {[...Array(16)].map((_, i) => (
-                        <option key={i + 1} value={i + 1} className="bg-[hsl(225,28%,10%)] text-foreground">{i + 1}</option>
+                        <option key={i + 1} value={i + 1} className="bg-[hsl(var(--background))]">{i + 1}</option>
                       ))}
                     </select>
                   </div>
@@ -399,10 +421,10 @@ const FlightSearchBox = () => {
                 <button
                   onClick={handleSearch}
                   disabled={!canSearch}
-                  className="flex items-center gap-2 px-8 py-3 bg-gradient-gold rounded-xl text-primary-foreground text-[10px] tracking-[0.2em] uppercase font-medium hover:shadow-[0_0_30px_-5px_hsla(38,52%,50%,0.5)] transition-all duration-500 hover:scale-105 disabled:opacity-30 disabled:cursor-not-allowed cursor-pointer"
+                  className="flex items-center gap-2 px-6 py-2.5 bg-gradient-gold rounded-xl text-primary-foreground text-[9px] tracking-[0.2em] uppercase font-medium hover:shadow-[0_0_30px_-5px_hsla(38,52%,50%,0.5)] transition-all duration-500 hover:scale-105 disabled:opacity-30 disabled:cursor-not-allowed cursor-pointer"
                 >
-                  <ArrowRight size={14} strokeWidth={2} />
-                  Search Flights
+                  <ArrowRight size={13} strokeWidth={2} />
+                  Search
                 </button>
               </div>
             </motion.div>
