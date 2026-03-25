@@ -196,7 +196,7 @@ const SearchResults = () => {
                       {/* Certified badge */}
                       {result.operator.certified && (
                         <div className="absolute top-4 right-4">
-                          <span className="px-2.5 py-1 rounded-full text-[8px] tracking-[0.1em] uppercase font-medium bg-emerald-500/90 text-white flex items-center gap-1">
+                          <span className="px-2.5 py-1 rounded-full text-[8px] tracking-[0.1em] uppercase font-medium bg-primary/90 text-primary-foreground flex items-center gap-1">
                             <Shield size={8} /> Verified
                           </span>
                         </div>
