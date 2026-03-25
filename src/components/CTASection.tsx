@@ -93,7 +93,7 @@ const CTASection = () => {
             transition={{ delay: 0.3, duration: 0.6 }}
             className="text-center text-[11px] text-foreground/30 font-extralight tracking-wide mb-8"
           >
-            Tell us your route — we'll handle the rest.
+            Tell us your route — we'll handle the rest. Typical response time: under 30 minutes.
           </motion.p>
 
           {/* Form card */}
