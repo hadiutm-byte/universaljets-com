@@ -9,39 +9,44 @@ const HeroSection = () => {
   const mouse = useMouseParallax(0.01);
   const contentOpacity = useTransform(scrollYProgress, [0, 0.4], [1, 0]);
   const contentY = useTransform(scrollYProgress, [0, 0.4], [0, -80]);
+  const bgScale = useTransform(scrollYProgress, [0, 1], [1, 1.15]);
 
   return (
     <section
       ref={ref}
-      className="relative min-h-[90vh] w-full overflow-hidden flex flex-col items-center justify-center"
-      style={{ background: "linear-gradient(180deg, hsl(0,0%,100%) 0%, hsl(0,0%,97%) 100%)" }}
+      className="relative min-h-[92vh] w-full overflow-hidden flex flex-col items-center justify-center"
+      style={{ background: "linear-gradient(180deg, hsl(0,0%,100%) 0%, hsl(210,14%,97%) 100%)" }}
     >
-      {/* Subtle ambient gold glow */}
-      <motion.div className="absolute inset-0 pointer-events-none" style={{ x: mouse.x * 0.3, y: mouse.y * 0.3 }}>
-        <div className="absolute top-[20%] left-[50%] -translate-x-1/2 w-[600px] h-[400px] bg-[radial-gradient(ellipse,_hsla(38,52%,60%,0.06)_0%,_transparent_70%)]" />
+      {/* Parallax zoom layer */}
+      <motion.div className="absolute inset-0 pointer-events-none" style={{ scale: bgScale }}>
+        {/* Gold ambient glow — larger and more visible */}
+        <motion.div style={{ x: mouse.x * 0.5, y: mouse.y * 0.5 }}>
+          <div className="absolute top-[15%] left-[50%] -translate-x-1/2 w-[800px] h-[500px] bg-[radial-gradient(ellipse,_hsla(38,52%,60%,0.1)_0%,_transparent_65%)]" />
+          <div className="absolute bottom-[10%] right-[20%] w-[400px] h-[400px] bg-[radial-gradient(ellipse,_hsla(38,52%,55%,0.06)_0%,_transparent_70%)]" />
+        </motion.div>
       </motion.div>
 
       <div className="grid-overlay" />
 
       <motion.div className="relative z-10 container mx-auto px-6 text-center flex flex-col items-center pt-32 pb-16" style={{ opacity: contentOpacity, y: contentY }}>
         {/* Gold line */}
-        <motion.div initial={{ opacity: 0, scaleY: 0 }} animate={{ opacity: 1, scaleY: 1 }} transition={{ duration: 1.4, delay: 0.2 }} className="w-[1px] h-12 bg-gradient-to-b from-transparent via-primary to-transparent mb-8 origin-top" />
+        <motion.div initial={{ opacity: 0, scaleY: 0 }} animate={{ opacity: 1, scaleY: 1 }} transition={{ duration: 1.4, delay: 0.2 }} className="w-[1px] h-14 bg-gradient-to-b from-transparent via-primary to-transparent mb-10 origin-top" />
 
-        <motion.p initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1, delay: 0.4 }} className="text-[12px] md:text-[13px] tracking-[0.55em] uppercase text-primary mb-10 font-medium">
+        <motion.p initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1, delay: 0.4 }} className="text-[12px] md:text-[13px] tracking-[0.55em] uppercase text-primary mb-12 font-medium">
           Private Aviation Redefined
         </motion.p>
 
-        <motion.h1 initial={{ opacity: 0, y: 50 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1.3, delay: 0.6, ease: [0.16, 1, 0.3, 1] }} className="font-display leading-[1] tracking-tight mb-10">
-          <span className="block text-[3.2rem] sm:text-[4rem] md:text-[5.5rem] lg:text-[7rem] font-semibold text-foreground">
+        <motion.h1 initial={{ opacity: 0, y: 50 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1.3, delay: 0.6, ease: [0.16, 1, 0.3, 1] }} className="font-display leading-[0.95] tracking-tight mb-12">
+          <span className="block text-[3.2rem] sm:text-[4rem] md:text-[5.5rem] lg:text-[7.5rem] font-semibold text-foreground">
             Private Aviation.
           </span>
-          <span className="block text-[3.6rem] sm:text-[4.6rem] md:text-[6rem] lg:text-[8rem] text-gradient-gold italic font-medium mt-1">
+          <span className="block text-[4rem] sm:text-[5rem] md:text-[6.5rem] lg:text-[9rem] text-gradient-gold italic font-medium mt-3">
             Perfected.
           </span>
         </motion.h1>
 
-        <motion.div initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1, delay: 0.85 }} className="max-w-lg mx-auto mb-14">
-          <p className="text-[17px] md:text-[19px] text-foreground/70 font-light leading-[1.9] tracking-[0.01em] mb-2">
+        <motion.div initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1, delay: 0.85 }} className="max-w-md mx-auto mb-16">
+          <p className="text-[17px] md:text-[19px] text-foreground/65 font-light leading-[2] tracking-[0.01em] mb-3">
             Access the entire global private jet market —
             <br className="hidden sm:block" />
             not just one fleet.
@@ -51,19 +56,23 @@ const HeroSection = () => {
           </p>
         </motion.div>
 
-        <motion.div initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 1.05 }} className="flex flex-col sm:flex-row items-center gap-4">
+        <motion.div initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 1.05 }} className="flex flex-col sm:flex-row items-center gap-5">
           <motion.button
-            whileHover={{ scale: 1.03, boxShadow: "0 0 40px -8px hsla(38,52%,50%,0.4)" }}
-            whileTap={{ scale: 0.98 }}
+            whileHover={{ scale: 1.04, boxShadow: "0 8px 50px -8px hsla(38,52%,50%,0.5)" }}
+            whileTap={{ scale: 0.97 }}
             onClick={() => document.dispatchEvent(new CustomEvent("open-ricky-booking"))}
-            className="btn-luxury px-10 py-4 bg-gradient-gold text-white text-[12px] tracking-[0.25em] uppercase font-medium rounded-xl cursor-pointer flex items-center gap-3"
+            className="btn-luxury px-12 py-5 bg-gradient-gold text-white text-[12px] tracking-[0.3em] uppercase font-medium rounded-xl cursor-pointer flex items-center gap-3"
           >
             Request a Flight
-            <ArrowRight size={14} strokeWidth={1.5} />
+            <ArrowRight size={15} strokeWidth={1.5} />
           </motion.button>
-          <a href="#empty-legs" className="btn-luxury px-10 py-4 border border-border bg-card hover:bg-muted text-foreground/70 hover:text-foreground text-[12px] tracking-[0.25em] uppercase font-medium rounded-xl transition-all duration-300">
+          <motion.a
+            whileHover={{ scale: 1.02 }}
+            href="#empty-legs"
+            className="btn-luxury px-10 py-5 border border-border bg-card hover:bg-muted text-foreground/70 hover:text-foreground text-[12px] tracking-[0.25em] uppercase font-medium rounded-xl transition-all duration-300"
+          >
             View Empty Legs
-          </a>
+          </motion.a>
         </motion.div>
       </motion.div>
 
