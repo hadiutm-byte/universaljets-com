@@ -149,17 +149,22 @@ const EmptyLegsMapView = ({ legs, selectedLeg, onLegClick, onClose, toMapCoords 
   const handlePointerDown = useCallback((e: React.PointerEvent) => {
     if ((e.target as Element).closest("[data-route]")) return;
     setIsPanning(true);
-    panStart.current = { x: e.clientX, y: e.clientY, vx: viewBox.x, vy: viewBox.y };
+    setViewBox(prev => {
+      panStart.current = { x: e.clientX, y: e.clientY, vx: prev.x, vy: prev.y };
+      return prev;
+    });
     (e.target as HTMLElement).setPointerCapture?.(e.pointerId);
-  }, [viewBox]);
+  }, []);
 
   const handlePointerMove = useCallback((e: React.PointerEvent) => {
     if (!isPanning || !panStart.current || !containerRef.current) return;
     const rect = containerRef.current.getBoundingClientRect();
-    const dx = ((panStart.current.x - e.clientX) / rect.width) * viewBox.w;
-    const dy = ((panStart.current.y - e.clientY) / rect.height) * viewBox.h;
-    setViewBox(prev => clamp({ ...prev, x: panStart.current!.vx + dx, y: panStart.current!.vy + dy }));
-  }, [isPanning, viewBox.w, viewBox.h]);
+    setViewBox(prev => {
+      const dx = ((panStart.current!.x - e.clientX) / rect.width) * prev.w;
+      const dy = ((panStart.current!.y - e.clientY) / rect.height) * prev.h;
+      return clamp({ ...prev, x: panStart.current!.vx + dx, y: panStart.current!.vy + dy });
+    });
+  }, [isPanning]);
 
   const handlePointerUp = useCallback(() => {
     setIsPanning(false);
