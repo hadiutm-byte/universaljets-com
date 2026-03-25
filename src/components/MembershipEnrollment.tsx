@@ -271,6 +271,9 @@ const MembershipEnrollment = () => {
                 <p className="text-center text-[10px] tracking-[0.35em] uppercase text-primary/50 mb-8 font-light">
                   Welcome to Universal Jets
                 </p>
+                <p className="text-center text-[11px] text-foreground/35 font-extralight mb-8 -mt-4">
+                  Your Founder Circle Access is now active.
+                </p>
 
                 {/* Card */}
                 <div
