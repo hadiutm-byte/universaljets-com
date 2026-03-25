@@ -3,6 +3,7 @@ import { ArrowRight, Plane, TrendingUp, AlertTriangle } from "lucide-react";
 import { Link } from "react-router-dom";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import SEOHead from "@/components/SEOHead";
 
 import monacoImg from "@/assets/destinations/monaco.jpg";
 import mykonosImg from "@/assets/destinations/mykonos.jpg";
@@ -115,6 +116,7 @@ const EventCard = ({ item, index }: { item: typeof events[0]; index: number }) =
 
 const DestinationsPage = () => (
   <div className="min-h-screen bg-background">
+    <SEOHead title="Destinations & Events — Private Jet Travel" description="Fly private to Monaco, Mykonos, Dubai, Maldives, Aspen and more. Charter jets to the world's most exclusive destinations and events." path="/destinations" />
     <Navbar />
 
     {/* Hero */}

@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import { Plane, ArrowLeft } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import SEOHead from "@/components/SEOHead";
 
 const charterData: Record<string, {
   title: string;
@@ -74,6 +75,7 @@ const CharterPage = () => {
 
   return (
     <div className="min-h-screen bg-background">
+      <SEOHead title={`${data.title} — Private Jet Charter`} description={data.description.slice(0, 155)} path={`/charter/${slug}`} />
       <Navbar />
 
       {/* Hero image */}

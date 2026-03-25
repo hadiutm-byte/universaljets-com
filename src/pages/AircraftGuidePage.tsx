@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { Plane, Users, MapPin } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import SEOHead from "@/components/SEOHead";
 import AircraftRequestModal from "@/components/AircraftRequestModal";
 import { toast } from "sonner";
 
@@ -108,6 +109,7 @@ const AircraftGuidePage = () => {
 
   return (
     <div className="min-h-screen bg-background">
+      <SEOHead title="Aircraft Guide — Private Jet Fleet Overview" description="Browse the Universal Jets aircraft guide. Compare light jets, midsize, heavy, and ultra-long-range private jets with specs, range, and passenger capacity." path="/aircraft" />
       <Navbar />
 
       {/* Hero */}

@@ -8,6 +8,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import SEOHead from "@/components/SEOHead";
 import careersHero from "@/assets/careers-hero.jpg";
 
 /* ─── Types ─── */
@@ -161,6 +162,7 @@ const CareersPage = () => {
 
   return (
     <div className="min-h-screen bg-background text-foreground">
+      <SEOHead title="Careers at Universal Jets — Join Our Team" description="Explore career opportunities at Universal Jets. Join a leading private aviation brokerage in Dubai with roles across sales, operations, and more." path="/careers" />
       <Navbar />
 
       <AnimatePresence mode="wait">

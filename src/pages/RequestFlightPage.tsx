@@ -4,6 +4,7 @@ import { MapPin, Calendar, Users, PlaneTakeoff, ArrowRight, Phone, Mail, Buildin
 import { format } from "date-fns";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import SEOHead from "@/components/SEOHead";
 import { useCrmApi } from "@/hooks/useCrmApi";
 import { useAirportSearch, type Airport } from "@/hooks/useAviapages";
 import AirportField from "@/components/flight-search/AirportField";
@@ -169,6 +170,7 @@ const RequestFlightPage = () => {
 
   return (
     <div className="min-h-screen bg-background">
+      <SEOHead title="Request a Private Flight — Instant Charter Quote" description="Request a private jet charter with Universal Jets. Get tailored aircraft options and pricing within minutes. One-way, round-trip, or multi-city." path="/request-flight" />
       <Navbar />
       <section className="pt-36 pb-16">
         <div className="container mx-auto px-6">

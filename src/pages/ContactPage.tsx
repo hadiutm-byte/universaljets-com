@@ -6,6 +6,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import SEOHead from "@/components/SEOHead";
 
 const inquiryTypes = ["Charter", "Jet Card", "Membership", "Partnership", "General Inquiry"];
 
@@ -52,6 +53,7 @@ const ContactPage = () => {
 
   return (
     <div className="min-h-screen bg-background text-foreground">
+      <SEOHead title="Contact Universal Jets — 24/7 Private Aviation" description="Contact Universal Jets for private jet charter, jet cards, membership inquiries. Available 24/7 via phone, email, and WhatsApp." path="/contact" />
       <Navbar />
 
       {/* ═══════════ HERO ═══════════ */}

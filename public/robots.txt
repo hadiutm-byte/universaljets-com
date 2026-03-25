@@ -12,3 +12,5 @@ Allow: /
 
 User-agent: *
 Allow: /
+
+Sitemap: https://sky-bound-elegance.lovable.app/sitemap.xml
