@@ -7,6 +7,7 @@ import ServicesSection from "@/components/ServicesSection";
 import HowItWorksSection from "@/components/HowItWorksSection";
 import JetCardSection from "@/components/JetCardSection";
 import EmptyLegsSection from "@/components/EmptyLegsSection";
+import LiveMarketSection from "@/components/LiveMarketSection";
 import DestinationsSection from "@/components/DestinationsSection";
 import EventsSection from "@/components/EventsSection";
 import SafetySection from "@/components/SafetySection";
@@ -30,6 +31,7 @@ const Index = () => (
       <HowItWorksSection />
       <JetCardSection />
       <EmptyLegsSection />
+      <LiveMarketSection />
       <DestinationsSection />
       <EventsSection />
       <SafetySection />
