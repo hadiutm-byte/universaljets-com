@@ -11,9 +11,6 @@ const AVIAPAGES_BASE = 'https://dir.aviapages.com';
 let aircraftTypeCache: Record<string, { image_url: string | null; class_name: string; max_pax: number | null; range_km: number | null }> = {};
 let cacheLoaded = false;
 
-// Cache airport coordinates
-let airportCoordCache: Record<string, { lat: number; lng: number }> = {};
-
 async function loadAircraftTypeCache(apiKey: string) {
   if (cacheLoaded) return;
   try {
@@ -37,30 +34,6 @@ async function loadAircraftTypeCache(apiKey: string) {
     console.error('[empty-legs] Failed to load aircraft type cache:', e);
   }
   cacheLoaded = true;
-}
-
-/** Look up airport coords from the Aviapages airports API if not already cached */
-async function resolveAirportCoords(icao: string, apiKey: string): Promise<{ lat: number; lng: number } | null> {
-  if (!icao) return null;
-  if (airportCoordCache[icao]) return airportCoordCache[icao];
-  try {
-    const resp = await fetch(`${AVIAPAGES_BASE}/api/airports/?icao=${encodeURIComponent(icao)}&page_size=1`, {
-      headers: { 'Authorization': `Token ${apiKey}`, 'Accept': 'application/json' },
-    });
-    if (resp.ok) {
-      const d = await resp.json();
-      const apt = d.results?.[0];
-      if (apt) {
-        const lat = apt.latitude ?? apt.lat ?? null;
-        const lng = apt.longitude ?? apt.lng ?? apt.lon ?? null;
-        if (lat != null && lng != null && isFinite(lat) && isFinite(lng)) {
-          airportCoordCache[icao] = { lat, lng };
-          return { lat, lng };
-        }
-      }
-    }
-  } catch { /* ignore */ }
-  return null;
 }
 
 function lookupAircraftType(typeName: string) {
@@ -124,34 +97,11 @@ serve(async (req) => {
 
     const data = JSON.parse(responseText);
 
-    // Collect unique ICAO codes that need coordinate resolution
-    const icaosNeedingCoords = new Set<string>();
-    for (const leg of (data.results || [])) {
-      const dep = leg.dep_airport;
-      const arr = leg.arr_airport;
-      if (dep?.icao && (dep.latitude == null && dep.lat == null)) icaosNeedingCoords.add(dep.icao);
-      if (arr?.icao && (arr.latitude == null && arr.lat == null)) icaosNeedingCoords.add(arr.icao);
-    }
-
-    // Batch-resolve airport coordinates (parallel, max 20 at a time to stay fast)
-    const icaoArray = Array.from(icaosNeedingCoords);
-    const batchSize = 20;
-    for (let i = 0; i < icaoArray.length; i += batchSize) {
-      const batch = icaoArray.slice(i, i + batchSize);
-      await Promise.all(batch.map(icao => resolveAirportCoords(icao, apiKey)));
-    }
-    console.log(`[empty-legs] Resolved coords for ${Object.keys(airportCoordCache).length} airports`);
-
     const normalized = {
       count: data.count || 0,
       results: (data.results || []).map((leg: any) => {
         const aircraftType = leg.aircraft_type || 'Private Jet';
         const typeData = lookupAircraftType(aircraftType);
-
-        const depIcao = leg.dep_airport?.icao || '';
-        const arrIcao = leg.arr_airport?.icao || '';
-        const depCoords = airportCoordCache[depIcao];
-        const arrCoords = airportCoordCache[arrIcao];
 
         return {
           id: leg.id || leg.availability_id || Math.random(),
@@ -170,21 +120,21 @@ serve(async (req) => {
             id: leg.dep_airport.id || 0,
             name: leg.dep_airport.name || '',
             iata: leg.dep_airport.iata || '',
-            icao: depIcao,
+            icao: leg.dep_airport.icao || '',
             city: leg.dep_airport.city?.name || leg.dep_airport.city || '',
             country: leg.dep_airport.city?.country?.name || leg.dep_airport.country || '',
-            lat: leg.dep_airport.latitude ?? leg.dep_airport.lat ?? depCoords?.lat ?? null,
-            lng: leg.dep_airport.longitude ?? leg.dep_airport.lng ?? depCoords?.lng ?? null,
+            lat: leg.dep_airport.latitude ?? leg.dep_airport.lat ?? null,
+            lng: leg.dep_airport.longitude ?? leg.dep_airport.lng ?? null,
           } : null,
           arrival: leg.arr_airport ? {
             id: leg.arr_airport.id || 0,
             name: leg.arr_airport.name || '',
             iata: leg.arr_airport.iata || '',
-            icao: arrIcao,
+            icao: leg.arr_airport.icao || '',
             city: leg.arr_airport.city?.name || leg.arr_airport.city || '',
             country: leg.arr_airport.city?.country?.name || leg.arr_airport.country || '',
-            lat: leg.arr_airport.latitude ?? leg.arr_airport.lat ?? arrCoords?.lat ?? null,
-            lng: leg.arr_airport.longitude ?? leg.arr_airport.lng ?? arrCoords?.lng ?? null,
+            lat: leg.arr_airport.latitude ?? leg.arr_airport.lat ?? null,
+            lng: leg.arr_airport.longitude ?? leg.arr_airport.lng ?? null,
           } : null,
         };
       }),
