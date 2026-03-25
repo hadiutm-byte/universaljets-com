@@ -118,9 +118,14 @@ const EmptyLegsMap = () => {
 
   const handleLegClick = useCallback((leg: EmptyLeg) => setSelectedLeg(leg), []);
 
+  // Mercator projection for map coordinates
   const toMapCoords = useCallback((lat: number | null | undefined, lng: number | null | undefined): [number, number] => {
-    if (lat == null || lng == null || isNaN(lat) || isNaN(lng)) return [50, 22.5];
-    return [((lng + 180) / 360) * 100, ((90 - lat) / 180) * 45];
+    if (lat == null || lng == null || isNaN(lat) || isNaN(lng)) return [50, 25];
+    const x = ((lng + 180) / 360) * 100;
+    const latRad = (lat * Math.PI) / 180;
+    const mercN = Math.log(Math.tan(Math.PI / 4 + latRad / 2));
+    const y = 50 / 2 - (mercN / Math.PI) * (50 / 2);
+    return [x, Math.max(0, Math.min(50, y))];
   }, []);
 
   return (
