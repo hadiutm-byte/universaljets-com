@@ -149,7 +149,7 @@ const FlightSearchBox = () => {
       </div>
 
       {/* Search Box */}
-      <div className="glass-search rounded-2xl p-3 group/box">
+      <div className="glass-search rounded-[16px] p-4 group/box">
         <AnimatePresence mode="wait">
           {tripType !== "multi-city" ? (
             <motion.div
@@ -159,7 +159,7 @@ const FlightSearchBox = () => {
               exit={{ opacity: 0 }}
               transition={{ duration: 0.25 }}
             >
-              <div className="grid grid-cols-2 md:grid-cols-[1fr_1fr_0.85fr_0.85fr_0.5fr_auto] gap-0">
+              <div className="grid grid-cols-2 md:grid-cols-[1fr_1fr_0.85fr_0.85fr_0.5fr_auto] gap-2">
                 {/* From + To with swap */}
                 <div className="col-span-2 md:col-span-2 relative grid grid-cols-2">
                   <AirportField
@@ -207,9 +207,9 @@ const FlightSearchBox = () => {
                 />
 
                 {/* Passengers */}
-                <div className="md:border-r md:border-r-[hsla(0,0%,100%,0.04)]">
-                  <div className="px-4 py-4">
-                    <label className="flex items-center gap-1.5 text-[7.5px] tracking-[0.35em] uppercase text-primary/55 mb-2 font-light">
+                <div className="relative">
+                  <div className="px-4 py-5 rounded-[14px] bg-white/[0.02] border border-transparent hover:bg-white/[0.04] hover:shadow-[0_0_20px_-8px_hsla(38,52%,50%,0.12)] transition-all duration-300 focus-within:border-primary/40 focus-within:shadow-[0_0_24px_-6px_hsla(38,52%,50%,0.2)]">
+                    <label className="flex items-center gap-1.5 text-[7.5px] tracking-[0.35em] uppercase text-primary/55 mb-2.5 font-light">
                       <Users size={8} strokeWidth={1.5} /> Guests
                     </label>
                     <select
@@ -232,7 +232,7 @@ const FlightSearchBox = () => {
                     disabled={!canSearch}
                     whileHover={canSearch ? { scale: 1.05 } : {}}
                     whileTap={canSearch ? { scale: 0.97 } : {}}
-                    className="w-full md:w-[52px] h-[52px] bg-gradient-gold rounded-xl flex items-center justify-center gap-2 hover:shadow-[0_0_30px_-5px_hsla(38,52%,50%,0.5)] transition-all duration-500 disabled:opacity-30 disabled:cursor-not-allowed disabled:hover:shadow-none cursor-pointer"
+                    className="w-full md:w-[52px] h-[52px] bg-gradient-gold rounded-[14px] flex items-center justify-center gap-2 hover:shadow-[0_0_30px_-5px_hsla(38,52%,50%,0.5)] transition-all duration-500 disabled:opacity-30 disabled:cursor-not-allowed disabled:hover:shadow-none cursor-pointer"
                   >
                     <ArrowRight size={17} className="text-primary-foreground" strokeWidth={2} />
                     <span className="md:hidden text-primary-foreground text-[10px] tracking-[0.2em] uppercase font-medium">Search</span>
