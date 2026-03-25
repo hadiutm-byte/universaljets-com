@@ -12,25 +12,20 @@ const stages = [
 ];
 
 const MembershipPipelinePage = () => {
-  const { call } = useCrmApi();
-  const [apps, setApps] = useState<any[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [filter, setFilter] = useState("");
+  const { getMembershipApplications, updateStatus } = useCrmApi();
 
   useEffect(() => {
     const load = async () => {
       setLoading(true);
-      const params: Record<string, string> = {};
-      if (filter) params.status = filter;
-      const res = await call("membership-applications", { method: "GET", params });
+      const res = await getMembershipApplications(filter || undefined);
       setApps(res?.data?.applications ?? []);
       setLoading(false);
     };
     load();
   }, [filter]);
 
-  const updateStatus = async (id: string, status: string) => {
-    await call("update-status", { method: "POST", body: { table: "membership_applications", id, status } });
+  const handleUpdateStatus = async (id: string, status: string) => {
+    await updateStatus("membership_applications", id, status);
     setApps((prev) => prev.map((a) => (a.id === id ? { ...a, status } : a)));
   };
 

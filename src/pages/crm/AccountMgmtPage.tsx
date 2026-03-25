@@ -4,13 +4,13 @@ import { UserCheck, Star, MapPin, Plane } from "lucide-react";
 import { useCrmApi } from "@/hooks/useCrmApi";
 
 const AccountMgmtPage = () => {
-  const { call } = useCrmApi();
+  const { getClients } = useCrmApi();
   const [clients, setClients] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const load = async () => {
-      const res = await call("clients", { method: "GET", params: { limit: "100" } });
+      const res = await getClients();
       const portfolio = (res?.data?.clients ?? []).filter((c: any) =>
         ["active", "member", "vip", "corporate", "family_office"].includes(c.client_type)
       );
