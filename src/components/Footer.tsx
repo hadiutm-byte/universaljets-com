@@ -1,20 +1,45 @@
 import { Link } from "react-router-dom";
 
+const partnerLogos = [
+  "Four Seasons",
+  "Ritz-Carlton",
+  "Mandarin Oriental",
+  "Rolls-Royce",
+  "Hertz Prestige",
+  "Aman Resorts",
+];
+
 const footerLinks = [
-  { label: "Charter Flights", href: "/#services" },
-  { label: "Empty Legs", href: "/#empty-legs" },
-  { label: "Fleet", href: "/#fleet" },
-  { label: "Experience", href: "/#experience" },
-  { label: "Concierge", href: "/#concierge" },
+  { label: "Charter Flights", href: "/#cta" },
+  { label: "Jet Card", href: "/jet-card" },
   { label: "Members", href: "/members" },
+  { label: "Destinations", href: "/destinations" },
+  { label: "Partners", href: "/partners" },
+  { label: "ACMI Leasing", href: "/acmi-leasing" },
 ];
 
 const Footer = () => (
   <footer className="py-24 relative">
-    {/* Grain texture overlay */}
     <div className="absolute inset-0 opacity-[0.015] pointer-events-none" style={{ backgroundImage: "url(\"data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E\")", backgroundRepeat: "repeat" }} />
 
     <div className="container mx-auto px-8 relative z-10">
+      {/* Partner Logos */}
+      <div className="mb-16">
+        <p className="text-center text-[8px] tracking-[0.4em] uppercase text-foreground/15 font-extralight mb-8">
+          Trusted Partners
+        </p>
+        <div className="flex flex-wrap items-center justify-center gap-8 md:gap-12">
+          {partnerLogos.map((name) => (
+            <span
+              key={name}
+              className="text-[10px] tracking-[0.2em] uppercase text-foreground/15 font-extralight hover:text-foreground/30 transition-colors duration-500"
+            >
+              {name}
+            </span>
+          ))}
+        </div>
+      </div>
+
       <div className="divider-gold mb-20" />
 
       <div className="flex flex-col lg:flex-row items-center justify-between gap-12">
