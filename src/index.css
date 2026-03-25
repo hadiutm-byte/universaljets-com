@@ -323,7 +323,7 @@ html {
 
 /* Custom scrollbar */
 ::-webkit-scrollbar { width: 4px; }
-::-webkit-scrollbar-track { background: hsl(0, 0%, 97%); }
+::-webkit-scrollbar-track { background: hsl(0, 0%, 96%); }
 ::-webkit-scrollbar-thumb { background: hsla(38, 52%, 50%, 0.2); border-radius: 4px; }
 ::-webkit-scrollbar-thumb:hover { background: hsla(38, 52%, 50%, 0.4); }
 
