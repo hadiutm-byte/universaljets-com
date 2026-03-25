@@ -22,7 +22,21 @@ const ServicesSection = () => (
         className="text-center mb-28"
       >
         <p className="text-[9px] tracking-[0.5em] uppercase text-primary/60 mb-6 font-light">What We Do</p>
-        <h2 className="text-3xl md:text-5xl lg:text-6xl font-display font-semibold text-foreground">Charter Services</h2>
+        <h2 className="text-3xl md:text-5xl lg:text-6xl font-display font-semibold text-foreground mb-6">Charter Services</h2>
+        <div className="max-w-xl mx-auto space-y-4 mt-4">
+          <p className="text-[12px] md:text-[13px] text-foreground/40 font-extralight leading-[2]">
+            We don't rely on a single fleet.
+          </p>
+          <p className="text-[12px] md:text-[13px] text-foreground/40 font-extralight leading-[2]">
+            We operate across a global network of trusted partners, giving our clients access to better aircraft, better availability, and better pricing.
+          </p>
+          <p className="text-[12px] md:text-[13px] text-foreground/45 font-light leading-[2]">
+            Every partnership is built on one principle:
+          </p>
+          <p className="text-[13px] md:text-[14px] text-foreground/55 font-medium leading-[2] italic">
+            Control of access.
+          </p>
+        </div>
       </motion.div>
 
       <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-10 max-w-5xl mx-auto">
