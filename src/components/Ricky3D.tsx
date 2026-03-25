@@ -47,14 +47,18 @@ const Ricky3D = () => {
     return () => clearTimeout(timer);
   }, [phase]);
 
-  // Typewriter when arriving
+  // Typewriter when arriving — with 1.5s delay before speaking
   useEffect(() => {
     if (phase !== "arriving") return;
     setShowBubble(true);
     setShowActions(false);
     setDisplayedText("");
     setSpeaking(true);
-    speakVoice(INTRO_SPEECH);
+
+    // Delay voice by 1.5s for a natural entrance feel
+    const voiceDelay = window.setTimeout(() => {
+      speakVoice(INTRO_SPEECH);
+    }, 1500);
 
     let index = 0;
     const interval = window.setInterval(() => {
@@ -71,7 +75,10 @@ const Ricky3D = () => {
       }
     }, 26);
 
-    return () => window.clearInterval(interval);
+    return () => {
+      window.clearInterval(interval);
+      window.clearTimeout(voiceDelay);
+    };
   }, [phase, speakVoice]);
 
   useEffect(() => {
