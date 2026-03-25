@@ -28,7 +28,9 @@ const Index = () => (
       <ServicesSection />
       {/* 3. Membership conversion */}
       <MembershipEnrollment />
-      {/* 4. WhatsApp — direct advisor contact */}
+      {/* 4. Member Privileges */}
+      <MemberPrivileges />
+      {/* 5. WhatsApp — direct advisor contact */}
       <WhatsAppCTA />
       {/* 5. Flight request — first trip */}
       <CTASection />
