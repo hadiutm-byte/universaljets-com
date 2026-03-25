@@ -90,6 +90,16 @@ const ACMILeasingPage = () => {
         </div>
       </section>
 
+      {/* Trust line */}
+      <section className="py-10 md:py-14">
+        <div className="container mx-auto px-8">
+          <div className="divider-gold mb-10" />
+          <p className="text-center text-[10px] md:text-[11px] tracking-[0.35em] uppercase text-foreground/30 font-extralight">
+            Trusted by airlines, governments, and operators for time-critical and complex missions.
+          </p>
+        </div>
+      </section>
+
       {/* Pillars */}
       <section className="py-20 md:py-28 relative">
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[hsl(228,22%,4.5%)] to-transparent pointer-events-none" />
