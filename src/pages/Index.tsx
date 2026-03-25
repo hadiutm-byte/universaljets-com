@@ -31,6 +31,7 @@ const Index = () => (
       <HowItWorksSection />
       <JetCardSection />
       <EmptyLegsSection />
+      <LiveMarketSection />
       <DestinationsSection />
       <EventsSection />
       <SafetySection />
