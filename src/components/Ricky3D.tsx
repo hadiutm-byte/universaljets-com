@@ -268,7 +268,7 @@ const Ricky3D = () => {
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.4 }}
-                  className="absolute bottom-[220px] right-[30px] z-[2] flex max-w-[280px] flex-wrap justify-end gap-2"
+                  className="absolute bottom-[130px] right-[20px] z-[2] flex max-w-[240px] flex-wrap justify-end gap-2"
                   style={{ pointerEvents: "auto" }}
                 >
                   {quickActions.map((action, i) => (
