@@ -24,6 +24,7 @@ const Index = () => (
       <Navbar />
       <HeroSection />
       <TrustStrip />
+      <PositioningStatement />
       <WhySection />
       <ServicesSection />
       <HowItWorksSection />
