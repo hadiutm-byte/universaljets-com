@@ -62,13 +62,10 @@ const MembershipEnrollment = () => {
       valid.setFullYear(valid.getFullYear() + 3);
       const validStr = `${(valid.getMonth() + 1).toString().padStart(2, "0")}/${valid.getFullYear().toString().slice(-2)}`;
       setMember({
-        name: form.name,
+        name: form.name.toUpperCase(),
         id: memberId,
         tier: getTier(form.flights),
-        validUntil: valid.toLocaleDateString("en-US", {
-          month: "long",
-          year: "numeric",
-        }),
+        validUntil: validStr,
       });
       toast.success("Welcome to the Universal Jets network.");
     } catch {
