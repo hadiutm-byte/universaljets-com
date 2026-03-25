@@ -47,6 +47,8 @@ import FinancialStatementsPage from "./pages/crm/FinancialStatementsPage.tsx";
 import ClientFinanceHistoryPage from "./pages/crm/ClientFinanceHistoryPage.tsx";
 import SupplierHistoryPage from "./pages/crm/SupplierHistoryPage.tsx";
 import AccountMgmtDetailPage from "./pages/crm/AccountMgmtDetailPage.tsx";
+import BDDashboardPage from "./pages/crm/BDDashboardPage.tsx";
+import BDDetailPage from "./pages/crm/BDDetailPage.tsx";
 import CareersPage from "./pages/CareersPage.tsx";
 import ContactPage from "./pages/ContactPage.tsx";
 import CharterPage from "./pages/CharterPage.tsx";
@@ -60,7 +62,7 @@ import FloatingWhatsApp from "./components/FloatingWhatsApp.tsx";
 
 const queryClient = new QueryClient();
 
-const CRM_ROLES = ["admin", "sales", "operations", "finance", "account_management", "hr"] as const;
+const CRM_ROLES = ["admin", "sales", "operations", "finance", "account_management", "hr", "business_development"] as const;
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
@@ -102,6 +104,8 @@ const App = () => (
             <Route path="account-mgmt" element={<AccountMgmtPage />} />
             <Route path="account-mgmt/:clientId" element={<AccountMgmtDetailPage />} />
             <Route path="hr" element={<HRPage />} />
+            <Route path="bd" element={<BDDashboardPage />} />
+            <Route path="bd/:oppId" element={<BDDetailPage />} />
             <Route path="activity" element={<ActivityLogPage />} />
             <Route path="finance" element={<FinanceDashboardPage />} />
             <Route path="finance/receivables" element={<ReceivablesPage />} />

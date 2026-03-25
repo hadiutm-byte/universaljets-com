@@ -2,7 +2,7 @@ import {
   LayoutDashboard, Users, Target, Plane, FileText, ScrollText, Receipt,
   Map, LogOut, ChevronLeft, MessageSquare, Kanban, Shield, Settings,
   UserCheck, DollarSign, Briefcase, Gift, Activity, FolderOpen,
-  ArrowDownLeft, ArrowUpRight, CreditCard, Landmark, TrendingUp, Building2,
+  ArrowDownLeft, ArrowUpRight, CreditCard, Landmark, TrendingUp, Building2, Handshake,
 } from "lucide-react";
 import { NavLink } from "@/components/NavLink";
 import { useAuth, type AppRole } from "@/hooks/useAuth";
@@ -40,6 +40,12 @@ const sections: { label: string; items: NavItem[] }[] = [
     label: "Account Mgmt",
     items: [
       { title: "Portfolio", url: "/crm/account-mgmt", icon: UserCheck, roles: ["admin", "account_management"] },
+    ],
+  },
+  {
+    label: "Business Dev",
+    items: [
+      { title: "Opportunities", url: "/crm/bd", icon: Handshake, roles: ["admin", "business_development"] },
     ],
   },
   {
