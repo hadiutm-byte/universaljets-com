@@ -21,6 +21,7 @@ import QuotesPage from "./pages/crm/QuotesPage.tsx";
 import ContractsPage from "./pages/crm/ContractsPage.tsx";
 import InvoicesPage from "./pages/crm/InvoicesPage.tsx";
 import TripsPage from "./pages/crm/TripsPage.tsx";
+import OutreachPage from "./pages/crm/OutreachPage.tsx";
 import NotFound from "./pages/NotFound.tsx";
 import RickyChatbot from "./components/RickyChatbot.tsx";
 
@@ -50,6 +51,7 @@ const App = () => (
             <Route path="contracts" element={<ContractsPage />} />
             <Route path="invoices" element={<InvoicesPage />} />
             <Route path="trips" element={<TripsPage />} />
+            <Route path="outreach" element={<OutreachPage />} />
           </Route>
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />

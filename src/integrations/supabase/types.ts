@@ -203,6 +203,39 @@ export type Database = {
           },
         ]
       }
+      outreach_templates: {
+        Row: {
+          body: string
+          channel: string
+          created_at: string
+          id: string
+          name: string
+          placeholders: string[] | null
+          subject: string | null
+          updated_at: string
+        }
+        Insert: {
+          body: string
+          channel?: string
+          created_at?: string
+          id?: string
+          name: string
+          placeholders?: string[] | null
+          subject?: string | null
+          updated_at?: string
+        }
+        Update: {
+          body?: string
+          channel?: string
+          created_at?: string
+          id?: string
+          name?: string
+          placeholders?: string[] | null
+          subject?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           avatar_url: string | null
