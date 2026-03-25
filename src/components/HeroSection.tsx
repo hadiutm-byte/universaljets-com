@@ -1,8 +1,9 @@
-import { useRef, useState, useEffect } from "react";
+import { useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import { useMouseParallax } from "@/hooks/useScrollEffects";
 import heroBg from "@/assets/hero-bg.jpg";
+import Logo3D from "@/components/Logo3D";
 
 const HeroSection = () => {
   const ref = useRef<HTMLElement>(null);
@@ -12,6 +13,9 @@ const HeroSection = () => {
   const contentY = useTransform(scrollYProgress, [0, 0.4], [0, -80]);
   const bgScale = useTransform(scrollYProgress, [0, 1], [1, 1.15]);
   const bgOpacity = useTransform(scrollYProgress, [0.6, 1], [1, 0]);
+  const logoY = useTransform(scrollYProgress, [0, 1], [0, 120]);
+  const logoRotate = useTransform(scrollYProgress, [0, 1], [-7, -14]);
+  const foregroundY = useTransform(scrollYProgress, [0, 1], [0, 90]);
 
   return (
     <section
@@ -43,6 +47,27 @@ const HeroSection = () => {
           <div className="absolute top-[20%] left-[50%] -translate-x-1/2 w-[700px] h-[400px] bg-[radial-gradient(ellipse,_hsla(45,79%,46%,0.08)_0%,_transparent_65%)]" />
         </motion.div>
       </motion.div>
+
+      <motion.div
+        className="hero-depth-logo hidden xl:block"
+        style={{ x: mouse.x * 1.1, y: logoY, rotate: logoRotate, opacity: bgOpacity }}
+      >
+        <div className="hero-depth-shell">
+          <Logo3D size={420} opacity={0.95} />
+        </div>
+      </motion.div>
+
+      <motion.div
+        className="hero-perspective-panel hidden lg:block"
+        style={{ x: mouse.x * 0.7, y: foregroundY, opacity: bgOpacity }}
+      >
+        <div className="hero-perspective-panel__line" />
+      </motion.div>
+
+      <motion.div
+        className="hero-perspective-glow hidden lg:block"
+        style={{ x: mouse.x * 0.45, y: mouse.y * 0.35, opacity: bgOpacity }}
+      />
 
       <div className="grid-overlay" />
 

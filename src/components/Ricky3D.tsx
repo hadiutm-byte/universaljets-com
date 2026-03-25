@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { X, Send, Plane, CreditCard, Tag, Handshake, ChevronDown, Volume2, VolumeX, MessageCircle } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import RickyAvatar, { type RickyPose } from "./ricky/RickyAvatar";
+import RickyThreeAvatar from "./ricky/RickyThreeAvatar";
 import { useRickyVoice } from "@/hooks/useRickyVoice";
 import GuidedBookingFlow from "./ricky/GuidedBookingFlow";
 
@@ -222,7 +223,7 @@ const Ricky3D = () => {
                   animate={{ opacity: 1, y: 0, scale: 1 }}
                   exit={{ opacity: 0, y: 8, scale: 0.96 }}
                   transition={{ duration: 0.4 }}
-                  className="ricky-speech-bubble absolute bottom-[310px] right-[30px] z-[2] w-[280px] px-5 py-4"
+                  className="ricky-speech-bubble absolute bottom-[360px] right-[44px] z-[2] w-[320px] px-5 py-4"
                   style={{ pointerEvents: "auto" }}
                 >
                   <span className="ricky-bubble-tail" />
@@ -250,7 +251,7 @@ const Ricky3D = () => {
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.4 }}
-                  className="absolute bottom-[270px] right-[20px] z-[2] flex max-w-[290px] flex-wrap justify-end gap-2"
+                  className="absolute bottom-[314px] right-[30px] z-[2] flex max-w-[320px] flex-wrap justify-end gap-2"
                   style={{ pointerEvents: "auto" }}
                 >
                   {quickActions.map((action, i) => (
@@ -285,12 +286,8 @@ const Ricky3D = () => {
               whileTap={{ scale: 0.98 }}
               style={{ pointerEvents: "auto" }}
             >
-              <div className="ricky-presence">
-                <RickyAvatar
-                  speaking={rickySpeaking}
-                  size={320}
-                  pose={phase === "arriving" || rickySpeaking ? "wave" : "idle"}
-                />
+              <div className="ricky-presence ricky-presence-3d">
+                <RickyThreeAvatar speaking={rickySpeaking} size={390} />
               </div>
             </motion.button>
           </motion.div>
@@ -315,8 +312,8 @@ const Ricky3D = () => {
               onClick={openCharacter}
               className="relative cursor-pointer focus:outline-none"
             >
-              <div className="ricky-presence ricky-presence-compact">
-                <RickyAvatar speaking={false} size={98} pose="idle" />
+              <div className="ricky-presence ricky-presence-compact ricky-presence-3d">
+                <RickyThreeAvatar speaking={false} size={128} compact />
               </div>
               <span className="ricky-status-dot" />
             </button>
