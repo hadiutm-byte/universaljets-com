@@ -9,7 +9,7 @@ interface EmptyLegsMapViewProps {
   selectedLeg: EmptyLeg | null;
   onLegClick: (leg: EmptyLeg) => void;
   onClose: () => void;
-  toMapCoords: (lat: number | null, lng: number | null) => [number, number];
+  toMapCoords: (lat: number | null | undefined, lng: number | null | undefined) => [number, number];
 }
 
 const EmptyLegsMapView = ({ legs, selectedLeg, onLegClick, onClose, toMapCoords }: EmptyLegsMapViewProps) => {
