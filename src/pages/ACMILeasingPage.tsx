@@ -547,8 +547,19 @@ const ACMILeasingPage = () => {
             ))}
           </div>
 
+          <motion.div initial={{ opacity: 0, y: 15 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.3, duration: 0.8 }}
+            className="text-center mt-14 mb-6 max-w-md mx-auto"
+          >
+            <p className="text-[12px] text-foreground/40 font-extralight leading-[2] italic mb-1">
+              A 2-hour flight does not always equal 2 hours of cost.
+            </p>
+            <p className="text-[11px] text-foreground/30 font-extralight leading-[2]">
+              Positioning and operational requirements are often the deciding factors.
+            </p>
+          </motion.div>
+
           <motion.p initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} transition={{ delay: 0.4, duration: 0.8 }}
-            className="text-center text-[11px] tracking-[0.3em] uppercase text-foreground/25 font-extralight mt-14 italic"
+            className="text-center text-[11px] tracking-[0.3em] uppercase text-foreground/25 font-extralight mt-8 italic"
           >
             Transparent pricing. No hidden fees. Market-driven value.
           </motion.p>
