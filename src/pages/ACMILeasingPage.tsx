@@ -418,7 +418,7 @@ const ACMILeasingPage = () => {
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[hsl(228,22%,4.5%)] to-transparent pointer-events-none" />
         <div className="container mx-auto px-8 relative z-10 max-w-3xl">
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.8 }} className="text-center mb-10">
-            <p className="text-[9px] tracking-[0.5em] uppercase text-primary/60 mb-6 font-light">Jet Card Membership</p>
+            <p className="text-[9px] tracking-[0.5em] uppercase text-primary/60 mb-6 font-light">For clients who fly without limits</p>
             <h2 className="text-2xl md:text-4xl font-display font-semibold text-foreground mb-5">Guaranteed Access. Fixed Rates. Total Control.</h2>
             <p className="text-[13px] text-foreground/45 font-extralight leading-[2] max-w-lg mx-auto mb-2">
               Secure access to private aviation with guaranteed availability, transparent pricing, and priority service.
