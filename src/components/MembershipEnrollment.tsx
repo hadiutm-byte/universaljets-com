@@ -58,14 +58,11 @@ const MembershipEnrollment = () => {
 
       const seq = Math.floor(1000 + Math.random() * 9000);
       const memberId = `5000 ${seq.toString().padStart(4, "0")}`;
-      const valid = new Date();
-      valid.setFullYear(valid.getFullYear() + 3);
-      const validStr = `${(valid.getMonth() + 1).toString().padStart(2, "0")}/${valid.getFullYear().toString().slice(-2)}`;
+      const year = new Date().getFullYear();
       setMember({
         name: form.name.toUpperCase(),
         id: memberId,
-        tier: getTier(form.flights),
-        validUntil: validStr,
+        memberSince: String(year),
       });
       toast.success("Welcome to the Universal Jets network.");
     } catch {
