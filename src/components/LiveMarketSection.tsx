@@ -95,6 +95,10 @@ const LiveMarketSection = () => {
                   <p className="text-[9px] text-foreground/20 font-extralight mb-0.5">Savings</p>
                   <p className="text-[11px] text-emerald-400/80 font-light">Up to 50%</p>
                 </div>
+                <div>
+                  <p className="text-[9px] text-foreground/20 font-extralight mb-0.5">Availability</p>
+                  <p className="text-[11px] text-primary/60 font-light">1 aircraft</p>
+                </div>
               </div>
               <motion.div
                 animate={{ opacity: [0.5, 1, 0.5] }}
