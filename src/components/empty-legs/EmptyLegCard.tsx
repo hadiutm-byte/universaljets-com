@@ -28,23 +28,23 @@ const EmptyLegCard = ({ leg, index, onClick }: EmptyLegCardProps) => {
       onClick={onClick}
     >
       <div className="flex items-center justify-between mb-5">
-        <span className="text-[9px] tracking-[0.2em] text-muted-foreground uppercase font-extralight">{date}</span>
-        <span className="text-[9px] tracking-[0.2em] text-gold font-medium uppercase">
+        <span className="text-[9px] tracking-[0.2em] text-foreground/35 uppercase font-extralight">{date}</span>
+        <span className="text-[9px] tracking-[0.2em] text-primary font-medium uppercase">
           {leg.price ? priceLabel : "Save up to 75%"}
         </span>
       </div>
       <div className="flex items-center gap-3 mb-5">
-        <span className="font-display text-base">{fromCode}</span>
+        <span className="font-display text-base text-foreground">{fromCode}</span>
         <div className="flex-1 flex items-center gap-1.5 px-1">
           <div className="flex-1 h-[0.5px] bg-border" />
-          <Plane size={10} className="text-gold/50 flex-shrink-0" />
+          <Plane size={10} className="text-primary/50 flex-shrink-0" />
           <div className="flex-1 h-[0.5px] bg-border" />
         </div>
-        <span className="font-display text-base">{toCode}</span>
+        <span className="font-display text-base text-foreground">{toCode}</span>
       </div>
       <div className="flex items-center justify-between">
-        <span className="text-[10px] text-muted-foreground font-extralight">{leg.aircraft_type}</span>
-        <ArrowRight size={10} className="text-gold/40 group-hover:text-gold group-hover:translate-x-1 transition-all duration-300" />
+        <span className="text-[10px] text-foreground/40 font-extralight">{leg.aircraft_type}</span>
+        <ArrowRight size={10} className="text-primary/40 group-hover:text-primary group-hover:translate-x-1 transition-all duration-300" />
       </div>
     </motion.div>
   );

@@ -1,6 +1,6 @@
 import { useState, useCallback, useMemo } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { ArrowRight, X, Plane, Loader2 } from "lucide-react";
+import { motion } from "framer-motion";
+import { Loader2 } from "lucide-react";
 import { useEmptyLegs, type EmptyLeg } from "@/hooks/useAviapages";
 import EmptyLegsMapView from "./empty-legs/EmptyLegsMapView";
 import EmptyLegCard from "./empty-legs/EmptyLegCard";
@@ -8,7 +8,6 @@ import EmptyLegPopup from "./empty-legs/EmptyLegPopup";
 
 const regions = ["All", "Americas", "Europe", "Middle East", "Asia"];
 
-// Fallback data when API is unavailable
 const fallbackLegs: EmptyLeg[] = [
   { id: 1, aircraft_type: "Citation XLS+", company: "", from_date: "2025-04-12T10:00", to_date: "2025-04-12T13:00", price: null, currency: "USD", comment: "", departure: { id: 1, name: "Teterboro", iata: "", icao: "TEB", city: "New York", country: "United States", lat: 40.85, lng: -74.06 }, arrival: { id: 2, name: "Opa-locka Executive", iata: "", icao: "OPF", city: "Miami", country: "United States", lat: 25.91, lng: -80.28 } },
   { id: 2, aircraft_type: "Phenom 300E", company: "", from_date: "2025-04-15T08:00", to_date: "2025-04-15T10:30", price: null, currency: "EUR", comment: "", departure: { id: 3, name: "Luton", iata: "LTN", icao: "EGGW", city: "London", country: "United Kingdom", lat: 51.87, lng: -0.37 }, arrival: { id: 4, name: "Geneva Intl", iata: "GVA", icao: "LSGG", city: "Geneva", country: "Switzerland", lat: 46.24, lng: 6.11 } },
@@ -46,7 +45,6 @@ const EmptyLegsMap = () => {
     setSelectedLeg(leg);
   }, []);
 
-  // Convert lat/lng to map percentages (simple Mercator-like projection)
   const toMapCoords = (lat: number | null, lng: number | null): [number, number] => {
     if (lat === null || lng === null) return [50, 50];
     const x = ((lng + 180) / 360) * 100;
@@ -55,8 +53,10 @@ const EmptyLegsMap = () => {
   };
 
   return (
-    <section id="empty-legs" className="section-padding overflow-hidden">
-      <div className="container mx-auto px-8">
+    <section id="empty-legs" className="section-padding overflow-hidden relative">
+      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[hsl(228,22%,4%)] to-transparent pointer-events-none" />
+
+      <div className="container mx-auto px-8 relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -64,13 +64,13 @@ const EmptyLegsMap = () => {
           transition={{ duration: 0.8 }}
           className="text-center mb-16"
         >
-          <p className="text-[9px] tracking-[0.5em] uppercase text-gold/70 mb-6 font-light">Exclusive Opportunity</p>
-          <h2 className="text-3xl md:text-5xl lg:text-6xl font-display font-semibold mb-6">Empty Legs</h2>
-          <p className="text-[13px] text-muted-foreground font-extralight max-w-md mx-auto leading-[2]">
+          <p className="text-[9px] tracking-[0.5em] uppercase text-primary/60 mb-6 font-light">Exclusive Opportunity</p>
+          <h2 className="text-3xl md:text-5xl lg:text-6xl font-display font-semibold mb-6 text-foreground">Empty Legs</h2>
+          <p className="text-[13px] text-foreground/40 font-extralight max-w-md mx-auto leading-[2]">
             One-way repositioning flights at up to 75% off. The smartest way to fly private.
           </p>
           {!data?.results?.length && !isLoading && !error && (
-            <p className="text-[10px] text-muted-foreground/40 mt-2 font-extralight">Showing curated routes</p>
+            <p className="text-[10px] text-foreground/20 mt-2 font-extralight">Showing curated routes</p>
           )}
         </motion.div>
 
@@ -88,7 +88,7 @@ const EmptyLegsMap = () => {
               className={`px-5 py-2 rounded-full text-[9px] tracking-[0.25em] uppercase font-light transition-all duration-500 ${
                 activeRegion === r
                   ? "bg-gradient-gold text-primary-foreground glow-gold"
-                  : "luxury-border text-muted-foreground hover:text-foreground luxury-border-hover"
+                  : "luxury-border text-foreground/40 hover:text-foreground/70 luxury-border-hover"
               }`}
             >
               {r}
@@ -99,7 +99,7 @@ const EmptyLegsMap = () => {
         {/* Loading */}
         {isLoading && (
           <div className="flex items-center justify-center py-20">
-            <Loader2 className="w-6 h-6 text-gold/50 animate-spin" />
+            <Loader2 className="w-6 h-6 text-primary/50 animate-spin" />
           </div>
         )}
 
@@ -114,7 +114,7 @@ const EmptyLegsMap = () => {
           />
         )}
 
-        {/* Empty Legs Cards */}
+        {/* Cards */}
         {!isLoading && (
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5 max-w-5xl mx-auto">
             {legs.map((leg, i) => (
