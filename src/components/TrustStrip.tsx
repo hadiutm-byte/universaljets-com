@@ -35,8 +35,11 @@ const TrustStrip = () => (
           {certifications.map((cert, i) => (
             <motion.div
               key={i}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8, ease: "easeOut", delay: i * 0.15 }}
               whileHover={{ y: -3 }}
-              transition={{ duration: 0.3, ease: "easeOut" }}
               className="flex items-center gap-3 cursor-default group"
             >
               <cert.icon
