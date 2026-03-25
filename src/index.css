@@ -115,6 +115,45 @@
   .section-dark .text-foreground { color: hsl(0, 0%, 100%); }
   .section-dark .text-muted-foreground { color: hsl(0, 0%, 65%); }
 
+  /* === CHARCOAL SECTIONS (cinematic rhythm) === */
+  .section-charcoal {
+    background: linear-gradient(180deg, hsl(0, 0%, 10%) 0%, hsl(0, 0%, 12%) 100%);
+    color: hsl(0, 0%, 100%);
+  }
+
+  .section-charcoal h1,
+  .section-charcoal h2,
+  .section-charcoal h3,
+  .section-charcoal h4 {
+    color: hsl(0, 0%, 100%);
+  }
+
+  .section-charcoal p,
+  .section-charcoal span {
+    color: hsl(0, 0%, 65%);
+  }
+
+  .section-charcoal .text-foreground { color: hsl(0, 0%, 100%); }
+  .section-charcoal .text-muted-foreground { color: hsl(0, 0%, 55%); }
+  .section-charcoal .text-primary { color: hsl(45, 79%, 46%); }
+
+  .section-charcoal .border-border {
+    border-color: hsla(0, 0%, 100%, 0.08);
+  }
+
+  .section-charcoal .bg-card {
+    background: hsla(0, 0%, 100%, 0.04);
+  }
+
+  .section-charcoal .bg-muted {
+    background: hsla(0, 0%, 100%, 0.06);
+  }
+
+  .section-charcoal .glass-panel {
+    background: hsla(0, 0%, 100%, 0.06);
+    border-color: hsla(0, 0%, 100%, 0.08);
+  }
+
   /* === GLASSMORPHISM SYSTEM === */
   .glass {
     background: hsla(0, 0%, 100%, 0.75);
