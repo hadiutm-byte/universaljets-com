@@ -1,0 +1,144 @@
+import { motion } from "framer-motion";
+import { Shield, Plane, UserCheck, Sparkles } from "lucide-react";
+
+const privileges = [
+  { icon: Shield, text: "Priority aircraft access" },
+  { icon: Plane, text: "Exclusive empty leg alerts" },
+  { icon: UserCheck, text: "Dedicated aviation advisor" },
+  { icon: Sparkles, text: "Preferential member pricing" },
+];
+
+interface MembershipHeroProps {
+  onRequestInvitation: () => void;
+  onSpeakToAdvisor: () => void;
+}
+
+const MembershipHero = ({ onRequestInvitation, onSpeakToAdvisor }: MembershipHeroProps) => (
+  <section className="relative overflow-hidden py-28 md:py-40 lg:py-48">
+    {/* Dark cinematic background */}
+    <div
+      className="absolute inset-0"
+      style={{
+        background: "linear-gradient(180deg, hsl(220, 12%, 6%) 0%, hsl(220, 8%, 10%) 50%, hsl(220, 12%, 6%) 100%)",
+      }}
+    />
+
+    {/* Subtle radial glow */}
+    <div
+      className="absolute inset-0 opacity-30"
+      style={{
+        background: "radial-gradient(ellipse 60% 40% at 50% 45%, hsla(45, 79%, 46%, 0.08) 0%, transparent 70%)",
+      }}
+    />
+
+    {/* Noise */}
+    <div className="absolute inset-0 opacity-[0.03]" style={{ backgroundImage: "url('/placeholder.svg')" }} />
+
+    {/* Top shimmer line */}
+    <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-[hsl(45,79%,46%,0.2)] to-transparent" />
+
+    <div className="container mx-auto px-8 relative z-10">
+      <div className="max-w-3xl mx-auto text-center">
+        {/* Badge */}
+        <motion.div
+          initial={{ opacity: 0, y: 15 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8 }}
+          className="inline-flex items-center gap-2 px-5 py-2 rounded-full border border-[hsl(45,79%,46%,0.15)] bg-[hsl(45,79%,46%,0.04)] mb-10"
+        >
+          <div className="w-1.5 h-1.5 rounded-full bg-[hsl(45,79%,46%)]" />
+          <span className="text-[9px] tracking-[0.4em] uppercase text-[hsl(45,79%,46%,0.7)] font-light">
+            Limited invitations released monthly
+          </span>
+        </motion.div>
+
+        {/* Headline */}
+        <motion.h2
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.9, delay: 0.1 }}
+          className="text-4xl md:text-5xl lg:text-6xl font-display font-semibold text-white/95 leading-[1.1] mb-4"
+        >
+          Private Access
+          <br />
+          <span className="text-gradient-gold italic font-display">Membership</span>
+        </motion.h2>
+
+        <motion.p
+          initial={{ opacity: 0, y: 15 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8, delay: 0.2 }}
+          className="text-[20px] md:text-[22px] text-white/30 font-extralight tracking-[0.1em] mb-8"
+        >
+          By Invitation Only
+        </motion.p>
+
+        <motion.p
+          initial={{ opacity: 0, y: 15 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8, delay: 0.3 }}
+          className="text-[14px] md:text-[15px] text-white/35 font-extralight leading-[2] max-w-lg mx-auto mb-12"
+        >
+          An exclusive network for those who expect more from private aviation.
+          Priority access, dedicated advisors, and privileges reserved for members only.
+        </motion.p>
+
+        {/* CTAs */}
+        <motion.div
+          initial={{ opacity: 0, y: 15 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8, delay: 0.4 }}
+          className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-20"
+        >
+          <button
+            onClick={onRequestInvitation}
+            className="px-10 py-4 bg-gradient-gold text-white text-[10px] tracking-[0.3em] uppercase font-semibold rounded-xl hover:shadow-[0_0_50px_-12px_hsla(45,79%,46%,0.5)] transition-all duration-500 hover:scale-[1.02] cursor-pointer"
+          >
+            Request Invitation
+          </button>
+          <button
+            onClick={onSpeakToAdvisor}
+            className="px-10 py-4 border border-white/10 hover:border-white/20 text-white/40 hover:text-white/70 text-[10px] tracking-[0.3em] uppercase font-light rounded-xl transition-all duration-500 cursor-pointer"
+          >
+            Speak to Advisor
+          </button>
+        </motion.div>
+
+        {/* Privileges grid */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.9, delay: 0.5 }}
+          className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8"
+        >
+          {privileges.map((p, i) => (
+            <motion.div
+              key={i}
+              initial={{ opacity: 0, y: 15 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: 0.5 + i * 0.1 }}
+              className="text-center"
+            >
+              <div className="w-11 h-11 rounded-full border border-white/[0.06] bg-white/[0.02] flex items-center justify-center mx-auto mb-4">
+                <p.icon className="w-4 h-4 text-[hsl(45,79%,46%,0.5)]" strokeWidth={1.2} />
+              </div>
+              <p className="text-[11px] text-white/40 font-light tracking-wide">{p.text}</p>
+            </motion.div>
+          ))}
+        </motion.div>
+      </div>
+    </div>
+
+    {/* Bottom shimmer line */}
+    <div className="absolute bottom-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-[hsl(45,79%,46%,0.15)] to-transparent" />
+  </section>
+);
+
+export default MembershipHero;
