@@ -420,8 +420,11 @@ const ACMILeasingPage = () => {
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.8 }} className="text-center mb-10">
             <p className="text-[9px] tracking-[0.5em] uppercase text-primary/60 mb-6 font-light">Jet Card Membership</p>
             <h2 className="text-2xl md:text-4xl font-display font-semibold text-foreground mb-5">Guaranteed Access. Fixed Rates. Total Control.</h2>
-            <p className="text-[13px] text-foreground/45 font-extralight leading-[2] max-w-lg mx-auto mb-4">
+            <p className="text-[13px] text-foreground/45 font-extralight leading-[2] max-w-lg mx-auto mb-2">
               Secure access to private aviation with guaranteed availability, transparent pricing, and priority service.
+            </p>
+            <p className="text-[11px] text-foreground/30 font-extralight leading-[2] max-w-md mx-auto mb-4">
+              Designed for frequent flyers, corporate executives, and UHNW individuals who value consistency, priority, and transparency.
             </p>
             <p className="text-[10px] tracking-[0.2em] text-foreground/25 font-extralight">
               Priority access • Fixed hourly rates • No ownership commitment
