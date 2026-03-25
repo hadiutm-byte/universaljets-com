@@ -26,22 +26,28 @@ const ServicesSection = () => (
       </motion.div>
 
       <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-10 max-w-5xl mx-auto">
-        {services.map((s, i) => (
-          <motion.div
-            key={i}
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: i * 0.1, duration: 0.7 }}
-            className="text-center group"
-          >
-            <div className="w-16 h-16 rounded-full luxury-border flex items-center justify-center mx-auto mb-8 group-hover:glow-subtle transition-all duration-700">
-              <s.icon className="w-5 h-5 text-primary/60" strokeWidth={1.2} />
-            </div>
-            <h3 className="font-display text-lg mb-4 text-foreground">{s.title}</h3>
-            <p className="text-[12px] text-foreground/40 font-extralight leading-[2]">{s.desc}</p>
-          </motion.div>
-        ))}
+        {services.map((s, i) => {
+          const Wrapper = s.link.startsWith("/") ? Link : "a";
+          const linkProps = s.link.startsWith("/") ? { to: s.link } : { href: s.link };
+          return (
+            <motion.div
+              key={i}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: i * 0.1, duration: 0.7 }}
+              className="text-center group cursor-pointer"
+            >
+              <Wrapper {...(linkProps as any)} className="block">
+                <div className="w-16 h-16 rounded-full luxury-border flex items-center justify-center mx-auto mb-8 group-hover:glow-subtle transition-all duration-700">
+                  <s.icon className="w-5 h-5 text-primary/60" strokeWidth={1.2} />
+                </div>
+                <h3 className="font-display text-lg mb-4 text-foreground">{s.title}</h3>
+                <p className="text-[12px] text-foreground/40 font-extralight leading-[2]">{s.desc}</p>
+              </Wrapper>
+            </motion.div>
+          );
+        })}
       </div>
     </div>
   </section>
