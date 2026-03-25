@@ -220,7 +220,7 @@ const EmptyLegsMapView = ({ legs, selectedLeg, onLegClick, onClose, toMapCoords 
 
         {/* Labels */}
         {legs.map((leg) => {
-          if (!leg.departure) return null;
+          if (!leg.departure || leg.departure.lat == null || leg.departure.lng == null) return null;
           const coords = toMapCoords(leg.departure.lat, leg.departure.lng);
           const relX = ((coords[0] - viewBox.x) / viewBox.w) * 100;
           const relY = ((coords[1] - viewBox.y) / viewBox.h) * 100;
