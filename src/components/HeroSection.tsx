@@ -35,10 +35,10 @@ const HeroSection = () => {
         <div className="hero-cloud hero-cloud-3" />
       </div>
 
-      {/* Cinematic overlays — deep contrast */}
-      <div className="absolute inset-0 bg-gradient-to-b from-background/[0.92] via-background/50 to-background" />
-      <div className="absolute inset-0 bg-gradient-to-r from-background/80 via-transparent to-background/70" />
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_50%_at_50%_40%,_transparent_30%,_hsl(var(--background))_100%)]" />
+      {/* Cinematic overlays — balanced depth with visible sunset */}
+      <div className="absolute inset-0 bg-gradient-to-b from-background/[0.85] via-background/[0.3] to-background/[0.95]" />
+      <div className="absolute inset-0 bg-gradient-to-r from-background/60 via-transparent to-background/50" />
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_70%_50%_at_50%_45%,_transparent_20%,_hsl(var(--background)/0.7)_100%)]" />
 
       {/* Content */}
       <motion.div
