@@ -10,6 +10,7 @@ import EventsSection from "@/components/EventsSection";
 import SafetySection from "@/components/SafetySection";
 import NewsletterSection from "@/components/NewsletterSection";
 import FoundersCircleSection from "@/components/FoundersCircleSection";
+import MembershipEnrollment from "@/components/MembershipEnrollment";
 import CTASection from "@/components/CTASection";
 import Footer from "@/components/Footer";
 
