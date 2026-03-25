@@ -113,7 +113,7 @@ const NewsletterSection = () => {
                   disabled={loading}
                   className="px-8 py-3.5 bg-gradient-gold text-primary-foreground text-[10px] tracking-[0.25em] uppercase font-medium rounded-sm transition-all duration-500 hover:shadow-[0_0_30px_-8px_hsla(38,52%,50%,0.4)] hover:scale-[1.01] disabled:opacity-50 whitespace-nowrap"
                 >
-                  {loading ? "..." : "Subscribe for Insights"}
+                  {loading ? "..." : "Get Insider Access"}
                 </button>
               </form>
             )}
