@@ -102,10 +102,10 @@ const HeroSection = () => {
           transition={{ duration: 1.3, delay: 0.6, ease: [0.16, 1, 0.3, 1] }}
           className="font-display leading-[1] tracking-tight mb-10"
         >
-          <span className="block text-[2.8rem] sm:text-[3.5rem] md:text-[4.5rem] lg:text-[6rem] font-semibold text-foreground">
+          <span className="block text-[3rem] sm:text-[3.8rem] md:text-[5rem] lg:text-[6.5rem] font-semibold text-foreground">
             Private Aviation.
           </span>
-          <span className="block text-[3.2rem] sm:text-[4rem] md:text-[5rem] lg:text-[7rem] text-gradient-gold italic font-medium mt-1">
+          <span className="block text-[3.4rem] sm:text-[4.3rem] md:text-[5.5rem] lg:text-[7.5rem] text-gradient-gold italic font-medium mt-1">
             Perfected.
           </span>
         </motion.h1>
