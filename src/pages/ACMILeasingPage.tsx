@@ -404,6 +404,12 @@ const ACMILeasingPage = () => {
               </motion.div>
             ))}
           </div>
+
+          <motion.p initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} transition={{ delay: 0.4, duration: 0.8 }}
+            className="text-center text-[11px] text-foreground/25 font-extralight mt-12 italic"
+          >
+            Every request is handled by an experienced aviation advisor — not an automated system.
+          </motion.p>
         </div>
       </section>
 
