@@ -25,6 +25,13 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-background relative">
+      <SEOHead
+        title="Private Jet Charter — Fly Smarter. Fly Private"
+        description="Access the global private jet market with Universal Jets. On-demand charter, empty legs, and 24/7 concierge. 18+ years of private aviation excellence."
+        path="/"
+      />
+      <JsonLd data={organizationSchema} />
+      <JsonLd data={localBusinessSchema} />
       <div className="noise-overlay" />
 
       <div className="relative z-[2]">

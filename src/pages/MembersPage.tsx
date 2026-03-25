@@ -3,6 +3,7 @@ import { Zap, Clock, UserCheck, Globe, HeartHandshake, Shield, ArrowRight, Check
 import { Link } from "react-router-dom";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import SEOHead from "@/components/SEOHead";
 
 const benefits = [
   { icon: Zap, title: "Net & Preferential Pricing", desc: "Access charter rates typically reserved for high-volume operators and repeat clients." },

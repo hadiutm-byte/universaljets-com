@@ -4,6 +4,7 @@ import { MapPin, Calendar, Users, PlaneTakeoff, ArrowRight, Phone, Mail, Buildin
 import { format } from "date-fns";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import SEOHead from "@/components/SEOHead";
 import { useCrmApi } from "@/hooks/useCrmApi";
 import { useAirportSearch, type Airport } from "@/hooks/useAviapages";
 import AirportField from "@/components/flight-search/AirportField";

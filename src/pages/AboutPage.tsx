@@ -3,6 +3,7 @@ import { Shield, Award, FileCheck, Globe, ArrowRight, MessageCircle, Compass, Ta
 import { Link } from "react-router-dom";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import SEOHead from "@/components/SEOHead";
 import { FadeReveal } from "@/components/ui/ScrollEffects";
 import ceoPhoto from "@/assets/ceo-portrait.jpg";
 import RickyAvatar from "@/components/ricky/RickyAvatar";

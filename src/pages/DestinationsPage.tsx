@@ -3,6 +3,7 @@ import { ArrowRight, Plane, TrendingUp, AlertTriangle } from "lucide-react";
 import { Link } from "react-router-dom";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import SEOHead from "@/components/SEOHead";
 
 import monacoImg from "@/assets/destinations/monaco.jpg";
 import mykonosImg from "@/assets/destinations/mykonos.jpg";
