@@ -1,6 +1,7 @@
 import Navbar from "@/components/Navbar";
 import HeroSection from "@/components/HeroSection";
 import TrustStrip from "@/components/TrustStrip";
+import PositioningStatement from "@/components/PositioningStatement";
 import WhySection from "@/components/WhySection";
 import ServicesSection from "@/components/ServicesSection";
 import HowItWorksSection from "@/components/HowItWorksSection";
