@@ -19,6 +19,7 @@ const Index = () => (
     <div className="noise-overlay" />
 
     <div className="relative z-[2]">
+      <MembershipBanner />
       <Navbar />
 
       {/* 1. Hero */}
