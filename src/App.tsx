@@ -45,7 +45,7 @@ import FloatingWhatsApp from "./components/FloatingWhatsApp.tsx";
 
 const queryClient = new QueryClient();
 
-const CRM_ROLES = ["admin", "sales", "operations", "finance", "account_management"] as const;
+const CRM_ROLES = ["admin", "sales", "operations", "finance", "account_management", "hr"] as const;
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
