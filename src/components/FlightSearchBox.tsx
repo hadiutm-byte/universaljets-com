@@ -20,7 +20,7 @@ interface Leg {
 
 const emptyLeg = (): Leg => ({
   from: "", to: "", fromQuery: "", toQuery: "",
-  selectedFrom: null, selectedTo: null, date: "",
+  selectedFrom: null, selectedTo: null, date: undefined,
 });
 
 const tripTabs: { value: TripType; label: string }[] = [
