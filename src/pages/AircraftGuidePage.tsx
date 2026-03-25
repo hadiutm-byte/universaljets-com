@@ -104,19 +104,17 @@ const AircraftGuidePage = () => {
   const handleRequestAircraft = async (aircraftName: string) => {
     setRequestingAircraft(aircraftName);
     try {
-      await supabase.functions.invoke("crm-capture", {
-        body: {
-          name: "Aircraft Guide Inquiry",
-          email: "inquiry@universaljets.com",
-          departure: "TBD",
-          destination: "TBD",
-          source: "aircraft_guide",
-          passengers: "1",
-        },
+      await capture({
+        name: "Aircraft Guide Inquiry",
+        email: "inquiry@universaljets.com",
+        departure: "TBD",
+        destination: "TBD",
+        source: "aircraft_guide",
+        aircraft: aircraftName,
+        passengers: "1",
       });
       toast.success(`Request submitted for ${aircraftName}. An advisor will contact you shortly.`);
     } catch {
-      // Open Ricky as fallback
       document.dispatchEvent(new CustomEvent("open-ricky"));
     }
     setRequestingAircraft(null);
