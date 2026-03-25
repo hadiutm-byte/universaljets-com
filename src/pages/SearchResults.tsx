@@ -166,7 +166,7 @@ const SearchResults = () => {
               {results.map((result, i) => {
                 const category = getAircraftCategory(result.aircraft_type);
                 const fallbackImage = getAircraftImage(result.aircraft_type);
-                const displayImage = result.images.exterior || result.images.notail || fallbackImage;
+                const displayImage = result.images.notail || result.images.exterior || fallbackImage;
 
                 return (
                   <motion.div
