@@ -32,6 +32,7 @@ const Index = () => (
       <TrustStrip />
       <PositioningStatement />
       <WhySection />
+      <WhoWeServeSection />
       <ServicesSection />
       <HowItWorksSection />
       <EditorialSection />
