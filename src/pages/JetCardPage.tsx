@@ -53,8 +53,6 @@ const JetCardPage = () => (
 
     {/* Hero */}
     <section className="relative pt-32 pb-20 md:pt-44 md:pb-28 overflow-hidden section-white">
-      <div className="grid-overlay" />
-
       <div className="container mx-auto px-8 relative z-10">
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.9 }} className="text-center max-w-3xl mx-auto">
           <p className="text-[11px] tracking-[0.5em] uppercase text-primary mb-6 font-medium">Jet Card Membership</p>
@@ -72,8 +70,8 @@ const JetCardPage = () => (
             View Programs
           </a>
 
-          <div className="divider-gold mt-14 mb-8" />
-          <p className="text-[11px] tracking-[0.2em] text-muted-foreground font-light">
+          <div className="w-16 h-[1px] bg-gradient-to-r from-transparent via-primary/40 to-transparent mx-auto mt-14 mb-8" />
+          <p className="text-[12px] tracking-[0.2em] text-muted-foreground font-light">
             Priority aircraft access • Fixed hourly rates • No ownership complexity • Global fleet flexibility
           </p>
         </motion.div>
@@ -81,13 +79,12 @@ const JetCardPage = () => (
     </section>
 
     {/* Why Jet Card */}
-    <section className="py-20 md:py-28 relative">
-      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[hsl(228,22%,4.5%)] to-transparent pointer-events-none" />
+    <section className="py-20 md:py-28 section-alt">
       <div className="container mx-auto px-8 relative z-10">
         <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.8 }} className="text-center mb-16">
-          <p className="text-[9px] tracking-[0.5em] uppercase text-primary/60 mb-6 font-light">The Advantage</p>
+          <p className="text-[11px] tracking-[0.5em] uppercase text-primary mb-6 font-medium">The Advantage</p>
           <h2 className="text-2xl md:text-4xl font-display font-semibold text-foreground mb-5">Why a Jet Card?</h2>
-          <p className="text-[13px] text-foreground/45 font-extralight leading-[2] max-w-lg mx-auto">
+          <p className="text-[14px] text-muted-foreground font-light leading-[2] max-w-lg mx-auto">
             Unlike ad-hoc charter, a jet card secures your rate and access before you fly — eliminating market risk and availability anxiety.
           </p>
         </motion.div>
@@ -104,11 +101,11 @@ const JetCardPage = () => (
             <motion.div key={i} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.08, duration: 0.6 }}
               className="text-center group"
             >
-              <div className="w-14 h-14 rounded-full luxury-border flex items-center justify-center mx-auto mb-7 group-hover:glow-subtle transition-all duration-700">
+              <div className="w-14 h-14 rounded-full border border-border flex items-center justify-center mx-auto mb-7 group-hover:border-primary/30 group-hover:shadow-[0_0_20px_-5px_hsla(38,52%,50%,0.15)] transition-all duration-700">
                 <b.icon className="w-5 h-5 text-primary/60" strokeWidth={1.2} />
               </div>
               <h3 className="font-display text-lg mb-3 text-foreground">{b.title}</h3>
-              <p className="text-[12px] text-foreground/40 font-extralight leading-[2]">{b.desc}</p>
+              <p className="text-[13px] text-muted-foreground font-light leading-[1.9]">{b.desc}</p>
             </motion.div>
           ))}
         </div>
@@ -116,12 +113,12 @@ const JetCardPage = () => (
     </section>
 
     {/* Tier Cards */}
-    <section id="jet-card-tiers" className="py-20 md:py-28 relative">
+    <section id="jet-card-tiers" className="py-20 md:py-28 section-white">
       <div className="container mx-auto px-8 relative z-10">
         <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.8 }} className="text-center mb-16">
-          <p className="text-[9px] tracking-[0.5em] uppercase text-primary/60 mb-6 font-light">Programs</p>
+          <p className="text-[11px] tracking-[0.5em] uppercase text-primary mb-6 font-medium">Programs</p>
           <h2 className="text-2xl md:text-4xl font-display font-semibold text-foreground mb-5">Choose Your Program</h2>
-          <p className="text-[13px] text-foreground/45 font-extralight leading-[2] max-w-lg mx-auto">
+          <p className="text-[14px] text-muted-foreground font-light leading-[2] max-w-lg mx-auto">
             Three tiers. One standard of excellence. Programs starting from $150,000.
           </p>
         </motion.div>
@@ -129,10 +126,10 @@ const JetCardPage = () => (
         <div className="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto">
           {tiers.map((tier, i) => (
             <motion.div key={i} initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.12, duration: 0.7 }}
-              className={`relative rounded-xl p-8 md:p-10 backdrop-blur-sm transition-all duration-700 ${
+              className={`relative rounded-2xl p-8 md:p-10 transition-all duration-700 ${
                 tier.featured
-                  ? "border border-primary/25 bg-gradient-to-b from-card/50 to-card/20 shadow-[0_0_40px_-12px_hsla(38,52%,50%,0.15)]"
-                  : "border border-border/20 bg-card/20"
+                  ? "border-2 border-primary/25 bg-card shadow-[0_0_40px_-12px_hsla(38,52%,50%,0.12)]"
+                  : "border border-border bg-card"
               }`}
             >
               {tier.featured && (
@@ -143,32 +140,32 @@ const JetCardPage = () => (
                 </div>
               )}
 
-              <p className="text-[9px] tracking-[0.4em] uppercase text-primary/50 font-light mb-2">{tier.name}</p>
+              <p className="text-[10px] tracking-[0.4em] uppercase text-primary font-medium mb-2">{tier.name}</p>
               <p className="font-display text-2xl font-semibold text-foreground mb-3">{tier.hours}</p>
-              <p className="text-[11px] text-foreground/35 font-extralight leading-[1.9] mb-8">{tier.positioning}</p>
+              <p className="text-[12px] text-muted-foreground font-light leading-[1.9] mb-8">{tier.positioning}</p>
 
               <div className="space-y-3 mb-8">
                 {tier.benefits.map((benefit, j) => (
                   <div key={j} className="flex items-start gap-3">
-                    <Check className="w-3.5 h-3.5 text-primary/50 mt-0.5 flex-shrink-0" strokeWidth={1.5} />
-                    <span className="text-[11px] text-foreground/45 font-extralight leading-[1.8]">{benefit}</span>
+                    <Check className="w-3.5 h-3.5 text-primary mt-0.5 flex-shrink-0" strokeWidth={1.5} />
+                    <span className="text-[12px] text-foreground/70 font-light leading-[1.8]">{benefit}</span>
                   </div>
                 ))}
               </div>
 
-              <a href="#jet-card-apply" className={`block text-center py-3.5 text-[10px] tracking-[0.25em] uppercase font-medium rounded-sm transition-all duration-500 ${
+              <Link to="/contact" className={`block text-center py-3.5 text-[10px] tracking-[0.25em] uppercase font-medium rounded-xl transition-all duration-500 ${
                 tier.featured
                   ? "bg-gradient-gold text-primary-foreground hover:shadow-[0_0_30px_-8px_hsla(38,52%,50%,0.45)]"
-                  : "border border-primary/20 text-primary/70 hover:border-primary/40 hover:text-primary"
+                  : "border border-primary/20 text-primary hover:border-primary/40 hover:bg-primary/5"
               }`}>
                 Apply for Jet Card
-              </a>
+              </Link>
             </motion.div>
           ))}
         </div>
 
         <motion.p initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} transition={{ delay: 0.4, duration: 0.8 }}
-          className="text-center text-[11px] text-foreground/20 font-extralight mt-12 italic"
+          className="text-center text-[12px] text-muted-foreground font-light mt-12 italic"
         >
           This is not a membership. It's a smarter way to fly private.
         </motion.p>
@@ -176,18 +173,18 @@ const JetCardPage = () => (
     </section>
 
     {/* Broker Advantage */}
-    <section className="py-16 md:py-24">
+    <section className="py-16 md:py-24 section-alt">
       <div className="container mx-auto px-8 max-w-2xl text-center">
         <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.8 }}
-          className="p-10 md:p-14 rounded-xl border border-primary/15 bg-gradient-to-br from-card/30 to-card/10 backdrop-blur-md"
+          className="p-10 md:p-14 rounded-2xl border border-primary/15 bg-card shadow-sm"
         >
-          <p className="text-[13px] text-foreground/40 font-extralight leading-[2] italic mb-1">
+          <p className="text-[14px] text-muted-foreground font-light leading-[2] italic mb-1">
             Unlike operators, your jet card is not tied to one fleet.
           </p>
-          <p className="text-[14px] text-primary/60 font-light leading-[2] mb-6">
+          <p className="text-[15px] text-primary font-medium leading-[2] mb-6">
             We source the best aircraft globally for every mission.
           </p>
-          <p className="text-[10px] tracking-[0.2em] text-foreground/25 font-extralight">
+          <p className="text-[11px] tracking-[0.2em] text-muted-foreground font-light">
             7,000+ vetted aircraft • ARGUS/WYVERN safety certified • 160+ countries
           </p>
         </motion.div>
@@ -195,26 +192,26 @@ const JetCardPage = () => (
     </section>
 
     {/* CTA */}
-    <section id="jet-card-apply" className="py-20 md:py-28">
+    <section id="jet-card-apply" className="py-20 md:py-28 section-white">
       <div className="container mx-auto px-8 text-center max-w-lg">
         <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.7 }}>
-          <p className="text-[9px] tracking-[0.5em] uppercase text-primary/60 mb-8 font-light">Get Started</p>
+          <p className="text-[11px] tracking-[0.5em] uppercase text-primary mb-8 font-medium">Get Started</p>
           <h2 className="font-display text-2xl md:text-3xl text-foreground mb-4">Apply for Your Jet Card</h2>
-          <p className="text-[12px] text-foreground/35 font-extralight leading-[2] mb-3">
+          <p className="text-[13px] text-muted-foreground font-light leading-[2] mb-3">
             Speak with our team to explore fixed-rate programmes tailored to your travel patterns.
           </p>
-          <p className="text-[9px] tracking-[0.3em] uppercase text-foreground/20 font-extralight mb-10">
+          <p className="text-[10px] tracking-[0.3em] uppercase text-muted-foreground/60 font-light mb-10">
             Limited availability per region — acceptance subject to client profile.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link to="/#cta" className="px-10 py-3.5 bg-gradient-gold text-primary-foreground text-[10px] tracking-[0.25em] uppercase font-medium rounded-sm hover:shadow-[0_0_30px_-8px_hsla(38,52%,50%,0.45)] transition-all duration-500">
+            <Link to="/contact" className="px-10 py-3.5 bg-gradient-gold text-primary-foreground text-[10px] tracking-[0.25em] uppercase font-medium rounded-xl hover:shadow-[0_0_30px_-8px_hsla(38,52%,50%,0.45)] transition-all duration-500">
               Apply for Jet Card
             </Link>
-            <Link to="/members" className="inline-flex items-center justify-center gap-2 px-10 py-3.5 text-[10px] tracking-[0.2em] uppercase text-foreground/40 hover:text-foreground/70 transition-all duration-500 border border-border/20 rounded-sm">
+            <Link to="/members" className="inline-flex items-center justify-center gap-2 px-10 py-3.5 text-[10px] tracking-[0.2em] uppercase text-muted-foreground hover:text-foreground transition-all duration-500 border border-border rounded-xl">
               View Membership <ArrowRight size={10} />
             </Link>
           </div>
-          <p className="text-[10px] tracking-[0.3em] uppercase text-foreground/20 font-extralight mt-8">Typical Response Time: Under 30 minutes</p>
+          <p className="text-[11px] tracking-[0.3em] uppercase text-muted-foreground/60 font-light mt-8">Typical Response Time: Under 30 minutes</p>
         </motion.div>
       </div>
     </section>
