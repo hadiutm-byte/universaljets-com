@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { Hotel, Car, Sparkles } from "lucide-react";
+import { Hotel, Car, Sparkles, Gem } from "lucide-react";
 
 const privileges = [
   { icon: Hotel, text: "Complimentary suite upgrades at partner hotels" },
@@ -23,8 +23,11 @@ const MemberPrivileges = () => (
         <h2 className="text-2xl md:text-3xl lg:text-4xl font-display font-semibold text-foreground mb-4">
           Member <span className="text-gradient-gold italic">Privileges</span>
         </h2>
-        <p className="text-[12px] text-foreground/35 font-extralight leading-[2] max-w-lg mx-auto">
-          Your membership comes with more than flights — enjoy curated luxury experiences worldwide.
+        <p className="text-[13px] text-foreground/40 font-extralight leading-[2] max-w-lg mx-auto mb-3">
+          Your Universal Jets membership comes with more than just flights — enjoy curated luxury experiences worldwide.
+        </p>
+        <p className="text-[11px] text-foreground/30 font-extralight leading-[2] max-w-md mx-auto">
+          Room upgrades at top-tier hotels, luxury car rental discounts, spa and concierge perks, and tailored experiences — wherever you travel.
         </p>
       </motion.div>
 
@@ -51,7 +54,7 @@ const MemberPrivileges = () => (
         transition={{ delay: 0.3, duration: 0.7 }}
         className="text-center text-[11px] text-foreground/25 font-extralight italic"
       >
-        Wherever you go, your membership travels with you.
+        Wherever you go, your membership travels with you — unlocking a world of added luxury.
       </motion.p>
     </div>
   </section>
