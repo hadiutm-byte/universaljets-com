@@ -11,6 +11,7 @@ import LiveMarketSection from "@/components/LiveMarketSection";
 import DestinationsSection from "@/components/DestinationsSection";
 import EventsSection from "@/components/EventsSection";
 import TrustedNetworkSection from "@/components/TrustedNetworkSection";
+import RecentMissionsSection from "@/components/RecentMissionsSection";
 import SafetySection from "@/components/SafetySection";
 import NewsletterSection from "@/components/NewsletterSection";
 import FoundersCircleSection from "@/components/FoundersCircleSection";
@@ -36,6 +37,7 @@ const Index = () => (
       <DestinationsSection />
       <EventsSection />
       <TrustedNetworkSection />
+      <RecentMissionsSection />
       <SafetySection />
       <FoundersCircleSection />
       <MembershipEnrollment />
