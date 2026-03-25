@@ -33,6 +33,7 @@ import NotFound from "./pages/NotFound.tsx";
 import Ricky3D from "./components/Ricky3D.tsx";
 import CookieConsent from "./components/CookieConsent.tsx";
 import ContentProtection from "./components/ContentProtection.tsx";
+import FloatingWhatsApp from "./components/FloatingWhatsApp.tsx";
 
 
 const queryClient = new QueryClient();
