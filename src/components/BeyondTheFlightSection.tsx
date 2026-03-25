@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { Gem, Car, Utensils, ShieldCheck, MapPin } from "lucide-react";
+import { Car, Utensils, ShieldCheck, MapPin } from "lucide-react";
 
 const conciergeItems = [
   { icon: MapPin, title: "Concierge Services", desc: "We don't just fly you there — we make sure you arrive. Ground transport, hotel suites, dinner reservations, event access. Your trip is orchestrated, not just booked." },
@@ -7,6 +7,20 @@ const conciergeItems = [
   { icon: Utensils, title: "In-Flight Catering", desc: "From dietary-specific menus to Michelin-level service at 40,000 feet. Every detail handled before you board." },
   { icon: ShieldCheck, title: "Security & Privacy", desc: "Discreet travel planning with executive protection, NDA protocols, and secure logistics for high-profile movements." },
 ];
+
+const itemVariants = {
+  hidden: { opacity: 0, y: 30, scale: 0.97 },
+  visible: (i: number) => ({
+    opacity: 1,
+    y: 0,
+    scale: 1,
+    transition: {
+      delay: i * 0.12,
+      duration: 0.7,
+      ease: [0.16, 1, 0.3, 1] as const,
+    },
+  }),
+};
 
 const BeyondTheFlightSection = () => (
   <section className="py-24 md:py-32">
@@ -44,15 +58,21 @@ const BeyondTheFlightSection = () => (
         {conciergeItems.map((item, i) => (
           <motion.div
             key={item.title}
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: i * 0.07 }}
-            className="flex gap-5 rounded-2xl border border-border bg-card p-7 hover:shadow-[0_14px_32px_rgba(0,0,0,0.06)] transition-all duration-300"
+            custom={i}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-40px" }}
+            variants={itemVariants}
+            whileHover={{ y: -6, transition: { duration: 0.35 } }}
+            className="flex gap-5 rounded-2xl border border-border bg-card p-7 card-cinematic cursor-default"
           >
-            <div className="shrink-0 w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center">
+            <motion.div
+              whileHover={{ scale: 1.1, rotate: 5 }}
+              transition={{ type: "spring", stiffness: 300 }}
+              className="shrink-0 w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center"
+            >
               <item.icon size={22} className="text-primary" strokeWidth={1.4} />
-            </div>
+            </motion.div>
             <div>
               <h3 className="font-display text-lg font-semibold text-foreground mb-1">{item.title}</h3>
               <p className="text-sm text-muted-foreground leading-relaxed">{item.desc}</p>

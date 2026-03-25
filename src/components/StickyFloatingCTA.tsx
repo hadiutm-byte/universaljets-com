@@ -9,7 +9,7 @@ const StickyFloatingCTA = () => {
   return (
     <motion.div
       style={{ opacity }}
-      className="fixed bottom-6 left-1/2 -translate-x-1/2 z-40 flex items-center gap-3 rounded-full border border-border/40 bg-card/90 backdrop-blur-xl px-2 py-2 shadow-[0_12px_40px_rgba(0,0,0,0.12)]"
+      className="fixed bottom-6 left-1/2 -translate-x-1/2 z-40 flex items-center gap-3 rounded-full glass-floating-cta px-2 py-2"
     >
       <Link
         to="/contact"
