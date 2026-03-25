@@ -589,8 +589,11 @@ const ACMILeasingPage = () => {
             className="text-center p-10 md:p-14 rounded-xl border border-primary/15 bg-gradient-to-br from-card/30 to-card/10 backdrop-blur-md"
           >
             <h2 className="text-xl md:text-2xl font-display font-semibold text-foreground mb-4">Need Immediate Assistance?</h2>
-            <p className="text-[12px] text-foreground/35 font-extralight leading-[2] mb-8">
+            <p className="text-[12px] text-foreground/35 font-extralight leading-[2] mb-2">
               Speak directly with an aviation advisor for urgent or complex requests.
+            </p>
+            <p className="text-[11px] text-foreground/25 font-extralight leading-[2] mb-8">
+              Access the entire global private jet market — instantly compared, optimized, and secured for your mission.
             </p>
             <a href="/#cta" className="inline-block px-10 py-4 bg-gradient-gold text-primary-foreground text-[10px] tracking-[0.3em] uppercase font-medium rounded-sm hover:shadow-[0_0_30px_-8px_hsla(38,52%,50%,0.45)] transition-all duration-500">
               Speak to an Advisor
