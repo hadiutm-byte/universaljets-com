@@ -37,6 +37,7 @@ const Index = () => (
       <DestinationsSection />
       <EventsSection />
       <TrustedNetworkSection />
+      <RecentMissionsSection />
       <SafetySection />
       <FoundersCircleSection />
       <MembershipEnrollment />
