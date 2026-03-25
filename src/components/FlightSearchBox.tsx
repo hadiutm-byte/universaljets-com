@@ -346,19 +346,13 @@ const FlightSearchBox = () => {
                     onClearSelection={() => updateLeg(idx, { selectedTo: null })}
                   />
 
-                  <div className="md:border-r md:border-r-[hsla(0,0%,100%,0.04)]">
-                    <div className="px-4 py-4">
-                      <label className="flex items-center gap-1.5 text-[7.5px] tracking-[0.35em] uppercase text-primary/55 mb-2 font-light">
-                        <Calendar size={8} strokeWidth={1.5} /> Date
-                      </label>
-                      <input
-                        type="date"
-                        value={leg.date}
-                        onChange={(e) => updateLeg(idx, { date: e.target.value })}
-                        className="w-full bg-transparent text-[13px] text-foreground/90 font-light focus:outline-none [color-scheme:dark] tracking-wide"
-                      />
-                    </div>
-                  </div>
+                  <DateTimePicker
+                    label="Date"
+                    icon={Calendar}
+                    value={leg.date}
+                    onChange={(d) => updateLeg(idx, { date: d })}
+                    placeholder="Select date"
+                  />
 
                   {/* Remove leg */}
                   <div className="flex items-center px-2">
