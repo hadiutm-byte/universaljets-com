@@ -455,6 +455,7 @@ const ACMILeasingPage = () => {
             </a>
             <p className="text-[10px] tracking-[0.2em] text-foreground/25 font-extralight mt-5">Programs starting from $150,000</p>
             <p className="text-[11px] text-foreground/20 font-extralight mt-3 italic">Lock your hourly rate. Avoid market fluctuations. Fly on your terms.</p>
+            <p className="text-[9px] tracking-[0.3em] uppercase text-foreground/20 font-extralight mt-5">Limited availability per region — acceptance subject to client profile.</p>
           </motion.div>
         </div>
       </section>
