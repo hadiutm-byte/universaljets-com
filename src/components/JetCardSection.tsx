@@ -2,11 +2,11 @@ import { motion } from "framer-motion";
 import { CreditCard, Clock, Lock, Settings } from "lucide-react";
 import { Link } from "react-router-dom";
 
-const benefits = [
-  { icon: CreditCard, title: "Prepaid Hours" },
-  { icon: Clock, title: "Priority Access" },
-  { icon: Lock, title: "Fixed Rates" },
-  { icon: Settings, title: "Tailored Programs" },
+const pillars = [
+  { icon: Clock, title: "Guaranteed Availability" },
+  { icon: Lock, title: "Fixed Hourly Rates" },
+  { icon: CreditCard, title: "Dedicated Fleet Access" },
+  { icon: Settings, title: "Bespoke Programs" },
 ];
 
 const JetCardSection = () => (
