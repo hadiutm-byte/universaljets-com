@@ -29,7 +29,7 @@ import TripsPage from "./pages/crm/TripsPage.tsx";
 import OutreachPage from "./pages/crm/OutreachPage.tsx";
 import CareersPage from "./pages/CareersPage.tsx";
 import NotFound from "./pages/NotFound.tsx";
-import RickyChatbot from "./components/RickyChatbot.tsx";
+import Ricky3D from "./components/Ricky3D.tsx";
 import CookieConsent from "./components/CookieConsent.tsx";
 import ContentProtection from "./components/ContentProtection.tsx";
 
