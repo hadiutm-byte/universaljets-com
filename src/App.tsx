@@ -10,6 +10,7 @@ import SearchResults from "./pages/SearchResults.tsx";
 import ACMILeasingPage from "./pages/ACMILeasingPage.tsx";
 import PartnerPage from "./pages/PartnerPage.tsx";
 import DestinationsPage from "./pages/DestinationsPage.tsx";
+import ResourcesPage from "./pages/ResourcesPage.tsx";
 import AuthPage from "./pages/AuthPage.tsx";
 import DashboardPage from "./pages/DashboardPage.tsx";
 import ProtectedRoute from "./components/ProtectedRoute.tsx";
@@ -44,6 +45,7 @@ const App = () => (
           <Route path="/acmi-leasing" element={<ACMILeasingPage />} />
           <Route path="/destinations" element={<DestinationsPage />} />
           <Route path="/partners" element={<PartnerPage />} />
+          <Route path="/resources" element={<ResourcesPage />} />
           <Route path="/crm" element={<ProtectedRoute allowedRoles={["admin", "sales", "operations", "finance", "account_management"]}><CrmLayout /></ProtectedRoute>}>
             <Route index element={<CrmDashboard />} />
             <Route path="clients" element={<ClientsPage />} />
