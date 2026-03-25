@@ -132,7 +132,7 @@ const FlightSearchBox = () => {
       </div>
 
       {/* Search Card */}
-      <div className="rounded-2xl bg-background border border-border shadow-[0_8px_40px_-12px_hsla(0,0%,0%,0.08)] p-5">
+      <div className="rounded-2xl bg-card border border-border shadow-[0_8px_40px_-12px_hsla(0,0%,0%,0.08)] p-5">
         <AnimatePresence mode="wait">
           {tripType !== "multi-city" ? (
             <motion.div key="standard" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.2 }}>
