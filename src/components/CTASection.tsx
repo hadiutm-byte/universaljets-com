@@ -204,7 +204,7 @@ const CTASection = () => {
                     {loading ? "Submitting..." : "Get My Aircraft Options"}
                   </button>
                   <p className="text-[10px] text-foreground/18 font-extralight mt-2 tracking-wide">
-                    Handled by experienced aviation advisors — not automated systems.
+                    Every request is handled by an experienced aviation advisor — not an automated system.
                   </p>
                 </div>
               </form>
