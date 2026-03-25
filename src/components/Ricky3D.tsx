@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { X, Send, Plane, CreditCard, Tag, Handshake, ChevronDown, Volume2, VolumeX } from "lucide-react";
+import { X, Send, Plane, CreditCard, Tag, Handshake, ChevronDown, Volume2, VolumeX, MessageCircle } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import RickyAvatar, { type RickyPose } from "./ricky/RickyAvatar";
 import { useRickyVoice } from "@/hooks/useRickyVoice";
