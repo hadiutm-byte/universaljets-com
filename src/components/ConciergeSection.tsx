@@ -21,7 +21,12 @@ const ConciergeSection = () => (
         className="text-center mb-28"
       >
         <p className="text-[9px] tracking-[0.5em] uppercase text-primary/60 mb-6 font-light">Beyond the Flight</p>
-        <h2 className="text-3xl md:text-5xl lg:text-6xl font-display font-semibold text-foreground">Concierge</h2>
+        <h2 className="text-3xl md:text-5xl lg:text-6xl font-display font-semibold text-foreground mb-6">
+          Beyond <span className="text-gradient-gold italic">Aviation</span>
+        </h2>
+        <p className="text-[12px] md:text-[13px] text-foreground/40 font-extralight leading-[2] max-w-xl mx-auto">
+          We collaborate with premium concierge providers, luxury hotels, and ground transportation partners to deliver a seamless end-to-end experience.
+        </p>
       </motion.div>
 
       <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-10 max-w-5xl mx-auto">
