@@ -230,7 +230,7 @@ const Ricky3D = () => {
                   animate={{ opacity: 1, y: 0, scale: 1 }}
                   exit={{ opacity: 0, y: 8, scale: 0.96 }}
                   transition={{ duration: 0.4 }}
-                  className="ricky-speech-bubble absolute bottom-[360px] right-[44px] z-[2] w-[320px] px-5 py-4"
+                  className="ricky-speech-cloud absolute bottom-[480px] right-[60px] z-[2] w-[320px] px-6 py-5"
                   style={{ pointerEvents: "auto" }}
                 >
                   <span className="ricky-bubble-tail" />
