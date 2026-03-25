@@ -1,4 +1,5 @@
 import Navbar from "@/components/Navbar";
+import MembershipBanner from "@/components/MembershipBanner";
 import HeroSection from "@/components/HeroSection";
 import SearchSection from "@/components/SearchSection";
 import TrustStrip from "@/components/TrustStrip";
