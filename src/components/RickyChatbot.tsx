@@ -27,6 +27,16 @@ const RickyChatbot = () => {
     return () => clearTimeout(t);
   }, []);
 
+  // Listen for open-ricky event
+  useEffect(() => {
+    const handler = () => {
+      setVisible(true);
+      setOpen(true);
+    };
+    document.addEventListener("open-ricky", handler);
+    return () => document.removeEventListener("open-ricky", handler);
+  }, []);
+
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages, loading]);
