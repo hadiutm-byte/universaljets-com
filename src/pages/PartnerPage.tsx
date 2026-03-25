@@ -10,6 +10,18 @@ const partnerTypes = [
   { icon: Hotel, title: "Luxury Hotels", desc: "Connect your property with our global UHNW clientele for exclusive room upgrades and amenity packages." },
   { icon: Car, title: "Premium Ground Transport", desc: "Offer chauffeur, luxury car rental, and helicopter transfer services to private jet travelers." },
   { icon: Gem, title: "Luxury Brands", desc: "Position your brand within an ultra-premium aviation ecosystem — fashion, watches, jewelry, lifestyle." },
+  { icon: Globe, title: "Travel Management", desc: "Integrate private aviation into your global travel management offering — seamless end-to-end luxury travel." },
+];
+
+const partnerLogos = [
+  "Universal Travel Management & Network",
+  "Four Seasons Hotels",
+  "Rolls-Royce Motor Cars",
+  "Mandarin Oriental",
+  "Bulgari Hotels",
+  "Aman Resorts",
+  "The Ritz-Carlton",
+  "Bentley Motors",
 ];
 
 const coBrandedCards = [
