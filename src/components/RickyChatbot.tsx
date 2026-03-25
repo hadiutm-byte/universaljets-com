@@ -9,7 +9,7 @@ import rickyThumbsup from "@/assets/ricky-thumbsup.png";
 type Msg = { role: "user" | "assistant"; content: string };
 
 const FIRST_MESSAGE =
-  "Hi Ricky, this is Hadi from Universal Jets.\n\nI saw you just activated your Private Access.\n\nCurious — do you have any upcoming trips we can assist with?";
+  "Hi Ricky, this is Hadi from Universal Jets.\n\nI saw you just activated your Private Access.\n\nCurious — do you have any upcoming trips we can assist with?\n\nBased on your travel pattern, it might make sense to structure a Jet Card for you. We can optimize availability and pricing long term.";
 
 const RickyChatbot = () => {
   const [visible, setVisible] = useState(false);
