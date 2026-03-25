@@ -5,6 +5,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import Index from "./pages/Index.tsx";
 import MembersPage from "./pages/MembersPage.tsx";
+import JetCardPage from "./pages/JetCardPage.tsx";
 import SearchResults from "./pages/SearchResults.tsx";
 import AuthPage from "./pages/AuthPage.tsx";
 import DashboardPage from "./pages/DashboardPage.tsx";
@@ -31,6 +32,7 @@ const App = () => (
         <Routes>
           <Route path="/" element={<Index />} />
           <Route path="/members" element={<MembersPage />} />
+          <Route path="/jet-card" element={<JetCardPage />} />
           <Route path="/auth" element={<AuthPage />} />
           <Route path="/dashboard" element={<ProtectedRoute><DashboardPage /></ProtectedRoute>} />
           <Route path="/search" element={<SearchResults />} />
