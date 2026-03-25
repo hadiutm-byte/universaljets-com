@@ -147,7 +147,7 @@ const FlightSearchBox = () => {
     } else {
       setLegs([legs[0] || emptyLeg()]);
     }
-    if (tripType === "one-way") setReturnDate("");
+    if (tripType === "one-way") setReturnDate(undefined);
   }, [tripType]);
 
   const primaryLeg = legs[0];
