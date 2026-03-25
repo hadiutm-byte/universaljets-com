@@ -47,18 +47,19 @@ const SafetySection = () => (
           </div>
 
           <h2 className="text-2xl md:text-3xl lg:text-4xl font-display font-semibold text-foreground mb-6 leading-tight">
-            Safety First.{" "}
-            <span className="text-gradient-gold italic">Always.</span>
+            We prioritize safety{" "}
+            <span className="text-gradient-gold italic">above all.</span>
           </h2>
 
-          <p className="text-[12px] md:text-[13px] text-foreground/40 font-extralight leading-[2.1] mb-8">
-            We work exclusively with vetted operators meeting the highest international standards.
-          </p>
+          <div className="space-y-2 mb-8">
+            <p className="text-[12px] md:text-[13px] text-foreground/45 font-light">WYVERN Certified</p>
+            <p className="text-[12px] md:text-[13px] text-foreground/45 font-light">ARGUS aligned operators</p>
+            <p className="text-[12px] md:text-[13px] text-foreground/45 font-light">ICAO compliant partners</p>
+          </div>
 
-          {/* Closing statement */}
           <div className="border-l border-primary/15 pl-5 py-1">
             <p className="text-[11px] text-foreground/40 font-extralight leading-[2] italic">
-              Every flight is reviewed before confirmation.
+              Every flight is verified before confirmation.
             </p>
           </div>
         </motion.div>
