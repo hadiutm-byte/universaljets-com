@@ -158,7 +158,7 @@ const FlightSearchBox = () => {
           {/* Passengers */}
           <div>
             <div className="px-5 py-4">
-              <label className="flex items-center gap-1.5 text-[7.5px] tracking-[0.35em] uppercase text-gold/40 mb-2 font-light">
+              <label className="flex items-center gap-1.5 text-[7.5px] tracking-[0.35em] uppercase text-primary/55 mb-2 font-light">
                 <Users size={8} strokeWidth={1.5} /> Guests
               </label>
               <select
