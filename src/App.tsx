@@ -76,6 +76,7 @@ const App = () => (
           <Route path="*" element={<NotFound />} />
         </Routes>
         <Ricky3D />
+        <FloatingWhatsApp />
         <CookieConsent />
       </BrowserRouter>
     </TooltipProvider>

@@ -16,9 +16,9 @@ Tell me your destination — I'll take care of everything.`;
 
 const quickActions = [
   { icon: Plane, label: "Request a Flight", action: "booking" as const },
+  { icon: MessageCircle, label: "Chat on WhatsApp", action: "whatsapp" as const },
   { icon: CreditCard, label: "Explore Jet Card", action: "chat" as const, msg: "Tell me about your Jet Card options." },
   { icon: Tag, label: "Find Empty Legs", action: "chat" as const, msg: "Show me available empty leg flights." },
-  { icon: Handshake, label: "Partner With Us", action: "chat" as const, msg: "I'd like to explore partnership opportunities." },
 ];
 
 const Ricky3D = () => {
