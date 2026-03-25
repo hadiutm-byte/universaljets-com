@@ -194,12 +194,21 @@ const Ricky3D = () => {
                   Meet Your Advisor
                 </p>
               </div>
-              <button
-                onClick={dismiss}
-                className="w-7 h-7 flex items-center justify-center rounded-full text-foreground/20 hover:text-foreground/50 hover:bg-muted/50 transition-all cursor-pointer"
-              >
-                <X size={13} />
-              </button>
+              <div className="flex items-center gap-1">
+                <button
+                  onClick={toggleMute}
+                  className="w-7 h-7 flex items-center justify-center rounded-full text-foreground/20 hover:text-foreground/50 hover:bg-muted/50 transition-all cursor-pointer"
+                  title={muted ? "Unmute Ricky" : "Mute Ricky"}
+                >
+                  {muted ? <VolumeX size={12} /> : <Volume2 size={12} />}
+                </button>
+                <button
+                  onClick={dismiss}
+                  className="w-7 h-7 flex items-center justify-center rounded-full text-foreground/20 hover:text-foreground/50 hover:bg-muted/50 transition-all cursor-pointer"
+                >
+                  <X size={13} />
+                </button>
+              </div>
             </div>
 
             {/* Avatar — half body (smaller, cropped feel) */}
