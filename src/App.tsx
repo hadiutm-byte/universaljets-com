@@ -35,6 +35,7 @@ import AdminSettingsPage from "./pages/crm/AdminSettingsPage.tsx";
 import CareersPage from "./pages/CareersPage.tsx";
 import ContactPage from "./pages/ContactPage.tsx";
 import CharterPage from "./pages/CharterPage.tsx";
+import AircraftGuidePage from "./pages/AircraftGuidePage.tsx";
 import NotFound from "./pages/NotFound.tsx";
 import Ricky3D from "./components/Ricky3D.tsx";
 import CookieConsent from "./components/CookieConsent.tsx";
