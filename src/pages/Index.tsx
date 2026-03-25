@@ -59,9 +59,7 @@ const Index = () => (
 
       <div className="divider-shimmer" />
 
-      {/* 6. WhatsApp — direct advisor contact */}
-      <WhatsAppCTA />
-      {/* 7. Flight request — first trip */}
+      {/* 6. Flight request — full conversion experience */}
       <CTASection />
 
       <div className="divider-shimmer" />
