@@ -1,18 +1,20 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Shield, Plane, UserCheck, Tag, Sparkles, CreditCard } from "lucide-react";
+import { Plane, UserCheck, Tag, Sparkles, CreditCard, Download, MessageCircle } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 
 const benefits = [
-  { icon: Plane, text: "Instant access to global aircraft availability" },
+  { icon: Plane, text: "Priority aircraft access worldwide" },
   { icon: UserCheck, text: "Dedicated aviation advisor" },
-  { icon: Shield, text: "Priority booking status" },
   { icon: Tag, text: "Exclusive empty leg opportunities" },
-  { icon: Sparkles, text: "Preferential pricing access" },
+  { icon: Sparkles, text: "Preferential market pricing" },
 ];
 
-const flightOptions = ["1–5", "6–15", "16–30", "30+"];
+const flightOptions = ["1–2", "3–10", "10+"];
+
+const inputClass =
+  "w-full bg-secondary/30 backdrop-blur-sm rounded-sm px-4 py-3 text-[12px] text-foreground placeholder:text-foreground/15 font-light focus:outline-none focus:ring-1 focus:ring-primary/25 border border-border/10";
 
 const MembershipEnrollment = () => {
   const [form, setForm] = useState({
@@ -31,13 +33,6 @@ const MembershipEnrollment = () => {
 
   const update = (field: string, value: string) =>
     setForm((prev) => ({ ...prev, [field]: value }));
-
-  const getTier = (flights: string) => {
-    if (flights === "30+") return "Platinum";
-    if (flights === "16–30") return "Gold";
-    if (flights === "6–15") return "Silver";
-    return "Essentials";
-  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -73,7 +68,6 @@ const MembershipEnrollment = () => {
 
   return (
     <section id="membership" className="section-padding relative overflow-hidden">
-      {/* Ambient */}
       <div className="absolute inset-0 pointer-events-none opacity-[0.04]" style={{
         backgroundImage: "radial-gradient(ellipse 50% 35% at 50% 20%, hsla(38,52%,50%,0.3) 0%, transparent 70%)",
       }} />
@@ -95,11 +89,8 @@ const MembershipEnrollment = () => {
               Join the Universal Jets{" "}
               <span className="text-gradient-gold italic">Private Access Network</span>
             </h2>
-            <p className="text-[13px] md:text-[14px] text-foreground/40 font-extralight leading-[2] max-w-xl mx-auto mb-2">
+            <p className="text-[13px] md:text-[14px] text-foreground/40 font-extralight leading-[2] max-w-xl mx-auto">
               Apply online and receive your digital membership card instantly.
-            </p>
-            <p className="text-[11px] text-foreground/25 font-extralight tracking-wide">
-              This is your gateway to global private aviation.
             </p>
           </motion.div>
 
@@ -138,14 +129,6 @@ const MembershipEnrollment = () => {
                       ))}
                     </div>
                     <div className="mt-8 pt-8 border-t border-border/8">
-                      <p className="text-[11px] text-primary/50 font-light leading-[1.8] mb-1">
-                        Refer & Earn
-                      </p>
-                      <p className="text-[10px] text-foreground/30 font-extralight leading-[2]">
-                        Invite 3 qualified members to join the network and receive <span className="text-primary/60 font-light">$1,000 flight credit</span>.
-                      </p>
-                    </div>
-                    <div className="mt-5 pt-5 border-t border-border/8">
                       <p className="text-[10px] text-foreground/20 font-extralight leading-[2]">
                         Membership is complimentary for qualified applicants. Acceptance is subject to review.
                       </p>
@@ -173,7 +156,7 @@ const MembershipEnrollment = () => {
                           required
                           value={form.name}
                           onChange={(e) => update("name", e.target.value)}
-                          className="w-full bg-secondary/30 backdrop-blur-sm rounded-sm px-4 py-3 text-[12px] text-foreground placeholder:text-foreground/15 font-light focus:outline-none focus:ring-1 focus:ring-primary/25 border border-border/10"
+                          className={inputClass}
                           placeholder="Alexander Hartwell"
                         />
                       </div>
@@ -186,7 +169,7 @@ const MembershipEnrollment = () => {
                           required
                           value={form.email}
                           onChange={(e) => update("email", e.target.value)}
-                          className="w-full bg-secondary/30 backdrop-blur-sm rounded-sm px-4 py-3 text-[12px] text-foreground placeholder:text-foreground/15 font-light focus:outline-none focus:ring-1 focus:ring-primary/25 border border-border/10"
+                          className={inputClass}
                           placeholder="alex@example.com"
                         />
                       </div>
@@ -195,13 +178,13 @@ const MembershipEnrollment = () => {
                     <div className="grid sm:grid-cols-2 gap-5">
                       <div>
                         <label className="block text-[10px] tracking-[0.2em] uppercase text-foreground/30 mb-2.5 font-light">
-                          Phone
+                          Phone / WhatsApp
                         </label>
                         <input
                           type="tel"
                           value={form.phone}
                           onChange={(e) => update("phone", e.target.value)}
-                          className="w-full bg-secondary/30 backdrop-blur-sm rounded-sm px-4 py-3 text-[12px] text-foreground placeholder:text-foreground/15 font-light focus:outline-none focus:ring-1 focus:ring-primary/25 border border-border/10"
+                          className={inputClass}
                           placeholder="+971 50 000 0000"
                         />
                       </div>
@@ -213,7 +196,7 @@ const MembershipEnrollment = () => {
                           type="text"
                           value={form.location}
                           onChange={(e) => update("location", e.target.value)}
-                          className="w-full bg-secondary/30 backdrop-blur-sm rounded-sm px-4 py-3 text-[12px] text-foreground placeholder:text-foreground/15 font-light focus:outline-none focus:ring-1 focus:ring-primary/25 border border-border/10"
+                          className={inputClass}
                           placeholder="Dubai, UAE"
                         />
                       </div>
@@ -223,7 +206,7 @@ const MembershipEnrollment = () => {
                       <label className="block text-[10px] tracking-[0.2em] uppercase text-foreground/30 mb-2.5 font-light">
                         Estimated Flights Per Year
                       </label>
-                      <div className="grid grid-cols-4 gap-2">
+                      <div className="grid grid-cols-3 gap-2">
                         {flightOptions.map((opt) => (
                           <button
                             key={opt}
@@ -264,12 +247,19 @@ const MembershipEnrollment = () => {
                 transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
                 className="max-w-md mx-auto"
               >
-                <p className="text-center text-[10px] tracking-[0.35em] uppercase text-primary/50 mb-8 font-light">
-                  Welcome to Universal Jets
-                </p>
-                <p className="text-center text-[11px] text-foreground/35 font-extralight mb-8 -mt-4">
-                  Your Founder Circle Access is now active.
-                </p>
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: 0.2 }}
+                  className="text-center mb-8"
+                >
+                  <p className="text-[10px] tracking-[0.35em] uppercase text-primary/50 mb-2 font-light">
+                    Welcome to Universal Jets
+                  </p>
+                  <p className="text-[11px] text-foreground/35 font-extralight">
+                    Your Private Access is now active.
+                  </p>
+                </motion.div>
 
                 {/* Card */}
                 <div
@@ -296,7 +286,6 @@ const MembershipEnrollment = () => {
                   <div className="absolute top-0 right-0 bottom-0 w-[1px] bg-gradient-to-b from-transparent via-primary/10 to-transparent" />
 
                   <div className="relative z-10 p-7 sm:p-8 h-full flex flex-col justify-between">
-                    {/* Top row — brand + tier */}
                     <div className="flex items-start justify-between">
                       <p className="text-[10px] sm:text-[11px] tracking-[0.4em] uppercase text-primary/70 font-medium">
                         Universal Jets
@@ -306,9 +295,7 @@ const MembershipEnrollment = () => {
                       </p>
                     </div>
 
-                    {/* Middle — chip + card number */}
                     <div className="flex items-center gap-4">
-                      {/* EMV chip */}
                       <div className="w-10 h-8 rounded-[4px] border border-primary/25 relative overflow-hidden" style={{
                         background: "linear-gradient(145deg, hsla(38,52%,50%,0.2) 0%, hsla(38,52%,50%,0.08) 100%)",
                       }}>
@@ -321,7 +308,6 @@ const MembershipEnrollment = () => {
                       </p>
                     </div>
 
-                    {/* Bottom — name, member since, network */}
                     <div className="flex items-end justify-between">
                       <div>
                         <p className="text-[15px] sm:text-[17px] text-foreground/85 font-display font-medium tracking-[0.05em] uppercase">
@@ -343,19 +329,35 @@ const MembershipEnrollment = () => {
                   </div>
                 </div>
 
-                {/* Below card */}
+                {/* Below card — actions */}
                 <motion.div
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   transition={{ delay: 0.5 }}
-                  className="text-center mt-10"
+                  className="mt-10 space-y-6"
                 >
-                  <p className="text-[12px] text-foreground/50 font-light leading-[2] mb-1">
-                    Your access is now active.
-                  </p>
-                  <p className="text-[11px] text-foreground/30 font-extralight leading-[2]">
+                  <p className="text-center text-[11px] text-foreground/30 font-extralight leading-[2]">
                     A dedicated aviation advisor will contact you shortly.
                   </p>
+
+                  <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
+                    <button
+                      onClick={() => {
+                        toast.success("Card saved to your device.");
+                      }}
+                      className="flex items-center gap-2 px-8 py-3.5 luxury-border text-foreground/50 hover:text-foreground/80 text-[9px] tracking-[0.25em] uppercase font-light rounded-sm transition-all duration-500 hover:border-[hsla(0,0%,100%,0.15)] hover:scale-[1.02]"
+                    >
+                      <Download className="w-3.5 h-3.5" strokeWidth={1.3} />
+                      Save Card
+                    </button>
+                    <button
+                      onClick={() => document.dispatchEvent(new CustomEvent("open-ricky"))}
+                      className="flex items-center gap-2 px-8 py-3.5 bg-gradient-gold text-primary-foreground text-[9px] tracking-[0.25em] uppercase font-medium rounded-sm transition-all duration-500 hover:shadow-[0_0_40px_-8px_hsla(38,52%,50%,0.5)] hover:scale-[1.02]"
+                    >
+                      <MessageCircle className="w-3.5 h-3.5" strokeWidth={1.3} />
+                      Contact Advisor
+                    </button>
+                  </div>
                 </motion.div>
               </motion.div>
             )}

@@ -2,10 +2,12 @@ import Navbar from "@/components/Navbar";
 import HeroSection from "@/components/HeroSection";
 import TrustStrip from "@/components/TrustStrip";
 import HowItWorksSection from "@/components/HowItWorksSection";
+import ServicesSection from "@/components/ServicesSection";
 import MembershipEnrollment from "@/components/MembershipEnrollment";
 import WhatsAppCTA from "@/components/WhatsAppCTA";
 import CTASection from "@/components/CTASection";
 import JetCardSection from "@/components/JetCardSection";
+import ReferralSection from "@/components/ReferralSection";
 import DestinationsSection from "@/components/DestinationsSection";
 import EventsSection from "@/components/EventsSection";
 import SafetySection from "@/components/SafetySection";
@@ -17,22 +19,26 @@ const Index = () => (
 
     <div className="relative z-[2]">
       <Navbar />
-      {/* 1. Traffic */}
+      {/* 1. Traffic — capture attention */}
       <HeroSection />
       <TrustStrip />
       <HowItWorksSection />
-      {/* 2. Membership */}
+      {/* 2. Services overview */}
+      <ServicesSection />
+      {/* 3. Membership conversion */}
       <MembershipEnrollment />
-      {/* 3. WhatsApp Contact */}
+      {/* 4. WhatsApp — direct advisor contact */}
       <WhatsAppCTA />
-      {/* 4. First Trip */}
+      {/* 5. Flight request — first trip */}
       <CTASection />
-      {/* 5. Jet Card Upsell */}
+      {/* 6. Jet Card upsell */}
       <JetCardSection />
-      {/* 6. Destinations & Events (engagement) */}
+      {/* 7. Referral program */}
+      <ReferralSection />
+      {/* 8. Destinations & Events — engagement */}
       <DestinationsSection />
       <EventsSection />
-      {/* 7. Safety & Trust (reinforcement) */}
+      {/* 9. Trust & Safety — reinforcement */}
       <SafetySection />
       <Footer />
     </div>
