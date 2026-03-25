@@ -4,6 +4,7 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import Index from "./pages/Index.tsx";
+import AboutPage from "./pages/AboutPage.tsx";
 import MembersPage from "./pages/MembersPage.tsx";
 import JetCardPage from "./pages/JetCardPage.tsx";
 import SearchResults from "./pages/SearchResults.tsx";
@@ -52,6 +53,7 @@ const App = () => (
           <Route path="/auth" element={<AuthPage />} />
           <Route path="/dashboard" element={<ProtectedRoute><DashboardPage /></ProtectedRoute>} />
           <Route path="/search" element={<SearchResults />} />
+          <Route path="/about" element={<AboutPage />} />
           <Route path="/acmi-leasing" element={<ACMILeasingPage />} />
           <Route path="/destinations" element={<DestinationsPage />} />
           <Route path="/partners" element={<PartnerPage />} />
