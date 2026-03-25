@@ -350,8 +350,11 @@ const MembershipEnrollment = () => {
                   transition={{ delay: 0.5 }}
                   className="text-center mt-10"
                 >
-                  <p className="text-[12px] text-foreground/40 font-extralight leading-[2]">
-                    Your Private Access Card is now active. Our team will reach out within 24 hours.
+                  <p className="text-[12px] text-foreground/50 font-light leading-[2] mb-1">
+                    Your access is now active.
+                  </p>
+                  <p className="text-[11px] text-foreground/30 font-extralight leading-[2]">
+                    A dedicated aviation advisor will contact you shortly.
                   </p>
                 </motion.div>
               </motion.div>
