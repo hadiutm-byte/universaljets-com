@@ -47,6 +47,8 @@ import FinancialStatementsPage from "./pages/crm/FinancialStatementsPage.tsx";
 import ClientFinanceHistoryPage from "./pages/crm/ClientFinanceHistoryPage.tsx";
 import SupplierHistoryPage from "./pages/crm/SupplierHistoryPage.tsx";
 import AccountMgmtDetailPage from "./pages/crm/AccountMgmtDetailPage.tsx";
+import BDDashboardPage from "./pages/crm/BDDashboardPage.tsx";
+import BDDetailPage from "./pages/crm/BDDetailPage.tsx";
 import CareersPage from "./pages/CareersPage.tsx";
 import ContactPage from "./pages/ContactPage.tsx";
 import CharterPage from "./pages/CharterPage.tsx";
