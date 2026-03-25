@@ -300,13 +300,11 @@ const MembershipEnrollment = () => {
                   <div className="absolute top-0 right-0 bottom-0 w-[1px] bg-gradient-to-b from-transparent via-primary/10 to-transparent" />
 
                   <div className="relative z-10 p-7 sm:p-8 h-full flex flex-col justify-between">
-                    {/* Top row — brand */}
+                    {/* Top row — brand + tier */}
                     <div className="flex items-start justify-between">
-                      <div>
-                        <p className="text-[10px] sm:text-[11px] tracking-[0.4em] uppercase text-primary/70 font-medium">
-                          Universal Jets
-                        </p>
-                      </div>
+                      <p className="text-[10px] sm:text-[11px] tracking-[0.4em] uppercase text-primary/70 font-medium">
+                        Universal Jets
+                      </p>
                       <p className="text-[8px] tracking-[0.3em] uppercase text-primary/40 font-light">
                         Founder Circle
                       </p>
@@ -327,7 +325,7 @@ const MembershipEnrollment = () => {
                       </p>
                     </div>
 
-                    {/* Bottom — name, valid thru, tier */}
+                    {/* Bottom — name, member since, network */}
                     <div className="flex items-end justify-between">
                       <div>
                         <p className="text-[15px] sm:text-[17px] text-foreground/85 font-display font-medium tracking-[0.05em] uppercase">
@@ -335,21 +333,16 @@ const MembershipEnrollment = () => {
                         </p>
                         <div className="flex items-center gap-3 mt-2">
                           <span className="text-[7px] tracking-[0.15em] uppercase text-foreground/25 font-extralight leading-tight">
-                            Valid<br />Thru
+                            Member<br />Since
                           </span>
                           <span className="text-[12px] text-foreground/50 font-light tracking-wider">
                             {member.validUntil}
                           </span>
                         </div>
                       </div>
-                      <div className="text-right">
-                        <p className="text-[8px] tracking-[0.35em] uppercase text-primary/50 font-light mb-1">
-                          Private Access Network
-                        </p>
-                        <p className="text-[10px] tracking-[0.25em] uppercase text-primary/70 font-medium">
-                          {member.tier}
-                        </p>
-                      </div>
+                      <p className="text-[8px] tracking-[0.35em] uppercase text-primary/50 font-light">
+                        Private Access Network
+                      </p>
                     </div>
                   </div>
                 </div>
