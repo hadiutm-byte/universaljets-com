@@ -374,7 +374,7 @@ const Ricky3D = () => {
             style={panelStyle}
           >
             <div className="flex items-center gap-3 px-5 py-3 border-b border-border/30">
-              <div className="shrink-0"><RickyAvatar speaking={speaking} size={40} /></div>
+              <div className="shrink-0"><RickyAvatar speaking={speaking} size={40} pose={speaking ? "thinking" : "idle"} /></div>
               <div className="flex-1 min-w-0">
                 <p className="text-[11px] tracking-[0.2em] uppercase font-medium text-foreground/80">Ricky</p>
                 <p className="text-[9px] text-primary/50 tracking-[0.15em] uppercase font-light">
