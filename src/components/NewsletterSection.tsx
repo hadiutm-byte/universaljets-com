@@ -5,9 +5,9 @@ import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 
 const insights = [
-  "How pricing really works",
-  "How to access better aircraft",
-  "How to optimize costs",
+  "Private aviation insights",
+  "Pricing strategies",
+  "Exclusive empty legs",
 ];
 
 const NewsletterSection = () => {
@@ -61,12 +61,7 @@ const NewsletterSection = () => {
             </div>
 
             <p className="text-[12px] md:text-[13px] text-foreground/40 font-extralight leading-[2] mb-8">
-              Private aviation insights for those who want to fly smarter.
-            </p>
-
-            {/* Divider */}
-            <p className="text-[12px] text-foreground/30 font-extralight leading-[2] italic mb-8">
-              What most clients don't know about private aviation… we share.
+              Stay ahead of the market.
             </p>
 
             <div className="w-full h-[1px] bg-border/8 mb-8" />
