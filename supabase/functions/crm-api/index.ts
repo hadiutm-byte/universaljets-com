@@ -61,14 +61,14 @@ Deno.serve(async (req) => {
   const isAdmin = userRoles.includes("admin");
 
   try {
-    const body = req.method !== "GET" ? await req.json().catch(() => ({})) : {};
+    const body = httpMethod !== "GET" ? await req.json().catch(() => ({})) : {};
 
     // ══════════════════════════════════════════════════════════
     // PUBLIC ENDPOINTS (no auth required)
     // ══════════════════════════════════════════════════════════
 
     // POST /capture — Universal lead capture from any frontend form
-    if (path === "capture" && req.method === "POST") {
+    if (endpoint === "capture" && httpMethod === "POST") {
       const { name, email, phone, departure, destination, date, passengers, source, aircraft, notes } = body;
       if (!name || !email) return err("Name and email are required");
 
@@ -139,7 +139,7 @@ Deno.serve(async (req) => {
     // ══════════════════════════════════════════════════════════
 
     // GET /my-profile — Get logged-in user's full profile + related data
-    if (path === "my-profile" && req.method === "GET") {
+    if (endpoint === "my-profile" && httpMethod === "GET") {
       if (!userId) return err("Unauthorized", 401);
 
       const [profile, travel, concierge, routes, docs] = await Promise.all([
@@ -187,7 +187,7 @@ Deno.serve(async (req) => {
     }
 
     // POST /update-profile — Update profile, travel, or concierge preferences
-    if (path === "update-profile" && req.method === "POST") {
+    if (endpoint === "update-profile" && httpMethod === "POST") {
       if (!userId) return err("Unauthorized", 401);
       const { section, data } = body;
 
@@ -216,10 +216,10 @@ Deno.serve(async (req) => {
     // ══════════════════════════════════════════════════════════
 
     // GET /leads — List leads with optional filters
-    if (path === "leads" && req.method === "GET") {
+    if (endpoint === "leads" && httpMethod === "GET") {
       if (!isStaff) return err("Forbidden", 403);
-      const status = url.searchParams.get("status");
-      const limit = parseInt(url.searchParams.get("limit") || "50");
+      const status = queryParams["status"] || null;
+      const limit = parseInt(queryParams["limit"] || null || "50");
 
       let query = admin.from("leads").select("*, clients(full_name, email, phone)").order("created_at", { ascending: false }).limit(limit);
       if (status) query = query.eq("status", status);
@@ -230,10 +230,10 @@ Deno.serve(async (req) => {
     }
 
     // GET /clients — List clients
-    if (path === "clients" && req.method === "GET") {
+    if (endpoint === "clients" && httpMethod === "GET") {
       if (!isStaff) return err("Forbidden", 403);
-      const limit = parseInt(url.searchParams.get("limit") || "50");
-      const search = url.searchParams.get("search");
+      const limit = parseInt(queryParams["limit"] || null || "50");
+      const search = queryParams["search"] || null;
 
       let query = admin.from("clients").select("*").order("created_at", { ascending: false }).limit(limit);
       if (search) query = query.or(`full_name.ilike.%${search}%,email.ilike.%${search}%`);
@@ -244,10 +244,10 @@ Deno.serve(async (req) => {
     }
 
     // GET /requests — List flight requests
-    if (path === "requests" && req.method === "GET") {
+    if (endpoint === "requests" && httpMethod === "GET") {
       if (!isStaff) return err("Forbidden", 403);
-      const status = url.searchParams.get("status");
-      const limit = parseInt(url.searchParams.get("limit") || "50");
+      const status = queryParams["status"] || null;
+      const limit = parseInt(queryParams["limit"] || null || "50");
 
       let query = admin.from("flight_requests").select("*, clients(full_name, email)").order("created_at", { ascending: false }).limit(limit);
       if (status) query = query.eq("status", status);
@@ -258,7 +258,7 @@ Deno.serve(async (req) => {
     }
 
     // GET /quotes
-    if (path === "quotes" && req.method === "GET") {
+    if (endpoint === "quotes" && httpMethod === "GET") {
       if (!isStaff) return err("Forbidden", 403);
       const { data, error } = await admin.from("quotes").select("*, flight_requests(departure, destination, clients(full_name))").order("created_at", { ascending: false }).limit(50);
       if (error) throw error;
@@ -266,7 +266,7 @@ Deno.serve(async (req) => {
     }
 
     // GET /invoices
-    if (path === "invoices" && req.method === "GET") {
+    if (endpoint === "invoices" && httpMethod === "GET") {
       if (!userRoles.some((r) => ["admin", "finance"].includes(r))) return err("Forbidden", 403);
       const { data, error } = await admin.from("invoices").select("*, contracts(quote_id, status)").order("created_at", { ascending: false }).limit(50);
       if (error) throw error;
@@ -274,7 +274,7 @@ Deno.serve(async (req) => {
     }
 
     // GET /trips
-    if (path === "trips" && req.method === "GET") {
+    if (endpoint === "trips" && httpMethod === "GET") {
       if (!userRoles.some((r) => ["admin", "operations", "sales"].includes(r))) return err("Forbidden", 403);
       const { data, error } = await admin.from("trips").select("*, clients(full_name)").order("created_at", { ascending: false }).limit(50);
       if (error) throw error;
@@ -282,7 +282,7 @@ Deno.serve(async (req) => {
     }
 
     // POST /update-status — Universal status updater with automation triggers
-    if (path === "update-status" && req.method === "POST") {
+    if (endpoint === "update-status" && httpMethod === "POST") {
       if (!isStaff) return err("Forbidden", 403);
       const { table, id, status: newStatus, extra } = body;
 
@@ -361,7 +361,7 @@ Deno.serve(async (req) => {
     }
 
     // POST /create-quote — Create a quote from a flight request
-    if (path === "create-quote" && req.method === "POST") {
+    if (endpoint === "create-quote" && httpMethod === "POST") {
       if (!userRoles.some((r) => ["admin", "sales", "finance"].includes(r))) return err("Forbidden", 403);
       const { request_id, price, aircraft, operator, valid_days } = body;
       if (!request_id || !price) return err("request_id and price are required");
@@ -388,7 +388,7 @@ Deno.serve(async (req) => {
     }
 
     // GET /dashboard-stats — Admin/staff dashboard statistics
-    if (path === "dashboard-stats" && req.method === "GET") {
+    if (endpoint === "dashboard-stats" && httpMethod === "GET") {
       if (!isStaff) return err("Forbidden", 403);
 
       const [clients, leads, requests, quotes, invoices, trips] = await Promise.all([
@@ -411,9 +411,9 @@ Deno.serve(async (req) => {
     }
 
     // GET /client/:id — Full client profile for CRM
-    if (path === "client" && req.method === "GET") {
+    if (endpoint === "client" && httpMethod === "GET") {
       if (!isStaff) return err("Forbidden", 403);
-      const clientId = url.searchParams.get("id");
+      const clientId = queryParams["id"] || null;
       if (!clientId) return err("Client ID required");
 
       const [client, leads, requests, quotes, trips] = await Promise.all([
