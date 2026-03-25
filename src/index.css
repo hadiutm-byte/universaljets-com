@@ -16,7 +16,7 @@
     --popover: 0 0% 100%;
     --popover-foreground: 0 0% 7%;
 
-    --primary: 45 79% 46%;             /* #D4A017 */
+    --primary: 44 82% 36%;             /* #A8850F — darker gold for white-bg readability */
     --primary-foreground: 0 0% 100%;
 
     --secondary: 0 0% 100%;
@@ -25,7 +25,7 @@
     --muted: 0 0% 95.3%;              /* #F3F3F3 */
     --muted-foreground: 0 0% 43.5%;    /* #6F6F6F */
 
-    --accent: 45 79% 46%;
+    --accent: 44 82% 36%;
     --accent-foreground: 0 0% 100%;
 
     --destructive: 0 84.2% 60.2%;
@@ -33,7 +33,7 @@
 
     --border: 0 0% 0% / 0.08;
     --input: 0 0% 95.3%;
-    --ring: 45 79% 46%;
+    --ring: 44 82% 36%;
 
     --radius: 0.75rem;
 
