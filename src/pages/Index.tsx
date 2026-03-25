@@ -36,8 +36,8 @@ const Index = () => (
 
       <div className="divider-shimmer" />
 
-      {/* 5. How It Works */}
-      <div className="section-light">
+      {/* 5. How It Works — CHARCOAL break */}
+      <div className="section-charcoal">
         <HowItWorksSection />
       </div>
 
@@ -57,8 +57,8 @@ const Index = () => (
 
       <div className="divider-shimmer" />
 
-      {/* 8. Jet Card */}
-      <div className="section-white">
+      {/* 8. Jet Card — CHARCOAL */}
+      <div className="section-charcoal">
         <JetCardSection />
       </div>
 
