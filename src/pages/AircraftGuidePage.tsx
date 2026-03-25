@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { Plane, Users, MapPin } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { useCrmApi } from "@/hooks/useCrmApi";
+import AircraftRequestModal from "@/components/AircraftRequestModal";
 import { toast } from "sonner";
 
 interface Aircraft {
