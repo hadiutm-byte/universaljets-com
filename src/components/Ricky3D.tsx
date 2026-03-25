@@ -324,7 +324,7 @@ const Ricky3D = () => {
 
               {/* Avatar orb */}
               <div className="relative" onClick={() => openChat()}>
-                <RickyAvatar speaking={false} size={64} />
+                <RickyAvatar speaking={false} size={64} pose="idle" />
                 <div
                   className="absolute inset-0 rounded-full pointer-events-none"
                   style={{ boxShadow: "0 0 20px -5px hsla(38,52%,50%,0.25)" }}
