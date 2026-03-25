@@ -39,7 +39,7 @@ const sections: { label: string; items: NavItem[] }[] = [
   {
     label: "Account Mgmt",
     items: [
-      { title: "Client Portfolio", url: "/crm/account-mgmt", icon: UserCheck, roles: ["admin", "account_management"] },
+      { title: "Portfolio", url: "/crm/account-mgmt", icon: UserCheck, roles: ["admin", "account_management"] },
     ],
   },
   {

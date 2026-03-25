@@ -100,6 +100,7 @@ const App = () => (
             <Route path="membership" element={<MembershipPipelinePage />} />
             <Route path="referrals" element={<ReferralsPage />} />
             <Route path="account-mgmt" element={<AccountMgmtPage />} />
+            <Route path="account-mgmt/:clientId" element={<AccountMgmtDetailPage />} />
             <Route path="hr" element={<HRPage />} />
             <Route path="activity" element={<ActivityLogPage />} />
             <Route path="finance" element={<FinanceDashboardPage />} />
