@@ -114,6 +114,8 @@ const Ricky3D = () => {
   const handleQuickAction = (action: typeof quickActions[0]) => {
     if (action.action === "booking") {
       setPhase("booking");
+    } else if (action.action === "whatsapp") {
+      window.open("https://wa.me/447888999944?text=" + encodeURIComponent("Hello, I would like to request a private jet charter."), "_blank");
     } else {
       openChat(action.msg);
     }
