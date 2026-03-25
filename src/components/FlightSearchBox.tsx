@@ -15,7 +15,7 @@ interface Leg {
   toQuery: string;
   selectedFrom: Airport | null;
   selectedTo: Airport | null;
-  date: string;
+  date: Date | undefined;
 }
 
 const emptyLeg = (): Leg => ({
