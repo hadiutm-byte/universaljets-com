@@ -188,8 +188,10 @@ const EmptyLegsMapView = ({ legs, selectedLeg, onLegClick, onClose, toMapCoords 
           {/* Route lines */}
           {legs.map((leg) => {
             if (!leg.departure || !leg.arrival) return null;
+            if (leg.departure.lat == null || leg.departure.lng == null || leg.arrival.lat == null || leg.arrival.lng == null) return null;
             const from = toMapCoords(leg.departure.lat, leg.departure.lng);
             const to = toMapCoords(leg.arrival.lat, leg.arrival.lng);
+            if (isNaN(from[0]) || isNaN(from[1]) || isNaN(to[0]) || isNaN(to[1])) return null;
             const midX = (from[0] + to[0]) / 2;
             const midY = Math.min(from[1], to[1]) - 3;
             return (
