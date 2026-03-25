@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, useCallback } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { MapPin, Calendar, Users, Sparkles, ArrowRight, Plane, Clock, Crown, Zap } from "lucide-react";
 import AirportField from "@/components/flight-search/AirportField";
