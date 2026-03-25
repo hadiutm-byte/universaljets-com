@@ -240,7 +240,7 @@ const Ricky3D = () => {
               transition={{ delay: 0.8 }}
               className="text-[9px] tracking-[0.2em] uppercase text-foreground/20 mb-6"
             >
-              Senior Aviation Advisor
+              Personal Aviation Advisor
             </motion.p>
 
             <AnimatePresence>
