@@ -1,4 +1,6 @@
 import { useState } from "react";
+import SEOHead from "@/components/SEOHead";
+import JsonLd, { organizationSchema, localBusinessSchema } from "@/components/JsonLd";
 import Navbar from "@/components/Navbar";
 import MembershipBanner from "@/components/MembershipBanner";
 import AuthModal from "@/components/AuthModal";
