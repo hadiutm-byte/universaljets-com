@@ -7,6 +7,46 @@ const corsHeaders = {
 
 const AVIAPAGES_BASE = 'https://dir.aviapages.com';
 
+// Cache aircraft type lookups in memory (refreshed per cold start)
+let aircraftTypeCache: Record<string, { image_url: string | null; class_name: string; max_pax: number | null; range_km: number | null }> = {};
+let cacheLoaded = false;
+
+async function loadAircraftTypeCache(apiKey: string) {
+  if (cacheLoaded) return;
+  try {
+    const response = await fetch(`${AVIAPAGES_BASE}/api/aircraft_types/?page_size=500`, {
+      headers: { 'Authorization': `Token ${apiKey}`, 'Accept': 'application/json' },
+    });
+    if (response.ok) {
+      const data = await response.json();
+      for (const at of (data.results || [])) {
+        const name = (at.name || '').toLowerCase();
+        aircraftTypeCache[name] = {
+          image_url: at.images?.[0]?.media?.path || null,
+          class_name: at.class_name || at.aircraft_class?.name || '',
+          max_pax: at.pax_maximum || null,
+          range_km: at.range_maximum || null,
+        };
+      }
+      console.log(`[empty-legs] Cached ${Object.keys(aircraftTypeCache).length} aircraft types`);
+    }
+  } catch (e) {
+    console.error('[empty-legs] Failed to load aircraft type cache:', e);
+  }
+  cacheLoaded = true;
+}
+
+function lookupAircraftType(typeName: string) {
+  const lower = typeName.toLowerCase();
+  // Exact match first
+  if (aircraftTypeCache[lower]) return aircraftTypeCache[lower];
+  // Partial match
+  for (const [key, val] of Object.entries(aircraftTypeCache)) {
+    if (lower.includes(key) || key.includes(lower)) return val;
+  }
+  return null;
+}
+
 serve(async (req) => {
   if (req.method === 'OPTIONS') {
     return new Response(null, { headers: corsHeaders });
@@ -17,6 +57,9 @@ serve(async (req) => {
     if (!apiKey) {
       throw new Error('AVIAPAGES_API_KEY not configured');
     }
+
+    // Load aircraft type cache for image enrichment
+    await loadAircraftTypeCache(apiKey);
 
     const url = new URL(req.url);
     const page = url.searchParams.get('page') || '1';
@@ -53,11 +96,9 @@ serve(async (req) => {
 
     const responseText = await response.text();
     console.log(`[empty-legs] Status: ${response.status}`);
-    console.log(`[empty-legs] Response preview: ${responseText.substring(0, 500)}`);
 
     if (!response.ok) {
-      console.error(`[empty-legs] API error [${response.status}]: ${responseText}`);
-      // Return empty list instead of crashing
+      console.error(`[empty-legs] API error [${response.status}]: ${responseText.substring(0, 200)}`);
       return new Response(JSON.stringify({ count: 0, results: [] }), {
         headers: { ...corsHeaders, 'Content-Type': 'application/json' },
       });
@@ -67,36 +108,45 @@ serve(async (req) => {
 
     const normalized = {
       count: data.count || 0,
-      results: (data.results || []).map((leg: any) => ({
-        id: leg.id || leg.availability_id || Math.random(),
-        aircraft_type: leg.aircraft_type || leg.aircraft?.type || 'Private Jet',
-        company: leg.company || leg.operator?.name || '',
-        from_date: leg.from_date || leg.from_date_utc || '',
-        to_date: leg.to_date || leg.to_date_utc || '',
-        price: leg.price ?? null,
-        currency: leg.currency_code || leg.currency || 'USD',
-        comment: leg.comment || '',
-        departure: leg.dep_airport ? {
-          id: leg.dep_airport.id || 0,
-          name: leg.dep_airport.name || '',
-          iata: leg.dep_airport.iata || '',
-          icao: leg.dep_airport.icao || '',
-          city: leg.dep_airport.city?.name || leg.dep_airport.city || '',
-          country: leg.dep_airport.city?.country?.name || leg.dep_airport.country || '',
-          lat: leg.dep_airport.latitude ?? leg.dep_airport.lat ?? null,
-          lng: leg.dep_airport.longitude ?? leg.dep_airport.lng ?? null,
-        } : null,
-        arrival: leg.arr_airport ? {
-          id: leg.arr_airport.id || 0,
-          name: leg.arr_airport.name || '',
-          iata: leg.arr_airport.iata || '',
-          icao: leg.arr_airport.icao || '',
-          city: leg.arr_airport.city?.name || leg.arr_airport.city || '',
-          country: leg.arr_airport.city?.country?.name || leg.arr_airport.country || '',
-          lat: leg.arr_airport.latitude ?? leg.arr_airport.lat ?? null,
-          lng: leg.arr_airport.longitude ?? leg.arr_airport.lng ?? null,
-        } : null,
-      })),
+      results: (data.results || []).map((leg: any) => {
+        const aircraftType = leg.aircraft_type || 'Private Jet';
+        const typeData = lookupAircraftType(aircraftType);
+
+        return {
+          id: leg.id || leg.availability_id || Math.random(),
+          aircraft_type: aircraftType,
+          aircraft_class: typeData?.class_name || null,
+          aircraft_image: typeData?.image_url || null,
+          aircraft_max_pax: typeData?.max_pax || null,
+          aircraft_range_km: typeData?.range_km || null,
+          company: leg.company || leg.operator?.name || '',
+          from_date: leg.from_date || leg.from_date_utc || '',
+          to_date: leg.to_date || leg.to_date_utc || '',
+          price: leg.price ?? null,
+          currency: leg.currency_code || leg.currency || 'USD',
+          comment: leg.comment || '',
+          departure: leg.dep_airport ? {
+            id: leg.dep_airport.id || 0,
+            name: leg.dep_airport.name || '',
+            iata: leg.dep_airport.iata || '',
+            icao: leg.dep_airport.icao || '',
+            city: leg.dep_airport.city?.name || leg.dep_airport.city || '',
+            country: leg.dep_airport.city?.country?.name || leg.dep_airport.country || '',
+            lat: leg.dep_airport.latitude ?? leg.dep_airport.lat ?? null,
+            lng: leg.dep_airport.longitude ?? leg.dep_airport.lng ?? null,
+          } : null,
+          arrival: leg.arr_airport ? {
+            id: leg.arr_airport.id || 0,
+            name: leg.arr_airport.name || '',
+            iata: leg.arr_airport.iata || '',
+            icao: leg.arr_airport.icao || '',
+            city: leg.arr_airport.city?.name || leg.arr_airport.city || '',
+            country: leg.arr_airport.city?.country?.name || leg.arr_airport.country || '',
+            lat: leg.arr_airport.latitude ?? leg.arr_airport.lat ?? null,
+            lng: leg.arr_airport.longitude ?? leg.arr_airport.lng ?? null,
+          } : null,
+        };
+      }),
     };
 
     return new Response(JSON.stringify(normalized), {
@@ -104,7 +154,6 @@ serve(async (req) => {
     });
   } catch (error) {
     console.error('[empty-legs] Error:', error);
-    // Return empty list on any error so the UI doesn't break
     return new Response(JSON.stringify({ count: 0, results: [] }), {
       headers: { ...corsHeaders, 'Content-Type': 'application/json' },
     });
