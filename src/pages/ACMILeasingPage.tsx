@@ -457,6 +457,7 @@ const ACMILeasingPage = () => {
             <p className="text-[11px] text-foreground/20 font-extralight mt-3 italic">Lock your hourly rate. Avoid market fluctuations. Fly on your terms.</p>
             <p className="text-[9px] tracking-[0.3em] uppercase text-foreground/20 font-extralight mt-5">Limited availability per region — acceptance subject to client profile.</p>
             <p className="text-[11px] text-foreground/25 font-extralight mt-4 leading-[1.8]">Unlike operators, your jet card is not tied to one fleet — we source the best aircraft globally for every mission.</p>
+            <p className="text-[11px] text-primary/40 font-light mt-4 italic">This is not a membership. It's a smarter way to fly private.</p>
           </motion.div>
         </div>
       </section>
