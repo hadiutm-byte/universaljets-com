@@ -250,16 +250,16 @@ const Ricky3D = () => {
                   animate={{ opacity: 1, y: 0, scale: 1 }}
                   exit={{ opacity: 0, scale: 0.95 }}
                   transition={{ duration: 0.5 }}
-                  className="max-w-md mx-6 px-8 py-6 rounded-2xl border border-white/[0.12] relative"
-                  style={{ background: "hsla(0,0%,100%,0.08)", backdropFilter: "blur(30px)" }}
+                  className="max-w-md mx-6 px-8 py-6 rounded-2xl relative shadow-xl"
+                  style={{ background: "hsla(0,0%,100%,0.95)", backdropFilter: "blur(30px)", border: "1px solid hsla(0,0%,0%,0.06)" }}
                 >
                   <div
-                    className="absolute -top-2 left-1/2 -translate-x-1/2 w-4 h-4 rotate-45 border-l border-t border-white/[0.12]"
-                    style={{ background: "hsla(0,0%,100%,0.08)" }}
+                    className="absolute -top-2 left-1/2 -translate-x-1/2 w-4 h-4 rotate-45"
+                    style={{ background: "hsla(0,0%,100%,0.95)", borderLeft: "1px solid hsla(0,0%,0%,0.06)", borderTop: "1px solid hsla(0,0%,0%,0.06)" }}
                   />
-                  <p className="text-[14px] text-foreground/80 font-light leading-[2] whitespace-pre-wrap">
+                  <p className="text-[14px] text-[#1A1A1A] font-light leading-[2] whitespace-pre-wrap">
                     {displayedText}
-                    {!showActions && <span className="animate-pulse text-primary/50">|</span>}
+                    {!showActions && <span className="animate-pulse text-primary">|</span>}
                   </p>
                 </motion.div>
               )}
