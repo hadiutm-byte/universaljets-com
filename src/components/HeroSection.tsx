@@ -90,7 +90,7 @@ const HeroSection = () => {
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1, delay: 0.4 }}
-          className="text-[9px] md:text-[10px] tracking-[0.55em] uppercase text-primary/70 mb-10 font-light"
+          className="text-[10px] md:text-[11px] tracking-[0.55em] uppercase text-primary/80 mb-10 font-light"
         >
           Private Aviation Redefined
         </motion.p>
