@@ -98,7 +98,7 @@ const PartnerPage = () => {
         {/* Partner Types */}
         <section className="pb-24">
           <div className="container mx-auto px-8">
-            <div className="grid md:grid-cols-3 gap-8 max-w-4xl mx-auto mb-24">
+            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-5xl mx-auto mb-24">
               {partnerTypes.map((b, i) => (
                 <motion.div key={b.title} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.1, duration: 0.6 }}
                   className="text-center py-10 px-6 rounded-xl border border-border/10 bg-card/10 hover:border-primary/15 hover:bg-card/15 transition-all duration-500 group">
@@ -110,6 +110,30 @@ const PartnerPage = () => {
                 </motion.div>
               ))}
             </div>
+
+            {/* ── Partner Logos Carousel ── */}
+            <motion.div initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} transition={{ duration: 1 }}
+              className="max-w-5xl mx-auto mb-24 overflow-hidden">
+              <div className="text-center mb-10">
+                <p className="text-[9px] tracking-[0.5em] uppercase text-primary/60 mb-4 font-light">Our Network</p>
+                <h2 className="text-2xl md:text-3xl font-display font-semibold text-foreground mb-4">
+                  Trusted <span className="text-gradient-gold italic">Partners</span>
+                </h2>
+              </div>
+              <div className="relative">
+                <div className="absolute left-0 top-0 bottom-0 w-24 bg-gradient-to-r from-background to-transparent z-10" />
+                <div className="absolute right-0 top-0 bottom-0 w-24 bg-gradient-to-l from-background to-transparent z-10" />
+                <div className="flex animate-scroll-logos">
+                  {[...partnerLogos, ...partnerLogos].map((name, i) => (
+                    <div key={i} className="flex-shrink-0 px-10 py-6 flex items-center justify-center">
+                      <span className="text-[11px] tracking-[0.2em] uppercase text-foreground/25 font-light whitespace-nowrap hover:text-foreground/50 transition-colors duration-500">
+                        {name}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </motion.div>
 
             {/* ── Co-Branded Card Programs ── */}
             <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.8 }}
