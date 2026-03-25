@@ -1,12 +1,12 @@
 import { motion } from "framer-motion";
-import { ShieldCheck, Clock, Zap, Gem } from "lucide-react";
+import { Heart, Cigarette, UtensilsCrossed, Sparkles } from "lucide-react";
 import interiorImage from "@/assets/jet-interior.jpg";
 
-const pillars = [
-  { icon: ShieldCheck, title: "Absolute Discretion", desc: "Privacy-first operations for high-profile clients. Every detail confidential." },
-  { icon: Zap, title: "Complete Flexibility", desc: "Change plans in minutes. We adapt to your schedule, never the reverse." },
-  { icon: Clock, title: "Time Efficiency", desc: "Tarmac to takeoff in minutes. Skip the terminals, save hours every trip." },
-  { icon: Gem, title: "Luxury Experience", desc: "Impeccable service, bespoke catering, and every detail curated to perfection." },
+const experiences = [
+  { icon: Heart, title: "Pets Onboard", desc: "Your companions fly with you — no cargo hold, no restrictions. Private aviation means your pets travel in comfort by your side." },
+  { icon: Cigarette, title: "Smoking Flights", desc: "For clients who prefer it, we source smoking-permitted aircraft. Particularly popular on Middle East and Mediterranean routes." },
+  { icon: UtensilsCrossed, title: "VIP Catering", desc: "From Michelin-star menus to dietary-specific meals, every flight features bespoke catering curated to your preferences." },
+  { icon: Sparkles, title: "Concierge Services", desc: "Ground transport, hotel reservations, event access, special requests — we handle everything beyond the flight." },
 ];
 
 const ExperienceSection = () => (
@@ -48,15 +48,19 @@ const ExperienceSection = () => (
           transition={{ duration: 0.8 }}
           className="order-1 lg:order-2"
         >
-          <p className="text-[9px] tracking-[0.5em] uppercase text-primary/60 mb-6 font-light">The Standard</p>
-          <h2 className="text-3xl md:text-5xl font-display font-semibold mb-16 leading-tight text-foreground">
-            The Experience
+          <p className="text-[9px] tracking-[0.5em] uppercase text-primary/60 mb-6 font-light">Beyond the Flight</p>
+          <h2 className="text-3xl md:text-5xl font-display font-semibold mb-6 leading-tight text-foreground">
+            The{" "}
+            <span className="text-gradient-gold italic">Experience</span>
           </h2>
+          <p className="text-[12px] text-foreground/35 font-extralight leading-[2] mb-12 max-w-md">
+            It's not just about getting there. It's about how every moment feels — from the cabin to the concierge.
+          </p>
 
-          <div className="space-y-12">
-            {pillars.map((p, i) => (
+          <div className="space-y-10">
+            {experiences.map((e, i) => (
               <motion.div
-                key={i}
+                key={e.title}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
@@ -64,11 +68,11 @@ const ExperienceSection = () => (
                 className="flex gap-6 group"
               >
                 <div className="flex-shrink-0 w-12 h-12 rounded-full luxury-border flex items-center justify-center group-hover:glow-subtle transition-all duration-700">
-                  <p.icon className="w-4 h-4 text-primary/60" strokeWidth={1.2} />
+                  <e.icon className="w-4 h-4 text-primary/60" strokeWidth={1.2} />
                 </div>
                 <div>
-                  <h3 className="font-display text-lg mb-2 text-foreground">{p.title}</h3>
-                  <p className="text-[12px] text-foreground/40 font-extralight leading-[2]">{p.desc}</p>
+                  <h3 className="font-display text-lg mb-2 text-foreground">{e.title}</h3>
+                  <p className="text-[12px] text-foreground/40 font-extralight leading-[2]">{e.desc}</p>
                 </div>
               </motion.div>
             ))}

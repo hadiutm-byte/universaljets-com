@@ -1,6 +1,6 @@
 import Navbar from "@/components/Navbar";
 import HeroSection from "@/components/HeroSection";
-import TrustStrip from "@/components/TrustStrip";
+import LiveMarketSection from "@/components/LiveMarketSection";
 import WhySection from "@/components/WhySection";
 import ServicesSection from "@/components/ServicesSection";
 import FleetSection from "@/components/FleetSection";
@@ -20,7 +20,7 @@ const Index = () => (
     <div className="relative z-[2]">
       <Navbar />
       <HeroSection />
-      <TrustStrip />
+      <LiveMarketSection />
       <WhySection />
       <ServicesSection />
       <FleetSection />

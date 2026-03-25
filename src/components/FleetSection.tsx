@@ -2,9 +2,9 @@ import { motion } from "framer-motion";
 import { Users, ArrowRight } from "lucide-react";
 
 const fleet = [
-  { category: "Light Jets", passengers: "6–8 pax", range: "2,500 nm", desc: "Speed and efficiency for regional missions.", examples: "Citation CJ3+  ·  Phenom 300E" },
-  { category: "Midsize Jets", passengers: "8–10 pax", range: "3,500 nm", desc: "Comfort, range, and performance in balance.", examples: "Citation XLS+  ·  Hawker 800XP" },
-  { category: "Long Range", passengers: "12–16 pax", range: "7,500 nm", desc: "Intercontinental luxury. Boardroom in the sky.", examples: "Global 6000  ·  Falcon 7X" },
+  { category: "Light Jets", passengers: "6–8 pax", range: "2,500 nm", desc: "Speed and efficiency for regional missions. Ideal for short trips with small groups.", examples: "Citation CJ3+  ·  Phenom 300E", useCase: "City hops, day trips, weekend getaways" },
+  { category: "Midsize Jets", passengers: "8–10 pax", range: "3,500 nm", desc: "Comfort, range, and performance in balance. Stand-up cabin, full connectivity.", examples: "Citation XLS+  ·  Hawker 800XP", useCase: "Cross-country, Europe-wide, business" },
+  { category: "Heavy / Long Range", passengers: "12–16 pax", range: "7,500 nm", desc: "Intercontinental luxury. Boardroom in the sky. Full cabin with bedroom and shower.", examples: "Global 6000  ·  Falcon 7X  ·  G650", useCase: "Transatlantic, transcontinental, VIP" },
 ];
 
 const FleetSection = () => (
@@ -38,8 +38,9 @@ const FleetSection = () => (
               <span className="text-[9px] tracking-[0.3em] uppercase font-light">{f.passengers}</span>
             </div>
             <h3 className="font-display text-2xl mb-2 text-foreground">{f.category}</h3>
-            <p className="text-[9px] text-foreground/35 tracking-[0.2em] uppercase mb-6">{f.range}</p>
-            <p className="text-[12px] text-foreground/40 font-extralight leading-[2] mb-8 flex-1">{f.desc}</p>
+            <p className="text-[9px] text-foreground/35 tracking-[0.2em] uppercase mb-4">{f.range}</p>
+            <p className="text-[12px] text-foreground/40 font-extralight leading-[2] mb-4 flex-1">{f.desc}</p>
+            <p className="text-[10px] text-primary/40 font-extralight mb-2 italic">{f.useCase}</p>
             <p className="text-[10px] text-primary/25 font-extralight mb-8">{f.examples}</p>
             <div className="pt-6 border-t border-border">
               <a href="#cta" className="inline-flex items-center gap-2 text-[9px] tracking-[0.2em] uppercase text-primary/50 hover:text-primary transition-all duration-500 group/l">
