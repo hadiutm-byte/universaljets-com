@@ -1,10 +1,10 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
-import { Plane, Users, MapPin, Wifi, ChevronRight } from "lucide-react";
+import { Plane, Users, MapPin } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { supabase } from "@/integrations/supabase/client";
+import { useCrmApi } from "@/hooks/useCrmApi";
 import { toast } from "sonner";
 
 interface Aircraft {
