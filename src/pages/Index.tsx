@@ -1,24 +1,11 @@
 import Navbar from "@/components/Navbar";
 import HeroSection from "@/components/HeroSection";
 import TrustStrip from "@/components/TrustStrip";
-import PositioningStatement from "@/components/PositioningStatement";
-import WhySection from "@/components/WhySection";
-import WhoWeServeSection from "@/components/WhoWeServeSection";
-import ServicesSection from "@/components/ServicesSection";
 import HowItWorksSection from "@/components/HowItWorksSection";
-import EditorialSection from "@/components/EditorialSection";
-import CulturalInsightSection from "@/components/CulturalInsightSection";
 import JetCardSection from "@/components/JetCardSection";
-import EmptyLegsSection from "@/components/EmptyLegsSection";
-import LiveMarketSection from "@/components/LiveMarketSection";
 import DestinationsSection from "@/components/DestinationsSection";
 import EventsSection from "@/components/EventsSection";
-import TrustedNetworkSection from "@/components/TrustedNetworkSection";
-import RecentMissionsSection from "@/components/RecentMissionsSection";
 import SafetySection from "@/components/SafetySection";
-import NewsletterSection from "@/components/NewsletterSection";
-import FoundersCircleSection from "@/components/FoundersCircleSection";
-import MembershipEnrollment from "@/components/MembershipEnrollment";
 import CTASection from "@/components/CTASection";
 import Footer from "@/components/Footer";
 
@@ -30,24 +17,11 @@ const Index = () => (
       <Navbar />
       <HeroSection />
       <TrustStrip />
-      <PositioningStatement />
-      <WhySection />
-      <WhoWeServeSection />
-      <ServicesSection />
       <HowItWorksSection />
-      <EditorialSection />
-      <CulturalInsightSection />
-      <JetCardSection />
-      <EmptyLegsSection />
-      <LiveMarketSection />
       <DestinationsSection />
       <EventsSection />
-      <TrustedNetworkSection />
-      <RecentMissionsSection />
+      <JetCardSection />
       <SafetySection />
-      <FoundersCircleSection />
-      <MembershipEnrollment />
-      <NewsletterSection />
       <CTASection />
       <Footer />
     </div>

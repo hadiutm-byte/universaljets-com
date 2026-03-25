@@ -3,10 +3,10 @@ import { CreditCard, Clock, Lock, Settings } from "lucide-react";
 import { Link } from "react-router-dom";
 
 const benefits = [
-  { icon: CreditCard, title: "Prepaid Hours", desc: "Purchase flight hours upfront at locked-in rates." },
-  { icon: Clock, title: "Priority Access", desc: "Guaranteed aircraft availability within 24 hours." },
-  { icon: Lock, title: "Fixed Hourly Rates", desc: "No market fluctuations — your rate is your rate." },
-  { icon: Settings, title: "Tailored Solutions", desc: "Custom programs for individuals and corporations." },
+  { icon: CreditCard, title: "Prepaid Hours" },
+  { icon: Clock, title: "Priority Access" },
+  { icon: Lock, title: "Fixed Rates" },
+  { icon: Settings, title: "Tailored Programs" },
 ];
 
 const JetCardSection = () => (
@@ -19,32 +19,28 @@ const JetCardSection = () => (
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 0.8 }}
-        className="text-center mb-20"
+        className="text-center mb-16"
       >
         <p className="text-[9px] tracking-[0.5em] uppercase text-primary/60 mb-6 font-light">Jet Card</p>
-        <h2 className="text-3xl md:text-5xl lg:text-6xl font-display font-semibold text-foreground mb-5">
+        <h2 className="text-3xl md:text-4xl lg:text-5xl font-display font-semibold text-foreground">
           Fly on <span className="text-gradient-gold italic">Your Terms</span>
         </h2>
-        <p className="text-[12px] md:text-[14px] text-foreground/40 font-extralight leading-[2] max-w-lg mx-auto">
-          Guaranteed access. Fixed rates. Total control over your private aviation.
-        </p>
       </motion.div>
 
-      <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-5xl mx-auto mb-16">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-8 max-w-3xl mx-auto mb-14">
         {benefits.map((b, i) => (
           <motion.div
             key={i}
-            initial={{ opacity: 0, y: 25 }}
+            initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ delay: i * 0.1, duration: 0.7 }}
+            transition={{ delay: i * 0.08, duration: 0.6 }}
             className="text-center group"
           >
-            <div className="w-14 h-14 rounded-full luxury-border flex items-center justify-center mx-auto mb-6 group-hover:glow-subtle transition-all duration-700">
+            <div className="w-14 h-14 rounded-full luxury-border flex items-center justify-center mx-auto mb-4 group-hover:glow-subtle transition-all duration-700">
               <b.icon className="w-5 h-5 text-primary/60" strokeWidth={1.2} />
             </div>
-            <h3 className="font-display text-base mb-3 text-foreground">{b.title}</h3>
-            <p className="text-[11px] text-foreground/35 font-extralight leading-[1.9]">{b.desc}</p>
+            <h3 className="font-display text-[13px] text-foreground">{b.title}</h3>
           </motion.div>
         ))}
       </div>
