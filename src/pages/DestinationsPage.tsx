@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { ArrowRight, Plane } from "lucide-react";
+import { ArrowRight, Plane, TrendingUp, AlertTriangle } from "lucide-react";
 import { Link } from "react-router-dom";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
