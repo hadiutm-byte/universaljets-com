@@ -18,48 +18,60 @@ const HeroSection = () => {
         <img src={heroImage} alt="Private jet above clouds at golden hour" className="w-full h-full object-cover" width={1920} height={1080} />
       </motion.div>
 
-      {/* Overlays */}
-      <div className="absolute inset-0 bg-gradient-to-b from-background/85 via-background/50 to-background" />
-      <div className="absolute inset-0 bg-gradient-to-r from-background/70 via-transparent to-background/60" />
-      <div className="absolute inset-0 bg-background/15" />
+      {/* Stronger overlays for more cinematic contrast */}
+      <div className="absolute inset-0 bg-gradient-to-b from-background/90 via-background/55 to-background" />
+      <div className="absolute inset-0 bg-gradient-to-r from-background/75 via-transparent to-background/65" />
+      <div className="absolute inset-0 bg-background/20" />
 
       {/* Content */}
       <motion.div className="relative z-10 container mx-auto px-6 text-center flex flex-col items-center" style={{ opacity: contentOpacity, y: contentY }}>
         <motion.div
           initial={{ opacity: 0, scaleX: 0 }}
           animate={{ opacity: 1, scaleX: 1 }}
-          transition={{ duration: 1.2, delay: 0.3 }}
-          className="w-16 h-[1px] bg-gradient-to-r from-transparent via-gold to-transparent mb-10 origin-center"
+          transition={{ duration: 1.2, delay: 0.2 }}
+          className="w-16 h-[1px] bg-gradient-to-r from-transparent via-gold/80 to-transparent mb-10 origin-center"
         />
-
-        <motion.p
-          initial={{ opacity: 0, y: 12 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.9, delay: 0.5 }}
-          className="text-[9px] md:text-[10px] tracking-[0.5em] uppercase text-gold/80 mb-8 font-light"
-        >
-          Private Aviation Redefined
-        </motion.p>
 
         <motion.h1
           initial={{ opacity: 0, y: 50 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1.2, delay: 0.7, ease: [0.16, 1, 0.3, 1] }}
-          className="text-[2.5rem] sm:text-5xl md:text-6xl lg:text-[5rem] font-display font-semibold leading-[1.05] tracking-tight mb-8"
+          transition={{ duration: 1.2, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
+          className="text-[2.6rem] sm:text-5xl md:text-6xl lg:text-[5.5rem] font-display font-semibold leading-[1.05] tracking-tight mb-7"
         >
-          Private Aviation.
+          Fly Smarter.
           <br />
-          <span className="text-gradient-gold italic font-medium">Perfected.</span>
+          <span className="text-gradient-gold italic font-medium">Fly Private.</span>
         </motion.h1>
 
         <motion.p
           initial={{ opacity: 0, y: 18 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.9, delay: 0.95 }}
-          className="text-[13px] md:text-sm text-foreground/50 max-w-lg mx-auto mb-2 font-extralight leading-[2] tracking-wide"
+          transition={{ duration: 0.9, delay: 0.7 }}
+          className="text-[13px] md:text-[15px] text-foreground/45 max-w-xl mx-auto mb-10 font-extralight leading-[2] tracking-wide"
         >
-          Global access to private jets with unmatched pricing, precision, and 24/7 advisory.
+          Access the global private jet market with unmatched pricing, flexibility, and 24/7 advisory.
         </motion.p>
+
+        {/* CTA Buttons */}
+        <motion.div
+          initial={{ opacity: 0, y: 15 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.9 }}
+          className="flex flex-col sm:flex-row items-center gap-4 mb-6"
+        >
+          <a
+            href="#cta"
+            className="px-9 py-3.5 bg-gradient-gold text-primary-foreground text-[9px] tracking-[0.25em] uppercase font-medium rounded-sm hover:shadow-[0_0_40px_-8px_hsla(38,52%,50%,0.5)] hover:scale-[1.02] transition-all duration-500"
+          >
+            Request a Flight
+          </a>
+          <a
+            href="#empty-legs"
+            className="px-9 py-3.5 luxury-border luxury-border-hover text-foreground/60 hover:text-foreground/90 text-[9px] tracking-[0.25em] uppercase font-light rounded-sm hover:scale-[1.02] transition-all duration-500"
+          >
+            View Empty Legs
+          </a>
+        </motion.div>
 
         {/* Search Box */}
         <FlightSearchBox />
@@ -69,7 +81,7 @@ const HeroSection = () => {
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ delay: 2.2 }}
+        transition={{ delay: 2 }}
         className="absolute bottom-6 left-1/2 -translate-x-1/2 z-10"
       >
         <div className="w-[1px] h-14 bg-gradient-to-b from-gold/30 to-transparent" />
