@@ -125,7 +125,7 @@ const FlightSearchBox = () => {
   const navigate = useNavigate();
   const [tripType, setTripType] = useState<TripType>("round-trip");
   const [legs, setLegs] = useState<Leg[]>([emptyLeg()]);
-  const [returnDate, setReturnDate] = useState("");
+  const [returnDate, setReturnDate] = useState<Date | undefined>(undefined);
   const [passengers, setPassengers] = useState("");
 
   const updateLeg = (index: number, updates: Partial<Leg>) => {
