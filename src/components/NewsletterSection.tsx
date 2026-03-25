@@ -65,6 +65,10 @@ const NewsletterSection = () => {
             </p>
 
             {/* Divider */}
+            <p className="text-[12px] text-foreground/30 font-extralight leading-[2] italic mb-8">
+              What most clients don't know about private aviation… we share.
+            </p>
+
             <div className="w-full h-[1px] bg-border/8 mb-8" />
 
             {/* Insights list */}
