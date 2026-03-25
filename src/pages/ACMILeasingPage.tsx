@@ -127,7 +127,13 @@ const ACMILeasingPage = () => {
         <div className="container mx-auto px-8 max-w-3xl">
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.8 }} className="text-center mb-16">
             <p className="text-[9px] tracking-[0.5em] uppercase text-primary/60 mb-6 font-light">Global Access</p>
-            <h2 className="text-2xl md:text-4xl font-display font-semibold text-foreground">Fly Anywhere. Without Limits.</h2>
+            <h2 className="text-2xl md:text-4xl font-display font-semibold text-foreground mb-5">Fly Anywhere. Without Limits.</h2>
+            <p className="text-[13px] text-foreground/45 font-extralight leading-[2] max-w-lg mx-auto mb-2">
+              Access 10,000+ destinations worldwide through a global network of private aircraft.
+            </p>
+            <p className="text-[11px] text-foreground/30 font-extralight leading-[2] max-w-md mx-auto">
+              From major hubs to remote locations, we deliver seamless travel where commercial aviation stops.
+            </p>
           </motion.div>
 
           <div className="grid sm:grid-cols-2 gap-4">
