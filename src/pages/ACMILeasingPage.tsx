@@ -420,6 +420,7 @@ const ACMILeasingPage = () => {
             <a href="/#cta" className="inline-block px-10 py-4 bg-gradient-gold text-primary-foreground text-[10px] tracking-[0.3em] uppercase font-medium rounded-sm hover:shadow-[0_0_30px_-8px_hsla(38,52%,50%,0.45)] transition-all duration-500">
               Speak to an Advisor
             </a>
+            <p className="text-[10px] tracking-[0.3em] uppercase text-foreground/25 font-extralight mt-6">Typical Response Time: Under 30 minutes</p>
           </motion.div>
         </div>
       </section>
