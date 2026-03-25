@@ -575,6 +575,10 @@ const ACMILeasingPage = () => {
               Request a Flight Estimate
             </a>
           </motion.div>
+
+          <p className="text-center text-[10px] tracking-[0.2em] text-foreground/25 font-extralight mt-6">
+            6,000+ aircraft • 40,000 airports • 24/7 global coverage
+          </p>
         </div>
       </section>
 
