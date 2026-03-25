@@ -26,7 +26,6 @@ serve(async (req) => {
     const params = new URLSearchParams({
       page,
       page_size: limit,
-      ordering: '-from_date_utc',
     });
 
     if (region && region !== 'All') {
@@ -42,22 +41,29 @@ serve(async (req) => {
       }
     }
 
-    const response = await fetch(
-      `${AVIAPAGES_BASE}/api/availabilities/?${params.toString()}`,
-      {
-        headers: {
-          'Authorization': `Token ${apiKey}`,
-          'Accept': 'application/json',
-        },
-      }
-    );
+    const apiUrl = `${AVIAPAGES_BASE}/api/availabilities/?${params.toString()}`;
+    console.log(`[empty-legs] Requesting: ${apiUrl}`);
+
+    const response = await fetch(apiUrl, {
+      headers: {
+        'Authorization': `Token ${apiKey}`,
+        'Accept': 'application/json',
+      },
+    });
+
+    const responseText = await response.text();
+    console.log(`[empty-legs] Status: ${response.status}`);
+    console.log(`[empty-legs] Response preview: ${responseText.substring(0, 500)}`);
 
     if (!response.ok) {
-      const errorText = await response.text();
-      throw new Error(`Aviapages API error [${response.status}]: ${errorText}`);
+      console.error(`[empty-legs] API error [${response.status}]: ${responseText}`);
+      // Return empty list instead of crashing
+      return new Response(JSON.stringify({ count: 0, results: [] }), {
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      });
     }
 
-    const data = await response.json();
+    const data = JSON.parse(responseText);
 
     const normalized = {
       count: data.count || 0,
@@ -65,8 +71,8 @@ serve(async (req) => {
         id: leg.id || leg.availability_id || Math.random(),
         aircraft_type: leg.aircraft_type || leg.aircraft?.type || 'Private Jet',
         company: leg.company || leg.operator?.name || '',
-        from_date: leg.from_date_utc || leg.from_date || '',
-        to_date: leg.to_date_utc || leg.to_date || '',
+        from_date: leg.from_date || leg.from_date_utc || '',
+        to_date: leg.to_date || leg.to_date_utc || '',
         price: leg.price ?? null,
         currency: leg.currency_code || leg.currency || 'USD',
         comment: leg.comment || '',
@@ -97,10 +103,9 @@ serve(async (req) => {
       headers: { ...corsHeaders, 'Content-Type': 'application/json' },
     });
   } catch (error) {
-    console.error('Empty legs error:', error);
-    const message = error instanceof Error ? error.message : 'Unknown error';
-    return new Response(JSON.stringify({ error: message }), {
-      status: 500,
+    console.error('[empty-legs] Error:', error);
+    // Return empty list on any error so the UI doesn't break
+    return new Response(JSON.stringify({ count: 0, results: [] }), {
       headers: { ...corsHeaders, 'Content-Type': 'application/json' },
     });
   }
