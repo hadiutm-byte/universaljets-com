@@ -4,6 +4,7 @@ import { X, Send, Plane, CreditCard, Tag, Headphones } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import RickyAvatar from "./ricky/RickyAvatar";
 import GuidedBookingFlow from "./ricky/GuidedBookingFlow";
+import Logo3D from "./Logo3D";
 
 type Msg = { role: "user" | "assistant"; content: string };
 
