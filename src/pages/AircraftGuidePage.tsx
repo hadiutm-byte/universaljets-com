@@ -97,6 +97,7 @@ const aircraft: Aircraft[] = [
 const AircraftGuidePage = () => {
   const [activeCategory, setActiveCategory] = useState("All");
   const [requestingAircraft, setRequestingAircraft] = useState<string | null>(null);
+  const { capture } = useCrmApi();
 
   const filtered = activeCategory === "All" ? aircraft : aircraft.filter(a => a.category === activeCategory);
 
