@@ -512,6 +512,46 @@ const ACMILeasingPage = () => {
         </div>
       </section>
 
+      {/* How Pricing Works */}
+      <section className="py-20 md:py-28 relative">
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[hsl(228,22%,4.5%)] to-transparent pointer-events-none" />
+        <div className="container mx-auto px-8 relative z-10 max-w-3xl">
+          <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.8 }} className="text-center mb-16">
+            <p className="text-[9px] tracking-[0.5em] uppercase text-primary/60 mb-6 font-light">Pricing Intelligence</p>
+            <h2 className="text-2xl md:text-4xl font-display font-semibold text-foreground mb-5">How Private Jet Pricing Works</h2>
+            <p className="text-[13px] text-foreground/45 font-extralight leading-[2] max-w-lg mx-auto">
+              More than just hourly rates.
+            </p>
+          </motion.div>
+
+          <div className="space-y-4">
+            {[
+              { title: "Aircraft Positioning", desc: "Where the aircraft starts and ends determines a significant portion of the cost. We optimize routing to reduce empty repositioning." },
+              { title: "Aircraft Category & Availability", desc: "Light, midsize, heavy, or VIP airliner — pricing varies by type, demand, and real-time availability across operators." },
+              { title: "Seasonal & Event Demand", desc: "Peak periods like Hajj, F1, and holiday seasons drive prices up. Early planning and broker access unlock better rates." },
+              { title: "Empty Leg Opportunities", desc: "One-way repositioning flights at up to 75% lower cost. We actively match clients to available empty legs." },
+              { title: "Route Complexity", desc: "Overflight permits, fuel stops, landing fees, and ground handling all factor in. We handle the full cost structure transparently." },
+            ].map((item, i) => (
+              <motion.div key={i} initial={{ opacity: 0, x: -20 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.08, duration: 0.6 }}
+                className="flex gap-5 p-5 rounded-lg border border-border/20 bg-card/20 backdrop-blur-sm group hover:border-primary/15 transition-all duration-500"
+              >
+                <div className="w-1 rounded-full bg-primary/20 group-hover:bg-primary/40 transition-colors duration-500 flex-shrink-0" />
+                <div>
+                  <h3 className="font-display text-[14px] font-medium text-foreground mb-2 group-hover:text-primary/80 transition-colors duration-500">{item.title}</h3>
+                  <p className="text-[11px] text-foreground/35 font-extralight leading-[1.9]">{item.desc}</p>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+
+          <motion.p initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} transition={{ delay: 0.4, duration: 0.8 }}
+            className="text-center text-[11px] tracking-[0.3em] uppercase text-foreground/25 font-extralight mt-14 italic"
+          >
+            Transparent pricing. No hidden fees. Market-driven value.
+          </motion.p>
+        </div>
+      </section>
+
       {/* Immediate Assistance CTA */}
       <section className="py-16 md:py-24">
         <div className="container mx-auto px-8 max-w-xl">
