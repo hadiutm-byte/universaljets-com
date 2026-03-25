@@ -1,10 +1,11 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import { MapPin, Calendar, Users, ArrowRight, Loader2, RotateCcw, Plus, X } from "lucide-react";
+import { MapPin, Calendar, Users, ArrowRight, ArrowLeftRight, RotateCcw, Plus, X } from "lucide-react";
 import { format } from "date-fns";
 import { useAirportSearch, type Airport } from "@/hooks/useAviapages";
 import DateTimePicker from "@/components/flight-search/DateTimePicker";
+import AirportField from "@/components/flight-search/AirportField";
 
 type TripType = "one-way" | "round-trip" | "multi-city";
 
@@ -29,97 +30,18 @@ const tripTabs: { value: TripType; label: string }[] = [
   { value: "multi-city", label: "Multi-City" },
 ];
 
-/* ─── Airport Dropdown ─── */
-const AirportDropdown = ({
-  airports, loading, onSelect,
-}: {
-  airports?: Airport[];
-  loading: boolean;
-  onSelect: (a: Airport) => void;
-}) => (
-  <div className="absolute top-full left-0 right-0 mt-1 glass-strong rounded-lg overflow-hidden z-50 max-h-48 overflow-y-auto">
-    {loading && (
-      <div className="px-4 py-3 flex items-center gap-2 text-[11px] text-muted-foreground">
-        <Loader2 size={12} className="animate-spin" /> Searching...
-      </div>
-    )}
-    {!loading && airports?.length === 0 && (
-      <div className="px-4 py-3 text-[11px] text-muted-foreground font-light">No airports found</div>
-    )}
-    {airports?.map((airport) => (
-      <button
-        key={airport.id}
-        onClick={() => onSelect(airport)}
-        className="w-full px-4 py-2.5 text-left hover:bg-white/[0.04] transition-colors border-b border-white/[0.03] last:border-0"
-      >
-        <span className="text-[12px] text-foreground/90 font-light">{airport.city}</span>
-        <span className="text-[10px] text-muted-foreground ml-2">
-          {airport.icao || airport.iata} · {airport.name}
-        </span>
-      </button>
-    ))}
-  </div>
+/* ─── Swap Button ─── */
+const SwapButton = ({ onClick }: { onClick: () => void }) => (
+  <motion.button
+    onClick={onClick}
+    whileHover={{ scale: 1.15, rotate: 180 }}
+    whileTap={{ scale: 0.9 }}
+    transition={{ type: "spring", stiffness: 400, damping: 15 }}
+    className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-10 w-8 h-8 rounded-full bg-white/[0.06] border border-white/[0.1] backdrop-blur-sm flex items-center justify-center text-foreground/40 hover:text-primary hover:border-primary/30 hover:bg-primary/[0.08] transition-colors duration-300 cursor-pointer hidden md:flex"
+  >
+    <ArrowLeftRight size={12} strokeWidth={1.5} />
+  </motion.button>
 );
-
-/* ─── Airport Input Field ─── */
-const AirportField = ({
-  label, icon: Icon, value, onChangeValue, query, onChangeQuery, selectedAirport, onSelect, onClearSelection,
-}: {
-  label: string;
-  icon: typeof MapPin;
-  value: string;
-  onChangeValue: (v: string) => void;
-  query: string;
-  onChangeQuery: (v: string) => void;
-  selectedAirport: Airport | null;
-  onSelect: (a: Airport) => void;
-  onClearSelection: () => void;
-}) => {
-  const ref = useRef<HTMLDivElement>(null);
-  const [showDropdown, setShowDropdown] = useState(false);
-  const { data: airports, isLoading } = useAirportSearch(query);
-
-  useEffect(() => {
-    const handler = (e: MouseEvent) => {
-      if (ref.current && !ref.current.contains(e.target as Node)) setShowDropdown(false);
-    };
-    document.addEventListener("mousedown", handler);
-    return () => document.removeEventListener("mousedown", handler);
-  }, []);
-
-  return (
-    <div className="md:border-r md:border-r-[hsla(0,0%,100%,0.04)] relative" ref={ref}>
-      <div className="px-4 py-4">
-        <label className="flex items-center gap-1.5 text-[7.5px] tracking-[0.35em] uppercase text-primary/55 mb-2 font-light">
-          <Icon size={8} strokeWidth={1.5} /> {label}
-        </label>
-        <input
-          type="text"
-          value={value}
-          onChange={(e) => {
-            onChangeValue(e.target.value);
-            onChangeQuery(e.target.value);
-            onClearSelection();
-            setShowDropdown(true);
-          }}
-          onFocus={() => query.length >= 2 && setShowDropdown(true)}
-          placeholder="City or airport"
-          className="w-full bg-transparent text-[13px] text-foreground/90 placeholder:text-foreground/20 font-light focus:outline-none tracking-wide"
-        />
-      </div>
-      {showDropdown && query.length >= 2 && (
-        <AirportDropdown
-          airports={airports}
-          loading={isLoading}
-          onSelect={(a) => {
-            onSelect(a);
-            setShowDropdown(false);
-          }}
-        />
-      )}
-    </div>
-  );
-};
 
 const FlightSearchBox = () => {
   const navigate = useNavigate();
@@ -132,6 +54,24 @@ const FlightSearchBox = () => {
     setLegs((prev) => prev.map((l, i) => (i === index ? { ...l, ...updates } : l)));
   };
 
+  const swapRoute = (index: number) => {
+    setLegs((prev) =>
+      prev.map((l, i) =>
+        i === index
+          ? {
+              ...l,
+              from: l.to,
+              to: l.from,
+              fromQuery: l.toQuery,
+              toQuery: l.fromQuery,
+              selectedFrom: l.selectedTo,
+              selectedTo: l.selectedFrom,
+            }
+          : l
+      )
+    );
+  };
+
   const addLeg = () => {
     if (legs.length < 5) setLegs((prev) => [...prev, emptyLeg()]);
   };
@@ -140,7 +80,6 @@ const FlightSearchBox = () => {
     if (legs.length > 2) setLegs((prev) => prev.filter((_, i) => i !== index));
   };
 
-  // Reset legs when switching trip type
   useEffect(() => {
     if (tripType === "multi-city") {
       if (legs.length < 2) setLegs([emptyLeg(), emptyLeg()]);
@@ -219,82 +158,86 @@ const FlightSearchBox = () => {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.25 }}
-              className="grid grid-cols-2 md:grid-cols-[1fr_1fr_0.9fr_0.9fr_0.6fr_auto] gap-0"
             >
-              {/* From */}
-              <AirportField
-                label="From"
-                icon={MapPin}
-                value={primaryLeg.from}
-                onChangeValue={(v) => updateLeg(0, { from: v })}
-                query={primaryLeg.fromQuery}
-                onChangeQuery={(v) => updateLeg(0, { fromQuery: v })}
-                selectedAirport={primaryLeg.selectedFrom}
-                onSelect={(a) => updateLeg(0, { from: `${a.city} (${a.icao || a.iata})`, selectedFrom: a })}
-                onClearSelection={() => updateLeg(0, { selectedFrom: null })}
-              />
-
-              {/* To */}
-              <AirportField
-                label="To"
-                icon={MapPin}
-                value={primaryLeg.to}
-                onChangeValue={(v) => updateLeg(0, { to: v })}
-                query={primaryLeg.toQuery}
-                onChangeQuery={(v) => updateLeg(0, { toQuery: v })}
-                selectedAirport={primaryLeg.selectedTo}
-                onSelect={(a) => updateLeg(0, { to: `${a.city} (${a.icao || a.iata})`, selectedTo: a })}
-                onClearSelection={() => updateLeg(0, { selectedTo: null })}
-              />
-
-              {/* Departure Date */}
-              <DateTimePicker
-                label="Departure"
-                icon={Calendar}
-                value={primaryLeg.date}
-                onChange={(d) => updateLeg(0, { date: d })}
-                placeholder="Select date"
-              />
-
-              {/* Return Date */}
-              <DateTimePicker
-                label="Return"
-                icon={RotateCcw}
-                value={returnDate}
-                onChange={setReturnDate}
-                disabled={tripType !== "round-trip"}
-                placeholder="Select date"
-              />
-
-              {/* Passengers */}
-              <div>
-                <div className="px-4 py-4">
-                  <label className="flex items-center gap-1.5 text-[7.5px] tracking-[0.35em] uppercase text-primary/55 mb-2 font-light">
-                    <Users size={8} strokeWidth={1.5} /> Guests
-                  </label>
-                  <select
-                    value={passengers}
-                    onChange={(e) => setPassengers(e.target.value)}
-                    className="w-full bg-transparent text-[13px] text-foreground/90 font-light focus:outline-none appearance-none cursor-pointer tracking-wide"
-                  >
-                    <option value="" className="bg-[hsl(225,28%,10%)] text-foreground">Select</option>
-                    {[...Array(16)].map((_, i) => (
-                      <option key={i + 1} value={i + 1} className="bg-[hsl(225,28%,10%)] text-foreground">{i + 1}</option>
-                    ))}
-                  </select>
+              <div className="grid grid-cols-2 md:grid-cols-[1fr_1fr_0.85fr_0.85fr_0.5fr_auto] gap-0">
+                {/* From + To with swap */}
+                <div className="col-span-2 md:col-span-2 relative grid grid-cols-2">
+                  <AirportField
+                    label="From"
+                    icon={MapPin}
+                    value={primaryLeg.from}
+                    onChangeValue={(v) => updateLeg(0, { from: v })}
+                    query={primaryLeg.fromQuery}
+                    onChangeQuery={(v) => updateLeg(0, { fromQuery: v })}
+                    selectedAirport={primaryLeg.selectedFrom}
+                    onSelect={(a) => updateLeg(0, { from: `${a.city} (${a.icao || a.iata})`, selectedFrom: a })}
+                    onClearSelection={() => updateLeg(0, { selectedFrom: null })}
+                  />
+                  <SwapButton onClick={() => swapRoute(0)} />
+                  <AirportField
+                    label="To"
+                    icon={MapPin}
+                    value={primaryLeg.to}
+                    onChangeValue={(v) => updateLeg(0, { to: v })}
+                    query={primaryLeg.toQuery}
+                    onChangeQuery={(v) => updateLeg(0, { toQuery: v })}
+                    selectedAirport={primaryLeg.selectedTo}
+                    onSelect={(a) => updateLeg(0, { to: `${a.city} (${a.icao || a.iata})`, selectedTo: a })}
+                    onClearSelection={() => updateLeg(0, { selectedTo: null })}
+                  />
                 </div>
-              </div>
 
-              {/* Search Button */}
-              <div className="col-span-2 md:col-span-1 flex items-center px-2.5 py-2.5">
-                <button
-                  onClick={handleSearch}
-                  disabled={!canSearch}
-                  className="w-full md:w-[52px] h-[52px] bg-gradient-gold rounded-xl flex items-center justify-center gap-2 hover:shadow-[0_0_30px_-5px_hsla(38,52%,50%,0.5)] transition-all duration-500 hover:scale-105 active:scale-100 disabled:opacity-30 disabled:cursor-not-allowed disabled:hover:scale-100 disabled:hover:shadow-none cursor-pointer"
-                >
-                  <ArrowRight size={17} className="text-primary-foreground" strokeWidth={2} />
-                  <span className="md:hidden text-primary-foreground text-[10px] tracking-[0.2em] uppercase font-medium">Search</span>
-                </button>
+                {/* Departure */}
+                <DateTimePicker
+                  label="Departure"
+                  icon={Calendar}
+                  value={primaryLeg.date}
+                  onChange={(d) => updateLeg(0, { date: d })}
+                  placeholder="Select date"
+                />
+
+                {/* Return */}
+                <DateTimePicker
+                  label="Return"
+                  icon={RotateCcw}
+                  value={returnDate}
+                  onChange={setReturnDate}
+                  disabled={tripType !== "round-trip"}
+                  placeholder="Select date"
+                />
+
+                {/* Passengers */}
+                <div className="md:border-r md:border-r-[hsla(0,0%,100%,0.04)]">
+                  <div className="px-4 py-4">
+                    <label className="flex items-center gap-1.5 text-[7.5px] tracking-[0.35em] uppercase text-primary/55 mb-2 font-light">
+                      <Users size={8} strokeWidth={1.5} /> Guests
+                    </label>
+                    <select
+                      value={passengers}
+                      onChange={(e) => setPassengers(e.target.value)}
+                      className="w-full bg-transparent text-[13px] text-foreground/90 font-light focus:outline-none appearance-none cursor-pointer tracking-wide"
+                    >
+                      <option value="" className="bg-[hsl(var(--background))]">Select</option>
+                      {[...Array(16)].map((_, i) => (
+                        <option key={i + 1} value={i + 1} className="bg-[hsl(var(--background))]">{i + 1}</option>
+                      ))}
+                    </select>
+                  </div>
+                </div>
+
+                {/* Search Button */}
+                <div className="col-span-2 md:col-span-1 flex items-center px-2.5 py-2.5">
+                  <motion.button
+                    onClick={handleSearch}
+                    disabled={!canSearch}
+                    whileHover={canSearch ? { scale: 1.05 } : {}}
+                    whileTap={canSearch ? { scale: 0.97 } : {}}
+                    className="w-full md:w-[52px] h-[52px] bg-gradient-gold rounded-xl flex items-center justify-center gap-2 hover:shadow-[0_0_30px_-5px_hsla(38,52%,50%,0.5)] transition-all duration-500 disabled:opacity-30 disabled:cursor-not-allowed disabled:hover:shadow-none cursor-pointer"
+                  >
+                    <ArrowRight size={17} className="text-primary-foreground" strokeWidth={2} />
+                    <span className="md:hidden text-primary-foreground text-[10px] tracking-[0.2em] uppercase font-medium">Search</span>
+                  </motion.button>
+                </div>
               </div>
             </motion.div>
           ) : (
@@ -319,14 +262,14 @@ const FlightSearchBox = () => {
                   >
                     <div className="flex items-center gap-0 rounded-xl bg-white/[0.02] border border-white/[0.04]">
                       {/* Leg number */}
-                      <div className="flex-shrink-0 w-10 flex items-center justify-center">
+                      <div className="flex-shrink-0 w-10 hidden md:flex items-center justify-center">
                         <span className="text-[9px] tracking-[0.2em] text-primary/25 font-light">
                           {String(idx + 1).padStart(2, "0")}
                         </span>
                       </div>
 
-                      {/* From */}
-                      <div className="flex-1 min-w-0">
+                      {/* From + Swap + To */}
+                      <div className="flex-1 min-w-0 relative grid grid-cols-2">
                         <AirportField
                           label="From"
                           icon={MapPin}
@@ -337,16 +280,9 @@ const FlightSearchBox = () => {
                           selectedAirport={leg.selectedFrom}
                           onSelect={(a) => updateLeg(idx, { from: `${a.city} (${a.icao || a.iata})`, selectedFrom: a })}
                           onClearSelection={() => updateLeg(idx, { selectedFrom: null })}
+                          compact
                         />
-                      </div>
-
-                      {/* Arrow */}
-                      <div className="flex-shrink-0 px-1">
-                        <ArrowRight size={10} className="text-primary/20" strokeWidth={1.5} />
-                      </div>
-
-                      {/* To */}
-                      <div className="flex-1 min-w-0">
+                        <SwapButton onClick={() => swapRoute(idx)} />
                         <AirportField
                           label="To"
                           icon={MapPin}
@@ -357,11 +293,12 @@ const FlightSearchBox = () => {
                           selectedAirport={leg.selectedTo}
                           onSelect={(a) => updateLeg(idx, { to: `${a.city} (${a.icao || a.iata})`, selectedTo: a })}
                           onClearSelection={() => updateLeg(idx, { selectedTo: null })}
+                          compact
                         />
                       </div>
 
                       {/* Divider */}
-                      <div className="flex-shrink-0 w-px h-8 bg-white/[0.06]" />
+                      <div className="flex-shrink-0 w-px h-8 bg-white/[0.06] hidden md:block" />
 
                       {/* Date & Time */}
                       <div className="flex-shrink-0">
@@ -377,12 +314,14 @@ const FlightSearchBox = () => {
                       {/* Remove */}
                       <div className="flex-shrink-0 w-9 flex items-center justify-center">
                         {legs.length > 2 ? (
-                          <button
+                          <motion.button
                             onClick={() => removeLeg(idx)}
-                            className="w-7 h-7 rounded-full flex items-center justify-center text-foreground/15 hover:text-foreground/50 hover:bg-white/[0.04] transition-all cursor-pointer"
+                            whileHover={{ scale: 1.1 }}
+                            whileTap={{ scale: 0.9 }}
+                            className="w-7 h-7 rounded-full flex items-center justify-center text-foreground/15 hover:text-foreground/50 hover:bg-white/[0.04] transition-colors cursor-pointer"
                           >
                             <X size={11} strokeWidth={1.5} />
-                          </button>
+                          </motion.button>
                         ) : <div className="w-7" />}
                       </div>
                     </div>
@@ -394,12 +333,14 @@ const FlightSearchBox = () => {
               <div className="flex items-center justify-between gap-3 pt-2 px-1">
                 <div className="flex items-center gap-4">
                   {legs.length < 5 && (
-                    <button
+                    <motion.button
                       onClick={addLeg}
+                      whileHover={{ scale: 1.03 }}
+                      whileTap={{ scale: 0.97 }}
                       className="flex items-center gap-1.5 px-3 py-1.5 text-[8px] tracking-[0.2em] uppercase text-primary/40 hover:text-primary/70 font-light border border-white/[0.06] hover:border-primary/20 rounded-lg transition-all duration-300 cursor-pointer"
                     >
                       <Plus size={9} strokeWidth={1.5} /> Add Flight
-                    </button>
+                    </motion.button>
                   )}
                   <div className="flex items-center gap-2">
                     <label className="text-[7px] tracking-[0.3em] uppercase text-primary/40 font-light">
@@ -418,14 +359,16 @@ const FlightSearchBox = () => {
                   </div>
                 </div>
 
-                <button
+                <motion.button
                   onClick={handleSearch}
                   disabled={!canSearch}
-                  className="flex items-center gap-2 px-6 py-2.5 bg-gradient-gold rounded-xl text-primary-foreground text-[9px] tracking-[0.2em] uppercase font-medium hover:shadow-[0_0_30px_-5px_hsla(38,52%,50%,0.5)] transition-all duration-500 hover:scale-105 disabled:opacity-30 disabled:cursor-not-allowed cursor-pointer"
+                  whileHover={canSearch ? { scale: 1.05 } : {}}
+                  whileTap={canSearch ? { scale: 0.97 } : {}}
+                  className="flex items-center gap-2 px-6 py-2.5 bg-gradient-gold rounded-xl text-primary-foreground text-[9px] tracking-[0.2em] uppercase font-medium hover:shadow-[0_0_30px_-5px_hsla(38,52%,50%,0.5)] transition-all duration-500 disabled:opacity-30 disabled:cursor-not-allowed cursor-pointer"
                 >
                   <ArrowRight size={13} strokeWidth={2} />
                   Search
-                </button>
+                </motion.button>
               </div>
             </motion.div>
           )}
