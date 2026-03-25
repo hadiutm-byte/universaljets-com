@@ -324,7 +324,7 @@ html {
   width: 4px;
 }
 ::-webkit-scrollbar-track {
-  background: hsl(225, 33%, 7%);
+  background: hsl(222, 22%, 10%);
 }
 ::-webkit-scrollbar-thumb {
   background: hsla(38, 52%, 50%, 0.15);

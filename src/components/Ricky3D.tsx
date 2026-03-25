@@ -286,7 +286,7 @@ const Ricky3D = () => {
                       className="flex items-center gap-2 px-4 py-2.5 rounded-xl glass-panel border border-white/[0.06] hover:border-primary/20 transition-all duration-300 cursor-pointer group"
                     >
                       <action.icon size={12} className="text-primary/50 group-hover:text-primary/80 transition-colors" strokeWidth={1.3} />
-                      <span className="text-[10px] tracking-[0.12em] uppercase text-foreground/40 group-hover:text-foreground/70 font-light transition-colors">
+                      <span className="text-[10px] tracking-[0.12em] uppercase text-foreground/55 group-hover:text-foreground/85 font-light transition-colors">
                         {action.label}
                       </span>
                     </motion.button>
