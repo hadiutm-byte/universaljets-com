@@ -2,6 +2,7 @@ import { useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import heroImage from "@/assets/hero-jet-v3.jpg";
 import FlightSearchBox from "./FlightSearchBox";
+import Logo3D from "./Logo3D";
 import { useMouseParallax } from "@/hooks/useScrollEffects";
 
 const HeroSection = () => {
