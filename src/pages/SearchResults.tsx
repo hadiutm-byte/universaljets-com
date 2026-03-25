@@ -9,7 +9,6 @@ import { getAircraftImage, getAircraftCategory } from "@/lib/aircraftImages";
 
 interface AircraftResult {
   id: number;
-  tail_number?: string;
   aircraft_type: string;
   year_of_production?: number;
   max_passengers?: number;
@@ -167,7 +166,7 @@ const SearchResults = () => {
               {results.map((result, i) => {
                 const category = getAircraftCategory(result.aircraft_type);
                 const fallbackImage = getAircraftImage(result.aircraft_type);
-                const displayImage = result.images.exterior || result.images.notail || fallbackImage;
+                const displayImage = result.images.notail || result.images.exterior || fallbackImage;
 
                 return (
                   <motion.div
@@ -197,7 +196,7 @@ const SearchResults = () => {
                       {/* Certified badge */}
                       {result.operator.certified && (
                         <div className="absolute top-4 right-4">
-                          <span className="px-2.5 py-1 rounded-full text-[8px] tracking-[0.1em] uppercase font-medium bg-emerald-500/90 text-white flex items-center gap-1">
+                          <span className="px-2.5 py-1 rounded-full text-[8px] tracking-[0.1em] uppercase font-medium bg-primary/90 text-primary-foreground flex items-center gap-1">
                             <Shield size={8} /> Verified
                           </span>
                         </div>
@@ -206,9 +205,6 @@ const SearchResults = () => {
                       {/* Aircraft name overlay */}
                       <div className="absolute bottom-4 left-4 right-4">
                         <h3 className="font-display text-xl text-white font-semibold drop-shadow-lg">{result.aircraft_type}</h3>
-                        {result.tail_number && (
-                          <p className="text-[10px] text-white/70 font-light mt-0.5">{result.tail_number}</p>
-                        )}
                       </div>
                     </div>
 
@@ -275,7 +271,7 @@ const SearchResults = () => {
 
                       {/* CTA */}
                       <a
-                        href={`https://wa.me/447888999944?text=${encodeURIComponent(`Hello, I'm interested in chartering a ${result.aircraft_type}${result.tail_number ? ` (${result.tail_number})` : ''} from ${fromLabel} to ${toLabel}${date ? ` on ${date}` : ''}.`)}`}
+                        href={`https://wa.me/447888999944?text=${encodeURIComponent(`Hello, I'm interested in chartering a ${result.aircraft_type} from ${fromLabel} to ${toLabel}${date ? ` on ${date}` : ''}.`)}`}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="block w-full text-center btn-luxury px-5 py-3 text-[9px] tracking-[0.2em] uppercase font-medium rounded-xl"

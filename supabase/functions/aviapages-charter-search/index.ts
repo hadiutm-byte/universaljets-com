@@ -81,7 +81,6 @@ serve(async (req) => {
 
         results.push({
           id: aircraft.id,
-          tail_number: aircraft.tail_number || null,
           aircraft_type: aircraft.ac_type || 'Private Jet',
           year_of_production: aircraft.year_of_production || null,
           max_passengers: aircraft.max_passengers || null,
