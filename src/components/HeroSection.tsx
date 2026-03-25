@@ -23,18 +23,18 @@ const HeroSection = () => {
       ref={ref}
       className="relative min-h-screen w-full overflow-hidden flex flex-col items-center justify-center"
     >
-      {/* Cinematic video background with slow zoom */}
+      {/* Cinematic photo background with Ken Burns motion */}
       <motion.div
         className="absolute inset-0 pointer-events-none"
         style={{ scale: bgScale, opacity: bgOpacity }}
       >
-        <motion.div style={{ x: mouse.x * 0.3, y: mouse.y * 0.3, scale: imgZoom }} className="h-full w-full">
+        <motion.div style={{ x: mouse.x * 0.3, y: mouse.y * 0.3 }} className="h-full w-full">
           <img
             src={heroJet}
             alt="Private jet flying above clouds at golden hour"
             width={1920}
             height={1080}
-            className="h-full w-full object-cover"
+            className="h-full w-full object-cover animate-hero-ken-burns"
           />
         </motion.div>
       </motion.div>
