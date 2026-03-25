@@ -433,10 +433,12 @@ const ACMILeasingPage = () => {
 
           <div className="grid sm:grid-cols-2 gap-4 mb-10">
             {[
-              "No aircraft ownership costs",
-              "Predictable pricing",
-              "Access to multiple aircraft types",
-              "Priority during peak demand",
+              "Unlimited confirmed charter requests",
+              "Priority aircraft access worldwide",
+              "24-hour guaranteed availability",
+              "Dedicated personal aviation manager",
+              "Private concierge & VIP handling",
+              "No repositioning or hidden costs",
             ].map((item, i) => (
               <motion.div key={i} initial={{ opacity: 0, x: i % 2 === 0 ? -20 : 20 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.06, duration: 0.6 }}
                 className="flex items-center gap-4 p-4 rounded-lg border border-border/20 bg-card/20 backdrop-blur-sm"
