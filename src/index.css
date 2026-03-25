@@ -6,23 +6,24 @@
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 0 0% 4%;
+    /* BALANCED LUXURY PALETTE */
+    --background: 0 0% 97%;        /* #F7F7F7 */
+    --foreground: 0 0% 10%;        /* #1A1A1A */
 
-    --card: 0 0% 100%;
-    --card-foreground: 0 0% 4%;
+    --card: 0 0% 100%;             /* #FFFFFF */
+    --card-foreground: 0 0% 10%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 0 0% 4%;
+    --popover-foreground: 0 0% 10%;
 
-    --primary: 38 52% 53%;
+    --primary: 38 52% 53%;         /* #C8A96A */
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 0 0% 97%;
-    --secondary-foreground: 0 0% 4%;
+    --secondary: 0 0% 100%;        /* White sections */
+    --secondary-foreground: 0 0% 10%;
 
-    --muted: 0 0% 95%;
-    --muted-foreground: 0 0% 33%;
+    --muted: 0 0% 93%;             /* #ECECEC soft gray */
+    --muted-foreground: 0 0% 42%;  /* #6B6B6B — readable secondary text */
 
     --accent: 38 52% 53%;
     --accent-foreground: 0 0% 100%;
@@ -30,20 +31,18 @@
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 98%;
 
-    --border: 0 0% 90%;
+    --border: 0 0% 0% / 0.08;
     --input: 0 0% 92%;
     --ring: 38 52% 53%;
 
     --radius: 0.75rem;
 
     --gold: 38 52% 53%;
-    --gold-light: 38 42% 65%;
-    --gold-dark: 38 58% 38%;
-    --charcoal: 0 0% 11%;
-    --midnight: 0 0% 7%;
-
-    /* Section alternation tokens */
-    --section-alt-bg: 0 0% 97%;
+    --gold-light: 38 42% 65%;     /* #E0C48A */
+    --gold-dark: 38 58% 38%;     /* #A8894F */
+    --charcoal: 240 2% 12%;      /* #1C1C1E */
+    --charcoal-deep: 240 3% 17%; /* #2A2A2D */
+    --midnight: 240 3% 24%;      /* #3A3A3F */
 
     --sidebar-background: 0 0% 98%;
     --sidebar-foreground: 0 0% 10%;
@@ -63,7 +62,7 @@
   body {
     @apply text-foreground font-body antialiased;
     overflow-x: hidden;
-    background: hsl(0, 0%, 100%);
+    background: hsl(0, 0%, 97%);
     min-height: 100vh;
   }
   h1, h2, h3, h4, h5, h6 {
@@ -82,9 +81,35 @@
   }
 
   /* === SECTION ALTERNATION === */
-  .section-alt {
+  .section-white {
+    background: hsl(0, 0%, 100%);
+  }
+
+  .section-light {
     background: hsl(0, 0%, 97%);
   }
+
+  .section-alt {
+    background: hsl(0, 0%, 93%);
+  }
+
+  /* === DARK CONTRAST SECTIONS (limited use) === */
+  .section-dark {
+    background: hsl(240, 2%, 12%);
+    color: hsl(0, 0%, 100%);
+  }
+
+  .section-dark h1,
+  .section-dark h2,
+  .section-dark h3,
+  .section-dark h4,
+  .section-dark p,
+  .section-dark span {
+    color: inherit;
+  }
+
+  .section-dark .text-foreground { color: hsl(0, 0%, 100%); }
+  .section-dark .text-muted-foreground { color: hsl(0, 0%, 65%); }
 
   /* === GLASSMORPHISM SYSTEM === */
   .glass {
@@ -102,13 +127,13 @@
   }
 
   .glass-panel {
-    background: hsla(0, 0%, 100%, 0.8);
+    background: hsla(0, 0%, 100%, 0.85);
     backdrop-filter: blur(20px) saturate(1.4);
     -webkit-backdrop-filter: blur(20px) saturate(1.4);
     border: 1px solid hsla(0, 0%, 0%, 0.06);
     box-shadow:
       0 0 0 0.5px hsla(0, 0%, 0%, 0.03) inset,
-      0 20px 60px -20px hsla(0, 0%, 0%, 0.06),
+      0 20px 60px -20px hsla(0, 0%, 0%, 0.08),
       0 0 80px -40px hsla(38, 52%, 53%, 0.03);
     transition: border-color 0.5s ease, box-shadow 0.5s ease, transform 0.4s ease;
   }
@@ -117,22 +142,22 @@
     border-color: hsla(38, 52%, 53%, 0.2);
     box-shadow:
       0 0 0 0.5px hsla(38, 52%, 53%, 0.06) inset,
-      0 25px 70px -20px hsla(0, 0%, 0%, 0.1),
+      0 25px 70px -20px hsla(0, 0%, 0%, 0.12),
       0 0 100px -30px hsla(38, 52%, 53%, 0.06);
   }
 
   .glass-search {
-    background: hsla(0, 0%, 100%, 0.9);
+    background: hsla(0, 0%, 100%, 0.92);
     backdrop-filter: blur(40px) saturate(1.4);
     -webkit-backdrop-filter: blur(40px) saturate(1.4);
     border: 1px solid hsla(38, 52%, 53%, 0.2);
-    box-shadow: 0 0 60px -20px hsla(38, 52%, 53%, 0.06), 0 25px 50px -12px hsla(0, 0%, 0%, 0.04), inset 0 1px 0 0 hsla(0, 0%, 100%, 0.5);
+    box-shadow: 0 0 60px -20px hsla(38, 52%, 53%, 0.06), 0 25px 50px -12px hsla(0, 0%, 0%, 0.06), inset 0 1px 0 0 hsla(0, 0%, 100%, 0.5);
     transition: box-shadow 0.6s ease, border-color 0.6s ease;
   }
 
   .glass-search:hover {
     border-color: hsla(38, 52%, 53%, 0.35);
-    box-shadow: 0 0 70px -15px hsla(38, 52%, 53%, 0.1), 0 25px 50px -12px hsla(0, 0%, 0%, 0.08), inset 0 1px 0 0 hsla(0, 0%, 100%, 0.6);
+    box-shadow: 0 0 70px -15px hsla(38, 52%, 53%, 0.1), 0 25px 50px -12px hsla(0, 0%, 0%, 0.1), inset 0 1px 0 0 hsla(0, 0%, 100%, 0.6);
   }
 
   /* === GLOW SYSTEM === */
@@ -154,7 +179,7 @@
 
   /* === LAYOUT === */
   .section-padding {
-    @apply py-28 md:py-36 lg:py-44;
+    @apply py-24 md:py-32 lg:py-40;
   }
 
   .luxury-border {
@@ -272,27 +297,9 @@ html {
   background: radial-gradient(ellipse, hsla(0, 0%, 100%, 0.5), transparent 70%);
   pointer-events: none;
 }
-.hero-cloud-1 {
-  width: 120%;
-  height: 40%;
-  top: 50%;
-  left: -10%;
-  animation: cloud-drift-1 25s ease-in-out infinite;
-}
-.hero-cloud-2 {
-  width: 80%;
-  height: 30%;
-  top: 35%;
-  left: 20%;
-  animation: cloud-drift-2 32s ease-in-out infinite;
-}
-.hero-cloud-3 {
-  width: 100%;
-  height: 25%;
-  top: 60%;
-  left: -5%;
-  animation: cloud-drift-3 28s ease-in-out infinite;
-}
+.hero-cloud-1 { width: 120%; height: 40%; top: 50%; left: -10%; animation: cloud-drift-1 25s ease-in-out infinite; }
+.hero-cloud-2 { width: 80%; height: 30%; top: 35%; left: 20%; animation: cloud-drift-2 32s ease-in-out infinite; }
+.hero-cloud-3 { width: 100%; height: 25%; top: 60%; left: -5%; animation: cloud-drift-3 28s ease-in-out infinite; }
 
 /* === AMBIENT LIGHT ANIMATION === */
 @keyframes ambient-drift {
@@ -303,56 +310,30 @@ html {
 }
 
 .ambient-light-1 {
-  position: fixed;
-  width: 60vw;
-  height: 60vh;
-  top: -10%;
-  right: -15%;
+  position: fixed; width: 60vw; height: 60vh; top: -10%; right: -15%;
   background: radial-gradient(ellipse, hsla(38, 52%, 50%, 0.04) 0%, transparent 70%);
-  animation: ambient-drift 20s ease-in-out infinite;
-  pointer-events: none;
-  z-index: 0;
+  animation: ambient-drift 20s ease-in-out infinite; pointer-events: none; z-index: 0;
 }
 
 .ambient-light-2 {
-  position: fixed;
-  width: 50vw;
-  height: 50vh;
-  bottom: -15%;
-  left: -10%;
+  position: fixed; width: 50vw; height: 50vh; bottom: -15%; left: -10%;
   background: radial-gradient(ellipse, hsla(38, 52%, 70%, 0.03) 0%, transparent 70%);
-  animation: ambient-drift 25s ease-in-out infinite reverse;
-  pointer-events: none;
-  z-index: 0;
+  animation: ambient-drift 25s ease-in-out infinite reverse; pointer-events: none; z-index: 0;
 }
 
 /* Custom scrollbar */
-::-webkit-scrollbar {
-  width: 4px;
-}
-::-webkit-scrollbar-track {
-  background: hsl(0, 0%, 97%);
-}
-::-webkit-scrollbar-thumb {
-  background: hsla(38, 52%, 50%, 0.2);
-  border-radius: 4px;
-}
-::-webkit-scrollbar-thumb:hover {
-  background: hsla(38, 52%, 50%, 0.4);
-}
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: hsl(0, 0%, 97%); }
+::-webkit-scrollbar-thumb { background: hsla(38, 52%, 50%, 0.2); border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: hsla(38, 52%, 50%, 0.4); }
 
 @keyframes scroll-logos {
   0% { transform: translateX(0); }
   100% { transform: translateX(-50%); }
 }
 
-.animate-scroll-logos {
-  animation: scroll-logos 30s linear infinite;
-}
-
-.animate-scroll-logos:hover {
-  animation-play-state: paused;
-}
+.animate-scroll-logos { animation: scroll-logos 30s linear infinite; }
+.animate-scroll-logos:hover { animation-play-state: paused; }
 
 /* === SECTION DIVIDER === */
 @keyframes divider-shimmer {
