@@ -5,6 +5,7 @@ import { MapPin, Calendar, Users, ArrowRight, Loader2 } from "lucide-react";
 import { useAirportSearch, type Airport } from "@/hooks/useAviapages";
 
 const FlightSearchBox = () => {
+  const navigate = useNavigate();
   const [from, setFrom] = useState("");
   const [to, setTo] = useState("");
   const [fromQuery, setFromQuery] = useState("");
