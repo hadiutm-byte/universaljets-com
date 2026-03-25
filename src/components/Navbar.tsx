@@ -8,7 +8,7 @@ const centerLinks = [
   { label: "Home", href: "/" },
   { label: "Charter Flights", href: "/#services" },
   { label: "Empty Legs", href: "/#empty-legs" },
-  { label: "Fleet", href: "/#fleet" },
+  { label: "Aircraft", href: "/aircraft" },
   { label: "Experience", href: "/#experience" },
   { label: "About", href: "/#why" },
   { label: "Contact", href: "/#cta" },
