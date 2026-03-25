@@ -2,20 +2,33 @@ import { useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import heroImage from "@/assets/hero-jet-v3.jpg";
 import FlightSearchBox from "./FlightSearchBox";
+import { useMouseParallax } from "@/hooks/useScrollEffects";
 
 const HeroSection = () => {
   const ref = useRef<HTMLElement>(null);
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] });
+  const mouse = useMouseParallax(0.015);
 
-  const imageY = useTransform(scrollYProgress, [0, 1], ["0%", "25%"]);
-  const imageScale = useTransform(scrollYProgress, [0, 1], [1.02, 1.2]);
+  const imageY = useTransform(scrollYProgress, [0, 1], ["0%", "30%"]);
+  const imageScale = useTransform(scrollYProgress, [0, 1], [1.05, 1.25]);
   const contentOpacity = useTransform(scrollYProgress, [0, 0.35], [1, 0]);
-  const contentY = useTransform(scrollYProgress, [0, 0.35], [0, -100]);
+  const contentY = useTransform(scrollYProgress, [0, 0.35], [0, -120]);
+  const overlayOpacity = useTransform(scrollYProgress, [0, 0.5], [0, 0.5]);
 
   return (
     <section ref={ref} className="relative min-h-screen w-full overflow-hidden flex flex-col items-center justify-center pb-10 pt-20">
-      {/* Parallax Background */}
-      <motion.div className="absolute inset-[-10%]" style={{ y: imageY, scale: imageScale }}>
+      {/* Grid overlay */}
+      <div className="grid-overlay" />
+
+      {/* Parallax Background with mouse tracking */}
+      <motion.div
+        className="absolute inset-[-15%]"
+        style={{
+          y: imageY,
+          scale: imageScale,
+          x: mouse.x * 0.5,
+        }}
+      >
         <img
           src={heroImage}
           alt="Private jet above clouds at golden hour"
@@ -23,8 +36,14 @@ const HeroSection = () => {
           width={1920}
           height={1080}
         />
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_50%_35%_at_55%_45%,_hsla(38,60%,55%,0.15)_0%,_transparent_65%)]" />
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_30%_25%_at_55%_48%,_hsla(38,50%,60%,0.08)_0%,_transparent_55%)]" />
+        {/* Cinematic light flare */}
+        <motion.div
+          className="absolute inset-0"
+          style={{ x: mouse.x * 2, y: mouse.y * 2 }}
+        >
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_50%_35%_at_55%_45%,_hsla(38,60%,55%,0.18)_0%,_transparent_65%)]" />
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_30%_25%_at_55%_48%,_hsla(38,50%,60%,0.1)_0%,_transparent_55%)]" />
+        </motion.div>
       </motion.div>
 
       {/* Cloud layers */}
@@ -35,9 +54,20 @@ const HeroSection = () => {
       </div>
 
       {/* Cinematic overlays */}
-      <div className="absolute inset-0 bg-gradient-to-b from-background/[0.85] via-background/[0.3] to-background/[0.95]" />
+      <div className="absolute inset-0 bg-gradient-to-b from-background/[0.85] via-background/[0.25] to-background/[0.95]" />
       <div className="absolute inset-0 bg-gradient-to-r from-background/60 via-transparent to-background/50" />
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_70%_50%_at_50%_45%,_transparent_20%,_hsl(var(--background)/0.7)_100%)]" />
+
+      {/* Progressive overlay on scroll */}
+      <motion.div
+        className="absolute inset-0 bg-background pointer-events-none"
+        style={{ opacity: overlayOpacity }}
+      />
+
+      {/* Horizontal scan lines — cinematic */}
+      <div className="absolute inset-0 pointer-events-none opacity-[0.03]" style={{
+        backgroundImage: "repeating-linear-gradient(0deg, transparent, transparent 2px, hsla(0,0%,100%,0.03) 2px, hsla(0,0%,100%,0.03) 4px)",
+      }} />
 
       {/* Content */}
       <motion.div
@@ -46,10 +76,10 @@ const HeroSection = () => {
       >
         {/* Gold line */}
         <motion.div
-          initial={{ opacity: 0, scaleX: 0 }}
-          animate={{ opacity: 1, scaleX: 1 }}
+          initial={{ opacity: 0, scaleY: 0 }}
+          animate={{ opacity: 1, scaleY: 1 }}
           transition={{ duration: 1.4, delay: 0.2 }}
-          className="w-20 h-[1px] bg-gradient-to-r from-transparent via-gold to-transparent mb-8 origin-center"
+          className="w-[1px] h-16 bg-gradient-to-b from-transparent via-gold to-transparent mb-8 origin-top"
         />
 
         {/* Top label */}
@@ -77,7 +107,7 @@ const HeroSection = () => {
           </span>
         </motion.h1>
 
-        {/* Subtitle — updated */}
+        {/* Subtitle */}
         <motion.div
           initial={{ opacity: 0, y: 18 }}
           animate={{ opacity: 1, y: 0 }}
@@ -103,13 +133,13 @@ const HeroSection = () => {
         >
           <a
             href="#cta"
-            className="group px-10 py-4 bg-gradient-gold text-primary-foreground text-[9px] tracking-[0.28em] uppercase font-medium rounded-sm transition-all duration-600 hover:shadow-[0_0_50px_-10px_hsla(38,52%,50%,0.5)] hover:scale-[1.03]"
+            className="btn-luxury px-10 py-4 bg-gradient-gold text-primary-foreground text-[9px] tracking-[0.28em] uppercase font-medium rounded-sm"
           >
             Request a Flight
           </a>
           <a
             href="#empty-legs"
-            className="group px-10 py-4 luxury-border text-foreground/50 hover:text-foreground/90 text-[9px] tracking-[0.28em] uppercase font-light rounded-sm transition-all duration-600 hover:border-[hsla(0,0%,100%,0.15)] hover:scale-[1.03]"
+            className="btn-luxury px-10 py-4 glass-panel text-foreground/50 hover:text-foreground/90 text-[9px] tracking-[0.28em] uppercase font-light rounded-sm"
           >
             View Empty Legs
           </a>
@@ -127,7 +157,11 @@ const HeroSection = () => {
         className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-2"
       >
         <span className="text-[7px] tracking-[0.4em] uppercase text-foreground/20 font-extralight">Scroll</span>
-        <div className="w-[1px] h-10 bg-gradient-to-b from-gold/25 to-transparent" />
+        <motion.div
+          animate={{ y: [0, 8, 0] }}
+          transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+          className="w-[1px] h-10 bg-gradient-to-b from-gold/25 to-transparent"
+        />
       </motion.div>
     </section>
   );

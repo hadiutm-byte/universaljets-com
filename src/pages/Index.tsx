@@ -18,31 +18,61 @@ import Footer from "@/components/Footer";
 
 const Index = () => (
   <div className="min-h-screen bg-background relative">
-    <div className="fixed inset-0 opacity-[0.012] pointer-events-none z-[1]" style={{ backgroundImage: "url(\"data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E\")", backgroundRepeat: "repeat" }} />
+    {/* Ambient lights — living background */}
+    <div className="ambient-light-1" />
+    <div className="ambient-light-2" />
+
+    {/* Noise texture */}
+    <div className="noise-overlay" />
+
+    {/* Scan line — futuristic */}
+    <div className="scan-line" />
 
     <div className="relative z-[2]">
       <Navbar />
       {/* 1. Traffic — capture attention */}
       <HeroSection />
+
+      {/* Shimmer divider */}
+      <div className="divider-shimmer" />
+
       <TrustStrip />
       <HowItWorksSection />
+
+      <div className="divider-shimmer" />
+
       {/* 2. Services overview */}
       <ServicesSection />
+
+      <div className="divider-shimmer" />
+
       {/* 3. Empty Legs & Live Market */}
       <EmptyLegsMap />
       <LiveMarketSection />
+
+      <div className="divider-shimmer" />
+
       {/* 4. Membership conversion */}
       <MembershipEnrollment />
       {/* 5. Member Privileges */}
       <MemberPrivileges />
+
+      <div className="divider-shimmer" />
+
       {/* 6. WhatsApp — direct advisor contact */}
       <WhatsAppCTA />
       {/* 7. Flight request — first trip */}
       <CTASection />
+
+      <div className="divider-shimmer" />
+
       {/* 8. Jet Card upsell */}
       <JetCardSection />
       {/* 9. Referral program */}
       <ReferralSection />
+
+      <div className="divider-shimmer" />
+
       {/* 10. Destinations & Events — engagement */}
       <DestinationsSection />
       <EventsSection />
