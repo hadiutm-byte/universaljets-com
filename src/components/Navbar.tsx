@@ -24,8 +24,8 @@ const overlayLinks = [
   { label: "Jet Card", href: "/members" },
   { label: "Concierge", href: "/#concierge" },
   { label: "About", href: "/#why" },
+  { label: "Resources", href: "/resources" },
   { label: "Contact", href: "/#cta" },
-];
 
 const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);

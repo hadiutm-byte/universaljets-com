@@ -19,6 +19,7 @@ const footerLinks = [
   { label: "Members", href: "/members" },
   { label: "Destinations", href: "/destinations" },
   { label: "Partners", href: "/partners" },
+  { label: "Resources", href: "/resources" },
   { label: "ACMI Leasing", href: "/acmi-leasing" },
 ];
 
