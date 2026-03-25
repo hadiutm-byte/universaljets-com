@@ -5,9 +5,9 @@ import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 
 const insights = [
-  "How pricing really works",
-  "How to access better aircraft",
-  "How to optimize costs",
+  "Private aviation insights",
+  "Pricing strategies",
+  "Exclusive empty legs",
 ];
 
 const NewsletterSection = () => {
