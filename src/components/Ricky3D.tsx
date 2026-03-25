@@ -240,7 +240,7 @@ const Ricky3D = () => {
               transition={{ delay: 0.8 }}
               className="text-[9px] tracking-[0.2em] uppercase text-foreground/20 mb-6"
             >
-              Senior Aviation Advisor
+              Personal Aviation Advisor
             </motion.p>
 
             <AnimatePresence>
@@ -312,13 +312,14 @@ const Ricky3D = () => {
       <AnimatePresence>
         {phase === "minimized" && (
           <motion.div
-            initial={{ scale: 0, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            exit={{ scale: 0, opacity: 0 }}
-            transition={{ type: "spring", damping: 20 }}
+            initial={{ scale: 0, opacity: 0, y: 80 }}
+            animate={{ scale: 1, opacity: 1, y: 0 }}
+            exit={{ scale: 0, opacity: 0, y: 80 }}
+            transition={{ type: "spring", damping: 18, stiffness: 200 }}
             drag
             dragMomentum={false}
-            dragElastic={0.1}
+            dragElastic={0.15}
+            dragSnapToOrigin
             whileDrag={{ scale: 1.1 }}
             className="fixed bottom-6 right-6 z-50 cursor-grab active:cursor-grabbing"
           >
@@ -395,7 +396,7 @@ const Ricky3D = () => {
               <div className="flex-1 min-w-0">
                 <p className="text-[11px] tracking-[0.2em] uppercase font-medium text-foreground/90">Ricky</p>
                 <p className="text-[9px] text-primary/40 tracking-[0.15em] uppercase font-light">
-                  {loading ? "Thinking..." : "Senior Aviation Advisor"}
+                  {loading ? "Thinking..." : "Personal Aviation Advisor"}
                 </p>
               </div>
               <div className="flex items-center gap-1">

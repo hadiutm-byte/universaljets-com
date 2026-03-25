@@ -14,12 +14,12 @@ const RickyCore = ({ speaking }: { speaking: boolean }) => {
   const darkGold = useMemo(() => new THREE.Color("#8a6830"), []);
   const coreColor = useMemo(() => new THREE.Color("#1a1a2e"), []);
 
-  useFrame(({ clock }) => {
+  useFrame(({ clock, pointer }) => {
     const t = clock.getElapsedTime();
 
     if (meshRef.current) {
-      meshRef.current.rotation.y = t * 0.3;
-      meshRef.current.rotation.x = Math.sin(t * 0.5) * 0.1;
+      meshRef.current.rotation.y = t * 0.3 + pointer.x * 0.3;
+      meshRef.current.rotation.x = Math.sin(t * 0.5) * 0.1 + pointer.y * 0.15;
     }
 
     if (ringRef.current) {
