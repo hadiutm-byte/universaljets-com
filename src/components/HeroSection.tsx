@@ -2,6 +2,7 @@ import { useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import heroImage from "@/assets/hero-jet-v3.jpg";
 import FlightSearchBox from "./FlightSearchBox";
+import Logo3D from "./Logo3D";
 import { useMouseParallax } from "@/hooks/useScrollEffects";
 
 const HeroSection = () => {
@@ -54,6 +55,14 @@ const HeroSection = () => {
       <div className="absolute inset-0 bg-gradient-to-b from-background/[0.85] via-background/[0.25] to-background/[0.95]" />
       <div className="absolute inset-0 bg-gradient-to-r from-background/60 via-transparent to-background/50" />
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_70%_50%_at_50%_45%,_transparent_20%,_hsl(var(--background)/0.7)_100%)]" />
+
+      {/* 3D Logo depth layer */}
+      <motion.div
+        className="absolute inset-0 flex items-center justify-center pointer-events-none"
+        style={{ opacity: useTransform(scrollYProgress, [0, 0.4], [0.08, 0]), y: imageY }}
+      >
+        <Logo3D size={700} opacity={0.08} />
+      </motion.div>
 
       {/* Progressive overlay on scroll */}
       <motion.div className="absolute inset-0 bg-background pointer-events-none" style={{ opacity: overlayOpacity }} />

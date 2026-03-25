@@ -4,6 +4,7 @@ import { X, Send, Plane, CreditCard, Tag, Headphones } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import RickyAvatar from "./ricky/RickyAvatar";
 import GuidedBookingFlow from "./ricky/GuidedBookingFlow";
+import Logo3D from "./Logo3D";
 
 type Msg = { role: "user" | "assistant"; content: string };
 
@@ -207,10 +208,22 @@ const Ricky3D = () => {
               <X size={18} />
             </button>
 
+            {/* 3D Logo behind Ricky */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 0.15, scale: 1 }}
+              transition={{ duration: 2, delay: 0.1 }}
+              className="absolute pointer-events-none"
+              style={{ zIndex: 0 }}
+            >
+              <Logo3D size={500} opacity={0.15} />
+            </motion.div>
+
             <motion.div
               initial={{ scale: 0, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               transition={{ type: "spring", damping: 15, delay: 0.2 }}
+              style={{ zIndex: 1 }}
             >
               <RickyAvatar speaking={speaking} size={240} />
             </motion.div>
