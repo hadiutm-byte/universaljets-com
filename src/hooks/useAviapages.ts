@@ -3,6 +3,10 @@ import { useQuery } from "@tanstack/react-query";
 export interface EmptyLeg {
   id: number;
   aircraft_type: string;
+  aircraft_class?: string | null;
+  aircraft_image?: string | null;
+  aircraft_max_pax?: number | null;
+  aircraft_range_km?: number | null;
   company: string;
   from_date: string;
   to_date: string;
@@ -38,6 +42,27 @@ export interface Airport {
   icao: string;
   city: string;
   country: string;
+}
+
+export interface AircraftType {
+  id: number;
+  name: string;
+  icao: string;
+  class_name: string;
+  class_id: number | null;
+  manufacturer: string;
+  range_km: number | null;
+  max_pax: number | null;
+  speed_kmh: number | null;
+  altitude_m: number | null;
+  cabin_height_m: number | null;
+  cabin_length_m: number | null;
+  cabin_width_m: number | null;
+  luggage_volume_m3: number | null;
+  engine_type: string | null;
+  engine_count: number | null;
+  image_url: string | null;
+  description: string | null;
 }
 
 const getSupabaseUrl = () => import.meta.env.VITE_SUPABASE_URL;
@@ -93,5 +118,34 @@ export function useAirportSearch(query: string) {
     },
     enabled: query.length >= 2,
     staleTime: 10 * 60 * 1000,
+  });
+}
+
+export function useAircraftTypes(search?: string, classId?: string) {
+  return useQuery({
+    queryKey: ["aircraft-types", search, classId],
+    queryFn: async () => {
+      const params = new URLSearchParams({ page_size: "50" });
+      if (search) params.set("search", search);
+      if (classId) params.set("class_id", classId);
+
+      const response = await fetch(
+        `${getSupabaseUrl()}/functions/v1/aviapages-aircraft-types?${params.toString()}`,
+        {
+          headers: {
+            Authorization: `Bearer ${getAnonKey()}`,
+            apikey: getAnonKey(),
+          },
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error("Failed to fetch aircraft types");
+      }
+
+      const result = await response.json();
+      return result as { count: number; results: AircraftType[] };
+    },
+    staleTime: 30 * 60 * 1000,
   });
 }

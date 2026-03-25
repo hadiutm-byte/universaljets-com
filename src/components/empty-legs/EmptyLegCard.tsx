@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { ArrowRight, Plane, Users, Clock } from "lucide-react";
+import { ArrowRight, Plane, Users } from "lucide-react";
 import type { EmptyLeg } from "@/hooks/useAviapages";
 import { getAircraftImage, getAircraftCategory } from "@/lib/aircraftImages";
 
@@ -21,8 +21,9 @@ const EmptyLegCard = ({ leg, index, onClick }: EmptyLegCardProps) => {
     ? `${leg.currency} ${leg.price.toLocaleString()}`
     : "Save up to 75%";
 
-  const image = getAircraftImage(leg.aircraft_type || "midsize");
-  const category = getAircraftCategory(leg.aircraft_type || "midsize");
+  // Use API image first, then fallback to category mapping
+  const image = leg.aircraft_image || getAircraftImage(leg.aircraft_type || "midsize");
+  const category = leg.aircraft_class || getAircraftCategory(leg.aircraft_type || "midsize");
 
   return (
     <motion.div
@@ -30,7 +31,7 @@ const EmptyLegCard = ({ leg, index, onClick }: EmptyLegCardProps) => {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ delay: index * 0.08, duration: 0.6 }}
-      className="rounded-2xl border border-border bg-card overflow-hidden hover:shadow-[0_12px_40px_-12px_hsla(0,0%,0%,0.1)] hover:border-primary/20 transition-all duration-500 group cursor-pointer"
+      className="rounded-2xl border border-border bg-card overflow-hidden card-elevated group cursor-pointer"
       onClick={onClick}
     >
       {/* Aircraft image */}
@@ -39,8 +40,6 @@ const EmptyLegCard = ({ leg, index, onClick }: EmptyLegCardProps) => {
           src={image}
           alt={leg.aircraft_type || "Private Jet"}
           loading="lazy"
-          width={800}
-          height={512}
           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
@@ -65,6 +64,22 @@ const EmptyLegCard = ({ leg, index, onClick }: EmptyLegCardProps) => {
           <span className="text-[10px] tracking-[0.15em] text-muted-foreground uppercase font-light">{date}</span>
           <span className="text-[10px] tracking-[0.15em] text-primary font-medium uppercase">{priceLabel}</span>
         </div>
+
+        {/* Specs */}
+        {(leg.aircraft_max_pax || leg.aircraft_range_km) && (
+          <div className="flex gap-3 mb-3 text-[9px] text-muted-foreground font-light">
+            {leg.aircraft_max_pax && (
+              <span className="flex items-center gap-1">
+                <Users size={9} className="text-primary/50" /> {leg.aircraft_max_pax} pax
+              </span>
+            )}
+            {leg.aircraft_range_km && (
+              <span className="flex items-center gap-1">
+                <Plane size={9} className="text-primary/50" /> {leg.aircraft_range_km.toLocaleString()} km
+              </span>
+            )}
+          </div>
+        )}
 
         <div className="flex items-center gap-2 mb-4">
           <div className="text-center">

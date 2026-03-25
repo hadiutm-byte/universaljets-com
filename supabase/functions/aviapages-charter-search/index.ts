@@ -28,13 +28,15 @@ serve(async (req) => {
       });
     }
 
-    const searchBody: any = {
+    const searchBody: Record<string, unknown> = {
       dep_airport: { icao: from_icao },
       arr_airport: { icao: to_icao },
     };
 
     if (date) searchBody.date = date;
     if (passengers) searchBody.pax = parseInt(passengers, 10);
+
+    console.log(`[charter-search] Searching ${from_icao} → ${to_icao}, pax=${passengers || 'any'}`);
 
     const response = await fetch(
       `${AVIAPAGES_BASE}/api/charter_searches/`,
@@ -51,39 +53,59 @@ serve(async (req) => {
 
     if (!response.ok) {
       const errorText = await response.text();
-      throw new Error(`Charter search API error [${response.status}]: ${errorText}`);
+      console.error(`[charter-search] API error [${response.status}]: ${errorText}`);
+      return new Response(JSON.stringify({ results: [], error: `API error ${response.status}` }), {
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      });
     }
 
     const data = await response.json();
+    console.log(`[charter-search] Got ${data.companies?.length || 0} companies`);
 
-    // Normalize results for frontend
-    const results = (data.results || data.offers || (Array.isArray(data) ? data : [])).map((r: any) => ({
-      id: r.id || Math.random(),
-      aircraft_type: r.aircraft?.type || r.aircraft_type || 'Private Jet',
-      aircraft: {
-        type: r.aircraft?.type || r.aircraft_type || '',
-        name: r.aircraft?.name || r.aircraft_type || 'Private Jet',
-        pax: r.aircraft?.pax || r.pax || null,
-        range_nm: r.aircraft?.range_nm || null,
-      },
-      company: r.company || r.operator?.name || '',
-      operator: { name: r.operator?.name || r.company || '' },
-      price: r.price ?? null,
-      currency: r.currency_code || r.currency || 'EUR',
-      flight_time: r.flight_time || r.estimated_flight_time || '',
-      dep_airport: r.dep_airport ? {
-        name: r.dep_airport.name || '',
-        city: r.dep_airport.city?.name || r.dep_airport.city || '',
-        icao: r.dep_airport.icao || '',
-        iata: r.dep_airport.iata || '',
-      } : null,
-      arr_airport: r.arr_airport ? {
-        name: r.arr_airport.name || '',
-        city: r.arr_airport.city?.name || r.arr_airport.city || '',
-        icao: r.arr_airport.icao || '',
-        iata: r.arr_airport.iata || '',
-      } : null,
-    }));
+    // The API returns { companies: [...] } where each company has aircraft array
+    const companies = data.companies || [];
+    
+    // Flatten into individual aircraft offers
+    const results = [];
+    for (const company of companies) {
+      for (const aircraft of (company.aircraft || [])) {
+        // Get the best exterior image
+        const exteriorImage = aircraft.images?.find((img: any) => img.image_type === 'exterior')?.url || null;
+        const cabinImage = aircraft.images?.find((img: any) => img.image_type === 'cabin')?.url || null;
+        const notailImage = aircraft.images?.find((img: any) => img.image_type === 'notail')?.url || null;
+        const allImages = (aircraft.images || []).map((img: any) => ({
+          url: img.url,
+          type: img.image_type,
+          position: img.position,
+        }));
+
+        results.push({
+          id: aircraft.id,
+          tail_number: aircraft.tail_number || null,
+          aircraft_type: aircraft.ac_type || 'Private Jet',
+          year_of_production: aircraft.year_of_production || null,
+          max_passengers: aircraft.max_passengers || null,
+          images: {
+            exterior: exteriorImage,
+            cabin: cabinImage,
+            notail: notailImage,
+            all: allImages,
+          },
+          operator: {
+            id: company.id,
+            name: company.name || '',
+            city: company.city?.name || '',
+            country: company.country?.name || '',
+            logo_url: company.logo_url || null,
+            certified: company.aviapages_certified || false,
+            avg_response_time: company.company_extenion?.avg_response_time || null,
+            avg_response_rate: company.company_extenion?.avg_response_rate || null,
+          },
+        });
+      }
+    }
+
+    console.log(`[charter-search] Returning ${results.length} aircraft options`);
 
     return new Response(JSON.stringify({ results }), {
       headers: { ...corsHeaders, 'Content-Type': 'application/json' },
@@ -91,7 +113,7 @@ serve(async (req) => {
   } catch (error) {
     console.error('Charter search error:', error);
     const message = error instanceof Error ? error.message : 'Unknown error';
-    return new Response(JSON.stringify({ error: message }), {
+    return new Response(JSON.stringify({ error: message, results: [] }), {
       status: 500,
       headers: { ...corsHeaders, 'Content-Type': 'application/json' },
     });
