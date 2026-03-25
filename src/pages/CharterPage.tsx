@@ -75,6 +75,7 @@ const CharterPage = () => {
 
   return (
     <div className="min-h-screen bg-background">
+      <SEOHead title={`${data.title} — Private Jet Charter`} description={data.description.slice(0, 155)} path={`/charter/${slug}`} />
       <Navbar />
 
       {/* Hero image */}

@@ -50,6 +50,7 @@ const tiers = [
 
 const JetCardPage = () => (
   <div className="min-h-screen bg-background">
+    <SEOHead title="Jet Card — Fixed Rates, Guaranteed Access" description="Lock your hourly rate with a Universal Jets Jet Card. 50, 100, or 200+ hours with guaranteed availability and dedicated aviation management." path="/jet-card" />
     <Navbar />
 
     {/* Hero */}

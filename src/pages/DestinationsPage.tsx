@@ -116,6 +116,7 @@ const EventCard = ({ item, index }: { item: typeof events[0]; index: number }) =
 
 const DestinationsPage = () => (
   <div className="min-h-screen bg-background">
+    <SEOHead title="Destinations & Events — Private Jet Travel" description="Fly private to Monaco, Mykonos, Dubai, Maldives, Aspen and more. Charter jets to the world's most exclusive destinations and events." path="/destinations" />
     <Navbar />
 
     {/* Hero */}

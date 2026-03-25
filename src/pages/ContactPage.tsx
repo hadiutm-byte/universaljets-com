@@ -53,6 +53,7 @@ const ContactPage = () => {
 
   return (
     <div className="min-h-screen bg-background text-foreground">
+      <SEOHead title="Contact Universal Jets — 24/7 Private Aviation" description="Contact Universal Jets for private jet charter, jet cards, membership inquiries. Available 24/7 via phone, email, and WhatsApp." path="/contact" />
       <Navbar />
 
       {/* ═══════════ HERO ═══════════ */}

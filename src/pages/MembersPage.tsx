@@ -66,6 +66,7 @@ const idealPoints = [
 
 const MembersPage = () => (
   <div className="min-h-screen bg-background">
+    <SEOHead title="Membership — Private Access, Business Class & Founder's Circle" description="Join Universal Jets membership for net pricing, priority aircraft sourcing, dedicated support, and concierge services on every private jet charter." path="/members" />
     <Navbar />
 
     {/* Hero */}

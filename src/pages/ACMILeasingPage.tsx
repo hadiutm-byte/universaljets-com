@@ -71,6 +71,7 @@ const ACMILeasingPage = () => {
 
   return (
     <div className="min-h-screen bg-background">
+      <SEOHead title="ACMI Leasing — Aircraft, Crew, Maintenance & Insurance" description="Universal Jets ACMI leasing solutions. Full wet lease, dry lease, and charter outsourcing for airlines, governments, and corporate operators." path="/acmi-leasing" />
       <Navbar />
 
       {/* Hero */}
