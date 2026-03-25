@@ -447,6 +447,56 @@ const ACMILeasingPage = () => {
         </div>
       </section>
 
+      {/* Broker vs Operator */}
+      <section className="py-20 md:py-28 relative">
+        <div className="container mx-auto px-8 relative z-10 max-w-4xl">
+          <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.8 }} className="text-center mb-16">
+            <p className="text-[9px] tracking-[0.5em] uppercase text-primary/60 mb-6 font-light">Broker vs Operator</p>
+            <h2 className="text-2xl md:text-4xl font-display font-semibold text-foreground mb-5">Why access beats ownership.</h2>
+          </motion.div>
+
+          <div className="grid md:grid-cols-2 gap-6">
+            <motion.div initial={{ opacity: 0, x: -20 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ duration: 0.7 }}
+              className="p-7 rounded-xl border border-border/20 bg-card/20 backdrop-blur-sm"
+            >
+              <p className="text-[9px] tracking-[0.4em] uppercase text-foreground/30 font-light mb-5">Direct Operator</p>
+              <div className="space-y-3">
+                {[
+                  "Limited to their own fleet",
+                  "Fixed pricing — no market comparison",
+                  "Availability depends on their aircraft",
+                  "May not serve all routes or aircraft types",
+                ].map((item, i) => (
+                  <div key={i} className="flex items-start gap-3">
+                    <span className="text-foreground/20 text-[11px] mt-0.5">✕</span>
+                    <span className="text-[12px] text-foreground/35 font-extralight leading-[1.8]">{item}</span>
+                  </div>
+                ))}
+              </div>
+            </motion.div>
+
+            <motion.div initial={{ opacity: 0, x: 20 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ duration: 0.7 }}
+              className="p-7 rounded-xl border border-primary/15 bg-gradient-to-br from-card/40 to-card/20 backdrop-blur-sm"
+            >
+              <p className="text-[9px] tracking-[0.4em] uppercase text-primary/50 font-light mb-5">Universal Jets Broker</p>
+              <div className="space-y-3">
+                {[
+                  "Access to 7,000+ aircraft globally",
+                  "Market-optimized pricing every time",
+                  "Guaranteed availability — even peak demand",
+                  "Any aircraft, any route, any mission",
+                ].map((item, i) => (
+                  <div key={i} className="flex items-start gap-3">
+                    <span className="text-primary/50 text-[11px] mt-0.5">✓</span>
+                    <span className="text-[12px] text-foreground/50 font-light leading-[1.8]">{item}</span>
+                  </div>
+                ))}
+              </div>
+            </motion.div>
+          </div>
+        </div>
+      </section>
+
       {/* Immediate Assistance CTA */}
       <section className="py-16 md:py-24">
         <div className="container mx-auto px-8 max-w-xl">
