@@ -312,13 +312,14 @@ const Ricky3D = () => {
       <AnimatePresence>
         {phase === "minimized" && (
           <motion.div
-            initial={{ scale: 0, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            exit={{ scale: 0, opacity: 0 }}
-            transition={{ type: "spring", damping: 20 }}
+            initial={{ scale: 0, opacity: 0, y: 80 }}
+            animate={{ scale: 1, opacity: 1, y: 0 }}
+            exit={{ scale: 0, opacity: 0, y: 80 }}
+            transition={{ type: "spring", damping: 18, stiffness: 200 }}
             drag
             dragMomentum={false}
-            dragElastic={0.1}
+            dragElastic={0.15}
+            dragSnapToOrigin
             whileDrag={{ scale: 1.1 }}
             className="fixed bottom-6 right-6 z-50 cursor-grab active:cursor-grabbing"
           >
