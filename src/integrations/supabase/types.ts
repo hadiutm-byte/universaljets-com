@@ -49,34 +49,133 @@ export type Database = {
       }
       clients: {
         Row: {
+          address: string | null
+          assigned_to: string | null
+          billing_address: string | null
+          city: string | null
+          client_type: string | null
           company: string | null
+          company_billing_name: string | null
+          company_vat: string | null
+          country: string | null
           created_at: string
+          credit_balance: number | null
+          date_of_birth: string | null
           email: string | null
+          email_allowed: boolean | null
+          first_name: string | null
           full_name: string
+          gender: string | null
           id: string
+          industry: string | null
+          invitation_status: string | null
+          last_name: string | null
+          lead_source: string | null
+          marketing_optin: boolean | null
+          member_status: string | null
+          membership_tier: string | null
+          nationality: string | null
           notes: string | null
+          office_location: string | null
+          passport_country: string | null
           phone: string | null
+          phone_allowed: boolean | null
+          preferred_contact_method: string | null
+          preferred_contact_time: string | null
+          preferred_language: string | null
+          profile_completeness: number | null
+          referral_status: string | null
+          updated_at: string | null
           user_id: string | null
+          verification_status: string | null
+          whatsapp: string | null
+          whatsapp_allowed: boolean | null
         }
         Insert: {
+          address?: string | null
+          assigned_to?: string | null
+          billing_address?: string | null
+          city?: string | null
+          client_type?: string | null
           company?: string | null
+          company_billing_name?: string | null
+          company_vat?: string | null
+          country?: string | null
           created_at?: string
+          credit_balance?: number | null
+          date_of_birth?: string | null
           email?: string | null
+          email_allowed?: boolean | null
+          first_name?: string | null
           full_name: string
+          gender?: string | null
           id?: string
+          industry?: string | null
+          invitation_status?: string | null
+          last_name?: string | null
+          lead_source?: string | null
+          marketing_optin?: boolean | null
+          member_status?: string | null
+          membership_tier?: string | null
+          nationality?: string | null
           notes?: string | null
+          office_location?: string | null
+          passport_country?: string | null
           phone?: string | null
+          phone_allowed?: boolean | null
+          preferred_contact_method?: string | null
+          preferred_contact_time?: string | null
+          preferred_language?: string | null
+          profile_completeness?: number | null
+          referral_status?: string | null
+          updated_at?: string | null
           user_id?: string | null
+          verification_status?: string | null
+          whatsapp?: string | null
+          whatsapp_allowed?: boolean | null
         }
         Update: {
+          address?: string | null
+          assigned_to?: string | null
+          billing_address?: string | null
+          city?: string | null
+          client_type?: string | null
           company?: string | null
+          company_billing_name?: string | null
+          company_vat?: string | null
+          country?: string | null
           created_at?: string
+          credit_balance?: number | null
+          date_of_birth?: string | null
           email?: string | null
+          email_allowed?: boolean | null
+          first_name?: string | null
           full_name?: string
+          gender?: string | null
           id?: string
+          industry?: string | null
+          invitation_status?: string | null
+          last_name?: string | null
+          lead_source?: string | null
+          marketing_optin?: boolean | null
+          member_status?: string | null
+          membership_tier?: string | null
+          nationality?: string | null
           notes?: string | null
+          office_location?: string | null
+          passport_country?: string | null
           phone?: string | null
+          phone_allowed?: boolean | null
+          preferred_contact_method?: string | null
+          preferred_contact_time?: string | null
+          preferred_language?: string | null
+          profile_completeness?: number | null
+          referral_status?: string | null
+          updated_at?: string | null
           user_id?: string | null
+          verification_status?: string | null
+          whatsapp?: string | null
+          whatsapp_allowed?: boolean | null
         }
         Relationships: []
       }
@@ -150,40 +249,124 @@ export type Database = {
       }
       flight_requests: {
         Row: {
+          assigned_to: string | null
+          baggage_notes: string | null
+          budget_range: string | null
+          campaign: string | null
+          catering_request: string | null
           client_id: string | null
+          company_name: string | null
+          concierge_needed: boolean | null
+          contact_email: string | null
+          contact_name: string | null
+          contact_phone: string | null
           created_at: string
           date: string | null
           departure: string
           destination: string
+          ground_transport: boolean | null
+          helicopter_transfer: boolean | null
           id: string
+          is_urgent: boolean | null
           lead_id: string | null
           notes: string | null
           passengers: number | null
+          pets: boolean | null
+          preferred_aircraft_category: string | null
+          preferred_contact_method: string | null
+          preferred_time: string | null
+          priority: string | null
+          return_date: string | null
+          return_time: string | null
+          smoking: boolean | null
+          source: string | null
+          special_assistance: string | null
+          special_requests: string | null
+          specific_aircraft: string | null
           status: Database["public"]["Enums"]["request_status"]
+          trip_type: string | null
+          updated_at: string | null
+          vip_terminal: boolean | null
         }
         Insert: {
+          assigned_to?: string | null
+          baggage_notes?: string | null
+          budget_range?: string | null
+          campaign?: string | null
+          catering_request?: string | null
           client_id?: string | null
+          company_name?: string | null
+          concierge_needed?: boolean | null
+          contact_email?: string | null
+          contact_name?: string | null
+          contact_phone?: string | null
           created_at?: string
           date?: string | null
           departure: string
           destination: string
+          ground_transport?: boolean | null
+          helicopter_transfer?: boolean | null
           id?: string
+          is_urgent?: boolean | null
           lead_id?: string | null
           notes?: string | null
           passengers?: number | null
+          pets?: boolean | null
+          preferred_aircraft_category?: string | null
+          preferred_contact_method?: string | null
+          preferred_time?: string | null
+          priority?: string | null
+          return_date?: string | null
+          return_time?: string | null
+          smoking?: boolean | null
+          source?: string | null
+          special_assistance?: string | null
+          special_requests?: string | null
+          specific_aircraft?: string | null
           status?: Database["public"]["Enums"]["request_status"]
+          trip_type?: string | null
+          updated_at?: string | null
+          vip_terminal?: boolean | null
         }
         Update: {
+          assigned_to?: string | null
+          baggage_notes?: string | null
+          budget_range?: string | null
+          campaign?: string | null
+          catering_request?: string | null
           client_id?: string | null
+          company_name?: string | null
+          concierge_needed?: boolean | null
+          contact_email?: string | null
+          contact_name?: string | null
+          contact_phone?: string | null
           created_at?: string
           date?: string | null
           departure?: string
           destination?: string
+          ground_transport?: boolean | null
+          helicopter_transfer?: boolean | null
           id?: string
+          is_urgent?: boolean | null
           lead_id?: string | null
           notes?: string | null
           passengers?: number | null
+          pets?: boolean | null
+          preferred_aircraft_category?: string | null
+          preferred_contact_method?: string | null
+          preferred_time?: string | null
+          priority?: string | null
+          return_date?: string | null
+          return_time?: string | null
+          smoking?: boolean | null
+          source?: string | null
+          special_assistance?: string | null
+          special_requests?: string | null
+          specific_aircraft?: string | null
           status?: Database["public"]["Enums"]["request_status"]
+          trip_type?: string | null
+          updated_at?: string | null
+          vip_terminal?: boolean | null
         }
         Relationships: [
           {
@@ -298,6 +481,110 @@ export type Database = {
           user_id?: string
         }
         Relationships: []
+      }
+      membership_applications: {
+        Row: {
+          aircraft_category_preference: string | null
+          billing_details: string | null
+          city: string | null
+          client_id: string | null
+          company: string | null
+          country: string | null
+          created_at: string
+          email: string
+          full_name: string
+          id: string
+          invitation_code: string | null
+          invitation_status: string | null
+          nationality: string | null
+          passenger_count: string | null
+          phone: string | null
+          preferred_tier: string | null
+          reason: string | null
+          referral_linkage: string | null
+          referral_source: string | null
+          source: string | null
+          status: string
+          terms_accepted: boolean | null
+          title: string | null
+          travel_frequency: string | null
+          typical_routes: string[] | null
+          updated_at: string | null
+          user_id: string | null
+          verification_status: string | null
+          whatsapp: string | null
+        }
+        Insert: {
+          aircraft_category_preference?: string | null
+          billing_details?: string | null
+          city?: string | null
+          client_id?: string | null
+          company?: string | null
+          country?: string | null
+          created_at?: string
+          email: string
+          full_name: string
+          id?: string
+          invitation_code?: string | null
+          invitation_status?: string | null
+          nationality?: string | null
+          passenger_count?: string | null
+          phone?: string | null
+          preferred_tier?: string | null
+          reason?: string | null
+          referral_linkage?: string | null
+          referral_source?: string | null
+          source?: string | null
+          status?: string
+          terms_accepted?: boolean | null
+          title?: string | null
+          travel_frequency?: string | null
+          typical_routes?: string[] | null
+          updated_at?: string | null
+          user_id?: string | null
+          verification_status?: string | null
+          whatsapp?: string | null
+        }
+        Update: {
+          aircraft_category_preference?: string | null
+          billing_details?: string | null
+          city?: string | null
+          client_id?: string | null
+          company?: string | null
+          country?: string | null
+          created_at?: string
+          email?: string
+          full_name?: string
+          id?: string
+          invitation_code?: string | null
+          invitation_status?: string | null
+          nationality?: string | null
+          passenger_count?: string | null
+          phone?: string | null
+          preferred_tier?: string | null
+          reason?: string | null
+          referral_linkage?: string | null
+          referral_source?: string | null
+          source?: string | null
+          status?: string
+          terms_accepted?: boolean | null
+          title?: string | null
+          travel_frequency?: string | null
+          typical_routes?: string[] | null
+          updated_at?: string | null
+          user_id?: string | null
+          verification_status?: string | null
+          whatsapp?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "membership_applications_client_id_fkey"
+            columns: ["client_id"]
+            isOneToOne: false
+            referencedRelation: "clients"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       outreach_templates: {
         Row: {
@@ -471,49 +758,70 @@ export type Database = {
       }
       travel_preferences: {
         Row: {
+          baggage_profile: string | null
           catering_preference: string | null
           created_at: string | null
           default_passengers: number | null
           ground_transport_preference: string | null
           id: string
+          medical_assistance: string | null
           pets: boolean | null
           preferred_aircraft_category: string | null
+          preferred_aircraft_models: string[] | null
           preferred_departure_cities: string[] | null
+          security_requirements: string | null
           smoking: boolean | null
+          travel_pattern: string | null
+          trip_type_preference: string | null
           typical_routes: string[] | null
           updated_at: string | null
+          urgent_traveler: boolean | null
           user_id: string
           vip_terminal: boolean | null
           wifi_required: boolean | null
         }
         Insert: {
+          baggage_profile?: string | null
           catering_preference?: string | null
           created_at?: string | null
           default_passengers?: number | null
           ground_transport_preference?: string | null
           id?: string
+          medical_assistance?: string | null
           pets?: boolean | null
           preferred_aircraft_category?: string | null
+          preferred_aircraft_models?: string[] | null
           preferred_departure_cities?: string[] | null
+          security_requirements?: string | null
           smoking?: boolean | null
+          travel_pattern?: string | null
+          trip_type_preference?: string | null
           typical_routes?: string[] | null
           updated_at?: string | null
+          urgent_traveler?: boolean | null
           user_id: string
           vip_terminal?: boolean | null
           wifi_required?: boolean | null
         }
         Update: {
+          baggage_profile?: string | null
           catering_preference?: string | null
           created_at?: string | null
           default_passengers?: number | null
           ground_transport_preference?: string | null
           id?: string
+          medical_assistance?: string | null
           pets?: boolean | null
           preferred_aircraft_category?: string | null
+          preferred_aircraft_models?: string[] | null
           preferred_departure_cities?: string[] | null
+          security_requirements?: string | null
           smoking?: boolean | null
+          travel_pattern?: string | null
+          trip_type_preference?: string | null
           typical_routes?: string[] | null
           updated_at?: string | null
+          urgent_traveler?: boolean | null
           user_id?: string
           vip_terminal?: boolean | null
           wifi_required?: boolean | null
