@@ -53,11 +53,11 @@ const Navbar = () => {
 
   return (
     <motion.nav
-      initial={{ opacity: 0, y: -10 }}
+      initial={{ opacity: 0, y: -12 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.8, delay: 0.6 }}
+      transition={{ duration: 1, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-700 ${
-        scrolled ? "glass-strong py-3" : "py-5"
+        scrolled ? "glass-strong py-3" : "bg-transparent py-5"
       }`}
     >
       <div className="container mx-auto flex items-center justify-between px-6 lg:px-8">
