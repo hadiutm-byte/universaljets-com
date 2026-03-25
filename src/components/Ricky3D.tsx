@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { X, Send, Plane } from "lucide-react";
+import { X, Send, Plane, CreditCard, Tag, Headphones } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import RickyAvatar from "./ricky/RickyAvatar";
 import GuidedBookingFlow from "./ricky/GuidedBookingFlow";
@@ -15,9 +15,17 @@ Before you explore, tell me what brought you here. Are you looking to fly, to pa
 
 I decide what happens next.`;
 
+const quickActions = [
+  { icon: Plane, label: "Book a Flight", action: "booking" as const },
+  { icon: CreditCard, label: "Explore Jet Card", action: "chat" as const, msg: "Tell me about your Jet Card options." },
+  { icon: Tag, label: "Find Empty Legs", action: "chat" as const, msg: "Show me available empty leg flights." },
+  { icon: Headphones, label: "Speak to Advisor", action: "chat" as const, msg: "I'd like to speak with an advisor." },
+];
+
 const Ricky3D = () => {
   const [phase, setPhase] = useState<"intro" | "minimized" | "chat" | "booking">("intro");
   const [showBubble, setShowBubble] = useState(false);
+  const [showActions, setShowActions] = useState(false);
   const [displayedText, setDisplayedText] = useState("");
   const [messages, setMessages] = useState<Msg[]>([]);
   const [input, setInput] = useState("");
@@ -39,10 +47,11 @@ const Ricky3D = () => {
         } else {
           clearInterval(interval);
           setSpeaking(false);
+          setTimeout(() => setShowActions(true), 400);
         }
-      }, 30);
+      }, 28);
       return () => clearInterval(interval);
-    }, 1500);
+    }, 1200);
     return () => clearTimeout(timer);
   }, [phase]);
 
@@ -52,27 +61,51 @@ const Ricky3D = () => {
 
   // Listen for open-ricky-booking event
   useEffect(() => {
-    const handler = () => {
-      setPhase("booking");
+    const bookingHandler = () => setPhase("booking");
+    const chatHandler = () => openChat();
+    document.addEventListener("open-ricky-booking", bookingHandler);
+    document.addEventListener("open-ricky", chatHandler);
+    return () => {
+      document.removeEventListener("open-ricky-booking", bookingHandler);
+      document.removeEventListener("open-ricky", chatHandler);
     };
-    document.addEventListener("open-ricky-booking", handler);
-    return () => document.removeEventListener("open-ricky-booking", handler);
   }, []);
 
   const dismiss = () => {
     setPhase("minimized");
     setShowBubble(false);
+    setShowActions(false);
   };
 
-  const openChat = () => {
+  const openChat = (initialMsg?: string) => {
     setPhase("chat");
-    if (messages.length === 0) {
+    if (initialMsg) {
+      const userMsg: Msg = { role: "user", content: initialMsg };
+      setMessages([userMsg]);
+      setLoading(true);
+      setSpeaking(true);
+      supabase.functions.invoke("ricky-chat", { body: { messages: [userMsg] } })
+        .then(({ data, error }) => {
+          if (error) throw error;
+          setMessages(prev => [...prev, { role: "assistant", content: data.reply }]);
+        })
+        .catch(() => {
+          setMessages(prev => [...prev, { role: "assistant", content: "An advisor will reach out shortly." }]);
+        })
+        .finally(() => { setLoading(false); setSpeaking(false); });
+    } else if (messages.length === 0) {
       setMessages([{ role: "assistant", content: "Talk. What do you need?" }]);
     }
   };
 
-  const openBooking = () => {
-    setPhase("booking");
+  const openBooking = () => setPhase("booking");
+
+  const handleQuickAction = (action: typeof quickActions[0]) => {
+    if (action.action === "booking") {
+      setPhase("booking");
+    } else {
+      openChat(action.msg);
+    }
   };
 
   const send = useCallback(async () => {
@@ -89,9 +122,9 @@ const Ricky3D = () => {
         body: { messages: newMessages },
       });
       if (error) throw error;
-      setMessages((prev) => [...prev, { role: "assistant", content: data.reply }]);
+      setMessages(prev => [...prev, { role: "assistant", content: data.reply }]);
     } catch {
-      setMessages((prev) => [...prev, { role: "assistant", content: "We'll continue this later." }]);
+      setMessages(prev => [...prev, { role: "assistant", content: "We'll continue this later." }]);
     } finally {
       setLoading(false);
       setSpeaking(false);
@@ -99,14 +132,10 @@ const Ricky3D = () => {
   }, [input, loading, messages]);
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
-    if (e.key === "Enter" && !e.shiftKey) {
-      e.preventDefault();
-      send();
-    }
+    if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); send(); }
   };
 
   const handleBookingComplete = useCallback(async (data: any) => {
-    // Send booking data to Ricky for follow-up
     const summary = `I'd like to book a ${data.tripType} flight from ${data.from} to ${data.to}${data.date ? ` on ${data.date}` : ""} for ${data.passengers} passenger(s). Priority: ${data.preference || "flexible"}.`;
     const bookingMsg: Msg = { role: "user", content: summary };
     setMessages([bookingMsg]);
@@ -114,16 +143,11 @@ const Ricky3D = () => {
     setLoading(true);
     setSpeaking(true);
     try {
-      const { data: resp, error } = await supabase.functions.invoke("ricky-chat", {
-        body: { messages: [bookingMsg] },
-      });
+      const { data: resp, error } = await supabase.functions.invoke("ricky-chat", { body: { messages: [bookingMsg] } });
       if (error) throw error;
-      setMessages((prev) => [...prev, { role: "assistant", content: resp.reply }]);
+      setMessages(prev => [...prev, { role: "assistant", content: resp.reply }]);
     } catch {
-      setMessages((prev) => [
-        ...prev,
-        { role: "assistant", content: "Your request is logged. An advisor will reach out shortly." },
-      ]);
+      setMessages(prev => [...prev, { role: "assistant", content: "Your request is logged. An advisor will reach out shortly." }]);
     } finally {
       setLoading(false);
       setSpeaking(false);
@@ -140,7 +164,7 @@ const Ricky3D = () => {
 
   return (
     <>
-      {/* INTRO */}
+      {/* INTRO — Full-screen cinematic entrance */}
       <AnimatePresence>
         {phase === "intro" && (
           <motion.div
@@ -151,6 +175,31 @@ const Ricky3D = () => {
             className="fixed inset-0 z-[60] flex flex-col items-center justify-center"
             style={{ background: "radial-gradient(ellipse at center, hsla(228,28%,6%,0.95) 0%, hsla(228,28%,3%,0.98) 70%)" }}
           >
+            {/* Ambient particles */}
+            <div className="absolute inset-0 overflow-hidden pointer-events-none">
+              {Array.from({ length: 20 }).map((_, i) => (
+                <motion.div
+                  key={i}
+                  className="absolute w-1 h-1 rounded-full bg-primary/20"
+                  initial={{
+                    x: Math.random() * (typeof window !== "undefined" ? window.innerWidth : 1000),
+                    y: Math.random() * (typeof window !== "undefined" ? window.innerHeight : 800),
+                    opacity: 0,
+                  }}
+                  animate={{
+                    y: [null, -100],
+                    opacity: [0, 0.6, 0],
+                  }}
+                  transition={{
+                    duration: 4 + Math.random() * 4,
+                    repeat: Infinity,
+                    delay: Math.random() * 3,
+                    ease: "easeInOut",
+                  }}
+                />
+              ))}
+            </div>
+
             <button
               onClick={dismiss}
               className="absolute top-6 right-6 w-10 h-10 flex items-center justify-center rounded-full text-foreground/20 hover:text-foreground/50 hover:bg-white/5 transition-all z-10 cursor-pointer"
@@ -161,15 +210,15 @@ const Ricky3D = () => {
             <motion.div
               initial={{ scale: 0, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
-              transition={{ type: "spring", damping: 15, delay: 0.3 }}
+              transition={{ type: "spring", damping: 15, delay: 0.2 }}
             >
-              <RickyAvatar speaking={speaking} size={280} />
+              <RickyAvatar speaking={speaking} size={240} />
             </motion.div>
 
             <motion.p
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.8 }}
+              transition={{ delay: 0.6 }}
               className="text-[10px] tracking-[0.4em] uppercase text-primary/50 mt-2 mb-1"
             >
               Ricky
@@ -177,8 +226,8 @@ const Ricky3D = () => {
             <motion.p
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              transition={{ delay: 1 }}
-              className="text-[9px] tracking-[0.2em] uppercase text-foreground/20 mb-8"
+              transition={{ delay: 0.8 }}
+              className="text-[9px] tracking-[0.2em] uppercase text-foreground/20 mb-6"
             >
               Senior Aviation Advisor
             </motion.p>
@@ -199,8 +248,38 @@ const Ricky3D = () => {
                   />
                   <p className="text-[13px] text-foreground/60 font-light leading-[2] whitespace-pre-wrap">
                     {displayedText}
-                    <span className="animate-pulse text-primary/40">|</span>
+                    {!showActions && <span className="animate-pulse text-primary/40">|</span>}
                   </p>
+                </motion.div>
+              )}
+            </AnimatePresence>
+
+            {/* Quick action buttons — appear after typewriter */}
+            <AnimatePresence>
+              {showActions && (
+                <motion.div
+                  initial={{ opacity: 0, y: 15 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, staggerChildren: 0.08 }}
+                  className="flex flex-wrap justify-center gap-2.5 mt-6 mx-6 max-w-md"
+                >
+                  {quickActions.map((action, i) => (
+                    <motion.button
+                      key={action.label}
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: i * 0.1 }}
+                      whileHover={{ scale: 1.04, y: -2 }}
+                      whileTap={{ scale: 0.97 }}
+                      onClick={() => handleQuickAction(action)}
+                      className="flex items-center gap-2 px-4 py-2.5 rounded-xl glass-panel border border-white/[0.06] hover:border-primary/20 transition-all duration-300 cursor-pointer group"
+                    >
+                      <action.icon size={12} className="text-primary/50 group-hover:text-primary/80 transition-colors" strokeWidth={1.3} />
+                      <span className="text-[10px] tracking-[0.12em] uppercase text-foreground/40 group-hover:text-foreground/70 font-light transition-colors">
+                        {action.label}
+                      </span>
+                    </motion.button>
+                  ))}
                 </motion.div>
               )}
             </AnimatePresence>
@@ -208,7 +287,7 @@ const Ricky3D = () => {
             <motion.button
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              transition={{ delay: 2 }}
+              transition={{ delay: 2.5 }}
               onClick={dismiss}
               className="mt-8 text-[10px] tracking-[0.3em] uppercase text-foreground/15 hover:text-foreground/30 transition-colors cursor-pointer"
             >
@@ -233,7 +312,6 @@ const Ricky3D = () => {
             className="fixed bottom-6 right-6 z-50 cursor-grab active:cursor-grabbing"
           >
             <div className="relative flex items-end gap-2">
-              {/* Quick actions */}
               <motion.div
                 initial={{ opacity: 0, x: 10 }}
                 animate={{ opacity: 1, x: 0 }}
@@ -248,7 +326,7 @@ const Ricky3D = () => {
                 </button>
               </motion.div>
 
-              <div className="relative" onClick={openChat}>
+              <div className="relative" onClick={() => openChat()}>
                 <RickyAvatar speaking={false} size={72} />
                 <div
                   className="absolute inset-0 rounded-full pointer-events-none"
@@ -272,37 +350,22 @@ const Ricky3D = () => {
             className={panelClasses}
             style={panelStyle}
           >
-            {/* Header */}
             <div className="flex items-center gap-3 px-5 py-3 border-b border-white/[0.04]">
-              <div className="shrink-0">
-                <RickyAvatar speaking={speaking} size={44} />
-              </div>
+              <div className="shrink-0"><RickyAvatar speaking={speaking} size={44} /></div>
               <div className="flex-1 min-w-0">
-                <p className="text-[11px] tracking-[0.2em] uppercase font-medium text-foreground/90">
-                  Ricky
-                </p>
-                <p className="text-[9px] text-primary/40 tracking-[0.15em] uppercase font-light">
-                  Booking Concierge
-                </p>
+                <p className="text-[11px] tracking-[0.2em] uppercase font-medium text-foreground/90">Ricky</p>
+                <p className="text-[9px] text-primary/40 tracking-[0.15em] uppercase font-light">Booking Concierge</p>
               </div>
-              <button
-                onClick={() => setPhase("minimized")}
-                className="w-8 h-8 flex items-center justify-center rounded-full text-foreground/20 hover:text-foreground/50 hover:bg-white/5 transition-all cursor-pointer"
-              >
+              <button onClick={() => setPhase("minimized")} className="w-8 h-8 flex items-center justify-center rounded-full text-foreground/20 hover:text-foreground/50 hover:bg-white/5 transition-all cursor-pointer">
                 <X size={14} />
               </button>
             </div>
-
-            {/* Guided Flow */}
-            <GuidedBookingFlow
-              onComplete={handleBookingComplete}
-              onSpeaking={setSpeaking}
-            />
+            <GuidedBookingFlow onComplete={handleBookingComplete} onSpeaking={setSpeaking} />
           </motion.div>
         )}
       </AnimatePresence>
 
-      {/* CHAT — Standard chat panel */}
+      {/* CHAT */}
       <AnimatePresence>
         {phase === "chat" && (
           <motion.div
@@ -316,37 +379,24 @@ const Ricky3D = () => {
             className={panelClasses}
             style={panelStyle}
           >
-            {/* Header */}
             <div className="flex items-center gap-3 px-5 py-3 border-b border-white/[0.04]">
-              <div className="shrink-0">
-                <RickyAvatar speaking={speaking} size={44} />
-              </div>
+              <div className="shrink-0"><RickyAvatar speaking={speaking} size={44} /></div>
               <div className="flex-1 min-w-0">
-                <p className="text-[11px] tracking-[0.2em] uppercase font-medium text-foreground/90">
-                  Ricky
-                </p>
+                <p className="text-[11px] tracking-[0.2em] uppercase font-medium text-foreground/90">Ricky</p>
                 <p className="text-[9px] text-primary/40 tracking-[0.15em] uppercase font-light">
                   {loading ? "Thinking..." : "Senior Aviation Advisor"}
                 </p>
               </div>
               <div className="flex items-center gap-1">
-                <button
-                  onClick={openBooking}
-                  className="w-8 h-8 flex items-center justify-center rounded-full text-foreground/20 hover:text-primary/60 hover:bg-primary/[0.06] transition-all cursor-pointer"
-                  title="Start booking"
-                >
+                <button onClick={openBooking} className="w-8 h-8 flex items-center justify-center rounded-full text-foreground/20 hover:text-primary/60 hover:bg-primary/[0.06] transition-all cursor-pointer" title="Start booking">
                   <Plane size={13} />
                 </button>
-                <button
-                  onClick={dismiss}
-                  className="w-8 h-8 flex items-center justify-center rounded-full text-foreground/20 hover:text-foreground/50 hover:bg-white/5 transition-all cursor-pointer"
-                >
+                <button onClick={dismiss} className="w-8 h-8 flex items-center justify-center rounded-full text-foreground/20 hover:text-foreground/50 hover:bg-white/5 transition-all cursor-pointer">
                   <X size={14} />
                 </button>
               </div>
             </div>
 
-            {/* Messages */}
             <div className="flex-1 overflow-y-auto px-5 py-4 space-y-4 scrollbar-thin">
               {messages.map((msg, i) => (
                 <motion.div
@@ -356,13 +406,11 @@ const Ricky3D = () => {
                   transition={{ duration: 0.3 }}
                   className={`flex ${msg.role === "user" ? "justify-end" : "justify-start"}`}
                 >
-                  <div
-                    className={`max-w-[85%] rounded-2xl px-4 py-3 text-[12px] leading-[1.8] font-light whitespace-pre-wrap ${
-                      msg.role === "user"
-                        ? "bg-primary/10 text-foreground/70 rounded-br-md"
-                        : "bg-white/[0.03] text-foreground/60 rounded-bl-md border border-white/[0.03]"
-                    }`}
-                  >
+                  <div className={`max-w-[85%] rounded-2xl px-4 py-3 text-[12px] leading-[1.8] font-light whitespace-pre-wrap ${
+                    msg.role === "user"
+                      ? "bg-primary/10 text-foreground/70 rounded-br-md"
+                      : "bg-white/[0.03] text-foreground/60 rounded-bl-md border border-white/[0.03]"
+                  }`}>
                     {msg.content}
                   </div>
                 </motion.div>
@@ -379,7 +427,6 @@ const Ricky3D = () => {
               <div ref={bottomRef} />
             </div>
 
-            {/* Input */}
             <div className="px-4 py-3 border-t border-white/[0.04]">
               <div className="flex items-center gap-2 bg-white/[0.03] border border-white/[0.03] rounded-xl px-4 py-2.5 focus-within:border-primary/10 transition-all">
                 <input

@@ -15,6 +15,10 @@ const HeroSection = () => {
   const contentY = useTransform(scrollYProgress, [0, 0.35], [0, -120]);
   const overlayOpacity = useTransform(scrollYProgress, [0, 0.5], [0, 0.5]);
 
+  const handleStartWithRicky = () => {
+    document.dispatchEvent(new CustomEvent("open-ricky-booking"));
+  };
+
   return (
     <section ref={ref} className="relative min-h-screen w-full overflow-hidden flex flex-col items-center justify-center pb-10 pt-20">
       {/* Grid overlay */}
@@ -23,11 +27,7 @@ const HeroSection = () => {
       {/* Parallax Background with mouse tracking */}
       <motion.div
         className="absolute inset-[-15%]"
-        style={{
-          y: imageY,
-          scale: imageScale,
-          x: mouse.x * 0.5,
-        }}
+        style={{ y: imageY, scale: imageScale, x: mouse.x * 0.5 }}
       >
         <img
           src={heroImage}
@@ -37,10 +37,7 @@ const HeroSection = () => {
           height={1080}
         />
         {/* Cinematic light flare */}
-        <motion.div
-          className="absolute inset-0"
-          style={{ x: mouse.x * 2, y: mouse.y * 2 }}
-        >
+        <motion.div className="absolute inset-0" style={{ x: mouse.x * 2, y: mouse.y * 2 }}>
           <div className="absolute inset-0 bg-[radial-gradient(ellipse_50%_35%_at_55%_45%,_hsla(38,60%,55%,0.18)_0%,_transparent_65%)]" />
           <div className="absolute inset-0 bg-[radial-gradient(ellipse_30%_25%_at_55%_48%,_hsla(38,50%,60%,0.1)_0%,_transparent_55%)]" />
         </motion.div>
@@ -59,12 +56,9 @@ const HeroSection = () => {
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_70%_50%_at_50%_45%,_transparent_20%,_hsl(var(--background)/0.7)_100%)]" />
 
       {/* Progressive overlay on scroll */}
-      <motion.div
-        className="absolute inset-0 bg-background pointer-events-none"
-        style={{ opacity: overlayOpacity }}
-      />
+      <motion.div className="absolute inset-0 bg-background pointer-events-none" style={{ opacity: overlayOpacity }} />
 
-      {/* Horizontal scan lines — cinematic */}
+      {/* Horizontal scan lines */}
       <div className="absolute inset-0 pointer-events-none opacity-[0.03]" style={{
         backgroundImage: "repeating-linear-gradient(0deg, transparent, transparent 2px, hsla(0,0%,100%,0.03) 2px, hsla(0,0%,100%,0.03) 4px)",
       }} />
@@ -124,19 +118,21 @@ const HeroSection = () => {
           </p>
         </motion.div>
 
-        {/* CTA Buttons */}
+        {/* CTA Buttons — primary triggers Ricky */}
         <motion.div
           initial={{ opacity: 0, y: 15 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 1.05 }}
           className="flex flex-col sm:flex-row items-center gap-4 mb-8"
         >
-          <a
-            href="#cta"
-            className="btn-luxury px-10 py-4 bg-gradient-gold text-primary-foreground text-[9px] tracking-[0.28em] uppercase font-medium rounded-sm"
+          <motion.button
+            whileHover={{ scale: 1.03, boxShadow: "0 0 40px -8px hsla(38,52%,50%,0.5)" }}
+            whileTap={{ scale: 0.98 }}
+            onClick={handleStartWithRicky}
+            className="btn-luxury px-10 py-4 bg-gradient-gold text-primary-foreground text-[9px] tracking-[0.28em] uppercase font-medium rounded-sm cursor-pointer"
           >
-            Request a Flight
-          </a>
+            Start with Ricky
+          </motion.button>
           <a
             href="#empty-legs"
             className="btn-luxury px-10 py-4 glass-panel text-foreground/50 hover:text-foreground/90 text-[9px] tracking-[0.28em] uppercase font-light rounded-sm"
