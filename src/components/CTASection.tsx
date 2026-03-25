@@ -210,6 +210,25 @@ const CTASection = () => {
               </form>
             )}
           </motion.div>
+
+          {/* Chat CTA */}
+          <motion.div
+            initial={{ opacity: 0, y: 15 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.5, duration: 0.7 }}
+            className="text-center mt-12"
+          >
+            <p className="text-[12px] text-foreground/35 font-extralight mb-3">
+              Need immediate assistance?
+            </p>
+            <button
+              onClick={() => document.dispatchEvent(new CustomEvent("open-ricky"))}
+              className="text-[10px] tracking-[0.25em] uppercase text-primary/60 hover:text-primary/90 font-light transition-colors duration-300 cursor-pointer"
+            >
+              Chat with an aviation advisor now →
+            </button>
+          </motion.div>
         </div>
       </div>
     </section>
