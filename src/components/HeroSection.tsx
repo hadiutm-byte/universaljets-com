@@ -7,7 +7,6 @@ const HeroSection = () => {
   const ref = useRef<HTMLElement>(null);
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] });
 
-  // Slow parallax zoom + drift
   const imageY = useTransform(scrollYProgress, [0, 1], ["0%", "25%"]);
   const imageScale = useTransform(scrollYProgress, [0, 1], [1.02, 1.2]);
   const contentOpacity = useTransform(scrollYProgress, [0, 0.35], [1, 0]);
@@ -15,7 +14,7 @@ const HeroSection = () => {
 
   return (
     <section ref={ref} className="relative min-h-screen w-full overflow-hidden flex flex-col items-center justify-center pb-10 pt-20">
-      {/* Parallax Background with slow zoom */}
+      {/* Parallax Background */}
       <motion.div className="absolute inset-[-10%]" style={{ y: imageY, scale: imageScale }}>
         <img
           src={heroImage}
@@ -24,19 +23,18 @@ const HeroSection = () => {
           width={1920}
           height={1080}
         />
-        {/* Jet glow/reflection — warm light around aircraft */}
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_50%_35%_at_55%_45%,_hsla(38,60%,55%,0.15)_0%,_transparent_65%)]" />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_30%_25%_at_55%_48%,_hsla(38,50%,60%,0.08)_0%,_transparent_55%)]" />
       </motion.div>
 
-      {/* Animated cloud layers */}
+      {/* Cloud layers */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
         <div className="hero-cloud hero-cloud-1" />
         <div className="hero-cloud hero-cloud-2" />
         <div className="hero-cloud hero-cloud-3" />
       </div>
 
-      {/* Cinematic overlays — balanced depth with visible sunset */}
+      {/* Cinematic overlays */}
       <div className="absolute inset-0 bg-gradient-to-b from-background/[0.85] via-background/[0.3] to-background/[0.95]" />
       <div className="absolute inset-0 bg-gradient-to-r from-background/60 via-transparent to-background/50" />
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_70%_50%_at_50%_45%,_transparent_20%,_hsl(var(--background)/0.7)_100%)]" />
@@ -79,15 +77,22 @@ const HeroSection = () => {
           </span>
         </motion.h1>
 
-        {/* Subtitle */}
-        <motion.p
+        {/* Subtitle — updated */}
+        <motion.div
           initial={{ opacity: 0, y: 18 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1, delay: 0.85 }}
-          className="text-[12px] md:text-[14px] text-foreground/50 max-w-lg mx-auto mb-12 font-extralight leading-[2.1] tracking-[0.02em]"
+          className="max-w-lg mx-auto mb-12"
         >
-          Charter smarter. Access the global private jet market with better pricing, full flexibility, and 24/7 expert advisory.
-        </motion.p>
+          <p className="text-[13px] md:text-[15px] text-foreground/55 font-extralight leading-[2] tracking-[0.02em] mb-2">
+            Access the entire global private jet market —
+            <br className="hidden sm:block" />
+            not just one fleet.
+          </p>
+          <p className="text-[11px] md:text-[12px] text-foreground/35 font-extralight leading-[1.8] tracking-wide">
+            Better aircraft. Better pricing. Total flexibility.
+          </p>
+        </motion.div>
 
         {/* CTA Buttons */}
         <motion.div

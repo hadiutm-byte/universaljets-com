@@ -2,10 +2,10 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
-import { Check } from "lucide-react";
+import { Check, ArrowRight } from "lucide-react";
 
 const CTASection = () => {
-  const [form, setForm] = useState({ name: "", email: "", phone: "", departure: "", destination: "", date: "", passengers: "" });
+  const [form, setForm] = useState({ name: "", email: "", phone: "", departure: "", destination: "", date: "", returnDate: "", passengers: "", aircraft: "", budget: "" });
   const [loading, setLoading] = useState(false);
   const [submitted, setSubmitted] = useState(false);
 
@@ -43,12 +43,15 @@ const CTASection = () => {
 
           <p className="text-[9px] tracking-[0.5em] uppercase text-primary/60 mb-8 font-light">Start Your Journey</p>
           <h2 className="text-3xl md:text-5xl lg:text-6xl font-display font-semibold mb-4 max-w-2xl mx-auto leading-tight text-foreground">
-            Request Your Flight
+            Your Journey Starts
             <br />
-            <span className="text-gradient-gold italic font-medium">Today</span>
+            <span className="text-gradient-gold italic font-medium">Here</span>
           </h2>
-          <p className="text-[13px] text-foreground/40 font-extralight max-w-sm mx-auto mb-12 leading-[2]">
-            Speak with our aviation advisors. Personalised quote within minutes. Available 24/7.
+          <p className="text-[13px] text-foreground/40 font-extralight max-w-md mx-auto mb-4 leading-[2]">
+            Our team analyzes the entire market in real-time to secure the best aircraft and pricing.
+          </p>
+          <p className="text-[11px] text-foreground/25 font-extralight max-w-sm mx-auto mb-12 leading-[2]">
+            Personalised quote within minutes. Available 24/7.
           </p>
 
           {submitted ? (
@@ -91,24 +94,44 @@ const CTASection = () => {
                   <input value={form.destination} onChange={e => setForm(p => ({ ...p, destination: e.target.value }))} placeholder="Dubai" required className={inputClass} />
                 </div>
               </div>
-              <div className="grid md:grid-cols-2 gap-4 mb-8">
+              <div className="grid md:grid-cols-2 gap-4 mb-4">
                 <div>
-                  <label className={labelClass}>Preferred Date</label>
+                  <label className={labelClass}>Departure Date</label>
                   <input type="date" value={form.date} onChange={e => setForm(p => ({ ...p, date: e.target.value }))} className={inputClass} />
                 </div>
+                <div>
+                  <label className={labelClass}>Return Date</label>
+                  <input type="date" value={form.returnDate} onChange={e => setForm(p => ({ ...p, returnDate: e.target.value }))} className={inputClass} />
+                </div>
+              </div>
+              <div className="grid md:grid-cols-3 gap-4 mb-8">
                 <div>
                   <label className={labelClass}>Passengers</label>
                   <input type="number" min={1} max={50} value={form.passengers} onChange={e => setForm(p => ({ ...p, passengers: e.target.value }))} placeholder="4" className={inputClass} />
                 </div>
+                <div>
+                  <label className={labelClass}>Aircraft Preference</label>
+                  <input value={form.aircraft} onChange={e => setForm(p => ({ ...p, aircraft: e.target.value }))} placeholder="e.g. Midsize, Heavy" className={inputClass} />
+                </div>
+                <div>
+                  <label className={labelClass}>Budget Range</label>
+                  <input value={form.budget} onChange={e => setForm(p => ({ ...p, budget: e.target.value }))} placeholder="e.g. €15,000 – €25,000" className={inputClass} />
+                </div>
               </div>
-              <div className="text-center">
+              <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
                 <button
                   type="submit"
                   disabled={loading}
                   className="px-14 py-4 bg-gradient-gold text-primary-foreground text-[9px] tracking-[0.25em] uppercase font-medium rounded-sm transition-all duration-500 hover:shadow-[0_0_40px_-8px_hsla(38,52%,50%,0.5)] hover:scale-[1.02] disabled:opacity-50"
                 >
-                  {loading ? "Submitting..." : "Request a Quote"}
+                  {loading ? "Submitting..." : "Request a Flight"}
                 </button>
+                <a
+                  href="mailto:charter@universaljets.com"
+                  className="inline-flex items-center gap-2 px-10 py-4 luxury-border text-foreground/50 hover:text-foreground/80 text-[9px] tracking-[0.25em] uppercase font-light rounded-sm transition-all duration-500 luxury-border-hover"
+                >
+                  Speak to an Advisor <ArrowRight size={10} />
+                </a>
               </div>
             </form>
           )}

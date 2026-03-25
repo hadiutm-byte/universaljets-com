@@ -1,6 +1,6 @@
 import { useState, useCallback, useMemo } from "react";
 import { motion } from "framer-motion";
-import { Loader2 } from "lucide-react";
+import { Loader2, ArrowRight } from "lucide-react";
 import { useEmptyLegs, type EmptyLeg } from "@/hooks/useAviapages";
 import EmptyLegsMapView from "./empty-legs/EmptyLegsMapView";
 import EmptyLegCard from "./empty-legs/EmptyLegCard";
@@ -62,15 +62,30 @@ const EmptyLegsMap = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8 }}
-          className="text-center mb-16"
+          className="text-center mb-8"
         >
           <p className="text-[9px] tracking-[0.5em] uppercase text-primary/60 mb-6 font-light">Exclusive Opportunity</p>
-          <h2 className="text-3xl md:text-5xl lg:text-6xl font-display font-semibold mb-6 text-foreground">Empty Legs</h2>
-          <p className="text-[13px] text-foreground/40 font-extralight max-w-md mx-auto leading-[2]">
-            One-way repositioning flights at up to 75% off. The smartest way to fly private.
+          <h2 className="text-3xl md:text-5xl lg:text-6xl font-display font-semibold mb-6 text-foreground">
+            Fly Private for{" "}
+            <span className="text-gradient-gold italic">Less</span>
+          </h2>
+        </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8, delay: 0.2 }}
+          className="max-w-lg mx-auto text-center mb-16"
+        >
+          <p className="text-[13px] text-foreground/45 font-extralight leading-[2] mb-2">
+            One-way repositioning flights at up to 75% lower cost.
+          </p>
+          <p className="text-[11px] text-foreground/25 font-extralight leading-[2]">
+            When aircraft need to reposition, you benefit. Same jet. Same service. Fraction of the price.
           </p>
           {!data?.results?.length && !isLoading && !error && (
-            <p className="text-[10px] text-foreground/20 mt-2 font-extralight">Showing curated routes</p>
+            <p className="text-[10px] text-foreground/15 mt-3 font-extralight">Showing curated routes</p>
           )}
         </motion.div>
 
@@ -116,12 +131,27 @@ const EmptyLegsMap = () => {
 
         {/* Cards */}
         {!isLoading && (
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5 max-w-5xl mx-auto">
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5 max-w-5xl mx-auto mb-14">
             {legs.map((leg, i) => (
               <EmptyLegCard key={leg.id} leg={leg} index={i} onClick={() => handleLegClick(leg)} />
             ))}
           </div>
         )}
+
+        {/* CTA */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          className="text-center"
+        >
+          <a
+            href="#cta"
+            className="inline-flex items-center gap-2 px-10 py-3.5 bg-gradient-gold text-primary-foreground text-[9px] tracking-[0.25em] uppercase font-medium rounded-sm hover:shadow-[0_0_30px_-8px_hsla(38,52%,50%,0.45)] transition-all duration-500"
+          >
+            View All Empty Legs <ArrowRight size={10} />
+          </a>
+        </motion.div>
       </div>
     </section>
   );
