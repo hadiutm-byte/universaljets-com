@@ -220,6 +220,31 @@
     box-shadow: 0 0 15px 0 hsla(45, 79%, 46%, 0.2);
   }
 
+  /* === SEARCH WIDGET FIELDS === */
+  .search-field {
+    @apply px-4 py-4 rounded-xl border-2 border-border bg-muted/40 transition-all duration-300;
+  }
+
+  .search-field:hover {
+    background: hsl(0, 0%, 95%);
+    border-color: hsla(0, 0%, 0%, 0.12);
+  }
+
+  .search-field:focus-within {
+    border-color: hsl(45, 79%, 46%);
+    box-shadow: 0 0 0 3px hsla(45, 79%, 46%, 0.08);
+    background: hsl(0, 0%, 100%);
+  }
+
+  .search-label {
+    @apply flex items-center gap-1.5 text-[9px] tracking-[0.3em] uppercase font-semibold mb-2;
+    color: hsl(45, 79%, 46%);
+  }
+
+  .search-select {
+    @apply w-full bg-transparent text-[14px] text-foreground font-normal focus:outline-none appearance-none cursor-pointer;
+  }
+
   /* === LAYOUT === */
   .section-padding {
     @apply py-28 md:py-36 lg:py-44;
