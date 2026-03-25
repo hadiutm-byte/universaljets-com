@@ -88,14 +88,18 @@ const TrustedNetworkSection = () => (
       </div>
 
       <motion.div
-        initial={{ opacity: 0 }}
-        whileInView={{ opacity: 1 }}
+        initial={{ opacity: 0, y: 15 }}
+        whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
-        transition={{ duration: 1 }}
-        className="max-w-xl mx-auto text-center"
+        transition={{ duration: 0.8, delay: 0.1 }}
+        className="max-w-2xl mx-auto text-center mt-20"
       >
-        <p className="text-[12px] text-foreground/30 font-extralight leading-[2.4] italic">
-          "This approach allows us to offer flexibility, availability, and pricing advantages that traditional operators cannot match."
+        <div className="divider-gold mb-16" />
+        <p className="text-[13px] text-foreground/50 font-extralight leading-[2] mb-4">
+          Access the entire global private jet market —<br />not just one fleet.
+        </p>
+        <p className="text-[11px] text-foreground/30 font-extralight leading-[2] tracking-wide">
+          Better aircraft. Better pricing. Total flexibility.
         </p>
       </motion.div>
     </div>
