@@ -1,33 +1,79 @@
 import {
-  LayoutDashboard, Users, Target, Plane, FileText,
-  ScrollText, Receipt, Map, LogOut, ChevronLeft, MessageSquare,
+  LayoutDashboard, Users, Target, Plane, FileText, ScrollText, Receipt,
+  Map, LogOut, ChevronLeft, MessageSquare, Kanban, Shield, Settings, CreditCard,
+  Heart, UserCheck, DollarSign,
 } from "lucide-react";
 import { NavLink } from "@/components/NavLink";
-import { useLocation } from "react-router-dom";
-import { useAuth } from "@/hooks/useAuth";
+import { useAuth, type AppRole } from "@/hooks/useAuth";
 import {
   Sidebar, SidebarContent, SidebarGroup, SidebarGroupContent,
   SidebarGroupLabel, SidebarMenu, SidebarMenuButton, SidebarMenuItem,
   SidebarFooter, useSidebar,
 } from "@/components/ui/sidebar";
 
-const items = [
-  { title: "Dashboard", url: "/crm", icon: LayoutDashboard },
-  { title: "Clients", url: "/crm/clients", icon: Users },
-  { title: "Leads", url: "/crm/leads", icon: Target },
-  { title: "Flight Requests", url: "/crm/requests", icon: Plane },
-  { title: "Quotes", url: "/crm/quotes", icon: FileText },
-  { title: "Contracts", url: "/crm/contracts", icon: ScrollText },
-  { title: "Invoices", url: "/crm/invoices", icon: Receipt },
-  { title: "Trips", url: "/crm/trips", icon: Map },
-  { title: "Outreach", url: "/crm/outreach", icon: MessageSquare },
+interface NavItem {
+  title: string;
+  url: string;
+  icon: any;
+  roles: AppRole[]; // empty = all roles
+}
+
+const ALL_STAFF: AppRole[] = ["admin", "sales", "operations", "finance", "account_management"];
+
+const sections: { label: string; items: NavItem[] }[] = [
+  {
+    label: "Overview",
+    items: [
+      { title: "Dashboard", url: "/crm", icon: LayoutDashboard, roles: [] },
+      { title: "Pipeline", url: "/crm/pipeline", icon: Kanban, roles: ["admin", "sales"] },
+    ],
+  },
+  {
+    label: "Sales / Charter",
+    items: [
+      { title: "Leads", url: "/crm/leads", icon: Target, roles: ["admin", "sales"] },
+      { title: "Flight Requests", url: "/crm/requests", icon: Plane, roles: ["admin", "sales", "operations"] },
+      { title: "Quotes", url: "/crm/quotes", icon: FileText, roles: ["admin", "sales", "finance"] },
+      { title: "Clients", url: "/crm/clients", icon: Users, roles: ["admin", "sales", "account_management"] },
+    ],
+  },
+  {
+    label: "Operations",
+    items: [
+      { title: "Trips", url: "/crm/trips", icon: Map, roles: ["admin", "operations", "sales"] },
+      { title: "Contracts", url: "/crm/contracts", icon: ScrollText, roles: ["admin", "operations", "sales"] },
+    ],
+  },
+  {
+    label: "Finance",
+    items: [
+      { title: "Invoices", url: "/crm/invoices", icon: Receipt, roles: ["admin", "finance"] },
+    ],
+  },
+  {
+    label: "Membership",
+    items: [
+      { title: "Outreach", url: "/crm/outreach", icon: MessageSquare, roles: ["admin", "sales"] },
+    ],
+  },
+  {
+    label: "Admin",
+    items: [
+      { title: "User Management", url: "/crm/admin/users", icon: Shield, roles: ["admin"] },
+      { title: "Settings", url: "/crm/admin/settings", icon: Settings, roles: ["admin"] },
+    ],
+  },
 ];
 
 export function CrmSidebar() {
   const { state } = useSidebar();
   const collapsed = state === "collapsed";
-  const location = useLocation();
-  const { signOut } = useAuth();
+  const { roles, signOut } = useAuth();
+
+  const canSee = (item: NavItem) => {
+    if (item.roles.length === 0) return true;
+    return item.roles.some(r => roles.includes(r));
+  };
 
   return (
     <Sidebar collapsible="icon" className="border-r border-border/30">
@@ -44,30 +90,36 @@ export function CrmSidebar() {
           </NavLink>
         </div>
 
-        <SidebarGroup>
-          <SidebarGroupLabel className="text-[9px] tracking-[0.25em] uppercase text-muted-foreground/60 font-light px-4">
-            CRM
-          </SidebarGroupLabel>
-          <SidebarGroupContent>
-            <SidebarMenu>
-              {items.map((item) => (
-                <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton asChild>
-                    <NavLink
-                      to={item.url}
-                      end={item.url === "/crm"}
-                      className="flex items-center gap-3 px-4 py-2.5 text-[12px] text-foreground/50 hover:text-foreground hover:bg-secondary/50 rounded-md transition-all duration-300"
-                      activeClassName="bg-primary/10 text-primary border-l-2 border-primary"
-                    >
-                      <item.icon className="w-4 h-4 flex-shrink-0" strokeWidth={1.5} />
-                      {!collapsed && <span>{item.title}</span>}
-                    </NavLink>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-              ))}
-            </SidebarMenu>
-          </SidebarGroupContent>
-        </SidebarGroup>
+        {sections.map(section => {
+          const visible = section.items.filter(canSee);
+          if (visible.length === 0) return null;
+          return (
+            <SidebarGroup key={section.label}>
+              <SidebarGroupLabel className="text-[8px] tracking-[0.3em] uppercase text-muted-foreground/40 font-light px-4">
+                {section.label}
+              </SidebarGroupLabel>
+              <SidebarGroupContent>
+                <SidebarMenu>
+                  {visible.map((item) => (
+                    <SidebarMenuItem key={item.title}>
+                      <SidebarMenuButton asChild>
+                        <NavLink
+                          to={item.url}
+                          end={item.url === "/crm"}
+                          className="flex items-center gap-3 px-4 py-2.5 text-[12px] text-foreground/50 hover:text-foreground hover:bg-secondary/50 rounded-md transition-all duration-300"
+                          activeClassName="bg-primary/10 text-primary border-l-2 border-primary"
+                        >
+                          <item.icon className="w-4 h-4 flex-shrink-0" strokeWidth={1.5} />
+                          {!collapsed && <span>{item.title}</span>}
+                        </NavLink>
+                      </SidebarMenuButton>
+                    </SidebarMenuItem>
+                  ))}
+                </SidebarMenu>
+              </SidebarGroupContent>
+            </SidebarGroup>
+          );
+        })}
       </SidebarContent>
 
       <SidebarFooter className="bg-card border-t border-border/20 p-3">
