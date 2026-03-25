@@ -222,6 +222,19 @@ const Ricky3D = () => {
             className="fixed bottom-0 right-0 z-50 cursor-grab active:cursor-grabbing"
             style={{ pointerEvents: "none" }}
           >
+            {/* Close (X) button */}
+            <motion.button
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.5 }}
+              onClick={dismiss}
+              className="absolute top-2 right-2 z-[10] w-7 h-7 rounded-full bg-background/80 backdrop-blur-sm border border-border/30 flex items-center justify-center text-foreground/50 hover:text-foreground hover:bg-background transition-all shadow-sm"
+              style={{ pointerEvents: "auto" }}
+              title="Close Ricky"
+            >
+              <X size={14} />
+            </motion.button>
+
             {/* Speech cloud above Ricky's head */}
             <AnimatePresence>
               {showBubble && (
@@ -230,11 +243,10 @@ const Ricky3D = () => {
                   animate={{ opacity: 1, y: 0, scale: 1 }}
                   exit={{ opacity: 0, y: 8, scale: 0.96 }}
                   transition={{ duration: 0.4 }}
-                  className="ricky-speech-cloud absolute bottom-[480px] right-[60px] z-[2] w-[320px] px-6 py-5"
+                  className="ricky-speech-cloud absolute bottom-[260px] right-[40px] z-[2] w-[280px] px-5 py-4"
                   style={{ pointerEvents: "auto" }}
                 >
-                  {/* Cloud tail/orbs now handled by CSS ::before/::after */}
-                  <p className="text-[13px] font-light leading-[1.85] text-foreground/80 whitespace-pre-wrap">
+                  <p className="text-[12px] font-light leading-[1.85] text-foreground/80 whitespace-pre-wrap">
                     {displayedText}
                     {!showActions && <span className="animate-pulse text-primary">|</span>}
                   </p>
@@ -256,7 +268,7 @@ const Ricky3D = () => {
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.4 }}
-                  className="absolute bottom-[430px] right-[46px] z-[2] flex max-w-[320px] flex-wrap justify-end gap-2"
+                  className="absolute bottom-[220px] right-[30px] z-[2] flex max-w-[280px] flex-wrap justify-end gap-2"
                   style={{ pointerEvents: "auto" }}
                 >
                   {quickActions.map((action, i) => (
@@ -280,7 +292,7 @@ const Ricky3D = () => {
               )}
             </AnimatePresence>
 
-            {/* Ricky — large, transparent, anchored bottom-right */}
+            {/* Ricky — proportional size, transparent, anchored bottom-right */}
             <motion.button
               initial={{ scale: 0.86, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
@@ -292,7 +304,7 @@ const Ricky3D = () => {
               style={{ pointerEvents: "auto" }}
             >
               <div className="ricky-presence ricky-presence-3d">
-                <RickyThreeAvatar speaking={rickySpeaking} size={520} />
+                <RickyThreeAvatar speaking={rickySpeaking} size={280} />
               </div>
             </motion.button>
           </motion.div>
