@@ -332,7 +332,7 @@ const MembershipEnrollment = () => {
                             Member<br />Since
                           </span>
                           <span className="text-[12px] text-foreground/50 font-light tracking-wider">
-                            {member.validUntil}
+                            {member.memberSince}
                           </span>
                         </div>
                       </div>
