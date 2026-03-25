@@ -2,14 +2,7 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
-import { Check, Plane, Clock, Globe, MapPin, Users } from "lucide-react";
-
-const trustSignals = [
-  { icon: Plane, value: "6,000+", label: "Aircraft" },
-  { icon: MapPin, value: "40,000", label: "Airports" },
-  { icon: Globe, value: "24/7", label: "Global Coverage" },
-  { icon: Clock, value: "<30 min", label: "Response Time" },
-];
+import { Check } from "lucide-react";
 
 const CTASection = () => {
   const [form, setForm] = useState({
@@ -63,39 +56,17 @@ const CTASection = () => {
             <h2 className="text-3xl md:text-5xl lg:text-6xl font-display font-semibold text-foreground mb-5 leading-tight">
               Request Your <span className="text-gradient-gold italic font-medium">Flight</span>
             </h2>
-            <p className="text-[13px] md:text-[15px] text-foreground/40 font-extralight leading-[2] max-w-xl mx-auto">
-              Access the entire global private jet market — instantly compared, optimized, and secured for your mission.
+            <p className="text-[11px] md:text-[12px] tracking-[0.15em] text-foreground/30 font-extralight">
+              6,000+ aircraft • 40,000 airports • 24/7 global coverage
             </p>
           </motion.div>
-
-          {/* Trust signals */}
-          <motion.p
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.2, duration: 0.7 }}
-            className="text-center text-[11px] md:text-[12px] tracking-[0.15em] text-foreground/30 font-extralight mb-14"
-          >
-            6,000+ aircraft • 40,000 airports • 24/7 global coverage
-          </motion.p>
-
-          {/* Micro copy */}
-          <motion.p
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.3, duration: 0.6 }}
-            className="text-center text-[11px] text-foreground/30 font-extralight tracking-wide mb-8"
-          >
-            Tell us your route — we'll handle the rest. Typical response time: under 30 minutes.
-          </motion.p>
 
           {/* Form card */}
           <motion.div
             initial={{ opacity: 0, y: 25 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ delay: 0.35, duration: 0.8 }}
+            transition={{ delay: 0.2, duration: 0.8 }}
             className="rounded-2xl border border-primary/8 bg-gradient-to-br from-card/25 to-card/10 backdrop-blur-md p-8 md:p-12"
           >
             {submitted ? (
@@ -108,10 +79,7 @@ const CTASection = () => {
                   <Check className="w-7 h-7 text-primary" strokeWidth={1.5} />
                 </div>
                 <h3 className="font-display text-xl mb-3 text-foreground">Request Received</h3>
-                <p className="text-[12px] text-foreground/35 font-extralight leading-[2] max-w-sm mx-auto mb-2">
-                  Our aviation advisors are sourcing the best options now.
-                </p>
-                <p className="text-[11px] text-primary/40 font-light">
+                <p className="text-[12px] text-foreground/35 font-extralight">
                   Expect a personalised quote within minutes.
                 </p>
               </motion.div>
@@ -211,9 +179,6 @@ const CTASection = () => {
                   >
                     Speak to an Aviation Advisor →
                   </button>
-                  <p className="text-[10px] text-foreground/18 font-extralight mt-4 tracking-wide">
-                    Every request is handled by an experienced aviation advisor — not an automated system.
-                  </p>
                 </div>
               </form>
             )}

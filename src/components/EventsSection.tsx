@@ -26,15 +26,12 @@ const EventsSection = () => (
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 0.8 }}
-        className="text-center mb-20"
+        className="text-center mb-16"
       >
         <p className="text-[9px] tracking-[0.5em] uppercase text-primary/60 mb-6 font-light">Events</p>
-        <h2 className="text-3xl md:text-5xl lg:text-6xl font-display font-semibold text-foreground">
+        <h2 className="text-3xl md:text-4xl lg:text-5xl font-display font-semibold text-foreground">
           Where the World's Elite <span className="text-gradient-gold italic">Gather</span>
         </h2>
-        <p className="text-[12px] text-foreground/35 font-extralight leading-[2] max-w-lg mx-auto mt-5">
-          High demand periods. Limited aircraft availability. Early booking recommended.
-        </p>
       </motion.div>
 
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 max-w-5xl mx-auto">
