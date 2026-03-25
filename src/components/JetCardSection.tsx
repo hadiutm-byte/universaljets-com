@@ -22,9 +22,15 @@ const JetCardSection = () => (
         className="text-center mb-16"
       >
         <p className="text-[9px] tracking-[0.5em] uppercase text-primary/60 mb-6 font-light">Jet Card</p>
-        <h2 className="text-3xl md:text-4xl lg:text-5xl font-display font-semibold text-foreground">
-          Fly on <span className="text-gradient-gold italic">Your Terms</span>
+        <h2 className="text-3xl md:text-4xl lg:text-5xl font-display font-semibold text-foreground mb-5">
+          Jet Card <span className="text-gradient-gold italic">Membership</span>
         </h2>
+        <p className="text-[13px] md:text-[14px] text-foreground/40 font-extralight leading-[2] max-w-lg mx-auto mb-2">
+          Access tailored flight hours with priority availability and fixed structure.
+        </p>
+        <p className="text-[11px] text-foreground/25 font-extralight tracking-wide italic">
+          Available by consultation only.
+        </p>
       </motion.div>
 
       <div className="grid grid-cols-2 md:grid-cols-4 gap-8 max-w-3xl mx-auto mb-14">
