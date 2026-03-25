@@ -2,6 +2,7 @@ import {
   LayoutDashboard, Users, Target, Plane, FileText, ScrollText, Receipt,
   Map, LogOut, ChevronLeft, MessageSquare, Kanban, Shield, Settings,
   UserCheck, DollarSign, Briefcase, Gift, Activity, FolderOpen,
+  ArrowDownLeft, ArrowUpRight, CreditCard, Landmark, TrendingUp,
 } from "lucide-react";
 import { NavLink } from "@/components/NavLink";
 import { useAuth, type AppRole } from "@/hooks/useAuth";
