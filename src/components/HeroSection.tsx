@@ -24,8 +24,9 @@ const HeroSection = () => {
           width={1920}
           height={1080}
         />
-        {/* Jet glow/reflection effect */}
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_40%_at_55%_45%,_hsla(38,60%,55%,0.08)_0%,_transparent_70%)]" />
+        {/* Jet glow/reflection — warm light around aircraft */}
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_50%_35%_at_55%_45%,_hsla(38,60%,55%,0.15)_0%,_transparent_65%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_30%_25%_at_55%_48%,_hsla(38,50%,60%,0.08)_0%,_transparent_55%)]" />
       </motion.div>
 
       {/* Animated cloud layers */}
@@ -35,10 +36,10 @@ const HeroSection = () => {
         <div className="hero-cloud hero-cloud-3" />
       </div>
 
-      {/* Cinematic overlays — deep contrast */}
-      <div className="absolute inset-0 bg-gradient-to-b from-background/[0.92] via-background/50 to-background" />
-      <div className="absolute inset-0 bg-gradient-to-r from-background/80 via-transparent to-background/70" />
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_50%_at_50%_40%,_transparent_30%,_hsl(var(--background))_100%)]" />
+      {/* Cinematic overlays — balanced depth with visible sunset */}
+      <div className="absolute inset-0 bg-gradient-to-b from-background/[0.85] via-background/[0.3] to-background/[0.95]" />
+      <div className="absolute inset-0 bg-gradient-to-r from-background/60 via-transparent to-background/50" />
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_70%_50%_at_50%_45%,_transparent_20%,_hsl(var(--background)/0.7)_100%)]" />
 
       {/* Content */}
       <motion.div
@@ -58,7 +59,7 @@ const HeroSection = () => {
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1, delay: 0.4 }}
-          className="text-[9px] md:text-[10px] tracking-[0.55em] uppercase text-gold/60 mb-10 font-light"
+          className="text-[9px] md:text-[10px] tracking-[0.55em] uppercase text-primary/70 mb-10 font-light"
         >
           Private Aviation Redefined
         </motion.p>
@@ -83,7 +84,7 @@ const HeroSection = () => {
           initial={{ opacity: 0, y: 18 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1, delay: 0.85 }}
-          className="text-[12px] md:text-[14px] text-foreground/35 max-w-lg mx-auto mb-12 font-extralight leading-[2.1] tracking-[0.02em]"
+          className="text-[12px] md:text-[14px] text-foreground/50 max-w-lg mx-auto mb-12 font-extralight leading-[2.1] tracking-[0.02em]"
         >
           Charter smarter. Access the global private jet market with better pricing, full flexibility, and 24/7 expert advisory.
         </motion.p>
