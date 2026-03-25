@@ -127,7 +127,7 @@ const ACMILeasingPage = () => {
         <div className="container mx-auto px-8 max-w-3xl">
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.8 }} className="text-center mb-16">
             <p className="text-[9px] tracking-[0.5em] uppercase text-primary/60 mb-6 font-light">Global Access</p>
-            <h2 className="text-2xl md:text-4xl font-display font-semibold text-foreground">Built For Every Operation</h2>
+            <h2 className="text-2xl md:text-4xl font-display font-semibold text-foreground">Fly Anywhere. Without Limits.</h2>
           </motion.div>
 
           <div className="grid sm:grid-cols-2 gap-4">
