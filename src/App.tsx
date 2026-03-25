@@ -99,6 +99,13 @@ const App = () => (
             <Route path="account-mgmt" element={<AccountMgmtPage />} />
             <Route path="hr" element={<HRPage />} />
             <Route path="activity" element={<ActivityLogPage />} />
+            <Route path="finance" element={<FinanceDashboardPage />} />
+            <Route path="finance/receivables" element={<ReceivablesPage />} />
+            <Route path="finance/payables" element={<PayablesPage />} />
+            <Route path="finance/payments" element={<PaymentsPage />} />
+            <Route path="finance/credits" element={<CreditsPage />} />
+            <Route path="finance/bank" element={<BankReconciliationPage />} />
+            <Route path="finance/statements" element={<FinancialStatementsPage />} />
             <Route path="resources" element={<CrmResourcesPage />} />
             <Route path="admin/users" element={<AdminUsersPage />} />
             <Route path="admin/settings" element={<AdminSettingsPage />} />
