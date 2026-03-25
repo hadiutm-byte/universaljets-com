@@ -25,6 +25,7 @@ const Index = () => (
       <TrustStrip />
       <WhySection />
       <ServicesSection />
+      <HowItWorksSection />
       <JetCardSection />
       <EmptyLegsSection />
       <DestinationsSection />
