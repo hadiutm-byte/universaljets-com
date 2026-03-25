@@ -4,8 +4,7 @@ import { ShieldCheck, Search, Wrench, Users, ClipboardCheck } from "lucide-react
 const certifications = [
   { name: "WYVERN", sub: "Wingman Certified" },
   { name: "ARGUS", sub: "Platinum / Gold Rated" },
-  { name: "ICAO", sub: "International Standards" },
-  { name: "IOSA", sub: "Operational Safety Audit" },
+  { name: "ICAO", sub: "Compliant Operators" },
 ];
 
 const vettingSteps = [
@@ -48,24 +47,18 @@ const SafetySection = () => (
           </div>
 
           <h2 className="text-2xl md:text-3xl lg:text-4xl font-display font-semibold text-foreground mb-6 leading-tight">
-            Safety is not a feature.{" "}
-            <span className="text-gradient-gold italic">It's the foundation.</span>
+            Safety First.{" "}
+            <span className="text-gradient-gold italic">Always.</span>
           </h2>
 
-          <p className="text-[12px] md:text-[13px] text-foreground/40 font-extralight leading-[2.1] mb-4">
-            We work exclusively with operators that meet the highest international
-            safety standards, including WYVERN and ARGUS certifications where
-            applicable.
-          </p>
-          <p className="text-[12px] md:text-[13px] text-foreground/35 font-extralight leading-[2.1] mb-8">
-            Every aircraft is vetted based on operator history, crew experience,
-            maintenance records, and operational compliance.
+          <p className="text-[12px] md:text-[13px] text-foreground/40 font-extralight leading-[2.1] mb-8">
+            We work exclusively with vetted operators meeting the highest international standards.
           </p>
 
-          {/* Trust quote */}
+          {/* Closing statement */}
           <div className="border-l border-primary/15 pl-5 py-1">
             <p className="text-[11px] text-foreground/40 font-extralight leading-[2] italic">
-              "Every flight is carefully matched with operators that meet strict international safety benchmarks."
+              Every flight is reviewed before confirmation.
             </p>
           </div>
         </motion.div>
