@@ -27,6 +27,5 @@ export default defineConfig(({ mode }) => ({
       "react/jsx-dev-runtime",
       "@radix-ui/react-tooltip",
     ],
-    force: true,
   },
 }));
