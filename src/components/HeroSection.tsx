@@ -28,17 +28,14 @@ const HeroSection = () => {
         className="absolute inset-0 pointer-events-none"
         style={{ scale: bgScale, opacity: bgOpacity }}
       >
-        <motion.div style={{ x: mouse.x * 0.3, y: mouse.y * 0.3, scale: videoZoom }} className="h-full w-full">
-          <video
-            autoPlay
-            muted
-            loop
-            playsInline
+        <motion.div style={{ x: mouse.x * 0.3, y: mouse.y * 0.3, scale: imgZoom }} className="h-full w-full">
+          <img
+            src={heroJet}
+            alt="Private jet flying above clouds at golden hour"
+            width={1920}
+            height={1080}
             className="h-full w-full object-cover"
-            poster=""
-          >
-            <source src={HERO_VIDEO_URL} type="video/mp4" />
-          </video>
+          />
         </motion.div>
       </motion.div>
 
