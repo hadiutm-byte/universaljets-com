@@ -146,6 +146,12 @@ const ACMILeasingPage = () => {
               </motion.div>
             ))}
           </div>
+
+          <motion.p initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} transition={{ delay: 0.4, duration: 0.8 }}
+            className="text-center text-[11px] tracking-[0.3em] uppercase text-foreground/25 font-extralight mt-12 italic"
+          >
+            No routes. No restrictions. Only possibilities.
+          </motion.p>
         </div>
       </section>
 
