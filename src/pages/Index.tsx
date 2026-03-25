@@ -1,5 +1,3 @@
-import { useRef } from "react";
-import { motion, useScroll, useTransform } from "framer-motion";
 import Navbar from "@/components/Navbar";
 import HeroSection from "@/components/HeroSection";
 import SearchSection from "@/components/SearchSection";
@@ -15,58 +13,66 @@ import Footer from "@/components/Footer";
 
 const Index = () => (
   <div className="min-h-screen bg-background relative">
-    {/* Noise texture */}
     <div className="noise-overlay" />
 
     <div className="relative z-[2]">
       <Navbar />
 
-      {/* 1. Hero */}
+      {/* 1. Hero — white gradient */}
       <HeroSection />
 
-      {/* 2. Search Engine — floating below hero */}
+      {/* 2. Search — floats over transition */}
       <SearchSection />
 
-      {/* 3. How It Works */}
-      <HowItWorksSection />
+      {/* 3. How It Works — white */}
+      <div className="section-white">
+        <HowItWorksSection />
+      </div>
 
       <div className="divider-shimmer" />
 
-      {/* 4. Services */}
-      <div className="section-alt">
+      {/* 4. Services — light gray */}
+      <div className="section-light">
         <ServicesSection />
       </div>
 
       <div className="divider-shimmer" />
 
-      {/* 5. Empty Legs */}
-      <EmptyLegsMap />
+      {/* 5. Empty Legs — white */}
+      <div className="section-white">
+        <EmptyLegsMap />
+      </div>
 
       <div className="divider-shimmer" />
 
-      {/* 6. Membership */}
-      <div className="section-alt">
+      {/* 6. Membership — light gray */}
+      <div className="section-light">
         <MembershipEnrollment />
       </div>
 
       <div className="divider-shimmer" />
 
-      {/* 7. Jet Card */}
-      <JetCardSection />
+      {/* 7. Jet Card — white */}
+      <div className="section-white">
+        <JetCardSection />
+      </div>
 
       <div className="divider-shimmer" />
 
-      {/* 8. Partners */}
-      <div className="section-alt">
+      {/* 8. Partners — light gray */}
+      <div className="section-light">
         <PartnersSection />
       </div>
 
       {/* 9. Trust Strip */}
       <TrustStrip />
 
-      {/* 10. Final CTA */}
-      <FinalCTASection />
+      {/* 10. Final CTA — DARK charcoal for contrast */}
+      <div className="section-dark">
+        <FinalCTASection />
+      </div>
 
+      {/* Footer — dark */}
       <Footer />
     </div>
   </div>
