@@ -311,29 +311,37 @@ const Ricky3D = () => {
         )}
       </AnimatePresence>
 
-      {/* MINIMIZED */}
+      {/* MINIMIZED — floating icon */}
       <AnimatePresence>
         {phase === "minimized" && (
           <motion.div
-            initial={{ scale: 0, opacity: 0, y: 40 }}
-            animate={{ scale: 1, opacity: 1, y: 0 }}
-            exit={{ scale: 0, opacity: 0, y: 40 }}
-            transition={{ type: "spring", damping: 18, stiffness: 200 }}
+            initial={{ scale: 0, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            exit={{ scale: 0, opacity: 0 }}
+            transition={{ type: "spring", damping: 20, stiffness: 260 }}
             drag
             dragMomentum={false}
             dragElastic={0.15}
             whileDrag={{ scale: 1.1 }}
-            className="fixed bottom-4 right-4 z-50 cursor-grab active:cursor-grabbing"
+            className="fixed bottom-6 right-6 z-50 cursor-grab active:cursor-grabbing"
           >
-            <button
+            <motion.button
               onClick={openCharacter}
-              className="relative cursor-pointer focus:outline-none"
+              whileHover={{ scale: 1.08, y: -2 }}
+              whileTap={{ scale: 0.94 }}
+              className="relative w-14 h-14 rounded-full bg-gradient-to-br from-charcoal to-charcoal-deep shadow-[0_8px_30px_-6px_hsla(0,0%,0%,0.35)] flex items-center justify-center cursor-pointer focus:outline-none border border-primary/20 group"
             >
-              <div className="ricky-presence ricky-presence-compact ricky-presence-3d">
-                <RickyThreeAvatar speaking={false} size={128} compact />
-              </div>
-              <span className="ricky-status-dot" />
-            </button>
+              <motion.div
+                animate={{ y: [0, -3, 0] }}
+                transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
+              >
+                <MessageCircle className="w-6 h-6 text-primary" strokeWidth={1.5} />
+              </motion.div>
+              {/* Pulse ring */}
+              <span className="absolute inset-0 rounded-full border-2 border-primary/30 animate-ping opacity-40" />
+              {/* Status dot */}
+              <span className="absolute top-0 right-0 w-3 h-3 rounded-full bg-emerald-400 border-2 border-charcoal shadow-sm" />
+            </motion.button>
           </motion.div>
         )}
       </AnimatePresence>
