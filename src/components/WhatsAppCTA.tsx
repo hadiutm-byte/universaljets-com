@@ -2,9 +2,9 @@ import { motion } from "framer-motion";
 import { MessageCircle } from "lucide-react";
 import { FadeReveal, GlassCard } from "./ui/ScrollEffects";
 
-const WHATSAPP_NUMBER = "971501234567";
+const WHATSAPP_NUMBER = "447888999944";
 const WHATSAPP_MESSAGE = encodeURIComponent(
-  "Hi, I just joined the Universal Jets Private Access Network. I'd like to discuss my travel needs."
+  "Hello, I would like to request a private jet charter."
 );
 
 const WhatsAppCTA = () => (

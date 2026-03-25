@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { X, Send, Plane, CreditCard, Tag, Handshake, ChevronDown, Volume2, VolumeX } from "lucide-react";
+import { X, Send, Plane, CreditCard, Tag, Handshake, ChevronDown, Volume2, VolumeX, MessageCircle } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import RickyAvatar, { type RickyPose } from "./ricky/RickyAvatar";
 import { useRickyVoice } from "@/hooks/useRickyVoice";
@@ -16,9 +16,9 @@ Tell me your destination — I'll take care of everything.`;
 
 const quickActions = [
   { icon: Plane, label: "Request a Flight", action: "booking" as const },
+  { icon: MessageCircle, label: "Chat on WhatsApp", action: "whatsapp" as const },
   { icon: CreditCard, label: "Explore Jet Card", action: "chat" as const, msg: "Tell me about your Jet Card options." },
   { icon: Tag, label: "Find Empty Legs", action: "chat" as const, msg: "Show me available empty leg flights." },
-  { icon: Handshake, label: "Partner With Us", action: "chat" as const, msg: "I'd like to explore partnership opportunities." },
 ];
 
 const Ricky3D = () => {
@@ -114,6 +114,8 @@ const Ricky3D = () => {
   const handleQuickAction = (action: typeof quickActions[0]) => {
     if (action.action === "booking") {
       setPhase("booking");
+    } else if (action.action === "whatsapp") {
+      window.open("https://wa.me/447888999944?text=" + encodeURIComponent("Hello, I would like to request a private jet charter."), "_blank");
     } else {
       openChat(action.msg);
     }

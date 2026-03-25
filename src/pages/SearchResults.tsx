@@ -113,7 +113,7 @@ const SearchResults = () => {
               <p className="text-muted-foreground text-sm font-light mb-4">Unable to fetch results. Please try again or contact our concierge.</p>
               <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
                 <button onClick={() => navigate("/")} className="px-8 py-3 bg-gradient-gold text-primary-foreground text-[10px] tracking-[0.25em] uppercase font-medium rounded-xl">New Search</button>
-                <a href="https://wa.me/971501234567" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 px-8 py-3 border border-border text-foreground/50 hover:text-foreground text-[10px] tracking-[0.25em] uppercase font-light rounded-xl transition-colors">
+                <a href="https://wa.me/447888999944?text=Hello%2C%20I%20would%20like%20to%20request%20a%20private%20jet%20charter." target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 px-8 py-3 border border-border text-foreground/50 hover:text-foreground text-[10px] tracking-[0.25em] uppercase font-light rounded-xl transition-colors">
                   <Phone size={12} /> Contact Concierge
                 </a>
               </div>
@@ -249,7 +249,7 @@ const SearchResults = () => {
                 <button onClick={() => document.dispatchEvent(new CustomEvent("open-ricky"))} className="flex items-center gap-2 px-8 py-3 bg-gradient-gold text-primary-foreground text-[10px] tracking-[0.25em] uppercase font-medium rounded-xl">
                   <MessageCircle size={12} /> Speak to Ricky
                 </button>
-                <a href="https://wa.me/971501234567" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 px-8 py-3 border border-border text-foreground/50 hover:text-foreground text-[10px] tracking-[0.25em] uppercase font-light rounded-xl transition-colors">
+                <a href="https://wa.me/447888999944?text=Hello%2C%20I%20would%20like%20to%20request%20a%20private%20jet%20charter." target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 px-8 py-3 border border-border text-foreground/50 hover:text-foreground text-[10px] tracking-[0.25em] uppercase font-light rounded-xl transition-colors">
                   <Phone size={12} /> WhatsApp
                 </a>
               </div>
