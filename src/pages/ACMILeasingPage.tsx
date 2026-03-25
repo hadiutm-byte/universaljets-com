@@ -213,6 +213,45 @@ const ACMILeasingPage = () => {
         </div>
       </section>
 
+      {/* Elite Destinations */}
+      <section className="py-20 md:py-28 relative">
+        <div className="container mx-auto px-8 relative z-10 max-w-4xl">
+          <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.8 }} className="text-center mb-16">
+            <p className="text-[9px] tracking-[0.5em] uppercase text-primary/60 mb-6 font-light">Elite Destinations</p>
+            <h2 className="text-2xl md:text-4xl font-display font-semibold text-foreground mb-5">Where the World's Most Demanding Clients Travel</h2>
+            <p className="text-[13px] text-foreground/45 font-extralight leading-[2] max-w-xl mx-auto mb-2">
+              From Mediterranean summer hotspots to global financial hubs and remote island escapes — we position aircraft where demand is highest.
+            </p>
+          </motion.div>
+
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+            {[
+              { region: "French Riviera", tag: "Nice · Cannes · Monaco" },
+              { region: "Greek Islands", tag: "Mykonos · Santorini · Athens" },
+              { region: "Swiss Alps", tag: "Geneva · Zurich · St. Moritz" },
+              { region: "Gulf States", tag: "Dubai · Riyadh · Jeddah" },
+              { region: "Caribbean", tag: "St. Barts · Turks & Caicos" },
+              { region: "East Africa", tag: "Nairobi · Zanzibar · Seychelles" },
+              { region: "London & Paris", tag: "Farnborough · Le Bourget" },
+              { region: "Maldives & Indian Ocean", tag: "Malé · Mauritius" },
+            ].map((d, i) => (
+              <motion.div key={i} initial={{ opacity: 0, scale: 0.95 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true }} transition={{ delay: i * 0.06, duration: 0.5 }}
+                className="p-5 rounded-lg border border-border/20 bg-card/20 backdrop-blur-sm text-center group hover:border-primary/20 transition-all duration-500"
+              >
+                <p className="font-display text-[14px] font-medium text-foreground mb-2 group-hover:text-primary/80 transition-colors duration-500">{d.region}</p>
+                <p className="text-[10px] text-foreground/30 font-extralight tracking-wide">{d.tag}</p>
+              </motion.div>
+            ))}
+          </div>
+
+          <motion.p initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} transition={{ delay: 0.5, duration: 0.8 }}
+            className="text-center text-[11px] tracking-[0.3em] uppercase text-foreground/25 font-extralight mt-14 italic"
+          >
+            Wherever the destination — we deliver.
+          </motion.p>
+        </div>
+      </section>
+
       {/* Proposal Form */}
       <section id="acmi-form" className="py-20 md:py-28 relative">
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[hsl(228,22%,4.5%)] to-transparent pointer-events-none" />
