@@ -32,6 +32,11 @@ import TripsPage from "./pages/crm/TripsPage.tsx";
 import OutreachPage from "./pages/crm/OutreachPage.tsx";
 import AdminUsersPage from "./pages/crm/AdminUsersPage.tsx";
 import AdminSettingsPage from "./pages/crm/AdminSettingsPage.tsx";
+import MembershipPipelinePage from "./pages/crm/MembershipPipelinePage.tsx";
+import ReferralsPage from "./pages/crm/ReferralsPage.tsx";
+import AccountMgmtPage from "./pages/crm/AccountMgmtPage.tsx";
+import HRPage from "./pages/crm/HRPage.tsx";
+import ActivityLogPage from "./pages/crm/ActivityLogPage.tsx";
 import CareersPage from "./pages/CareersPage.tsx";
 import ContactPage from "./pages/ContactPage.tsx";
 import CharterPage from "./pages/CharterPage.tsx";
@@ -45,7 +50,7 @@ import FloatingWhatsApp from "./components/FloatingWhatsApp.tsx";
 
 const queryClient = new QueryClient();
 
-const CRM_ROLES = ["admin", "sales", "operations", "finance", "account_management"] as const;
+const CRM_ROLES = ["admin", "sales", "operations", "finance", "account_management", "hr"] as const;
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
@@ -82,6 +87,11 @@ const App = () => (
             <Route path="invoices" element={<InvoicesPage />} />
             <Route path="trips" element={<TripsPage />} />
             <Route path="outreach" element={<OutreachPage />} />
+            <Route path="membership" element={<MembershipPipelinePage />} />
+            <Route path="referrals" element={<ReferralsPage />} />
+            <Route path="account-mgmt" element={<AccountMgmtPage />} />
+            <Route path="hr" element={<HRPage />} />
+            <Route path="activity" element={<ActivityLogPage />} />
             <Route path="resources" element={<CrmResourcesPage />} />
             <Route path="admin/users" element={<AdminUsersPage />} />
             <Route path="admin/settings" element={<AdminSettingsPage />} />

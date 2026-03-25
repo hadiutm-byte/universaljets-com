@@ -1,7 +1,7 @@
 import {
   LayoutDashboard, Users, Target, Plane, FileText, ScrollText, Receipt,
-  Map, LogOut, ChevronLeft, MessageSquare, Kanban, Shield, Settings, CreditCard, FolderOpen,
-  Heart, UserCheck, DollarSign,
+  Map, LogOut, ChevronLeft, MessageSquare, Kanban, Shield, Settings,
+  UserCheck, DollarSign, Briefcase, Gift, Activity, FolderOpen,
 } from "lucide-react";
 import { NavLink } from "@/components/NavLink";
 import { useAuth, type AppRole } from "@/hooks/useAuth";
@@ -15,10 +15,8 @@ interface NavItem {
   title: string;
   url: string;
   icon: any;
-  roles: AppRole[]; // empty = all roles
+  roles: AppRole[];
 }
-
-const ALL_STAFF: AppRole[] = ["admin", "sales", "operations", "finance", "account_management"];
 
 const sections: { label: string; items: NavItem[] }[] = [
   {
@@ -38,6 +36,12 @@ const sections: { label: string; items: NavItem[] }[] = [
     ],
   },
   {
+    label: "Account Mgmt",
+    items: [
+      { title: "Client Portfolio", url: "/crm/account-mgmt", icon: UserCheck, roles: ["admin", "account_management"] },
+    ],
+  },
+  {
     label: "Operations",
     items: [
       { title: "Trips", url: "/crm/trips", icon: Map, roles: ["admin", "operations", "sales"] },
@@ -53,13 +57,22 @@ const sections: { label: string; items: NavItem[] }[] = [
   {
     label: "Membership",
     items: [
+      { title: "Applications", url: "/crm/membership", icon: Briefcase, roles: ["admin", "account_management", "sales"] },
+      { title: "Referrals", url: "/crm/referrals", icon: Gift, roles: ["admin", "account_management", "sales"] },
       { title: "Outreach", url: "/crm/outreach", icon: MessageSquare, roles: ["admin", "sales"] },
+    ],
+  },
+  {
+    label: "HR",
+    items: [
+      { title: "Staff Directory", url: "/crm/hr", icon: Users, roles: ["admin", "hr"] },
     ],
   },
   {
     label: "Admin",
     items: [
       { title: "User Management", url: "/crm/admin/users", icon: Shield, roles: ["admin"] },
+      { title: "Activity Log", url: "/crm/activity", icon: Activity, roles: ["admin"] },
       { title: "Settings", url: "/crm/admin/settings", icon: Settings, roles: ["admin"] },
     ],
   },
@@ -78,7 +91,6 @@ export function CrmSidebar() {
   return (
     <Sidebar collapsible="icon" className="border-r border-border/30">
       <SidebarContent className="bg-card">
-        {/* Brand */}
         <div className={`px-4 py-5 border-b border-border/20 ${collapsed ? "px-2" : ""}`}>
           <NavLink to="/" className="flex items-center gap-2 text-foreground/70 hover:text-foreground transition-colors">
             <ChevronLeft className="w-4 h-4 flex-shrink-0" />
