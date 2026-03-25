@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Plane, UserCheck, Tag, Sparkles, CreditCard, Download, MessageCircle } from "lucide-react";
-import { supabase } from "@/integrations/supabase/client";
+import { useCrmApi } from "@/hooks/useCrmApi";
 import { toast } from "sonner";
 
 const benefits = [
