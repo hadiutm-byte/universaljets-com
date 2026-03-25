@@ -111,6 +111,14 @@ const ACMILeasingPage = () => {
       <section className="py-20 md:py-28 relative">
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[hsl(228,22%,4.5%)] to-transparent pointer-events-none" />
         <div className="container mx-auto px-8 relative z-10">
+          <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.8 }} className="text-center mb-16">
+            <p className="text-[9px] tracking-[0.5em] uppercase text-primary/60 mb-6 font-light">ACMI & Leasing</p>
+            <h2 className="text-2xl md:text-4xl font-display font-semibold text-foreground mb-5">Global Aircraft Capacity, Delivered On Demand</h2>
+            <p className="text-[13px] text-foreground/45 font-extralight leading-[2] max-w-xl mx-auto">
+              From urgent fleet replacement to long-term ACMI contracts, we source and deploy aircraft worldwide for airlines, governments, and organizations.
+            </p>
+          </motion.div>
+
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-10 max-w-5xl mx-auto">
             {pillars.map((p, i) => (
               <motion.div key={i} initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.1, duration: 0.7 }} className="text-center group">
