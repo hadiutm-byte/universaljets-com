@@ -104,6 +104,8 @@ const App = () => (
             <Route path="account-mgmt" element={<AccountMgmtPage />} />
             <Route path="account-mgmt/:clientId" element={<AccountMgmtDetailPage />} />
             <Route path="hr" element={<HRPage />} />
+            <Route path="bd" element={<BDDashboardPage />} />
+            <Route path="bd/:oppId" element={<BDDetailPage />} />
             <Route path="activity" element={<ActivityLogPage />} />
             <Route path="finance" element={<FinanceDashboardPage />} />
             <Route path="finance/receivables" element={<ReceivablesPage />} />

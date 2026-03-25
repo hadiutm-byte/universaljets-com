@@ -43,6 +43,12 @@ const sections: { label: string; items: NavItem[] }[] = [
     ],
   },
   {
+    label: "Business Dev",
+    items: [
+      { title: "Opportunities", url: "/crm/bd", icon: Handshake, roles: ["admin", "business_development"] },
+    ],
+  },
+  {
     label: "Operations",
     items: [
       { title: "Trips", url: "/crm/trips", icon: Map, roles: ["admin", "operations"] },
