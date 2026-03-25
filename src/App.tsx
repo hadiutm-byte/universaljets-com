@@ -64,7 +64,7 @@ const App = () => (
           <Route path="/acmi-leasing" element={<ACMILeasingPage />} />
           <Route path="/destinations" element={<DestinationsPage />} />
           <Route path="/partners" element={<PartnerPage />} />
-          <Route path="/resources" element={<ResourcesPage />} />
+          <Route path="/resources" element={<ProtectedRoute allowedRoles={[...CRM_ROLES]}><CrmResourcesPage /></ProtectedRoute>} />
           <Route path="/terms" element={<TermsPage />} />
           <Route path="/privacy" element={<PrivacyPage />} />
           <Route path="/cookies" element={<CookiesPage />} />
