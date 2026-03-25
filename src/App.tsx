@@ -36,6 +36,7 @@ import CareersPage from "./pages/CareersPage.tsx";
 import ContactPage from "./pages/ContactPage.tsx";
 import CharterPage from "./pages/CharterPage.tsx";
 import AircraftGuidePage from "./pages/AircraftGuidePage.tsx";
+import RequestFlightPage from "./pages/RequestFlightPage.tsx";
 import NotFound from "./pages/NotFound.tsx";
 import Ricky3D from "./components/Ricky3D.tsx";
 import CookieConsent from "./components/CookieConsent.tsx";
@@ -61,6 +62,7 @@ const App = () => (
           <Route path="/dashboard" element={<ProtectedRoute><DashboardPage /></ProtectedRoute>} />
           <Route path="/profile" element={<ProtectedRoute><MemberProfilePage /></ProtectedRoute>} />
           <Route path="/search" element={<SearchResults />} />
+          <Route path="/request-flight" element={<RequestFlightPage />} />
           <Route path="/about" element={<AboutPage />} />
           <Route path="/acmi-leasing" element={<ACMILeasingPage />} />
           <Route path="/destinations" element={<DestinationsPage />} />

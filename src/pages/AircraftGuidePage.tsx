@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { Plane, Users, MapPin } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { useCrmApi } from "@/hooks/useCrmApi";
+import AircraftRequestModal from "@/components/AircraftRequestModal";
 import { toast } from "sonner";
 
 interface Aircraft {
@@ -96,28 +96,14 @@ const aircraft: Aircraft[] = [
 
 const AircraftGuidePage = () => {
   const [activeCategory, setActiveCategory] = useState("All");
-  const [requestingAircraft, setRequestingAircraft] = useState<string | null>(null);
-  const { capture } = useCrmApi();
+  const [requestModalOpen, setRequestModalOpen] = useState(false);
+  const [selectedAircraft, setSelectedAircraft] = useState("");
 
   const filtered = activeCategory === "All" ? aircraft : aircraft.filter(a => a.category === activeCategory);
 
-  const handleRequestAircraft = async (aircraftName: string) => {
-    setRequestingAircraft(aircraftName);
-    try {
-      await capture({
-        name: "Aircraft Guide Inquiry",
-        email: "inquiry@universaljets.com",
-        departure: "TBD",
-        destination: "TBD",
-        source: "aircraft_guide",
-        aircraft: aircraftName,
-        passengers: "1",
-      });
-      toast.success(`Request submitted for ${aircraftName}. An advisor will contact you shortly.`);
-    } catch {
-      document.dispatchEvent(new CustomEvent("open-ricky"));
-    }
-    setRequestingAircraft(null);
+  const handleRequestAircraft = (aircraftName: string) => {
+    setSelectedAircraft(aircraftName);
+    setRequestModalOpen(true);
   };
 
   return (
@@ -210,10 +196,9 @@ const AircraftGuidePage = () => {
                   <div className="flex gap-2">
                     <button
                       onClick={() => handleRequestAircraft(ac.name)}
-                      disabled={requestingAircraft === ac.name}
-                      className="flex-1 py-2.5 bg-gradient-gold text-primary-foreground text-[9px] tracking-[0.2em] uppercase font-medium rounded-lg hover:shadow-[0_0_30px_-8px_hsla(45,79%,46%,0.4)] transition-all duration-500 disabled:opacity-50"
+                      className="flex-1 py-2.5 bg-gradient-gold text-primary-foreground text-[9px] tracking-[0.2em] uppercase font-medium rounded-lg hover:shadow-[0_0_30px_-8px_hsla(45,79%,46%,0.4)] transition-all duration-500"
                     >
-                      {requestingAircraft === ac.name ? "Submitting..." : "Request This Aircraft"}
+                      Request This Aircraft
                     </button>
                   </div>
                 </div>
@@ -240,6 +225,7 @@ const AircraftGuidePage = () => {
       </section>
 
       <Footer />
+      <AircraftRequestModal open={requestModalOpen} onOpenChange={setRequestModalOpen} aircraftName={selectedAircraft} />
     </div>
   );
 };
