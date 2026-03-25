@@ -2,7 +2,9 @@ import { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { MapPin, Calendar, Users, ArrowRight, Loader2, RotateCcw, Plus, X } from "lucide-react";
+import { format } from "date-fns";
 import { useAirportSearch, type Airport } from "@/hooks/useAviapages";
+import DateTimePicker from "@/components/flight-search/DateTimePicker";
 
 type TripType = "one-way" | "round-trip" | "multi-city";
 
@@ -13,12 +15,12 @@ interface Leg {
   toQuery: string;
   selectedFrom: Airport | null;
   selectedTo: Airport | null;
-  date: string;
+  date: Date | undefined;
 }
 
 const emptyLeg = (): Leg => ({
   from: "", to: "", fromQuery: "", toQuery: "",
-  selectedFrom: null, selectedTo: null, date: "",
+  selectedFrom: null, selectedTo: null, date: undefined,
 });
 
 const tripTabs: { value: TripType; label: string }[] = [
@@ -123,7 +125,7 @@ const FlightSearchBox = () => {
   const navigate = useNavigate();
   const [tripType, setTripType] = useState<TripType>("round-trip");
   const [legs, setLegs] = useState<Leg[]>([emptyLeg()]);
-  const [returnDate, setReturnDate] = useState("");
+  const [returnDate, setReturnDate] = useState<Date | undefined>(undefined);
   const [passengers, setPassengers] = useState("");
 
   const updateLeg = (index: number, updates: Partial<Leg>) => {
@@ -145,7 +147,7 @@ const FlightSearchBox = () => {
     } else {
       setLegs([legs[0] || emptyLeg()]);
     }
-    if (tripType === "one-way") setReturnDate("");
+    if (tripType === "one-way") setReturnDate(undefined);
   }, [tripType]);
 
   const primaryLeg = legs[0];
@@ -160,8 +162,8 @@ const FlightSearchBox = () => {
       from_label: `${primaryLeg.selectedFrom!.city} (${primaryLeg.selectedFrom!.icao || primaryLeg.selectedFrom!.iata})`,
       to_label: `${primaryLeg.selectedTo!.city} (${primaryLeg.selectedTo!.icao || primaryLeg.selectedTo!.iata})`,
     });
-    if (primaryLeg.date) params.set("date", primaryLeg.date);
-    if (tripType === "round-trip" && returnDate) params.set("return_date", returnDate);
+    if (primaryLeg.date) params.set("date", format(primaryLeg.date, "yyyy-MM-dd'T'HH:mm"));
+    if (tripType === "round-trip" && returnDate) params.set("return_date", format(returnDate, "yyyy-MM-dd'T'HH:mm"));
     if (passengers) params.set("passengers", passengers);
     if (tripType === "multi-city") {
       legs.forEach((leg, i) => {
@@ -169,7 +171,7 @@ const FlightSearchBox = () => {
         if (leg.selectedFrom && leg.selectedTo) {
           params.set(`leg${i + 1}_from`, leg.selectedFrom.icao || leg.selectedFrom.iata);
           params.set(`leg${i + 1}_to`, leg.selectedTo.icao || leg.selectedTo.iata);
-          if (leg.date) params.set(`leg${i + 1}_date`, leg.date);
+          if (leg.date) params.set(`leg${i + 1}_date`, format(leg.date, "yyyy-MM-dd'T'HH:mm"));
         }
       });
     }
@@ -246,38 +248,23 @@ const FlightSearchBox = () => {
               />
 
               {/* Departure Date */}
-              <div className="md:border-r md:border-r-[hsla(0,0%,100%,0.04)]">
-                <div className="px-4 py-4">
-                  <label className="flex items-center gap-1.5 text-[7.5px] tracking-[0.35em] uppercase text-primary/55 mb-2 font-light">
-                    <Calendar size={8} strokeWidth={1.5} /> Departure
-                  </label>
-                  <input
-                    type="date"
-                    value={primaryLeg.date}
-                    onChange={(e) => updateLeg(0, { date: e.target.value })}
-                    className="w-full bg-transparent text-[13px] text-foreground/90 font-light focus:outline-none [color-scheme:dark] tracking-wide"
-                  />
-                </div>
-              </div>
+              <DateTimePicker
+                label="Departure"
+                icon={Calendar}
+                value={primaryLeg.date}
+                onChange={(d) => updateLeg(0, { date: d })}
+                placeholder="Select date"
+              />
 
               {/* Return Date */}
-              <div className="md:border-r md:border-r-[hsla(0,0%,100%,0.04)]">
-                <div className="px-4 py-4">
-                  <label className="flex items-center gap-1.5 text-[7.5px] tracking-[0.35em] uppercase text-primary/55 mb-2 font-light">
-                    <RotateCcw size={8} strokeWidth={1.5} /> Return
-                  </label>
-                  {tripType === "round-trip" ? (
-                    <input
-                      type="date"
-                      value={returnDate}
-                      onChange={(e) => setReturnDate(e.target.value)}
-                      className="w-full bg-transparent text-[13px] text-foreground/90 font-light focus:outline-none [color-scheme:dark] tracking-wide"
-                    />
-                  ) : (
-                    <p className="text-[13px] text-foreground/15 font-light tracking-wide">—</p>
-                  )}
-                </div>
-              </div>
+              <DateTimePicker
+                label="Return"
+                icon={RotateCcw}
+                value={returnDate}
+                onChange={setReturnDate}
+                disabled={tripType !== "round-trip"}
+                placeholder="Select date"
+              />
 
               {/* Passengers */}
               <div>
@@ -359,19 +346,13 @@ const FlightSearchBox = () => {
                     onClearSelection={() => updateLeg(idx, { selectedTo: null })}
                   />
 
-                  <div className="md:border-r md:border-r-[hsla(0,0%,100%,0.04)]">
-                    <div className="px-4 py-4">
-                      <label className="flex items-center gap-1.5 text-[7.5px] tracking-[0.35em] uppercase text-primary/55 mb-2 font-light">
-                        <Calendar size={8} strokeWidth={1.5} /> Date
-                      </label>
-                      <input
-                        type="date"
-                        value={leg.date}
-                        onChange={(e) => updateLeg(idx, { date: e.target.value })}
-                        className="w-full bg-transparent text-[13px] text-foreground/90 font-light focus:outline-none [color-scheme:dark] tracking-wide"
-                      />
-                    </div>
-                  </div>
+                  <DateTimePicker
+                    label="Date"
+                    icon={Calendar}
+                    value={leg.date}
+                    onChange={(d) => updateLeg(idx, { date: d })}
+                    placeholder="Select date"
+                  />
 
                   {/* Remove leg */}
                   <div className="flex items-center px-2">
