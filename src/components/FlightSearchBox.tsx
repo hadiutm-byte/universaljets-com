@@ -95,6 +95,18 @@ const FlightSearchBox = () => {
 
   const handleSearch = () => {
     if (!canSearch) return;
+
+    // Fire CRM capture in background (non-blocking)
+    capture({
+      name: "Website Visitor",
+      email: "search@universaljets.com",
+      departure: `${primaryLeg.selectedFrom!.city} (${primaryLeg.selectedFrom!.icao || primaryLeg.selectedFrom!.iata})`,
+      destination: `${primaryLeg.selectedTo!.city} (${primaryLeg.selectedTo!.icao || primaryLeg.selectedTo!.iata})`,
+      date: primaryLeg.date ? format(primaryLeg.date, "yyyy-MM-dd'T'HH:mm") : undefined,
+      passengers: passengers || "1",
+      source: "homepage_widget",
+    }).catch(() => {}); // Silent — don't block search
+
     const params = new URLSearchParams({
       trip_type: tripType,
       from_icao: primaryLeg.selectedFrom!.icao || primaryLeg.selectedFrom!.iata,
