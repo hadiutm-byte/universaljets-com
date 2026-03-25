@@ -58,7 +58,7 @@ const getRegionForCountry = (country: string): string => {
 const EmptyLegsMap = () => {
   const [selectedLeg, setSelectedLeg] = useState<EmptyLeg | null>(null);
   const [activeRegion, setActiveRegion] = useState("All");
-  const [viewMode, setViewMode] = useState<"cards" | "map">("cards");
+  const [viewMode, setViewMode] = useState<"cards" | "map">("map");
   const { data, isLoading, error } = useEmptyLegs(activeRegion);
 
   const legs = useMemo(() => {
@@ -75,10 +75,10 @@ const EmptyLegsMap = () => {
 
   const handleLegClick = useCallback((leg: EmptyLeg) => setSelectedLeg(leg), []);
 
-  const toMapCoords = (lat: number | null, lng: number | null): [number, number] => {
+  const toMapCoords = useCallback((lat: number | null, lng: number | null): [number, number] => {
     if (lat === null || lng === null) return [50, 22.5];
     return [((lng + 180) / 360) * 100, ((90 - lat) / 180) * 45];
-  };
+  }, []);
 
   return (
     <section id="empty-legs" className="section-padding overflow-hidden section-alt">
@@ -140,6 +140,16 @@ const EmptyLegsMap = () => {
           </button>
         </div>
 
+        {!isLoading && viewMode === "map" && (
+          <div className="text-center mb-8">
+            <p className="text-[11px] text-muted-foreground font-light">
+              {mappableLegs.length > 0
+                ? `Interactive map showing ${mappableLegs.length} live routes with zoom, drag, and route details.`
+                : "No empty legs available at the moment."}
+            </p>
+          </div>
+        )}
+
         {isLoading && (
           <div className="flex items-center justify-center py-20">
             <Loader2 className="w-6 h-6 text-primary animate-spin" />
@@ -152,7 +162,7 @@ const EmptyLegsMap = () => {
           ) : (
             <div className="rounded-2xl border border-border bg-card p-16 text-center mb-16">
               <Map size={32} className="text-muted-foreground/30 mx-auto mb-4" />
-              <p className="text-[13px] text-muted-foreground font-light">Map data unavailable for current results. Switch to card view.</p>
+              <p className="text-[13px] text-muted-foreground font-light">No empty legs available at the moment.</p>
             </div>
           )
         )}

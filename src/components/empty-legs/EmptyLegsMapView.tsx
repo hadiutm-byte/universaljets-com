@@ -1,7 +1,8 @@
-import { useState, useRef, useCallback } from "react";
+import { useState, useRef, useCallback, useEffect, useMemo } from "react";
 import { motion } from "framer-motion";
 import type { EmptyLeg } from "@/hooks/useAviapages";
 import EmptyLegPopup from "./EmptyLegPopup";
+import { WORLD_VIEWBOX, clampMapViewBox, fitMapViewToLegs } from "./mapUtils";
 
 interface EmptyLegsMapViewProps {
   legs: EmptyLeg[];
@@ -13,30 +14,39 @@ interface EmptyLegsMapViewProps {
 
 const EmptyLegsMapView = ({ legs, selectedLeg, onLegClick, onClose, toMapCoords }: EmptyLegsMapViewProps) => {
   const containerRef = useRef<HTMLDivElement>(null);
-  const [viewBox, setViewBox] = useState({ x: 0, y: 0, w: 100, h: 45 });
+  const [viewBox, setViewBox] = useState(WORLD_VIEWBOX);
   const [isPanning, setIsPanning] = useState(false);
   const panStart = useRef<{ x: number; y: number; vx: number; vy: number } | null>(null);
+  const fittedViewBox = useMemo(() => fitMapViewToLegs(legs, toMapCoords), [legs, toMapCoords]);
+
+  useEffect(() => {
+    setViewBox(fittedViewBox);
+  }, [fittedViewBox]);
 
   const handleWheel = useCallback((e: React.WheelEvent) => {
     e.preventDefault();
     const rect = containerRef.current?.getBoundingClientRect();
     if (!rect) return;
 
-    const mouseX = ((e.clientX - rect.left) / rect.width) * viewBox.w + viewBox.x;
-    const mouseY = ((e.clientY - rect.top) / rect.height) * viewBox.h + viewBox.y;
+    setViewBox((current) => {
+      const mouseX = ((e.clientX - rect.left) / rect.width) * current.w + current.x;
+      const mouseY = ((e.clientY - rect.top) / rect.height) * current.h + current.y;
+      const factor = e.deltaY > 0 ? 1.15 : 0.87;
+      const newW = current.w * factor;
+      const newH = current.h * factor;
 
-    const factor = e.deltaY > 0 ? 1.15 : 0.87;
-    const newW = Math.max(20, Math.min(100, viewBox.w * factor));
-    const newH = Math.max(9, Math.min(45, viewBox.h * factor));
-
-    const newX = Math.max(0, Math.min(100 - newW, mouseX - (mouseX - viewBox.x) * (newW / viewBox.w)));
-    const newY = Math.max(0, Math.min(45 - newH, mouseY - (mouseY - viewBox.y) * (newH / viewBox.h)));
-
-    setViewBox({ x: newX, y: newY, w: newW, h: newH });
-  }, [viewBox]);
+      return clampMapViewBox({
+        x: mouseX - (mouseX - current.x) * (newW / current.w),
+        y: mouseY - (mouseY - current.y) * (newH / current.h),
+        w: newW,
+        h: newH,
+      });
+    });
+  }, []);
 
   const handlePointerDown = useCallback((e: React.PointerEvent) => {
-    if ((e.target as HTMLElement).closest("button")) return;
+    const target = e.target as Element;
+    if (target.closest("button, [data-map-action='route']")) return;
     setIsPanning(true);
     panStart.current = { x: e.clientX, y: e.clientY, vx: viewBox.x, vy: viewBox.y };
     (e.target as HTMLElement).setPointerCapture?.(e.pointerId);
@@ -47,9 +57,7 @@ const EmptyLegsMapView = ({ legs, selectedLeg, onLegClick, onClose, toMapCoords 
     const rect = containerRef.current.getBoundingClientRect();
     const dx = ((panStart.current.x - e.clientX) / rect.width) * viewBox.w;
     const dy = ((panStart.current.y - e.clientY) / rect.height) * viewBox.h;
-    const newX = Math.max(0, Math.min(100 - viewBox.w, panStart.current.vx + dx));
-    const newY = Math.max(0, Math.min(45 - viewBox.h, panStart.current.vy + dy));
-    setViewBox((prev) => ({ ...prev, x: newX, y: newY }));
+    setViewBox((prev) => clampMapViewBox({ ...prev, x: panStart.current!.vx + dx, y: panStart.current!.vy + dy }));
   }, [isPanning, viewBox.w, viewBox.h]);
 
   const handlePointerUp = useCallback(() => {
@@ -57,7 +65,8 @@ const EmptyLegsMapView = ({ legs, selectedLeg, onLegClick, onClose, toMapCoords 
     panStart.current = null;
   }, []);
 
-  const resetZoom = () => setViewBox({ x: 0, y: 0, w: 100, h: 45 });
+  const resetZoom = () => setViewBox(WORLD_VIEWBOX);
+  const fitRoutes = () => setViewBox(fittedViewBox);
   const isZoomed = viewBox.w < 99;
 
   return (
@@ -72,16 +81,19 @@ const EmptyLegsMapView = ({ legs, selectedLeg, onLegClick, onClose, toMapCoords 
       <div className="absolute top-4 right-4 z-20 flex items-center gap-2">
         <button
           onClick={() => {
-            const factor = 0.8;
-            const newW = Math.max(20, viewBox.w * factor);
-            const newH = Math.max(9, viewBox.h * factor);
-            const cx = viewBox.x + viewBox.w / 2;
-            const cy = viewBox.y + viewBox.h / 2;
-            setViewBox({
-              x: Math.max(0, cx - newW / 2),
-              y: Math.max(0, cy - newH / 2),
-              w: newW,
-              h: newH,
+            setViewBox((current) => {
+              const factor = 0.8;
+              const newW = current.w * factor;
+              const newH = current.h * factor;
+              const cx = current.x + current.w / 2;
+              const cy = current.y + current.h / 2;
+
+              return clampMapViewBox({
+                x: cx - newW / 2,
+                y: cy - newH / 2,
+                w: newW,
+                h: newH,
+              });
             });
           }}
           className="w-8 h-8 rounded-lg glass-panel flex items-center justify-center text-foreground/50 hover:text-foreground text-sm font-light transition-colors"
@@ -90,21 +102,30 @@ const EmptyLegsMapView = ({ legs, selectedLeg, onLegClick, onClose, toMapCoords 
         </button>
         <button
           onClick={() => {
-            const factor = 1.25;
-            const newW = Math.min(100, viewBox.w * factor);
-            const newH = Math.min(45, viewBox.h * factor);
-            const cx = viewBox.x + viewBox.w / 2;
-            const cy = viewBox.y + viewBox.h / 2;
-            setViewBox({
-              x: Math.max(0, Math.min(100 - newW, cx - newW / 2)),
-              y: Math.max(0, Math.min(45 - newH, cy - newH / 2)),
-              w: newW,
-              h: newH,
+            setViewBox((current) => {
+              const factor = 1.25;
+              const newW = current.w * factor;
+              const newH = current.h * factor;
+              const cx = current.x + current.w / 2;
+              const cy = current.y + current.h / 2;
+
+              return clampMapViewBox({
+                x: cx - newW / 2,
+                y: cy - newH / 2,
+                w: newW,
+                h: newH,
+              });
             });
           }}
           className="w-8 h-8 rounded-lg glass-panel flex items-center justify-center text-foreground/50 hover:text-foreground text-sm font-light transition-colors"
         >
           −
+        </button>
+        <button
+          onClick={fitRoutes}
+          className="px-3 h-8 rounded-lg glass-panel flex items-center justify-center text-[8px] tracking-[0.15em] uppercase text-foreground/50 hover:text-foreground font-light transition-colors"
+        >
+          Fit
         </button>
         {isZoomed && (
           <button
@@ -142,24 +163,25 @@ const EmptyLegsMapView = ({ legs, selectedLeg, onLegClick, onClose, toMapCoords 
         >
           <defs>
             <radialGradient id="mapGlow" cx="50%" cy="50%" r="50%">
-              <stop offset="0%" stopColor="hsla(38,52%,50%,0.04)" />
+              <stop offset="0%" stopColor="hsl(var(--primary) / 0.12)" />
               <stop offset="100%" stopColor="transparent" />
             </radialGradient>
           </defs>
+          <rect x="0" y="0" width="100" height="45" fill="hsl(var(--card))" />
           <rect x="0" y="0" width="100" height="45" fill="url(#mapGlow)" />
 
           {/* Simplified world continents */}
-          <path d="M10 12 L28 10 L30 18 L28 28 L22 32 L18 30 L12 22 L8 16 Z" fill="hsla(0,0%,100%,0.03)" stroke="hsla(0,0%,100%,0.06)" strokeWidth="0.15" />
-          <path d="M22 32 L28 30 L30 38 L26 44 L20 42 L18 36 Z" fill="hsla(0,0%,100%,0.03)" stroke="hsla(0,0%,100%,0.06)" strokeWidth="0.15" />
-          <path d="M42 10 L55 8 L56 18 L52 22 L46 20 L42 16 Z" fill="hsla(0,0%,100%,0.03)" stroke="hsla(0,0%,100%,0.06)" strokeWidth="0.15" />
-          <path d="M42 22 L56 20 L58 36 L50 42 L44 38 L42 28 Z" fill="hsla(0,0%,100%,0.03)" stroke="hsla(0,0%,100%,0.06)" strokeWidth="0.15" />
-          <path d="M56 8 L85 6 L88 20 L82 30 L68 32 L58 24 Z" fill="hsla(0,0%,100%,0.03)" stroke="hsla(0,0%,100%,0.06)" strokeWidth="0.15" />
-          <path d="M78 34 L90 32 L92 40 L84 42 Z" fill="hsla(0,0%,100%,0.03)" stroke="hsla(0,0%,100%,0.06)" strokeWidth="0.15" />
+          <path d="M10 12 L28 10 L30 18 L28 28 L22 32 L18 30 L12 22 L8 16 Z" fill="hsl(var(--muted) / 0.32)" stroke="hsl(var(--border) / 0.9)" strokeWidth="0.16" />
+          <path d="M22 32 L28 30 L30 38 L26 44 L20 42 L18 36 Z" fill="hsl(var(--muted) / 0.32)" stroke="hsl(var(--border) / 0.9)" strokeWidth="0.16" />
+          <path d="M42 10 L55 8 L56 18 L52 22 L46 20 L42 16 Z" fill="hsl(var(--muted) / 0.32)" stroke="hsl(var(--border) / 0.9)" strokeWidth="0.16" />
+          <path d="M42 22 L56 20 L58 36 L50 42 L44 38 L42 28 Z" fill="hsl(var(--muted) / 0.32)" stroke="hsl(var(--border) / 0.9)" strokeWidth="0.16" />
+          <path d="M56 8 L85 6 L88 20 L82 30 L68 32 L58 24 Z" fill="hsl(var(--muted) / 0.32)" stroke="hsl(var(--border) / 0.9)" strokeWidth="0.16" />
+          <path d="M78 34 L90 32 L92 40 L84 42 Z" fill="hsl(var(--muted) / 0.32)" stroke="hsl(var(--border) / 0.9)" strokeWidth="0.16" />
 
           {/* Grid dots */}
           {[...Array(10)].map((_, xi) =>
             [...Array(5)].map((_, yi) => (
-              <circle key={`${xi}-${yi}`} cx={5 + xi * 10} cy={4.5 + yi * 9} r="0.15" fill="hsla(0,0%,100%,0.05)" />
+              <circle key={`${xi}-${yi}`} cx={5 + xi * 10} cy={4.5 + yi * 9} r="0.15" fill="hsl(var(--muted-foreground) / 0.18)" />
             ))
           )}
 
@@ -171,18 +193,24 @@ const EmptyLegsMapView = ({ legs, selectedLeg, onLegClick, onClose, toMapCoords 
             const midX = (from[0] + to[0]) / 2;
             const midY = Math.min(from[1], to[1]) - 3;
             return (
-              <g key={leg.id} className="cursor-pointer" onClick={() => onLegClick(leg)}>
+              <g key={leg.id} className="cursor-pointer" data-map-action="route" onClick={() => onLegClick(leg)}>
                 <path
                   d={`M${from[0]},${from[1]} Q${midX},${midY} ${to[0]},${to[1]}`}
-                  stroke="hsla(38,52%,50%,0.3)"
-                  strokeWidth="0.2"
+                  stroke="hsl(var(--primary) / 0.12)"
+                  strokeWidth="0.7"
                   fill="none"
-                  strokeDasharray="0.8 0.4"
                 />
-                <circle cx={from[0]} cy={from[1]} r="0.6" fill="hsla(38,52%,50%,0.8)" />
-                <circle cx={from[0]} cy={from[1]} r="1.2" fill="none" stroke="hsla(38,52%,50%,0.2)" strokeWidth="0.1" className="animate-pulse-glow" />
-                <circle cx={to[0]} cy={to[1]} r="0.6" fill="hsla(38,52%,50%,0.8)" />
-                <circle cx={to[0]} cy={to[1]} r="1.2" fill="none" stroke="hsla(38,52%,50%,0.2)" strokeWidth="0.1" className="animate-pulse-glow" />
+                <path
+                  d={`M${from[0]},${from[1]} Q${midX},${midY} ${to[0]},${to[1]}`}
+                  stroke="hsl(var(--primary) / 0.62)"
+                  strokeWidth="0.28"
+                  fill="none"
+                  strokeDasharray="1 0.55"
+                />
+                <circle cx={from[0]} cy={from[1]} r="0.78" fill="hsl(var(--primary))" />
+                <circle cx={from[0]} cy={from[1]} r="1.45" fill="none" stroke="hsl(var(--primary) / 0.28)" strokeWidth="0.12" className="animate-pulse-glow" />
+                <circle cx={to[0]} cy={to[1]} r="0.78" fill="hsl(var(--primary))" />
+                <circle cx={to[0]} cy={to[1]} r="1.45" fill="none" stroke="hsl(var(--primary) / 0.28)" strokeWidth="0.12" className="animate-pulse-glow" />
               </g>
             );
           })}
@@ -208,6 +236,11 @@ const EmptyLegsMapView = ({ legs, selectedLeg, onLegClick, onClose, toMapCoords 
             </button>
           );
         })}
+      </div>
+
+      <div className="mt-5 flex flex-wrap items-center justify-between gap-3 text-[10px] text-muted-foreground font-light">
+        <span>{legs.length} live routes mapped</span>
+        <span>Click a route marker to open flight details</span>
       </div>
 
       <EmptyLegPopup leg={selectedLeg} onClose={onClose} />
