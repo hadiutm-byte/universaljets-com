@@ -1,0 +1,47 @@
+import { motion } from "framer-motion";
+import { Wine, Briefcase, Hotel, Car } from "lucide-react";
+
+const items = [
+  { icon: Wine, title: "Lifestyle Services", desc: "Private dining, exclusive events, and curated luxury experiences." },
+  { icon: Briefcase, title: "VIP Airport Services", desc: "Fast-track security, private terminals, and tarmac transfers." },
+  { icon: Hotel, title: "Hotels & Accommodation", desc: "Reserved suites at the world's finest properties." },
+  { icon: Car, title: "Ground Transport", desc: "Chauffeurs, supercars, and helicopter transfers." },
+];
+
+const ConciergeSection = () => (
+  <section id="concierge" className="section-padding">
+    <div className="container mx-auto px-8">
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.8 }}
+        className="text-center mb-28"
+      >
+        <p className="text-[9px] tracking-[0.5em] uppercase text-gold/70 mb-6 font-light">Beyond the Flight</p>
+        <h2 className="text-3xl md:text-5xl lg:text-6xl font-display font-semibold">Concierge</h2>
+      </motion.div>
+
+      <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-10 max-w-5xl mx-auto">
+        {items.map((item, i) => (
+          <motion.div
+            key={i}
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: i * 0.1, duration: 0.7 }}
+            className="text-center group"
+          >
+            <div className="w-16 h-16 rounded-full luxury-border flex items-center justify-center mx-auto mb-8 group-hover:glow-subtle transition-all duration-700">
+              <item.icon className="w-5 h-5 text-gold/70" strokeWidth={1.2} />
+            </div>
+            <h3 className="font-display text-lg mb-4">{item.title}</h3>
+            <p className="text-[12px] text-muted-foreground font-extralight leading-[2]">{item.desc}</p>
+          </motion.div>
+        ))}
+      </div>
+    </div>
+  </section>
+);
+
+export default ConciergeSection;

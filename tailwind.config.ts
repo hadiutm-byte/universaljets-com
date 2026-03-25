@@ -17,9 +17,6 @@ export default {
         display: ['"Playfair Display"', 'Georgia', 'serif'],
         body: ['"Inter"', 'system-ui', 'sans-serif'],
       },
-      letterSpacing: {
-        'ultra-wide': '0.35em',
-      },
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
@@ -94,9 +91,9 @@ export default {
           "0%": { opacity: "0" },
           "100%": { opacity: "1" },
         },
-        "scale-subtle": {
-          "0%": { opacity: "0", transform: "scale(0.97)" },
-          "100%": { opacity: "1", transform: "scale(1)" },
+        "pulse-glow": {
+          "0%, 100%": { opacity: "0.4" },
+          "50%": { opacity: "1" },
         },
       },
       animation: {
@@ -104,7 +101,7 @@ export default {
         "accordion-up": "accordion-up 0.2s ease-out",
         "fade-up": "fade-up 1s cubic-bezier(0.16, 1, 0.3, 1) forwards",
         "fade-in": "fade-in 1.2s ease-out forwards",
-        "scale-subtle": "scale-subtle 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards",
+        "pulse-glow": "pulse-glow 3s ease-in-out infinite",
       },
     },
   },

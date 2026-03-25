@@ -4,8 +4,9 @@ import TrustStrip from "@/components/TrustStrip";
 import WhySection from "@/components/WhySection";
 import ServicesSection from "@/components/ServicesSection";
 import FleetSection from "@/components/FleetSection";
-import EmptyLegsSection from "@/components/EmptyLegsSection";
+import EmptyLegsMap from "@/components/EmptyLegsMap";
 import ExperienceSection from "@/components/ExperienceSection";
+import ConciergeSection from "@/components/ConciergeSection";
 import CTASection from "@/components/CTASection";
 import Footer from "@/components/Footer";
 
@@ -17,8 +18,9 @@ const Index = () => (
     <WhySection />
     <ServicesSection />
     <FleetSection />
-    <EmptyLegsSection />
+    <EmptyLegsMap />
     <ExperienceSection />
+    <ConciergeSection />
     <CTASection />
     <Footer />
   </div>
