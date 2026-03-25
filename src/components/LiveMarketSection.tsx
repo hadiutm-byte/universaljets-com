@@ -65,7 +65,7 @@ const LiveMarketSection = () => {
             Real-time positioning flights and demand alerts — updated continuously.
           </p>
           <p className="text-[9px] text-foreground/20 font-extralight tracking-wide">
-            Updated 2 hours ago
+            Live global availability: 27 aircraft ready now · 6 empty legs today
           </p>
         </motion.div>
 
