@@ -20,6 +20,7 @@ const MembershipEnrollment = () => {
   const [form, setForm] = useState({ name: "", email: "", phone: "", location: "", flights: "" });
   const [loading, setLoading] = useState(false);
   const [member, setMember] = useState<{ name: string; id: string; memberSince: string } | null>(null);
+  const { capture } = useCrmApi();
 
   const update = (field: string, value: string) => setForm((prev) => ({ ...prev, [field]: value }));
 
