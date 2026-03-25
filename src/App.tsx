@@ -54,6 +54,7 @@ const App = () => (
           <Route path="/jet-card" element={<JetCardPage />} />
           <Route path="/auth" element={<AuthPage />} />
           <Route path="/dashboard" element={<ProtectedRoute><DashboardPage /></ProtectedRoute>} />
+          <Route path="/profile" element={<ProtectedRoute><MemberProfilePage /></ProtectedRoute>} />
           <Route path="/search" element={<SearchResults />} />
           <Route path="/about" element={<AboutPage />} />
           <Route path="/acmi-leasing" element={<ACMILeasingPage />} />
