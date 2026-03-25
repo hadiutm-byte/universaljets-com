@@ -18,29 +18,29 @@ const AirportDropdown = ({
     animate={{ opacity: 1, y: 0 }}
     exit={{ opacity: 0, y: -4 }}
     transition={{ duration: 0.2 }}
-    className="absolute top-full left-0 right-0 mt-1 bg-[hsl(var(--background))]/95 backdrop-blur-xl border border-white/[0.08] rounded-xl overflow-hidden z-50 max-h-52 overflow-y-auto shadow-[0_16px_48px_-12px_rgba(0,0,0,0.5)]"
+    className="absolute top-full left-0 right-0 mt-1.5 bg-background border-2 border-border rounded-xl overflow-hidden z-50 max-h-56 overflow-y-auto shadow-[0_20px_60px_-15px_hsla(0,0%,0%,0.15)]"
   >
     {loading && (
-      <div className="px-4 py-3 flex items-center gap-2 text-[11px] text-muted-foreground">
-        <Loader2 size={12} className="animate-spin" /> Searching...
+      <div className="px-4 py-3 flex items-center gap-2 text-[12px] text-muted-foreground">
+        <Loader2 size={13} className="animate-spin text-primary" /> Searching airports...
       </div>
     )}
     {!loading && airports?.length === 0 && (
-      <div className="px-4 py-3 text-[11px] text-muted-foreground font-light">No airports found</div>
+      <div className="px-4 py-3 text-[12px] text-muted-foreground font-light">No airports found</div>
     )}
     {airports?.map((airport) => (
       <button
         key={airport.id}
         onClick={() => onSelect(airport)}
-        className="w-full px-4 py-2.5 text-left hover:bg-white/[0.05] transition-colors border-b border-white/[0.03] last:border-0 group/item cursor-pointer"
+        className="w-full px-4 py-3 text-left hover:bg-muted transition-colors border-b border-border/50 last:border-0 cursor-pointer"
       >
-        <div className="flex items-center gap-2">
-          <span className="text-[10px] font-medium text-primary/60 bg-primary/[0.08] px-1.5 py-0.5 rounded tracking-wider">
+        <div className="flex items-center gap-2.5">
+          <span className="text-[10px] font-semibold text-primary bg-primary/10 px-2 py-0.5 rounded tracking-wider">
             {airport.icao || airport.iata}
           </span>
-          <span className="text-[12px] text-foreground/90 font-light">{airport.city}</span>
+          <span className="text-[13px] text-foreground font-medium">{airport.city}</span>
         </div>
-        <p className="text-[10px] text-muted-foreground/60 mt-0.5 pl-[2.75rem] font-light truncate">
+        <p className="text-[11px] text-muted-foreground mt-0.5 pl-[3rem] font-light truncate">
           {airport.name}
         </p>
       </button>
@@ -85,10 +85,10 @@ const AirportField = ({
   }, []);
 
   return (
-    <div className={compact ? "relative" : "relative"} ref={ref}>
-      <div className="px-4 py-5 rounded-[14px] bg-white/[0.02] border border-transparent hover:bg-white/[0.04] hover:shadow-[0_0_20px_-8px_hsla(45,79%,46%,0.12)] transition-all duration-300 focus-within:border-primary/40 focus-within:shadow-[0_0_24px_-6px_hsla(45,79%,46%,0.2)]">
-        <label className="flex items-center gap-1.5 text-[7.5px] tracking-[0.35em] uppercase text-primary/55 mb-2.5 font-light">
-          <Icon size={8} strokeWidth={1.5} /> {label}
+    <div className="relative" ref={ref}>
+      <div className="search-field">
+        <label className="search-label">
+          <Icon size={10} strokeWidth={1.5} /> {label}
         </label>
         <input
           type="text"
@@ -101,7 +101,7 @@ const AirportField = ({
           }}
           onFocus={() => query.length >= 2 && setShowDropdown(true)}
           placeholder="City or airport"
-          className="w-full bg-transparent text-[13px] text-foreground/90 placeholder:text-foreground/20 font-light focus:outline-none tracking-wide"
+          className="w-full bg-transparent text-[14px] text-foreground placeholder:text-muted-foreground/40 font-normal focus:outline-none"
         />
       </div>
       <AnimatePresence>
