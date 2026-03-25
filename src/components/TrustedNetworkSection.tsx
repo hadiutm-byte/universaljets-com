@@ -86,8 +86,31 @@ const TrustedNetworkSection = () => (
             </motion.span>
           ))}
         </div>
-        <p className="text-[11px] text-foreground/30 font-extralight">
-          Handled with precision, discretion, and operational expertise.
+        {/* What this means */}
+        <div className="w-full h-[1px] bg-border/8 my-12" />
+
+        <p className="text-[10px] tracking-[0.4em] uppercase text-primary/45 font-light mb-6">
+          What this means for you
+        </p>
+        <div className="flex flex-wrap items-center justify-center gap-3 md:gap-5 mb-8">
+          {["Better aircraft options", "Faster availability", "Competitive pricing", "Global reach", "Full operational control"].map((item, i) => (
+            <motion.span
+              key={item}
+              initial={{ opacity: 0, y: 8 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.15 + i * 0.06, duration: 0.5 }}
+              className="text-[11px] text-foreground/45 font-light px-4 py-2 rounded-full border border-border/10 bg-card/8"
+            >
+              {item}
+            </motion.span>
+          ))}
+        </div>
+        <p className="text-[12px] text-foreground/45 font-light mb-2">
+          You are not limited to one fleet.
+        </p>
+        <p className="text-[13px] text-foreground/55 font-medium italic">
+          You access the entire market.
         </p>
 
         <motion.div
