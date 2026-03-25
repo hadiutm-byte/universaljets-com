@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import { MapPin, Calendar, Users, ArrowRight, ArrowLeftRight, RotateCcw, Plus, X } from "lucide-react";
+import { MapPin, Calendar, Users, ArrowRight, ArrowLeftRight, RotateCcw, Plus, X, PlaneTakeoff } from "lucide-react";
 import { format } from "date-fns";
 import { useAirportSearch, type Airport } from "@/hooks/useAviapages";
 import DateTimePicker from "@/components/flight-search/DateTimePicker";
@@ -30,6 +30,19 @@ const tripTabs: { value: TripType; label: string }[] = [
   { value: "multi-city", label: "Multi-City" },
 ];
 
+const jetSizes = [
+  { value: "", label: "Any Size" },
+  { value: "turboprop", label: "Turboprop" },
+  { value: "very_light", label: "Very Light Jet" },
+  { value: "light", label: "Light Jet" },
+  { value: "midsize", label: "Midsize Jet" },
+  { value: "super_midsize", label: "Super Midsize" },
+  { value: "heavy", label: "Heavy Jet" },
+  { value: "ultra_long_range", label: "Ultra Long Range" },
+  { value: "vip_airliner", label: "VIP Airliner" },
+  { value: "helicopter", label: "Helicopter" },
+];
+
 const SwapButton = ({ onClick }: { onClick: () => void }) => (
   <motion.button
     onClick={onClick}
@@ -48,6 +61,7 @@ const FlightSearchBox = () => {
   const [legs, setLegs] = useState<Leg[]>([emptyLeg()]);
   const [returnDate, setReturnDate] = useState<Date | undefined>(undefined);
   const [passengers, setPassengers] = useState("");
+  const [jetSize, setJetSize] = useState("");
 
   const updateLeg = (index: number, updates: Partial<Leg>) => {
     setLegs((prev) => prev.map((l, i) => (i === index ? { ...l, ...updates } : l)));
@@ -90,6 +104,7 @@ const FlightSearchBox = () => {
     if (primaryLeg.date) params.set("date", format(primaryLeg.date, "yyyy-MM-dd'T'HH:mm"));
     if (tripType === "round-trip" && returnDate) params.set("return_date", format(returnDate, "yyyy-MM-dd'T'HH:mm"));
     if (passengers) params.set("passengers", passengers);
+    if (jetSize) params.set("jet_size", jetSize);
     if (tripType === "multi-city") {
       legs.forEach((leg, i) => {
         if (i === 0) return;
@@ -106,7 +121,7 @@ const FlightSearchBox = () => {
   const fieldWrapperClass = "px-4 py-4 rounded-xl bg-muted/30 border border-transparent hover:bg-muted/50 hover:shadow-sm transition-all duration-300 focus-within:border-primary/30 focus-within:shadow-[0_0_20px_-8px_hsla(45,79%,46%,0.12)]";
 
   return (
-    <div className="w-full max-w-4xl mx-auto">
+    <div className="w-full max-w-5xl mx-auto">
       {/* Trip Type Tabs */}
       <div className="flex items-center justify-center gap-1 mb-4">
         {tripTabs.map((tab) => (
@@ -136,7 +151,7 @@ const FlightSearchBox = () => {
         <AnimatePresence mode="wait">
           {tripType !== "multi-city" ? (
             <motion.div key="standard" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.2 }}>
-              <div className="grid grid-cols-2 md:grid-cols-[1fr_1fr_0.85fr_0.85fr_0.5fr_auto] gap-2">
+              <div className="grid grid-cols-2 md:grid-cols-[1fr_1fr_0.75fr_0.75fr_0.45fr_0.55fr_auto] gap-2">
                 <div className="col-span-2 md:col-span-2 relative grid grid-cols-2">
                   <AirportField label="From" icon={MapPin} value={primaryLeg.from} onChangeValue={(v) => updateLeg(0, { from: v })} query={primaryLeg.fromQuery} onChangeQuery={(v) => updateLeg(0, { fromQuery: v })} selectedAirport={primaryLeg.selectedFrom} onSelect={(a) => updateLeg(0, { from: `${a.city} (${a.icao || a.iata})`, selectedFrom: a })} onClearSelection={() => updateLeg(0, { selectedFrom: null })} />
                   <SwapButton onClick={() => swapRoute(0)} />
@@ -155,6 +170,20 @@ const FlightSearchBox = () => {
                     <select value={passengers} onChange={(e) => setPassengers(e.target.value)} className="w-full bg-transparent text-[13px] text-foreground font-light focus:outline-none appearance-none cursor-pointer">
                       <option value="" className="bg-background">Select</option>
                       {[...Array(16)].map((_, i) => (<option key={i + 1} value={i + 1} className="bg-background">{i + 1}</option>))}
+                    </select>
+                  </div>
+                </div>
+
+                {/* Jet Size */}
+                <div className="relative">
+                  <div className={fieldWrapperClass}>
+                    <label className="flex items-center gap-1.5 text-[8px] tracking-[0.3em] uppercase text-primary/60 mb-2 font-light">
+                      <PlaneTakeoff size={8} strokeWidth={1.5} /> Jet Size
+                    </label>
+                    <select value={jetSize} onChange={(e) => setJetSize(e.target.value)} className="w-full bg-transparent text-[13px] text-foreground font-light focus:outline-none appearance-none cursor-pointer">
+                      {jetSizes.map((s) => (
+                        <option key={s.value} value={s.value} className="bg-background">{s.label}</option>
+                      ))}
                     </select>
                   </div>
                 </div>
@@ -211,6 +240,14 @@ const FlightSearchBox = () => {
                     <select value={passengers} onChange={(e) => setPassengers(e.target.value)} className="bg-transparent text-[12px] text-foreground font-light focus:outline-none appearance-none cursor-pointer">
                       <option value="" className="bg-background">—</option>
                       {[...Array(16)].map((_, i) => (<option key={i + 1} value={i + 1} className="bg-background">{i + 1}</option>))}
+                    </select>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <label className="text-[7px] tracking-[0.3em] uppercase text-primary/50 font-light"><PlaneTakeoff size={7} strokeWidth={1.5} className="inline mr-1" />Jet Size</label>
+                    <select value={jetSize} onChange={(e) => setJetSize(e.target.value)} className="bg-transparent text-[12px] text-foreground font-light focus:outline-none appearance-none cursor-pointer">
+                      {jetSizes.map((s) => (
+                        <option key={s.value} value={s.value} className="bg-background">{s.label}</option>
+                      ))}
                     </select>
                   </div>
                 </div>
