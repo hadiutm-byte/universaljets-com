@@ -77,13 +77,17 @@ const FoundersCircleSection = () => {
               Exclusive Membership
             </p>
             <h2 className="text-3xl md:text-4xl lg:text-5xl font-display font-semibold text-foreground mb-5 leading-tight">
-              Join the Universal Jets{" "}
-              <span className="text-gradient-gold italic">Founders Circle</span>
+              Priority Access{" "}
+              <span className="text-gradient-gold italic">Membership</span>
             </h2>
-            <p className="text-[13px] md:text-[14px] text-foreground/40 font-extralight leading-[2] max-w-xl mx-auto">
-              For a limited time, selected clients receive complimentary access
-              to our private aviation membership.
+            <p className="text-[13px] md:text-[14px] text-foreground/40 font-extralight leading-[2] max-w-xl mx-auto mb-6">
+              Designed for frequent private flyers who require speed, consistency, and priority access.
             </p>
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-8">
+              <p className="text-[11px] text-foreground/45 font-light">Lock in preferential rates.</p>
+              <p className="text-[11px] text-foreground/45 font-light">Access guaranteed availability.</p>
+              <p className="text-[11px] text-foreground/45 font-light">Fly with flexibility across global fleets.</p>
+            </div>
           </motion.div>
 
           {/* Benefits */}
