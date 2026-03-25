@@ -16,7 +16,7 @@ const HeroSection = () => {
   const logoY = useTransform(scrollYProgress, [0, 1], [0, 120]);
   const logoRotate = useTransform(scrollYProgress, [0, 1], [-7, -14]);
   const foregroundY = useTransform(scrollYProgress, [0, 1], [0, 90]);
-  const videoZoom = useTransform(scrollYProgress, [0, 1], [1, 1.1]);
+  const imgZoom = useTransform(scrollYProgress, [0, 1], [1, 1.1]);
 
   return (
     <section
