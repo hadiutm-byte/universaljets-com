@@ -243,7 +243,7 @@ const Ricky3D = () => {
                   animate={{ opacity: 1, y: 0, scale: 1 }}
                   exit={{ opacity: 0, y: 8, scale: 0.96 }}
                   transition={{ duration: 0.4 }}
-                  className="ricky-speech-cloud absolute bottom-[260px] right-[40px] z-[2] w-[280px] px-5 py-4"
+                  className="ricky-speech-cloud absolute bottom-[150px] right-[20px] z-[2] w-[240px] px-4 py-3"
                   style={{ pointerEvents: "auto" }}
                 >
                   <p className="text-[12px] font-light leading-[1.85] text-foreground/80 whitespace-pre-wrap">
