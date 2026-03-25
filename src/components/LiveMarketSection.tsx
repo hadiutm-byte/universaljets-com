@@ -2,27 +2,11 @@ import { motion } from "framer-motion";
 import { Plane, ArrowRight, Radio } from "lucide-react";
 
 const routes = [
-  {
-    from: "Dubai",
-    to: "London",
-    status: "Booked 2h ago",
-    statusColor: "text-foreground/30",
-    badge: null,
-  },
-  {
-    from: "Nice",
-    to: "Ibiza",
-    status: "Available now",
-    statusColor: "text-emerald-400/70",
-    badge: "Open",
-  },
-  {
-    from: "Riyadh",
-    to: "Geneva",
-    status: "High demand",
-    statusColor: "text-primary/60",
-    badge: "Limited",
-  },
+  { from: "Dubai", to: "London", status: "Booked 2 hours ago", statusColor: "text-foreground/30" },
+  { from: "Nice", to: "Ibiza", status: "Available now", statusColor: "text-emerald-400/70", badge: "Open" },
+  { from: "Riyadh", to: "Geneva", status: "High demand", statusColor: "text-primary/60", badge: "Limited" },
+  { from: "Paris", to: "Mykonos", status: "Filling fast", statusColor: "text-primary/50" },
+  { from: "Maldives", to: "Dubai", status: "Limited availability", statusColor: "text-primary/60", badge: "Limited" },
 ];
 
 const LiveMarketSection = () => {
