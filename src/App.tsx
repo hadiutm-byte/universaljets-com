@@ -87,6 +87,11 @@ const App = () => (
             <Route path="invoices" element={<InvoicesPage />} />
             <Route path="trips" element={<TripsPage />} />
             <Route path="outreach" element={<OutreachPage />} />
+            <Route path="membership" element={<MembershipPipelinePage />} />
+            <Route path="referrals" element={<ReferralsPage />} />
+            <Route path="account-mgmt" element={<AccountMgmtPage />} />
+            <Route path="hr" element={<HRPage />} />
+            <Route path="activity" element={<ActivityLogPage />} />
             <Route path="resources" element={<CrmResourcesPage />} />
             <Route path="admin/users" element={<AdminUsersPage />} />
             <Route path="admin/settings" element={<AdminSettingsPage />} />
