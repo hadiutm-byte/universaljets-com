@@ -14,6 +14,39 @@ export type Database = {
   }
   public: {
     Tables: {
+      candidates: {
+        Row: {
+          ai_score: number | null
+          created_at: string
+          email: string
+          full_name: string
+          id: string
+          interview_answers: Json | null
+          phone: string | null
+          status: string
+        }
+        Insert: {
+          ai_score?: number | null
+          created_at?: string
+          email: string
+          full_name: string
+          id?: string
+          interview_answers?: Json | null
+          phone?: string | null
+          status?: string
+        }
+        Update: {
+          ai_score?: number | null
+          created_at?: string
+          email?: string
+          full_name?: string
+          id?: string
+          interview_answers?: Json | null
+          phone?: string | null
+          status?: string
+        }
+        Relationships: []
+      }
       clients: {
         Row: {
           company: string | null
