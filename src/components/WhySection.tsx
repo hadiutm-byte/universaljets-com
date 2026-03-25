@@ -2,11 +2,10 @@ import { motion } from "framer-motion";
 import { XCircle, Globe, TrendingDown, Unlock, ShieldCheck } from "lucide-react";
 
 const points = [
-  { icon: XCircle, title: "Operators Sell Their Own Aircraft", desc: "They push what they have — not what's best for you. Their priority is filling their fleet, not optimizing your trip." },
-  { icon: Globe, title: "We Source the Best Aircraft Globally", desc: "Access to 6,000+ aircraft across every category. We find the right jet for every mission, anywhere in the world." },
-  { icon: TrendingDown, title: "We Optimize Positioning to Reduce Cost", desc: "By analyzing repositioning, empty legs, and operator availability, we secure pricing that direct bookings can't match." },
-  { icon: Unlock, title: "We Unlock Hidden Deals & Empty Legs", desc: "Our network surfaces one-way repositioning flights and off-market availability at up to 75% below standard rates." },
-  { icon: ShieldCheck, title: "We Act in Your Interest, Not the Operator's", desc: "Independent. Unbiased. Every recommendation is driven by your needs — safety, budget, schedule, comfort." },
+  { icon: Globe, title: "Access the Entire Global Market", desc: "6,000+ aircraft across every category. We find the right jet for every mission, anywhere in the world." },
+  { icon: TrendingDown, title: "Better Aircraft Positioning", desc: "We analyze repositioning routes and operator schedules to place the ideal aircraft closer to you — reducing cost and wait times." },
+  { icon: Unlock, title: "Better Pricing Flexibility", desc: "By sourcing across multiple operators, we unlock competitive pricing, empty legs, and off-market deals others can't access." },
+  { icon: XCircle, title: "No Fleet Limitations", desc: "Unlike operators tied to their own fleet, we source independently — matching the best aircraft to your mission, every time." },
 ];
 
 const WhySection = () => (

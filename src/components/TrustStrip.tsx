@@ -3,8 +3,9 @@ import { Clock, Globe, Headphones, ShieldCheck } from "lucide-react";
 
 const items = [
   { icon: Clock, text: "18+ Years Experience" },
-  { icon: Globe, text: "Global Coverage" },
-  { icon: Headphones, text: "24/7 Concierge" },
+  { icon: Globe, text: "Global Operator Network" },
+  { icon: Headphones, text: "24/7 Availability" },
+  { icon: ShieldCheck, text: "Safety-First Sourcing" },
 ];
 
 const badges = ["WYVERN", "ARGUS", "DCAA"];
