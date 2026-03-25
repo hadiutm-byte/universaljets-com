@@ -69,21 +69,15 @@ const CTASection = () => {
           </motion.div>
 
           {/* Trust signals */}
-          <motion.div
+          <motion.p
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
             transition={{ delay: 0.2, duration: 0.7 }}
-            className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 mb-14 max-w-2xl mx-auto"
+            className="text-center text-[11px] md:text-[12px] tracking-[0.15em] text-foreground/30 font-extralight mb-14"
           >
-            {trustSignals.map((s, i) => (
-              <div key={i} className="text-center py-4 rounded-lg border border-border/5 bg-card/10">
-                <s.icon className="w-4 h-4 text-primary/40 mx-auto mb-2.5" strokeWidth={1.5} />
-                <p className="text-[16px] md:text-[18px] font-display font-semibold text-foreground/80 mb-0.5">{s.value}</p>
-                <p className="text-[9px] tracking-[0.2em] uppercase text-foreground/25 font-light">{s.label}</p>
-              </div>
-            ))}
-          </motion.div>
+            6,000+ aircraft • 40,000 airports • 24/7 global coverage
+          </motion.p>
 
           {/* Micro copy */}
           <motion.p
