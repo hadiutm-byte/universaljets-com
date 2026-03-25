@@ -56,6 +56,14 @@ const HeroSection = () => {
       <div className="absolute inset-0 bg-gradient-to-r from-background/60 via-transparent to-background/50" />
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_70%_50%_at_50%_45%,_transparent_20%,_hsl(var(--background)/0.7)_100%)]" />
 
+      {/* 3D Logo depth layer */}
+      <motion.div
+        className="absolute inset-0 flex items-center justify-center pointer-events-none"
+        style={{ opacity: useTransform(scrollYProgress, [0, 0.4], [0.08, 0]), y: imageY }}
+      >
+        <Logo3D size={700} opacity={0.08} />
+      </motion.div>
+
       {/* Progressive overlay on scroll */}
       <motion.div className="absolute inset-0 bg-background pointer-events-none" style={{ opacity: overlayOpacity }} />
 
