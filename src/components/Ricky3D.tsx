@@ -154,11 +154,11 @@ const Ricky3D = () => {
   }, []);
 
   const panelClasses =
-    "fixed bottom-6 right-6 z-50 w-[380px] max-w-[calc(100vw-2rem)] h-[560px] max-h-[calc(100vh-3rem)] flex flex-col rounded-2xl overflow-hidden border border-white/[0.04]";
+    "fixed bottom-6 right-6 z-50 w-[380px] max-w-[calc(100vw-2rem)] h-[560px] max-h-[calc(100vh-3rem)] flex flex-col rounded-2xl overflow-hidden border border-white/[0.08]";
   const panelStyle = {
-    background: "hsl(228 22% 6% / 0.97)",
-    backdropFilter: "blur(20px)",
-    boxShadow: "0 0 60px -15px hsla(38,52%,50%,0.15)",
+    background: "hsl(222 22% 12% / 0.97)",
+    backdropFilter: "blur(24px)",
+    boxShadow: "0 0 60px -15px hsla(38,52%,53%,0.12)",
   };
 
   return (
@@ -250,16 +250,16 @@ const Ricky3D = () => {
                   animate={{ opacity: 1, y: 0, scale: 1 }}
                   exit={{ opacity: 0, scale: 0.95 }}
                   transition={{ duration: 0.5 }}
-                  className="max-w-md mx-6 px-8 py-6 rounded-2xl border border-white/[0.04] relative"
-                  style={{ background: "hsla(228,22%,8%,0.8)", backdropFilter: "blur(20px)" }}
+                  className="max-w-md mx-6 px-8 py-6 rounded-2xl border border-white/[0.12] relative"
+                  style={{ background: "hsla(0,0%,100%,0.08)", backdropFilter: "blur(30px)" }}
                 >
                   <div
-                    className="absolute -top-2 left-1/2 -translate-x-1/2 w-4 h-4 rotate-45 border-l border-t border-white/[0.04]"
-                    style={{ background: "hsla(228,22%,8%,0.8)" }}
+                    className="absolute -top-2 left-1/2 -translate-x-1/2 w-4 h-4 rotate-45 border-l border-t border-white/[0.12]"
+                    style={{ background: "hsla(0,0%,100%,0.08)" }}
                   />
-                  <p className="text-[13px] text-foreground/60 font-light leading-[2] whitespace-pre-wrap">
+                  <p className="text-[14px] text-foreground/80 font-light leading-[2] whitespace-pre-wrap">
                     {displayedText}
-                    {!showActions && <span className="animate-pulse text-primary/40">|</span>}
+                    {!showActions && <span className="animate-pulse text-primary/50">|</span>}
                   </p>
                 </motion.div>
               )}
@@ -286,7 +286,7 @@ const Ricky3D = () => {
                       className="flex items-center gap-2 px-4 py-2.5 rounded-xl glass-panel border border-white/[0.06] hover:border-primary/20 transition-all duration-300 cursor-pointer group"
                     >
                       <action.icon size={12} className="text-primary/50 group-hover:text-primary/80 transition-colors" strokeWidth={1.3} />
-                      <span className="text-[10px] tracking-[0.12em] uppercase text-foreground/40 group-hover:text-foreground/70 font-light transition-colors">
+                      <span className="text-[10px] tracking-[0.12em] uppercase text-foreground/55 group-hover:text-foreground/85 font-light transition-colors">
                         {action.label}
                       </span>
                     </motion.button>

@@ -90,7 +90,7 @@ const HeroSection = () => {
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1, delay: 0.4 }}
-          className="text-[9px] md:text-[10px] tracking-[0.55em] uppercase text-primary/70 mb-10 font-light"
+          className="text-[10px] md:text-[11px] tracking-[0.55em] uppercase text-primary/80 mb-10 font-light"
         >
           Private Aviation Redefined
         </motion.p>
@@ -102,10 +102,10 @@ const HeroSection = () => {
           transition={{ duration: 1.3, delay: 0.6, ease: [0.16, 1, 0.3, 1] }}
           className="font-display leading-[1] tracking-tight mb-10"
         >
-          <span className="block text-[2.8rem] sm:text-[3.5rem] md:text-[4.5rem] lg:text-[6rem] font-semibold text-foreground">
+          <span className="block text-[3rem] sm:text-[3.8rem] md:text-[5rem] lg:text-[6.5rem] font-semibold text-foreground">
             Private Aviation.
           </span>
-          <span className="block text-[3.2rem] sm:text-[4rem] md:text-[5rem] lg:text-[7rem] text-gradient-gold italic font-medium mt-1">
+          <span className="block text-[3.4rem] sm:text-[4.3rem] md:text-[5.5rem] lg:text-[7.5rem] text-gradient-gold italic font-medium mt-1">
             Perfected.
           </span>
         </motion.h1>
@@ -117,12 +117,12 @@ const HeroSection = () => {
           transition={{ duration: 1, delay: 0.85 }}
           className="max-w-lg mx-auto mb-12"
         >
-          <p className="text-[13px] md:text-[15px] text-foreground/55 font-extralight leading-[2] tracking-[0.02em] mb-2">
+          <p className="text-[14px] md:text-[16px] text-foreground/65 font-extralight leading-[2] tracking-[0.02em] mb-2">
             Access the entire global private jet market —
             <br className="hidden sm:block" />
             not just one fleet.
           </p>
-          <p className="text-[11px] md:text-[12px] text-foreground/35 font-extralight leading-[1.8] tracking-wide">
+          <p className="text-[12px] md:text-[13px] text-foreground/45 font-extralight leading-[1.8] tracking-wide">
             Better aircraft. Better pricing. Total flexibility.
           </p>
         </motion.div>
