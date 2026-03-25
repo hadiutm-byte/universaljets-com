@@ -149,7 +149,7 @@ const FlightSearchBox = () => {
       </div>
 
       {/* Search Box */}
-      <div className="glass-search rounded-2xl p-3 group/box">
+      <div className="glass-search rounded-[16px] p-4 group/box">
         <AnimatePresence mode="wait">
           {tripType !== "multi-city" ? (
             <motion.div
