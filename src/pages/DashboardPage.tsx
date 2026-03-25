@@ -1,9 +1,11 @@
 import { motion } from "framer-motion";
 import { useAuth } from "@/hooks/useAuth";
 import { LogOut, User, Shield, Send, Bookmark, Sparkles } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import Navbar from "@/components/Navbar";
 import ReferralSection from "@/components/ReferralSection";
+
+const STAFF_ROLES = ["admin", "sales", "operations", "finance", "account_management"];
 
 const DashboardPage = () => {
   const { user, roles, signOut } = useAuth();
@@ -11,6 +13,12 @@ const DashboardPage = () => {
   const memberSince = user?.created_at
     ? new Date(user.created_at).toLocaleDateString("en-US", { month: "long", year: "numeric" })
     : "—";
+
+  const isStaff = roles.some((role) => STAFF_ROLES.includes(role));
+
+  if (isStaff) {
+    return <Navigate to="/crm" replace />;
+  }
 
   return (
     <div className="min-h-screen bg-background">
