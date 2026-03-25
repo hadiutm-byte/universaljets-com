@@ -8,6 +8,7 @@ import MembersPage from "./pages/MembersPage.tsx";
 import JetCardPage from "./pages/JetCardPage.tsx";
 import SearchResults from "./pages/SearchResults.tsx";
 import ACMILeasingPage from "./pages/ACMILeasingPage.tsx";
+import DestinationsPage from "./pages/DestinationsPage.tsx";
 import AuthPage from "./pages/AuthPage.tsx";
 import DashboardPage from "./pages/DashboardPage.tsx";
 import ProtectedRoute from "./components/ProtectedRoute.tsx";
@@ -39,6 +40,7 @@ const App = () => (
           <Route path="/dashboard" element={<ProtectedRoute><DashboardPage /></ProtectedRoute>} />
           <Route path="/search" element={<SearchResults />} />
           <Route path="/acmi-leasing" element={<ACMILeasingPage />} />
+          <Route path="/destinations" element={<DestinationsPage />} />
           <Route path="/crm" element={<ProtectedRoute allowedRoles={["admin", "sales", "operations", "finance", "account_management"]}><CrmLayout /></ProtectedRoute>}>
             <Route index element={<CrmDashboard />} />
             <Route path="clients" element={<ClientsPage />} />
