@@ -2,11 +2,13 @@ import Navbar from "@/components/Navbar";
 import HeroSection from "@/components/HeroSection";
 import TrustStrip from "@/components/TrustStrip";
 import HowItWorksSection from "@/components/HowItWorksSection";
+import MembershipEnrollment from "@/components/MembershipEnrollment";
+import WhatsAppCTA from "@/components/WhatsAppCTA";
+import CTASection from "@/components/CTASection";
 import JetCardSection from "@/components/JetCardSection";
 import DestinationsSection from "@/components/DestinationsSection";
 import EventsSection from "@/components/EventsSection";
 import SafetySection from "@/components/SafetySection";
-import CTASection from "@/components/CTASection";
 import Footer from "@/components/Footer";
 
 const Index = () => (
@@ -15,14 +17,23 @@ const Index = () => (
 
     <div className="relative z-[2]">
       <Navbar />
+      {/* 1. Traffic */}
       <HeroSection />
       <TrustStrip />
       <HowItWorksSection />
+      {/* 2. Membership */}
+      <MembershipEnrollment />
+      {/* 3. WhatsApp Contact */}
+      <WhatsAppCTA />
+      {/* 4. First Trip */}
+      <CTASection />
+      {/* 5. Jet Card Upsell */}
+      <JetCardSection />
+      {/* 6. Destinations & Events (engagement) */}
       <DestinationsSection />
       <EventsSection />
-      <JetCardSection />
+      {/* 7. Safety & Trust (reinforcement) */}
       <SafetySection />
-      <CTASection />
       <Footer />
     </div>
   </div>
