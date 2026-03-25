@@ -51,10 +51,10 @@ const HeroSection = () => {
         <div className="hero-cloud hero-cloud-3" />
       </div>
 
-      {/* Cinematic overlays */}
-      <div className="absolute inset-0 bg-gradient-to-b from-background/[0.85] via-background/[0.25] to-background/[0.95]" />
-      <div className="absolute inset-0 bg-gradient-to-r from-background/60 via-transparent to-background/50" />
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_70%_50%_at_50%_45%,_transparent_20%,_hsl(var(--background)/0.7)_100%)]" />
+      {/* Cinematic overlays — dark tones for hero */}
+      <div className="absolute inset-0 bg-gradient-to-b from-[hsla(240,4%,12%,0.85)] via-[hsla(240,4%,12%,0.25)] to-[hsla(240,4%,12%,0.95)]" />
+      <div className="absolute inset-0 bg-gradient-to-r from-[hsla(240,4%,12%,0.6)] via-transparent to-[hsla(240,4%,12%,0.5)]" />
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_70%_50%_at_50%_45%,_transparent_20%,_hsla(240,4%,12%,0.7)_100%)]" />
 
       {/* 3D Logo depth layer */}
       <motion.div
@@ -65,7 +65,7 @@ const HeroSection = () => {
       </motion.div>
 
       {/* Progressive overlay on scroll */}
-      <motion.div className="absolute inset-0 bg-background pointer-events-none" style={{ opacity: overlayOpacity }} />
+      <motion.div className="absolute inset-0 pointer-events-none" style={{ opacity: overlayOpacity, background: "hsl(240, 4%, 12%)" }} />
 
       {/* Horizontal scan lines */}
       <div className="absolute inset-0 pointer-events-none opacity-[0.03]" style={{
@@ -90,44 +90,44 @@ const HeroSection = () => {
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1, delay: 0.4 }}
-          className="text-[10px] md:text-[11px] tracking-[0.55em] uppercase text-primary/80 mb-10 font-light"
+          className="text-[11px] md:text-[12px] tracking-[0.55em] uppercase text-primary/80 mb-10 font-light"
         >
           Private Aviation Redefined
         </motion.p>
 
-        {/* Main title */}
+        {/* Main title — LARGER */}
         <motion.h1
           initial={{ opacity: 0, y: 60 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1.3, delay: 0.6, ease: [0.16, 1, 0.3, 1] }}
           className="font-display leading-[1] tracking-tight mb-10"
         >
-          <span className="block text-[3rem] sm:text-[3.8rem] md:text-[5rem] lg:text-[6.5rem] font-semibold text-foreground">
+          <span className="block text-[3.2rem] sm:text-[4rem] md:text-[5.5rem] lg:text-[7rem] font-semibold text-white">
             Private Aviation.
           </span>
-          <span className="block text-[3.4rem] sm:text-[4.3rem] md:text-[5.5rem] lg:text-[7.5rem] text-gradient-gold italic font-medium mt-1">
+          <span className="block text-[3.6rem] sm:text-[4.6rem] md:text-[6rem] lg:text-[8rem] text-gradient-gold italic font-medium mt-1">
             Perfected.
           </span>
         </motion.h1>
 
-        {/* Subtitle */}
+        {/* Subtitle — BIGGER + BRIGHTER */}
         <motion.div
           initial={{ opacity: 0, y: 18 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1, delay: 0.85 }}
           className="max-w-lg mx-auto mb-12"
         >
-          <p className="text-[14px] md:text-[16px] text-foreground/65 font-extralight leading-[2] tracking-[0.02em] mb-2">
+          <p className="text-[15px] md:text-[17px] text-white/70 font-light leading-[2] tracking-[0.02em] mb-2">
             Access the entire global private jet market —
             <br className="hidden sm:block" />
             not just one fleet.
           </p>
-          <p className="text-[12px] md:text-[13px] text-foreground/45 font-extralight leading-[1.8] tracking-wide">
+          <p className="text-[13px] md:text-[14px] text-white/50 font-light leading-[1.8] tracking-wide">
             Better aircraft. Better pricing. Total flexibility.
           </p>
         </motion.div>
 
-        {/* CTA Buttons — primary triggers Ricky */}
+        {/* CTA Buttons */}
         <motion.div
           initial={{ opacity: 0, y: 15 }}
           animate={{ opacity: 1, y: 0 }}
@@ -138,13 +138,13 @@ const HeroSection = () => {
             whileHover={{ scale: 1.03, boxShadow: "0 0 40px -8px hsla(38,52%,50%,0.5)" }}
             whileTap={{ scale: 0.98 }}
             onClick={handleStartWithRicky}
-            className="btn-luxury px-10 py-4 bg-gradient-gold text-primary-foreground text-[9px] tracking-[0.28em] uppercase font-medium rounded-sm cursor-pointer"
+            className="btn-luxury px-10 py-4 bg-gradient-gold text-white text-[10px] tracking-[0.28em] uppercase font-medium rounded-sm cursor-pointer"
           >
             Start with Ricky
           </motion.button>
           <a
             href="#empty-legs"
-            className="btn-luxury px-10 py-4 glass-panel text-foreground/50 hover:text-foreground/90 text-[9px] tracking-[0.28em] uppercase font-light rounded-sm"
+            className="btn-luxury px-10 py-4 border border-white/10 bg-white/5 backdrop-blur-sm text-white/60 hover:text-white/90 text-[10px] tracking-[0.28em] uppercase font-light rounded-sm"
           >
             View Empty Legs
           </a>
@@ -161,7 +161,7 @@ const HeroSection = () => {
         transition={{ delay: 2.2, duration: 1 }}
         className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-2"
       >
-        <span className="text-[7px] tracking-[0.4em] uppercase text-foreground/20 font-extralight">Scroll</span>
+        <span className="text-[8px] tracking-[0.4em] uppercase text-white/25 font-extralight">Scroll</span>
         <motion.div
           animate={{ y: [0, 8, 0] }}
           transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}

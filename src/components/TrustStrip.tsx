@@ -50,11 +50,11 @@ const TrustStrip = () => (
               <div className="flex flex-col">
                 <span
                   className="text-[13px] font-semibold uppercase leading-tight"
-                  style={{ letterSpacing: "1.5px", color: "hsl(var(--foreground) / 0.9)" }}
+                  style={{ letterSpacing: "1.5px", color: "rgba(255,255,255,0.9)" }}
                 >
                   {cert.name}
                 </span>
-                <small className="text-[11px] text-foreground/50 font-light leading-snug">
+                <small className="text-[11px] font-light leading-snug" style={{ color: "rgba(255,255,255,0.5)" }}>
                   {cert.detail}
                 </small>
               </div>
