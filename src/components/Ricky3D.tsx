@@ -45,6 +45,8 @@ const Ricky3D = () => {
     const bubbleTimer = setTimeout(() => {
       setShowBubble(true);
       setSpeaking(true);
+      // Trigger voice greeting
+      speakVoice("Welcome to Universal Jets. Tell me your destination. I'll take care of everything.");
       let i = 0;
       const interval = setInterval(() => {
         if (i < INTRO_SCRIPT.length) {
@@ -62,7 +64,7 @@ const Ricky3D = () => {
       return () => clearInterval(interval);
     }, 800);
     return () => clearTimeout(bubbleTimer);
-  }, [phase]);
+  }, [phase, speakVoice]);
 
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
