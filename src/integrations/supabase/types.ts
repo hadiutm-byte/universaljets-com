@@ -1171,6 +1171,7 @@ export type Database = {
         | "account_management"
         | "client"
         | "hr"
+        | "business_development"
       contract_status: "draft" | "sent" | "signed" | "cancelled"
       invoice_status: "pending" | "paid"
       lead_status:
@@ -1318,6 +1319,7 @@ export const Constants = {
         "account_management",
         "client",
         "hr",
+        "business_development",
       ],
       contract_status: ["draft", "sent", "signed", "cancelled"],
       invoice_status: ["pending", "paid"],
