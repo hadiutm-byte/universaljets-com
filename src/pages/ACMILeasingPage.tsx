@@ -76,27 +76,31 @@ const ACMILeasingPage = () => {
 
         <div className="container mx-auto px-8 relative z-10">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.9 }} className="text-center max-w-3xl mx-auto">
-            <p className="text-[9px] tracking-[0.5em] uppercase text-primary/60 mb-6 font-light">ACMI & Aircraft Leasing</p>
+            <p className="text-[9px] tracking-[0.5em] uppercase text-primary/60 mb-6 font-light">Aircraft Leasing Solutions</p>
             <h1 className="text-3xl md:text-5xl lg:text-6xl font-display font-semibold text-foreground mb-6 leading-tight">
               Global ACMI &<br />Aircraft Leasing<span className="text-gradient-gold"> Solutions</span>
             </h1>
             <p className="text-[14px] md:text-[16px] text-foreground/55 font-light leading-[1.9] max-w-xl mx-auto mb-4">
               Rapid, reliable aircraft sourcing for airlines, governments, and large-scale operations.
             </p>
-            <p className="text-[12px] md:text-[13px] text-foreground/35 font-extralight leading-[2] max-w-lg mx-auto">
+            <p className="text-[12px] md:text-[13px] text-foreground/35 font-extralight leading-[2] max-w-lg mx-auto mb-10">
               From urgent AOG replacement to long-term capacity support — we deliver the right aircraft, crew, and structure, worldwide.
             </p>
-          </motion.div>
-        </div>
-      </section>
 
-      {/* Trust line */}
-      <section className="py-10 md:py-14">
-        <div className="container mx-auto px-8">
-          <div className="divider-gold mb-10" />
-          <p className="text-center text-[10px] md:text-[11px] tracking-[0.35em] uppercase text-foreground/30 font-extralight">
-            Trusted by airlines, governments, and operators for time-critical and complex missions.
-          </p>
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-14">
+              <a href="#acmi-form" className="px-8 py-3.5 bg-gradient-gold text-primary-foreground text-[10px] tracking-[0.25em] uppercase font-medium rounded-sm hover:shadow-[0_0_30px_-8px_hsla(38,52%,50%,0.45)] transition-all duration-500">
+                Request ACMI Proposal
+              </a>
+              <a href="/#cta" className="px-8 py-3.5 border border-primary/20 text-primary/70 text-[10px] tracking-[0.25em] uppercase font-medium rounded-sm hover:border-primary/40 hover:text-primary transition-all duration-500">
+                Speak to an Aviation Advisor
+              </a>
+            </div>
+
+            <div className="divider-gold mb-8" />
+            <p className="text-[10px] md:text-[11px] tracking-[0.35em] uppercase text-foreground/30 font-extralight">
+              Trusted by airlines, governments, and operators for time-critical and complex missions.
+            </p>
+          </motion.div>
         </div>
       </section>
 
