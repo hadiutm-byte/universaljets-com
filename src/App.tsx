@@ -11,6 +11,9 @@ import ACMILeasingPage from "./pages/ACMILeasingPage.tsx";
 import PartnerPage from "./pages/PartnerPage.tsx";
 import DestinationsPage from "./pages/DestinationsPage.tsx";
 import ResourcesPage from "./pages/ResourcesPage.tsx";
+import TermsPage from "./pages/TermsPage.tsx";
+import PrivacyPage from "./pages/PrivacyPage.tsx";
+import CookiesPage from "./pages/CookiesPage.tsx";
 import AuthPage from "./pages/AuthPage.tsx";
 import DashboardPage from "./pages/DashboardPage.tsx";
 import ProtectedRoute from "./components/ProtectedRoute.tsx";
@@ -26,6 +29,8 @@ import TripsPage from "./pages/crm/TripsPage.tsx";
 import OutreachPage from "./pages/crm/OutreachPage.tsx";
 import NotFound from "./pages/NotFound.tsx";
 import RickyChatbot from "./components/RickyChatbot.tsx";
+import CookieConsent from "./components/CookieConsent.tsx";
+import ContentProtection from "./components/ContentProtection.tsx";
 
 const queryClient = new QueryClient();
 
@@ -35,6 +40,7 @@ const App = () => (
       <Toaster />
       <Sonner />
       <BrowserRouter>
+        <ContentProtection />
         <Routes>
           <Route path="/" element={<Index />} />
           <Route path="/members" element={<MembersPage />} />
@@ -46,6 +52,9 @@ const App = () => (
           <Route path="/destinations" element={<DestinationsPage />} />
           <Route path="/partners" element={<PartnerPage />} />
           <Route path="/resources" element={<ResourcesPage />} />
+          <Route path="/terms" element={<TermsPage />} />
+          <Route path="/privacy" element={<PrivacyPage />} />
+          <Route path="/cookies" element={<CookiesPage />} />
           <Route path="/crm" element={<ProtectedRoute allowedRoles={["admin", "sales", "operations", "finance", "account_management"]}><CrmLayout /></ProtectedRoute>}>
             <Route index element={<CrmDashboard />} />
             <Route path="clients" element={<ClientsPage />} />
@@ -61,6 +70,7 @@ const App = () => (
           <Route path="*" element={<NotFound />} />
         </Routes>
         <RickyChatbot />
+        <CookieConsent />
       </BrowserRouter>
     </TooltipProvider>
   </QueryClientProvider>
