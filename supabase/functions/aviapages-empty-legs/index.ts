@@ -43,22 +43,26 @@ async function loadAircraftTypeCache(apiKey: string) {
 async function loadAirportCoordCache(apiKey: string) {
   if (airportCacheLoaded) return;
   try {
-    // Fetch a large set of airports with coordinates
-    const response = await fetch(`${AVIAPAGES_BASE}/api/airports/?page_size=500`, {
-      headers: { 'Authorization': `Token ${apiKey}`, 'Accept': 'application/json' },
-    });
-    if (response.ok) {
-      const data = await response.json();
+    // Fetch multiple pages of airports to get broad coverage
+    const pages = [1, 2, 3, 4, 5];
+    const fetches = pages.map(p =>
+      fetch(`${AVIAPAGES_BASE}/api/airports/?page_size=500&page=${p}`, {
+        headers: { 'Authorization': `Token ${apiKey}`, 'Accept': 'application/json' },
+      }).then(r => r.ok ? r.json() : { results: [] }).catch(() => ({ results: [] }))
+    );
+    const allData = await Promise.all(fetches);
+    for (const data of allData) {
       for (const ap of (data.results || [])) {
         const icao = ap.icao;
-        const lat = ap.latitude ?? ap.lat;
-        const lng = ap.longitude ?? ap.lng ?? ap.lon;
-        if (icao && lat != null && lng != null) {
+        // Try all possible field names for coordinates
+        const lat = ap.latitude ?? ap.lat ?? ap.coordinates?.lat ?? null;
+        const lng = ap.longitude ?? ap.lng ?? ap.lon ?? ap.coordinates?.lng ?? ap.coordinates?.lon ?? null;
+        if (icao && lat != null && lng != null && isFinite(Number(lat)) && isFinite(Number(lng))) {
           airportCoordCache[icao] = { lat: Number(lat), lng: Number(lng) };
         }
       }
-      console.log(`[empty-legs] Cached ${Object.keys(airportCoordCache).length} airport coordinates`);
     }
+    console.log(`[empty-legs] Cached ${Object.keys(airportCoordCache).length} airport coordinates`);
   } catch (e) {
     console.error('[empty-legs] Failed to load airport coord cache:', e);
   }
