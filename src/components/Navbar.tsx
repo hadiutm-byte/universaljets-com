@@ -99,7 +99,7 @@ const Navbar = () => {
           {/* Right side */}
           <div className="flex items-center gap-4 flex-shrink-0">
             <Link
-              to="/members"
+              to="/auth"
               className="hidden xl:inline-block text-[9px] tracking-[0.2em] text-foreground/35 hover:text-primary/70 transition-colors duration-500 uppercase font-light"
             >
               Members Login
