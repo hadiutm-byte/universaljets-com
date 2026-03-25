@@ -9,7 +9,6 @@ import { getAircraftImage, getAircraftCategory } from "@/lib/aircraftImages";
 
 interface AircraftResult {
   id: number;
-  tail_number?: string;
   aircraft_type: string;
   year_of_production?: number;
   max_passengers?: number;
