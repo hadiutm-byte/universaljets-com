@@ -18,12 +18,12 @@ const pillars = [
 ];
 
 const useCases = [
-  "Airline seasonal capacity",
-  "Ad-hoc charter programmes",
-  "Government & diplomatic transport",
-  "Crew training & positioning",
-  "Emergency fleet replacement",
-  "Long-term corporate shuttle",
+  "Aircraft on Ground (AOG) replacement",
+  "Seasonal peak capacity",
+  "Hajj & Umrah operations",
+  "Government and diplomatic missions",
+  "Corporate and workforce transport",
+  "Cargo and special operations",
 ];
 
 const ACMILeasingPage = () => {
