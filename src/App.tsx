@@ -11,7 +11,7 @@ import SearchResults from "./pages/SearchResults.tsx";
 import ACMILeasingPage from "./pages/ACMILeasingPage.tsx";
 import PartnerPage from "./pages/PartnerPage.tsx";
 import DestinationsPage from "./pages/DestinationsPage.tsx";
-import ResourcesPage from "./pages/ResourcesPage.tsx";
+import CrmResourcesPage from "./pages/crm/ResourcesPage.tsx";
 import TermsPage from "./pages/TermsPage.tsx";
 import PrivacyPage from "./pages/PrivacyPage.tsx";
 import CookiesPage from "./pages/CookiesPage.tsx";
