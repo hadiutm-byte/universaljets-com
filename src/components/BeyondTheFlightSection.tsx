@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { Gem, Car, Utensils, ShieldCheck } from "lucide-react";
+import { Gem, Car, Utensils, ShieldCheck, MapPin } from "lucide-react";
 
 const conciergeItems = [
   { icon: Gem, title: "Luxury Concierge", desc: "Hotels, villas, yacht charters, and bespoke experiences arranged alongside your flight." },
