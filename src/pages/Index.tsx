@@ -57,29 +57,34 @@ const Index = () => (
     <div className="relative z-[2]">
       <Navbar />
 
-      {/* 1. Hero — immersive entrance */}
-      <HeroSection />
-
-      <div className="divider-shimmer" />
+      {/* 1. Hero — immersive entrance (dark section) */}
+      <div className="section-dark">
+        <HeroSection />
+      </div>
 
       <CinematicSection speed={0.06}>
-        <TrustStrip />
+        <div className="section-dark">
+          <TrustStrip />
+        </div>
       </CinematicSection>
 
+      {/* Light section: How It Works */}
       <CinematicSection speed={0.1}>
         <HowItWorksSection />
       </CinematicSection>
 
       <div className="divider-shimmer" />
 
-      {/* 2. Services */}
+      {/* Dark section: Services */}
       <CinematicSection speed={0.08}>
-        <ServicesSection />
+        <div className="section-dark">
+          <ServicesSection />
+        </div>
       </CinematicSection>
 
       <div className="divider-shimmer" />
 
-      {/* 3. Empty Legs & Live Market */}
+      {/* Light section: Empty Legs & Live Market */}
       <CinematicSection speed={0.05}>
         <EmptyLegsMap />
       </CinematicSection>
@@ -89,42 +94,54 @@ const Index = () => (
 
       <div className="divider-shimmer" />
 
-      {/* 4. Membership */}
+      {/* Dark section: Membership */}
       <CinematicSection speed={0.09}>
-        <MembershipEnrollment />
+        <div className="section-dark">
+          <MembershipEnrollment />
+        </div>
       </CinematicSection>
       <CinematicSection speed={0.06}>
-        <MemberPrivileges />
+        <div className="section-dark">
+          <MemberPrivileges />
+        </div>
       </CinematicSection>
 
       <div className="divider-shimmer" />
 
-      {/* 5. Flight request — conversion */}
+      {/* Light section: Flight request — conversion */}
       <CinematicSection speed={0.08}>
         <CTASection />
       </CinematicSection>
 
       <div className="divider-shimmer" />
 
-      {/* 6. Jet Card & Referral */}
+      {/* Dark section: Jet Card & Referral */}
       <CinematicSection speed={0.07}>
-        <JetCardSection />
+        <div className="section-dark">
+          <JetCardSection />
+        </div>
       </CinematicSection>
       <CinematicSection speed={0.05}>
-        <ReferralSection />
+        <div className="section-dark">
+          <ReferralSection />
+        </div>
       </CinematicSection>
 
       <div className="divider-shimmer" />
 
-      {/* 7. Destinations, Events, Safety */}
+      {/* Light section: Destinations, Events */}
       <CinematicSection speed={0.1}>
         <DestinationsSection />
       </CinematicSection>
       <CinematicSection speed={0.06}>
         <EventsSection />
       </CinematicSection>
+
+      {/* Dark section: Safety */}
       <CinematicSection speed={0.08}>
-        <SafetySection />
+        <div className="section-dark">
+          <SafetySection />
+        </div>
       </CinematicSection>
 
       <Footer />

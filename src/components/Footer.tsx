@@ -47,14 +47,13 @@ const Footer = () => (
   <footer
     className="relative"
     style={{
-      background: "#0F1113",
+      background: "#1C1C1E",
       color: "#fff",
       padding: "80px 60px 40px",
     }}
   >
-    {/* ─── TOP: Brand + Nav ─── */}
+    {/* TOP: Brand + Nav */}
     <div className="flex flex-col lg:flex-row justify-between mb-[60px] gap-12 lg:gap-0">
-      {/* Brand */}
       <div>
         <Link to="/">
           <h2 className="text-[22px] tracking-[4px] font-light mb-2.5 uppercase">
@@ -68,7 +67,6 @@ const Footer = () => (
         </p>
       </div>
 
-      {/* Nav */}
       <div className="flex flex-wrap gap-12 lg:gap-20">
         <div>
           <h4 className="text-[13px] tracking-[2px] mb-4 font-semibold" style={{ color: "#C8A96A" }}>Company</h4>
@@ -85,7 +83,7 @@ const Footer = () => (
       </div>
     </div>
 
-    {/* ─── TRUST STRIP ─── */}
+    {/* TRUST STRIP */}
     <div
       className="flex flex-wrap justify-between gap-4 py-[25px] mb-10"
       style={{
@@ -108,7 +106,7 @@ const Footer = () => (
       ))}
     </div>
 
-    {/* ─── PARTNERS / PAYMENTS ─── */}
+    {/* PARTNERS / PAYMENTS */}
     <div className="flex flex-wrap items-center gap-5 mb-8">
       {["Visa", "Mastercard", "Amex"].map((name) => (
         <span
@@ -124,7 +122,7 @@ const Footer = () => (
       </span>
     </div>
 
-    {/* ─── SOCIAL ─── */}
+    {/* SOCIAL */}
     <div className="flex gap-4 mb-8">
       {socials.map((s) => (
         <motion.a
@@ -163,7 +161,7 @@ const Footer = () => (
       ))}
     </div>
 
-    {/* ─── BOTTOM ─── */}
+    {/* BOTTOM */}
     <div
       className="pt-5 flex flex-col md:flex-row items-start md:items-center justify-between gap-3"
       style={{ borderTop: "1px solid rgba(255,255,255,0.08)" }}
