@@ -20,33 +20,38 @@ const TrustStrip = () => (
   <section className="relative z-10">
     <FadeReveal>
       <div
-        className="py-8 md:py-10 px-6 md:px-16 flex flex-col md:flex-row items-center justify-between gap-6"
+        className="flex flex-col lg:flex-row items-center justify-between gap-8 lg:gap-0"
         style={{
-          background: "rgba(255,255,255,0.04)",
-          backdropFilter: "blur(10px)",
-          borderTop: "1px solid hsla(38,52%,53%,0.2)",
-          borderBottom: "1px solid hsla(38,52%,53%,0.2)",
+          padding: "40px 60px",
+          background: "linear-gradient(to right, rgba(255,255,255,0.05), rgba(255,255,255,0.02))",
+          backdropFilter: "blur(12px)",
+          WebkitBackdropFilter: "blur(12px)",
+          borderTop: "1px solid rgba(200,169,106,0.2)",
+          borderBottom: "1px solid rgba(200,169,106,0.2)",
         }}
       >
-        {/* Left: Certifications */}
-        <div className="flex flex-wrap items-center justify-center md:justify-start gap-6 md:gap-10">
+        {/* LEFT: Certifications */}
+        <div className="flex flex-wrap items-center justify-center lg:justify-start gap-6 lg:gap-10">
           {certifications.map((cert, i) => (
             <motion.div
               key={i}
-              whileHover={{ scale: 1.05 }}
-              transition={{ type: "spring", stiffness: 300, damping: 20 }}
-              className="flex items-center gap-2.5 cursor-default group"
+              whileHover={{ y: -3 }}
+              transition={{ duration: 0.3, ease: "easeOut" }}
+              className="flex items-center gap-3 cursor-default group"
             >
               <cert.icon
-                className="w-[18px] h-[18px] flex-shrink-0 transition-all duration-400 group-hover:drop-shadow-[0_0_8px_hsla(38,52%,53%,0.4)]"
+                className="w-[18px] h-[18px] flex-shrink-0"
                 strokeWidth={1.4}
-                style={{ color: "hsl(38,52%,53%)" }}
+                style={{ color: "#C8A96A" }}
               />
               <div className="flex flex-col">
-                <span className="text-[11px] font-semibold tracking-[1px] uppercase text-foreground/90 leading-tight">
+                <span
+                  className="text-[13px] font-semibold uppercase leading-tight"
+                  style={{ letterSpacing: "1.5px", color: "hsl(var(--foreground) / 0.9)" }}
+                >
                   {cert.name}
                 </span>
-                <small className="text-[9px] text-foreground/40 font-light leading-snug">
+                <small className="text-[11px] text-foreground/50 font-light leading-snug">
                   {cert.detail}
                 </small>
               </div>
@@ -54,10 +59,7 @@ const TrustStrip = () => (
           ))}
         </div>
 
-        {/* Divider (desktop) */}
-        <div className="hidden md:block w-px h-8 bg-white/[0.08]" />
-
-        {/* Right: Social */}
+        {/* RIGHT: Social */}
         <div className="flex items-center gap-4">
           {socials.map((s) => (
             <motion.a
@@ -66,12 +68,33 @@ const TrustStrip = () => (
               target="_blank"
               rel="noopener noreferrer"
               aria-label={s.label}
-              whileHover={{ scale: 1.15, y: -2 }}
+              whileHover={{ y: -3, scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              transition={{ type: "spring", stiffness: 400, damping: 15 }}
-              className="w-9 h-9 rounded-full border border-white/[0.08] flex items-center justify-center text-foreground/40 hover:text-primary hover:border-primary/30 hover:shadow-[0_0_16px_-4px_hsla(38,52%,53%,0.3)] transition-all duration-400"
+              transition={{ duration: 0.3, ease: "easeOut" }}
+              className="flex items-center justify-center"
+              style={{
+                width: 40,
+                height: 40,
+                borderRadius: "50%",
+                background: "rgba(255,255,255,0.06)",
+                border: "1px solid rgba(200,169,106,0.2)",
+                color: "#C8A96A",
+                transition: "all 0.3s ease",
+              }}
+              onMouseEnter={(e) => {
+                const el = e.currentTarget;
+                el.style.background = "#C8A96A";
+                el.style.color = "#000";
+                el.style.boxShadow = "0 8px 25px rgba(200,169,106,0.4)";
+              }}
+              onMouseLeave={(e) => {
+                const el = e.currentTarget;
+                el.style.background = "rgba(255,255,255,0.06)";
+                el.style.color = "#C8A96A";
+                el.style.boxShadow = "none";
+              }}
             >
-              <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
                 <path d={s.path} />
               </svg>
             </motion.a>
