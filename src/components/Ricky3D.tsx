@@ -1,8 +1,9 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { X, Send, Plane, CreditCard, Tag, Handshake, ChevronDown } from "lucide-react";
+import { X, Send, Plane, CreditCard, Tag, Handshake, ChevronDown, Volume2, VolumeX } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import RickyAvatar, { type RickyPose } from "./ricky/RickyAvatar";
+import { useRickyVoice } from "@/hooks/useRickyVoice";
 import GuidedBookingFlow from "./ricky/GuidedBookingFlow";
 
 type Msg = { role: "user" | "assistant"; content: string };
@@ -30,6 +31,7 @@ const Ricky3D = () => {
   const [loading, setLoading] = useState(false);
   const [speaking, setSpeaking] = useState(false);
   const bottomRef = useRef<HTMLDivElement>(null);
+  const { speak: speakVoice, muted, toggleMute } = useRickyVoice();
 
   // Delayed entrance — 3 seconds after page load
   useEffect(() => {
@@ -43,6 +45,8 @@ const Ricky3D = () => {
     const bubbleTimer = setTimeout(() => {
       setShowBubble(true);
       setSpeaking(true);
+      // Trigger voice greeting
+      speakVoice("Welcome to Universal Jets. Tell me your destination. I'll take care of everything.");
       let i = 0;
       const interval = setInterval(() => {
         if (i < INTRO_SCRIPT.length) {
@@ -60,7 +64,7 @@ const Ricky3D = () => {
       return () => clearInterval(interval);
     }, 800);
     return () => clearTimeout(bubbleTimer);
-  }, [phase]);
+  }, [phase, speakVoice]);
 
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -190,12 +194,21 @@ const Ricky3D = () => {
                   Meet Your Advisor
                 </p>
               </div>
-              <button
-                onClick={dismiss}
-                className="w-7 h-7 flex items-center justify-center rounded-full text-foreground/20 hover:text-foreground/50 hover:bg-muted/50 transition-all cursor-pointer"
-              >
-                <X size={13} />
-              </button>
+              <div className="flex items-center gap-1">
+                <button
+                  onClick={toggleMute}
+                  className="w-7 h-7 flex items-center justify-center rounded-full text-foreground/20 hover:text-foreground/50 hover:bg-muted/50 transition-all cursor-pointer"
+                  title={muted ? "Unmute Ricky" : "Mute Ricky"}
+                >
+                  {muted ? <VolumeX size={12} /> : <Volume2 size={12} />}
+                </button>
+                <button
+                  onClick={dismiss}
+                  className="w-7 h-7 flex items-center justify-center rounded-full text-foreground/20 hover:text-foreground/50 hover:bg-muted/50 transition-all cursor-pointer"
+                >
+                  <X size={13} />
+                </button>
+              </div>
             </div>
 
             {/* Avatar — half body (smaller, cropped feel) */}
@@ -231,12 +244,16 @@ const Ricky3D = () => {
                   animate={{ opacity: 1, y: 0, scale: 1 }}
                   exit={{ opacity: 0, scale: 0.97 }}
                   transition={{ duration: 0.4 }}
-                  className="mx-5 mb-3 px-6 py-5 rounded-xl relative"
+                  className="mx-5 mb-3 px-6 py-5 rounded-2xl relative"
                   style={{
-                    background: "hsl(var(--muted))",
-                    border: "1px solid hsla(0,0%,0%,0.04)",
+                    background: "hsl(0, 0%, 100%)",
+                    border: "1px solid hsla(0,0%,0%,0.05)",
+                    boxShadow: "0 4px 20px -4px hsla(0,0%,0%,0.06)",
+                    borderRadius: "20px 20px 20px 6px",
                   }}
                 >
+                  {/* Cloud tail */}
+                  <div className="absolute -bottom-1.5 left-6 w-3 h-3 rotate-45" style={{ background: "hsl(0, 0%, 100%)", borderRight: "1px solid hsla(0,0%,0%,0.05)", borderBottom: "1px solid hsla(0,0%,0%,0.05)" }} />
                   <p className="text-[13px] text-foreground/80 font-light leading-[2] whitespace-pre-wrap">
                     {displayedText}
                     {!showActions && <span className="animate-pulse text-primary">|</span>}

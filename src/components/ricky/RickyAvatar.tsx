@@ -34,39 +34,56 @@ const RickyAvatar = ({
     <motion.div
       className={`relative select-none ${className}`}
       style={{ width: size, height: size }}
-      animate={{
-        y: [0, -4, 0],
-      }}
-      transition={{
-        duration: 3,
-        repeat: Infinity,
-        ease: "easeInOut",
-      }}
     >
       {/* Subtle shadow beneath */}
-      <div
+      <motion.div
         className="absolute bottom-0 left-1/2 -translate-x-1/2 rounded-full bg-foreground/5 blur-md"
-        style={{ width: size * 0.5, height: size * 0.08 }}
+        style={{ width: size * 0.4, height: size * 0.06 }}
+        animate={{ scaleX: [1, 1.1, 1], opacity: [0.4, 0.6, 0.4] }}
+        transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
       />
 
-      {/* Ricky image */}
-      <motion.img
-        src={src}
-        alt="Ricky — Universal Jets Aviation Advisor"
-        className="w-full h-full object-contain drop-shadow-lg"
-        draggable={false}
-        animate={speaking ? { scale: [1, 1.02, 1] } : {}}
-        transition={speaking ? { duration: 0.8, repeat: Infinity, ease: "easeInOut" } : {}}
-      />
+      {/* Ricky with breathing + idle bob + subtle sway */}
+      <motion.div
+        className="w-full h-full"
+        animate={{
+          y: [0, -4, 0],
+          scaleY: [1, 1.008, 1, 0.995, 1],
+          rotateZ: [-0.3, 0.3, -0.3],
+        }}
+        transition={{
+          y: { duration: 3, repeat: Infinity, ease: "easeInOut" },
+          scaleY: { duration: 4, repeat: Infinity, ease: "easeInOut" },
+          rotateZ: { duration: 6, repeat: Infinity, ease: "easeInOut" },
+        }}
+      >
+        <motion.img
+          src={src}
+          alt="Ricky — Universal Jets Aviation Advisor"
+          className="w-full h-full object-contain drop-shadow-lg"
+          draggable={false}
+          animate={
+            speaking
+              ? { scale: [1, 1.02, 1, 1.015, 1] }
+              : {}
+          }
+          transition={
+            speaking
+              ? { duration: 1.2, repeat: Infinity, ease: "easeInOut" }
+              : {}
+          }
+        />
+      </motion.div>
 
       {/* Speaking indicator glow */}
       {speaking && (
         <motion.div
           className="absolute inset-0 rounded-full pointer-events-none"
-          animate={{ opacity: [0, 0.15, 0] }}
+          animate={{ opacity: [0, 0.12, 0] }}
           transition={{ duration: 1.5, repeat: Infinity }}
           style={{
-            background: "radial-gradient(circle, hsla(38,52%,50%,0.2) 0%, transparent 70%)",
+            background:
+              "radial-gradient(circle, hsla(38,52%,50%,0.15) 0%, transparent 70%)",
           }}
         />
       )}
