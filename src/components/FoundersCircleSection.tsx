@@ -1,8 +1,9 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { Crown, Plane, UserCheck, TrendingDown, Tag, Gift, Star, Check, CreditCard } from "lucide-react";
+import { Crown, Plane, UserCheck, TrendingDown, Tag, Gift, Star, Check, CreditCard, ArrowRight } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
+import { Link } from "react-router-dom";
 
 const benefits = [
   { icon: Plane, text: "Priority aircraft access worldwide" },
@@ -63,131 +64,135 @@ const FoundersCircleSection = () => {
   };
 
   return (
-    <section className="section-padding relative overflow-hidden">
-      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[hsl(222,20%,8%)] to-transparent pointer-events-none" />
-      <div className="absolute inset-0 pointer-events-none opacity-[0.03]" style={{ backgroundImage: "radial-gradient(ellipse 60% 40% at 50% 30%, hsla(45,79%,46%,0.25) 0%, transparent 70%)" }} />
-
+    <section className="py-28 md:py-36 relative overflow-hidden">
       <div className="container mx-auto px-8 relative z-10">
         <div className="max-w-5xl mx-auto">
-          {/* Crown badge */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.8 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-            className="flex justify-center mb-10"
-          >
-            <div className="w-16 h-16 rounded-full luxury-border flex items-center justify-center glow-subtle">
-              <Crown className="w-6 h-6 text-primary/70" strokeWidth={1.2} />
-            </div>
-          </motion.div>
-
           {/* Header */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.8, delay: 0.1 }}
-            className="text-center mb-16"
+            transition={{ duration: 0.8 }}
+            className="text-center mb-20"
           >
-            <p className="text-[9px] tracking-[0.5em] uppercase text-primary/60 mb-6 font-light">Exclusive Membership</p>
+            <p className="text-[11px] tracking-[0.4em] uppercase text-primary mb-5 font-medium">
+              Membership
+            </p>
             <h2 className="text-3xl md:text-4xl lg:text-5xl font-display font-semibold text-foreground mb-5 leading-tight">
               Choose Your <span className="text-gradient-gold italic">Access Level</span>
             </h2>
-            <p className="text-[13px] md:text-[14px] text-foreground/50 font-extralight leading-[2] max-w-xl mx-auto">
+            <p className="text-base text-muted-foreground font-light leading-relaxed max-w-xl mx-auto">
               From single flights to fixed-rate programs — find the model that fits your travel.
             </p>
           </motion.div>
 
-          {/* ── Membership Tier Cards ── */}
-          <div className="grid md:grid-cols-3 gap-6 mb-20">
+          {/* ── Membership Tier Cards — Light Luxury ── */}
+          <div className="grid md:grid-cols-3 gap-6 mb-24">
             {membershipTiers.map((tier, i) => (
               <motion.div
                 key={tier.name}
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ delay: i * 0.12, duration: 0.7 }}
-                className={`relative rounded-2xl p-8 md:p-9 backdrop-blur-sm transition-all duration-700 group ${
+                transition={{ delay: i * 0.1, duration: 0.6 }}
+                className={`relative rounded-2xl overflow-hidden transition-all duration-500 group ${
                   tier.accent
-                    ? "border border-primary/25 bg-gradient-to-b from-card/50 to-card/20 shadow-[0_0_50px_-15px_hsla(45,79%,46%,0.15)]"
-                    : "border border-border/15 bg-card/15 hover:border-border/25"
+                    ? "shadow-[0_20px_60px_-15px_hsla(0,0%,0%,0.1)] scale-[1.02]"
+                    : "hover:shadow-[0_16px_40px_-12px_hsla(0,0%,0%,0.08)]"
                 }`}
               >
+                {/* Top accent bar */}
                 {tier.accent && (
-                  <div className="absolute -top-3 left-1/2 -translate-x-1/2">
-                    <span className="px-4 py-1 bg-gradient-gold text-primary-foreground text-[8px] tracking-[0.3em] uppercase font-medium rounded-full">
-                      Recommended
-                    </span>
-                  </div>
+                  <div className="absolute top-0 left-0 right-0 h-[3px] bg-gradient-gold z-10" />
                 )}
 
-                <div className="flex items-center gap-3 mb-4">
-                  <div className={`w-10 h-10 rounded-full flex items-center justify-center ${tier.accent ? "bg-primary/15" : "bg-secondary/30"}`}>
-                    <CreditCard className={`w-4 h-4 ${tier.accent ? "text-primary" : "text-foreground/40"}`} strokeWidth={1.3} />
+                {/* Card header */}
+                <div className={`px-8 pt-9 pb-6 ${
+                  tier.accent
+                    ? "bg-gradient-to-b from-charcoal to-charcoal-deep"
+                    : "bg-muted"
+                }`}>
+                  {tier.accent && (
+                    <span className="inline-block px-3 py-1 bg-primary/15 text-primary text-[8px] tracking-[0.25em] uppercase font-medium rounded-full mb-5">
+                      Most Popular
+                    </span>
+                  )}
+                  <p className={`text-[10px] tracking-[0.35em] uppercase font-medium mb-1.5 ${
+                    tier.accent ? "text-primary/70" : "text-muted-foreground"
+                  }`}>
+                    {tier.tagline}
+                  </p>
+                  <h3 className={`font-display text-2xl font-semibold ${
+                    tier.accent ? "text-white" : "text-foreground"
+                  }`}>
+                    {tier.name}
+                  </h3>
+                  <p className={`text-[13px] font-light leading-relaxed mt-3 ${
+                    tier.accent ? "text-white/60" : "text-muted-foreground"
+                  }`}>
+                    {tier.desc}
+                  </p>
+                </div>
+
+                {/* Features */}
+                <div className="bg-card border border-t-0 border-border px-8 py-7 rounded-b-2xl">
+                  <div className="space-y-3 mb-7">
+                    {tier.features.map((f, j) => (
+                      <div key={j} className="flex items-start gap-3">
+                        <Check className="w-4 h-4 text-primary mt-0.5 flex-shrink-0" strokeWidth={1.5} />
+                        <span className="text-[13px] text-foreground/65 font-light leading-[1.7]">{f}</span>
+                      </div>
+                    ))}
                   </div>
+
+                  <Link
+                    to="/contact"
+                    className={`block text-center py-3.5 text-[10px] tracking-[0.2em] uppercase font-medium rounded-xl transition-all duration-500 ${
+                      tier.accent
+                        ? "bg-gradient-gold text-primary-foreground hover:shadow-[0_0_30px_-8px_hsla(45,79%,46%,0.4)]"
+                        : "border border-border text-foreground/60 hover:border-primary/30 hover:text-primary"
+                    }`}
+                  >
+                    {tier.accent ? "Apply Now" : "Learn More"}
+                  </Link>
                 </div>
-
-                <p className="text-[9px] tracking-[0.4em] uppercase text-primary/50 font-light mb-1">{tier.tagline}</p>
-                <h3 className="font-display text-xl font-semibold text-foreground mb-3">{tier.name}</h3>
-                <p className="text-[11px] text-foreground/40 font-extralight leading-[1.9] mb-7">{tier.desc}</p>
-
-                <div className="space-y-2.5 mb-8">
-                  {tier.features.map((f, j) => (
-                    <div key={j} className="flex items-start gap-3">
-                      <Check className="w-3.5 h-3.5 text-primary/50 mt-0.5 flex-shrink-0" strokeWidth={1.5} />
-                      <span className="text-[11px] text-foreground/50 font-extralight leading-[1.8]">{f}</span>
-                    </div>
-                  ))}
-                </div>
-
-                <button
-                  onClick={() => document.getElementById("membership-cta")?.scrollIntoView({ behavior: "smooth" })}
-                  className={`block w-full text-center py-3.5 text-[10px] tracking-[0.25em] uppercase font-medium rounded-lg transition-all duration-500 ${
-                    tier.accent
-                      ? "bg-gradient-gold text-primary-foreground hover:shadow-[0_0_30px_-8px_hsla(45,79%,46%,0.45)]"
-                      : "border border-primary/20 text-primary/70 hover:border-primary/40 hover:text-primary"
-                  }`}
-                >
-                  {tier.accent ? "Apply Now" : "Learn More"}
-                </button>
               </motion.div>
             ))}
           </div>
 
-          {/* Benefits */}
+          {/* Benefits row */}
           <motion.div
             initial={{ opacity: 0, y: 15 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.7, delay: 0.2 }}
-            className="grid sm:grid-cols-2 gap-5 mb-16 max-w-3xl mx-auto"
+            transition={{ duration: 0.7 }}
+            className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5 mb-20 max-w-4xl mx-auto"
           >
             {benefits.map((b, i) => (
-              <div key={i} className="flex items-start gap-4 p-5 rounded-xl border border-border/10 bg-card/10">
-                <b.icon className="w-4 h-4 text-primary/50 flex-shrink-0 mt-0.5" strokeWidth={1.3} />
-                <span className="text-[12px] text-foreground/55 font-extralight leading-[1.8]">{b.text}</span>
+              <div key={i} className="flex items-start gap-3 p-5 rounded-xl border border-border bg-card">
+                <b.icon className="w-4 h-4 text-primary flex-shrink-0 mt-0.5" strokeWidth={1.3} />
+                <span className="text-[12px] text-foreground/60 font-light leading-[1.8]">{b.text}</span>
               </div>
             ))}
           </motion.div>
 
-          {/* Referral program */}
+          {/* Referral */}
           <motion.div
             initial={{ opacity: 0, y: 15 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.7, delay: 0.3 }}
-            className="rounded-2xl border border-primary/10 bg-gradient-to-br from-card/20 to-card/5 backdrop-blur-md p-8 md:p-10 mb-16 max-w-3xl mx-auto"
+            transition={{ duration: 0.7 }}
+            className="rounded-2xl border border-border bg-muted p-10 md:p-12 mb-20 max-w-3xl mx-auto text-center"
           >
-            <p className="text-[9px] tracking-[0.4em] uppercase text-primary/50 mb-4 font-light text-center">Referral Program</p>
-            <p className="text-[13px] text-foreground/50 font-extralight text-center leading-[2] mb-8 max-w-md mx-auto">
+            <p className="text-[10px] tracking-[0.4em] uppercase text-primary mb-4 font-medium">Referral Program</p>
+            <p className="text-[14px] text-muted-foreground font-light leading-relaxed mb-8 max-w-md mx-auto">
               Introduce 3 qualified members to the network and receive:
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
               {referralRewards.map((r, i) => (
                 <div key={i} className="flex items-center gap-3">
-                  <r.icon className="w-4 h-4 text-primary/50" strokeWidth={1.3} />
-                  <span className="text-[12px] text-foreground/60 font-light">{r.text}</span>
+                  <r.icon className="w-4 h-4 text-primary" strokeWidth={1.3} />
+                  <span className="text-[13px] text-foreground/70 font-light">{r.text}</span>
                 </div>
               ))}
             </div>
@@ -199,14 +204,14 @@ const FoundersCircleSection = () => {
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.7, delay: 0.4 }}
+            transition={{ duration: 0.7 }}
             className="text-center max-w-lg mx-auto"
           >
             {submitted ? (
               <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} className="py-8">
-                <Crown className="w-8 h-8 text-primary/50 mx-auto mb-4" strokeWidth={1.2} />
+                <Crown className="w-8 h-8 text-primary mx-auto mb-4" strokeWidth={1.2} />
                 <h3 className="font-display text-lg text-foreground mb-2">Invitation Requested</h3>
-                <p className="text-[12px] text-foreground/40 font-extralight">Our membership team will be in touch shortly.</p>
+                <p className="text-[13px] text-muted-foreground font-light">Our membership team will be in touch shortly.</p>
               </motion.div>
             ) : (
               <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-3">
@@ -216,7 +221,7 @@ const FoundersCircleSection = () => {
                   onChange={(e) => setName(e.target.value)}
                   placeholder="Full name"
                   required
-                  className="flex-1 bg-secondary/30 backdrop-blur-sm rounded-lg px-5 py-3.5 text-[12px] text-foreground placeholder:text-foreground/25 font-light focus:outline-none focus:ring-1 focus:ring-primary/25 border border-border/10"
+                  className="flex-1 bg-card rounded-xl px-5 py-3.5 text-[13px] text-foreground placeholder:text-muted-foreground/50 font-light focus:outline-none focus:ring-1 focus:ring-primary/30 border border-border"
                 />
                 <input
                   type="email"
@@ -224,12 +229,12 @@ const FoundersCircleSection = () => {
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="your@email.com"
                   required
-                  className="flex-1 bg-secondary/30 backdrop-blur-sm rounded-lg px-5 py-3.5 text-[12px] text-foreground placeholder:text-foreground/25 font-light focus:outline-none focus:ring-1 focus:ring-primary/25 border border-border/10"
+                  className="flex-1 bg-card rounded-xl px-5 py-3.5 text-[13px] text-foreground placeholder:text-muted-foreground/50 font-light focus:outline-none focus:ring-1 focus:ring-primary/30 border border-border"
                 />
                 <button
                   type="submit"
                   disabled={loading}
-                  className="px-8 py-3.5 bg-gradient-gold text-primary-foreground text-[10px] tracking-[0.25em] uppercase font-medium rounded-lg transition-all duration-500 hover:shadow-[0_0_30px_-8px_hsla(45,79%,46%,0.4)] hover:scale-[1.02] disabled:opacity-50 whitespace-nowrap"
+                  className="px-8 py-3.5 bg-gradient-gold text-primary-foreground text-[10px] tracking-[0.2em] uppercase font-medium rounded-xl transition-all duration-500 hover:shadow-[0_0_30px_-8px_hsla(45,79%,46%,0.4)] disabled:opacity-50 whitespace-nowrap"
                 >
                   {loading ? "Submitting..." : "Request Invitation"}
                 </button>
