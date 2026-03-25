@@ -1,7 +1,7 @@
 import { useSearchParams, useNavigate } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { motion } from "framer-motion";
-import { ArrowLeft, Plane, MapPin, Calendar, Users, Clock, Loader2 } from "lucide-react";
+import { ArrowLeft, Plane, MapPin, Calendar, Users, Clock, Loader2, MessageCircle, Phone } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
@@ -16,10 +16,19 @@ interface CharterResult {
   flight_time?: string;
   dep_airport?: { name?: string; city?: string; icao?: string; iata?: string };
   arr_airport?: { name?: string; city?: string; icao?: string; iata?: string };
+  isDemoResult?: boolean;
 }
 
 const getSupabaseUrl = () => import.meta.env.VITE_SUPABASE_URL;
 const getAnonKey = () => import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY;
+
+const demoResults: CharterResult[] = [
+  { id: 9001, aircraft: { type: "Light Jet", name: "Citation CJ4", pax: 9, range_nm: 2165 }, company: "Available via broker network", price: null, currency: "USD", flight_time: "Est. 2–4h", isDemoResult: true },
+  { id: 9002, aircraft: { type: "Midsize", name: "Hawker 800XP", pax: 8, range_nm: 2540 }, company: "Available via broker network", price: null, currency: "USD", flight_time: "Est. 2–5h", isDemoResult: true },
+  { id: 9003, aircraft: { type: "Super Midsize", name: "Challenger 350", pax: 10, range_nm: 3200 }, company: "Available via broker network", price: null, currency: "USD", flight_time: "Est. 3–6h", isDemoResult: true },
+  { id: 9004, aircraft: { type: "Heavy Jet", name: "Global 6000", pax: 14, range_nm: 6000 }, company: "Available via broker network", price: null, currency: "USD", flight_time: "Est. 4–12h", isDemoResult: true },
+  { id: 9005, aircraft: { type: "Ultra Long Range", name: "Gulfstream G650", pax: 16, range_nm: 7000 }, company: "Available via broker network", price: null, currency: "USD", flight_time: "Est. 5–14h", isDemoResult: true },
+];
 
 const SearchResults = () => {
   const [searchParams] = useSearchParams();
@@ -53,7 +62,9 @@ const SearchResults = () => {
     enabled: !!from_icao && !!to_icao,
   });
 
-  const results: CharterResult[] = data?.results || data?.offers || (Array.isArray(data) ? data : []);
+  const apiResults: CharterResult[] = data?.results || data?.offers || (Array.isArray(data) ? data : []);
+  const usingDemo = apiResults.length === 0 && !isLoading && !error;
+  const results = usingDemo ? demoResults : apiResults;
 
   return (
     <div className="min-h-screen bg-background">
@@ -116,44 +127,40 @@ const SearchResults = () => {
               className="text-center py-32"
             >
               <p className="text-muted-foreground text-sm font-light mb-4">
-                Unable to fetch results. Please try again.
-              </p>
-              <button
-                onClick={() => navigate("/")}
-                className="px-8 py-3 bg-gradient-to-r from-primary to-[hsl(var(--gold-light))] text-primary-foreground text-[9px] tracking-[0.25em] uppercase font-medium rounded-sm"
-              >
-                New Search
-              </button>
-            </motion.div>
-          )}
-
-          {/* No results */}
-          {!isLoading && !error && results.length === 0 && (
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              className="text-center py-32"
-            >
-              <Plane size={36} className="mx-auto text-primary/30 mb-6" />
-              <h2 className="font-display text-2xl text-foreground mb-3">No Aircraft Available</h2>
-              <p className="text-muted-foreground text-sm font-light mb-8 max-w-md mx-auto">
-                We couldn't find immediate availability for this route. Our concierge team can source options for you.
+                Unable to fetch results. Please try again or contact our concierge.
               </p>
               <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
-                <a
-                  href="#cta"
-                  onClick={(e) => { e.preventDefault(); navigate("/#cta"); }}
-                  className="px-8 py-3 bg-gradient-to-r from-primary to-[hsl(var(--gold-light))] text-primary-foreground text-[9px] tracking-[0.25em] uppercase font-medium rounded-sm"
-                >
-                  Contact Concierge
-                </a>
                 <button
                   onClick={() => navigate("/")}
-                  className="px-8 py-3 border border-border text-foreground/50 hover:text-foreground text-[9px] tracking-[0.25em] uppercase font-light rounded-sm transition-colors"
+                  className="px-8 py-3 bg-gradient-to-r from-primary to-[hsl(var(--gold-light))] text-primary-foreground text-[9px] tracking-[0.25em] uppercase font-medium rounded-sm"
                 >
                   New Search
                 </button>
+                <a
+                  href="https://wa.me/971501234567"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-2 px-8 py-3 border border-border text-foreground/50 hover:text-foreground text-[9px] tracking-[0.25em] uppercase font-light rounded-sm transition-colors"
+                >
+                  <Phone size={11} /> Contact Concierge
+                </a>
               </div>
+            </motion.div>
+          )}
+
+          {/* Demo notice */}
+          {usingDemo && (
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="mb-8 p-5 rounded-xl border border-primary/15 bg-primary/[0.03] text-center"
+            >
+              <p className="text-[12px] text-foreground/60 font-light mb-1">
+                Instant availability is being sourced for this route.
+              </p>
+              <p className="text-[11px] text-foreground/40 font-extralight">
+                Below are aircraft categories typically available. Our concierge will confirm exact pricing and availability within minutes.
+              </p>
             </motion.div>
           )}
 
@@ -166,6 +173,7 @@ const SearchResults = () => {
                 const operator = result.operator?.name || result.company || "";
                 const price = result.price;
                 const currency = result.currency || "EUR";
+                const isDemo = result.isDemoResult;
 
                 return (
                   <motion.div
@@ -183,8 +191,14 @@ const SearchResults = () => {
                           <h3 className="font-display text-lg text-foreground font-medium">
                             {aircraftName}
                           </h3>
+                          {isDemo && (
+                            <span className="px-2 py-0.5 text-[7px] tracking-[0.15em] uppercase bg-primary/10 text-primary/70 rounded-full font-light">
+                              Typical
+                            </span>
+                          )}
                         </div>
                         <div className="flex flex-wrap gap-4 text-[11px] text-muted-foreground font-light">
+                          {result.aircraft?.type && <span className="text-primary/50">{result.aircraft.type}</span>}
                           {operator && <span>{operator}</span>}
                           {pax && (
                             <span className="flex items-center gap-1">
@@ -208,13 +222,18 @@ const SearchResults = () => {
 
                       {/* Price + CTA */}
                       <div className="flex items-center gap-4">
-                        {price && (
+                        {price ? (
                           <div className="text-right">
                             <p className="text-[10px] text-muted-foreground font-light uppercase tracking-wider">From</p>
                             <p className="font-display text-xl text-foreground font-semibold">
                               {currency === "EUR" ? "€" : currency === "USD" ? "$" : currency === "GBP" ? "£" : currency}
                               {price.toLocaleString()}
                             </p>
+                          </div>
+                        ) : (
+                          <div className="text-right">
+                            <p className="text-[10px] text-muted-foreground font-light uppercase tracking-wider">Price</p>
+                            <p className="font-display text-sm text-foreground/50 font-light">On Request</p>
                           </div>
                         )}
                         <a
@@ -230,6 +249,36 @@ const SearchResults = () => {
                 );
               })}
             </div>
+          )}
+
+          {/* Bottom CTA for demo results */}
+          {usingDemo && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.5 }}
+              className="mt-12 text-center space-y-4"
+            >
+              <p className="text-[12px] text-foreground/40 font-extralight">
+                Want confirmed pricing? Speak to our aviation concierge.
+              </p>
+              <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
+                <button
+                  onClick={() => document.dispatchEvent(new CustomEvent("open-ricky"))}
+                  className="flex items-center gap-2 px-8 py-3 bg-gradient-to-r from-primary to-[hsl(var(--gold-light))] text-primary-foreground text-[9px] tracking-[0.25em] uppercase font-medium rounded-sm"
+                >
+                  <MessageCircle size={11} /> Speak to Ricky
+                </button>
+                <a
+                  href="https://wa.me/971501234567"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-2 px-8 py-3 border border-border text-foreground/50 hover:text-foreground text-[9px] tracking-[0.25em] uppercase font-light rounded-sm transition-colors"
+                >
+                  <Phone size={11} /> WhatsApp
+                </a>
+              </div>
+            </motion.div>
           )}
         </div>
       </section>
