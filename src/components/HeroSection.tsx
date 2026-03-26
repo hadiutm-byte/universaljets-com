@@ -83,13 +83,13 @@ const HeroSection = () => {
           </span>
         </motion.h1>
 
-        {/* "Without Limits" — bold italic, same font family */}
+        {/* "Without Limits" — bold italic, gold with strong glow */}
         <motion.p
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1.4, delay: 0.85, ease: [0.16, 1, 0.3, 1] }}
-          className="font-display text-[2rem] sm:text-[2.8rem] md:text-[3.8rem] lg:text-[5.2rem] font-bold italic tracking-[-0.01em] text-primary mb-10"
-          style={{ textShadow: "0 4px 30px hsla(40,42%,42%,0.4), 0 2px 0 hsla(0,0%,0%,0.4)" }}
+          className="font-display text-[2rem] sm:text-[2.8rem] md:text-[3.8rem] lg:text-[5.2rem] font-extrabold italic tracking-[-0.01em] text-primary mb-10"
+          style={{ textShadow: "0 0 60px hsla(45,80%,50%,0.35), 0 0 20px hsla(45,80%,50%,0.25), 0 4px 30px hsla(0,0%,0%,0.7)" }}
         >
           Without Limits.
         </motion.p>
@@ -102,7 +102,7 @@ const HeroSection = () => {
           className="max-w-lg mx-auto mb-14"
         >
           <p
-            className="font-display text-[16px] md:text-[19px] text-white/90 font-normal leading-[1.6] tracking-[0.02em]"
+            className="font-display text-[15px] md:text-[18px] text-white/85 font-medium leading-[1.7] tracking-[0.12em] uppercase"
             style={{ textShadow: "0 2px 20px hsla(0,0%,0%,0.8)" }}
           >
             Global access. Instant quotes. Tailored journeys.
