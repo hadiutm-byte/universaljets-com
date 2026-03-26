@@ -33,6 +33,10 @@ export default {
           deep: "hsl(var(--charcoal-deep))",
         },
         midnight: "hsl(var(--midnight))",
+        selection: {
+          DEFAULT: "hsl(var(--selection))",
+          foreground: "hsl(var(--selection-foreground))",
+        },
         primary: {
           DEFAULT: "hsl(var(--primary))",
           foreground: "hsl(var(--primary-foreground))",
