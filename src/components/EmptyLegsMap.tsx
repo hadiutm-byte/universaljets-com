@@ -9,7 +9,45 @@ import AIRPORT_COORDS from "@/lib/airportCoords";
 
 const regions = ["All", "Americas", "Europe", "Middle East", "Asia"];
 
-// ... keep existing code (enrichCoords, fallbackLegs, getRegionForCountry)
+function enrichCoords(leg: EmptyLeg): EmptyLeg {
+  const enrichAirport = (airport: EmptyLeg["departure"]) => {
+    if (!airport) return airport;
+    if (airport.lat !== null && airport.lng !== null) return airport;
+    const coords = AIRPORT_COORDS[airport.icao];
+    if (coords) return { ...airport, lat: coords[0], lng: coords[1] };
+    return airport;
+  };
+  return { ...leg, departure: enrichAirport(leg.departure), arrival: enrichAirport(leg.arrival) };
+}
+
+const fallbackLegs: EmptyLeg[] = [
+  { id: 1, aircraft_type: "Citation XLS+", company: "", from_date: "2025-04-12T10:00", to_date: "2025-04-12T13:00", price: null, currency: "USD", comment: "", departure: { id: 1, name: "Teterboro", iata: "", icao: "KTEB", city: "New York", country: "United States", lat: 40.85, lng: -74.06 }, arrival: { id: 2, name: "Opa-locka Executive", iata: "", icao: "KOPF", city: "Miami", country: "United States", lat: 25.91, lng: -80.28 } },
+  { id: 2, aircraft_type: "Phenom 300E", company: "", from_date: "2025-04-15T08:00", to_date: "2025-04-15T10:30", price: null, currency: "EUR", comment: "", departure: { id: 3, name: "Luton", iata: "LTN", icao: "EGGW", city: "London", country: "United Kingdom", lat: 51.87, lng: -0.37 }, arrival: { id: 4, name: "Geneva Intl", iata: "GVA", icao: "LSGG", city: "Geneva", country: "Switzerland", lat: 46.24, lng: 6.11 } },
+  { id: 3, aircraft_type: "Global 6000", company: "", from_date: "2025-04-18T14:00", to_date: "2025-04-18T21:00", price: null, currency: "USD", comment: "", departure: { id: 5, name: "Al Maktoum Intl", iata: "DWC", icao: "OMDW", city: "Dubai", country: "UAE", lat: 24.89, lng: 55.17 }, arrival: { id: 6, name: "Luton", iata: "LTN", icao: "EGGW", city: "London", country: "United Kingdom", lat: 51.87, lng: -0.37 } },
+  { id: 4, aircraft_type: "Citation CJ3+", company: "", from_date: "2025-04-22T16:00", to_date: "2025-04-22T17:30", price: null, currency: "USD", comment: "", departure: { id: 7, name: "Van Nuys", iata: "VNY", icao: "KVNY", city: "Los Angeles", country: "United States", lat: 34.21, lng: -118.49 }, arrival: { id: 8, name: "Harry Reid Intl", iata: "LAS", icao: "KLAS", city: "Las Vegas", country: "United States", lat: 36.08, lng: -115.15 } },
+  { id: 5, aircraft_type: "Phenom 100EV", company: "", from_date: "2025-04-25T09:00", to_date: "2025-04-25T10:45", price: null, currency: "EUR", comment: "", departure: { id: 9, name: "Le Bourget", iata: "LBG", icao: "LFPB", city: "Paris", country: "France", lat: 48.97, lng: 2.44 }, arrival: { id: 10, name: "Nice Côte d'Azur", iata: "NCE", icao: "LFMN", city: "Nice", country: "France", lat: 43.66, lng: 7.22 } },
+  { id: 6, aircraft_type: "Falcon 2000LXS", company: "", from_date: "2025-05-01T07:00", to_date: "2025-05-01T11:00", price: null, currency: "USD", comment: "", departure: { id: 11, name: "Changi", iata: "SIN", icao: "WSSS", city: "Singapore", country: "Singapore", lat: 1.36, lng: 103.99 }, arrival: { id: 12, name: "Hong Kong Intl", iata: "HKG", icao: "VHHH", city: "Hong Kong", country: "Hong Kong", lat: 22.31, lng: 113.91 } },
+];
+
+const getRegionForCountry = (country: string): string => {
+  const map: Record<string, string> = {
+    "United States": "Americas", "Canada": "Americas", "Mexico": "Americas", "Brazil": "Americas",
+    "Argentina": "Americas", "Chile": "Americas", "Colombia": "Americas", "Peru": "Americas",
+    "United Kingdom": "Europe", "France": "Europe", "Germany": "Europe", "Switzerland": "Europe",
+    "Italy": "Europe", "Spain": "Europe", "Netherlands": "Europe", "Czech Republic": "Europe",
+    "Poland": "Europe", "Austria": "Europe", "Belgium": "Europe", "Portugal": "Europe",
+    "Sweden": "Europe", "Norway": "Europe", "Denmark": "Europe", "Finland": "Europe",
+    "Ireland": "Europe", "Greece": "Europe", "Romania": "Europe", "Hungary": "Europe",
+    "Croatia": "Europe", "Turkey": "Europe", "Cyprus": "Europe",
+    "UAE": "Middle East", "Saudi Arabia": "Middle East", "Qatar": "Middle East",
+    "Bahrain": "Middle East", "Israel": "Middle East", "Georgia": "Middle East",
+    "Kuwait": "Middle East", "Oman": "Middle East", "Jordan": "Middle East", "Lebanon": "Middle East",
+    "Singapore": "Asia", "Hong Kong": "Asia", "Japan": "Asia", "South Korea": "Asia",
+    "China": "Asia", "India": "Asia", "Thailand": "Asia", "Malaysia": "Asia",
+    "Indonesia": "Asia", "Philippines": "Asia", "Taiwan": "Asia",
+  };
+  return map[country] || "Other";
+};
 
 const EmptyLegsMap = () => {
   const [selectedLeg, setSelectedLeg] = useState<EmptyLeg | null>(null);
