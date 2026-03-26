@@ -13,6 +13,7 @@ type QuoteStatus = Database["public"]["Enums"]["quote_status"];
 const STATUSES: QuoteStatus[] = ["draft", "sent", "accepted", "rejected", "expired"];
 
 const QuotesPage = () => {
+  const navigate = useNavigate();
   const [data, setData] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [formOpen, setFormOpen] = useState(false);
