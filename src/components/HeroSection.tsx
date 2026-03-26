@@ -30,8 +30,11 @@ const HeroSection = () => {
         />
       </motion.div>
 
-      {/* Single dark gradient overlay */}
-      <div className="absolute inset-0 bg-gradient-to-b from-[hsla(220,10%,6%,0.55)] via-[hsla(220,10%,6%,0.3)] to-[hsla(220,10%,6%,0.7)] pointer-events-none" />
+      {/* Layered gradient overlay for cinematic depth */}
+      <div className="absolute inset-0 pointer-events-none">
+        <div className="absolute inset-0 bg-gradient-to-b from-[hsla(220,10%,5%,0.65)] via-[hsla(220,10%,6%,0.2)] to-[hsla(220,10%,5%,0.75)]" />
+        <div className="absolute inset-0 bg-gradient-to-r from-[hsla(220,10%,5%,0.3)] via-transparent to-[hsla(220,10%,5%,0.15)]" />
+      </div>
 
       {/* Content */}
       <motion.div
@@ -50,8 +53,8 @@ const HeroSection = () => {
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1, delay: 0.4 }}
-          className="text-[11px] md:text-[12px] tracking-[0.5em] uppercase text-primary mb-10 font-medium"
-          style={{ textShadow: "0 2px 12px hsla(45,79%,46%,0.3)" }}
+          className="text-[10px] md:text-[11px] tracking-[0.55em] uppercase text-primary mb-10 font-medium"
+          style={{ textShadow: "0 2px 16px hsla(45,79%,46%,0.35)" }}
         >
           Private Aviation Redefined
         </motion.p>
@@ -63,14 +66,14 @@ const HeroSection = () => {
           className="font-display leading-[0.95] tracking-tight mb-10"
         >
           <span
-            className="block text-[2.8rem] sm:text-[3.5rem] md:text-[5rem] lg:text-[7rem] font-semibold text-white"
-            style={{ textShadow: "0 4px 30px hsla(0,0%,0%,0.5)" }}
+            className="block text-[2.6rem] sm:text-[3.2rem] md:text-[4.8rem] lg:text-[6.5rem] font-semibold text-white"
+            style={{ textShadow: "0 4px 40px hsla(0,0%,0%,0.6), 0 1px 0 hsla(0,0%,100%,0.05)" }}
           >
             Private Aviation.
           </span>
           <span
-            className="block text-[3.4rem] sm:text-[4.5rem] md:text-[6rem] lg:text-[8.5rem] text-gradient-gold italic font-medium mt-2"
-            style={{ textShadow: "0 4px 30px hsla(45,79%,46%,0.15)" }}
+            className="block text-[3.2rem] sm:text-[4.2rem] md:text-[5.8rem] lg:text-[8rem] text-gradient-gold italic font-medium mt-1"
+            style={{ textShadow: "0 4px 40px hsla(45,79%,46%,0.2)" }}
           >
             Perfected.
           </span>
