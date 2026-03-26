@@ -109,7 +109,7 @@ const FoundersCircleSection = () => {
                   </div>
                   <Link to="/contact"
                     className={`block text-center py-3.5 text-[10px] tracking-[0.2em] uppercase font-medium rounded-xl transition-all duration-500 ${
-                      tier.accent ? "bg-gradient-gold text-primary-foreground hover:shadow-[0_0_30px_-8px_hsla(45,79%,46%,0.4)] btn-luxury" : "border border-border text-foreground/60 hover:border-primary/30 hover:text-primary"
+                      tier.accent ? "bg-gradient-gold text-primary-foreground hover:shadow-[0_0_30px_-8px_hsla(43,74%,49%,0.4)] btn-luxury" : "border border-border text-foreground/60 hover:border-primary/30 hover:text-primary"
                     }`}>
                     {tier.accent ? "Apply Now" : "Learn More"}
                   </Link>
@@ -163,7 +163,7 @@ const FoundersCircleSection = () => {
                   <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="your@email.com" required maxLength={255}
                     className="flex-1 bg-card rounded-lg px-5 py-3.5 text-[13px] text-foreground placeholder:text-muted-foreground/50 font-light focus:outline-none focus:ring-1 focus:ring-primary/30 border border-border" />
                   <button type="submit" disabled={loading || !canSubmit}
-                    className="px-8 py-3.5 bg-gradient-gold text-primary-foreground text-[10px] tracking-[0.2em] uppercase font-medium rounded-lg transition-all duration-500 hover:shadow-[0_0_30px_-8px_hsla(45,79%,46%,0.4)] disabled:opacity-40 whitespace-nowrap btn-luxury">
+                    className="px-8 py-3.5 bg-gradient-gold text-primary-foreground text-[10px] tracking-[0.2em] uppercase font-medium rounded-lg transition-all duration-500 hover:shadow-[0_0_30px_-8px_hsla(43,74%,49%,0.4)] disabled:opacity-40 whitespace-nowrap btn-luxury">
                     {loading ? "Submitting…" : "Request Invitation"}
                   </button>
                 </form>

@@ -124,7 +124,7 @@ const HeroSection = () => {
             whileTap={{ scale: 0.97 }}
             transition={{ type: "spring", stiffness: 300, damping: 18 }}
             onClick={() => document.dispatchEvent(new CustomEvent("open-ricky-booking"))}
-            className="group px-12 py-4.5 bg-gradient-gold text-white text-[10px] tracking-[0.35em] uppercase font-medium rounded-xl cursor-pointer flex items-center gap-3 shadow-[0_4px_24px_-4px_hsla(45,79%,46%,0.35)] hover:shadow-[0_12px_48px_-8px_hsla(45,79%,46%,0.5)] transition-shadow duration-700"
+            className="group px-12 py-4.5 bg-gradient-gold text-white text-[10px] tracking-[0.35em] uppercase font-medium rounded-xl cursor-pointer flex items-center gap-3 shadow-[0_4px_24px_-4px_hsla(43,74%,49%,0.35)] hover:shadow-[0_12px_48px_-8px_hsla(43,74%,49%,0.5)] transition-shadow duration-700"
             style={{ paddingTop: "1.125rem", paddingBottom: "1.125rem" }}
           >
             Request a Flight

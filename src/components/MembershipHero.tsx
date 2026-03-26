@@ -40,7 +40,7 @@ const MembershipHero = ({ onRequestInvitation, onSpeakToAdvisor }: MembershipHer
     <div
       className="absolute inset-0 opacity-30"
       style={{
-        background: "radial-gradient(ellipse 60% 40% at 50% 45%, hsla(45, 79%, 46%, 0.08) 0%, transparent 70%)",
+        background: "radial-gradient(ellipse 60% 40% at 50% 45%, hsla(43, 74%, 49%, 0.08) 0%, transparent 70%)",
       }}
     />
 
@@ -63,7 +63,7 @@ const MembershipHero = ({ onRequestInvitation, onSpeakToAdvisor }: MembershipHer
           variants={fadeUp}
           className="inline-flex items-center gap-2 px-5 py-2 rounded-full border border-[hsl(45,79%,46%,0.15)] bg-[hsl(45,79%,46%,0.04)] mb-10"
         >
-          <div className="w-1.5 h-1.5 rounded-full bg-[hsl(45,79%,46%)] animate-pulse" />
+          <div className="w-1.5 h-1.5 rounded-full bg-[hsl(43,74%,49%)] animate-pulse" />
           <span className="text-[9px] tracking-[0.4em] uppercase text-[hsl(45,79%,46%,0.7)] font-light">
             Limited invitations released monthly
           </span>
@@ -100,7 +100,7 @@ const MembershipHero = ({ onRequestInvitation, onSpeakToAdvisor }: MembershipHer
           className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-20"
         >
           <motion.button
-            whileHover={{ scale: 1.04, boxShadow: "0 0 50px -12px hsla(45,79%,46%,0.5)" }}
+            whileHover={{ scale: 1.04, boxShadow: "0 0 50px -12px hsla(43,74%,49%,0.5)" }}
             whileTap={{ scale: 0.97 }}
             onClick={() => { trackMembershipRequest(); onRequestInvitation(); }}
             className="px-10 py-4 bg-gradient-gold text-white text-[10px] tracking-[0.3em] uppercase font-semibold rounded-xl transition-all duration-500 cursor-pointer"

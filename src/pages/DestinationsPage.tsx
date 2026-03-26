@@ -203,7 +203,7 @@ const DestinationsPage = () => (
           <p className="text-[14px] text-muted-foreground font-light leading-relaxed mb-10">
             Tell us your destination or event — we'll handle aircraft, timing, and every detail.
           </p>
-          <Link to="/request-flight" className="inline-block px-10 py-3.5 bg-gradient-gold text-primary-foreground text-[10px] tracking-[0.25em] uppercase font-medium rounded-xl hover:shadow-[0_0_30px_-8px_hsla(45,79%,46%,0.4)] transition-all duration-500">
+          <Link to="/request-flight" className="inline-block px-10 py-3.5 bg-gradient-gold text-primary-foreground text-[10px] tracking-[0.25em] uppercase font-medium rounded-xl hover:shadow-[0_0_30px_-8px_hsla(43,74%,49%,0.4)] transition-all duration-500">
             Request Flight
           </Link>
         </motion.div>

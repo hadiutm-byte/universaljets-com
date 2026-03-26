@@ -179,7 +179,7 @@ const EmptyLegsMapView = ({ legs, selectedLeg, onLegClick, onClose, isLiveData }
         type: "line",
         source: routeId,
         paint: {
-          "line-color": "hsla(45, 79%, 50%, 0.15)",
+          "line-color": "hsla(43, 74%, 52%, 0.15)",
           "line-width": isActive ? 8 : 4,
           "line-blur": isActive ? 8 : 4,
         },
@@ -191,7 +191,7 @@ const EmptyLegsMapView = ({ legs, selectedLeg, onLegClick, onClose, isLiveData }
         type: "line",
         source: routeId,
         paint: {
-          "line-color": isActive ? "hsl(45, 79%, 55%)" : "hsla(45, 79%, 50%, 0.55)",
+          "line-color": isActive ? "hsl(43, 85%, 58%)" : "hsla(43, 74%, 52%, 0.55)",
           "line-width": isActive ? 2.5 : 1.2,
           "line-dasharray": isActive ? [1] : [2, 2],
         },
@@ -364,13 +364,13 @@ function createMarkerEl(isActive: boolean): HTMLDivElement {
   el.style.width = `${size}px`;
   el.style.height = `${size}px`;
   el.style.borderRadius = "50%";
-  el.style.background = "hsl(45, 79%, 55%)";
+  el.style.background = "hsl(43, 85%, 58%)";
   el.style.boxShadow = isActive
-    ? "0 0 16px 4px hsla(45, 79%, 50%, 0.5), 0 0 4px 1px hsla(45, 79%, 50%, 0.8)"
-    : "0 0 8px 2px hsla(45, 79%, 50%, 0.3)";
+    ? "0 0 16px 4px hsla(43, 74%, 52%, 0.5), 0 0 4px 1px hsla(43, 74%, 52%, 0.8)"
+    : "0 0 8px 2px hsla(43, 74%, 52%, 0.3)";
   el.style.cursor = "pointer";
   el.style.transition = "all 0.3s ease";
-  el.style.border = isActive ? "2px solid hsla(45, 79%, 80%, 0.6)" : "none";
+  el.style.border = isActive ? "2px solid hsla(43, 85%, 78%, 0.6)" : "none";
   if (isActive) {
     el.style.animation = "pulse-gold 2s ease-in-out infinite";
   }
@@ -485,7 +485,7 @@ function SelectedLegPanel({ leg, onClose }: { leg: EmptyLeg; onClose: () => void
             href={`https://wa.me/447888999944?text=${waMsg}`}
             target="_blank"
             rel="noopener noreferrer"
-            className="flex-1 flex items-center justify-center gap-2 py-3.5 bg-gradient-gold text-primary-foreground text-[10px] tracking-[0.25em] uppercase font-medium rounded-xl hover:shadow-[0_0_30px_-8px_hsla(45,79%,46%,0.45)] transition-all duration-300"
+            className="flex-1 flex items-center justify-center gap-2 py-3.5 bg-gradient-gold text-primary-foreground text-[10px] tracking-[0.25em] uppercase font-medium rounded-xl hover:shadow-[0_0_30px_-8px_hsla(43,74%,49%,0.45)] transition-all duration-300"
           >
             Request This Flight <ArrowRight size={11} />
           </a>

@@ -109,7 +109,7 @@ const GuidedBookingFlow = ({ onComplete, onSpeaking }: Props) => {
               className="flex-1 h-[2px] rounded-full transition-all duration-500"
               style={{
                 background: i <= step
-                  ? "linear-gradient(90deg, hsla(45,79%,46%,0.8), hsla(38,52%,65%,0.6))"
+                  ? "linear-gradient(90deg, hsla(43,74%,49%,0.8), hsla(38,52%,65%,0.6))"
                   : "hsla(0,0%,100%,0.06)",
               }}
             />
@@ -189,7 +189,7 @@ const GuidedBookingFlow = ({ onComplete, onSpeaking }: Props) => {
                 whileTap={{ scale: 0.98 }}
                 disabled={!canAdvanceRoute}
                 onClick={next}
-                className="w-full mt-3 py-3 bg-gradient-gold rounded-xl text-primary-foreground text-[10px] tracking-[0.2em] uppercase font-medium disabled:opacity-25 disabled:cursor-not-allowed cursor-pointer transition-all hover:shadow-[0_0_25px_-5px_hsla(45,79%,46%,0.4)]"
+                className="w-full mt-3 py-3 bg-gradient-gold rounded-xl text-primary-foreground text-[10px] tracking-[0.2em] uppercase font-medium disabled:opacity-25 disabled:cursor-not-allowed cursor-pointer transition-all hover:shadow-[0_0_25px_-5px_hsla(43,74%,49%,0.4)]"
               >
                 Continue
               </motion.button>
@@ -224,7 +224,7 @@ const GuidedBookingFlow = ({ onComplete, onSpeaking }: Props) => {
                 whileTap={{ scale: 0.98 }}
                 disabled={!canAdvanceDate}
                 onClick={next}
-                className="w-full mt-3 py-3 bg-gradient-gold rounded-xl text-primary-foreground text-[10px] tracking-[0.2em] uppercase font-medium disabled:opacity-25 disabled:cursor-not-allowed cursor-pointer transition-all hover:shadow-[0_0_25px_-5px_hsla(45,79%,46%,0.4)]"
+                className="w-full mt-3 py-3 bg-gradient-gold rounded-xl text-primary-foreground text-[10px] tracking-[0.2em] uppercase font-medium disabled:opacity-25 disabled:cursor-not-allowed cursor-pointer transition-all hover:shadow-[0_0_25px_-5px_hsla(43,74%,49%,0.4)]"
               >
                 Continue
               </motion.button>

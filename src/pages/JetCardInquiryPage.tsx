@@ -162,7 +162,7 @@ const JetCardInquiryPage = () => {
                       <LegalConsent checked={termsAccepted} onChange={setTermsAccepted} includeMarketing marketingChecked={marketingConsent} onMarketingChange={setMarketingConsent} />
 
                       <button type="button" disabled={!canSubmit || loading} onClick={handleSubmit}
-                        className="w-full py-3.5 bg-gradient-gold text-primary-foreground text-[10px] tracking-[0.25em] uppercase font-medium rounded-lg transition-all duration-500 hover:shadow-[0_0_40px_-10px_hsla(45,79%,46%,0.4)] disabled:opacity-40 btn-luxury">
+                        className="w-full py-3.5 bg-gradient-gold text-primary-foreground text-[10px] tracking-[0.25em] uppercase font-medium rounded-lg transition-all duration-500 hover:shadow-[0_0_40px_-10px_hsla(43,74%,49%,0.4)] disabled:opacity-40 btn-luxury">
                         {loading ? "Processing…" : "Submit Request"}
                       </button>
 
@@ -186,7 +186,7 @@ const JetCardInquiryPage = () => {
                   Our team will prepare a tailored proposal and contact you shortly.
                 </p>
                 <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                  <Link to="/" className="px-8 py-3.5 bg-gradient-gold text-primary-foreground text-[10px] tracking-[0.25em] uppercase font-medium rounded-xl hover:shadow-[0_0_30px_-8px_hsla(45,79%,46%,0.45)] transition-all duration-500">
+                  <Link to="/" className="px-8 py-3.5 bg-gradient-gold text-primary-foreground text-[10px] tracking-[0.25em] uppercase font-medium rounded-xl hover:shadow-[0_0_30px_-8px_hsla(43,74%,49%,0.45)] transition-all duration-500">
                     Return Home
                   </Link>
                   <Link to="/fleet" className="inline-flex items-center justify-center gap-2 px-8 py-3.5 border border-border text-foreground/60 hover:text-foreground text-[10px] tracking-[0.25em] uppercase font-medium rounded-xl transition-all duration-500">

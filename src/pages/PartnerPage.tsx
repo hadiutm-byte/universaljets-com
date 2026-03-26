@@ -79,7 +79,7 @@ const PartnerPage = () => {
 
         {/* Hero */}
         <section className="pt-40 pb-24 relative">
-          <div className="absolute inset-0 opacity-[0.03] pointer-events-none" style={{ backgroundImage: "radial-gradient(ellipse 50% 40% at 50% 30%, hsla(45,79%,46%,0.3) 0%, transparent 70%)" }} />
+          <div className="absolute inset-0 opacity-[0.03] pointer-events-none" style={{ backgroundImage: "radial-gradient(ellipse 50% 40% at 50% 30%, hsla(43,74%,49%,0.3) 0%, transparent 70%)" }} />
           <div className="container mx-auto px-8 relative z-10 text-center">
             <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }}>
               <div className="w-16 h-16 rounded-full luxury-border flex items-center justify-center mx-auto mb-8 glow-subtle">
@@ -159,7 +159,7 @@ const PartnerPage = () => {
                       <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-primary/30 to-transparent" />
                       <div className="absolute bottom-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-primary/15 to-transparent" />
                       <motion.div className="absolute inset-0 opacity-[0.08]" animate={{ backgroundPosition: ["0% 0%", "200% 200%"] }} transition={{ duration: 6, repeat: Infinity, ease: "linear" }}
-                        style={{ backgroundImage: "linear-gradient(135deg, transparent 25%, hsla(45,79%,46%,0.4) 35%, transparent 45%)", backgroundSize: "200% 200%" }} />
+                        style={{ backgroundImage: "linear-gradient(135deg, transparent 25%, hsla(43,74%,49%,0.4) 35%, transparent 45%)", backgroundSize: "200% 200%" }} />
                       <div className="relative z-10 p-6 h-full flex flex-col justify-between">
                         <div className="flex items-start justify-between">
                           <p className="text-[10px] tracking-[0.4em] uppercase text-primary/70 font-medium">Universal Jets</p>
@@ -167,7 +167,7 @@ const PartnerPage = () => {
                         </div>
                         <div>
                           <div className="flex items-center gap-3 mb-3">
-                            <div className="w-8 h-6 rounded-[3px] border border-primary/20" style={{ background: "linear-gradient(145deg, hsla(45,79%,46%,0.2) 0%, hsla(45,79%,46%,0.08) 100%)" }}>
+                            <div className="w-8 h-6 rounded-[3px] border border-primary/20" style={{ background: "linear-gradient(145deg, hsla(43,74%,49%,0.2) 0%, hsla(43,74%,49%,0.08) 100%)" }}>
                               <div className="absolute inset-[2px] border border-primary/10 rounded-[2px]" />
                             </div>
                             <p className="text-[13px] tracking-[0.15em] text-foreground/50 font-light font-mono">•••• •••• •••• ••••</p>
@@ -275,7 +275,7 @@ const PartnerPage = () => {
                     <textarea value={form.message} onChange={set("message")} placeholder="Tell us about your brand and the partnership you envision..." rows={3} className={`${inputClass} resize-none`} />
                   </div>
                   <button type="submit" disabled={loading}
-                    className="w-full py-4 bg-gradient-gold text-primary-foreground text-[10px] tracking-[0.3em] uppercase font-medium rounded-lg transition-all duration-500 hover:shadow-[0_0_40px_-10px_hsla(45,79%,46%,0.4)] hover:scale-[1.01] disabled:opacity-50">
+                    className="w-full py-4 bg-gradient-gold text-primary-foreground text-[10px] tracking-[0.3em] uppercase font-medium rounded-lg transition-all duration-500 hover:shadow-[0_0_40px_-10px_hsla(43,74%,49%,0.4)] hover:scale-[1.01] disabled:opacity-50">
                     {loading ? "Submitting..." : "Submit Partnership Inquiry"}
                   </button>
                 </form>

@@ -131,7 +131,7 @@ const Navbar = () => {
           background: scrolled
             ? "hsl(220 10% 6% / 0.97)"
             : "linear-gradient(to bottom, hsla(220,10%,5%,0.9), hsla(220,10%,5%,0))",
-          borderBottom: scrolled ? "1px solid hsla(45,79%,46%,0.08)" : "1px solid transparent",
+          borderBottom: scrolled ? "1px solid hsla(43,74%,49%,0.08)" : "1px solid transparent",
           backdropFilter: scrolled ? "blur(12px) saturate(1.2)" : "none",
         }}
       >
@@ -191,7 +191,7 @@ const Navbar = () => {
               href="/#cta"
               isHome={isHome}
               onNav={handleNavClick}
-              className="hidden xl:inline-block px-6 py-2.5 bg-gradient-gold text-white text-[10px] tracking-[0.28em] uppercase font-medium rounded-xl hover:shadow-[0_0_30px_-8px_hsla(45,79%,46%,0.45)] transition-all duration-500 hover:scale-[1.02]"
+              className="hidden xl:inline-block px-6 py-2.5 bg-gradient-gold text-white text-[10px] tracking-[0.28em] uppercase font-medium rounded-xl hover:shadow-[0_0_30px_-8px_hsla(43,74%,49%,0.45)] transition-all duration-500 hover:scale-[1.02]"
             >
               Request a Flight
             </NavLinkInner>
@@ -288,7 +288,7 @@ const Navbar = () => {
                   href="/#cta"
                   isHome={isHome}
                   onNav={handleNavClick}
-                  className="px-10 py-3.5 bg-gradient-gold text-white text-[10px] tracking-[0.28em] uppercase font-medium rounded-xl hover:shadow-[0_0_40px_-8px_hsla(45,79%,46%,0.5)] transition-all duration-500 hover:scale-[1.02]"
+                  className="px-10 py-3.5 bg-gradient-gold text-white text-[10px] tracking-[0.28em] uppercase font-medium rounded-xl hover:shadow-[0_0_40px_-8px_hsla(43,74%,49%,0.5)] transition-all duration-500 hover:scale-[1.02]"
                 >
                   Request a Flight
                 </NavLinkInner>

@@ -207,7 +207,7 @@ const AuthModal = ({ open, onClose }: AuthModalProps) => {
                 <button
                   type="submit"
                   disabled={loading}
-                  className="w-full py-3.5 bg-gradient-gold text-white text-[10px] tracking-[0.25em] uppercase font-semibold rounded-lg hover:shadow-[0_0_30px_-8px_hsla(45,79%,46%,0.45)] transition-all duration-500 mt-1 disabled:opacity-50 cursor-pointer"
+                  className="w-full py-3.5 bg-gradient-gold text-white text-[10px] tracking-[0.25em] uppercase font-semibold rounded-lg hover:shadow-[0_0_30px_-8px_hsla(43,74%,49%,0.45)] transition-all duration-500 mt-1 disabled:opacity-50 cursor-pointer"
                 >
                   {loading
                     ? "Please wait..."

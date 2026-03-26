@@ -77,7 +77,7 @@ const CTASection = () => {
   return (
     <section id="cta" className="relative">
       {/* Ambient glow */}
-      <div className="absolute inset-0 opacity-[0.02] pointer-events-none" style={{ backgroundImage: "radial-gradient(ellipse at 50% 30%, hsla(45,79%,46%,0.2) 0%, transparent 60%)" }} />
+      <div className="absolute inset-0 opacity-[0.02] pointer-events-none" style={{ backgroundImage: "radial-gradient(ellipse at 50% 30%, hsla(43,74%,49%,0.2) 0%, transparent 60%)" }} />
 
       {/* ═══════ SECTION 1 — HERO ═══════ */}
       <div className="py-28 md:py-40 relative">
@@ -233,7 +233,7 @@ const CTASection = () => {
 
                         {/* Submit */}
                         <div className="text-center">
-                          <button type="submit" disabled={loading} className="w-full md:w-auto px-16 py-4.5 bg-gradient-gold text-primary-foreground text-[10px] tracking-[0.3em] uppercase font-medium rounded-sm transition-all duration-500 hover:shadow-[0_0_40px_-8px_hsla(45,79%,46%,0.5)] hover:scale-[1.02] disabled:opacity-50 cursor-pointer">
+                          <button type="submit" disabled={loading} className="w-full md:w-auto px-16 py-4.5 bg-gradient-gold text-primary-foreground text-[10px] tracking-[0.3em] uppercase font-medium rounded-sm transition-all duration-500 hover:shadow-[0_0_40px_-8px_hsla(43,74%,49%,0.5)] hover:scale-[1.02] disabled:opacity-50 cursor-pointer">
                             {loading ? "Submitting..." : "Get My Options"}
                           </button>
                         </div>
