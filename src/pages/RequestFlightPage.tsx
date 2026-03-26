@@ -10,6 +10,7 @@ import { useAirportSearch, type Airport } from "@/hooks/useAviapages";
 import AirportField from "@/components/flight-search/AirportField";
 import DateTimePicker from "@/components/flight-search/DateTimePicker";
 import { toast } from "sonner";
+import QuoteRouteMap from "@/components/QuoteRouteMap";
 import {
   PremiumInput, PremiumSelect, PremiumTextarea, PremiumCheckbox,
   FormSection, LegalConsent, FormDisclaimer, PremiumSubmitButton,
@@ -225,6 +226,9 @@ const RequestFlightPage = () => {
                   </PremiumSelect>
                 </div>
               </FormSection>
+
+              {/* Route Map */}
+              <QuoteRouteMap from={fromAirport} to={toAirport} className="mt-2" />
 
               {/* Aircraft & Services — Expandable */}
               <div>

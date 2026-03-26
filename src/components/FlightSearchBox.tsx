@@ -8,6 +8,7 @@ import { useCrmApi } from "@/hooks/useCrmApi";
 import DateTimePicker from "@/components/flight-search/DateTimePicker";
 import AirportField from "@/components/flight-search/AirportField";
 import { trackFlightSearch } from "@/lib/gtmEvents";
+import QuoteRouteMap from "@/components/QuoteRouteMap";
 
 type TripType = "one-way" | "round-trip" | "multi-city";
 
@@ -307,6 +308,14 @@ const FlightSearchBox = () => {
           )}
         </AnimatePresence>
       </div>
+
+      {/* Route Map */}
+      <QuoteRouteMap
+        from={primaryLeg.selectedFrom}
+        to={primaryLeg.selectedTo}
+        additionalLegs={tripType === "multi-city" ? legs.slice(1).map((l) => ({ from: l.selectedFrom, to: l.selectedTo })) : undefined}
+        className="mt-4"
+      />
     </div>
   );
 };
