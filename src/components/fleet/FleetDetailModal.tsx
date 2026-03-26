@@ -102,7 +102,7 @@ const FleetDetailModal = ({ aircraft, open, onClose, onRequestQuote }: FleetDeta
                   onClick={handleShare}
                   className="flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-border hover:border-primary/30 transition-colors"
                 >
-                  {shared ? <Check size={12} className="text-green-500" /> : <Share2 size={12} className="text-muted-foreground" />}
+                  {shared ? <Check size={12} className="text-primary" /> : <Share2 size={12} className="text-muted-foreground" />}
                   <span className="text-[9px] tracking-wider uppercase text-muted-foreground">{shared ? "Copied" : "Share"}</span>
                 </button>
               </div>
