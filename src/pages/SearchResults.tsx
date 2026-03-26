@@ -404,7 +404,7 @@ const SearchResults = () => {
           date,
           passengers,
           aircraft: quoteModal.aircraft,
-          operatorName: quoteModal.operator,
+          // operatorName omitted — B2C privacy policy
         }}
       />
     </div>
