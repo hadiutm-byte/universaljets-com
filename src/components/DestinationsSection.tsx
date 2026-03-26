@@ -1,47 +1,62 @@
 import { motion } from "framer-motion";
-import { MapPin } from "lucide-react";
-import { FadeReveal, StaggerContainer, StaggerItem, GlassCard, FloatingElement } from "./ui/ScrollEffects";
+import { MapPin, ArrowRight } from "lucide-react";
+import { Link } from "react-router-dom";
+import { destinations } from "@/lib/destinationsData";
 
-const destinations = [
-  { name: "Dubai", desc: "Global business hub" },
-  { name: "Riyadh", desc: "Power and government travel" },
-  { name: "London", desc: "Financial capital" },
-  { name: "Geneva", desc: "Private banking and wealth" },
-  { name: "Nice / Monaco", desc: "Mediterranean elite access" },
-  { name: "Maldives", desc: "Ultra-luxury escape" },
-  { name: "Mykonos", desc: "Summer lifestyle" },
-  { name: "Ibiza", desc: "Entertainment and nightlife" },
-  { name: "St. Moritz", desc: "Winter exclusivity" },
-  { name: "New York", desc: "Corporate and private travel" },
-  { name: "Los Angeles", desc: "Entertainment industry" },
-  { name: "Paris", desc: "Fashion and luxury" },
-];
+const featured = destinations.slice(0, 8);
 
 const DestinationsSection = () => (
   <section className="section-padding relative">
     <div className="container mx-auto px-8 relative z-10">
-      <FadeReveal className="text-center mb-16">
-        <p className="text-[9px] tracking-[0.5em] uppercase text-primary/60 mb-6 font-light">Destinations</p>
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.8 }}
+        className="text-center mb-14"
+      >
+        <p className="text-[11px] tracking-[0.5em] uppercase text-primary mb-6 font-medium">Destinations</p>
         <h2 className="text-3xl md:text-4xl lg:text-5xl font-display font-semibold text-foreground">
           Where the World <span className="text-gradient-gold italic">Flies</span>
         </h2>
-      </FadeReveal>
+      </motion.div>
 
-      <StaggerContainer className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 max-w-5xl mx-auto">
-        {destinations.map((d, i) => (
-          <StaggerItem key={d.name}>
-            <GlassCard breathe className="text-center py-6 px-4 h-full">
-              <FloatingElement amplitude={5} speed={4 + (i % 3)}>
-                <div className="w-12 h-12 rounded-full glass-panel flex items-center justify-center mx-auto mb-3">
-                  <MapPin className="w-4 h-4 text-primary/50" strokeWidth={1.2} />
-                </div>
-              </FloatingElement>
-              <h3 className="font-display text-sm text-foreground mb-1">{d.name}</h3>
-              <p className="text-[10px] text-foreground/30 font-extralight">{d.desc}</p>
-            </GlassCard>
-          </StaggerItem>
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-5xl mx-auto mb-12">
+        {featured.map((d, i) => (
+          <motion.div
+            key={d.slug}
+            initial={{ opacity: 0, y: 16 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: i * 0.05, duration: 0.5 }}
+          >
+            <Link
+              to={`/destinations/${d.slug}`}
+              className="block text-center py-6 px-4 rounded-xl border border-border bg-card group hover:border-primary/20 transition-all duration-500"
+            >
+              <div className="w-11 h-11 rounded-full border border-border flex items-center justify-center mx-auto mb-3 group-hover:border-primary/30 transition-all duration-500">
+                <MapPin className="w-4 h-4 text-primary/50" strokeWidth={1.2} />
+              </div>
+              <h3 className="font-display text-sm text-foreground mb-1 group-hover:text-primary transition-colors">{d.name}</h3>
+              <p className="text-[10px] text-muted-foreground/40 font-light">{d.tagline}</p>
+            </Link>
+          </motion.div>
         ))}
-      </StaggerContainer>
+      </div>
+
+      <motion.div
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        viewport={{ once: true }}
+        className="text-center"
+      >
+        <Link
+          to="/destinations"
+          className="inline-flex items-center gap-2 text-[10px] tracking-[0.25em] uppercase text-primary/60 font-medium hover:text-primary transition-colors duration-500"
+        >
+          View All Destinations <ArrowRight size={10} />
+        </Link>
+      </motion.div>
     </div>
   </section>
 );
