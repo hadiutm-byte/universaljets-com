@@ -19,7 +19,7 @@ const partnerCards = [
     badges: ["Visa Infinite", "Mastercard World Elite", "Amex"],
     featured: true,
     cta: "Explore Program",
-    href: "/contact",
+    href: "/partners",
   },
   {
     icon: Globe,
@@ -30,7 +30,7 @@ const partnerCards = [
     badges: [],
     featured: false,
     cta: "Learn More",
-    href: "/contact",
+    href: "/partners",
   },
   {
     icon: Handshake,
@@ -41,7 +41,7 @@ const partnerCards = [
     badges: [],
     featured: false,
     cta: "Join Program",
-    href: "/contact",
+    href: "/partners",
   },
   {
     icon: Layers,
@@ -198,14 +198,14 @@ const PartnersSection = () => (
       {/* Partner CTA */}
       <FadeReveal delay={0.2} className="text-center">
         <div className="inline-flex flex-col sm:flex-row items-center gap-4">
-          <a
-            href="/contact"
-            className="btn-luxury px-10 py-4 bg-gradient-gold text-primary-foreground text-[10px] tracking-[0.28em] uppercase font-medium rounded-xl inline-flex items-center gap-2"
-          >
-            <ShieldCheck size={12} /> Become a Partner
-          </a>
-          <a
-            href="/members"
+              <a
+                href="/partners"
+                className="btn-luxury px-10 py-4 bg-gradient-gold text-primary-foreground text-[10px] tracking-[0.28em] uppercase font-medium rounded-xl inline-flex items-center gap-2"
+              >
+                <ShieldCheck size={12} /> Become a Partner
+              </a>
+              <a
+                href="/membership"
             className="btn-luxury px-10 py-4 border border-border bg-card hover:bg-muted text-foreground/70 hover:text-foreground text-[10px] tracking-[0.28em] uppercase font-medium rounded-xl transition-all"
           >
             Member Access
