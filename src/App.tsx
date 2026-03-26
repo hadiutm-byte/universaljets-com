@@ -18,6 +18,7 @@ const SearchResults = lazy(() => import("./pages/SearchResults.tsx"));
 const ACMILeasingPage = lazy(() => import("./pages/ACMILeasingPage.tsx"));
 const PartnerPage = lazy(() => import("./pages/PartnerPage.tsx"));
 const DestinationsPage = lazy(() => import("./pages/DestinationsPage.tsx"));
+const DestinationDetailPage = lazy(() => import("./pages/DestinationDetailPage.tsx"));
 const CrmResourcesPage = lazy(() => import("./pages/crm/ResourcesPage.tsx"));
 const TermsPage = lazy(() => import("./pages/TermsPage.tsx"));
 const PrivacyPage = lazy(() => import("./pages/PrivacyPage.tsx"));
@@ -98,6 +99,7 @@ const App = () => (
             <Route path="/about" element={<AboutPage />} />
             <Route path="/acmi-leasing" element={<ACMILeasingPage />} />
             <Route path="/destinations" element={<DestinationsPage />} />
+            <Route path="/destinations/:slug" element={<DestinationDetailPage />} />
             <Route path="/partners" element={<PartnerPage />} />
             <Route path="/resources" element={<ProtectedRoute allowedRoles={[...CRM_ROLES]}><CrmResourcesPage /></ProtectedRoute>} />
             <Route path="/terms" element={<TermsPage />} />
