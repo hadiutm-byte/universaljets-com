@@ -407,22 +407,28 @@ function SelectedLegPanel({ leg, onClose }: { leg: EmptyLeg; onClose: () => void
       className="absolute inset-y-0 right-0 w-full sm:w-96 z-30 overflow-y-auto border-l border-border/30"
       style={{ background: "hsla(var(--card), 0.97)", backdropFilter: "blur(16px)" }}
     >
-      {/* Aircraft image */}
-      <div className="relative h-40 overflow-hidden">
-        <img src={image} alt={leg.aircraft_type || "Aircraft"} className="w-full h-full object-cover" />
-        <div className="absolute inset-0 bg-gradient-to-t from-card via-card/30 to-transparent" />
+      {/* Aircraft gallery */}
+      <div className="relative h-44 overflow-hidden">
+        <AircraftGallery
+          images={galleryImages}
+          floorPlanUrl={leg.aircraft_floor_plan}
+          aircraftType={leg.aircraft_type || "Aircraft"}
+          variant="compact"
+          className="h-full"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-card via-card/30 to-transparent pointer-events-none" />
         <button
           onClick={onClose}
-          className="absolute top-3 right-3 w-8 h-8 rounded-full bg-background/30 backdrop-blur-sm border border-border/30 flex items-center justify-center text-muted-foreground hover:text-foreground hover:bg-background/50 transition-colors"
+          className="absolute top-3 right-3 w-8 h-8 rounded-full bg-background/30 backdrop-blur-sm border border-border/30 flex items-center justify-center text-muted-foreground hover:text-foreground hover:bg-background/50 transition-colors z-10"
         >
           <X size={14} />
         </button>
-        <div className="absolute top-3 left-3">
+        <div className="absolute top-3 left-3 z-10">
           <span className="px-2.5 py-1 rounded-full text-[8px] tracking-[0.15em] uppercase font-medium bg-primary/90 text-primary-foreground">
             {category}
           </span>
         </div>
-        <div className="absolute bottom-3 left-4">
+        <div className="absolute bottom-3 left-4 z-10">
           <p className="text-foreground text-[15px] font-display font-semibold">{leg.aircraft_type}</p>
         </div>
       </div>
