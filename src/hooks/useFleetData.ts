@@ -91,6 +91,7 @@ export function useFleetAircraftBySlug(slug: string | undefined) {
       const data = await response.json();
       const ac = data.result as FleetAircraft;
       return {
+        ...ac,
         ...sanitizeAircraftForPublic(ac as unknown as Record<string, unknown>),
       } as FleetAircraft;
     },
