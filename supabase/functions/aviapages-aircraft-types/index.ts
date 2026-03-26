@@ -21,9 +21,46 @@ serve(async (req) => {
     const url = new URL(req.url);
     const search = url.searchParams.get('search') || '';
     const classId = url.searchParams.get('class_id') || '';
-    const pageSize = url.searchParams.get('page_size') || '20';
+    const pageSize = url.searchParams.get('page_size') || '50';
+    const page = url.searchParams.get('page') || '1';
+    const slug = url.searchParams.get('slug') || '';
 
-    const params = new URLSearchParams({ page_size: pageSize });
+    // Single aircraft lookup by slug (name-based)
+    if (slug) {
+      const searchName = slug.replace(/-/g, ' ');
+      const params = new URLSearchParams({ page_size: '5', search: searchName });
+      const apiUrl = `${AVIAPAGES_BASE}/api/aircraft_types/?${params.toString()}`;
+      console.log(`[aircraft-types] Slug lookup: ${apiUrl}`);
+
+      const response = await fetch(apiUrl, {
+        headers: { 'Authorization': `Token ${apiKey}`, 'Accept': 'application/json' },
+      });
+
+      if (!response.ok) {
+        throw new Error(`API error [${response.status}]`);
+      }
+
+      const data = await response.json();
+      const match = (data.results || []).find((at: any) => {
+        const nameSlug = (at.name || '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+        return nameSlug === slug;
+      });
+
+      if (!match) {
+        return new Response(JSON.stringify({ error: 'Aircraft not found' }), {
+          status: 404,
+          headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+        });
+      }
+
+      const result = mapAircraftType(match);
+      return new Response(JSON.stringify({ result }), {
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      });
+    }
+
+    // List endpoint
+    const params = new URLSearchParams({ page_size: pageSize, page });
     if (search) params.set('search', search);
     if (classId) params.set('aircraft_class', classId);
 
@@ -31,10 +68,7 @@ serve(async (req) => {
     console.log(`[aircraft-types] Requesting: ${apiUrl}`);
 
     const response = await fetch(apiUrl, {
-      headers: {
-        'Authorization': `Token ${apiKey}`,
-        'Accept': 'application/json',
-      },
+      headers: { 'Authorization': `Token ${apiKey}`, 'Accept': 'application/json' },
     });
 
     if (!response.ok) {
@@ -43,29 +77,13 @@ serve(async (req) => {
     }
 
     const data = await response.json();
+    const results = (data.results || []).map(mapAircraftType);
 
-    const results = (data.results || []).map((at: any) => ({
-      id: at.id,
-      name: at.name,
-      icao: at.icao,
-      class_name: at.class_name || at.aircraft_class?.name || '',
-      class_id: at.aircraft_class?.id || null,
-      manufacturer: at.manufacturer_name || at.aircraft_type_global_family?.name || '',
-      range_km: at.range_maximum || null,
-      max_pax: at.pax_maximum || null,
-      speed_kmh: at.speed_typical || null,
-      altitude_m: at.altitude || null,
-      cabin_height_m: at.cabin_height || null,
-      cabin_length_m: at.cabin_length || null,
-      cabin_width_m: at.cabin_width || null,
-      luggage_volume_m3: at.luggage_volume || null,
-      engine_type: at.engine_type?.value || null,
-      engine_count: at.engine_count || null,
-      image_url: at.images?.[0]?.media?.path || null,
-      description: at.aircraft_type_extension?.description || null,
-    }));
-
-    return new Response(JSON.stringify({ count: data.count || 0, results }), {
+    return new Response(JSON.stringify({
+      count: data.count || 0,
+      next: data.next ? true : false,
+      results,
+    }), {
       headers: { ...corsHeaders, 'Content-Type': 'application/json' },
     });
   } catch (error) {
@@ -77,3 +95,69 @@ serve(async (req) => {
     });
   }
 });
+
+function mapAircraftType(at: any) {
+  // Collect all images, filter tail/registration
+  const allImages: { url: string; type: string; position: number }[] = [];
+  let floorPlanUrl: string | null = null;
+
+  for (const img of (at.images || [])) {
+    const imgUrl = img.media?.path || img.url || null;
+    if (!imgUrl) continue;
+
+    const imgType = (img.image_type || img.type || '').toLowerCase();
+    // Skip tail number images
+    if (imgType === 'tail' || imgType === 'registration') continue;
+
+    if (imgType === 'floor_plan' || imgType === 'floorplan' || imgType === 'layout') {
+      floorPlanUrl = imgUrl;
+    }
+
+    allImages.push({
+      url: imgUrl,
+      type: imgType || 'exterior',
+      position: img.position ?? 0,
+    });
+  }
+
+  // Sort by position
+  allImages.sort((a, b) => a.position - b.position);
+
+  const primaryImage = allImages.find(i => i.type === 'exterior')?.url
+    || allImages[0]?.url
+    || null;
+
+  const ext = at.aircraft_type_extension || {};
+
+  // Generate URL-safe slug from name
+  const slug = (at.name || '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+
+  return {
+    id: at.id,
+    name: at.name,
+    slug,
+    icao: at.icao,
+    class_name: at.class_name || at.aircraft_class?.name || '',
+    class_id: at.aircraft_class?.id || null,
+    manufacturer: at.manufacturer_name || at.aircraft_type_global_family?.name || '',
+    range_km: at.range_maximum || null,
+    max_pax: at.pax_maximum || null,
+    speed_kmh: at.speed_typical || null,
+    altitude_m: at.altitude || null,
+    cabin_height_m: at.cabin_height || null,
+    cabin_length_m: at.cabin_length || null,
+    cabin_width_m: at.cabin_width || null,
+    luggage_volume_m3: at.luggage_volume || null,
+    engine_type: at.engine_type?.value || null,
+    engine_count: at.engine_count || null,
+    // Images
+    image_url: primaryImage,
+    floor_plan_url: floorPlanUrl,
+    images: allImages,
+    // Description
+    description: ext.description || null,
+    // Extended range data
+    range_ferry_km: ext.range_ferry || null,
+    range_typical_km: ext.range_typical_payload || null,
+  };
+}

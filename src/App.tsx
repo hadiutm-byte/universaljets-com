@@ -64,6 +64,7 @@ const ConciergePage = lazy(() => import("./pages/ConciergePage.tsx"));
 const CharterPage = lazy(() => import("./pages/CharterPage.tsx"));
 const AircraftGuidePage = lazy(() => import("./pages/AircraftGuidePage.tsx"));
 const FleetPage = lazy(() => import("./pages/FleetPage.tsx"));
+const FleetDetailPage = lazy(() => import("./pages/FleetDetailPage.tsx"));
 const RequestFlightPage = lazy(() => import("./pages/RequestFlightPage.tsx"));
 const NotFound = lazy(() => import("./pages/NotFound.tsx"));
 const UnsubscribePage = lazy(() => import("./pages/UnsubscribePage.tsx"));
@@ -145,6 +146,7 @@ const App = () => (
             <Route path="/concierge" element={<ConciergePage />} />
             <Route path="/aircraft" element={<AircraftGuidePage />} />
             <Route path="/fleet" element={<FleetPage />} />
+            <Route path="/fleet/:slug" element={<FleetDetailPage />} />
             <Route path="/unsubscribe" element={<UnsubscribePage />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
