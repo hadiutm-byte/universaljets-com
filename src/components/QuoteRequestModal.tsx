@@ -7,6 +7,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { useCrmApi } from "@/hooks/useCrmApi";
 import QuoteRouteMap from "@/components/QuoteRouteMap";
 import type { Airport } from "@/hooks/useAviapages";
+import AIRPORT_COORDS from "@/lib/airportCoords";
 
 interface QuoteRequestModalProps {
   open: boolean;
