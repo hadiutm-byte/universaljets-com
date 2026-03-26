@@ -6,6 +6,7 @@ import { Gauge, Ruler } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { getAircraftImage, getAircraftCategory } from "@/lib/aircraftImages";
+import { trackQuoteRequest, trackWhatsAppClick } from "@/lib/gtmEvents";
 
 interface AircraftResult {
   id: number;
