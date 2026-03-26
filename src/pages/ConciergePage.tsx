@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import SEOHead from "@/components/SEOHead";
+import AirportExperienceSection from "@/components/AirportExperienceSection";
 
 const services = [
   {
@@ -158,6 +159,9 @@ const ConciergePage = () => (
         </div>
       </div>
     </section>
+
+    {/* ═══ AIRPORT EXPERIENCE (Live FBO Data) ═══ */}
+    <AirportExperienceSection />
 
     {/* ═══ CTA ═══ */}
     <section className="py-20 md:py-28">
