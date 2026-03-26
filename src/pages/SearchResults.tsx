@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useSearchParams, useNavigate } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { motion } from "framer-motion";
@@ -5,6 +6,7 @@ import { ArrowLeft, Plane, Calendar, Users, Clock, Loader2, MessageCircle, Phone
 import { Gauge, Ruler } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import QuoteRequestModal from "@/components/QuoteRequestModal";
 import { getAircraftImage, getAircraftCategory } from "@/lib/aircraftImages";
 import { trackQuoteRequest, trackWhatsAppClick } from "@/lib/gtmEvents";
 
@@ -39,6 +41,7 @@ const getAnonKey = () => import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY;
 const SearchResults = () => {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
+  const [quoteModal, setQuoteModal] = useState<{ open: boolean; aircraft?: string; operator?: string }>({ open: false });
 
   const from_icao = searchParams.get("from_icao") || "";
   const to_icao = searchParams.get("to_icao") || "";
@@ -136,20 +139,20 @@ const SearchResults = () => {
                 Our concierge team can source aircraft from our global network within minutes.
               </p>
               <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
+                <button
+                  onClick={() => setQuoteModal({ open: true })}
+                  className="btn-luxury px-8 py-3 text-[10px] tracking-[0.25em] uppercase font-medium rounded-xl inline-flex items-center gap-2"
+                >
+                  Request Quote
+                </button>
                 <a
                   href={`https://wa.me/447888999944?text=${encodeURIComponent(`Hello, I'd like to charter a flight from ${fromLabel} to ${toLabel}${date ? ` on ${date}` : ''}${passengers ? ` for ${passengers} passengers` : ''}.`)}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="btn-luxury px-8 py-3 text-[10px] tracking-[0.25em] uppercase font-medium rounded-xl inline-flex items-center gap-2"
-                >
-                  <MessageCircle size={12} /> Request via WhatsApp
-                </a>
-                <button
-                  onClick={() => document.dispatchEvent(new CustomEvent("open-ricky-booking"))}
                   className="flex items-center gap-2 px-8 py-3 border border-border text-foreground/50 hover:text-foreground text-[10px] tracking-[0.25em] uppercase font-light rounded-xl transition-colors"
                 >
-                  Speak to Ricky
-                </button>
+                  <MessageCircle size={12} /> WhatsApp Advisor
+                </a>
               </div>
             </motion.div>
           )}
@@ -271,14 +274,23 @@ const SearchResults = () => {
                       )}
 
                       {/* CTA */}
+                      <button
+                        onClick={() => {
+                          trackQuoteRequest({ aircraft: result.aircraft_type, from: fromLabel, to: toLabel });
+                          setQuoteModal({ open: true, aircraft: result.aircraft_type, operator: result.operator.name });
+                        }}
+                        className="block w-full text-center btn-luxury px-5 py-3 text-[9px] tracking-[0.2em] uppercase font-medium rounded-xl"
+                      >
+                        Request Quote
+                      </button>
                       <a
                         href={`https://wa.me/447888999944?text=${encodeURIComponent(`Hello, I'm interested in chartering a ${result.aircraft_type} from ${fromLabel} to ${toLabel}${date ? ` on ${date}` : ''}.`)}`}
                         target="_blank"
                         rel="noopener noreferrer"
-                        onClick={() => { trackQuoteRequest({ aircraft: result.aircraft_type, from: fromLabel, to: toLabel }); trackWhatsAppClick("quote_request"); }}
-                        className="block w-full text-center btn-luxury px-5 py-3 text-[9px] tracking-[0.2em] uppercase font-medium rounded-xl"
+                        onClick={() => trackWhatsAppClick("quote_request")}
+                        className="block w-full text-center mt-2 px-5 py-2.5 border border-border/40 text-muted-foreground hover:text-foreground text-[9px] tracking-[0.15em] uppercase font-light rounded-xl transition-colors flex items-center justify-center gap-1.5"
                       >
-                        Request Quote
+                        <MessageCircle size={10} /> Talk to Advisor
                       </a>
                     </div>
                   </motion.div>
@@ -292,6 +304,12 @@ const SearchResults = () => {
             <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.5 }} className="mt-14 text-center space-y-4">
               <p className="text-[13px] text-foreground/40 font-light">Need a specific aircraft or have special requirements?</p>
               <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
+                <button
+                  onClick={() => setQuoteModal({ open: true })}
+                  className="btn-luxury px-8 py-3 text-[10px] tracking-[0.25em] uppercase font-medium rounded-xl"
+                >
+                  Request Custom Quote
+                </button>
                 <a
                   href={`https://wa.me/447888999944?text=${encodeURIComponent(`Hello, I'd like to charter a private jet from ${fromLabel} to ${toLabel}${date ? ` on ${date}` : ''}${passengers ? ` for ${passengers} passengers` : ''}.`)}`}
                   target="_blank"
@@ -307,6 +325,22 @@ const SearchResults = () => {
       </section>
 
       <Footer />
+
+      {/* Quote Request Modal */}
+      <QuoteRequestModal
+        open={quoteModal.open}
+        onClose={() => setQuoteModal({ open: false })}
+        flightData={{
+          fromLabel,
+          toLabel,
+          fromIcao: from_icao,
+          toIcao: to_icao,
+          date,
+          passengers,
+          aircraft: quoteModal.aircraft,
+          operatorName: quoteModal.operator,
+        }}
+      />
     </div>
   );
 };
