@@ -110,6 +110,10 @@ const SearchResults = () => {
     // Exclude turboprops, propeller aircraft, and helicopters from B2C
     if (cls.includes("turboprop") || cls.includes("propeller") || cls.includes("helicopter")) return false;
     if (type.includes("turboprop") || type.includes("caravan") || type.includes("pc-12") || type.includes("tbm") || type.includes("king air")) return false;
+    // Exclude helicopters by model name
+    if (/robinson|r22|r44|r66|bell\s*\d|eurocopter|ec\s*1[345]|as\s*3[56]|agusta|aw\s*1[0-9]|guimbal|cabri|airbus\s*h1[2356]|sikorsky|s-76|md\s*[5-9]|hughes/i.test(type)) return false;
+    // Exclude known propeller aircraft by model
+    if (/piper|cessna\s*(1[7-9]|2[0-9]|4[01])|beech(craft)?(?!\s*premier)|baron|bonanza|cirrus|pilatus|dornier|saab|dash|atr|emb-1[12]|chieftain|cheyenne|navajo|seneca|aztec|seminole/i.test(type)) return false;
     if (r.engine_type && /piston|turboprop|propeller/i.test(r.engine_type)) return false;
     return true;
   });
