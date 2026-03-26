@@ -338,8 +338,8 @@ export const destinations: Destination[] = [
     heroDesc: "The City of Light remains the global capital of fashion, gastronomy, and art — with Le Bourget serving as Europe's busiest dedicated business aviation airport.",
     region: "Europe",
     airports: [
-      { name: "Paris Le Bourget", code: "LFPB / LBG", type: "Dedicated Business Aviation", note: "Europe's #1 business aviation airport — 100% GA, multiple FBOs" },
-      { name: "Paris Charles de Gaulle", code: "LFPG / CDG", type: "International with GA terminal" },
+      { name: "Paris Le Bourget", code: "LFPB / LBG", icao: "LFPB", type: "Dedicated Business Aviation", note: "Europe's #1 business aviation airport — 100% GA, multiple FBOs" },
+      { name: "Paris Charles de Gaulle", code: "LFPG / CDG", icao: "LFPG", type: "International with GA terminal" },
     ],
     popularRoutes: [
       { from: "Paris", to: "London", time: "55m", aircraft: "Light Jet" },
