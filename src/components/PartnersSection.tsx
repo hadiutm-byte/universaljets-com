@@ -30,7 +30,7 @@ const partnerCards = [
     badges: [],
     featured: false,
     cta: "Learn More",
-    href: "/contact",
+    href: "/partners",
   },
   {
     icon: Handshake,
