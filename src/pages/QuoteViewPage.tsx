@@ -133,7 +133,7 @@ const QuoteViewPage = () => {
               <Shield size={12} className="text-[#A8850F]" />
               <span className="text-[9px] tracking-[0.3em] uppercase text-[#A8850F] font-medium">Verified Aircraft</span>
             </div>
-            <h2 className="text-2xl font-serif text-[#1a1a1a] mb-4">{quote.aircraft || "Private Jet"}</h2>
+            <h2 className="text-2xl font-serif text-[#1a1a1a] mb-4">{aircraftName}</h2>
             {category && (
               <span className="inline-block px-3 py-1 bg-[#f5f2eb] text-[#A8850F] text-[9px] tracking-[0.2em] uppercase rounded-full mb-6">{category}</span>
             )}
