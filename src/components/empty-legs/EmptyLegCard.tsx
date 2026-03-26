@@ -20,7 +20,7 @@ const EmptyLegCard = ({ leg, index, onClick }: EmptyLegCardProps) => {
     : "TBD";
   const priceLabel = leg.price
     ? `${leg.currency} ${leg.price.toLocaleString()}`
-    : "Save up to 75%";
+    : "Price on request";
 
   const image = leg.aircraft_image || getAircraftImage(leg.aircraft_type || "midsize");
   const category = leg.aircraft_class || getAircraftCategory(leg.aircraft_type || "midsize");

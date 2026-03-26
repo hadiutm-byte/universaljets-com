@@ -73,10 +73,10 @@ const EmptyLegsMap = () => {
   };
 
   const legs = useMemo(() => {
+    // API already filters by region via ISO country codes — no client-side re-filtering needed
     const raw = data?.results?.length ? data.results.map(enrichCoords) : fallbackLegs;
-    if (activeRegion === "All") return raw;
-    return raw.filter((l) => l.departure && getRegionForCountry(l.departure.country) === activeRegion);
-  }, [data, activeRegion]);
+    return raw;
+  }, [data]);
 
   const mappableLegs = useMemo(
     () => legs.filter((l) => {
