@@ -12,7 +12,7 @@ const StickyFloatingCTA = () => {
       className="fixed bottom-6 left-1/2 -translate-x-1/2 z-40 flex items-center gap-3 rounded-full px-2 py-2 bg-[hsl(220,10%,8%)] border border-white/[0.06] shadow-[0_8px_40px_hsla(0,0%,0%,0.5)]"
     >
       <Link
-        to="/contact"
+        to="/request-flight"
         className="flex items-center gap-2 px-5 py-2.5 rounded-full bg-primary text-primary-foreground text-[9px] tracking-[0.2em] uppercase font-semibold hover:bg-primary/90 transition-all duration-500 hover:shadow-[0_0_20px_-4px_hsla(43,74%,49%,0.3)]"
       >
         <Plane size={13} strokeWidth={1.5} />
