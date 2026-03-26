@@ -11,7 +11,7 @@ import AircraftGallery from "@/components/AircraftGallery";
 import { toast } from "sonner";
 import MembershipUpsell from "@/components/MembershipUpsell";
 import { getAircraftImage, getAircraftCategory } from "@/lib/aircraftImages";
-import { sanitizeAircraftForPublic } from "@/lib/sanitize";
+import { normalizeCharterResult, type NormalizedCharterResult } from "@/lib/aviapagesNormalizer";
 import { trackQuoteRequest, trackWhatsAppClick } from "@/lib/gtmEvents";
 import AIRPORT_COORDS from "@/lib/airportCoords";
 import {
@@ -21,45 +21,6 @@ import {
   formatDuration,
   formatDistance,
 } from "@/lib/pricingEstimates";
-
-interface AircraftResult {
-  id: number;
-  aircraft_type: string;
-  aircraft_class?: string | null;
-  manufacturer?: string | null;
-  year_of_production?: number | null;
-  max_passengers?: number | null;
-  range_km?: number | null;
-  speed_kmh?: number | null;
-  cabin_height_m?: number | null;
-  cabin_width_m?: number | null;
-  cabin_length_m?: number | null;
-  luggage_volume_m3?: number | null;
-  sleeping_places?: number | null;
-  amenities?: string[];
-  price?: number | null;
-  price_currency?: string;
-  price_unit?: string | null;
-  estimated_flight_time_min?: number | null;
-  engine_type?: string | null;
-  engine_count?: number | null;
-  images: {
-    exterior?: string | null;
-    cabin?: string | null;
-    floor_plan?: string | null;
-    all?: { url: string; type: string; position: number }[];
-  };
-  operator: {
-    id: number;
-    name: string;
-    city: string;
-    country: string;
-    logo_url?: string | null;
-    certified: boolean;
-    avg_response_time?: number | null;
-    avg_response_rate?: number | null;
-  };
-}
 
 const getSupabaseUrl = () => import.meta.env.VITE_SUPABASE_URL;
 const getAnonKey = () => import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY;
