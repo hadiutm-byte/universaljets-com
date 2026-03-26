@@ -1,7 +1,8 @@
 import { motion, AnimatePresence } from "framer-motion";
-import { ArrowRight, X, Plane, Users } from "lucide-react";
+import { ArrowRight, X, Plane, Users, Share2 } from "lucide-react";
 import type { EmptyLeg } from "@/hooks/useAviapages";
 import { getAircraftImage, getAircraftCategory } from "@/lib/aircraftImages";
+import { toast } from "sonner";
 
 interface EmptyLegPopupProps {
   leg: EmptyLeg | null;
