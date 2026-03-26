@@ -2,8 +2,7 @@ import { motion } from "framer-motion";
 import { ArrowRight, Plane, Users, Share2 } from "lucide-react";
 import type { EmptyLeg } from "@/hooks/useAviapages";
 import { getAircraftImage, getAircraftCategory } from "@/lib/aircraftImages";
-import { generateEmptyLegShareCard } from "@/lib/emptyLegShareCard";
-import { toast } from "sonner";
+import { useShareCard } from "@/hooks/useShareCard";
 
 interface EmptyLegCardProps {
   leg: EmptyLeg;
@@ -26,47 +25,14 @@ const EmptyLegCard = ({ leg, index, onClick }: EmptyLegCardProps) => {
   const image = leg.aircraft_image || getAircraftImage(leg.aircraft_type || "midsize");
   const category = leg.aircraft_class || getAircraftCategory(leg.aircraft_type || "midsize");
 
-  // Use gallery images if available, show dots for multiple
   const galleryImages = leg.aircraft_images?.filter((img, i, arr) => arr.findIndex(x => x.url === img.url) === i) || [];
   const hasMultipleImages = galleryImages.length > 1;
 
+  const { share } = useShareCard();
+
   const handleShare = async (e: React.MouseEvent) => {
     e.stopPropagation();
-
-    const shareText = `✈️ Empty Leg Deal — ${leg.aircraft_type || "Private Jet"}\n${fromCity || fromCode} → ${toCity || toCode}\n📅 ${date}\n💰 ${priceLabel}\n\nBook now at Universal Jets\nhttps://www.universaljets.com`;
-
-    try {
-      const blob = await generateEmptyLegShareCard({
-        fromCode, fromCity, toCode, toCity, date, price: priceLabel,
-        aircraftType: leg.aircraft_type || "Private Jet", category,
-      });
-      const file = new File([blob], `universal-jets-empty-leg-${fromCode}-${toCode}.png`, { type: "image/png" });
-
-      if (navigator.share && navigator.canShare?.({ files: [file] })) {
-        await navigator.share({ title: `Empty Leg: ${fromCity} → ${toCity}`, text: shareText, files: [file] });
-        return;
-      }
-      if (navigator.share) {
-        await navigator.share({ title: `Empty Leg: ${fromCity} → ${toCity}`, text: shareText });
-        return;
-      }
-      // Desktop fallback: download + copy
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement("a");
-      a.href = url;
-      a.download = `universal-jets-empty-leg-${fromCode}-${toCode}.png`;
-      a.click();
-      URL.revokeObjectURL(url);
-      await navigator.clipboard.writeText(shareText);
-      toast.success("Share card downloaded & details copied");
-    } catch {
-      try {
-        await navigator.clipboard.writeText(shareText);
-        toast.success("Details copied to clipboard");
-      } catch {
-        toast.error("Unable to share");
-      }
-    }
+    await share({ fromCode, fromCity, toCode, toCity, date, price: priceLabel, aircraftType: leg.aircraft_type || "Private Jet", category });
   };
 
   return (
@@ -106,7 +72,6 @@ const EmptyLegCard = ({ leg, index, onClick }: EmptyLegCardProps) => {
         <div className="absolute bottom-3 left-3">
           <p className="text-white text-[13px] font-display font-medium drop-shadow-lg">{leg.aircraft_type}</p>
         </div>
-        {/* Multi-image indicator */}
         {hasMultipleImages && (
           <div className="absolute bottom-2 right-3 flex gap-0.5">
             {galleryImages.slice(0, 5).map((_, i) => (
