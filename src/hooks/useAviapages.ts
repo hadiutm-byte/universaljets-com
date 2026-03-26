@@ -5,6 +5,8 @@ export interface EmptyLeg {
   aircraft_type: string;
   aircraft_class?: string | null;
   aircraft_image?: string | null;
+  aircraft_images?: { url: string; type: string }[];
+  aircraft_floor_plan?: string | null;
   aircraft_max_pax?: number | null;
   aircraft_range_km?: number | null;
   company: string;
