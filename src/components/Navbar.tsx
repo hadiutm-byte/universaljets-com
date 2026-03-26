@@ -8,8 +8,8 @@ const centerLinks = [
   { label: "Charter", href: "/#services" },
   { label: "Empty Legs", href: "/#empty-legs" },
   { label: "Fleet", href: "/fleet" },
-  { label: "Experience", href: "/#experience" },
-  { label: "About", href: "/#why" },
+  { label: "Membership", href: "/members" },
+  { label: "About", href: "/about" },
 ];
 
 const overlayLinks = [
@@ -17,14 +17,12 @@ const overlayLinks = [
   { label: "Charter Flights", href: "/#services" },
   { label: "Empty Legs", href: "/#empty-legs" },
   { label: "Fleet", href: "/fleet" },
-  { label: "Experience", href: "/#experience" },
-  { label: "ACMI & Leasing", href: "/acmi-leasing" },
   { label: "Membership", href: "/members" },
-  { label: "Jet Card", href: "/members" },
-  { label: "Concierge", href: "/#concierge" },
-  { label: "About", href: "/#why" },
-  { label: "Resources", href: "/resources" },
-  { label: "Contact", href: "/#cta" },
+  { label: "Concierge", href: "/concierge" },
+  { label: "ACMI & Leasing", href: "/acmi-leasing" },
+  { label: "Jet Card", href: "/jet-card" },
+  { label: "About", href: "/about" },
+  { label: "Contact", href: "/contact" },
 ];
 
 const CRM_ROLES: AppRole[] = ["admin", "sales", "operations", "finance", "account_management"];
