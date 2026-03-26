@@ -189,7 +189,7 @@ export const destinations: Destination[] = [
     heroDesc: "Overwater villas, crystal lagoons, and total seclusion. The Maldives is the world's most exclusive escape — a destination where private aviation meets pure serenity.",
     region: "Asia",
     airports: [
-      { name: "Velana International", code: "VRMM / MLE", type: "International with GA handling", note: "Main gateway — seaplane or domestic flight to resort atolls" },
+      { name: "Velana International", code: "VRMM / MLE", icao: "VRMM", type: "International with GA handling", note: "Main gateway — seaplane or domestic flight to resort atolls" },
     ],
     popularRoutes: [
       { from: "Dubai", to: "Malé", time: "4h 15m", aircraft: "Super Midsize / Heavy" },
