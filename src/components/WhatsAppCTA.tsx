@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { MessageCircle } from "lucide-react";
 import { FadeReveal, GlassCard } from "./ui/ScrollEffects";
+import { trackWhatsAppClick } from "@/lib/gtmEvents";
 
 const WHATSAPP_NUMBER = "447888999944";
 const WHATSAPP_MESSAGE = encodeURIComponent(
