@@ -14,10 +14,11 @@ interface Props<T> {
   onAdd?: () => void;
   onEdit?: (row: T) => void;
   onDelete?: (row: T) => void;
+  onRowClick?: (row: T) => void;
 }
 
 export default function CrmTable<T extends { id: string }>({
-  title, columns, data, loading, onAdd, onEdit, onDelete,
+  title, columns, data, loading, onAdd, onEdit, onDelete, onRowClick,
 }: Props<T>) {
   return (
     <div>
