@@ -1,6 +1,6 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { X, Plane, Calendar, Users, ArrowRight, CheckCircle, Phone, MessageCircle, MapPin, Clock, Shield } from "lucide-react";
+import { X, Plane, Calendar, Users, ArrowRight, CheckCircle, Phone, MessageCircle, MapPin, Clock, Shield, Navigation } from "lucide-react";
 import MembershipUpsell from "@/components/MembershipUpsell";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -9,6 +9,7 @@ import { useCrmApi } from "@/hooks/useCrmApi";
 import QuoteRouteMap from "@/components/QuoteRouteMap";
 import type { Airport } from "@/hooks/useAviapages";
 import AIRPORT_COORDS from "@/lib/airportCoords";
+import { greatCircleDistanceNm, estimateFlightTimeMin, getCharterPrice, formatDuration, formatDistance } from "@/lib/pricingEstimates";
 
 interface QuoteRequestModalProps {
   open: boolean;
