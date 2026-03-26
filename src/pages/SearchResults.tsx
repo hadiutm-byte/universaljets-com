@@ -104,7 +104,15 @@ const SearchResults = () => {
     enabled: !!from_icao && !!to_icao,
   });
 
-  const results: AircraftResult[] = data?.results || [];
+  const results: AircraftResult[] = (data?.results || []).filter((r: AircraftResult) => {
+    const cls = (r.aircraft_class || "").toLowerCase();
+    const type = (r.aircraft_type || "").toLowerCase();
+    // Exclude turboprops, propeller aircraft, and helicopters from B2C
+    if (cls.includes("turboprop") || cls.includes("propeller") || cls.includes("helicopter")) return false;
+    if (type.includes("turboprop") || type.includes("caravan") || type.includes("pc-12") || type.includes("tbm") || type.includes("king air")) return false;
+    if (r.engine_type && /piston|turboprop|propeller/i.test(r.engine_type)) return false;
+    return true;
+  });
   const hasResults = results.length > 0;
 
   return (
