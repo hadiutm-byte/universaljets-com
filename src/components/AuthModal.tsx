@@ -47,6 +47,7 @@ const AuthModal = ({ open, onClose }: AuthModalProps) => {
         toast.error(error.message);
       } else {
         toast.success("Your access has been granted.");
+        trackAuth("signup");
         onClose();
         navigate("/dashboard");
       }
