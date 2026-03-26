@@ -693,3 +693,8 @@ html {
   background-size: 200% 100%;
   animation: divider-shimmer 4s linear infinite;
 }
+
+@keyframes pulse-gold {
+  0%, 100% { box-shadow: 0 0 8px 2px hsla(45, 79%, 50%, 0.4); transform: scale(1); }
+  50% { box-shadow: 0 0 16px 6px hsla(45, 79%, 50%, 0.6); transform: scale(1.15); }
+}

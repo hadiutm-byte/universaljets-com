@@ -1,8 +1,14 @@
 import { useState, useRef, useCallback, useEffect, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Plane, X, Users, ArrowRight, ZoomIn, ZoomOut, Maximize2 } from "lucide-react";
+import { Plane, X, Users, ArrowRight, Share2 } from "lucide-react";
+import mapboxgl from "mapbox-gl";
+import "mapbox-gl/dist/mapbox-gl.css";
 import type { EmptyLeg } from "@/hooks/useAviapages";
 import { getAircraftImage, getAircraftCategory } from "@/lib/aircraftImages";
+import { generateEmptyLegShareCard } from "@/lib/emptyLegShareCard";
+import { toast } from "sonner";
+
+const MAPBOX_TOKEN = "pk.eyJ1IjoiaGFkaWFiZHVsaGFkaSIsImEiOiJjbW43MDV3NDQwYWZvMnhzYmF6cG05a3ZsIn0.fKSSW2NTnStIWXZyXDk_KA";
 
 interface EmptyLegsMapViewProps {
   legs: EmptyLeg[];
@@ -13,145 +19,235 @@ interface EmptyLegsMapViewProps {
   isLiveData: boolean;
 }
 
-interface ViewBox {
-  x: number;
-  y: number;
-  w: number;
-  h: number;
+/** Generate a smooth arc between two points */
+function generateArc(from: [number, number], to: [number, number], steps = 64): [number, number][] {
+  const coords: [number, number][] = [];
+  for (let i = 0; i <= steps; i++) {
+    const t = i / steps;
+    const lng = from[0] + (to[0] - from[0]) * t;
+    const lat = from[1] + (to[1] - from[1]) * t;
+    // Add altitude curve for arc effect
+    const alt = Math.sin(t * Math.PI) * Math.min(
+      Math.abs(to[0] - from[0]) * 0.15,
+      15
+    );
+    coords.push([lng, lat + alt]);
+  }
+  return coords;
 }
-
-const WORLD: ViewBox = { x: 0, y: 0, w: 100, h: 50 };
-const MIN_W = 15;
-const MIN_H = 8;
-
-function clamp(vb: ViewBox): ViewBox {
-  const w = Math.max(MIN_W, Math.min(100, vb.w));
-  const h = Math.max(MIN_H, Math.min(50, vb.h));
-  return {
-    x: Math.max(0, Math.min(100 - w, vb.x)),
-    y: Math.max(0, Math.min(50 - h, vb.y)),
-    w,
-    h,
-  };
-}
-
-function project(lat: number, lng: number): [number, number] {
-  const x = ((lng + 180) / 360) * 100;
-  const latRad = (lat * Math.PI) / 180;
-  const mercN = Math.log(Math.tan(Math.PI / 4 + latRad / 2));
-  const y = 50 / 2 - (mercN / Math.PI) * (50 / 2);
-  return [x, Math.max(0, Math.min(50, y))];
-}
-
-/** Simplified world map paths (Mercator projected, 100×50 viewBox) */
-const CONTINENT_PATHS = [
-  "M5,10 L8,8 L15,7 L22,8 L27,10 L28,13 L26,16 L22,18 L18,20 L14,22 L10,20 L7,18 L5,14 Z",
-  "M14,22 L18,20 L20,22 L22,24 L20,26 L16,25 L14,23 Z",
-  "M20,26 L24,24 L28,26 L30,30 L28,36 L26,40 L22,42 L20,38 L18,32 L19,28 Z",
-  "M44,8 L48,7 L52,8 L54,10 L56,12 L54,14 L50,16 L46,15 L44,12 Z",
-  "M42,9 L44,8 L44,11 L42,11 Z",
-  "M48,5 L52,4 L54,6 L52,8 L48,7 Z",
-  "M44,18 L50,16 L56,18 L58,22 L56,30 L52,36 L48,38 L44,34 L42,28 L42,22 Z",
-  "M56,14 L62,12 L64,16 L62,20 L58,18 L56,16 Z",
-  "M54,6 L60,4 L72,4 L82,6 L88,8 L86,12 L78,14 L68,12 L60,10 L56,8 Z",
-  "M64,16 L70,14 L72,18 L70,24 L66,22 L64,20 Z",
-  "M72,18 L78,16 L80,20 L78,24 L74,22 L72,20 Z",
-  "M78,8 L84,6 L88,10 L86,14 L82,16 L78,14 L76,10 Z",
-  "M88,10 L90,8 L91,12 L89,14 L87,12 Z",
-  "M76,24 L82,22 L86,24 L84,28 L78,28 L76,26 Z",
-  "M80,32 L90,30 L94,34 L92,40 L86,42 L80,38 L78,34 Z",
-  "M94,40 L96,38 L96,42 L94,44 Z",
-];
 
 const EmptyLegsMapView = ({ legs, selectedLeg, onLegClick, onClose, isLiveData }: EmptyLegsMapViewProps) => {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const [viewBox, setViewBox] = useState<ViewBox>(WORLD);
-  const [isPanning, setIsPanning] = useState(false);
+  const mapContainer = useRef<HTMLDivElement>(null);
+  const map = useRef<mapboxgl.Map | null>(null);
+  const markersRef = useRef<mapboxgl.Marker[]>([]);
+  const popupRef = useRef<mapboxgl.Popup | null>(null);
   const [hoveredLeg, setHoveredLeg] = useState<EmptyLeg | null>(null);
-  const panStart = useRef<{ x: number; y: number; vx: number; vy: number } | null>(null);
+  const [mapLoaded, setMapLoaded] = useState(false);
 
   const projectedLegs = useMemo(() => {
-    return legs.map((leg) => {
-      if (!leg.departure || !leg.arrival) return null;
-      if (leg.departure.lat == null || leg.departure.lng == null) return null;
-      if (leg.arrival.lat == null || leg.arrival.lng == null) return null;
-      const from = project(leg.departure.lat, leg.departure.lng);
-      const to = project(leg.arrival.lat, leg.arrival.lng);
-      if (isNaN(from[0]) || isNaN(from[1]) || isNaN(to[0]) || isNaN(to[1])) return null;
-      return { leg, from, to };
-    }).filter(Boolean) as { leg: EmptyLeg; from: [number, number]; to: [number, number] }[];
+    return legs.filter((leg) => {
+      if (!leg.departure || !leg.arrival) return false;
+      return leg.departure.lat != null && leg.departure.lng != null
+        && leg.arrival.lat != null && leg.arrival.lng != null;
+    });
   }, [legs]);
 
-  const fittedView = useMemo(() => {
-    if (projectedLegs.length === 0) return WORLD;
-    const xs = projectedLegs.flatMap(p => [p.from[0], p.to[0]]);
-    const ys = projectedLegs.flatMap(p => [p.from[1], p.to[1]]);
-    const minX = Math.min(...xs);
-    const maxX = Math.max(...xs);
-    const minY = Math.min(...ys);
-    const maxY = Math.max(...ys);
-    const padX = Math.max(5, (maxX - minX) * 0.2);
-    const padY = Math.max(3, (maxY - minY) * 0.25);
-    return clamp({ x: minX - padX, y: minY - padY, w: maxX - minX + padX * 2, h: maxY - minY + padY * 2 });
+  // Compute bounds
+  const bounds = useMemo(() => {
+    if (projectedLegs.length === 0) return null;
+    const b = new mapboxgl.LngLatBounds();
+    projectedLegs.forEach((leg) => {
+      b.extend([leg.departure!.lng!, leg.departure!.lat!]);
+      b.extend([leg.arrival!.lng!, leg.arrival!.lat!]);
+    });
+    return b;
   }, [projectedLegs]);
 
+  // Initialize map
   useEffect(() => {
-    setViewBox(fittedView);
-  }, [fittedView]);
+    if (!mapContainer.current || map.current) return;
 
-  const zoom = useCallback((factor: number) => {
-    setViewBox(prev => {
-      const cx = prev.x + prev.w / 2;
-      const cy = prev.y + prev.h / 2;
-      const nw = prev.w * factor;
-      const nh = prev.h * factor;
-      return clamp({ x: cx - nw / 2, y: cy - nh / 2, w: nw, h: nh });
+    mapboxgl.accessToken = MAPBOX_TOKEN;
+
+    const m = new mapboxgl.Map({
+      container: mapContainer.current,
+      style: {
+        version: 8,
+        name: "UJ Dark",
+        sources: {
+          "carto-dark": {
+            type: "raster",
+            tiles: [
+              "https://a.basemaps.cartocdn.com/dark_nolabels/{z}/{x}/{y}@2x.png",
+              "https://b.basemaps.cartocdn.com/dark_nolabels/{z}/{x}/{y}@2x.png",
+              "https://c.basemaps.cartocdn.com/dark_nolabels/{z}/{x}/{y}@2x.png",
+            ],
+            tileSize: 256,
+          },
+        },
+        layers: [
+          {
+            id: "carto-dark-layer",
+            type: "raster",
+            source: "carto-dark",
+            paint: {
+              "raster-opacity": 0.85,
+              "raster-brightness-max": 0.45,
+              "raster-contrast": 0.2,
+              "raster-saturation": -0.6,
+            },
+          },
+        ],
+      },
+      center: [20, 30],
+      zoom: 2,
+      minZoom: 1.5,
+      maxZoom: 12,
+      attributionControl: false,
+      fadeDuration: 0,
     });
+
+    m.addControl(new mapboxgl.NavigationControl({ showCompass: false }), "top-right");
+
+    m.on("load", () => {
+      setMapLoaded(true);
+    });
+
+    map.current = m;
+
+    return () => {
+      m.remove();
+      map.current = null;
+      setMapLoaded(false);
+    };
   }, []);
 
-  const handleWheel = useCallback((e: React.WheelEvent) => {
-    e.preventDefault();
-    const rect = containerRef.current?.getBoundingClientRect();
-    if (!rect) return;
-    setViewBox(prev => {
-      const mouseX = ((e.clientX - rect.left) / rect.width) * prev.w + prev.x;
-      const mouseY = ((e.clientY - rect.top) / rect.height) * prev.h + prev.y;
-      const factor = e.deltaY > 0 ? 1.15 : 0.87;
-      const nw = prev.w * factor;
-      const nh = prev.h * factor;
-      return clamp({
-        x: mouseX - (mouseX - prev.x) * (nw / prev.w),
-        y: mouseY - (mouseY - prev.y) * (nh / prev.h),
-        w: nw,
-        h: nh,
+  // Fit bounds when legs change
+  useEffect(() => {
+    if (!map.current || !bounds || !mapLoaded) return;
+    map.current.fitBounds(bounds, { padding: 80, maxZoom: 6, duration: 1200 });
+  }, [bounds, mapLoaded]);
+
+  // Draw routes + markers
+  useEffect(() => {
+    const m = map.current;
+    if (!m || !mapLoaded) return;
+
+    // Clean up old markers
+    markersRef.current.forEach((mk) => mk.remove());
+    markersRef.current = [];
+
+    // Clean up old sources/layers
+    projectedLegs.forEach((_, i) => {
+      const routeId = `route-${i}`;
+      const glowId = `route-glow-${i}`;
+      if (m.getLayer(glowId)) m.removeLayer(glowId);
+      if (m.getLayer(routeId)) m.removeLayer(routeId);
+      if (m.getSource(routeId)) m.removeSource(routeId);
+    });
+    // Also clean extras from previous render counts
+    for (let i = 0; i < 200; i++) {
+      const routeId = `route-${i}`;
+      const glowId = `route-glow-${i}`;
+      if (m.getLayer(glowId)) m.removeLayer(glowId);
+      if (m.getLayer(routeId)) m.removeLayer(routeId);
+      if (m.getSource(routeId)) m.removeSource(routeId);
+    }
+
+    projectedLegs.forEach((leg, i) => {
+      const dep = leg.departure!;
+      const arr = leg.arrival!;
+      const from: [number, number] = [dep.lng!, dep.lat!];
+      const to: [number, number] = [arr.lng!, arr.lat!];
+      const arcCoords = generateArc(from, to);
+      const routeId = `route-${i}`;
+      const isActive = selectedLeg?.id === leg.id;
+
+      // Route source
+      m.addSource(routeId, {
+        type: "geojson",
+        data: {
+          type: "Feature",
+          properties: { legIndex: i },
+          geometry: { type: "LineString", coordinates: arcCoords },
+        },
       });
-    });
-  }, []);
 
-  const handlePointerDown = useCallback((e: React.PointerEvent) => {
-    if ((e.target as Element).closest("[data-route]")) return;
-    setIsPanning(true);
-    setViewBox(prev => {
-      panStart.current = { x: e.clientX, y: e.clientY, vx: prev.x, vy: prev.y };
-      return prev;
-    });
-    (e.target as HTMLElement).setPointerCapture?.(e.pointerId);
-  }, []);
+      // Glow layer
+      m.addLayer({
+        id: `route-glow-${i}`,
+        type: "line",
+        source: routeId,
+        paint: {
+          "line-color": "hsla(45, 79%, 50%, 0.15)",
+          "line-width": isActive ? 8 : 4,
+          "line-blur": isActive ? 8 : 4,
+        },
+      });
 
-  const handlePointerMove = useCallback((e: React.PointerEvent) => {
-    if (!isPanning || !panStart.current || !containerRef.current) return;
-    const rect = containerRef.current.getBoundingClientRect();
-    setViewBox(prev => {
-      const dx = ((panStart.current!.x - e.clientX) / rect.width) * prev.w;
-      const dy = ((panStart.current!.y - e.clientY) / rect.height) * prev.h;
-      return clamp({ ...prev, x: panStart.current!.vx + dx, y: panStart.current!.vy + dy });
-    });
-  }, [isPanning]);
+      // Main route line
+      m.addLayer({
+        id: routeId,
+        type: "line",
+        source: routeId,
+        paint: {
+          "line-color": isActive ? "hsl(45, 79%, 55%)" : "hsla(45, 79%, 50%, 0.55)",
+          "line-width": isActive ? 2.5 : 1.2,
+          "line-dasharray": isActive ? [1] : [2, 2],
+        },
+      });
 
-  const handlePointerUp = useCallback(() => {
-    setIsPanning(false);
-    panStart.current = null;
-  }, []);
+      // Click handler on route
+      m.on("click", routeId, () => onLegClick(leg));
+      m.on("click", `route-glow-${i}`, () => onLegClick(leg));
+
+      // Hover cursor
+      m.on("mouseenter", routeId, () => {
+        m.getCanvas().style.cursor = "pointer";
+        setHoveredLeg(leg);
+      });
+      m.on("mouseleave", routeId, () => {
+        m.getCanvas().style.cursor = "";
+        setHoveredLeg(null);
+      });
+      m.on("mouseenter", `route-glow-${i}`, () => {
+        m.getCanvas().style.cursor = "pointer";
+        setHoveredLeg(leg);
+      });
+      m.on("mouseleave", `route-glow-${i}`, () => {
+        m.getCanvas().style.cursor = "";
+        setHoveredLeg(null);
+      });
+
+      // Departure marker
+      const depEl = createMarkerEl(isActive);
+      const depMarker = new mapboxgl.Marker({ element: depEl })
+        .setLngLat(from)
+        .addTo(m);
+      depEl.addEventListener("click", (e) => { e.stopPropagation(); onLegClick(leg); });
+      markersRef.current.push(depMarker);
+
+      // Arrival marker
+      const arrEl = createMarkerEl(isActive);
+      const arrMarker = new mapboxgl.Marker({ element: arrEl })
+        .setLngLat(to)
+        .addTo(m);
+      arrEl.addEventListener("click", (e) => { e.stopPropagation(); onLegClick(leg); });
+      markersRef.current.push(arrMarker);
+    });
+  }, [projectedLegs, selectedLeg, mapLoaded, onLegClick]);
+
+  // Pan to selected leg
+  useEffect(() => {
+    if (!map.current || !selectedLeg || !mapLoaded) return;
+    const dep = selectedLeg.departure;
+    const arr = selectedLeg.arrival;
+    if (!dep?.lng || !dep?.lat || !arr?.lng || !arr?.lat) return;
+    const b = new mapboxgl.LngLatBounds();
+    b.extend([dep.lng, dep.lat]);
+    b.extend([arr.lng, arr.lat]);
+    map.current.fitBounds(b, { padding: { top: 80, bottom: 80, left: 80, right: 420 }, maxZoom: 7, duration: 800 });
+  }, [selectedLeg, mapLoaded]);
 
   const activeLeg = selectedLeg || hoveredLeg;
 
@@ -161,170 +257,48 @@ const EmptyLegsMapView = ({ legs, selectedLeg, onLegClick, onClose, isLiveData }
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ duration: 0.8 }}
-      className="relative rounded-2xl overflow-hidden mb-16"
-      style={{ background: "hsl(220, 15%, 6%)" }}
+      className="relative rounded-2xl overflow-hidden mb-16 border border-border/30"
+      style={{ background: "hsl(var(--card))" }}
     >
-      {/* Map controls */}
-      <div className="absolute top-4 right-4 z-20 flex flex-col gap-1.5">
-        {[
-          { icon: ZoomIn, action: () => zoom(0.75), label: "Zoom in" },
-          { icon: ZoomOut, action: () => zoom(1.35), label: "Zoom out" },
-          { icon: Maximize2, action: () => setViewBox(WORLD), label: "Reset view" },
-        ].map(({ icon: Icon, action, label }) => (
-          <button
-            key={label}
-            onClick={action}
-            aria-label={label}
-            className="w-9 h-9 rounded-lg bg-white/[0.06] border border-white/[0.08] flex items-center justify-center text-white/40 hover:text-white hover:bg-white/[0.1] transition-colors"
-          >
-            <Icon size={14} />
-          </button>
-        ))}
-      </div>
-
       {/* Route count badge */}
       <div className="absolute top-4 left-4 z-20">
-        <span className="px-3 py-1.5 rounded-lg bg-white/[0.06] border border-white/[0.08] text-[10px] tracking-[0.15em] uppercase font-medium text-white/50">
+        <span className="px-3 py-1.5 rounded-lg bg-background/60 backdrop-blur-md border border-border/50 text-[10px] tracking-[0.15em] uppercase font-medium text-muted-foreground">
           {projectedLegs.length} Active Route{projectedLegs.length !== 1 ? "s" : ""}
         </span>
       </div>
 
-      {/* SVG Map */}
+      {/* Map container */}
       <div
-        ref={containerRef}
-        className="relative w-full select-none"
-        style={{ paddingBottom: "50%", cursor: isPanning ? "grabbing" : "grab" }}
-        onWheel={handleWheel}
-        onPointerDown={handlePointerDown}
-        onPointerMove={handlePointerMove}
-        onPointerUp={handlePointerUp}
-        onPointerLeave={handlePointerUp}
-      >
-        <svg
-          viewBox={`${viewBox.x} ${viewBox.y} ${viewBox.w} ${viewBox.h}`}
-          className="absolute inset-0 w-full h-full"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-          style={{ touchAction: "none" }}
-        >
-          <defs>
-            <radialGradient id="mapBgGlow" cx="50%" cy="45%" r="60%">
-              <stop offset="0%" stopColor="hsla(220, 15%, 10%, 1)" />
-              <stop offset="100%" stopColor="hsla(220, 15%, 4%, 1)" />
-            </radialGradient>
-            <linearGradient id="routeGradActive" x1="0%" y1="0%" x2="100%" y2="0%">
-              <stop offset="0%" stopColor="hsl(45, 79%, 50%)" />
-              <stop offset="100%" stopColor="hsl(45, 79%, 38%)" />
-            </linearGradient>
-            <linearGradient id="routeGradDefault" x1="0%" y1="0%" x2="100%" y2="0%">
-              <stop offset="0%" stopColor="hsla(45, 79%, 50%, 0.5)" />
-              <stop offset="100%" stopColor="hsla(45, 79%, 38%, 0.3)" />
-            </linearGradient>
-            <filter id="glow">
-              <feGaussianBlur stdDeviation="0.5" result="blur" />
-              <feMerge>
-                <feMergeNode in="blur" />
-                <feMergeNode in="SourceGraphic" />
-              </feMerge>
-            </filter>
-            <filter id="glowStrong">
-              <feGaussianBlur stdDeviation="1" result="blur" />
-              <feMerge>
-                <feMergeNode in="blur" />
-                <feMergeNode in="SourceGraphic" />
-              </feMerge>
-            </filter>
-          </defs>
+        ref={mapContainer}
+        className="w-full"
+        style={{ height: "560px" }}
+      />
 
-          {/* Ocean background */}
-          <rect x="0" y="0" width="100" height="50" fill="url(#mapBgGlow)" />
-
-          {/* Grid lines — subtle */}
-          {[10, 20, 30, 40, 50, 60, 70, 80, 90].map(x => (
-            <line key={`gx${x}`} x1={x} y1="0" x2={x} y2="50" stroke="hsla(220, 10%, 20%, 0.3)" strokeWidth="0.04" />
-          ))}
-          {[10, 20, 25, 30, 40].map(y => (
-            <line key={`gy${y}`} x1="0" y1={y} x2="100" y2={y} stroke="hsla(220, 10%, 20%, 0.3)" strokeWidth="0.04" />
-          ))}
-
-          {/* Continents — dark elevated surfaces */}
-          {CONTINENT_PATHS.map((d, i) => (
-            <path key={i} d={d} fill="hsla(220, 10%, 14%, 0.9)" stroke="hsla(220, 10%, 22%, 0.5)" strokeWidth="0.1" />
-          ))}
-
-          {/* Route arcs */}
-          {projectedLegs.map(({ leg, from, to }) => {
-            const isActive = activeLeg?.id === leg.id;
-            const isSelected = selectedLeg?.id === leg.id;
-            const midX = (from[0] + to[0]) / 2;
-            const dist = Math.sqrt((to[0] - from[0]) ** 2 + (to[1] - from[1]) ** 2);
-            const midY = Math.min(from[1], to[1]) - Math.min(dist * 0.3, 8);
-            const strokeW = isActive ? 0.45 : 0.22;
-
-            return (
-              <g
-                key={leg.id}
-                data-route
-                className="cursor-pointer"
-                onClick={() => onLegClick(leg)}
-                onPointerEnter={() => setHoveredLeg(leg)}
-                onPointerLeave={() => setHoveredLeg(null)}
-                style={{ transition: "opacity 0.3s" }}
-                opacity={activeLeg && !isActive ? 0.15 : 1}
-              >
-                {/* Glow arc for active */}
-                {isActive && (
-                  <path
-                    d={`M${from[0]},${from[1]} Q${midX},${midY} ${to[0]},${to[1]}`}
-                    stroke="hsla(45, 79%, 50%, 0.2)"
-                    strokeWidth={2}
-                    fill="none"
-                    filter="url(#glowStrong)"
-                  />
-                )}
-                {/* Main arc */}
-                <path
-                  d={`M${from[0]},${from[1]} Q${midX},${midY} ${to[0]},${to[1]}`}
-                  stroke={isActive ? "url(#routeGradActive)" : "hsla(45, 79%, 50%, 0.6)"}
-                  strokeWidth={strokeW}
-                  fill="none"
-                  strokeDasharray={isActive ? "none" : "0.5 0.3"}
-                />
-                {/* Departure marker */}
-                <circle cx={from[0]} cy={from[1]} r={isActive ? 0.9 : 0.5} fill="hsl(45, 79%, 55%)" filter="url(#glow)" />
-                {isActive && <circle cx={from[0]} cy={from[1]} r={1.6} fill="none" stroke="hsla(45, 79%, 50%, 0.3)" strokeWidth="0.12">
-                  <animate attributeName="r" values="1.2;1.8;1.2" dur="2.5s" repeatCount="indefinite" />
-                  <animate attributeName="opacity" values="0.4;0.1;0.4" dur="2.5s" repeatCount="indefinite" />
-                </circle>}
-                {/* Arrival marker */}
-                <circle cx={to[0]} cy={to[1]} r={isActive ? 0.9 : 0.5} fill="hsl(45, 79%, 55%)" filter="url(#glow)" />
-                {isActive && <circle cx={to[0]} cy={to[1]} r={1.6} fill="none" stroke="hsla(45, 79%, 50%, 0.3)" strokeWidth="0.12">
-                  <animate attributeName="r" values="1.2;1.8;1.2" dur="2.5s" repeatCount="indefinite" />
-                  <animate attributeName="opacity" values="0.4;0.1;0.4" dur="2.5s" repeatCount="indefinite" />
-                </circle>}
-                {/* City labels on active */}
-                {isSelected && (
-                  <>
-                    <text x={from[0]} y={from[1] + 2} textAnchor="middle" fill="white" fontSize="1.1" fontFamily="Inter, sans-serif" fontWeight="500">
-                      {leg.departure?.icao || leg.departure?.city}
-                    </text>
-                    <text x={to[0]} y={to[1] + 2} textAnchor="middle" fill="white" fontSize="1.1" fontFamily="Inter, sans-serif" fontWeight="500">
-                      {leg.arrival?.icao || leg.arrival?.city}
-                    </text>
-                  </>
-                )}
-                {/* Larger hit area */}
-                <path
-                  d={`M${from[0]},${from[1]} Q${midX},${midY} ${to[0]},${to[1]}`}
-                  stroke="transparent"
-                  strokeWidth="2.5"
-                  fill="none"
-                />
-              </g>
-            );
-          })}
-        </svg>
-      </div>
+      {/* Custom CSS for Mapbox controls */}
+      <style>{`
+        .mapboxgl-ctrl-group {
+          background: hsla(var(--card), 0.8) !important;
+          backdrop-filter: blur(12px) !important;
+          border: 1px solid hsla(var(--border), 0.5) !important;
+          border-radius: 0.75rem !important;
+          overflow: hidden !important;
+          box-shadow: 0 4px 20px -4px rgba(0,0,0,0.5) !important;
+        }
+        .mapboxgl-ctrl-group button {
+          width: 36px !important;
+          height: 36px !important;
+          border-color: hsla(var(--border), 0.3) !important;
+        }
+        .mapboxgl-ctrl-group button:hover {
+          background: hsla(var(--accent), 0.5) !important;
+        }
+        .mapboxgl-ctrl-group button .mapboxgl-ctrl-icon {
+          filter: invert(1) brightness(0.6) !important;
+        }
+        .mapboxgl-ctrl-group button:hover .mapboxgl-ctrl-icon {
+          filter: invert(1) brightness(1) !important;
+        }
+      `}</style>
 
       {/* Hover tooltip */}
       <AnimatePresence>
@@ -333,25 +307,25 @@ const EmptyLegsMapView = ({ legs, selectedLeg, onLegClick, onClose, isLiveData }
             initial={{ opacity: 0, y: 8 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 8 }}
-            className="absolute bottom-16 left-1/2 -translate-x-1/2 z-30 px-5 py-3 rounded-xl border border-white/[0.08] shadow-2xl"
-            style={{ background: "hsla(220, 15%, 8%, 0.95)", backdropFilter: "blur(12px)" }}
+            className="absolute bottom-16 left-1/2 -translate-x-1/2 z-30 px-5 py-3 rounded-xl border border-border/50 shadow-2xl"
+            style={{ background: "hsla(var(--card), 0.95)", backdropFilter: "blur(12px)" }}
           >
             <div className="flex items-center gap-3 text-[11px]">
               <div className="text-center">
-                <span className="font-display font-semibold text-white block">{hoveredLeg.departure?.icao || hoveredLeg.departure?.iata}</span>
-                <span className="text-[8px] text-white/40">{hoveredLeg.departure?.city}</span>
+                <span className="font-display font-semibold text-foreground block">{hoveredLeg.departure?.icao || hoveredLeg.departure?.iata}</span>
+                <span className="text-[8px] text-muted-foreground">{hoveredLeg.departure?.city}</span>
               </div>
               <div className="flex items-center gap-1.5 px-1">
-                <div className="w-4 h-[0.5px] bg-white/20" />
+                <div className="w-4 h-[0.5px] bg-border" />
                 <Plane size={10} className="text-primary" />
-                <div className="w-4 h-[0.5px] bg-white/20" />
+                <div className="w-4 h-[0.5px] bg-border" />
               </div>
               <div className="text-center">
-                <span className="font-display font-semibold text-white block">{hoveredLeg.arrival?.icao || hoveredLeg.arrival?.iata}</span>
-                <span className="text-[8px] text-white/40">{hoveredLeg.arrival?.city}</span>
+                <span className="font-display font-semibold text-foreground block">{hoveredLeg.arrival?.icao || hoveredLeg.arrival?.iata}</span>
+                <span className="text-[8px] text-muted-foreground">{hoveredLeg.arrival?.city}</span>
               </div>
-              <div className="ml-2 pl-3 border-l border-white/10">
-                <span className="text-white/50 block text-[9px]">{hoveredLeg.aircraft_type}</span>
+              <div className="ml-2 pl-3 border-l border-border/50">
+                <span className="text-muted-foreground block text-[9px]">{hoveredLeg.aircraft_type}</span>
                 {hoveredLeg.price ? (
                   <span className="text-primary font-medium text-[10px]">{hoveredLeg.currency} {hoveredLeg.price.toLocaleString()}</span>
                 ) : (
@@ -360,7 +334,7 @@ const EmptyLegsMapView = ({ legs, selectedLeg, onLegClick, onClose, isLiveData }
               </div>
             </div>
             <div className="text-center mt-1.5">
-              <span className="text-[8px] text-white/25 tracking-wider">Click to view details</span>
+              <span className="text-[8px] text-muted-foreground/50 tracking-wider">Click to view details</span>
             </div>
           </motion.div>
         )}
@@ -369,108 +343,172 @@ const EmptyLegsMapView = ({ legs, selectedLeg, onLegClick, onClose, isLiveData }
       {/* Selected leg detail panel */}
       <AnimatePresence>
         {selectedLeg && (
-          <motion.div
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: 20 }}
-            className="absolute inset-y-0 right-0 w-full sm:w-96 z-30 overflow-y-auto border-l border-white/[0.06]"
-            style={{ background: "hsla(220, 15%, 6%, 0.97)", backdropFilter: "blur(16px)" }}
-          >
-            {/* Aircraft image */}
-            <div className="relative h-40 overflow-hidden">
-              <img
-                src={selectedLeg.aircraft_image || getAircraftImage(selectedLeg.aircraft_type || "midsize")}
-                alt={selectedLeg.aircraft_type || "Aircraft"}
-                className="w-full h-full object-cover"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-[hsla(220,15%,6%,1)] via-[hsla(220,15%,6%,0.3)] to-transparent" />
-              <button
-                onClick={onClose}
-                className="absolute top-3 right-3 w-8 h-8 rounded-full bg-white/[0.06] border border-white/[0.1] flex items-center justify-center text-white/50 hover:text-white hover:bg-white/[0.12] transition-colors"
-              >
-                <X size={14} />
-              </button>
-              <div className="absolute top-3 left-3">
-                <span className="px-2.5 py-1 rounded-full text-[8px] tracking-[0.15em] uppercase font-medium bg-primary/90 text-primary-foreground">
-                  {selectedLeg.aircraft_class || getAircraftCategory(selectedLeg.aircraft_type || "midsize")}
-                </span>
-              </div>
-              <div className="absolute bottom-3 left-4">
-                <p className="text-white text-[15px] font-display font-semibold">{selectedLeg.aircraft_type}</p>
-              </div>
-            </div>
-
-            <div className="p-5">
-              {/* Route */}
-              <div className="flex items-center gap-3 mb-5">
-                <div className="text-center">
-                  <span className="font-display text-lg text-white font-semibold block">{selectedLeg.departure?.icao || selectedLeg.departure?.iata || "---"}</span>
-                  <span className="text-[10px] text-white/40 font-light">{selectedLeg.departure?.city}</span>
-                </div>
-                <div className="flex-1 flex items-center gap-1.5 px-2">
-                  <div className="flex-1 h-px bg-white/10" />
-                  <Plane size={12} className="text-primary" />
-                  <div className="flex-1 h-px bg-white/10" />
-                </div>
-                <div className="text-center">
-                  <span className="font-display text-lg text-white font-semibold block">{selectedLeg.arrival?.icao || selectedLeg.arrival?.iata || "---"}</span>
-                  <span className="text-[10px] text-white/40 font-light">{selectedLeg.arrival?.city}</span>
-                </div>
-              </div>
-
-              {/* Details */}
-              <div className="grid grid-cols-2 gap-2 mb-5">
-                <div className="px-3 py-2.5 rounded-lg bg-white/[0.04] border border-white/[0.06]">
-                  <span className="text-white/30 text-[9px] uppercase tracking-wider block mb-0.5">Date</span>
-                  <span className="text-white text-[12px] font-medium">
-                    {selectedLeg.from_date ? new Date(selectedLeg.from_date).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" }) : "TBD"}
-                  </span>
-                </div>
-                <div className="px-3 py-2.5 rounded-lg bg-white/[0.04] border border-white/[0.06]">
-                  <span className="text-white/30 text-[9px] uppercase tracking-wider block mb-0.5">Price</span>
-                  <span className="text-primary text-[12px] font-medium">
-                    {selectedLeg.price ? `${selectedLeg.currency} ${selectedLeg.price.toLocaleString()}` : "Save up to 75%"}
-                  </span>
-                </div>
-                {selectedLeg.aircraft_max_pax && (
-                  <div className="px-3 py-2.5 rounded-lg bg-white/[0.04] border border-white/[0.06]">
-                    <span className="text-white/30 text-[9px] uppercase tracking-wider block mb-0.5">Capacity</span>
-                    <span className="text-white text-[12px] font-medium flex items-center gap-1"><Users size={11} /> {selectedLeg.aircraft_max_pax} pax</span>
-                  </div>
-                )}
-                {selectedLeg.aircraft_range_km && (
-                  <div className="px-3 py-2.5 rounded-lg bg-white/[0.04] border border-white/[0.06]">
-                    <span className="text-white/30 text-[9px] uppercase tracking-wider block mb-0.5">Range</span>
-                    <span className="text-white text-[12px] font-medium">{selectedLeg.aircraft_range_km.toLocaleString()} km</span>
-                  </div>
-                )}
-              </div>
-
-              {selectedLeg.company && (
-                <p className="text-[11px] text-white/30 font-light mb-5">Operated by {selectedLeg.company}</p>
-              )}
-
-              <a
-                href={`https://wa.me/447888999944?text=${encodeURIComponent(`Hello, I'm interested in an empty leg from ${selectedLeg.departure?.city || "?"} to ${selectedLeg.arrival?.city || "?"} on ${selectedLeg.from_date ? new Date(selectedLeg.from_date).toLocaleDateString() : "TBD"} (${selectedLeg.aircraft_type}).`)}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center justify-center gap-2 w-full py-3.5 bg-gradient-gold text-primary-foreground text-[10px] tracking-[0.25em] uppercase font-medium rounded-xl hover:shadow-[0_0_30px_-8px_hsla(45,79%,46%,0.45)] transition-all duration-300"
-              >
-                Request This Flight <ArrowRight size={11} />
-              </a>
-            </div>
-          </motion.div>
+          <SelectedLegPanel leg={selectedLeg} onClose={onClose} />
         )}
       </AnimatePresence>
 
       {/* Bottom hint */}
       <div className="absolute bottom-3 left-1/2 -translate-x-1/2 z-20">
-        <p className="text-[9px] text-white/20 font-light tracking-wider">
+        <p className="text-[9px] text-muted-foreground/40 font-light tracking-wider">
           Scroll to zoom · Drag to pan · Click a route for details
         </p>
       </div>
     </motion.div>
   );
 };
+
+/** Create a gold pulsing marker element */
+function createMarkerEl(isActive: boolean): HTMLDivElement {
+  const el = document.createElement("div");
+  const size = isActive ? 14 : 8;
+  el.style.width = `${size}px`;
+  el.style.height = `${size}px`;
+  el.style.borderRadius = "50%";
+  el.style.background = "hsl(45, 79%, 55%)";
+  el.style.boxShadow = isActive
+    ? "0 0 16px 4px hsla(45, 79%, 50%, 0.5), 0 0 4px 1px hsla(45, 79%, 50%, 0.8)"
+    : "0 0 8px 2px hsla(45, 79%, 50%, 0.3)";
+  el.style.cursor = "pointer";
+  el.style.transition = "all 0.3s ease";
+  el.style.border = isActive ? "2px solid hsla(45, 79%, 80%, 0.6)" : "none";
+  if (isActive) {
+    el.style.animation = "pulse-gold 2s ease-in-out infinite";
+  }
+  return el;
+}
+
+/** Detail panel for selected leg */
+function SelectedLegPanel({ leg, onClose }: { leg: EmptyLeg; onClose: () => void }) {
+  const fromCode = leg.departure?.icao || leg.departure?.iata || "---";
+  const toCode = leg.arrival?.icao || leg.arrival?.iata || "---";
+  const fromCity = leg.departure?.city || "";
+  const toCity = leg.arrival?.city || "";
+  const date = leg.from_date
+    ? new Date(leg.from_date).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })
+    : "TBD";
+  const priceLabel = leg.price ? `${leg.currency} ${leg.price.toLocaleString()}` : "Save up to 75%";
+  const image = leg.aircraft_image || getAircraftImage(leg.aircraft_type || "midsize");
+  const category = leg.aircraft_class || getAircraftCategory(leg.aircraft_type || "midsize");
+  const waMsg = encodeURIComponent(
+    `Hello, I'm interested in an empty leg from ${fromCity || "?"} to ${toCity || "?"} on ${date} (${leg.aircraft_type}).`
+  );
+
+  const handleShare = async () => {
+    const shareText = `✈️ Empty Leg Deal — ${leg.aircraft_type || "Private Jet"}\n${fromCity || fromCode} → ${toCity || toCode}\n📅 ${date}\n💰 ${priceLabel}\n\nBook now at Universal Jets\nhttps://www.universaljets.com`;
+    try {
+      const blob = await generateEmptyLegShareCard({ fromCode, fromCity, toCode, toCity, date, price: priceLabel, aircraftType: leg.aircraft_type || "Private Jet", category });
+      const file = new File([blob], `universal-jets-empty-leg-${fromCode}-${toCode}.png`, { type: "image/png" });
+      if (navigator.share && navigator.canShare?.({ files: [file] })) {
+        await navigator.share({ title: `Empty Leg: ${fromCity} → ${toCity}`, text: shareText, files: [file] });
+      } else if (navigator.share) {
+        await navigator.share({ title: `Empty Leg: ${fromCity} → ${toCity}`, text: shareText });
+      } else {
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url; a.download = `universal-jets-empty-leg-${fromCode}-${toCode}.png`; a.click();
+        URL.revokeObjectURL(url);
+        await navigator.clipboard.writeText(shareText);
+        toast.success("Branded card downloaded & details copied");
+      }
+    } catch {
+      try { await navigator.clipboard.writeText(shareText); toast.success("Copied to clipboard"); } catch {}
+    }
+  };
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, x: 20 }}
+      animate={{ opacity: 1, x: 0 }}
+      exit={{ opacity: 0, x: 20 }}
+      className="absolute inset-y-0 right-0 w-full sm:w-96 z-30 overflow-y-auto border-l border-border/30"
+      style={{ background: "hsla(var(--card), 0.97)", backdropFilter: "blur(16px)" }}
+    >
+      {/* Aircraft image */}
+      <div className="relative h-40 overflow-hidden">
+        <img src={image} alt={leg.aircraft_type || "Aircraft"} className="w-full h-full object-cover" />
+        <div className="absolute inset-0 bg-gradient-to-t from-card via-card/30 to-transparent" />
+        <button
+          onClick={onClose}
+          className="absolute top-3 right-3 w-8 h-8 rounded-full bg-background/30 backdrop-blur-sm border border-border/30 flex items-center justify-center text-muted-foreground hover:text-foreground hover:bg-background/50 transition-colors"
+        >
+          <X size={14} />
+        </button>
+        <div className="absolute top-3 left-3">
+          <span className="px-2.5 py-1 rounded-full text-[8px] tracking-[0.15em] uppercase font-medium bg-primary/90 text-primary-foreground">
+            {category}
+          </span>
+        </div>
+        <div className="absolute bottom-3 left-4">
+          <p className="text-foreground text-[15px] font-display font-semibold">{leg.aircraft_type}</p>
+        </div>
+      </div>
+
+      <div className="p-5">
+        {/* Route */}
+        <div className="flex items-center gap-3 mb-5">
+          <div className="text-center">
+            <span className="font-display text-lg text-foreground font-semibold block">{fromCode}</span>
+            <span className="text-[10px] text-muted-foreground font-light">{fromCity}</span>
+          </div>
+          <div className="flex-1 flex items-center gap-1.5 px-2">
+            <div className="flex-1 h-px bg-border/50" />
+            <Plane size={12} className="text-primary" />
+            <div className="flex-1 h-px bg-border/50" />
+          </div>
+          <div className="text-center">
+            <span className="font-display text-lg text-foreground font-semibold block">{toCode}</span>
+            <span className="text-[10px] text-muted-foreground font-light">{toCity}</span>
+          </div>
+        </div>
+
+        {/* Details grid */}
+        <div className="grid grid-cols-2 gap-2 mb-5">
+          <div className="px-3 py-2.5 rounded-lg bg-muted/20 border border-border/30">
+            <span className="text-muted-foreground/60 text-[9px] uppercase tracking-wider block mb-0.5">Date</span>
+            <span className="text-foreground text-[12px] font-medium">{date}</span>
+          </div>
+          <div className="px-3 py-2.5 rounded-lg bg-muted/20 border border-border/30">
+            <span className="text-muted-foreground/60 text-[9px] uppercase tracking-wider block mb-0.5">Price</span>
+            <span className="text-primary text-[12px] font-medium">{priceLabel}</span>
+          </div>
+          {leg.aircraft_max_pax && (
+            <div className="px-3 py-2.5 rounded-lg bg-muted/20 border border-border/30">
+              <span className="text-muted-foreground/60 text-[9px] uppercase tracking-wider block mb-0.5">Capacity</span>
+              <span className="text-foreground text-[12px] font-medium flex items-center gap-1"><Users size={11} /> {leg.aircraft_max_pax} pax</span>
+            </div>
+          )}
+          {leg.aircraft_range_km && (
+            <div className="px-3 py-2.5 rounded-lg bg-muted/20 border border-border/30">
+              <span className="text-muted-foreground/60 text-[9px] uppercase tracking-wider block mb-0.5">Range</span>
+              <span className="text-foreground text-[12px] font-medium">{leg.aircraft_range_km.toLocaleString()} km</span>
+            </div>
+          )}
+        </div>
+
+        {leg.company && (
+          <p className="text-[11px] text-muted-foreground/50 font-light mb-5">Operated by {leg.company}</p>
+        )}
+
+        <div className="flex gap-2">
+          <a
+            href={`https://wa.me/447888999944?text=${waMsg}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex-1 flex items-center justify-center gap-2 py-3.5 bg-gradient-gold text-primary-foreground text-[10px] tracking-[0.25em] uppercase font-medium rounded-xl hover:shadow-[0_0_30px_-8px_hsla(45,79%,46%,0.45)] transition-all duration-300"
+          >
+            Request This Flight <ArrowRight size={11} />
+          </a>
+          <button
+            onClick={handleShare}
+            className="w-11 h-11 rounded-xl border border-border/50 flex items-center justify-center text-muted-foreground hover:text-primary hover:border-primary/30 transition-all"
+            aria-label="Share"
+          >
+            <Share2 size={14} />
+          </button>
+        </div>
+      </div>
+    </motion.div>
+  );
+}
 
 export default EmptyLegsMapView;
