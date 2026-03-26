@@ -38,10 +38,10 @@ const HeroSection = () => {
         <div className="hero-cloud hero-cloud-3" />
       </div>
 
-      {/* Cinematic gradient — depth + vignette */}
+      {/* Dark gradient overlay for text readability */}
       <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute inset-0 bg-gradient-to-b from-[hsla(220,10%,4%,0.7)] via-[hsla(220,10%,6%,0.1)] to-[hsla(220,10%,4%,0.8)]" />
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_40%,hsla(220,10%,4%,0.5)_100%)]" />
+        <div className="absolute inset-0 bg-gradient-to-b from-[hsla(0,0%,3%,0.72)] via-[hsla(0,0%,4%,0.45)] to-[hsla(0,0%,3%,0.82)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_30%,hsla(0,0%,2%,0.55)_100%)]" />
       </div>
 
       {/* Content */}
@@ -57,58 +57,59 @@ const HeroSection = () => {
           className="w-[1px] h-16 bg-gradient-to-b from-transparent via-primary/80 to-transparent mb-10 origin-top"
         />
 
+        {/* Eyebrow — "Private Aviation Redefined" */}
         <motion.p
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1.2, delay: 0.5 }}
-          className="text-[10px] md:text-[11px] tracking-[0.65em] uppercase text-primary mb-14 font-medium"
-          style={{ textShadow: "0 2px 20px hsla(40,42%,42%,0.4)" }}
+          className="font-body text-[10px] md:text-[11px] tracking-[0.65em] uppercase text-white mb-14 font-medium"
+          style={{ textShadow: "0 2px 12px hsla(0,0%,0%,0.8)" }}
         >
           Private Aviation Redefined
         </motion.p>
 
+        {/* Main headline */}
         <motion.h1
           initial={{ opacity: 0, y: 45 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1.4, delay: 0.7, ease: [0.16, 1, 0.3, 1] }}
-          className="font-display leading-[0.9] tracking-[-0.01em] mb-8"
+          className="font-body leading-[0.95] tracking-[-0.01em] mb-4"
         >
           <span
-            className="block text-[2.5rem] sm:text-[3rem] md:text-[4.5rem] lg:text-[6.2rem] font-semibold text-white/95"
-            style={{ textShadow: "0 4px 50px hsla(0,0%,0%,0.7), 0 1px 0 hsla(0,0%,100%,0.04)" }}
+            className="block text-[2.5rem] sm:text-[3rem] md:text-[4.5rem] lg:text-[6.2rem] font-semibold text-white"
+            style={{ textShadow: "0 4px 40px hsla(0,0%,0%,0.8), 0 1px 0 hsla(0,0%,100%,0.03)" }}
           >
             Private Aviation.
           </span>
-          <motion.span
-            className="block text-[3rem] sm:text-[4rem] md:text-[5.5rem] lg:text-[7.5rem] text-gradient-gold italic font-medium mt-2 relative"
-            animate={{
-              filter: [
-                "drop-shadow(0 0 0px hsla(40,42%,42%,0))",
-                "drop-shadow(0 0 28px hsla(40,42%,42%,0.22))",
-                "drop-shadow(0 0 0px hsla(40,42%,42%,0))",
-              ],
-            }}
-            transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
-          >
-            Without Limits.
-          </motion.span>
         </motion.h1>
 
+        {/* "Without Limits" — same font, slightly smaller, soft gold */}
+        <motion.p
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1.4, delay: 0.85, ease: [0.16, 1, 0.3, 1] }}
+          className="font-body text-[2rem] sm:text-[2.8rem] md:text-[3.8rem] lg:text-[5.2rem] font-light tracking-[-0.01em] text-primary mb-10"
+          style={{ textShadow: "0 4px 30px hsla(40,42%,42%,0.35), 0 2px 0 hsla(0,0%,0%,0.3)" }}
+        >
+          Without Limits.
+        </motion.p>
+
+        {/* Subtext */}
         <motion.div
           initial={{ opacity: 0, y: 18 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1.2, delay: 0.95 }}
-          className="max-w-lg mx-auto"
-          style={{ marginBottom: "3.5rem" }}
+          className="max-w-lg mx-auto mb-14"
         >
           <p
-            className="text-[17px] md:text-[20px] text-white font-normal leading-[1.5] tracking-[0.005em]"
-            style={{ textShadow: "0 2px 24px hsla(0,0%,0%,0.7)" }}
+            className="font-body text-[16px] md:text-[19px] text-white/90 font-light leading-[1.6] tracking-[0.02em]"
+            style={{ textShadow: "0 2px 20px hsla(0,0%,0%,0.8)" }}
           >
             Global access. Instant quotes. Tailored journeys.
           </p>
         </motion.div>
 
+        {/* CTAs */}
         <motion.div
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
