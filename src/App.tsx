@@ -60,6 +60,7 @@ const CareersPage = lazy(() => import("./pages/CareersPage.tsx"));
 const ContactPage = lazy(() => import("./pages/ContactPage.tsx"));
 const CharterPage = lazy(() => import("./pages/CharterPage.tsx"));
 const AircraftGuidePage = lazy(() => import("./pages/AircraftGuidePage.tsx"));
+const FleetPage = lazy(() => import("./pages/FleetPage.tsx"));
 const RequestFlightPage = lazy(() => import("./pages/RequestFlightPage.tsx"));
 const NotFound = lazy(() => import("./pages/NotFound.tsx"));
 const UnsubscribePage = lazy(() => import("./pages/UnsubscribePage.tsx"));
@@ -137,6 +138,7 @@ const App = () => (
             <Route path="/contact" element={<ContactPage />} />
             <Route path="/charter/:slug" element={<CharterPage />} />
             <Route path="/aircraft" element={<AircraftGuidePage />} />
+            <Route path="/fleet" element={<FleetPage />} />
             <Route path="/unsubscribe" element={<UnsubscribePage />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
