@@ -86,6 +86,7 @@ const TripsPage = () => {
         onAdd={canManage ? () => openForm() : undefined}
         onEdit={canManage ? openForm : undefined}
         onDelete={canManage ? handleDelete : undefined}
+        onRowClick={(row: any) => navigate(`/crm/trips/${row.id}`)}
       />
       {!canManage && (
         <p className="text-[10px] text-muted-foreground/30 font-light mt-2 text-center">
