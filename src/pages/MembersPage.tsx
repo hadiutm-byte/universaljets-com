@@ -17,13 +17,11 @@ const benefits = [
 
 const tiers = [
   {
-    icon: Star,
-    name: "Elevate",
+    name: "Silver",
     tagline: "Your introduction to private aviation",
-    accent: "from-white/10 to-white/5",
-    cardBg: "bg-card",
-    headerBg: "bg-gradient-to-br from-[hsl(0,0%,96%)] to-[hsl(0,0%,92%)]",
-    textColor: "text-foreground",
+    cardGradient: "linear-gradient(160deg, hsl(0 0% 72%) 0%, hsl(0 0% 56%) 40%, hsl(0 0% 64%) 100%)",
+    shineColor: "hsla(0, 0%, 100%, 0.35)",
+    textAccent: "text-white/60",
     featured: false,
     benefits: [
       "Preferential charter pricing",
@@ -35,16 +33,30 @@ const tiers = [
     cta: "Request Invitation",
   },
   {
-    icon: Crown,
-    name: "Founders Circle",
+    name: "Gold",
     tagline: "For distinguished private aviation clients",
-    accent: "from-primary/30 to-primary/10",
-    cardBg: "bg-gradient-to-b from-[hsl(var(--charcoal))] to-[hsl(var(--charcoal-deep))]",
-    headerBg: "bg-gradient-to-br from-[hsl(var(--charcoal))] to-[hsl(var(--charcoal-deep))]",
-    textColor: "text-white",
+    cardGradient: "linear-gradient(160deg, hsl(40 42% 52%) 0%, hsl(40 42% 36%) 40%, hsl(40 42% 46%) 100%)",
+    shineColor: "hsla(40, 42%, 70%, 0.4)",
+    textAccent: "text-white/70",
+    featured: false,
+    benefits: [
+      "Everything in Silver",
+      "Priority support & faster quotes",
+      "Member-only empty leg alerts",
+      "Concierge coordination included",
+      "Guest access for travel companions",
+    ],
+    cta: "Request Invitation",
+  },
+  {
+    name: "Platinum",
+    tagline: "Priority access and elite service",
+    cardGradient: "linear-gradient(160deg, hsl(210 8% 62%) 0%, hsl(210 8% 42%) 40%, hsl(210 8% 52%) 100%)",
+    shineColor: "hsla(210, 20%, 80%, 0.35)",
+    textAccent: "text-white/65",
     featured: true,
     benefits: [
-      "Everything in Elevate",
+      "Everything in Gold",
       "Best-in-market rate guarantee",
       "24/7 senior aviation director",
       "Global VIP lounge access",
@@ -54,41 +66,21 @@ const tiers = [
     cta: "Apply for Access",
   },
   {
-    icon: Gem,
-    name: "Private Office",
-    tagline: "Ultra-high-net-worth individuals & families",
-    accent: "from-primary/20 to-primary/5",
-    cardBg: "bg-card",
-    headerBg: "bg-gradient-to-br from-[hsl(220,10%,8%)] to-[hsl(220,10%,5%)]",
-    textColor: "text-white",
+    name: "Black",
+    tagline: "The pinnacle — full VIP access",
+    cardGradient: "linear-gradient(160deg, hsl(0 0% 12%) 0%, hsl(0 0% 4%) 40%, hsl(0 0% 8%) 100%)",
+    shineColor: "hsla(40, 42%, 50%, 0.25)",
+    textAccent: "text-primary/60",
     featured: false,
     benefits: [
-      "Everything in Founders Circle",
+      "Everything in Platinum",
+      "Dedicated personal liaison",
       "Bespoke contract terms",
-      "Family office integration",
       "Multi-aircraft coordination",
-      "Discreet personal liaison",
+      "Family office integration",
       "Custom billing structures",
     ],
     cta: "Private Consultation",
-  },
-  {
-    icon: Award,
-    name: "Corporate",
-    tagline: "Tailored fleet solutions for organisations",
-    accent: "from-white/10 to-white/5",
-    cardBg: "bg-card",
-    headerBg: "bg-gradient-to-br from-[hsl(0,0%,96%)] to-[hsl(0,0%,92%)]",
-    textColor: "text-foreground",
-    featured: false,
-    benefits: [
-      "Multi-user corporate accounts",
-      "Consolidated billing & reporting",
-      "Custom contract terms",
-      "Dedicated operations team",
-      "Fleet management advisory",
-    ],
-    cta: "Corporate Inquiry",
   },
 ];
 
@@ -97,6 +89,126 @@ const referralSteps = [
   { step: "02", title: "Refer Trusted Contacts", desc: "Share your referral with colleagues, family, or associates who value private aviation." },
   { step: "03", title: "Earn Travel Credits", desc: "Receive $1,000 in travel credit when 3 referred members complete their first booking." },
 ];
+
+/* Physical membership card component */
+const MembershipCard = ({ tier, index }: { tier: typeof tiers[0]; index: number }) => {
+  const [rotateX, setRotateX] = useState(0);
+  const [rotateY, setRotateY] = useState(0);
+  const [shinePos, setShinePos] = useState({ x: 50, y: 50 });
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    const x = (e.clientX - rect.left) / rect.width;
+    const y = (e.clientY - rect.top) / rect.height;
+    setRotateX((y - 0.5) * -12);
+    setRotateY((x - 0.5) * 12);
+    setShinePos({ x: x * 100, y: y * 100 });
+  };
+
+  const handleMouseLeave = () => {
+    setRotateX(0);
+    setRotateY(0);
+    setShinePos({ x: 50, y: 50 });
+  };
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 40 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ delay: index * 0.12, duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+      className="flex flex-col"
+    >
+      {/* Physical Card */}
+      <div
+        className="relative rounded-2xl overflow-hidden aspect-[1.586/1] mb-8 cursor-pointer"
+        style={{
+          perspective: "1000px",
+          transformStyle: "preserve-3d",
+        }}
+        onMouseMove={handleMouseMove}
+        onMouseLeave={handleMouseLeave}
+      >
+        <div
+          className="w-full h-full rounded-2xl relative overflow-hidden transition-transform duration-300 ease-out"
+          style={{
+            background: tier.cardGradient,
+            transform: `rotateX(${rotateX}deg) rotateY(${rotateY}deg)`,
+            boxShadow: tier.name === "Black"
+              ? "0 25px 60px -15px rgba(0,0,0,0.7), 0 0 40px -10px hsla(40,42%,42%,0.15)"
+              : "0 25px 60px -15px rgba(0,0,0,0.4)",
+          }}
+        >
+          {/* Shine / reflection */}
+          <div
+            className="absolute inset-0 pointer-events-none transition-opacity duration-300"
+            style={{
+              background: `radial-gradient(circle at ${shinePos.x}% ${shinePos.y}%, ${tier.shineColor} 0%, transparent 60%)`,
+              opacity: rotateX !== 0 || rotateY !== 0 ? 1 : 0,
+            }}
+          />
+
+          {/* Top edge light */}
+          <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-white/20 to-transparent" />
+
+          {/* Card content */}
+          <div className="relative z-10 p-7 sm:p-8 h-full flex flex-col justify-between">
+            <div className="flex items-start justify-between">
+              <p className="text-[11px] tracking-[0.4em] uppercase text-white/50 font-medium">Universal Jets</p>
+              {tier.featured && (
+                <span className="px-2.5 py-1 bg-white/10 rounded-full text-[7px] tracking-[0.2em] uppercase text-white/60 font-medium border border-white/10">
+                  Most Popular
+                </span>
+              )}
+            </div>
+
+            <div>
+              <h3 className="font-display text-3xl text-white font-semibold tracking-wide">{tier.name}</h3>
+              <p className={`text-[11px] mt-1 font-light ${tier.textAccent}`}>{tier.tagline}</p>
+            </div>
+
+            <div className="flex items-end justify-between">
+              <div className="flex items-center gap-3">
+                {/* Chip emboss */}
+                <div
+                  className="w-10 h-8 rounded-[4px] border border-white/15 relative overflow-hidden"
+                  style={{ background: "linear-gradient(145deg, hsla(40,42%,50%,0.25) 0%, hsla(40,42%,42%,0.1) 100%)" }}
+                >
+                  <div className="absolute inset-[3px] border border-white/10 rounded-[2px]" />
+                </div>
+              </div>
+              <p className="text-[8px] tracking-[0.35em] uppercase text-white/25 font-light">Private Access Network</p>
+            </div>
+          </div>
+
+          {/* Bottom edge */}
+          <div className="absolute bottom-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-white/10 to-transparent" />
+        </div>
+      </div>
+
+      {/* Benefits list below card */}
+      <div className="space-y-3 mb-6 flex-1">
+        {tier.benefits.map((benefit, j) => (
+          <div key={j} className="flex items-start gap-3">
+            <Check className="w-4 h-4 text-primary mt-0.5 flex-shrink-0" strokeWidth={1.5} />
+            <span className="text-[13px] text-foreground/65 font-light leading-[1.7]">{benefit}</span>
+          </div>
+        ))}
+      </div>
+
+      <Link
+        to="/contact"
+        className={`block text-center py-3.5 text-[10px] tracking-[0.2em] uppercase font-medium rounded-xl transition-all duration-500 ${
+          tier.featured
+            ? "bg-gradient-gold text-primary-foreground hover:shadow-[0_0_30px_-8px_hsla(40,42%,42%,0.4)]"
+            : "border border-border text-foreground/60 hover:border-primary/30 hover:text-primary"
+        }`}
+      >
+        {tier.cta}
+      </Link>
+    </motion.div>
+  );
+};
 
 const MembersPage = () => {
   return (
@@ -153,72 +265,9 @@ const MembersPage = () => {
             Membership Tiers
           </motion.p>
 
-          <div className="grid md:grid-cols-2 gap-6 max-w-5xl mx-auto">
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-6xl mx-auto">
             {tiers.map((tier, i) => (
-              <motion.div
-                key={i}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.1, duration: 0.6 }}
-                className={`relative rounded-2xl overflow-hidden transition-all duration-500 group ${
-                  tier.featured
-                    ? "shadow-[0_20px_60px_-15px_hsla(45,79%,46%,0.15)] ring-1 ring-primary/20"
-                    : "shadow-[0_8px_30px_-12px_hsla(0,0%,0%,0.08)] hover:shadow-[0_16px_40px_-12px_hsla(0,0%,0%,0.12)]"
-                } border border-border/50`}
-              >
-                {tier.featured && (
-                  <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-gold z-10" />
-                )}
-
-                {/* Card header — dark for featured tiers */}
-                <div className={`${tier.headerBg} px-8 pt-10 pb-7 relative overflow-hidden`}>
-                  {/* Subtle accent glow */}
-                  <div className={`absolute top-0 right-0 w-40 h-40 bg-gradient-to-bl ${tier.accent} rounded-full blur-3xl -translate-y-1/2 translate-x-1/4`} />
-
-                  <div className="relative z-10">
-                    {tier.featured && (
-                      <span className="inline-block px-3 py-1 bg-primary/15 text-primary text-[8px] tracking-[0.25em] uppercase font-medium rounded-full mb-5 border border-primary/20">
-                        Most Popular
-                      </span>
-                    )}
-                    <div className="flex items-center gap-3 mb-3">
-                      <div className={`w-10 h-10 rounded-xl ${tier.featured ? "bg-primary/15 border border-primary/20" : "bg-primary/[0.06] border border-border/30"} flex items-center justify-center`}>
-                        <tier.icon className={`w-5 h-5 ${tier.featured ? "text-primary" : "text-primary/50"}`} strokeWidth={1.2} />
-                      </div>
-                    </div>
-                    <h3 className={`font-display text-2xl font-semibold mb-1 ${tier.textColor}`}>
-                      {tier.name}
-                    </h3>
-                    <p className={`text-[13px] font-light ${tier.textColor === "text-white" ? "text-white/50" : "text-muted-foreground"}`}>
-                      {tier.tagline}
-                    </p>
-                  </div>
-                </div>
-
-                {/* Benefits */}
-                <div className="bg-card px-8 py-7">
-                  <div className="space-y-3 mb-8">
-                    {tier.benefits.map((benefit, j) => (
-                      <div key={j} className="flex items-start gap-3">
-                        <Check className="w-4 h-4 text-primary mt-0.5 flex-shrink-0" strokeWidth={1.5} />
-                        <span className="text-[13px] text-foreground/65 font-light leading-[1.7]">{benefit}</span>
-                      </div>
-                    ))}
-                  </div>
-
-                  <Link
-                    to="/contact"
-                    className={`block text-center py-3.5 text-[10px] tracking-[0.2em] uppercase font-medium rounded-xl transition-all duration-500 ${
-                      tier.featured
-                        ? "bg-gradient-gold text-primary-foreground hover:shadow-[0_0_30px_-8px_hsla(45,79%,46%,0.4)]"
-                        : "border border-border text-foreground/60 hover:border-primary/30 hover:text-primary"
-                    }`}
-                  >
-                    {tier.cta}
-                  </Link>
-                </div>
-              </motion.div>
+              <MembershipCard key={tier.name} tier={tier} index={i} />
             ))}
           </div>
         </div>
@@ -271,7 +320,7 @@ const MembersPage = () => {
               Share the <span className="text-gradient-gold italic">Experience</span>
             </h2>
             <p className="text-[14px] text-muted-foreground font-light max-w-lg mx-auto leading-relaxed">
-              Introduce trusted contacts to Universal Jets and earn travel credits toward your next charter.
+              Invite 3 members → Earn $1,000 in flight credit toward your next charter.
             </p>
           </motion.div>
 
@@ -294,7 +343,6 @@ const MembersPage = () => {
             ))}
           </div>
 
-          {/* Terms */}
           <motion.div
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
@@ -328,7 +376,7 @@ const MembersPage = () => {
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link
                 to="/contact"
-                className="px-10 py-3.5 bg-gradient-gold text-primary-foreground text-[10px] tracking-[0.2em] uppercase font-medium rounded-xl hover:shadow-[0_0_30px_-8px_hsla(45,79%,46%,0.4)] transition-all duration-500"
+                className="px-10 py-3.5 bg-gradient-gold text-primary-foreground text-[10px] tracking-[0.2em] uppercase font-medium rounded-xl hover:shadow-[0_0_30px_-8px_hsla(40,42%,42%,0.4)] transition-all duration-500"
               >
                 Request Invitation
               </Link>

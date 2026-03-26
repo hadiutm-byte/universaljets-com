@@ -62,7 +62,7 @@ const HeroSection = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1.2, delay: 0.5 }}
           className="text-[10px] md:text-[11px] tracking-[0.65em] uppercase text-primary mb-14 font-medium"
-          style={{ textShadow: "0 2px 20px hsla(45,79%,46%,0.4)" }}
+          style={{ textShadow: "0 2px 20px hsla(40,42%,42%,0.4)" }}
         >
           Private Aviation Redefined
         </motion.p>
@@ -83,14 +83,14 @@ const HeroSection = () => {
             className="block text-[3rem] sm:text-[4rem] md:text-[5.5rem] lg:text-[7.5rem] text-gradient-gold italic font-medium mt-2 relative"
             animate={{
               filter: [
-                "drop-shadow(0 0 0px hsla(45,79%,46%,0))",
-                "drop-shadow(0 0 28px hsla(45,79%,46%,0.18))",
-                "drop-shadow(0 0 0px hsla(45,79%,46%,0))",
+                "drop-shadow(0 0 0px hsla(40,42%,42%,0))",
+                "drop-shadow(0 0 28px hsla(40,42%,42%,0.22))",
+                "drop-shadow(0 0 0px hsla(40,42%,42%,0))",
               ],
             }}
             transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
           >
-            Perfected.
+            Without Limits.
           </motion.span>
         </motion.h1>
 
@@ -105,9 +105,7 @@ const HeroSection = () => {
             className="text-[17px] md:text-[20px] text-white font-normal leading-[1.5] tracking-[0.005em]"
             style={{ textShadow: "0 2px 24px hsla(0,0%,0%,0.7)" }}
           >
-            The entire global private jet market —
-            <br />
-            not limited to a single fleet.
+            Global access. Instant quotes. Tailored journeys.
           </p>
         </motion.div>
 

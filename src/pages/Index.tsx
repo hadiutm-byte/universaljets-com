@@ -6,6 +6,7 @@ import MembershipBanner from "@/components/MembershipBanner";
 import AuthModal from "@/components/AuthModal";
 import HeroSection from "@/components/HeroSection";
 import SearchSection from "@/components/SearchSection";
+import EventsSection from "@/components/EventsSection";
 import TrustStrip from "@/components/TrustStrip";
 import CharterSolutionsSection from "@/components/CharterSolutionsSection";
 import BeyondTheFlightSection from "@/components/BeyondTheFlightSection";
@@ -87,7 +88,14 @@ const Index = () => {
 
         <div className="divider-shimmer" />
 
-        {/* 10. Partners */}
+        {/* 10. Events / Experiences */}
+        <div className="section-white">
+          <EventsSection />
+        </div>
+
+        <div className="divider-shimmer" />
+
+        {/* 11. Partners */}
         <div className="section-white">
           <PartnersSection />
         </div>
