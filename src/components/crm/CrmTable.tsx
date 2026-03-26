@@ -63,7 +63,7 @@ export default function CrmTable<T extends { id: string }>({
               </thead>
               <tbody>
                 {data.map(row => (
-                  <tr key={row.id} className="border-b border-border/10 hover:bg-secondary/30 transition-colors">
+                  <tr key={row.id} onClick={() => onRowClick?.(row)} className={`border-b border-border/10 hover:bg-secondary/30 transition-colors ${onRowClick ? "cursor-pointer" : ""}`}>
                     {columns.map(col => (
                       <td key={col.key} className="px-4 py-3 text-[12px] text-foreground/70 font-light">
                         {col.render ? col.render(row) : (row as any)[col.key] ?? "—"}
