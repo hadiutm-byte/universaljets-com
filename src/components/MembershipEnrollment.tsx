@@ -1,8 +1,12 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Plane, UserCheck, Tag, Sparkles, CreditCard, Download, MessageCircle, Globe, Building2 } from "lucide-react";
+import { Plane, UserCheck, Tag, Sparkles, CreditCard, Download, MessageCircle } from "lucide-react";
 import { useCrmApi } from "@/hooks/useCrmApi";
 import { toast } from "sonner";
+import {
+  PremiumInput, PremiumSelect, PremiumTextarea, PremiumCheckbox,
+  FormSection, LegalConsent, PremiumSubmitButton, ConfidentialityNotice,
+} from "@/components/forms/PremiumFormComponents";
 
 const benefits = [
   { icon: Plane, text: "Priority aircraft access worldwide" },
@@ -13,11 +17,6 @@ const benefits = [
 
 const flightOptions = ["1–2", "3–10", "10+"];
 const aircraftCategories = ["Light Jet", "Midsize", "Super Midsize", "Heavy Jet", "Ultra Long Range", "No Preference"];
-
-const inputClass =
-  "w-full bg-card rounded-lg px-4 py-3.5 text-[13px] text-foreground placeholder:text-muted-foreground/60 font-light focus:outline-none focus:ring-1 focus:ring-primary/30 border border-border";
-
-const labelClass = "block text-[11px] tracking-[0.2em] uppercase text-foreground/60 mb-2.5 font-medium";
 
 const MembershipEnrollment = () => {
   const [step, setStep] = useState(1);
@@ -46,42 +45,35 @@ const MembershipEnrollment = () => {
   const [reason, setReason] = useState("");
   const [invitationCode, setInvitationCode] = useState("");
   const [termsAccepted, setTermsAccepted] = useState(false);
+  const [marketingConsent, setMarketingConsent] = useState(false);
 
   const canStep1 = name && email;
-  const canStep2 = true; // optional fields
   const canSubmit = canStep1 && termsAccepted;
 
   const handleSubmit = async () => {
     if (!canSubmit) return;
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { toast.error("Please enter a valid email"); return; }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { toast.error("Please enter a valid email address."); return; }
     setLoading(true);
     try {
       await capture({
-        name,
-        email,
-        phone: phone || undefined,
-        whatsapp: whatsapp || undefined,
-        city: city || undefined,
-        country: country || undefined,
-        nationality: nationality || undefined,
-        company: company || undefined,
-        title: title || undefined,
-        departure: city || "N/A",
-        destination: "Membership Application",
-        source: "membership_enrollment",
+        name, email,
+        phone: phone || undefined, whatsapp: whatsapp || undefined,
+        city: city || undefined, country: country || undefined,
+        nationality: nationality || undefined, company: company || undefined,
+        title: title || undefined, departure: city || "N/A",
+        destination: "Membership Application", source: "membership_enrollment",
         travel_frequency: flights || undefined,
         typical_routes: typicalRoutes ? typicalRoutes.split(",").map((r) => r.trim()) : undefined,
         passenger_count: passengerCount || undefined,
         preferred_aircraft_category: aircraftPref || undefined,
-        reason: reason || undefined,
-        invitation_code: invitationCode || undefined,
+        reason: reason || undefined, invitation_code: invitationCode || undefined,
         terms_accepted: termsAccepted,
       });
       const seq = Math.floor(1000 + Math.random() * 9000);
       setMember({ name: name.toUpperCase(), id: `5000 ${seq.toString().padStart(4, "0")}`, memberSince: String(new Date().getFullYear()) });
       toast.success("Welcome to the Universal Jets network.");
     } catch {
-      toast.error("Something went wrong. Please try again.");
+      toast.error("We were unable to process your application. Please try again or contact our team directly.");
     }
     setLoading(false);
   };
@@ -131,8 +123,7 @@ const MembershipEnrollment = () => {
                 {/* Multi-step Form */}
                 <div className="lg:col-span-3">
                   <motion.div initial={{ opacity: 0, x: 15 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ duration: 0.7, delay: 0.2 }}
-                    className="rounded-2xl border border-border bg-card p-8 md:p-10 shadow-sm"
-                  >
+                    className="rounded-2xl border border-foreground/[0.06] bg-muted/20 p-8 md:p-10 shadow-sm">
                     {/* Progress */}
                     <div className="flex gap-1 mb-6">
                       {[1, 2, 3].map((s) => (
@@ -143,81 +134,78 @@ const MembershipEnrollment = () => {
                     <AnimatePresence mode="wait">
                       {step === 1 && (
                         <motion.div key="s1" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} className="space-y-4">
-                          <p className="text-[10px] tracking-[0.3em] uppercase text-primary/60 font-medium mb-4">Step 1 — Your Identity</p>
-                          <div className="grid sm:grid-cols-2 gap-4">
-                            <div><label className={labelClass}>Full Name *</label><input required value={name} onChange={(e) => setName(e.target.value)} className={inputClass} placeholder="Alexander Hartwell" /></div>
-                            <div><label className={labelClass}>Email *</label><input type="email" required value={email} onChange={(e) => setEmail(e.target.value)} className={inputClass} placeholder="alex@example.com" /></div>
-                          </div>
-                          <div className="grid sm:grid-cols-2 gap-4">
-                            <div><label className={labelClass}>Phone</label><input type="tel" value={phone} onChange={(e) => setPhone(e.target.value)} className={inputClass} placeholder="+971 50 000 0000" /></div>
-                            <div><label className={labelClass}>WhatsApp</label><input type="tel" value={whatsapp} onChange={(e) => setWhatsapp(e.target.value)} className={inputClass} placeholder="+971 50 000 0000" /></div>
-                          </div>
-                          <button type="button" disabled={!canStep1} onClick={() => setStep(2)}
-                            className="w-full mt-2 py-3.5 bg-gradient-gold text-primary-foreground text-[10px] tracking-[0.25em] uppercase font-medium rounded-xl transition-all duration-500 hover:shadow-[0_0_40px_-10px_hsla(45,79%,46%,0.4)] disabled:opacity-40">
-                            Continue
-                          </button>
+                          <FormSection title="Step 1 — Your Identity">
+                            <div className="grid sm:grid-cols-2 gap-4">
+                              <PremiumInput label="Full Name" required value={name} onChange={(e) => setName(e.target.value)} placeholder="Alexander Hartwell" maxLength={100} />
+                              <PremiumInput label="Email" required type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="alex@example.com" maxLength={255} />
+                            </div>
+                            <div className="grid sm:grid-cols-2 gap-4">
+                              <PremiumInput label="Phone" type="tel" value={phone} onChange={(e) => setPhone(e.target.value)} placeholder="+971 50 000 0000" maxLength={20} />
+                              <PremiumInput label="WhatsApp" type="tel" value={whatsapp} onChange={(e) => setWhatsapp(e.target.value)} placeholder="+971 50 000 0000" maxLength={20} />
+                            </div>
+                          </FormSection>
+                          <PremiumSubmitButton disabled={!canStep1} className="mt-2">
+                            <span onClick={() => canStep1 && setStep(2)}>Continue</span>
+                          </PremiumSubmitButton>
                         </motion.div>
                       )}
 
                       {step === 2 && (
                         <motion.div key="s2" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} className="space-y-4">
-                          <p className="text-[10px] tracking-[0.3em] uppercase text-primary/60 font-medium mb-4">Step 2 — Background</p>
-                          <div className="grid sm:grid-cols-2 gap-4">
-                            <div><label className={labelClass}>City</label><input value={city} onChange={(e) => setCity(e.target.value)} className={inputClass} placeholder="Dubai" /></div>
-                            <div><label className={labelClass}>Country</label><input value={country} onChange={(e) => setCountry(e.target.value)} className={inputClass} placeholder="UAE" /></div>
-                          </div>
-                          <div><label className={labelClass}>Nationality</label><input value={nationality} onChange={(e) => setNationality(e.target.value)} className={inputClass} placeholder="British" /></div>
-                          <div className="grid sm:grid-cols-2 gap-4">
-                            <div><label className={labelClass}>Company</label><input value={company} onChange={(e) => setCompany(e.target.value)} className={inputClass} placeholder="Company name" /></div>
-                            <div><label className={labelClass}>Title / Role</label><input value={title} onChange={(e) => setTitle(e.target.value)} className={inputClass} placeholder="CEO, Founder, etc." /></div>
-                          </div>
+                          <FormSection title="Step 2 — Background">
+                            <div className="grid sm:grid-cols-2 gap-4">
+                              <PremiumInput label="City" value={city} onChange={(e) => setCity(e.target.value)} placeholder="Dubai" maxLength={100} />
+                              <PremiumInput label="Country" value={country} onChange={(e) => setCountry(e.target.value)} placeholder="UAE" maxLength={100} />
+                            </div>
+                            <PremiumInput label="Nationality" value={nationality} onChange={(e) => setNationality(e.target.value)} placeholder="British" maxLength={100} />
+                            <div className="grid sm:grid-cols-2 gap-4">
+                              <PremiumInput label="Company" value={company} onChange={(e) => setCompany(e.target.value)} placeholder="Company name" maxLength={100} />
+                              <PremiumInput label="Title / Role" value={title} onChange={(e) => setTitle(e.target.value)} placeholder="CEO, Founder, etc." maxLength={100} />
+                            </div>
+                          </FormSection>
                           <div className="flex gap-3">
-                            <button type="button" onClick={() => setStep(1)} className="flex-1 py-3.5 border border-border text-foreground/50 text-[10px] tracking-[0.2em] uppercase font-medium rounded-xl transition-all hover:border-primary/30">Back</button>
-                            <button type="button" onClick={() => setStep(3)} className="flex-1 py-3.5 bg-gradient-gold text-primary-foreground text-[10px] tracking-[0.25em] uppercase font-medium rounded-xl transition-all duration-500 hover:shadow-[0_0_40px_-10px_hsla(45,79%,46%,0.4)]">Continue</button>
+                            <button type="button" onClick={() => setStep(1)} className="flex-1 py-3.5 border border-foreground/[0.06] text-foreground/50 text-[10px] tracking-[0.2em] uppercase font-medium rounded-lg transition-all hover:border-primary/30">Back</button>
+                            <button type="button" onClick={() => setStep(3)} className="flex-1 py-3.5 bg-gradient-gold text-primary-foreground text-[10px] tracking-[0.25em] uppercase font-medium rounded-lg transition-all duration-500 hover:shadow-[0_0_40px_-10px_hsla(45,79%,46%,0.4)] btn-luxury">Continue</button>
                           </div>
                         </motion.div>
                       )}
 
                       {step === 3 && (
                         <motion.div key="s3" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} className="space-y-4">
-                          <p className="text-[10px] tracking-[0.3em] uppercase text-primary/60 font-medium mb-4">Step 3 — Travel Profile</p>
-                          <div>
-                            <label className={labelClass}>Estimated Flights Per Year</label>
-                            <div className="grid grid-cols-3 gap-2">
-                              {flightOptions.map((opt) => (
-                                <button key={opt} type="button" onClick={() => setFlights(opt)}
-                                  className={`py-2.5 rounded-lg text-[12px] font-medium border transition-all duration-300 ${
-                                    flights === opt ? "border-primary bg-primary/10 text-primary" : "border-border bg-card text-foreground/50 hover:border-primary/30"
-                                  }`}>{opt}</button>
-                              ))}
+                          <FormSection title="Step 3 — Travel Profile">
+                            <div>
+                              <p className="text-[10px] tracking-[0.25em] uppercase font-medium mb-2.5 text-foreground/55">Estimated Flights Per Year</p>
+                              <div className="grid grid-cols-3 gap-2">
+                                {flightOptions.map((opt) => (
+                                  <button key={opt} type="button" onClick={() => setFlights(opt)}
+                                    className={`py-2.5 rounded-lg text-[12px] font-medium border transition-all duration-300 ${
+                                      flights === opt ? "border-primary bg-primary/10 text-primary" : "border-foreground/[0.06] bg-muted/40 text-foreground/50 hover:border-primary/30"
+                                    }`}>{opt}</button>
+                                ))}
+                              </div>
                             </div>
-                          </div>
-                          <div><label className={labelClass}>Typical Routes</label><input value={typicalRoutes} onChange={(e) => setTypicalRoutes(e.target.value)} className={inputClass} placeholder="Dubai → London, NYC → Miami" /></div>
-                          <div className="grid sm:grid-cols-2 gap-4">
-                            <div><label className={labelClass}>Usual Passengers</label><input value={passengerCount} onChange={(e) => setPassengerCount(e.target.value)} className={inputClass} placeholder="e.g. 2-4" /></div>
-                            <div><label className={labelClass}>Aircraft Preference</label>
-                              <select value={aircraftPref} onChange={(e) => setAircraftPref(e.target.value)} className={inputClass}>
+                            <PremiumInput label="Typical Routes" value={typicalRoutes} onChange={(e) => setTypicalRoutes(e.target.value)} placeholder="Dubai → London, NYC → Miami" />
+                            <div className="grid sm:grid-cols-2 gap-4">
+                              <PremiumInput label="Usual Passengers" value={passengerCount} onChange={(e) => setPassengerCount(e.target.value)} placeholder="e.g. 2-4" />
+                              <PremiumSelect label="Aircraft Preference" value={aircraftPref} onChange={(e) => setAircraftPref(e.target.value)}>
                                 <option value="">Select...</option>
                                 {aircraftCategories.map((c) => <option key={c} value={c}>{c}</option>)}
-                              </select>
+                              </PremiumSelect>
                             </div>
-                          </div>
-                          <div><label className={labelClass}>Why are you applying?</label><textarea value={reason} onChange={(e) => setReason(e.target.value)} rows={2} className={inputClass} placeholder="Tell us about your travel needs..." /></div>
-                          <div><label className={labelClass}>Invitation / Referral Code</label><input value={invitationCode} onChange={(e) => setInvitationCode(e.target.value)} className={inputClass} placeholder="If you have one" /></div>
-                          <label className="flex items-center gap-2.5 cursor-pointer">
-                            <input type="checkbox" checked={termsAccepted} onChange={(e) => setTermsAccepted(e.target.checked)} className="w-4 h-4 accent-primary" />
-                            <span className="text-[11px] text-foreground/50 font-light">I accept the membership terms and privacy policy *</span>
-                          </label>
+                            <PremiumTextarea label="Why Are You Applying?" value={reason} onChange={(e) => setReason(e.target.value)} rows={2} placeholder="Tell us about your travel needs..." maxLength={1000} />
+                            <PremiumInput label="Invitation / Referral Code" value={invitationCode} onChange={(e) => setInvitationCode(e.target.value)} placeholder="If you have one" maxLength={50} />
+                          </FormSection>
+
+                          <LegalConsent checked={termsAccepted} onChange={setTermsAccepted} includeMarketing marketingChecked={marketingConsent} onMarketingChange={setMarketingConsent} />
+
                           <div className="flex gap-3 pt-1">
-                            <button type="button" onClick={() => setStep(2)} className="flex-1 py-3.5 border border-border text-foreground/50 text-[10px] tracking-[0.2em] uppercase font-medium rounded-xl transition-all hover:border-primary/30">Back</button>
+                            <button type="button" onClick={() => setStep(2)} className="flex-1 py-3.5 border border-foreground/[0.06] text-foreground/50 text-[10px] tracking-[0.2em] uppercase font-medium rounded-lg transition-all hover:border-primary/30">Back</button>
                             <button type="button" disabled={!canSubmit || loading} onClick={handleSubmit}
-                              className="flex-1 py-3.5 bg-gradient-gold text-primary-foreground text-[10px] tracking-[0.25em] uppercase font-medium rounded-xl transition-all duration-500 hover:shadow-[0_0_40px_-10px_hsla(45,79%,46%,0.4)] disabled:opacity-40">
-                              {loading ? "Processing..." : "Request Invitation"}
+                              className="flex-1 py-3.5 bg-gradient-gold text-primary-foreground text-[10px] tracking-[0.25em] uppercase font-medium rounded-lg transition-all duration-500 hover:shadow-[0_0_40px_-10px_hsla(45,79%,46%,0.4)] disabled:opacity-40 btn-luxury">
+                              {loading ? "Processing…" : "Request Invitation"}
                             </button>
                           </div>
-                          <p className="text-[11px] text-muted-foreground text-center font-light pt-1">
-                            No commitment required. Your information is handled with absolute discretion.
-                          </p>
+                          <ConfidentialityNotice className="!mt-4" />
                         </motion.div>
                       )}
                     </AnimatePresence>
@@ -264,10 +252,10 @@ const MembershipEnrollment = () => {
                 <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.5 }} className="mt-10 space-y-6">
                   <p className="text-center text-[13px] text-muted-foreground font-light leading-[1.9]">A dedicated aviation advisor will contact you shortly.</p>
                   <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
-                    <button onClick={() => toast.success("Card saved to your device.")} className="flex items-center gap-2 px-8 py-3.5 border border-border text-foreground/60 hover:text-foreground text-[10px] tracking-[0.25em] uppercase font-medium rounded-lg transition-all duration-500">
+                    <button onClick={() => toast.success("Card saved to your device.")} className="flex items-center gap-2 px-8 py-3.5 border border-foreground/[0.06] text-foreground/60 hover:text-foreground text-[10px] tracking-[0.25em] uppercase font-medium rounded-lg transition-all duration-500">
                       <Download className="w-3.5 h-3.5" strokeWidth={1.3} /> Save Card
                     </button>
-                    <button onClick={() => document.dispatchEvent(new CustomEvent("open-ricky"))} className="flex items-center gap-2 px-8 py-3.5 bg-gradient-gold text-primary-foreground text-[10px] tracking-[0.25em] uppercase font-medium rounded-lg transition-all duration-500 hover:shadow-[0_0_40px_-8px_hsla(45,79%,46%,0.5)]">
+                    <button onClick={() => document.dispatchEvent(new CustomEvent("open-ricky"))} className="flex items-center gap-2 px-8 py-3.5 bg-gradient-gold text-primary-foreground text-[10px] tracking-[0.25em] uppercase font-medium rounded-lg transition-all duration-500 hover:shadow-[0_0_40px_-8px_hsla(45,79%,46%,0.5)] btn-luxury">
                       <MessageCircle className="w-3.5 h-3.5" strokeWidth={1.3} /> Contact Advisor
                     </button>
                   </div>
