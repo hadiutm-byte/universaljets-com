@@ -126,6 +126,8 @@ const App = () => (
               <Route path="leads" element={<LeadsPage />} />
               <Route path="requests" element={<RequestsPage />} />
               <Route path="quotes" element={<QuotesPage />} />
+              <Route path="quotes/:quoteId" element={<QuoteDetailPage />} />
+              <Route path="operator-requests" element={<OperatorRequestsPage />} />
               <Route path="contracts" element={<ContractsPage />} />
               <Route path="invoices" element={<InvoicesPage />} />
               <Route path="trips" element={<TripsPage />} />
