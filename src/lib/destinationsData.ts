@@ -114,8 +114,8 @@ export const destinations: Destination[] = [
     heroDesc: "The jewel of the Côte d'Azur — superyachts, casinos, and unmatched exclusivity. Monaco and the French Riviera represent the pinnacle of European luxury, with year-round demand from global UHNW clients.",
     region: "Europe",
     airports: [
-      { name: "Nice Côte d'Azur", code: "LFMN / NCE", type: "FBO & Commercial", note: "Primary airport for Monaco — 20-minute helicopter transfer to Monte-Carlo" },
-      { name: "Cannes Mandelieu", code: "LFMD", type: "Business Aviation", note: "Smaller, exclusive — popular during Cannes Film Festival & MIPIM" },
+      { name: "Nice Côte d'Azur", code: "LFMN / NCE", icao: "LFMN", type: "FBO & Commercial", note: "Primary airport for Monaco — 20-minute helicopter transfer to Monte-Carlo" },
+      { name: "Cannes Mandelieu", code: "LFMD", icao: "LFMD", type: "Business Aviation", note: "Smaller, exclusive — popular during Cannes Film Festival & MIPIM" },
     ],
     popularRoutes: [
       { from: "London", to: "Nice", time: "1h 50m", aircraft: "Light / Midsize" },
