@@ -152,9 +152,10 @@ const App = () => (
             <Route path="*" element={<NotFound />} />
           </Routes>
         </Suspense>
-        <Suspense fallback={null}>
+        {/* Ricky concierge temporarily disabled — re-enable after core platform stabilization */}
+        {/* <Suspense fallback={null}>
           <Ricky3D />
-        </Suspense>
+        </Suspense> */}
         <FloatingWhatsApp />
         <CookieConsent />
       </BrowserRouter>
