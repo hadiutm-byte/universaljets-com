@@ -69,7 +69,8 @@ describe("sanitizeAircraftForPublic", () => {
     expect(result).not.toHaveProperty("operator_name");
     expect(result).not.toHaveProperty("aircraft_identifier");
     expect(result).not.toHaveProperty("operator");
-    expect(result.certified).toBe(true);
+    // certified is extracted from operator.certified
+    expect((result as any).certified).toBe(true);
     expect(result.name).toBe("Citation XLS+");
   });
 
