@@ -11,6 +11,7 @@ import AircraftGallery from "@/components/AircraftGallery";
 import { toast } from "sonner";
 import MembershipUpsell from "@/components/MembershipUpsell";
 import { getAircraftImage, getAircraftCategory } from "@/lib/aircraftImages";
+import { sanitizeAircraftName, sanitizeAircraftImages } from "@/lib/sanitize";
 import { trackQuoteRequest, trackWhatsAppClick } from "@/lib/gtmEvents";
 import AIRPORT_COORDS from "@/lib/airportCoords";
 import {
