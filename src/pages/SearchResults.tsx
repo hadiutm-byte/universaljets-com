@@ -280,13 +280,21 @@ const SearchResults = () => {
                       {/* Price row — always visible */}
                       <div className="mb-4 pb-3 border-b border-border/40">
                         <div className="flex items-center justify-between">
-                          <span className={`font-display text-[15px] font-semibold ${
-                            pricing.variant === "exact" ? "text-primary" :
-                            pricing.variant === "estimate" ? "text-foreground" :
-                            "text-muted-foreground"
-                          }`}>
-                            {pricing.display}
-                          </span>
+                          <div>
+                            <span className={`font-display text-[16px] font-semibold ${
+                              pricing.variant === "exact" ? "text-primary" :
+                              pricing.variant === "estimate" ? "text-foreground" :
+                              "text-muted-foreground"
+                            }`}>
+                              {pricing.display}
+                            </span>
+                            {pricing.variant === "estimate" && (
+                              <p className="text-[9px] text-primary/40 font-medium mt-0.5 tracking-[0.05em]">Indicative range · Quote to confirm</p>
+                            )}
+                            {pricing.variant === "request" && (
+                              <p className="text-[9px] text-muted-foreground/50 mt-0.5">Contact our team for pricing</p>
+                            )}
+                          </div>
                           {flightTimeMin && (
                             <span className="flex items-center gap-1 text-[11px] text-muted-foreground font-light">
                               <Clock size={11} className="text-primary/60" />
@@ -294,9 +302,6 @@ const SearchResults = () => {
                             </span>
                           )}
                         </div>
-                        {pricing.variant === "estimate" && (
-                          <p className="text-[9px] text-muted-foreground/60 mt-0.5">Market estimate • Final price on confirmation</p>
-                        )}
                       </div>
 
                       {/* Specs row */}
