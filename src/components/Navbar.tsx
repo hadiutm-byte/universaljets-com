@@ -75,6 +75,25 @@ const Navbar = () => {
   const showCrmLink = !!user && !loading && CRM_ROLES.some((role) => roles.includes(role));
   const menuLinks = showCrmLink ? [...overlayLinks, { label: "CRM", href: "/crm" }] : overlayLinks;
 
+  // Logo micro-interaction: subtle parallax on cursor
+  const logoRef = useRef<HTMLAnchorElement>(null);
+  const mouseX = useMotionValue(0);
+  const mouseY = useMotionValue(0);
+  const logoX = useSpring(useTransform(mouseX, [-200, 200], [1.5, -1.5]), { stiffness: 150, damping: 25 });
+  const logoY = useSpring(useTransform(mouseY, [-200, 200], [1, -1]), { stiffness: 150, damping: 25 });
+
+  const handleLogoMouseMove = (e: React.MouseEvent) => {
+    if (!logoRef.current) return;
+    const rect = logoRef.current.getBoundingClientRect();
+    mouseX.set(e.clientX - rect.left - rect.width / 2);
+    mouseY.set(e.clientY - rect.top - rect.height / 2);
+  };
+  const handleLogoMouseLeave = () => {
+    mouseX.set(0);
+    mouseY.set(0);
+  };
+  const menuLinks = showCrmLink ? [...overlayLinks, { label: "CRM", href: "/crm" }] : overlayLinks;
+
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 80);
     window.addEventListener("scroll", onScroll);
