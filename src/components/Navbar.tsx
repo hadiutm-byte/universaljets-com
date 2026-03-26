@@ -57,7 +57,6 @@ const Navbar = () => {
     setOverlayOpen(false);
     if (href.startsWith("/#") && isHome) {
       const id = href.replace("/#", "");
-      // Scroll to top first, then smooth-scroll to target
       window.scrollTo({ top: 0, behavior: "instant" });
       requestAnimationFrame(() => {
         setTimeout(() => {
@@ -96,27 +95,28 @@ const Navbar = () => {
 
   return (
     <>
+      {/* Navbar — solid dark when scrolled, subtle dark glass at top */}
       <motion.nav
         initial={{ opacity: 0, y: -12 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 1, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
-        className={`fixed top-9 left-0 right-0 z-50 transition-all duration-700 ${
-          scrolled ? "py-3 shadow-sm" : "bg-transparent py-5"
-        }`}
+        className="fixed top-9 left-0 right-0 z-50 transition-all duration-500"
         style={
           scrolled
             ? {
-                background: "hsla(0, 0%, 100%, 0.92)",
-                backdropFilter: "blur(20px)",
-                WebkitBackdropFilter: "blur(20px)",
-                borderBottom: "1px solid hsla(0, 0%, 0%, 0.05)",
+                background: "hsl(220, 10%, 8%)",
+                borderBottom: "1px solid hsla(45, 79%, 46%, 0.08)",
+                padding: "12px 0",
               }
-            : undefined
+            : {
+                background: "hsla(220, 10%, 8%, 0.6)",
+                padding: "20px 0",
+              }
         }
       >
         <div className="container mx-auto flex items-center justify-between px-6 lg:px-8">
           <Link to="/" className="group font-display text-[13px] md:text-[15px] tracking-[0.45em] uppercase select-none font-light flex-shrink-0 transition-all duration-500 hover:drop-shadow-[0_0_12px_hsla(45,79%,46%,0.3)]">
-            <span className={scrolled ? "text-foreground/90" : "text-white/90"}>Universal</span>
+            <span className="text-white/90">Universal</span>
             <span className="text-gradient-gold ml-1.5 font-normal">Jets</span>
           </Link>
 
@@ -125,7 +125,7 @@ const Navbar = () => {
               <NavLink
                 key={l.label}
                 href={l.href}
-                className={`text-[10px] tracking-[0.22em] hover:text-primary transition-colors duration-500 uppercase font-light relative group whitespace-nowrap ${scrolled ? "text-foreground/50" : "text-white/50"}`}
+                className="text-[10px] tracking-[0.22em] text-white/40 hover:text-primary transition-colors duration-500 uppercase font-light relative group whitespace-nowrap"
               >
                 {l.label}
                 <span className="absolute -bottom-1 left-0 w-0 h-[0.5px] bg-primary/60 group-hover:w-full transition-all duration-500" />
@@ -137,11 +137,7 @@ const Navbar = () => {
             {showCrmLink && (
               <Link
                 to="/crm"
-                className={`inline-flex items-center rounded-xl border px-3 py-2 text-[10px] tracking-[0.22em] uppercase font-medium transition-all duration-500 ${
-                  scrolled
-                    ? "border-primary/20 bg-background/80 text-foreground/80 hover:border-primary/40 hover:text-primary"
-                    : "border-white/15 bg-background/10 text-white/80 hover:border-primary/40 hover:text-primary"
-                }`}
+                className="inline-flex items-center rounded-xl border border-white/15 bg-white/5 px-3 py-2 text-[10px] tracking-[0.22em] uppercase font-medium text-white/80 hover:border-primary/40 hover:text-primary transition-all duration-500"
               >
                 CRM
               </Link>
@@ -149,7 +145,7 @@ const Navbar = () => {
 
             <Link
               to="/auth"
-              className={`hidden xl:inline-block text-[10px] tracking-[0.2em] hover:text-primary/70 transition-colors duration-500 uppercase font-light ${scrolled ? "text-foreground/40" : "text-white/40"}`}
+              className="hidden xl:inline-block text-[10px] tracking-[0.2em] text-white/35 hover:text-primary/70 transition-colors duration-500 uppercase font-light"
             >
               Members Login
             </Link>
@@ -163,7 +159,7 @@ const Navbar = () => {
 
             <button
               onClick={() => setOverlayOpen(!overlayOpen)}
-              className="relative w-10 h-10 flex items-center justify-center transition-colors duration-300 text-foreground/60 hover:text-foreground"
+              className="relative w-10 h-10 flex items-center justify-center transition-colors duration-300 text-white/60 hover:text-white"
               aria-label="Menu"
             >
               <AnimatePresence mode="wait">
@@ -182,6 +178,7 @@ const Navbar = () => {
         </div>
       </motion.nav>
 
+      {/* Full-screen overlay menu */}
       <AnimatePresence>
         {overlayOpen && (
           <motion.div
@@ -189,15 +186,16 @@ const Navbar = () => {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-            className="fixed inset-0 z-[45] flex"
+            className="fixed inset-0 z-[55] flex"
           >
+            {/* Solid dark background — no stacking transparency */}
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.4 }}
-              className="absolute inset-0 backdrop-blur-2xl"
-              style={{ background: "hsla(0, 0%, 100%, 0.97)" }}
+              className="absolute inset-0"
+              style={{ background: "hsl(220, 10%, 6%)" }}
             />
 
             <div className="relative z-10 w-full h-full flex flex-col items-center justify-center px-8">
@@ -219,7 +217,7 @@ const Navbar = () => {
                   >
                     <NavLink
                       href={l.href}
-                      className="block py-2.5 text-[15px] md:text-[18px] tracking-[0.25em] text-foreground/40 hover:text-foreground transition-all duration-500 uppercase font-extralight relative group"
+                      className="block py-2.5 text-[15px] md:text-[18px] tracking-[0.25em] text-white/40 hover:text-white transition-all duration-500 uppercase font-extralight relative group"
                     >
                       {l.label}
                       <span className="absolute -bottom-0.5 left-1/2 -translate-x-1/2 w-0 h-[0.5px] bg-primary/50 group-hover:w-full transition-all duration-500" />
@@ -238,7 +236,7 @@ const Navbar = () => {
                 <Link
                   to="/auth"
                   onClick={() => setOverlayOpen(false)}
-                  className="text-[10px] tracking-[0.3em] text-muted-foreground hover:text-primary/70 uppercase font-extralight transition-colors duration-500"
+                  className="text-[10px] tracking-[0.3em] text-white/30 hover:text-primary/70 uppercase font-extralight transition-colors duration-500"
                 >
                   Members Login
                 </Link>
@@ -250,7 +248,8 @@ const Navbar = () => {
                 </NavLink>
               </motion.div>
 
-              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-[radial-gradient(circle,_hsla(45,79%,46%,0.03)_0%,_transparent_70%)] pointer-events-none" />
+              {/* Subtle ambient glow — single layer, no stacking */}
+              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-[radial-gradient(circle,_hsla(45,79%,46%,0.04)_0%,_transparent_70%)] pointer-events-none" />
             </div>
           </motion.div>
         )}
