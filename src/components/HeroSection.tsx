@@ -98,22 +98,16 @@ const HeroSection = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1.2, delay: 0.95 }}
-          className="max-w-lg mx-auto mb-18"
-          style={{ marginBottom: "4.5rem" }}
+          className="max-w-lg mx-auto"
+          style={{ marginBottom: "4rem", marginTop: "-0.5rem" }}
         >
           <p
-            className="text-[16px] md:text-[18px] text-white/80 font-normal leading-[1.85] tracking-[0.02em] mb-4"
-            style={{ textShadow: "0 2px 16px hsla(0,0%,0%,0.5)" }}
+            className="text-[17px] md:text-[20px] text-white/90 font-normal leading-[1.55] tracking-[0.01em]"
+            style={{ textShadow: "0 2px 20px hsla(0,0%,0%,0.6)" }}
           >
             Access the entire global private jet market —
             <br />
             not limited to a single fleet.
-          </p>
-          <p
-            className="text-[13px] md:text-[15px] text-white/45 font-light leading-[1.9] tracking-[0.025em]"
-            style={{ textShadow: "0 2px 8px hsla(0,0%,0%,0.4)" }}
-          >
-            Better aircraft. Better pricing. Total flexibility.
           </p>
         </motion.div>
 
