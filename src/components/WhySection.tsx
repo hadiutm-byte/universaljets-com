@@ -20,7 +20,7 @@ const WhySection = () => (
         transition={{ duration: 0.8 }}
         className="text-center mb-8"
       >
-        <p className="text-[9px] tracking-[0.5em] uppercase text-primary/60 mb-6 font-light">The Difference</p>
+        <p className="text-[9px] tracking-[0.5em] uppercase text-primary/70 mb-6 font-light">The Difference</p>
         <h2 className="text-3xl md:text-5xl lg:text-6xl font-display font-semibold text-foreground mb-4">
           Why Clients{" "}
           <span className="text-gradient-gold italic">Never</span>{" "}
@@ -33,7 +33,7 @@ const WhySection = () => (
         whileInView={{ opacity: 1 }}
         viewport={{ once: true }}
         transition={{ duration: 0.8, delay: 0.2 }}
-        className="text-[12px] text-foreground/35 font-extralight leading-[2] max-w-md mx-auto text-center mb-20"
+        className="text-[13px] text-foreground/50 font-light leading-[2] max-w-md mx-auto text-center mb-20"
       >
         The smartest travellers don't book direct. Here's why.
       </motion.p>
@@ -49,11 +49,11 @@ const WhySection = () => (
             className="flex gap-6 group"
           >
             <div className="flex-shrink-0 w-12 h-12 rounded-full luxury-border flex items-center justify-center group-hover:glow-subtle transition-all duration-700 mt-1">
-              <p.icon className="w-5 h-5 text-primary/60" strokeWidth={1.2} />
+              <p.icon className="w-5 h-5 text-primary/70" strokeWidth={1.2} />
             </div>
             <div>
               <h3 className="font-display text-lg mb-2 text-foreground">{p.title}</h3>
-              <p className="text-[12px] text-foreground/40 font-extralight leading-[2]">{p.desc}</p>
+              <p className="text-[13px] text-foreground/55 font-light leading-[2]">{p.desc}</p>
             </div>
           </motion.div>
         ))}
