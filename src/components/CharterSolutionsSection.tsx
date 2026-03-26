@@ -42,14 +42,14 @@ const charterCategories = [
 ];
 
 const cardVariants = {
-  hidden: { opacity: 0, y: 40, scale: 0.97 },
+  hidden: { opacity: 0, y: 36, scale: 0.98 },
   visible: (i: number) => ({
     opacity: 1,
     y: 0,
     scale: 1,
     transition: {
-      delay: i * 0.12,
-      duration: 0.7,
+      delay: i * 0.1,
+      duration: 0.8,
       ease: [0.16, 1, 0.3, 1] as const,
     },
   }),
