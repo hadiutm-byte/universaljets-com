@@ -101,7 +101,7 @@ const QuoteRequestModal = ({ open, onClose, flightData }: QuoteRequestModalProps
 
   // Route calculations for pricing estimate
   const routeInfo = useMemo(() => {
-    if (!fromAirport?.lat || !toAirport?.lat) return null;
+    if (fromAirport?.lat == null || toAirport?.lat == null) return null;
     const distanceNm = greatCircleDistanceNm(fromAirport.lat, fromAirport.lng, toAirport.lat, toAirport.lng);
     const flightTimeMin = estimateFlightTimeMin(distanceNm);
     // Determine class from aircraft name if available
