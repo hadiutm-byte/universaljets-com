@@ -7,6 +7,9 @@ import { useCrmApi } from "@/hooks/useCrmApi";
 import { useShareCard } from "@/hooks/useShareCard";
 import AircraftGallery from "@/components/AircraftGallery";
 import MembershipUpsell from "@/components/MembershipUpsell";
+import QuoteRouteMap from "@/components/QuoteRouteMap";
+import type { Airport } from "@/hooks/useAviapages";
+import AIRPORT_COORDS from "@/lib/airportCoords";
 
 interface EmptyLegPopupProps {
   leg: EmptyLeg | null;
@@ -37,6 +40,20 @@ const EmptyLegPopup = ({ leg, onClose }: EmptyLegPopupProps) => {
   const galleryImages = leg.aircraft_images?.length ? leg.aircraft_images : [{ url: image, type: "exterior" }];
 
   const shareData = { fromCode, fromCity, toCode, toCity, date, price: priceLabel, aircraftType: leg.aircraft_type || "Private Jet", category };
+
+  // Build airport objects for the route map
+  const fromAirport: Airport | null = (() => {
+    const icao = leg.departure?.icao || "";
+    const coords = AIRPORT_COORDS[icao] || (leg.departure?.lat != null && leg.departure?.lng != null ? [leg.departure.lat, leg.departure.lng] : null);
+    if (!coords) return null;
+    return { id: 0, icao, iata: leg.departure?.iata || "", name: leg.departure?.name || "", city: fromCity, country: leg.departure?.country || "", lat: coords[0], lng: coords[1] };
+  })();
+  const toAirport: Airport | null = (() => {
+    const icao = leg.arrival?.icao || "";
+    const coords = AIRPORT_COORDS[icao] || (leg.arrival?.lat != null && leg.arrival?.lng != null ? [leg.arrival.lat, leg.arrival.lng] : null);
+    if (!coords) return null;
+    return { id: 0, icao, iata: leg.arrival?.iata || "", name: leg.arrival?.name || "", city: toCity, country: leg.arrival?.country || "", lat: coords[0], lng: coords[1] };
+  })();
 
   const handleSubmitRequest = async () => {
     if (!form.name.trim() || !form.email.includes("@")) return;
@@ -95,6 +112,13 @@ const EmptyLegPopup = ({ leg, onClose }: EmptyLegPopupProps) => {
               <p className="text-white text-[15px] font-display font-semibold drop-shadow-lg">{leg.aircraft_type}</p>
             </div>
           </div>
+
+          {/* Interactive route map */}
+          {fromAirport && toAirport && (
+            <div className="mx-3 mt-3 rounded-xl overflow-hidden border border-border/30">
+              <QuoteRouteMap from={fromAirport} to={toAirport} className="h-32" />
+            </div>
+          )}
 
           <div className="p-5">
             {/* Route */}
