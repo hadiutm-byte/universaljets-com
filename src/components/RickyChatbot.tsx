@@ -119,7 +119,7 @@ const RickyChatbot = () => {
                 animate={{ opacity: 1, y: 0, scale: 1 }}
                 exit={{ opacity: 0, y: 20, scale: 0.95 }}
                 transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
-                className="fixed bottom-6 right-6 z-50 w-[360px] max-w-[calc(100vw-2rem)] h-[520px] max-h-[calc(100vh-3rem)] flex flex-col rounded-2xl overflow-hidden border border-gold/10 shadow-[0_0_50px_-12px_hsla(45,79%,46%,0.2)]"
+                className="fixed bottom-6 right-6 z-[45] w-[360px] max-w-[calc(100vw-2rem)] h-[520px] max-h-[calc(100vh-3rem)] flex flex-col rounded-2xl overflow-hidden border border-gold/10 shadow-[0_0_50px_-12px_hsla(45,79%,46%,0.2)]"
                 style={{ background: "hsl(228 22% 8% / 0.97)", backdropFilter: "blur(20px)" }}
               >
                 {/* Header */}
