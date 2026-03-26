@@ -136,7 +136,7 @@ const MembershipHero = ({ onRequestInvitation, onSpeakToAdvisor }: MembershipHer
               <div className="w-11 h-11 rounded-full border border-white/[0.06] bg-white/[0.02] flex items-center justify-center mx-auto mb-4">
                 <p.icon className="w-4 h-4 text-[hsl(43,74%,49%,0.5)]" strokeWidth={1.2} />
               </div>
-              <p className="text-[11px] text-white/40 font-light tracking-wide">{p.text}</p>
+              <p className="text-[11px] text-white/55 font-light tracking-wide">{p.text}</p>
             </motion.div>
           ))}
         </motion.div>
