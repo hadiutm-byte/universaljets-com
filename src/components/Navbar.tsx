@@ -92,7 +92,6 @@ const Navbar = () => {
     mouseX.set(0);
     mouseY.set(0);
   };
-  const menuLinks = showCrmLink ? [...overlayLinks, { label: "CRM", href: "/crm" }] : overlayLinks;
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 80);
