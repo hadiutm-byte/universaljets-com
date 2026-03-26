@@ -45,7 +45,7 @@ const MembershipHero = ({ onRequestInvitation, onSpeakToAdvisor }: MembershipHer
     />
 
     {/* Noise */}
-    <div className="absolute inset-0 opacity-[0.03]" style={{ backgroundImage: "url('/placeholder.svg')" }} />
+    <div className="absolute inset-0 opacity-[0.03]" style={{ backgroundImage: "url('data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22n%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.65%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23n)%22/%3E%3C/svg%3E')" }} />
 
     {/* Top shimmer line */}
     <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-[hsl(45,79%,46%,0.2)] to-transparent" />
