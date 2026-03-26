@@ -13,11 +13,11 @@ const HowItWorksSection = () => (
     <div className="grid-overlay" />
 
     <div className="container mx-auto px-8 relative z-10">
-      <FadeReveal className="text-center mb-20">
-        <p className="text-[11px] tracking-[0.5em] uppercase text-primary mb-6 font-medium">
+      <FadeReveal className="text-center mb-24">
+        <p className="text-[10px] tracking-[0.55em] uppercase text-primary mb-7 font-medium">
           The Process
         </p>
-        <h2 className="text-3xl md:text-4xl lg:text-5xl font-display font-semibold text-foreground leading-tight">
+        <h2 className="text-3xl md:text-4xl lg:text-5xl font-display font-semibold text-foreground leading-tight tracking-[-0.01em]">
           How It <span className="text-gradient-gold italic">Works</span>
         </h2>
       </FadeReveal>

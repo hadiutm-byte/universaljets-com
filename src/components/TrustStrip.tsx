@@ -45,10 +45,10 @@ const TrustStrip = () => (
                 strokeWidth={1.4}
               />
               <div className="flex flex-col">
-                <span className="text-[13px] font-semibold uppercase leading-tight tracking-[1.5px] text-foreground">
+               <span className="text-[12px] font-semibold uppercase leading-tight tracking-[0.15em] text-foreground">
                   {cert.name}
                 </span>
-                <small className="text-[11px] font-light leading-snug text-muted-foreground">
+                <small className="text-[10px] font-light leading-snug text-muted-foreground tracking-[0.02em]">
                   {cert.detail}
                 </small>
               </div>
