@@ -1,6 +1,7 @@
 import { useState, useRef, useCallback, useEffect, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Plane, X, Users, ArrowRight, Share2 } from "lucide-react";
+import { Plane, X, Users, ArrowRight, Share2, Ruler } from "lucide-react";
+import AircraftGallery from "@/components/AircraftGallery";
 import mapboxgl from "mapbox-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
 import type { EmptyLeg } from "@/hooks/useAviapages";
