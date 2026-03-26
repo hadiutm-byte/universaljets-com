@@ -72,8 +72,8 @@ const CharterSolutionsSection = () => (
         initial={{ opacity: 0, y: 16 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
-        transition={{ delay: 0.05 }}
-        className="text-center font-display text-4xl md:text-5xl font-semibold text-foreground mb-4"
+        transition={{ delay: 0.05, duration: 0.9 }}
+        className="text-center font-display text-4xl md:text-5xl font-semibold text-foreground mb-5 tracking-[-0.01em]"
       >
         Seven Reasons They Call Us <em className="text-primary font-display">First</em>
       </motion.h2>
