@@ -6,6 +6,7 @@ import { getAircraftImage, getAircraftCategory } from "@/lib/aircraftImages";
 import { useCrmApi } from "@/hooks/useCrmApi";
 import { useShareCard } from "@/hooks/useShareCard";
 import AircraftGallery from "@/components/AircraftGallery";
+import MembershipUpsell from "@/components/MembershipUpsell";
 
 interface EmptyLegPopupProps {
   leg: EmptyLeg | null;
