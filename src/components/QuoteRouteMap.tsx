@@ -316,7 +316,8 @@ const QuoteRouteMap = forwardRef<HTMLDivElement, QuoteRouteMapProps>(({ from, to
       </motion.div>
     </AnimatePresence>
   );
-};
+});
+QuoteRouteMap.displayName = "QuoteRouteMap";
 
 /** Create a labeled city marker */
 function createCityMarker(code: string): HTMLDivElement {
