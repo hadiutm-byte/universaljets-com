@@ -406,7 +406,13 @@ const DestinationDetailPage = () => {
       <QuoteRequestModal
         open={quoteOpen}
         onClose={() => setQuoteOpen(false)}
-        preferredAircraft={`Destination: ${dest.name}`}
+        flightData={{
+          fromLabel: "",
+          toLabel: dest.name,
+          fromIcao: "",
+          toIcao: dest.airports[0]?.icao || "",
+          aircraft: `Destination: ${dest.name}`,
+        }}
       />
     </div>
   );
