@@ -274,14 +274,23 @@ const SearchResults = () => {
                       )}
 
                       {/* CTA */}
+                      <button
+                        onClick={() => {
+                          trackQuoteRequest({ aircraft: result.aircraft_type, from: fromLabel, to: toLabel });
+                          setQuoteModal({ open: true, aircraft: result.aircraft_type, operator: result.operator.name });
+                        }}
+                        className="block w-full text-center btn-luxury px-5 py-3 text-[9px] tracking-[0.2em] uppercase font-medium rounded-xl"
+                      >
+                        Request Quote
+                      </button>
                       <a
                         href={`https://wa.me/447888999944?text=${encodeURIComponent(`Hello, I'm interested in chartering a ${result.aircraft_type} from ${fromLabel} to ${toLabel}${date ? ` on ${date}` : ''}.`)}`}
                         target="_blank"
                         rel="noopener noreferrer"
-                        onClick={() => { trackQuoteRequest({ aircraft: result.aircraft_type, from: fromLabel, to: toLabel }); trackWhatsAppClick("quote_request"); }}
-                        className="block w-full text-center btn-luxury px-5 py-3 text-[9px] tracking-[0.2em] uppercase font-medium rounded-xl"
+                        onClick={() => trackWhatsAppClick("quote_request")}
+                        className="block w-full text-center mt-2 px-5 py-2.5 border border-border/40 text-muted-foreground hover:text-foreground text-[9px] tracking-[0.15em] uppercase font-light rounded-xl transition-colors flex items-center justify-center gap-1.5"
                       >
-                        Request Quote
+                        <MessageCircle size={10} /> Talk to Advisor
                       </a>
                     </div>
                   </motion.div>
