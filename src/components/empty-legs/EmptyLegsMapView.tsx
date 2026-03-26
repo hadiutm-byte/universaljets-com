@@ -259,7 +259,7 @@ const EmptyLegsMapView = ({ legs, selectedLeg, onLegClick, onClose, isLiveData }
             const midX = (from[0] + to[0]) / 2;
             const dist = Math.sqrt((to[0] - from[0]) ** 2 + (to[1] - from[1]) ** 2);
             const midY = Math.min(from[1], to[1]) - Math.min(dist * 0.3, 8);
-            const strokeW = isActive ? 0.4 : 0.15;
+            const strokeW = isActive ? 0.45 : 0.22;
 
             return (
               <g
@@ -270,14 +270,14 @@ const EmptyLegsMapView = ({ legs, selectedLeg, onLegClick, onClose, isLiveData }
                 onPointerEnter={() => setHoveredLeg(leg)}
                 onPointerLeave={() => setHoveredLeg(null)}
                 style={{ transition: "opacity 0.3s" }}
-                opacity={activeLeg && !isActive ? 0.25 : 1}
+                opacity={activeLeg && !isActive ? 0.15 : 1}
               >
                 {/* Glow arc for active */}
                 {isActive && (
                   <path
                     d={`M${from[0]},${from[1]} Q${midX},${midY} ${to[0]},${to[1]}`}
-                    stroke="hsla(45, 79%, 50%, 0.15)"
-                    strokeWidth={1.5}
+                    stroke="hsla(45, 79%, 50%, 0.2)"
+                    strokeWidth={2}
                     fill="none"
                     filter="url(#glowStrong)"
                   />
@@ -285,17 +285,23 @@ const EmptyLegsMapView = ({ legs, selectedLeg, onLegClick, onClose, isLiveData }
                 {/* Main arc */}
                 <path
                   d={`M${from[0]},${from[1]} Q${midX},${midY} ${to[0]},${to[1]}`}
-                  stroke={isActive ? "url(#routeGradActive)" : "url(#routeGradDefault)"}
+                  stroke={isActive ? "url(#routeGradActive)" : "hsla(45, 79%, 50%, 0.6)"}
                   strokeWidth={strokeW}
                   fill="none"
-                  strokeDasharray={isActive ? "none" : "0.6 0.35"}
+                  strokeDasharray={isActive ? "none" : "0.5 0.3"}
                 />
                 {/* Departure marker */}
-                <circle cx={from[0]} cy={from[1]} r={isActive ? 0.8 : 0.4} fill="hsl(45, 79%, 50%)" filter={isActive ? "url(#glow)" : undefined} />
-                {isActive && <circle cx={from[0]} cy={from[1]} r={1.4} fill="none" stroke="hsla(45, 79%, 50%, 0.25)" strokeWidth="0.15" />}
+                <circle cx={from[0]} cy={from[1]} r={isActive ? 0.9 : 0.5} fill="hsl(45, 79%, 55%)" filter="url(#glow)" />
+                {isActive && <circle cx={from[0]} cy={from[1]} r={1.6} fill="none" stroke="hsla(45, 79%, 50%, 0.3)" strokeWidth="0.12">
+                  <animate attributeName="r" values="1.2;1.8;1.2" dur="2.5s" repeatCount="indefinite" />
+                  <animate attributeName="opacity" values="0.4;0.1;0.4" dur="2.5s" repeatCount="indefinite" />
+                </circle>}
                 {/* Arrival marker */}
-                <circle cx={to[0]} cy={to[1]} r={isActive ? 0.8 : 0.4} fill="hsl(45, 79%, 50%)" filter={isActive ? "url(#glow)" : undefined} />
-                {isActive && <circle cx={to[0]} cy={to[1]} r={1.4} fill="none" stroke="hsla(45, 79%, 50%, 0.25)" strokeWidth="0.15" />}
+                <circle cx={to[0]} cy={to[1]} r={isActive ? 0.9 : 0.5} fill="hsl(45, 79%, 55%)" filter="url(#glow)" />
+                {isActive && <circle cx={to[0]} cy={to[1]} r={1.6} fill="none" stroke="hsla(45, 79%, 50%, 0.3)" strokeWidth="0.12">
+                  <animate attributeName="r" values="1.2;1.8;1.2" dur="2.5s" repeatCount="indefinite" />
+                  <animate attributeName="opacity" values="0.4;0.1;0.4" dur="2.5s" repeatCount="indefinite" />
+                </circle>}
                 {/* City labels on active */}
                 {isSelected && (
                   <>
