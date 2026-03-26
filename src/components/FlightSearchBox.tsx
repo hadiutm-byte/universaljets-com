@@ -150,7 +150,7 @@ const FlightSearchBox = () => {
               onClick={() => setTripType(tab.value)}
               className={`relative px-6 py-2.5 text-[10px] tracking-[0.22em] uppercase font-semibold rounded-full transition-all duration-500 cursor-pointer ${
                 tripType === tab.value
-                  ? "bg-gradient-gold text-white shadow-[0_4px_16px_-4px_hsla(45,79%,46%,0.3)]"
+                  ? "bg-[hsl(var(--selection))] text-[hsl(var(--selection-foreground))] shadow-[0_4px_16px_-4px_hsla(0,0%,0%,0.2)]"
                   : "text-foreground/45 hover:text-foreground/75 border border-transparent"
               }`}
             >
