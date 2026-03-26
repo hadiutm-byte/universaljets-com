@@ -1,4 +1,5 @@
 import { useEffect, useState, useCallback } from "react";
+import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
 import CrmTable from "@/components/crm/CrmTable";
@@ -12,6 +13,7 @@ type QuoteStatus = Database["public"]["Enums"]["quote_status"];
 const STATUSES: QuoteStatus[] = ["draft", "sent", "accepted", "rejected", "expired"];
 
 const QuotesPage = () => {
+  const navigate = useNavigate();
   const [data, setData] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [formOpen, setFormOpen] = useState(false);
@@ -83,6 +85,7 @@ const QuotesPage = () => {
       <CrmTable title="Quotes"
         columns={columns}
         data={data} loading={loading} onAdd={() => openForm()} onEdit={openForm} onDelete={handleDelete}
+        onRowClick={(row: any) => navigate(`/crm/quotes/${row.id}`)}
       />
       <Dialog open={formOpen} onOpenChange={setFormOpen}>
         <DialogContent className="bg-card border-border/30 max-w-md">

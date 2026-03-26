@@ -1,4 +1,5 @@
 import { useEffect, useState, useCallback } from "react";
+import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
 import CrmTable from "@/components/crm/CrmTable";
@@ -11,6 +12,7 @@ type TripStatus = Database["public"]["Enums"]["trip_status"];
 const STATUSES: TripStatus[] = ["scheduled", "in_progress", "completed", "cancelled"];
 
 const TripsPage = () => {
+  const navigate = useNavigate();
   const [data, setData] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [formOpen, setFormOpen] = useState(false);
@@ -84,6 +86,7 @@ const TripsPage = () => {
         onAdd={canManage ? () => openForm() : undefined}
         onEdit={canManage ? openForm : undefined}
         onDelete={canManage ? handleDelete : undefined}
+        onRowClick={(row: any) => navigate(`/crm/trips/${row.id}`)}
       />
       {!canManage && (
         <p className="text-[10px] text-muted-foreground/30 font-light mt-2 text-center">

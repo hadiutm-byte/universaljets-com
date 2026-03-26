@@ -883,6 +883,78 @@ export type Database = {
           },
         ]
       }
+      operator_requests: {
+        Row: {
+          aircraft_identifier: string | null
+          aircraft_type: string | null
+          created_at: string
+          created_by: string | null
+          id: string
+          notes: string | null
+          offered_currency: string | null
+          offered_price: number | null
+          operator_name: string
+          quote_id: string | null
+          request_id: string | null
+          requested_at: string | null
+          responded_at: string | null
+          response_expiry: string | null
+          status: Database["public"]["Enums"]["operator_request_status"]
+          updated_at: string | null
+        }
+        Insert: {
+          aircraft_identifier?: string | null
+          aircraft_type?: string | null
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          notes?: string | null
+          offered_currency?: string | null
+          offered_price?: number | null
+          operator_name: string
+          quote_id?: string | null
+          request_id?: string | null
+          requested_at?: string | null
+          responded_at?: string | null
+          response_expiry?: string | null
+          status?: Database["public"]["Enums"]["operator_request_status"]
+          updated_at?: string | null
+        }
+        Update: {
+          aircraft_identifier?: string | null
+          aircraft_type?: string | null
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          notes?: string | null
+          offered_currency?: string | null
+          offered_price?: number | null
+          operator_name?: string
+          quote_id?: string | null
+          request_id?: string | null
+          requested_at?: string | null
+          responded_at?: string | null
+          response_expiry?: string | null
+          status?: Database["public"]["Enums"]["operator_request_status"]
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "operator_requests_quote_id_fkey"
+            columns: ["quote_id"]
+            isOneToOne: false
+            referencedRelation: "quotes"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "operator_requests_request_id_fkey"
+            columns: ["request_id"]
+            isOneToOne: false
+            referencedRelation: "flight_requests"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       outreach_templates: {
         Row: {
           body: string
@@ -1392,6 +1464,13 @@ export type Database = {
         | "negotiation"
         | "confirmed"
         | "lost"
+      operator_request_status:
+        | "draft"
+        | "requested"
+        | "pending"
+        | "accepted"
+        | "rejected"
+        | "expired"
       quote_status: "draft" | "sent" | "accepted" | "rejected" | "expired"
       request_status: "pending" | "quoted" | "confirmed" | "cancelled"
       trip_status: "scheduled" | "in_progress" | "completed" | "cancelled"
@@ -1541,6 +1620,14 @@ export const Constants = {
         "negotiation",
         "confirmed",
         "lost",
+      ],
+      operator_request_status: [
+        "draft",
+        "requested",
+        "pending",
+        "accepted",
+        "rejected",
+        "expired",
       ],
       quote_status: ["draft", "sent", "accepted", "rejected", "expired"],
       request_status: ["pending", "quoted", "confirmed", "cancelled"],

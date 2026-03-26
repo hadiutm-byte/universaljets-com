@@ -62,6 +62,10 @@ const BDDashboardPage = lazy(() => import("./pages/crm/BDDashboardPage.tsx"));
 const BDDetailPage = lazy(() => import("./pages/crm/BDDetailPage.tsx"));
 const InternalSearchPage = lazy(() => import("./pages/crm/InternalSearchPage.tsx"));
 const CareersPage = lazy(() => import("./pages/CareersPage.tsx"));
+const OperatorRequestsPage = lazy(() => import("./pages/crm/OperatorRequestsPage.tsx"));
+const QuoteDetailPage = lazy(() => import("./pages/crm/QuoteDetailPage.tsx"));
+const OpsDetailPage = lazy(() => import("./pages/crm/OpsDetailPage.tsx"));
+const QuoteViewPage = lazy(() => import("./pages/QuoteViewPage.tsx"));
 const ContactPage = lazy(() => import("./pages/ContactPage.tsx"));
 const ConciergePage = lazy(() => import("./pages/ConciergePage.tsx"));
 const CharterPage = lazy(() => import("./pages/CharterPage.tsx"));
@@ -122,9 +126,12 @@ const App = () => (
               <Route path="leads" element={<LeadsPage />} />
               <Route path="requests" element={<RequestsPage />} />
               <Route path="quotes" element={<QuotesPage />} />
+              <Route path="quotes/:quoteId" element={<QuoteDetailPage />} />
+              <Route path="operator-requests" element={<OperatorRequestsPage />} />
               <Route path="contracts" element={<ContractsPage />} />
               <Route path="invoices" element={<InvoicesPage />} />
               <Route path="trips" element={<TripsPage />} />
+              <Route path="trips/:tripId" element={<OpsDetailPage />} />
               <Route path="outreach" element={<OutreachPage />} />
               <Route path="membership" element={<MembershipPipelinePage />} />
               <Route path="referrals" element={<ReferralsPage />} />
@@ -155,6 +162,7 @@ const App = () => (
             <Route path="/aircraft" element={<AircraftGuidePage />} />
             <Route path="/fleet" element={<FleetPage />} />
             <Route path="/fleet/:slug" element={<FleetDetailPage />} />
+            <Route path="/quote/:quoteId" element={<QuoteViewPage />} />
             <Route path="/unsubscribe" element={<UnsubscribePage />} />
             
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
