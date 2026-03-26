@@ -1,31 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
-import { sanitizeAircraftForPublic } from "@/lib/sanitize";
+import { normalizeFleetAircraft, type NormalizedFleetAircraft } from "@/lib/aviapagesNormalizer";
 
-export interface FleetAircraft {
-  id: number;
-  name: string;
-  slug: string;
-  icao: string;
-  class_name: string;
-  class_id: number | null;
-  manufacturer: string;
-  range_km: number | null;
-  max_pax: number | null;
-  speed_kmh: number | null;
-  altitude_m: number | null;
-  cabin_height_m: number | null;
-  cabin_length_m: number | null;
-  cabin_width_m: number | null;
-  luggage_volume_m3: number | null;
-  engine_type: string | null;
-  engine_count: number | null;
-  image_url: string | null;
-  floor_plan_url: string | null;
-  images: { url: string; type: string; position: number }[];
-  description: string | null;
-  range_ferry_km: number | null;
-  range_typical_km: number | null;
-}
+export type FleetAircraft = NormalizedFleetAircraft;
 
 /** Class IDs & keywords to exclude non-jet aircraft */
 const EXCLUDED_CLASS_IDS = new Set([3, 4, 5, 9, 10, 11, 14]);
@@ -60,10 +36,9 @@ export function useFleetAircraft(classId?: string) {
 
       if (!response.ok) throw new Error("Failed to fetch fleet data");
       const result = await response.json();
-      const all: FleetAircraft[] = (result.results || []).map((ac: FleetAircraft) => ({
-        ...ac,
-        ...sanitizeAircraftForPublic(ac as unknown as Record<string, unknown>),
-      } as FleetAircraft));
+      const all: FleetAircraft[] = (result.results || []).map(
+        (ac: Record<string, unknown>) => normalizeFleetAircraft(ac)
+      );
       return { count: result.count || 0, results: all.filter(isJetAircraft) };
     },
     staleTime: 30 * 60 * 1000,
@@ -89,11 +64,7 @@ export function useFleetAircraftBySlug(slug: string | undefined) {
 
       if (!response.ok) throw new Error("Aircraft not found");
       const data = await response.json();
-      const ac = data.result as FleetAircraft;
-      return {
-        ...ac,
-        ...sanitizeAircraftForPublic(ac as unknown as Record<string, unknown>),
-      } as FleetAircraft;
+      return normalizeFleetAircraft(data.result as Record<string, unknown>);
     },
     enabled: !!slug,
     staleTime: 60 * 60 * 1000,

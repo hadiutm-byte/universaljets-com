@@ -28,9 +28,9 @@ const LiveMarketSection = () => {
   const routes = useMemo(() => {
     if (!data?.results?.length) return fallbackRoutes;
     return data.results
-      .filter((leg) => leg.departure && leg.arrival)
+      .filter((leg: EmptyLeg) => leg.departure && leg.arrival)
       .slice(0, 6)
-      .map((leg) => {
+      .map((leg: EmptyLeg) => {
         const { status, statusColor, urgency } = formatLegStatus(leg);
         const from = leg.departure!.city || leg.departure!.name;
         const to = leg.arrival!.city || leg.arrival!.name;

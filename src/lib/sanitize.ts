@@ -146,7 +146,14 @@ export function sanitizeAircraftForPublic<T extends Record<string, unknown>>(raw
   const cleaned: Record<string, unknown> = {};
 
   for (const [key, value] of Object.entries(raw)) {
-    // Drop all private fields
+    // Handle operator specially — extract certified flag only
+    if (key === "operator") {
+      const op = value as Record<string, unknown> | null;
+      if (op?.certified) cleaned["certified"] = true;
+      continue;
+    }
+
+    // Drop all other private fields
     if (PRIVATE_KEYS.has(key)) continue;
 
     // Clean aircraft name fields

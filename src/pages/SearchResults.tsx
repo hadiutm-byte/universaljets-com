@@ -11,7 +11,7 @@ import AircraftGallery from "@/components/AircraftGallery";
 import { toast } from "sonner";
 import MembershipUpsell from "@/components/MembershipUpsell";
 import { getAircraftImage, getAircraftCategory } from "@/lib/aircraftImages";
-import { sanitizeAircraftForPublic } from "@/lib/sanitize";
+import { normalizeCharterResult, type NormalizedCharterResult } from "@/lib/aviapagesNormalizer";
 import { trackQuoteRequest, trackWhatsAppClick } from "@/lib/gtmEvents";
 import AIRPORT_COORDS from "@/lib/airportCoords";
 import {
@@ -21,45 +21,6 @@ import {
   formatDuration,
   formatDistance,
 } from "@/lib/pricingEstimates";
-
-interface AircraftResult {
-  id: number;
-  aircraft_type: string;
-  aircraft_class?: string | null;
-  manufacturer?: string | null;
-  year_of_production?: number | null;
-  max_passengers?: number | null;
-  range_km?: number | null;
-  speed_kmh?: number | null;
-  cabin_height_m?: number | null;
-  cabin_width_m?: number | null;
-  cabin_length_m?: number | null;
-  luggage_volume_m3?: number | null;
-  sleeping_places?: number | null;
-  amenities?: string[];
-  price?: number | null;
-  price_currency?: string;
-  price_unit?: string | null;
-  estimated_flight_time_min?: number | null;
-  engine_type?: string | null;
-  engine_count?: number | null;
-  images: {
-    exterior?: string | null;
-    cabin?: string | null;
-    floor_plan?: string | null;
-    all?: { url: string; type: string; position: number }[];
-  };
-  operator: {
-    id: number;
-    name: string;
-    city: string;
-    country: string;
-    logo_url?: string | null;
-    certified: boolean;
-    avg_response_time?: number | null;
-    avg_response_rate?: number | null;
-  };
-}
 
 const getSupabaseUrl = () => import.meta.env.VITE_SUPABASE_URL;
 const getAnonKey = () => import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY;
@@ -106,18 +67,9 @@ const SearchResults = () => {
     enabled: !!from_icao && !!to_icao,
   });
 
-  const results: AircraftResult[] = (data?.results || [])
-    .map((r: AircraftResult) => sanitizeAircraftForPublic(r as unknown as Record<string, unknown>) as unknown as AircraftResult)
-    .filter((r: AircraftResult) => {
-    const cls = (r.aircraft_class || "").toLowerCase();
-    const type = (r.aircraft_type || "").toLowerCase();
-    if (cls.includes("turboprop") || cls.includes("propeller") || cls.includes("helicopter")) return false;
-    if (type.includes("turboprop") || type.includes("caravan") || type.includes("pc-12") || type.includes("tbm") || type.includes("king air")) return false;
-    if (/robinson|r22|r44|r66|bell\s*\d|eurocopter|ec\s*1[345]|as\s*3[56]|agusta|aw\s*1[0-9]|guimbal|cabri|airbus\s*h1[2356]|sikorsky|s-76|md\s*[5-9]|hughes/i.test(type)) return false;
-    if (/piper|cessna\s*(1[7-9]|2[0-9]|4[01])|beech(craft)?(?!\s*premier)|baron|bonanza|cirrus|pilatus|dornier|saab|dash|atr|emb-1[12]|chieftain|cheyenne|navajo|seneca|aztec|seminole/i.test(type)) return false;
-    if (r.engine_type && /piston|turboprop|propeller/i.test(r.engine_type)) return false;
-    return true;
-  });
+  const results: NormalizedCharterResult[] = (data?.results || [])
+    .map((r: unknown) => normalizeCharterResult(r))
+    .filter((r): r is NormalizedCharterResult => r !== null);
   const hasResults = results.length > 0;
 
   return (
