@@ -36,8 +36,8 @@ export const destinations: Destination[] = [
     heroDesc: "Where ambition meets opulence. Dubai is the crossroads of East and West — a global hub for finance, luxury, and private aviation with world-class FBO facilities and year-round demand.",
     region: "Middle East",
     airports: [
-      { name: "Al Maktoum International", code: "OMDW / DWC", type: "FBO & Private Terminal", note: "Preferred for private aviation — VIP terminal with customs fast-track" },
-      { name: "Dubai International", code: "OMDB / DXB", type: "Commercial with GA facilities" },
+      { name: "Al Maktoum International", code: "OMDW / DWC", icao: "OMDW", type: "FBO & Private Terminal", note: "Preferred for private aviation — VIP terminal with customs fast-track" },
+      { name: "Dubai International", code: "OMDB / DXB", icao: "OMDB", type: "Commercial with GA facilities" },
     ],
     popularRoutes: [
       { from: "Dubai", to: "London", time: "7h", aircraft: "Heavy / Ultra Long Range" },
