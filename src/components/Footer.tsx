@@ -55,8 +55,9 @@ const LinkItem = ({ label, href }: { label: string; href: string }) => {
   );
 };
 
-const Footer = () => (
+const Footer = forwardRef<HTMLElement>((_, ref) => (
   <footer
+    ref={ref}
     className="relative"
     style={{
       background: "linear-gradient(180deg, hsl(240, 2%, 12%) 0%, hsl(240, 3%, 8%) 100%)",
