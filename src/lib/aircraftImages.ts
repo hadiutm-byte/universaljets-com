@@ -112,5 +112,55 @@ export function getAircraftCategory(aircraftName: string): string {
   return categoryLabels[cat];
 }
 
+/** Privacy-filtered image types */
+const BLOCKED_IMAGE_TYPES = ["tail", "registration"];
+
+/**
+ * Extract a deduplicated, privacy-filtered list of image URLs from any
+ * shape of aircraft/availability API object. Falls back to a category-
+ * matched placeholder if nothing usable is found.
+ */
+export function extractImages(item: Record<string, unknown>, fallbackName = "midsize"): string[] {
+  const candidates: unknown[] = [
+    ...toArray((item.aircraft as Record<string, unknown>)?.images),
+    ...toArray((item.aircraft_type as Record<string, unknown>)?.images),
+    ...toArray(item.images),
+    ...toArray(item.aircraft_images),
+    ...toArray(item.photos),
+  ];
+
+  const seen = new Set<string>();
+  const urls: string[] = [];
+
+  for (const img of candidates) {
+    const url = typeof img === "string" ? img : extractUrl(img);
+    if (!url) continue;
+
+    // Block tail / registration images
+    const imgType = typeof img === "object" && img !== null
+      ? String((img as Record<string, unknown>).type ?? (img as Record<string, unknown>).image_type ?? "").toLowerCase()
+      : "";
+    if (BLOCKED_IMAGE_TYPES.includes(imgType)) continue;
+
+    if (!seen.has(url)) {
+      seen.add(url);
+      urls.push(url);
+    }
+  }
+
+  return urls.length > 0 ? urls : [getAircraftImage(fallbackName)];
+}
+
+function toArray(v: unknown): unknown[] {
+  return Array.isArray(v) ? v : [];
+}
+
+function extractUrl(v: unknown): string | null {
+  if (!v || typeof v !== "object") return null;
+  const o = v as Record<string, unknown>;
+  const raw = o.url ?? o.image ?? o.src ?? (o.media as Record<string, unknown>)?.path;
+  return typeof raw === "string" && raw.length > 0 ? raw : null;
+}
+
 export { categoryImages, categoryLabels };
 export type { AircraftCategory };
