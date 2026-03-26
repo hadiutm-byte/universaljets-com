@@ -83,14 +83,14 @@ const HeroSection = () => {
             className="block text-[3rem] sm:text-[4rem] md:text-[5.5rem] lg:text-[7.5rem] text-gradient-gold italic font-medium mt-2 relative"
             animate={{
               filter: [
-                "drop-shadow(0 0 0px hsla(45,79%,46%,0))",
-                "drop-shadow(0 0 28px hsla(45,79%,46%,0.18))",
-                "drop-shadow(0 0 0px hsla(45,79%,46%,0))",
+                "drop-shadow(0 0 0px hsla(40,42%,42%,0))",
+                "drop-shadow(0 0 28px hsla(40,42%,42%,0.22))",
+                "drop-shadow(0 0 0px hsla(40,42%,42%,0))",
               ],
             }}
             transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
           >
-            Perfected.
+            Without Limits.
           </motion.span>
         </motion.h1>
 
