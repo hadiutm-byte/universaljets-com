@@ -148,7 +148,7 @@ html {
   }
 
   .section-dark .text-foreground { color: hsl(0, 0%, 100%); }
-  .section-dark .text-muted-foreground { color: hsl(0, 0%, 78%); }
+  .section-dark .text-muted-foreground { color: hsl(0, 0%, 82%); }
 
   /* === CHARCOAL SECTIONS (cinematic rhythm) === */
   .section-charcoal {
