@@ -4,7 +4,11 @@
  * Returns a Blob for Web Share API or download.
  */
 
-import { getAirportCoords } from "@/lib/airportCoords";
+import AIRPORT_COORDS from "@/lib/airportCoords";
+
+function getAirportCoords(icao: string): [number, number] | undefined {
+  return AIRPORT_COORDS[icao];
+}
 
 interface ShareCardData {
   fromCode: string;
