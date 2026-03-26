@@ -45,8 +45,7 @@ export function useFleetAircraft(classId?: string) {
   return useQuery({
     queryKey: ["fleet-aircraft", classId || "all"],
     queryFn: async () => {
-      const params = new URLSearchParams({ page_size: "100" });
-      if (classId) params.set("class_id", classId);
+      const params = new URLSearchParams({ page_size: "200" });
 
       const response = await fetch(
         `${getSupabaseUrl()}/functions/v1/aviapages-aircraft-types?${params.toString()}`,
