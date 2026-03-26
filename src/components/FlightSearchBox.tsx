@@ -308,6 +308,14 @@ const FlightSearchBox = () => {
           )}
         </AnimatePresence>
       </div>
+
+      {/* Route Map */}
+      <QuoteRouteMap
+        from={primaryLeg.selectedFrom}
+        to={primaryLeg.selectedTo}
+        additionalLegs={tripType === "multi-city" ? legs.slice(1).map((l) => ({ from: l.selectedFrom, to: l.selectedTo })) : undefined}
+        className="mt-4"
+      />
     </div>
   );
 };
