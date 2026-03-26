@@ -107,11 +107,11 @@ const FoundersCircleSection = () => {
                       </div>
                     ))}
                   </div>
-                  <Link to="/contact"
+                  <Link to={tier.name === "Jet Card" ? "/jet-card" : tier.name === "Private Access" ? "/membership/enroll" : "/request-flight"}
                     className={`block text-center py-3.5 text-[10px] tracking-[0.2em] uppercase font-medium rounded-xl transition-all duration-500 ${
                       tier.accent ? "bg-gradient-gold text-primary-foreground hover:shadow-[0_0_30px_-8px_hsla(43,74%,49%,0.4)] btn-luxury" : "border border-border text-foreground/60 hover:border-primary/30 hover:text-primary"
                     }`}>
-                    {tier.accent ? "Apply Now" : "Learn More"}
+                    {tier.accent ? "Apply Now" : tier.name === "Jet Card" ? "Explore Jet Card" : "Request a Flight"}
                   </Link>
                 </div>
               </motion.div>

@@ -178,7 +178,10 @@ const MembershipCard = ({ tier, index }: { tier: typeof tiers[0]; index: number 
     >
       {/* Maverick glow ring */}
       {isMaverick && (
-        <div className="absolute -inset-[1px] rounded-2xl bg-gradient-to-b from-primary/20 via-primary/5 to-transparent pointer-events-none -z-10 blur-sm" />
+        <>
+          <div className="absolute -inset-[2px] rounded-2xl bg-gradient-to-b from-primary/30 via-primary/10 to-primary/5 pointer-events-none -z-10 blur-sm" />
+          <div className="absolute -inset-[1px] rounded-2xl bg-gradient-to-b from-primary/20 via-transparent to-transparent pointer-events-none -z-10" />
+        </>
       )}
 
       {/* Physical Card */}
@@ -216,8 +219,8 @@ const MembershipCard = ({ tier, index }: { tier: typeof tiers[0]; index: number 
             <div className="flex items-start justify-between">
               <p className="text-[11px] tracking-[0.4em] uppercase text-white/50 font-medium">Universal Jets</p>
               {isMaverick && (
-                <span className="px-2.5 py-1 bg-primary/15 rounded-full text-[7px] tracking-[0.2em] uppercase text-primary font-medium border border-primary/20">
-                  Top Tier
+                <span className="px-3 py-1 bg-primary/15 rounded-full text-[7px] tracking-[0.2em] uppercase text-primary font-semibold border border-primary/20 shadow-[0_0_12px_-3px_hsla(43,74%,49%,0.3)]">
+                  Premium
                 </span>
               )}
               {tier.featured && !isMaverick && (
