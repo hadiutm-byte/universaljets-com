@@ -144,16 +144,16 @@ serve(async (req) => {
             floor_plan: floorPlanUrl,
             all: allImages,
           },
-          // Operator (public info only)
+          // Operator — strip identity for B2C privacy; only expose certification status
           operator: {
-            id: company.id,
-            name: company.name || '',
-            city: company.city?.name || '',
-            country: company.country?.name || '',
-            logo_url: company.logo_url || null,
+            id: 0,
+            name: '',
+            city: '',
+            country: '',
+            logo_url: null,
             certified: company.aviapages_certified || false,
-            avg_response_time: company.company_extenion?.avg_response_time || null,
-            avg_response_rate: company.company_extenion?.avg_response_rate || null,
+            avg_response_time: null,
+            avg_response_rate: null,
           },
           // Category / class
           aircraft_class: aircraft.aircraft_class?.name || aircraft.class_name || null,
