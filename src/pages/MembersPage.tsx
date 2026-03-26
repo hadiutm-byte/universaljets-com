@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, forwardRef } from "react";
 import { motion } from "framer-motion";
 import { Check, Shield, ArrowRight, MessageCircle, Globe, Clock, Users, Plane, HeartHandshake, UserCheck, Zap, Calendar, Star, Crown, ChevronRight, Award, Lock, Headphones, CreditCard, BadgeCheck } from "lucide-react";
 import { Link } from "react-router-dom";
@@ -92,7 +92,7 @@ const fadeUp = { hidden: { opacity: 0, y: 30 }, visible: { opacity: 1, y: 0 } };
 const stagger = { hidden: {}, visible: { transition: { staggerChildren: 0.08 } } };
 
 /* ═══ TIER CARD — HIGH CONTRAST, VISIBLE PRICES ═══ */
-const TierCard = ({ tier, index }: { tier: typeof tiers[0]; index: number }) => {
+const TierCard = forwardRef<HTMLDivElement, { tier: typeof tiers[0]; index: number }>(({ tier, index }, ref) => {
   const isMaverick = "isMaverick" in tier && tier.isMaverick;
   const isPopular = "popular" in tier && tier.popular;
 
@@ -187,10 +187,11 @@ const TierCard = ({ tier, index }: { tier: typeof tiers[0]; index: number }) => 
       </div>
     </motion.div>
   );
-};
+});
+TierCard.displayName = "TierCard";
 
 /* ═══ MOBILE COMPARISON CARD ═══ */
-const MobileComparisonCard = ({ tier, index }: { tier: typeof tiers[0]; index: number }) => {
+const MobileComparisonCard = forwardRef<HTMLDivElement, { tier: typeof tiers[0]; index: number }>(({ tier, index }, ref) => {
   const isMaverick = "isMaverick" in tier && tier.isMaverick;
   const values = comparisonRows.map(row => ({ label: row.label, value: row.values[index] }));
 
@@ -210,7 +211,8 @@ const MobileComparisonCard = ({ tier, index }: { tier: typeof tiers[0]; index: n
       </div>
     </div>
   );
-};
+});
+MobileComparisonCard.displayName = "MobileComparisonCard";
 
 /* ═══ PAGE ═══ */
 const MembersPage = () => (
