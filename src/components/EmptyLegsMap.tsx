@@ -111,14 +111,14 @@ const EmptyLegsMap = () => {
         </motion.div>
 
         {/* Filters + View Toggle */}
-        <motion.div initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} className="flex flex-wrap justify-center gap-3 mb-6">
+        <motion.div initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} className="flex flex-wrap items-center justify-center gap-3 mb-6">
           {regions.map((r) => (
             <button
               key={r}
               onClick={() => setActiveRegion(r)}
-              className={`px-5 py-2 rounded-full text-[10px] tracking-[0.25em] uppercase font-medium transition-all duration-500 ${
+              className={`px-5 py-2 rounded-full text-[10px] tracking-[0.25em] uppercase font-medium transition-all duration-300 ${
                 activeRegion === r
-                  ? "bg-gradient-gold text-primary-foreground"
+                  ? "bg-[hsl(var(--selection))] text-[hsl(var(--selection-foreground))] shadow-[0_4px_12px_-4px_hsla(0,0%,0%,0.3)]"
                   : "border border-border text-foreground/50 hover:text-foreground hover:border-foreground/20"
               }`}
             >
@@ -127,23 +127,29 @@ const EmptyLegsMap = () => {
           ))}
         </motion.div>
 
-        <div className="flex justify-center gap-2 mb-14">
-          <button
-            onClick={() => setViewMode("cards")}
-            className={`flex items-center gap-1.5 px-4 py-2 rounded-lg text-[10px] tracking-[0.15em] uppercase font-medium transition-all ${
-              viewMode === "cards" ? "bg-card border border-border text-foreground shadow-sm" : "text-muted-foreground hover:text-foreground"
-            }`}
-          >
-            <LayoutGrid size={12} /> Cards
-          </button>
-          <button
-            onClick={() => setViewMode("map")}
-            className={`flex items-center gap-1.5 px-4 py-2 rounded-lg text-[10px] tracking-[0.15em] uppercase font-medium transition-all ${
-              viewMode === "map" ? "bg-card border border-border text-foreground shadow-sm" : "text-muted-foreground hover:text-foreground"
-            }`}
-          >
-            <Map size={12} /> Map
-          </button>
+        <div className="flex justify-center mb-14">
+          <div className="inline-flex rounded-lg border border-border bg-muted/30 p-1 gap-0">
+            <button
+              onClick={() => setViewMode("cards")}
+              className={`flex items-center gap-1.5 px-5 py-2 rounded-md text-[10px] tracking-[0.15em] uppercase font-medium transition-all duration-300 ${
+                viewMode === "cards"
+                  ? "bg-[hsl(var(--selection))] text-[hsl(var(--selection-foreground))] shadow-sm"
+                  : "text-muted-foreground hover:text-foreground"
+              }`}
+            >
+              <LayoutGrid size={12} /> Cards
+            </button>
+            <button
+              onClick={() => setViewMode("map")}
+              className={`flex items-center gap-1.5 px-5 py-2 rounded-md text-[10px] tracking-[0.15em] uppercase font-medium transition-all duration-300 ${
+                viewMode === "map"
+                  ? "bg-[hsl(var(--selection))] text-[hsl(var(--selection-foreground))] shadow-sm"
+                  : "text-muted-foreground hover:text-foreground"
+              }`}
+            >
+              <Map size={12} /> Map
+            </button>
+          </div>
         </div>
 
         {isLoading && (
@@ -154,7 +160,7 @@ const EmptyLegsMap = () => {
 
         {!isLoading && viewMode === "map" && (
           mappableLegs.length > 0 ? (
-            <EmptyLegsMapView legs={mappableLegs} selectedLeg={selectedLeg} onLegClick={handleLegClick} onClose={() => setSelectedLeg(null)} toMapCoords={toMapCoords} />
+            <EmptyLegsMapView legs={mappableLegs} selectedLeg={selectedLeg} onLegClick={handleLegClick} onClose={() => setSelectedLeg(null)} toMapCoords={toMapCoords} isLiveData={!!data?.results?.length} />
           ) : (
             <div className="rounded-2xl border border-border bg-card p-16 text-center mb-16">
               <Map size={32} className="text-muted-foreground/30 mx-auto mb-4" />
