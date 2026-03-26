@@ -81,7 +81,7 @@ const MembershipHero = ({ onRequestInvitation, onSpeakToAdvisor }: MembershipHer
 
         <motion.p
           variants={fadeUp}
-          className="text-[20px] md:text-[22px] text-white/30 font-extralight tracking-[0.1em] mb-8"
+          className="text-[20px] md:text-[22px] text-white/40 font-extralight tracking-[0.1em] mb-8"
         >
           By Invitation Only
         </motion.p>
