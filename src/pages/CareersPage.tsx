@@ -147,12 +147,15 @@ const CareersPage = () => {
     e.preventDefault();
     if (!applyForm.name.trim() || !applyForm.email.trim() || !applyForm.position) return;
     try {
-      await supabase.from("candidates").insert({
-        full_name: applyForm.name.trim(),
-        email: applyForm.email.trim(),
-        phone: applyForm.phone.trim() || null,
-        interview_answers: [{ position: applyForm.position, cover_letter: applyForm.cover }],
+      const { data, error } = await supabase.functions.invoke("career-apply", {
+        body: {
+          full_name: applyForm.name.trim(),
+          email: applyForm.email.trim(),
+          phone: applyForm.phone.trim() || null,
+          interview_answers: [{ position: applyForm.position, cover_letter: applyForm.cover }],
+        },
       });
+      if (error) throw error;
       setApplySubmitted(true);
       toast.success("Application submitted successfully.");
     } catch {
