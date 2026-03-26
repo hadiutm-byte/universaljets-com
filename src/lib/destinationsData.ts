@@ -486,3 +486,6 @@ export const destinations: Destination[] = [
 
 export const getDestinationBySlug = (slug: string): Destination | undefined =>
   destinations.find((d) => d.slug === slug);
+
+export const getDestinationIcaos = (dest: Destination): string[] =>
+  dest.airports.map((a) => a.icao).filter(Boolean) as string[];
