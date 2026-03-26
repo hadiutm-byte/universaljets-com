@@ -156,6 +156,7 @@ const App = () => (
         {/* <Suspense fallback={null}>
           <Ricky3D />
         </Suspense> */}
+        <FloatingWhatsApp />
         <CookieConsent />
       </BrowserRouter>
     </TooltipProvider>
