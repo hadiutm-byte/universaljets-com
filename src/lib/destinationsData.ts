@@ -450,9 +450,9 @@ export const destinations: Destination[] = [
     heroDesc: "The global capital of entertainment, technology, and West Coast luxury. LA's sprawling geography makes private aviation not just convenient but essential for high-net-worth clients.",
     region: "Americas",
     airports: [
-      { name: "Van Nuys Airport", code: "KVNY / VNY", type: "Dedicated Business Aviation", note: "World's busiest GA airport — the 'Teterboro of the West Coast'" },
-      { name: "Santa Monica Airport", code: "KSMO / SMO", type: "GA (limited operations)" },
-      { name: "Burbank (Hollywood)", code: "KBUR / BUR", type: "Commercial with GA terminal" },
+      { name: "Van Nuys Airport", code: "KVNY / VNY", icao: "KVNY", type: "Dedicated Business Aviation", note: "World's busiest GA airport — the 'Teterboro of the West Coast'" },
+      { name: "Santa Monica Airport", code: "KSMO / SMO", icao: "KSMO", type: "GA (limited operations)" },
+      { name: "Burbank (Hollywood)", code: "KBUR / BUR", icao: "KBUR", type: "Commercial with GA terminal" },
     ],
     popularRoutes: [
       { from: "Los Angeles", to: "Las Vegas", time: "55m", aircraft: "Light Jet" },
