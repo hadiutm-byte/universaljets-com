@@ -186,20 +186,25 @@ const QuoteRequestModal = ({ open, onClose, flightData }: QuoteRequestModalProps
                 <QuoteRouteMap from={fromAirport} to={toAirport} className="mt-2" />
               )}
 
-              {/* Route metrics */}
+              {/* Route metrics — elegant summary strip */}
               {routeInfo && (
-                <div className="flex items-center justify-between gap-3 p-3 rounded-xl bg-muted/20 border border-border/30">
-                  <div className="flex items-center gap-4 text-[11px] text-muted-foreground font-light">
-                    <span className="flex items-center gap-1.5">
-                      <Navigation size={11} className="text-primary/60" /> {formatDistance(routeInfo.distanceNm)}
-                    </span>
-                    <span className="flex items-center gap-1.5">
-                      <Clock size={11} className="text-primary/60" /> ~{formatDuration(routeInfo.flightTimeMin)}
+                <div className="rounded-xl bg-gradient-to-r from-primary/[0.06] to-transparent border border-primary/10 p-4">
+                  <div className="flex items-center justify-between mb-2">
+                    <div className="flex items-center gap-4 text-[11px] text-muted-foreground">
+                      <span className="flex items-center gap-1.5 font-medium">
+                        <Navigation size={11} className="text-primary/70" /> {formatDistance(routeInfo.distanceNm)}
+                      </span>
+                      <span className="flex items-center gap-1.5 font-medium">
+                        <Clock size={11} className="text-primary/70" /> ~{formatDuration(routeInfo.flightTimeMin)}
+                      </span>
+                    </div>
+                    <span className="font-display text-[14px] font-semibold text-foreground">
+                      {routeInfo.pricing.display}
                     </span>
                   </div>
-                  <span className={`text-[12px] font-medium ${routeInfo.pricing.variant === "estimate" ? "text-foreground" : "text-primary"}`}>
-                    {routeInfo.pricing.display}
-                  </span>
+                  {routeInfo.pricing.variant === "estimate" && (
+                    <p className="text-[9px] text-primary/40 font-medium tracking-[0.05em] text-right">Indicative range · Final price upon confirmation</p>
+                  )}
                 </div>
               )}
 

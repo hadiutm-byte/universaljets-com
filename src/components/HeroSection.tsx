@@ -62,8 +62,8 @@ const HeroSection = () => {
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1.2, delay: 0.5 }}
-          className="font-display text-[10px] md:text-[11px] tracking-[0.65em] uppercase text-white mb-14 font-medium"
-          style={{ textShadow: "0 2px 12px hsla(0,0%,0%,0.8)" }}
+          className="font-display text-[10px] md:text-[12px] tracking-[0.65em] uppercase text-white/95 mb-14 font-semibold"
+          style={{ textShadow: "0 0 30px hsla(0,0%,100%,0.15), 0 2px 12px hsla(0,0%,0%,0.8)" }}
         >
           Private Aviation Redefined
         </motion.p>
@@ -83,13 +83,13 @@ const HeroSection = () => {
           </span>
         </motion.h1>
 
-        {/* "Without Limits" — bold italic, gold with strong glow */}
+        {/* "Without Limits" — extrabold italic with layered gold glow */}
         <motion.p
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1.4, delay: 0.85, ease: [0.16, 1, 0.3, 1] }}
           className="font-display text-[2rem] sm:text-[2.8rem] md:text-[3.8rem] lg:text-[5.2rem] font-extrabold italic tracking-[-0.01em] text-primary mb-10"
-          style={{ textShadow: "0 0 60px hsla(45,80%,50%,0.35), 0 0 20px hsla(45,80%,50%,0.25), 0 4px 30px hsla(0,0%,0%,0.7)" }}
+          style={{ textShadow: "0 0 80px hsla(45,80%,50%,0.4), 0 0 30px hsla(45,80%,50%,0.3), 0 0 8px hsla(45,80%,50%,0.15), 0 4px 30px hsla(0,0%,0%,0.7)" }}
         >
           Without Limits.
         </motion.p>
@@ -102,10 +102,10 @@ const HeroSection = () => {
           className="max-w-lg mx-auto mb-14"
         >
           <p
-            className="font-display text-[15px] md:text-[18px] text-white/85 font-medium leading-[1.7] tracking-[0.12em] uppercase"
+            className="font-display text-[13px] md:text-[15px] text-white/80 font-semibold leading-[1.8] tracking-[0.18em] uppercase"
             style={{ textShadow: "0 2px 20px hsla(0,0%,0%,0.8)" }}
           >
-            Global access. Instant quotes. Tailored journeys.
+            Global access · Instant quotes · Tailored journeys
           </p>
         </motion.div>
 

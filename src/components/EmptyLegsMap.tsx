@@ -166,10 +166,10 @@ const EmptyLegsMap = () => {
           <button
             onClick={handleRefresh}
             disabled={refreshing || isLoading}
-            className="flex items-center gap-1.5 px-4 py-2 rounded-lg border border-border text-[10px] tracking-[0.15em] uppercase font-medium text-muted-foreground hover:text-foreground hover:border-foreground/20 transition-all duration-300 disabled:opacity-50"
+            className="flex items-center gap-1.5 px-4 py-2 rounded-full border border-primary/15 bg-primary/[0.04] text-[9px] tracking-[0.2em] uppercase font-medium text-primary/60 hover:text-primary hover:border-primary/30 hover:bg-primary/[0.08] transition-all duration-500 disabled:opacity-40"
           >
-            <RefreshCw size={12} className={refreshing ? "animate-spin" : ""} />
-            {refreshing ? "Syncing" : "Refresh"}
+            <RefreshCw size={10} className={refreshing ? "animate-spin" : ""} />
+            {refreshing ? "Updating…" : "Live Sync"}
           </button>
         </div>
 
