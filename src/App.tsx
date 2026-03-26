@@ -133,6 +133,7 @@ const App = () => (
               <Route path="hr" element={<HRPage />} />
               <Route path="bd" element={<BDDashboardPage />} />
               <Route path="bd/:oppId" element={<BDDetailPage />} />
+              <Route path="search-inventory" element={<InternalSearchPage />} />
               <Route path="activity" element={<ActivityLogPage />} />
               <Route path="finance" element={<FinanceDashboardPage />} />
               <Route path="finance/receivables" element={<ReceivablesPage />} />
