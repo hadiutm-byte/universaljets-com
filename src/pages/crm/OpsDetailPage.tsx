@@ -92,6 +92,7 @@ const OpsDetailPage = () => {
   const contract = trip.contracts;
   const quote = contract?.quotes;
   const fr = quote?.flight_requests;
+  const briefSent = activity.some(a => a.action === "flight_brief_sent");
 
   const inputClass = "w-full bg-secondary/50 rounded-lg px-3 py-2.5 text-[13px] text-foreground font-light focus:outline-none focus:ring-1 focus:ring-primary/20 transition-all border border-border/20";
   const labelClass = "text-[9px] tracking-[0.2em] uppercase text-muted-foreground/60 mb-1.5 block font-light";
