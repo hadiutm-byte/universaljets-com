@@ -58,6 +58,7 @@ const BDDashboardPage = lazy(() => import("./pages/crm/BDDashboardPage.tsx"));
 const BDDetailPage = lazy(() => import("./pages/crm/BDDetailPage.tsx"));
 const CareersPage = lazy(() => import("./pages/CareersPage.tsx"));
 const ContactPage = lazy(() => import("./pages/ContactPage.tsx"));
+const ConciergePage = lazy(() => import("./pages/ConciergePage.tsx"));
 const CharterPage = lazy(() => import("./pages/CharterPage.tsx"));
 const AircraftGuidePage = lazy(() => import("./pages/AircraftGuidePage.tsx"));
 const FleetPage = lazy(() => import("./pages/FleetPage.tsx"));
