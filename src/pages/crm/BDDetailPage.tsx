@@ -285,7 +285,7 @@ const BDDetailPage = () => {
               <p className="text-[11px] text-amber-400/80 font-light">This will mark the opportunity as handed to Sales and record the timestamp.</p>
             )}
             <button onClick={updateStatus}
-              className="w-full py-3 bg-gradient-gold text-primary-foreground text-[9px] tracking-[0.25em] uppercase font-medium rounded-lg hover:shadow-[0_0_30px_-8px_hsla(45,79%,46%,0.45)] transition-all duration-500">
+              className="w-full py-3 bg-gradient-gold text-primary-foreground text-[9px] tracking-[0.25em] uppercase font-medium rounded-lg hover:shadow-[0_0_30px_-8px_hsla(43,74%,49%,0.45)] transition-all duration-500">
               Update
             </button>
           </div>
@@ -299,7 +299,7 @@ const BDDetailPage = () => {
           <div className="space-y-4 mt-2">
             <textarea value={noteText} onChange={e => setNoteText(e.target.value)} rows={4} placeholder={tab === "meetings" ? "Meeting notes…" : "Note…"} className={inputClass} />
             <button onClick={addNote}
-              className="w-full py-3 bg-gradient-gold text-primary-foreground text-[9px] tracking-[0.25em] uppercase font-medium rounded-lg hover:shadow-[0_0_30px_-8px_hsla(45,79%,46%,0.45)] transition-all duration-500">
+              className="w-full py-3 bg-gradient-gold text-primary-foreground text-[9px] tracking-[0.25em] uppercase font-medium rounded-lg hover:shadow-[0_0_30px_-8px_hsla(43,74%,49%,0.45)] transition-all duration-500">
               Save
             </button>
           </div>

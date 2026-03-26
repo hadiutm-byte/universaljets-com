@@ -72,7 +72,7 @@ const DestinationDetailPage = () => {
             <p className="text-[15px] text-muted-foreground font-light leading-[1.9] max-w-2xl mb-8">{dest.heroDesc}</p>
             <button
               onClick={() => setQuoteOpen(true)}
-              className="px-8 py-3 bg-gradient-gold text-primary-foreground text-[10px] tracking-[0.25em] uppercase font-medium rounded-xl hover:shadow-[0_0_30px_-8px_hsla(45,79%,46%,0.4)] transition-all duration-500"
+              className="px-8 py-3 bg-gradient-gold text-primary-foreground text-[10px] tracking-[0.25em] uppercase font-medium rounded-xl hover:shadow-[0_0_30px_-8px_hsla(43,74%,49%,0.4)] transition-all duration-500"
             >
               Request a Quote to {dest.name}
             </button>
@@ -364,7 +364,7 @@ const DestinationDetailPage = () => {
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <button
                 onClick={() => setQuoteOpen(true)}
-                className="px-10 py-3.5 bg-gradient-gold text-primary-foreground text-[10px] tracking-[0.2em] uppercase font-medium rounded-xl hover:shadow-[0_0_30px_-8px_hsla(45,79%,46%,0.4)] transition-all duration-500"
+                className="px-10 py-3.5 bg-gradient-gold text-primary-foreground text-[10px] tracking-[0.2em] uppercase font-medium rounded-xl hover:shadow-[0_0_30px_-8px_hsla(43,74%,49%,0.4)] transition-all duration-500"
               >
                 Request a Quote
               </button>

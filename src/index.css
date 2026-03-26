@@ -22,7 +22,7 @@ html {
     --popover: 0 0% 100%;
     --popover-foreground: 0 0% 4%;
 
-    --primary: 40 42% 42%;             /* #C6A15B — blueprint gold */
+    --primary: 43 74% 49%;             /* Cinematic gold — matched to "Without Limits" */
     --primary-foreground: 0 0% 100%;
 
     --secondary: 0 0% 100%;
@@ -31,7 +31,7 @@ html {
     --muted: 0 0% 95.3%;              /* #F3F3F3 */
     --muted-foreground: 0 0% 43.5%;    /* #6F6F6F */
 
-    --accent: 40 42% 42%;
+    --accent: 43 74% 49%;
     --accent-foreground: 0 0% 100%;
 
     --destructive: 0 84.2% 60.2%;
@@ -39,25 +39,25 @@ html {
 
     --border: 0 0% 0% / 0.08;
     --input: 0 0% 95.3%;
-    --ring: 40 42% 42%;
+    --ring: 43 74% 49%;
 
     --radius: 0.75rem;
 
-    --gold: 40 42% 42%;               /* #C6A15B */
-    --gold-light: 40 42% 52%;
-    --gold-dark: 40 42% 36%;
+    --gold: 43 74% 49%;               /* Cinematic gold */
+    --gold-light: 43 85% 58%;         /* "Without Limits" highlight tone */
+    --gold-dark: 43 74% 38%;          /* Deeper gold for borders/accents */
     --charcoal: 0 0% 7%;              /* #121212 */
     --charcoal-deep: 0 0% 4%;          /* #0A0A0A */
     --midnight: 0 0% 4%;
 
     --sidebar-background: 0 0% 98%;
     --sidebar-foreground: 0 0% 7%;
-    --sidebar-primary: 45 79% 46%;
+    --sidebar-primary: 43 74% 49%;
     --sidebar-primary-foreground: 0 0% 100%;
     --sidebar-accent: 0 0% 95.3%;
     --sidebar-accent-foreground: 0 0% 7%;
     --sidebar-border: 0 0% 90%;
-    --sidebar-ring: 45 79% 46%;
+    --sidebar-ring: 43 74% 49%;
 
     /* Selection surfaces (tabs, toggles, segmented controls) */
     --selection: 0 0% 4%;                /* #0B0B0C — matte black */
@@ -83,7 +83,7 @@ html {
 @layer utilities {
   .text-gradient-gold {
     @apply bg-clip-text text-transparent;
-    background-image: linear-gradient(135deg, hsl(40, 42%, 52%), hsl(40, 42%, 38%), hsl(40, 42%, 52%));
+    background-image: linear-gradient(135deg, hsl(43, 85%, 58%), hsl(43, 74%, 42%), hsl(43, 85%, 58%));
   }
 
   /* Logo gold shimmer — subtle light sweep + breathing glow */
@@ -91,11 +91,11 @@ html {
     @apply bg-clip-text text-transparent;
     background-image: linear-gradient(
       90deg,
-      hsl(40, 42%, 50%) 0%,
-      hsl(40, 42%, 50%) 35%,
-      hsl(43, 65%, 68%) 50%,
-      hsl(40, 42%, 50%) 65%,
-      hsl(40, 42%, 50%) 100%
+      hsl(43, 74%, 49%) 0%,
+      hsl(43, 74%, 49%) 35%,
+      hsl(43, 85%, 62%) 50%,
+      hsl(43, 74%, 49%) 65%,
+      hsl(43, 74%, 49%) 100%
     );
     background-size: 300% 100%;
     animation: logo-shimmer 4.5s ease-in-out infinite, logo-glow-breathe 6s ease-in-out infinite;
@@ -107,12 +107,12 @@ html {
   }
 
   @keyframes logo-glow-breathe {
-    0%, 100% { filter: drop-shadow(0 0 2px hsla(40, 50%, 55%, 0.0)); }
-    50% { filter: drop-shadow(0 0 6px hsla(40, 50%, 55%, 0.18)); }
+    0%, 100% { filter: drop-shadow(0 0 2px hsla(43, 74%, 55%, 0.0)); }
+    50% { filter: drop-shadow(0 0 6px hsla(43, 74%, 55%, 0.18)); }
   }
 
   .bg-gradient-gold {
-    background-image: linear-gradient(135deg, hsl(40, 42%, 46%), hsl(40, 42%, 36%), hsl(40, 42%, 46%));
+    background-image: linear-gradient(135deg, hsl(43, 74%, 49%), hsl(43, 74%, 38%), hsl(43, 74%, 49%));
   }
 
   /* === SECTION ALTERNATION === */
@@ -170,7 +170,7 @@ html {
 
   .section-charcoal .text-foreground { color: hsl(0, 0%, 100%); }
   .section-charcoal .text-muted-foreground { color: hsl(0, 0%, 55%); }
-  .section-charcoal .text-primary { color: hsl(45, 79%, 46%); }
+  .section-charcoal .text-primary { color: hsl(43, 74%, 49%); }
 
   .section-charcoal .border-border {
     border-color: hsla(0, 0%, 100%, 0.08);
@@ -212,47 +212,47 @@ html {
     box-shadow:
       0 0 0 0.5px hsla(0, 0%, 0%, 0.03) inset,
       0 20px 60px -20px hsla(0, 0%, 0%, 0.08),
-      0 0 80px -40px hsla(45, 79%, 46%, 0.03);
+      0 0 80px -40px hsla(43, 74%, 49%, 0.03);
     transition: border-color 0.5s ease, box-shadow 0.5s ease, transform 0.4s ease;
   }
 
   .glass-panel:hover {
-    border-color: hsla(45, 79%, 46%, 0.2);
+    border-color: hsla(43, 74%, 49%, 0.2);
     box-shadow:
-      0 0 0 0.5px hsla(45, 79%, 46%, 0.06) inset,
+      0 0 0 0.5px hsla(43, 74%, 49%, 0.06) inset,
       0 25px 70px -20px hsla(0, 0%, 0%, 0.12),
-      0 0 100px -30px hsla(45, 79%, 46%, 0.06);
+      0 0 100px -30px hsla(43, 74%, 49%, 0.06);
   }
 
   .glass-search {
     background: hsla(0, 0%, 100%, 0.92);
     backdrop-filter: blur(40px) saturate(1.4);
     -webkit-backdrop-filter: blur(40px) saturate(1.4);
-    border: 1px solid hsla(45, 79%, 46%, 0.2);
-    box-shadow: 0 0 60px -20px hsla(45, 79%, 46%, 0.06), 0 25px 50px -12px hsla(0, 0%, 0%, 0.06), inset 0 1px 0 0 hsla(0, 0%, 100%, 0.5);
+    border: 1px solid hsla(43, 74%, 49%, 0.2);
+    box-shadow: 0 0 60px -20px hsla(43, 74%, 49%, 0.06), 0 25px 50px -12px hsla(0, 0%, 0%, 0.06), inset 0 1px 0 0 hsla(0, 0%, 100%, 0.5);
     transition: box-shadow 0.6s ease, border-color 0.6s ease;
   }
 
   .glass-search:hover {
-    border-color: hsla(45, 79%, 46%, 0.35);
-    box-shadow: 0 0 70px -15px hsla(45, 79%, 46%, 0.1), 0 25px 50px -12px hsla(0, 0%, 0%, 0.1), inset 0 1px 0 0 hsla(0, 0%, 100%, 0.6);
+    border-color: hsla(43, 74%, 49%, 0.35);
+    box-shadow: 0 0 70px -15px hsla(43, 74%, 49%, 0.1), 0 25px 50px -12px hsla(0, 0%, 0%, 0.1), inset 0 1px 0 0 hsla(0, 0%, 100%, 0.6);
   }
 
   /* === GLOW SYSTEM === */
   .glow-gold {
-    box-shadow: 0 0 50px -12px hsla(45, 79%, 46%, 0.25), 0 0 20px -8px hsla(45, 79%, 46%, 0.15);
+    box-shadow: 0 0 50px -12px hsla(43, 74%, 49%, 0.25), 0 0 20px -8px hsla(43, 74%, 49%, 0.15);
   }
 
   .glow-gold-soft {
-    box-shadow: 0 0 80px -25px hsla(45, 79%, 46%, 0.08);
+    box-shadow: 0 0 80px -25px hsla(43, 74%, 49%, 0.08);
   }
 
   .glow-subtle {
-    box-shadow: 0 0 80px -25px hsla(45, 79%, 46%, 0.08);
+    box-shadow: 0 0 80px -25px hsla(43, 74%, 49%, 0.08);
   }
 
   .glow-line {
-    box-shadow: 0 0 15px 0 hsla(45, 79%, 46%, 0.2);
+    box-shadow: 0 0 15px 0 hsla(43, 74%, 49%, 0.2);
   }
 
   /* === SEARCH WIDGET FIELDS === */
@@ -266,14 +266,14 @@ html {
   }
 
   .search-field:focus-within {
-    border-color: hsl(45, 79%, 46%);
-    box-shadow: 0 0 0 3px hsla(45, 79%, 46%, 0.06);
+    border-color: hsl(43, 74%, 49%);
+    box-shadow: 0 0 0 3px hsla(43, 74%, 49%, 0.06);
     background: hsl(0, 0%, 100%);
   }
 
   .search-label {
     @apply flex items-center gap-1.5 text-[9px] tracking-[0.35em] uppercase font-semibold mb-2;
-    color: hsl(45, 79%, 46%);
+    color: hsl(43, 74%, 49%);
   }
 
   .search-select {
@@ -295,18 +295,18 @@ html {
 
   .divider-gold {
     height: 1px;
-    background: linear-gradient(90deg, transparent, hsla(45, 79%, 46%, 0.2), transparent);
+    background: linear-gradient(90deg, transparent, hsla(43, 74%, 49%, 0.2), transparent);
   }
 
   .map-glow {
-    filter: drop-shadow(0 0 8px hsla(45, 79%, 46%, 0.3));
+    filter: drop-shadow(0 0 8px hsla(43, 74%, 49%, 0.3));
   }
 
   /* === PREMIUM BUTTON SYSTEM === */
   .btn-luxury {
     @apply relative overflow-hidden;
     transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-    box-shadow: 0 4px 15px -3px hsla(45, 79%, 46%, 0.2), 0 0 0 0 hsla(45, 79%, 46%, 0);
+    box-shadow: 0 4px 15px -3px hsla(43, 74%, 49%, 0.2), 0 0 0 0 hsla(43, 74%, 49%, 0);
   }
 
   .btn-luxury::before {
@@ -324,7 +324,7 @@ html {
 
   .btn-luxury:hover {
     transform: translateY(-2px) scale(1.02);
-    box-shadow: 0 8px 40px -8px hsla(45, 79%, 46%, 0.4), 0 0 80px -20px hsla(45, 79%, 46%, 0.12), 0 2px 8px -2px hsla(45, 79%, 46%, 0.15);
+    box-shadow: 0 8px 40px -8px hsla(43, 74%, 49%, 0.4), 0 0 80px -20px hsla(43, 74%, 49%, 0.12), 0 2px 8px -2px hsla(43, 74%, 49%, 0.15);
   }
 
   .btn-luxury:active {
@@ -339,7 +339,7 @@ html {
 
   .card-elevated:hover {
     transform: translateY(-3px);
-    box-shadow: 0 12px 40px -8px hsla(0, 0%, 0%, 0.08), 0 20px 60px -15px hsla(45, 79%, 46%, 0.06);
+    box-shadow: 0 12px 40px -8px hsla(0, 0%, 0%, 0.08), 0 20px 60px -15px hsla(43, 74%, 49%, 0.06);
   }
 
   .ricky-panel {
@@ -597,7 +597,7 @@ html {
     left: 0;
     right: 0;
     height: 1px;
-    background: linear-gradient(90deg, transparent, hsla(45, 79%, 46%, 0.03), transparent);
+    background: linear-gradient(90deg, transparent, hsla(43, 74%, 49%, 0.03), transparent);
     animation: scan-line 8s linear infinite;
     pointer-events: none;
     z-index: 2;
@@ -614,9 +614,9 @@ html {
 .card-cinematic:hover {
   box-shadow:
     0 20px 50px -12px hsla(0, 0%, 0%, 0.1),
-    0 0 0 1px hsla(45, 79%, 46%, 0.12),
-    0 0 60px -20px hsla(45, 79%, 46%, 0.06);
-  border-color: hsla(45, 79%, 46%, 0.18);
+    0 0 0 1px hsla(43, 74%, 49%, 0.12),
+    0 0 60px -20px hsla(43, 74%, 49%, 0.06);
+  border-color: hsla(43, 74%, 49%, 0.18);
 }
 
 /* === INPUT FOCUS HIGHLIGHT === */
@@ -624,8 +624,8 @@ input:focus,
 textarea:focus,
 select:focus {
   outline: none;
-  border-color: hsl(45, 79%, 46%) !important;
-  box-shadow: 0 0 0 3px hsla(45, 79%, 46%, 0.08), 0 0 24px -8px hsla(45, 79%, 46%, 0.12) !important;
+  border-color: hsl(43, 74%, 49%) !important;
+  box-shadow: 0 0 0 3px hsla(43, 74%, 49%, 0.08), 0 0 24px -8px hsla(43, 74%, 49%, 0.12) !important;
 }
 
 html {
@@ -682,7 +682,7 @@ html {
 
 .ambient-light-1 {
   position: fixed; width: 60vw; height: 60vh; top: -10%; right: -15%;
-  background: radial-gradient(ellipse, hsla(45, 79%, 46%, 0.04) 0%, transparent 70%);
+  background: radial-gradient(ellipse, hsla(43, 74%, 49%, 0.04) 0%, transparent 70%);
   animation: ambient-drift 20s ease-in-out infinite; pointer-events: none; z-index: 0;
 }
 
@@ -695,8 +695,8 @@ html {
 /* Custom scrollbar */
 ::-webkit-scrollbar { width: 4px; }
 ::-webkit-scrollbar-track { background: hsl(0, 0%, 96%); }
-::-webkit-scrollbar-thumb { background: hsla(45, 79%, 46%, 0.2); border-radius: 4px; }
-::-webkit-scrollbar-thumb:hover { background: hsla(45, 79%, 46%, 0.4); }
+::-webkit-scrollbar-thumb { background: hsla(43, 74%, 49%, 0.2); border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: hsla(43, 74%, 49%, 0.4); }
 
 @keyframes scroll-logos {
   0% { transform: translateX(0); }
@@ -714,7 +714,7 @@ html {
 
 .divider-shimmer {
   height: 1px;
-  background: linear-gradient(90deg, transparent, hsla(45, 79%, 46%, 0.1), hsla(45, 79%, 46%, 0.25), hsla(45, 79%, 46%, 0.1), transparent);
+  background: linear-gradient(90deg, transparent, hsla(43, 74%, 49%, 0.1), hsla(43, 74%, 49%, 0.25), hsla(43, 74%, 49%, 0.1), transparent);
   background-size: 200% 100%;
   animation: divider-shimmer 4s linear infinite;
 }

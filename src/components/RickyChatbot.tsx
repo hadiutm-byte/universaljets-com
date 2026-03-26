@@ -99,10 +99,10 @@ const RickyChatbot = () => {
               exit={{ scale: 0, opacity: 0 }}
               transition={{ type: "spring", stiffness: 260, damping: 20 }}
               onClick={() => setOpen(true)}
-              className="fixed bottom-6 right-6 z-[45] w-16 h-16 rounded-full overflow-hidden shadow-[0_0_25px_-5px_hsla(45,79%,46%,0.4)] hover:shadow-[0_0_35px_-5px_hsla(45,79%,46%,0.6)] transition-shadow duration-500 group"
+              className="fixed bottom-6 right-6 z-[45] w-16 h-16 rounded-full overflow-hidden shadow-[0_0_25px_-5px_hsla(43,74%,49%,0.4)] hover:shadow-[0_0_35px_-5px_hsla(43,74%,49%,0.6)] transition-shadow duration-500 group"
               aria-label="Chat with Ricky"
             >
-              <div className="absolute inset-0 rounded-full animate-pulse-glow pointer-events-none" style={{ boxShadow: "0 0 20px 4px hsla(45,79%,46%,0.25)" }} />
+              <div className="absolute inset-0 rounded-full animate-pulse-glow pointer-events-none" style={{ boxShadow: "0 0 20px 4px hsla(43,74%,49%,0.25)" }} />
               <img
                 src={rickyIdle}
                 alt="Ricky — Universal Jets Concierge"
@@ -119,7 +119,7 @@ const RickyChatbot = () => {
                 animate={{ opacity: 1, y: 0, scale: 1 }}
                 exit={{ opacity: 0, y: 20, scale: 0.95 }}
                 transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
-                className="fixed bottom-6 right-6 z-[45] w-[360px] max-w-[calc(100vw-2rem)] h-[520px] max-h-[calc(100vh-3rem)] flex flex-col rounded-2xl overflow-hidden border border-gold/10 shadow-[0_0_50px_-12px_hsla(45,79%,46%,0.2)]"
+                className="fixed bottom-6 right-6 z-[45] w-[360px] max-w-[calc(100vw-2rem)] h-[520px] max-h-[calc(100vh-3rem)] flex flex-col rounded-2xl overflow-hidden border border-gold/10 shadow-[0_0_50px_-12px_hsla(43,74%,49%,0.2)]"
                 style={{ background: "hsl(228 22% 8% / 0.97)", backdropFilter: "blur(20px)" }}
               >
                 {/* Header */}
@@ -199,7 +199,7 @@ const RickyChatbot = () => {
                     <button
                       onClick={send}
                       disabled={!input.trim() || loading}
-                      className="w-8 h-8 flex items-center justify-center rounded-full bg-gradient-gold text-primary-foreground disabled:opacity-30 hover:shadow-[0_0_15px_-3px_hsla(45,79%,46%,0.4)] transition-all duration-300"
+                      className="w-8 h-8 flex items-center justify-center rounded-full bg-gradient-gold text-primary-foreground disabled:opacity-30 hover:shadow-[0_0_15px_-3px_hsla(43,74%,49%,0.4)] transition-all duration-300"
                     >
                       <Send size={12} />
                     </button>

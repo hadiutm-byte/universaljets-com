@@ -93,7 +93,7 @@ const ACMILeasingPage = () => {
               Wet lease, dry lease, and charter programme solutions — structured, compliant, and operational.
             </p>
 
-            <a href="#acmi-form" className="inline-block px-10 py-4 bg-gradient-gold text-primary-foreground text-[10px] tracking-[0.3em] uppercase font-medium rounded-sm hover:shadow-[0_0_30px_-8px_hsla(45,79%,46%,0.45)] transition-all duration-500">
+            <a href="#acmi-form" className="inline-block px-10 py-4 bg-gradient-gold text-primary-foreground text-[10px] tracking-[0.3em] uppercase font-medium rounded-sm hover:shadow-[0_0_30px_-8px_hsla(43,74%,49%,0.45)] transition-all duration-500">
               Request ACMI Proposal
             </a>
           </motion.div>
@@ -250,7 +250,7 @@ const ACMILeasingPage = () => {
                 <button
                   type="submit"
                   disabled={loading}
-                  className="w-full py-4 bg-gradient-gold text-primary-foreground text-[10px] tracking-[0.3em] uppercase font-medium rounded-sm hover:shadow-[0_0_30px_-8px_hsla(45,79%,46%,0.45)] transition-all duration-500 disabled:opacity-50 flex items-center justify-center gap-2"
+                  className="w-full py-4 bg-gradient-gold text-primary-foreground text-[10px] tracking-[0.3em] uppercase font-medium rounded-sm hover:shadow-[0_0_30px_-8px_hsla(43,74%,49%,0.45)] transition-all duration-500 disabled:opacity-50 flex items-center justify-center gap-2"
                 >
                   <FileText className="w-4 h-4" />
                   {loading ? "Submitting..." : "Request ACMI Proposal"}

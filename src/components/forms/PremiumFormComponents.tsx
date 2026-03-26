@@ -35,7 +35,7 @@ const premiumInputBase =
   "w-full rounded-lg px-4 py-3.5 text-[13px] text-foreground font-light transition-all duration-300 " +
   "bg-muted/50 border border-foreground/[0.06] " +
   "placeholder:text-muted-foreground/40 " +
-  "focus:outline-none focus:border-primary/30 focus:bg-background focus:shadow-[0_0_0_3px_hsla(45,79%,46%,0.06)] " +
+  "focus:outline-none focus:border-primary/30 focus:bg-background focus:shadow-[0_0_0_3px_hsla(43,74%,49%,0.06)] " +
   "disabled:opacity-50 disabled:cursor-not-allowed";
 
 export const PremiumInput = React.forwardRef<
@@ -205,7 +205,7 @@ export const PremiumSubmitButton = ({
     className={cn(
       "w-full py-4 text-[10px] tracking-[0.25em] uppercase font-medium rounded-lg transition-all duration-500",
       "bg-gradient-gold text-primary-foreground",
-      "hover:shadow-[0_0_40px_-8px_hsla(45,79%,46%,0.45)]",
+      "hover:shadow-[0_0_40px_-8px_hsla(43,74%,49%,0.45)]",
       "disabled:opacity-40 disabled:cursor-not-allowed disabled:shadow-none",
       "btn-luxury",
       className

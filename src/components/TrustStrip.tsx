@@ -68,7 +68,7 @@ const TrustStrip = () => (
               whileHover={{ y: -3, scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               transition={{ duration: 0.3, ease: "easeOut" }}
-              className="flex items-center justify-center w-10 h-10 rounded-full bg-background border border-border text-primary hover:bg-primary hover:text-white hover:shadow-[0_8px_25px_-5px_hsla(45,79%,46%,0.3)] transition-all duration-300"
+              className="flex items-center justify-center w-10 h-10 rounded-full bg-background border border-border text-primary hover:bg-primary hover:text-white hover:shadow-[0_8px_25px_-5px_hsla(43,74%,49%,0.3)] transition-all duration-300"
             >
               <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
                 <path d={s.path} />

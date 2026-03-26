@@ -116,7 +116,7 @@ const FleetPage = () => {
             <div className="flex flex-wrap justify-center gap-3">
               <Link
                 to="/request-flight"
-                className="inline-flex items-center gap-2 px-8 py-3.5 bg-gradient-gold text-primary-foreground text-[10px] tracking-[0.25em] uppercase font-medium rounded-xl hover:shadow-[0_0_30px_-8px_hsla(45,79%,46%,0.45)] transition-all duration-500"
+                className="inline-flex items-center gap-2 px-8 py-3.5 bg-gradient-gold text-primary-foreground text-[10px] tracking-[0.25em] uppercase font-medium rounded-xl hover:shadow-[0_0_30px_-8px_hsla(43,74%,49%,0.45)] transition-all duration-500"
               >
                 Request Custom Quote <ArrowRight size={10} />
               </Link>

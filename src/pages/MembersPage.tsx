@@ -89,7 +89,7 @@ const tiers = [
     concierge: "Personal account manager + private concierge desk",
     overageFee: "No overage fees",
     cardGradient: "linear-gradient(160deg, hsl(0 0% 8%) 0%, hsl(0 0% 3%) 40%, hsl(0 0% 6%) 100%)",
-    shineColor: "hsla(40, 42%, 50%, 0.2)",
+    shineColor: "hsla(43, 74%, 52%, 0.2)",
     featured: false,
     isMaverick: true,
     benefits: [
@@ -194,7 +194,7 @@ const MembershipCard = ({ tier, index }: { tier: typeof tiers[0]; index: number 
             background: tier.cardGradient,
             transform: `rotateX(${rotateX}deg) rotateY(${rotateY}deg)`,
             boxShadow: isMaverick
-              ? "0 25px 60px -15px rgba(0,0,0,0.7), 0 0 40px -10px hsla(40,42%,42%,0.2)"
+              ? "0 25px 60px -15px rgba(0,0,0,0.7), 0 0 40px -10px hsla(43,74%,49%,0.2)"
               : "0 25px 60px -15px rgba(0,0,0,0.4)",
           }}
         >
@@ -236,7 +236,7 @@ const MembershipCard = ({ tier, index }: { tier: typeof tiers[0]; index: number 
               <div className="flex items-center gap-3">
                 <div
                   className="w-10 h-8 rounded-[4px] border border-white/15 relative overflow-hidden"
-                  style={{ background: isMaverick ? "linear-gradient(145deg, hsla(40,42%,50%,0.3) 0%, hsla(40,42%,42%,0.1) 100%)" : "linear-gradient(145deg, hsla(40,42%,50%,0.15) 0%, hsla(40,42%,42%,0.05) 100%)" }}
+                  style={{ background: isMaverick ? "linear-gradient(145deg, hsla(43,74%,52%,0.3) 0%, hsla(43,74%,49%,0.1) 100%)" : "linear-gradient(145deg, hsla(43,74%,52%,0.15) 0%, hsla(43,74%,49%,0.05) 100%)" }}
                 >
                   <div className="absolute inset-[3px] border border-white/10 rounded-[2px]" />
                 </div>
@@ -293,9 +293,9 @@ const MembershipCard = ({ tier, index }: { tier: typeof tiers[0]; index: number 
         to={`/membership/enroll?tier=${tier.name.toLowerCase()}`}
         className={`block text-center py-3.5 text-[10px] tracking-[0.2em] uppercase font-medium rounded-xl transition-all duration-500 mt-auto ${
           isMaverick
-            ? "bg-gradient-gold text-primary-foreground hover:shadow-[0_0_30px_-8px_hsla(40,42%,42%,0.4)]"
+            ? "bg-gradient-gold text-primary-foreground hover:shadow-[0_0_30px_-8px_hsla(43,74%,49%,0.4)]"
             : tier.featured
-            ? "bg-gradient-gold text-primary-foreground hover:shadow-[0_0_30px_-8px_hsla(40,42%,42%,0.4)]"
+            ? "bg-gradient-gold text-primary-foreground hover:shadow-[0_0_30px_-8px_hsla(43,74%,49%,0.4)]"
             : "border border-border text-foreground/60 hover:border-primary/30 hover:text-primary"
         }`}
       >
@@ -400,7 +400,7 @@ const MembersPage = () => (
         </motion.div>
 
         <div className="mt-8 flex flex-col sm:flex-row gap-4 justify-center">
-          <Link to="/membership/enroll" className="inline-flex items-center justify-center px-8 py-3.5 bg-gradient-gold text-primary-foreground text-[10px] tracking-[0.25em] uppercase font-medium rounded-xl hover:shadow-[0_0_30px_-8px_hsla(40,42%,42%,0.4)] transition-all duration-500">
+          <Link to="/membership/enroll" className="inline-flex items-center justify-center px-8 py-3.5 bg-gradient-gold text-primary-foreground text-[10px] tracking-[0.25em] uppercase font-medium rounded-xl hover:shadow-[0_0_30px_-8px_hsla(43,74%,49%,0.4)] transition-all duration-500">
             Enroll in Membership
           </Link>
           <Link to="/jet-card" className="inline-flex items-center justify-center gap-2 px-8 py-3.5 border border-border text-foreground/60 hover:text-foreground text-[10px] tracking-[0.25em] uppercase font-medium rounded-xl transition-all duration-500">
@@ -484,7 +484,7 @@ const MembersPage = () => (
             Choose your tier and complete your enrollment online. Your dedicated advisor will reach out within 24 hours.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link to="/membership/enroll" className="px-10 py-3.5 bg-gradient-gold text-primary-foreground text-[10px] tracking-[0.2em] uppercase font-medium rounded-xl hover:shadow-[0_0_30px_-8px_hsla(40,42%,42%,0.4)] transition-all duration-500">
+            <Link to="/membership/enroll" className="px-10 py-3.5 bg-gradient-gold text-primary-foreground text-[10px] tracking-[0.2em] uppercase font-medium rounded-xl hover:shadow-[0_0_30px_-8px_hsla(43,74%,49%,0.4)] transition-all duration-500">
               Enroll Now
             </Link>
             <a href="https://wa.me/971585918498" target="_blank" rel="noopener noreferrer"

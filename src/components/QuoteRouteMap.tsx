@@ -165,7 +165,7 @@ const QuoteRouteMap = forwardRef<HTMLDivElement, QuoteRouteMapProps>(({ from, to
       canvas.height = size;
       const ctx = canvas.getContext("2d")!;
       // Gold arrow
-      ctx.fillStyle = "hsl(45, 79%, 55%)";
+      ctx.fillStyle = "hsl(43, 85%, 58%)";
       ctx.beginPath();
       ctx.moveTo(size / 2, 2);
       ctx.lineTo(size - 4, size - 4);
@@ -190,7 +190,7 @@ const QuoteRouteMap = forwardRef<HTMLDivElement, QuoteRouteMapProps>(({ from, to
         id: `route-glow-${i}`,
         type: "line",
         source: `route-${i}`,
-        paint: { "line-color": "hsla(45, 79%, 50%, 0.12)", "line-width": 10, "line-blur": 8 },
+        paint: { "line-color": "hsla(43, 74%, 52%, 0.12)", "line-width": 10, "line-blur": 8 },
       });
 
       // Route line
@@ -198,7 +198,7 @@ const QuoteRouteMap = forwardRef<HTMLDivElement, QuoteRouteMapProps>(({ from, to
         id: `route-${i}`,
         type: "line",
         source: `route-${i}`,
-        paint: { "line-color": "hsl(45, 79%, 55%)", "line-width": 2.5 },
+        paint: { "line-color": "hsl(43, 85%, 58%)", "line-width": 2.5 },
       });
 
       // Directional arrow at midpoint
@@ -331,9 +331,9 @@ function createCityMarker(code: string): HTMLDivElement {
   dot.style.width = "10px";
   dot.style.height = "10px";
   dot.style.borderRadius = "50%";
-  dot.style.background = "hsl(45, 79%, 55%)";
-  dot.style.boxShadow = "0 0 12px 3px hsla(45, 79%, 50%, 0.5)";
-  dot.style.border = "2px solid hsla(45, 79%, 80%, 0.6)";
+  dot.style.background = "hsl(43, 85%, 58%)";
+  dot.style.boxShadow = "0 0 12px 3px hsla(43, 74%, 52%, 0.5)";
+  dot.style.border = "2px solid hsla(43, 85%, 78%, 0.6)";
 
   const label = document.createElement("div");
   label.textContent = code;

@@ -235,7 +235,7 @@ const FlightSearchBox = () => {
                   disabled={!canSearch}
                   whileHover={canSearch ? { scale: 1.02 } : {}}
                   whileTap={canSearch ? { scale: 0.97 } : {}}
-                  className="h-full min-h-[56px] px-10 bg-gradient-gold rounded-xl flex items-center justify-center gap-3 shadow-[0_6px_24px_-6px_hsla(45,79%,46%,0.35)] hover:shadow-[0_10px_36px_-6px_hsla(45,79%,46%,0.5)] transition-all duration-400 disabled:opacity-30 disabled:cursor-not-allowed disabled:shadow-none cursor-pointer"
+                  className="h-full min-h-[56px] px-10 bg-gradient-gold rounded-xl flex items-center justify-center gap-3 shadow-[0_6px_24px_-6px_hsla(43,74%,49%,0.35)] hover:shadow-[0_10px_36px_-6px_hsla(43,74%,49%,0.5)] transition-all duration-400 disabled:opacity-30 disabled:cursor-not-allowed disabled:shadow-none cursor-pointer"
                 >
                   <Search size={16} className="text-white" strokeWidth={2} />
                   <span className="text-white text-[11px] tracking-[0.2em] uppercase font-semibold">Search Flights</span>
@@ -299,7 +299,7 @@ const FlightSearchBox = () => {
                   disabled={!canSearch}
                   whileHover={canSearch ? { scale: 1.02 } : {}}
                   whileTap={canSearch ? { scale: 0.97 } : {}}
-                  className="flex items-center gap-2.5 px-8 py-3 bg-gradient-gold rounded-xl text-white text-[10px] tracking-[0.2em] uppercase font-semibold shadow-[0_6px_24px_-6px_hsla(45,79%,46%,0.35)] hover:shadow-[0_10px_36px_-6px_hsla(45,79%,46%,0.5)] transition-all duration-500 disabled:opacity-30 disabled:cursor-not-allowed cursor-pointer"
+                  className="flex items-center gap-2.5 px-8 py-3 bg-gradient-gold rounded-xl text-white text-[10px] tracking-[0.2em] uppercase font-semibold shadow-[0_6px_24px_-6px_hsla(43,74%,49%,0.35)] hover:shadow-[0_10px_36px_-6px_hsla(43,74%,49%,0.5)] transition-all duration-500 disabled:opacity-30 disabled:cursor-not-allowed cursor-pointer"
                 >
                   <Search size={14} strokeWidth={2} /> Search Flights
                 </motion.button>

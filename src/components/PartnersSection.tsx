@@ -99,13 +99,13 @@ const PartnersSection = () => (
           <FadeReveal key={card.title} delay={i * 0.1}>
             <motion.div
               whileHover={{ y: -6, boxShadow: card.featured
-                ? "0 30px 80px -16px hsla(45, 79%, 46%, 0.22), 0 0 0 1px hsla(45, 79%, 46%, 0.15)"
+                ? "0 30px 80px -16px hsla(43, 74%, 49%, 0.22), 0 0 0 1px hsla(43, 74%, 49%, 0.15)"
                 : "0 20px 60px -16px hsla(0, 0%, 0%, 0.12)"
               }}
               transition={{ duration: 0.35 }}
               className={`relative rounded-2xl p-8 md:p-10 h-full border transition-all duration-500 ${
                 card.featured
-                  ? "bg-gradient-to-br from-card via-card to-primary/[0.04] border-primary/20 shadow-[0_0_60px_-20px_hsla(45,79%,46%,0.1)]"
+                  ? "bg-gradient-to-br from-card via-card to-primary/[0.04] border-primary/20 shadow-[0_0_60px_-20px_hsla(43,74%,49%,0.1)]"
                   : "bg-card border-border shadow-sm"
               } ${card.featured ? "lg:col-span-2" : ""}`}
             >
@@ -159,7 +159,7 @@ const PartnersSection = () => (
               </a>
 
               {card.featured && (
-                <div className="absolute top-0 right-0 w-40 h-40 bg-[radial-gradient(circle,_hsla(45,79%,46%,0.06)_0%,_transparent_70%)] pointer-events-none" />
+                <div className="absolute top-0 right-0 w-40 h-40 bg-[radial-gradient(circle,_hsla(43,74%,49%,0.06)_0%,_transparent_70%)] pointer-events-none" />
               )}
             </motion.div>
           </FadeReveal>

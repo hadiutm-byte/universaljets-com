@@ -243,7 +243,7 @@ const BDDashboardPage = () => {
             </div>
             <div><label className={labelClass}>Source</label><input value={form.source} onChange={e => setForm(p => ({ ...p, source: e.target.value }))} className={inputClass} /></div>
             <div><label className={labelClass}>Notes</label><textarea rows={3} value={form.notes} onChange={e => setForm(p => ({ ...p, notes: e.target.value }))} className={inputClass} /></div>
-            <button type="submit" className="w-full py-3 bg-gradient-gold text-primary-foreground text-[9px] tracking-[0.25em] uppercase font-medium rounded-lg hover:shadow-[0_0_30px_-8px_hsla(45,79%,46%,0.45)] transition-all duration-500">Create</button>
+            <button type="submit" className="w-full py-3 bg-gradient-gold text-primary-foreground text-[9px] tracking-[0.25em] uppercase font-medium rounded-lg hover:shadow-[0_0_30px_-8px_hsla(43,74%,49%,0.45)] transition-all duration-500">Create</button>
           </form>
         </DialogContent>
       </Dialog>

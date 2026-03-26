@@ -47,7 +47,7 @@ const JetCardPage = () => (
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link to="/jet-card-inquiry" className="inline-block px-8 py-3.5 bg-gradient-gold text-primary-foreground text-[11px] tracking-[0.25em] uppercase font-medium rounded-xl hover:shadow-[0_0_30px_-8px_hsla(45,79%,46%,0.45)] transition-all duration-500">
+            <Link to="/jet-card-inquiry" className="inline-block px-8 py-3.5 bg-gradient-gold text-primary-foreground text-[11px] tracking-[0.25em] uppercase font-medium rounded-xl hover:shadow-[0_0_30px_-8px_hsla(43,74%,49%,0.45)] transition-all duration-500">
               Apply for Your Jet Card
             </Link>
             <a href="#jet-card-features" className="inline-flex items-center justify-center gap-2 px-8 py-3.5 border border-border text-foreground/60 hover:text-foreground text-[10px] tracking-[0.25em] uppercase font-medium rounded-xl transition-all duration-500">
@@ -98,7 +98,7 @@ const JetCardPage = () => (
           {advantages.map((b, i) => (
             <motion.div key={i} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
               transition={{ delay: i * 0.08, duration: 0.6 }} className="text-center group">
-              <div className="w-14 h-14 rounded-full border border-border flex items-center justify-center mx-auto mb-7 group-hover:border-primary/30 group-hover:shadow-[0_0_20px_-5px_hsla(45,79%,46%,0.15)] transition-all duration-700">
+              <div className="w-14 h-14 rounded-full border border-border flex items-center justify-center mx-auto mb-7 group-hover:border-primary/30 group-hover:shadow-[0_0_20px_-5px_hsla(43,74%,49%,0.15)] transition-all duration-700">
                 <b.icon className="w-5 h-5 text-primary/60" strokeWidth={1.2} />
               </div>
               <h3 className="font-display text-lg mb-3 text-foreground">{b.title}</h3>
@@ -137,7 +137,7 @@ const JetCardPage = () => (
             A tailored proposal prepared around your flying patterns, preferred aircraft category, and annual usage.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link to="/jet-card-inquiry" className="px-10 py-3.5 bg-gradient-gold text-primary-foreground text-[10px] tracking-[0.25em] uppercase font-medium rounded-xl hover:shadow-[0_0_30px_-8px_hsla(45,79%,46%,0.45)] transition-all duration-500">
+            <Link to="/jet-card-inquiry" className="px-10 py-3.5 bg-gradient-gold text-primary-foreground text-[10px] tracking-[0.25em] uppercase font-medium rounded-xl hover:shadow-[0_0_30px_-8px_hsla(43,74%,49%,0.45)] transition-all duration-500">
               Apply for Your Jet Card
             </Link>
             <Link to="/membership" className="inline-flex items-center justify-center gap-2 px-10 py-3.5 text-[10px] tracking-[0.2em] uppercase text-muted-foreground hover:text-foreground transition-all duration-500 border border-border rounded-xl">

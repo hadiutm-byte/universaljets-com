@@ -19,7 +19,7 @@ interface RickyThreeAvatarProps {
 }
 
 const fallbackPalette: ThemePalette = {
-  primary: "hsl(45 79% 46%)",
+  primary: "hsl(43 74% 49%)",
   foreground: "hsl(0 0% 7%)",
   card: "hsl(0 0% 100%)",
   charcoal: "hsl(0 0% 10%)",

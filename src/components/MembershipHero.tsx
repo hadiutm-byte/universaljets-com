@@ -40,7 +40,7 @@ const MembershipHero = ({ onRequestInvitation, onSpeakToAdvisor }: MembershipHer
     <div
       className="absolute inset-0 opacity-30"
       style={{
-        background: "radial-gradient(ellipse 60% 40% at 50% 45%, hsla(45, 79%, 46%, 0.08) 0%, transparent 70%)",
+        background: "radial-gradient(ellipse 60% 40% at 50% 45%, hsla(43, 74%, 49%, 0.08) 0%, transparent 70%)",
       }}
     />
 
@@ -48,7 +48,7 @@ const MembershipHero = ({ onRequestInvitation, onSpeakToAdvisor }: MembershipHer
     <div className="absolute inset-0 opacity-[0.03]" style={{ backgroundImage: "url('data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22n%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.65%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23n)%22/%3E%3C/svg%3E')" }} />
 
     {/* Top shimmer line */}
-    <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-[hsl(45,79%,46%,0.2)] to-transparent" />
+    <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-[hsl(43,74%,49%,0.2)] to-transparent" />
 
     <div className="container mx-auto px-8 relative z-10">
       <motion.div
@@ -61,10 +61,10 @@ const MembershipHero = ({ onRequestInvitation, onSpeakToAdvisor }: MembershipHer
         {/* Badge */}
         <motion.div
           variants={fadeUp}
-          className="inline-flex items-center gap-2 px-5 py-2 rounded-full border border-[hsl(45,79%,46%,0.15)] bg-[hsl(45,79%,46%,0.04)] mb-10"
+          className="inline-flex items-center gap-2 px-5 py-2 rounded-full border border-[hsl(43,74%,49%,0.15)] bg-[hsl(43,74%,49%,0.04)] mb-10"
         >
-          <div className="w-1.5 h-1.5 rounded-full bg-[hsl(45,79%,46%)] animate-pulse" />
-          <span className="text-[9px] tracking-[0.4em] uppercase text-[hsl(45,79%,46%,0.7)] font-light">
+          <div className="w-1.5 h-1.5 rounded-full bg-[hsl(43,74%,49%)] animate-pulse" />
+          <span className="text-[9px] tracking-[0.4em] uppercase text-[hsl(43,74%,49%,0.7)] font-light">
             Limited invitations released monthly
           </span>
         </motion.div>
@@ -100,7 +100,7 @@ const MembershipHero = ({ onRequestInvitation, onSpeakToAdvisor }: MembershipHer
           className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-20"
         >
           <motion.button
-            whileHover={{ scale: 1.04, boxShadow: "0 0 50px -12px hsla(45,79%,46%,0.5)" }}
+            whileHover={{ scale: 1.04, boxShadow: "0 0 50px -12px hsla(43,74%,49%,0.5)" }}
             whileTap={{ scale: 0.97 }}
             onClick={() => { trackMembershipRequest(); onRequestInvitation(); }}
             className="px-10 py-4 bg-gradient-gold text-white text-[10px] tracking-[0.3em] uppercase font-semibold rounded-xl transition-all duration-500 cursor-pointer"
@@ -134,7 +134,7 @@ const MembershipHero = ({ onRequestInvitation, onSpeakToAdvisor }: MembershipHer
               className="text-center"
             >
               <div className="w-11 h-11 rounded-full border border-white/[0.06] bg-white/[0.02] flex items-center justify-center mx-auto mb-4">
-                <p.icon className="w-4 h-4 text-[hsl(45,79%,46%,0.5)]" strokeWidth={1.2} />
+                <p.icon className="w-4 h-4 text-[hsl(43,74%,49%,0.5)]" strokeWidth={1.2} />
               </div>
               <p className="text-[11px] text-white/40 font-light tracking-wide">{p.text}</p>
             </motion.div>
@@ -144,7 +144,7 @@ const MembershipHero = ({ onRequestInvitation, onSpeakToAdvisor }: MembershipHer
     </div>
 
     {/* Bottom shimmer line */}
-    <div className="absolute bottom-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-[hsl(45,79%,46%,0.15)] to-transparent" />
+    <div className="absolute bottom-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-[hsl(43,74%,49%,0.15)] to-transparent" />
   </section>
 );
 
