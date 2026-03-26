@@ -15,8 +15,8 @@ export const organizationSchema = {
   "@context": "https://schema.org",
   "@type": "Organization",
   name: "Universal Jets",
-  url: "https://sky-bound-elegance.lovable.app",
-  logo: "https://sky-bound-elegance.lovable.app/favicon.png",
+  url: "https://www.universaljets.com",
+  logo: "https://www.universaljets.com/favicon.png",
   description: "Private jet charter brokerage with 18+ years of experience. On-demand charter, empty legs, jet cards, and 24/7 concierge.",
   foundingDate: "2006",
   contactPoint: [
