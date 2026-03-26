@@ -9,22 +9,22 @@ const StickyFloatingCTA = () => {
   return (
     <motion.div
       style={{ opacity }}
-      className="fixed bottom-6 left-1/2 -translate-x-1/2 z-40 flex items-center gap-3 rounded-full px-2 py-2 bg-[hsl(220,10%,8%)] border border-white/8 shadow-[0_8px_32px_hsla(0,0%,0%,0.5)]"
+      className="fixed bottom-6 left-1/2 -translate-x-1/2 z-40 flex items-center gap-3 rounded-full px-2 py-2 bg-[hsl(220,10%,8%)] border border-white/[0.06] shadow-[0_8px_40px_hsla(0,0%,0%,0.5)]"
     >
       <Link
         to="/contact"
-        className="flex items-center gap-2 px-5 py-2.5 rounded-full bg-primary text-primary-foreground text-[10px] tracking-[0.15em] uppercase font-semibold hover:bg-primary/90 transition-colors"
+        className="flex items-center gap-2 px-5 py-2.5 rounded-full bg-primary text-primary-foreground text-[9px] tracking-[0.2em] uppercase font-semibold hover:bg-primary/90 transition-all duration-500 hover:shadow-[0_0_20px_-4px_hsla(45,79%,46%,0.3)]"
       >
-        <Plane size={14} strokeWidth={1.5} />
+        <Plane size={13} strokeWidth={1.5} />
         Request a Flight
       </Link>
       <a
         href="https://wa.me/447888999944"
         target="_blank"
         rel="noopener noreferrer"
-        className="flex items-center gap-2 px-4 py-2.5 rounded-full border border-white/10 text-white/60 text-[10px] tracking-[0.15em] uppercase font-medium hover:text-white hover:border-primary/30 transition-colors"
+        className="flex items-center gap-2 px-4 py-2.5 rounded-full border border-white/[0.08] text-white/50 text-[9px] tracking-[0.2em] uppercase font-medium hover:text-white hover:border-primary/30 transition-all duration-500"
       >
-        <Phone size={13} strokeWidth={1.5} />
+        <Phone size={12} strokeWidth={1.5} />
         WhatsApp
       </a>
     </motion.div>
