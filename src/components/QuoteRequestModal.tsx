@@ -35,6 +35,19 @@ const QuoteRequestModal = ({ open, onClose, flightData }: QuoteRequestModalProps
   const [submitting, setSubmitting] = useState(false);
   const { capture } = useCrmApi();
 
+  // Fetch FBOs for the destination airport (if ICAO available)
+  const destIcaos = useMemo(() => flightData.toIcao ? [flightData.toIcao] : [], [flightData.toIcao]);
+  const { data: destFbos } = useDestinationFbos(destIcaos);
+  const vipTerminals = useMemo(() => {
+    if (!destFbos?.length) return [];
+    // Dedupe and pick top 3 with VIP lounges first
+    const unique = destFbos.reduce((acc: ApiFbo[], f) => {
+      if (!acc.find((x) => x.name === f.name)) acc.push(f);
+      return acc;
+    }, []);
+    return unique.sort((a, b) => (b.vip_lounge ? 1 : 0) - (a.vip_lounge ? 1 : 0)).slice(0, 3);
+  }, [destFbos]);
+
   const [form, setForm] = useState({
     name: "",
     email: "",
