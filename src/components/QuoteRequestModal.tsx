@@ -1,6 +1,7 @@
 import { useState, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, Plane, Calendar, Users, ArrowRight, CheckCircle, Phone, MessageCircle, MapPin, Clock, Shield } from "lucide-react";
+import MembershipUpsell from "@/components/MembershipUpsell";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
@@ -415,6 +416,9 @@ const QuoteRequestModal = ({ open, onClose, flightData }: QuoteRequestModalProps
                 <Plane size={11} className="text-primary/50" />
                 {form.departure} → {form.destination}
               </div>
+
+              {/* Membership upsell */}
+              <MembershipUpsell variant="inline" showReferral={true} className="text-left" />
 
               <div className="space-y-3 pt-2">
                 <button
