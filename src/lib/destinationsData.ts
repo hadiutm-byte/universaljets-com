@@ -299,9 +299,9 @@ export const destinations: Destination[] = [
     heroDesc: "The city that never sleeps — and neither does its private aviation demand. New York offers more private jet access points than any US market, from Teterboro to Westchester.",
     region: "Americas",
     airports: [
-      { name: "Teterboro Airport", code: "KTEB", type: "Dedicated Business Aviation", note: "The premier NYC private jet airport — 12 miles from Manhattan" },
-      { name: "Westchester County", code: "KHPN / HPN", type: "GA & Commercial", note: "Popular for Connecticut & Westchester clients" },
-      { name: "Republic Airport (Long Island)", code: "KFRG / FRG", type: "Business Aviation", note: "Preferred for Hamptons access" },
+      { name: "Teterboro Airport", code: "KTEB", icao: "KTEB", type: "Dedicated Business Aviation", note: "The premier NYC private jet airport — 12 miles from Manhattan" },
+      { name: "Westchester County", code: "KHPN / HPN", icao: "KHPN", type: "GA & Commercial", note: "Popular for Connecticut & Westchester clients" },
+      { name: "Republic Airport (Long Island)", code: "KFRG / FRG", icao: "KFRG", type: "Business Aviation", note: "Preferred for Hamptons access" },
     ],
     popularRoutes: [
       { from: "New York", to: "Miami", time: "2h 45m", aircraft: "Light / Midsize" },
