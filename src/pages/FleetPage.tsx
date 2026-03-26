@@ -6,8 +6,9 @@ import Footer from "@/components/Footer";
 import SEOHead from "@/components/SEOHead";
 import { useFleetAircraft, type FleetAircraft } from "@/hooks/useFleetData";
 import { getAircraftImage } from "@/lib/aircraftImages";
-import { Loader2, Users, Ruler, Gauge, Share2, ArrowRight } from "lucide-react";
+import { Loader2, Users, Ruler, Gauge, Share2, ArrowRight, Images } from "lucide-react";
 import { toast } from "sonner";
+import AircraftGallery from "@/components/AircraftGallery";
 
 const JET_CATEGORIES = [
   { label: "All Jets", filter: "" },
