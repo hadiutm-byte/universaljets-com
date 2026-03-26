@@ -12,7 +12,7 @@ import { toast } from "sonner";
 const JET_CATEGORIES = [
   { label: "All Jets", filter: "" },
   { label: "Very Light", filter: "very light" },
-  { label: "Light", filter: "light jet" },
+  { label: "Light", filter: "light" },
   { label: "Midsize", filter: "midsize" },
   { label: "Super Midsize", filter: "super midsize" },
   { label: "Heavy", filter: "heavy" },
@@ -28,7 +28,10 @@ const FleetPage = () => {
     if (!activeFilter) return all;
     return all.filter(ac => {
       const cls = (ac.class_name || "").toLowerCase();
-      // Match filter substring — e.g. "light jet" matches "Light Jet", "midsize" matches "Midsize Jet"
+      // Exact category match: "light" should not match "very light" or "ultra long range"
+      if (activeFilter === "light") return cls === "light" || cls === "light jet";
+      if (activeFilter === "midsize") return cls === "midsize" || cls === "midsize jet" || cls === "mid size";
+      if (activeFilter === "heavy") return cls === "heavy" || cls === "heavy jet";
       return cls.includes(activeFilter);
     });
   }, [data, activeFilter]);
