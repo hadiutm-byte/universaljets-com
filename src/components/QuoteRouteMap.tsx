@@ -60,7 +60,7 @@ function flightTime(km: number): string {
   return h > 0 ? `~${h}h ${m}m` : `~${m}m`;
 }
 
-const QuoteRouteMap = ({ from, to, additionalLegs, className = "" }: QuoteRouteMapProps) => {
+const QuoteRouteMap = forwardRef<HTMLDivElement, QuoteRouteMapProps>(({ from, to, additionalLegs, className = "" }, _ref) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const mapRef = useRef<mapboxgl.Map | null>(null);
   const markersRef = useRef<mapboxgl.Marker[]>([]);
