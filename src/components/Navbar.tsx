@@ -31,6 +31,45 @@ const overlayLinks = [
 
 const CRM_ROLES: AppRole[] = ["admin", "sales", "operations", "finance", "account_management"];
 
+/* ─── Internal NavLink ─── */
+const NavLinkInner = ({
+  href,
+  children,
+  className,
+  isHome,
+  onNav,
+}: {
+  href: string;
+  children: React.ReactNode;
+  className?: string;
+  isHome: boolean;
+  onNav: (href: string) => void;
+}) => {
+  if (href === "/" && !href.includes("#")) {
+    return (
+      <Link to="/" onClick={() => onNav(href)} className={className}>
+        {children}
+      </Link>
+    );
+  }
+  if (href.startsWith("/#")) {
+    return isHome ? (
+      <a href={href.replace("/", "")} onClick={() => onNav(href)} className={className}>
+        {children}
+      </a>
+    ) : (
+      <Link to={href.replace("/#", "/?scrollTo=")} className={className}>
+        {children}
+      </Link>
+    );
+  }
+  return (
+    <Link to={href} onClick={() => onNav(href)} className={className}>
+      {children}
+    </Link>
+  );
+};
+
 const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
   const [overlayOpen, setOverlayOpen] = useState(false);
@@ -48,9 +87,7 @@ const Navbar = () => {
 
   useEffect(() => {
     document.body.style.overflow = overlayOpen ? "hidden" : "";
-    return () => {
-      document.body.style.overflow = "";
-    };
+    return () => { document.body.style.overflow = ""; };
   }, [overlayOpen]);
 
   const handleNavClick = (href: string) => {
@@ -60,106 +97,85 @@ const Navbar = () => {
       window.scrollTo({ top: 0, behavior: "instant" });
       requestAnimationFrame(() => {
         setTimeout(() => {
-          const el = document.getElementById(id) || document.querySelector(`#${id}`);
-          el?.scrollIntoView({ behavior: "smooth", block: "start" });
+          document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" });
         }, 50);
       });
     }
   };
 
-  const NavLink = ({ href, children, className }: { href: string; children: React.ReactNode; className?: string }) => {
-    if (href === "/" && !href.includes("#")) {
-      return (
-        <Link to="/" onClick={() => setOverlayOpen(false)} className={className}>
-          {children}
-        </Link>
-      );
-    }
-    if (href.startsWith("/#")) {
-      return isHome ? (
-        <a href={href.replace("/", "")} onClick={() => handleNavClick(href)} className={className}>
-          {children}
-        </a>
-      ) : (
-        <Link to={href.replace("/#", "/?scrollTo=")} className={className}>
-          {children}
-        </Link>
-      );
-    }
-    return (
-      <Link to={href} onClick={() => setOverlayOpen(false)} className={className}>
-        {children}
-      </Link>
-    );
-  };
-
   return (
     <>
-      {/* Navbar — solid dark when scrolled, subtle dark glass at top */}
+      {/* ═══ TOP BAR ═══ Membership banner is outside this component (z-60, top-0, h-9) */}
+      {/* ═══ NAVBAR ═══ Fixed below banner. Solid dark when scrolled. */}
       <motion.nav
         initial={{ opacity: 0, y: -12 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 1, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
-        className="fixed top-9 left-0 right-0 z-50 transition-all duration-500"
-        style={
-          scrolled
-            ? {
-                background: "hsl(220, 10%, 8%)",
-                borderBottom: "1px solid hsla(45, 79%, 46%, 0.08)",
-                padding: "12px 0",
-              }
-            : {
-                background: "hsla(220, 10%, 8%, 0.6)",
-                padding: "20px 0",
-              }
-        }
+        className={`fixed top-9 left-0 right-0 z-50 transition-all duration-500 ${
+          scrolled ? "py-3" : "py-5"
+        }`}
+        style={{
+          background: scrolled
+            ? "hsl(220 10% 7%)"
+            : "linear-gradient(to bottom, hsla(220,10%,6%,0.85), hsla(220,10%,6%,0))",
+          borderBottom: scrolled ? "1px solid hsla(45,79%,46%,0.06)" : "none",
+        }}
       >
         <div className="container mx-auto flex items-center justify-between px-6 lg:px-8">
-          <Link to="/" className="group font-display text-[13px] md:text-[15px] tracking-[0.45em] uppercase select-none font-light flex-shrink-0 transition-all duration-500 hover:drop-shadow-[0_0_12px_hsla(45,79%,46%,0.3)]">
+          {/* Logo */}
+          <Link
+            to="/"
+            className="group font-display text-[13px] md:text-[15px] tracking-[0.45em] uppercase select-none font-light flex-shrink-0 transition-all duration-500"
+          >
             <span className="text-white/90">Universal</span>
             <span className="text-gradient-gold ml-1.5 font-normal">Jets</span>
           </Link>
 
+          {/* Center links — desktop only */}
           <div className="hidden xl:flex items-center gap-6 absolute left-1/2 -translate-x-1/2">
             {centerLinks.map((l) => (
-              <NavLink
+              <NavLinkInner
                 key={l.label}
                 href={l.href}
+                isHome={isHome}
+                onNav={handleNavClick}
                 className="text-[10px] tracking-[0.22em] text-white/40 hover:text-primary transition-colors duration-500 uppercase font-light relative group whitespace-nowrap"
               >
                 {l.label}
                 <span className="absolute -bottom-1 left-0 w-0 h-[0.5px] bg-primary/60 group-hover:w-full transition-all duration-500" />
-              </NavLink>
+              </NavLinkInner>
             ))}
           </div>
 
+          {/* Right actions */}
           <div className="flex items-center gap-3 flex-shrink-0">
             {showCrmLink && (
               <Link
                 to="/crm"
-                className="inline-flex items-center rounded-xl border border-white/15 bg-white/5 px-3 py-2 text-[10px] tracking-[0.22em] uppercase font-medium text-white/80 hover:border-primary/40 hover:text-primary transition-all duration-500"
+                className="inline-flex items-center rounded-xl border border-white/10 bg-white/5 px-3 py-2 text-[10px] tracking-[0.22em] uppercase font-medium text-white/70 hover:border-primary/30 hover:text-primary transition-all duration-500"
               >
                 CRM
               </Link>
             )}
-
             <Link
               to="/auth"
-              className="hidden xl:inline-block text-[10px] tracking-[0.2em] text-white/35 hover:text-primary/70 transition-colors duration-500 uppercase font-light"
+              className="hidden xl:inline-block text-[10px] tracking-[0.2em] text-white/30 hover:text-primary/70 transition-colors duration-500 uppercase font-light"
             >
               Members Login
             </Link>
-
-            <NavLink
+            <NavLinkInner
               href="/#cta"
+              isHome={isHome}
+              onNav={handleNavClick}
               className="hidden xl:inline-block px-6 py-2.5 bg-gradient-gold text-white text-[10px] tracking-[0.25em] uppercase font-medium rounded-xl hover:shadow-[0_0_30px_-8px_hsla(45,79%,46%,0.45)] transition-all duration-500 hover:scale-[1.01]"
             >
               Request a Flight
-            </NavLink>
+            </NavLinkInner>
 
+            {/* Hamburger */}
             <button
               onClick={() => setOverlayOpen(!overlayOpen)}
-              className="relative w-10 h-10 flex items-center justify-center transition-colors duration-300 text-white/60 hover:text-white"
+              className="relative w-10 h-10 flex items-center justify-center text-white/60 hover:text-white transition-colors duration-300"
               aria-label="Menu"
             >
               <AnimatePresence mode="wait">
@@ -178,25 +194,18 @@ const Navbar = () => {
         </div>
       </motion.nav>
 
-      {/* Full-screen overlay menu */}
+      {/* ═══ FULLSCREEN OVERLAY ═══ */}
       <AnimatePresence>
         {overlayOpen && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+            transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
             className="fixed inset-0 z-[55] flex"
           >
-            {/* Solid dark background — no stacking transparency */}
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.4 }}
-              className="absolute inset-0"
-              style={{ background: "hsl(220, 10%, 6%)" }}
-            />
+            {/* Opaque dark background — no stacking, no blur */}
+            <div className="absolute inset-0 bg-[hsl(220,10%,5%)]" />
 
             <div className="relative z-10 w-full h-full flex flex-col items-center justify-center px-8">
               <motion.div
@@ -215,13 +224,15 @@ const Navbar = () => {
                     exit={{ opacity: 0, y: -10 }}
                     transition={{ duration: 0.5, delay: 0.15 + i * 0.04, ease: [0.16, 1, 0.3, 1] }}
                   >
-                    <NavLink
+                    <NavLinkInner
                       href={l.href}
+                      isHome={isHome}
+                      onNav={handleNavClick}
                       className="block py-2.5 text-[15px] md:text-[18px] tracking-[0.25em] text-white/40 hover:text-white transition-all duration-500 uppercase font-extralight relative group"
                     >
                       {l.label}
                       <span className="absolute -bottom-0.5 left-1/2 -translate-x-1/2 w-0 h-[0.5px] bg-primary/50 group-hover:w-full transition-all duration-500" />
-                    </NavLink>
+                    </NavLinkInner>
                   </motion.div>
                 ))}
               </nav>
@@ -240,16 +251,15 @@ const Navbar = () => {
                 >
                   Members Login
                 </Link>
-                <NavLink
+                <NavLinkInner
                   href="/#cta"
+                  isHome={isHome}
+                  onNav={handleNavClick}
                   className="px-10 py-3.5 bg-gradient-gold text-white text-[10px] tracking-[0.25em] uppercase font-medium rounded-xl hover:shadow-[0_0_40px_-8px_hsla(45,79%,46%,0.5)] transition-all duration-500"
                 >
                   Request a Flight
-                </NavLink>
+                </NavLinkInner>
               </motion.div>
-
-              {/* Subtle ambient glow — single layer, no stacking */}
-              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-[radial-gradient(circle,_hsla(45,79%,46%,0.04)_0%,_transparent_70%)] pointer-events-none" />
             </div>
           </motion.div>
         )}
