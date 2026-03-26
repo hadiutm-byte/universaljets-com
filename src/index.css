@@ -251,7 +251,7 @@ html {
 
   /* === LAYOUT === */
   .section-padding {
-    @apply py-28 md:py-36 lg:py-44;
+    @apply py-32 md:py-40 lg:py-48;
   }
 
   .luxury-border {
