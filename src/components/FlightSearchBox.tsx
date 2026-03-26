@@ -7,6 +7,7 @@ import { useAirportSearch, type Airport } from "@/hooks/useAviapages";
 import { useCrmApi } from "@/hooks/useCrmApi";
 import DateTimePicker from "@/components/flight-search/DateTimePicker";
 import AirportField from "@/components/flight-search/AirportField";
+import { trackFlightSearch } from "@/lib/gtmEvents";
 
 type TripType = "one-way" | "round-trip" | "multi-city";
 
@@ -128,6 +129,13 @@ const FlightSearchBox = () => {
         }
       });
     }
+    trackFlightSearch({
+      from: primaryLeg.selectedFrom!.city,
+      to: primaryLeg.selectedTo!.city,
+      date: primaryLeg.date ? format(primaryLeg.date, "yyyy-MM-dd") : undefined,
+      passengers: passengers ? Number(passengers) : undefined,
+      tripType,
+    });
     navigate(`/search?${params.toString()}`);
   };
 

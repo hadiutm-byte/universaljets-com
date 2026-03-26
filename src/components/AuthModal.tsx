@@ -5,6 +5,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { lovable } from "@/integrations/lovable/index";
 import { toast } from "sonner";
 import { useNavigate } from "react-router-dom";
+import { trackAuth } from "@/lib/gtmEvents";
 
 interface AuthModalProps {
   open: boolean;
@@ -29,6 +30,7 @@ const AuthModal = ({ open, onClose }: AuthModalProps) => {
         toast.error(error.message);
       } else {
         toast.success("Welcome back.");
+        trackAuth("login");
         onClose();
         navigate("/dashboard");
       }
@@ -45,6 +47,7 @@ const AuthModal = ({ open, onClose }: AuthModalProps) => {
         toast.error(error.message);
       } else {
         toast.success("Your access has been granted.");
+        trackAuth("signup");
         onClose();
         navigate("/dashboard");
       }

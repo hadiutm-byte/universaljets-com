@@ -5,6 +5,7 @@ import { supabase } from "@/integrations/supabase/client";
 import rickyIdle from "@/assets/ricky-idle.png";
 import rickyThinking from "@/assets/ricky-thinking.png";
 import rickyThumbsup from "@/assets/ricky-thumbsup.png";
+import { trackRickyOpen } from "@/lib/gtmEvents";
 
 type Msg = { role: "user" | "assistant"; content: string };
 
@@ -32,6 +33,7 @@ const RickyChatbot = () => {
     const handler = () => {
       setVisible(true);
       setOpen(true);
+      trackRickyOpen("concierge");
     };
     document.addEventListener("open-ricky", handler);
     return () => document.removeEventListener("open-ricky", handler);

@@ -6,6 +6,7 @@ import { Gauge, Ruler } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { getAircraftImage, getAircraftCategory } from "@/lib/aircraftImages";
+import { trackQuoteRequest, trackWhatsAppClick } from "@/lib/gtmEvents";
 
 interface AircraftResult {
   id: number;
@@ -274,6 +275,7 @@ const SearchResults = () => {
                         href={`https://wa.me/447888999944?text=${encodeURIComponent(`Hello, I'm interested in chartering a ${result.aircraft_type} from ${fromLabel} to ${toLabel}${date ? ` on ${date}` : ''}.`)}`}
                         target="_blank"
                         rel="noopener noreferrer"
+                        onClick={() => { trackQuoteRequest({ aircraft: result.aircraft_type, from: fromLabel, to: toLabel }); trackWhatsAppClick("quote_request"); }}
                         className="block w-full text-center btn-luxury px-5 py-3 text-[9px] tracking-[0.2em] uppercase font-medium rounded-xl"
                       >
                         Request Quote

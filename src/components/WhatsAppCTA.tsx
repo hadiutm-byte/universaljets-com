@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { MessageCircle } from "lucide-react";
 import { FadeReveal, GlassCard } from "./ui/ScrollEffects";
+import { trackWhatsAppClick } from "@/lib/gtmEvents";
 
 const WHATSAPP_NUMBER = "447888999944";
 const WHATSAPP_MESSAGE = encodeURIComponent(
@@ -31,6 +32,7 @@ const WhatsAppCTA = () => (
             href={`https://wa.me/${WHATSAPP_NUMBER}?text=${WHATSAPP_MESSAGE}`}
             target="_blank"
             rel="noopener noreferrer"
+            onClick={() => trackWhatsAppClick("cta_section")}
             className="btn-luxury inline-flex items-center gap-3 px-10 py-4 bg-[hsl(142,70%,35%)] hover:bg-[hsl(142,70%,40%)] text-white text-[10px] tracking-[0.25em] uppercase font-medium rounded-sm"
           >
             <MessageCircle className="w-4 h-4" strokeWidth={1.5} />

@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import { Shield, Plane, UserCheck, Sparkles } from "lucide-react";
+import { trackMembershipRequest } from "@/lib/gtmEvents";
 
 const privileges = [
   { icon: Shield, text: "Priority aircraft access" },
@@ -101,7 +102,7 @@ const MembershipHero = ({ onRequestInvitation, onSpeakToAdvisor }: MembershipHer
           <motion.button
             whileHover={{ scale: 1.04, boxShadow: "0 0 50px -12px hsla(45,79%,46%,0.5)" }}
             whileTap={{ scale: 0.97 }}
-            onClick={onRequestInvitation}
+            onClick={() => { trackMembershipRequest(); onRequestInvitation(); }}
             className="px-10 py-4 bg-gradient-gold text-white text-[10px] tracking-[0.3em] uppercase font-semibold rounded-xl transition-all duration-500 cursor-pointer"
           >
             Request Invitation
