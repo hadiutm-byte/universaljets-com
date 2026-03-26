@@ -61,6 +61,7 @@ export function useFleetAircraft(classId?: string) {
       if (!response.ok) throw new Error("Failed to fetch fleet data");
       const result = await response.json();
       const all: FleetAircraft[] = (result.results || []).map((ac: FleetAircraft) => ({
+        ...ac,
         ...sanitizeAircraftForPublic(ac as unknown as Record<string, unknown>),
       } as FleetAircraft));
       return { count: result.count || 0, results: all.filter(isJetAircraft) };
