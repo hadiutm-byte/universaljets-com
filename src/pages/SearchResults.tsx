@@ -389,15 +389,37 @@ const SearchResults = () => {
                       )}
 
                       {/* CTA */}
-                      <button
-                        onClick={() => {
-                          trackQuoteRequest({ aircraft: result.aircraft_type, from: fromLabel, to: toLabel });
-                          setQuoteModal({ open: true, aircraft: result.aircraft_type });
-                        }}
-                        className="block w-full text-center btn-luxury px-5 py-3 text-[9px] tracking-[0.2em] uppercase font-medium rounded-xl"
-                      >
-                        Request Quote
-                      </button>
+                      <div className="flex gap-2">
+                        <button
+                          onClick={() => {
+                            trackQuoteRequest({ aircraft: result.aircraft_type, from: fromLabel, to: toLabel });
+                            setQuoteModal({ open: true, aircraft: result.aircraft_type });
+                          }}
+                          className="flex-1 text-center btn-luxury px-5 py-3 text-[9px] tracking-[0.2em] uppercase font-medium rounded-xl"
+                        >
+                          Request Quote
+                        </button>
+                        <button
+                          onClick={async (e) => {
+                            e.stopPropagation();
+                            const shareText = `✈️ ${result.aircraft_type}${category ? ` — ${category}` : ""}\n${fromLabel} → ${toLabel}${flightTimeMin ? `\n⏱ ~${formatDuration(flightTimeMin)}` : ""}${pricing.variant !== "request" ? `\n💰 ${pricing.display}` : ""}\n\nUniversal Jets — universaljets.com`;
+                            try {
+                              if (navigator.share) {
+                                await navigator.share({ title: `${result.aircraft_type} — ${fromLabel} → ${toLabel}`, text: shareText });
+                              } else {
+                                await navigator.clipboard.writeText(shareText);
+                                toast.success("Copied to clipboard");
+                              }
+                            } catch {
+                              try { await navigator.clipboard.writeText(shareText); toast.success("Copied to clipboard"); } catch { /* noop */ }
+                            }
+                          }}
+                          className="w-10 h-10 rounded-xl border border-border flex items-center justify-center text-muted-foreground hover:text-primary hover:border-primary/30 transition-all flex-shrink-0"
+                          aria-label="Share this aircraft"
+                        >
+                          <Share2 size={13} />
+                        </button>
+                      </div>
                       <a
                         href={`https://wa.me/447888999944?text=${encodeURIComponent(`Hello, I'm interested in chartering a ${result.aircraft_type} from ${fromLabel} to ${toLabel}${date ? ` on ${date}` : ''}.`)}`}
                         target="_blank"
