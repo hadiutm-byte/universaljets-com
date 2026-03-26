@@ -113,6 +113,13 @@ const EmptyLegPopup = ({ leg, onClose }: EmptyLegPopupProps) => {
             </div>
           </div>
 
+          {/* Interactive route map */}
+          {fromAirport && toAirport && (
+            <div className="mx-3 mt-3 rounded-xl overflow-hidden border border-border/30">
+              <QuoteRouteMap from={fromAirport} to={toAirport} className="h-32" />
+            </div>
+          )}
+
           <div className="p-5">
             {/* Route */}
             <div className="flex items-center gap-3 mb-4">
