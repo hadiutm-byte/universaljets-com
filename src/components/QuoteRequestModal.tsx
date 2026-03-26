@@ -450,14 +450,8 @@ const QuoteRequestModal = ({ open, onClose, flightData }: QuoteRequestModalProps
 
 /** Resolve airport coords from the static lookup */
 function getAirportCoords(icao: string): [number, number] | null {
-  // Dynamic import would be cleaner but for simplicity we import statically
-  try {
-    const AIRPORT_COORDS: Record<string, [number, number]> = {};
-    // We'll use a simpler approach — inline the import
-    return null;
-  } catch {
-    return null;
-  }
+  const coords = AIRPORT_COORDS[icao];
+  return coords ?? null;
 }
 
 export default QuoteRequestModal;
