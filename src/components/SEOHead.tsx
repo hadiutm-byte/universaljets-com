@@ -9,8 +9,8 @@ interface SEOHeadProps {
   image?: string;
 }
 
-const SITE = "https://sky-bound-elegance.lovable.app";
-const DEFAULT_IMAGE = "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/c8660f18-5002-4652-b06b-9cedae5cb850/id-preview-9da5db17--31ef27da-ab19-42db-927e-f098a60784aa.lovable.app-1774437716042.png";
+const SITE = "https://www.universaljets.com";
+const DEFAULT_IMAGE = "https://www.universaljets.com/og-image.jpg";
 
 const SEOHead = ({ title, description, path, type = "website", image }: SEOHeadProps) => {
   const fullTitle = `${title} | Universal Jets`;
