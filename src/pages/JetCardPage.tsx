@@ -1,108 +1,103 @@
 import { motion } from "framer-motion";
-import { Check, ArrowRight, Shield, Clock, Globe, UserCheck, HeartHandshake, Plane } from "lucide-react";
+import { Check, ArrowRight, Shield, Clock, Globe, UserCheck, HeartHandshake, Plane, CreditCard, Lock, Settings, Repeat } from "lucide-react";
 import { Link } from "react-router-dom";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import SEOHead from "@/components/SEOHead";
 
-const tiers = [
-  {
-    name: "Select",
-    hours: "50 Hours",
-    positioning: "For executives and families who fly regularly and want rate certainty.",
-    benefits: [
-      "Fixed hourly rates across light & midsize jets",
-      "Guaranteed 24-hour availability",
-      "Dedicated aviation advisor",
-      "Priority booking during peak seasons",
-      "Complimentary ground transport coordination",
-    ],
-  },
-  {
-    name: "Elite",
-    hours: "100 Hours",
-    positioning: "For high-frequency travelers who demand priority access and global flexibility.",
-    featured: true,
-    benefits: [
-      "Fixed rates across all aircraft categories",
-      "Guaranteed 12-hour availability",
-      "Dedicated senior aviation manager",
-      "Priority over Select-tier bookings",
-      "VIP concierge & catering included",
-      "Empty leg matching & route optimization",
-    ],
-  },
-  {
-    name: "Chairman",
-    hours: "250 Hours",
-    positioning: "For principals, family offices, and organizations requiring total control and discretion.",
-    benefits: [
-      "Bespoke fixed rates — any aircraft, any route",
-      "Guaranteed 8-hour availability worldwide",
-      "Private aviation director assigned",
-      "Absolute booking priority — no exceptions",
-      "Full concierge: ground, hotel, security, catering",
-      "Custom contract terms & invoicing",
-      "Quarterly aviation intelligence briefing",
-    ],
-  },
+const keyFeatures = [
+  "Rates locked at purchase",
+  "Zero membership fees",
+  "Guaranteed aircraft availability",
+  "Unused hours carry forward",
+  "Access any aircraft class",
+  "Priority over on-demand bookings",
+  "No positioning costs",
+  "No hidden costs",
+  "No fine print",
+];
+
+const advantages = [
+  { icon: Lock, title: "Rates Locked at Purchase", desc: "Your hourly rate is fixed the moment you purchase — no market fluctuations, no surprises." },
+  { icon: Clock, title: "Guaranteed Availability", desc: "Aircraft confirmed even on short notice. Your schedule is never compromised." },
+  { icon: Repeat, title: "Hours Carry Forward", desc: "Unused hours roll over. Your investment is protected and never wasted." },
+  { icon: Globe, title: "Access Any Aircraft Class", desc: "From very light jets to ultra long range — your card works across the entire global fleet." },
+  { icon: HeartHandshake, title: "Full Concierge Included", desc: "Ground transport, catering, hotels, and lifestyle services included with every flight." },
+  { icon: Plane, title: "No Fleet Bias", desc: "We source the best aircraft globally for every mission — not tied to one operator's fleet." },
 ];
 
 const JetCardPage = () => (
   <div className="min-h-screen bg-background">
-    <SEOHead title="Jet Card — Fixed Rates, Guaranteed Access" description="Lock your hourly rate with a Universal Jets Jet Card. 50, 100, or 200+ hours with guaranteed availability and dedicated aviation management." path="/jet-card" />
+    <SEOHead title="Altus Jet Card Global — Fixed Rates, Zero Fees | Universal Jets" description="Purchase flight hours at locked-in rates. No membership fees, no hidden costs. Guaranteed availability with hours that carry forward." path="/jet-card" />
     <Navbar />
 
-    {/* Hero */}
-    <section className="relative pt-32 pb-20 md:pt-44 md:pb-28 overflow-hidden section-white">
+    {/* ═══ HERO ═══ */}
+    <section className="relative pt-32 pb-20 md:pt-44 md:pb-28 overflow-hidden">
       <div className="container mx-auto px-8 relative z-10">
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.9 }} className="text-center max-w-3xl mx-auto">
-          <p className="text-[11px] tracking-[0.5em] uppercase text-primary mb-6 font-medium">Jet Card Membership</p>
+          <p className="text-[11px] tracking-[0.5em] uppercase text-primary mb-6 font-medium">Altus Jet Card Global</p>
           <h1 className="text-3xl md:text-5xl lg:text-6xl font-display font-semibold text-foreground mb-6 leading-tight">
-            Guaranteed Access. Fixed Rates.<span className="text-gradient-gold"> Total Control.</span>
+            Pure Flying <span className="text-gradient-gold italic">Freedom</span>
           </h1>
           <p className="text-[15px] md:text-[17px] text-muted-foreground font-light leading-[1.9] max-w-xl mx-auto mb-4">
-            Lock your hourly rate. Avoid market fluctuations. Fly on your terms.
+            No hidden costs. No positioning fees. No membership fees. Just pure flying freedom.
           </p>
           <p className="text-[13px] md:text-[14px] text-muted-foreground font-light leading-[1.9] max-w-lg mx-auto mb-10">
-            Designed for frequent flyers, corporate executives, and UHNW individuals.
+            Purchase flight hours in advance at locked-in rates. Your hours roll over, your aircraft options stay wide open.
           </p>
 
-          <a href="#jet-card-tiers" className="inline-block px-8 py-3.5 bg-gradient-gold text-primary-foreground text-[11px] tracking-[0.25em] uppercase font-medium rounded-xl hover:shadow-[0_0_30px_-8px_hsla(45,79%,46%,0.45)] transition-all duration-500">
-            View Programs
-          </a>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <Link to="/jet-card-inquiry" className="inline-block px-8 py-3.5 bg-gradient-gold text-primary-foreground text-[11px] tracking-[0.25em] uppercase font-medium rounded-xl hover:shadow-[0_0_30px_-8px_hsla(45,79%,46%,0.45)] transition-all duration-500">
+              Apply for Your Jet Card
+            </Link>
+            <a href="#jet-card-features" className="inline-flex items-center justify-center gap-2 px-8 py-3.5 border border-border text-foreground/60 hover:text-foreground text-[10px] tracking-[0.25em] uppercase font-medium rounded-xl transition-all duration-500">
+              Explore Jet Card <ArrowRight size={10} />
+            </a>
+          </div>
 
           <div className="w-16 h-[1px] bg-gradient-to-r from-transparent via-primary/40 to-transparent mx-auto mt-14 mb-8" />
           <p className="text-[12px] tracking-[0.2em] text-muted-foreground font-light">
-            Priority aircraft access • Fixed hourly rates • No ownership complexity • Global fleet flexibility
+            Fixed rates • Zero fees • Hours carry forward • Any aircraft class • Global coverage
           </p>
         </motion.div>
       </div>
     </section>
 
-    {/* Why Jet Card */}
-    <section className="py-20 md:py-28 section-alt">
-      <div className="container mx-auto px-8 relative z-10">
-        <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.8 }} className="text-center mb-16">
-          <p className="text-[11px] tracking-[0.5em] uppercase text-primary mb-6 font-medium">The Advantage</p>
-          <h2 className="text-2xl md:text-4xl font-display font-semibold text-foreground mb-5">Why a Jet Card?</h2>
-          <p className="text-[14px] text-muted-foreground font-light leading-[2] max-w-lg mx-auto">
-            Unlike ad-hoc charter, a jet card secures your rate and access before you fly — eliminating market risk and availability anxiety.
-          </p>
+    {/* ═══ KEY FEATURES ═══ */}
+    <section id="jet-card-features" className="py-20 md:py-28 bg-muted/30">
+      <div className="container mx-auto px-8 max-w-4xl">
+        <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center mb-16">
+          <p className="text-[11px] tracking-[0.5em] uppercase text-primary mb-6 font-medium">What You Get</p>
+          <h2 className="text-2xl md:text-4xl font-display font-semibold text-foreground mb-5">
+            The Altus <span className="text-gradient-gold italic">Advantage</span>
+          </h2>
+        </motion.div>
+
+        <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-4 max-w-3xl mx-auto mb-12">
+          {keyFeatures.map((f, i) => (
+            <motion.div key={i} initial={{ opacity: 0, y: 10 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
+              transition={{ delay: i * 0.05, duration: 0.4 }}
+              className="flex items-center gap-3 p-4 rounded-xl border border-border/50 bg-card">
+              <Check className="w-4 h-4 text-primary flex-shrink-0" strokeWidth={1.5} />
+              <span className="text-[13px] text-foreground/70 font-light">{f}</span>
+            </motion.div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    {/* ═══ ADVANTAGES ═══ */}
+    <section className="py-20 md:py-28">
+      <div className="container mx-auto px-8">
+        <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center mb-16">
+          <p className="text-[11px] tracking-[0.5em] uppercase text-primary mb-6 font-medium">Why Altus</p>
+          <h2 className="text-2xl md:text-4xl font-display font-semibold text-foreground">Built for <span className="text-gradient-gold italic">Simplicity</span></h2>
         </motion.div>
 
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-5xl mx-auto">
-          {[
-            { icon: Clock, title: "Guaranteed Availability", desc: "Aircraft confirmed even on short notice — your schedule is never compromised." },
-            { icon: Shield, title: "Fixed Hourly Rates", desc: "Predictable pricing with no hidden costs, fuel surcharges, or last-minute adjustments." },
-            { icon: UserCheck, title: "Dedicated Aviation Manager", desc: "A single point of contact who knows your preferences and handles every detail." },
-            { icon: Globe, title: "Global Coverage", desc: "Access to 7,000+ vetted aircraft worldwide with no geographic limitations." },
-            { icon: HeartHandshake, title: "Private Concierge", desc: "End-to-end travel support — ground transport, catering, hotels, and special requests." },
-            { icon: Plane, title: "No Fleet Bias", desc: "Your card is not tied to one fleet — we source the best aircraft globally for every mission." },
-          ].map((b, i) => (
-            <motion.div key={i} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.08, duration: 0.6 }}
-              className="text-center group"
-            >
+          {advantages.map((b, i) => (
+            <motion.div key={i} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
+              transition={{ delay: i * 0.08, duration: 0.6 }} className="text-center group">
               <div className="w-14 h-14 rounded-full border border-border flex items-center justify-center mx-auto mb-7 group-hover:border-primary/30 group-hover:shadow-[0_0_20px_-5px_hsla(45,79%,46%,0.15)] transition-all duration-700">
                 <b.icon className="w-5 h-5 text-primary/60" strokeWidth={1.2} />
               </div>
@@ -114,72 +109,11 @@ const JetCardPage = () => (
       </div>
     </section>
 
-    {/* Tier Cards */}
-    <section id="jet-card-tiers" className="py-20 md:py-28 section-white">
-      <div className="container mx-auto px-8 relative z-10">
-        <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.8 }} className="text-center mb-16">
-          <p className="text-[11px] tracking-[0.5em] uppercase text-primary mb-6 font-medium">Programs</p>
-          <h2 className="text-2xl md:text-4xl font-display font-semibold text-foreground mb-5">Choose Your Program</h2>
-          <p className="text-[14px] text-muted-foreground font-light leading-[2] max-w-lg mx-auto">
-            Three tiers. One standard of excellence. Programs starting from $150,000.
-          </p>
-        </motion.div>
-
-        <div className="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto">
-          {tiers.map((tier, i) => (
-            <motion.div key={i} initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.12, duration: 0.7 }}
-              className={`relative rounded-2xl p-8 md:p-10 transition-all duration-700 ${
-                tier.featured
-                  ? "border-2 border-primary/25 bg-card shadow-[0_0_40px_-12px_hsla(45,79%,46%,0.12)]"
-                  : "border border-border bg-card"
-              }`}
-            >
-              {tier.featured && (
-                <div className="absolute -top-3 left-1/2 -translate-x-1/2">
-                  <span className="px-4 py-1 bg-gradient-gold text-primary-foreground text-[8px] tracking-[0.3em] uppercase font-medium rounded-full">
-                    Most Popular
-                  </span>
-                </div>
-              )}
-
-              <p className="text-[10px] tracking-[0.4em] uppercase text-primary font-medium mb-2">{tier.name}</p>
-              <p className="font-display text-2xl font-semibold text-foreground mb-3">{tier.hours}</p>
-              <p className="text-[12px] text-muted-foreground font-light leading-[1.9] mb-8">{tier.positioning}</p>
-
-              <div className="space-y-3 mb-8">
-                {tier.benefits.map((benefit, j) => (
-                  <div key={j} className="flex items-start gap-3">
-                    <Check className="w-3.5 h-3.5 text-primary mt-0.5 flex-shrink-0" strokeWidth={1.5} />
-                    <span className="text-[12px] text-foreground/70 font-light leading-[1.8]">{benefit}</span>
-                  </div>
-                ))}
-              </div>
-
-              <Link to="/contact" className={`block text-center py-3.5 text-[10px] tracking-[0.25em] uppercase font-medium rounded-xl transition-all duration-500 ${
-                tier.featured
-                  ? "bg-gradient-gold text-primary-foreground hover:shadow-[0_0_30px_-8px_hsla(45,79%,46%,0.45)]"
-                  : "border border-primary/20 text-primary hover:border-primary/40 hover:bg-primary/5"
-              }`}>
-                Apply for Jet Card
-              </Link>
-            </motion.div>
-          ))}
-        </div>
-
-        <motion.p initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} transition={{ delay: 0.4, duration: 0.8 }}
-          className="text-center text-[12px] text-muted-foreground font-light mt-12 italic"
-        >
-          This is not a membership. It's a smarter way to fly private.
-        </motion.p>
-      </div>
-    </section>
-
-    {/* Broker Advantage */}
-    <section className="py-16 md:py-24 section-alt">
+    {/* ═══ BROKER ADVANTAGE ═══ */}
+    <section className="py-16 md:py-24 bg-muted/30">
       <div className="container mx-auto px-8 max-w-2xl text-center">
-        <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.8 }}
-          className="p-10 md:p-14 rounded-2xl border border-primary/15 bg-card shadow-sm"
-        >
+        <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
+          className="p-10 md:p-14 rounded-2xl border border-primary/15 bg-card shadow-sm">
           <p className="text-[14px] text-muted-foreground font-light leading-[2] italic mb-1">
             Unlike operators, your jet card is not tied to one fleet.
           </p>
@@ -193,27 +127,23 @@ const JetCardPage = () => (
       </div>
     </section>
 
-    {/* CTA */}
-    <section id="jet-card-apply" className="py-20 md:py-28 section-white">
+    {/* ═══ CTA ═══ */}
+    <section className="py-20 md:py-28">
       <div className="container mx-auto px-8 text-center max-w-lg">
-        <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.7 }}>
+        <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
           <p className="text-[11px] tracking-[0.5em] uppercase text-primary mb-8 font-medium">Get Started</p>
-          <h2 className="font-display text-2xl md:text-3xl text-foreground mb-4">Apply for Your Jet Card</h2>
-          <p className="text-[13px] text-muted-foreground font-light leading-[2] mb-3">
-            Speak with our team to explore fixed-rate programmes tailored to your travel patterns.
-          </p>
-          <p className="text-[10px] tracking-[0.3em] uppercase text-muted-foreground/60 font-light mb-10">
-            Limited availability per region — acceptance subject to client profile.
+          <h2 className="font-display text-2xl md:text-3xl text-foreground mb-4">Apply for Your Altus Jet Card</h2>
+          <p className="text-[13px] text-muted-foreground font-light leading-[2] mb-10">
+            A tailored proposal prepared around your flying patterns, preferred aircraft category, and annual usage.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link to="/contact" className="px-10 py-3.5 bg-gradient-gold text-primary-foreground text-[10px] tracking-[0.25em] uppercase font-medium rounded-xl hover:shadow-[0_0_30px_-8px_hsla(45,79%,46%,0.45)] transition-all duration-500">
-              Apply for Jet Card
+            <Link to="/jet-card-inquiry" className="px-10 py-3.5 bg-gradient-gold text-primary-foreground text-[10px] tracking-[0.25em] uppercase font-medium rounded-xl hover:shadow-[0_0_30px_-8px_hsla(45,79%,46%,0.45)] transition-all duration-500">
+              Apply for Your Jet Card
             </Link>
-            <Link to="/members" className="inline-flex items-center justify-center gap-2 px-10 py-3.5 text-[10px] tracking-[0.2em] uppercase text-muted-foreground hover:text-foreground transition-all duration-500 border border-border rounded-xl">
+            <Link to="/membership" className="inline-flex items-center justify-center gap-2 px-10 py-3.5 text-[10px] tracking-[0.2em] uppercase text-muted-foreground hover:text-foreground transition-all duration-500 border border-border rounded-xl">
               View Membership <ArrowRight size={10} />
             </Link>
           </div>
-          <p className="text-[11px] tracking-[0.3em] uppercase text-muted-foreground/60 font-light mt-8">Typical Response Time: Under 30 minutes</p>
         </motion.div>
       </div>
     </section>
