@@ -31,10 +31,10 @@ const HowItWorksSection = () => (
                   <step.icon className="w-5 h-5 text-primary" strokeWidth={1.2} />
                 </div>
               </FloatingElement>
-              <p className="text-[11px] tracking-[0.3em] text-primary/60 font-medium mb-3">
+              <p className="text-[11px] tracking-[0.3em] text-primary/70 font-medium mb-3">
                 {step.num}
               </p>
-              <h3 className="text-[15px] md:text-[16px] font-display font-medium text-foreground">
+              <h3 className="text-[15px] md:text-[16px] font-display font-semibold text-foreground">
                 {step.title}
               </h3>
             </GlassCard>

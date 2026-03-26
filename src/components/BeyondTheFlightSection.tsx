@@ -39,7 +39,7 @@ const BeyondTheFlightSection = () => (
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         transition={{ delay: 0.05 }}
-        className="text-center font-display text-3xl md:text-4xl font-semibold text-foreground mb-4"
+        className="text-center font-display text-3xl md:text-4xl font-semibold text-foreground mb-4 tracking-[-0.01em]"
       >
         Concierge <em className="text-primary font-display">Services</em>
       </motion.h2>

@@ -33,7 +33,7 @@ const MemberPrivileges = () => (
               <FloatingElement amplitude={4} speed={5 + i}>
                 <p.icon className="w-4 h-4 text-primary/50 flex-shrink-0" strokeWidth={1.2} />
               </FloatingElement>
-              <span className="text-[12px] text-foreground/50 font-extralight">{p.text}</span>
+              <span className="text-[12px] text-foreground/65 font-light">{p.text}</span>
             </GlassCard>
           </StaggerItem>
         ))}

@@ -13,7 +13,7 @@ const StickyFloatingCTA = () => {
     >
       <Link
         to="/request-flight"
-        className="flex items-center gap-2 px-5 py-2.5 rounded-full bg-primary text-primary-foreground text-[9px] tracking-[0.2em] uppercase font-semibold hover:bg-primary/90 transition-all duration-500 hover:shadow-[0_0_20px_-4px_hsla(43,74%,49%,0.3)]"
+        className="flex items-center gap-2 px-5 py-3 rounded-full bg-primary text-primary-foreground text-[9px] tracking-[0.2em] uppercase font-semibold hover:bg-primary/90 transition-all duration-500 hover:shadow-[0_0_20px_-4px_hsla(43,74%,49%,0.3)] active:scale-95"
       >
         <Plane size={13} strokeWidth={1.5} />
         Request a Flight
@@ -22,7 +22,7 @@ const StickyFloatingCTA = () => {
         href="https://wa.me/447888999944"
         target="_blank"
         rel="noopener noreferrer"
-        className="flex items-center gap-2 px-4 py-2.5 rounded-full border border-white/[0.08] text-white/50 text-[9px] tracking-[0.2em] uppercase font-medium hover:text-white hover:border-primary/30 transition-all duration-500"
+        className="flex items-center gap-2 px-4 py-3 rounded-full border border-white/[0.08] text-white/50 text-[9px] tracking-[0.2em] uppercase font-medium hover:text-white hover:border-primary/30 transition-all duration-500 active:scale-95"
       >
         <Phone size={12} strokeWidth={1.5} />
         WhatsApp

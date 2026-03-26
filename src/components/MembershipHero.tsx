@@ -81,14 +81,14 @@ const MembershipHero = ({ onRequestInvitation, onSpeakToAdvisor }: MembershipHer
 
         <motion.p
           variants={fadeUp}
-          className="text-[20px] md:text-[22px] text-white/30 font-extralight tracking-[0.1em] mb-8"
+          className="text-[20px] md:text-[22px] text-white/40 font-extralight tracking-[0.1em] mb-8"
         >
           By Invitation Only
         </motion.p>
 
         <motion.p
           variants={fadeUp}
-          className="text-[14px] md:text-[15px] text-white/35 font-extralight leading-[2] max-w-lg mx-auto mb-12"
+          className="text-[14px] md:text-[15px] text-white/50 font-light leading-[2] max-w-lg mx-auto mb-12"
         >
           An exclusive network for those who expect more from private aviation.
           Priority access, dedicated advisors, and privileges reserved for members only.
@@ -134,9 +134,9 @@ const MembershipHero = ({ onRequestInvitation, onSpeakToAdvisor }: MembershipHer
               className="text-center"
             >
               <div className="w-11 h-11 rounded-full border border-white/[0.06] bg-white/[0.02] flex items-center justify-center mx-auto mb-4">
-                <p.icon className="w-4 h-4 text-[hsl(43,74%,49%,0.5)]" strokeWidth={1.2} />
+                <p.icon className="w-4 h-4 text-[hsl(43,74%,49%,0.65)]" strokeWidth={1.2} />
               </div>
-              <p className="text-[11px] text-white/40 font-light tracking-wide">{p.text}</p>
+              <p className="text-[11px] text-white/55 font-light tracking-wide">{p.text}</p>
             </motion.div>
           ))}
         </motion.div>
