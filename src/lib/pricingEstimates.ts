@@ -48,7 +48,7 @@ export function greatCircleDistanceNm(
 
 /** Estimate flight time in minutes given distance (nm) and class */
 export function estimateFlightTimeMin(distanceNm: number, aircraftClass?: string | null, speedKmh?: number | null): number {
-  const classKey = (aircraftClass || "midsize").toLowerCase();
+  const classKey = (aircraftClass || "midsize").toLowerCase().replace(/\s*jet$/i, "").trim();
   const speed = speedKmh || CLASS_SPEEDS[classKey] || 790;
   const distanceKm = distanceNm * 1.852;
   const flightHours = distanceKm / speed;
@@ -106,7 +106,8 @@ export function getCharterPrice(opts: {
   }
 
   // 2. Estimate from class + distance
-  const classKey = (aircraftClass || "").toLowerCase();
+  // Normalize class: API may return "Light Jet", "Super Midsize Jet", etc.
+  const classKey = (aircraftClass || "").toLowerCase().replace(/\s*jet$/i, "").trim();
   const rates = CLASS_HOURLY_RATES[classKey];
 
   if (rates && (distanceNm || flightTimeMin)) {
