@@ -126,7 +126,7 @@ const OperatorRequestsPage = () => {
     const validUntil = new Date();
     validUntil.setDate(validUntil.getDate() + 7);
 
-    const { error } = await supabase.from("quotes").insert({
+    const { data: quote, error } = await supabase.from("quotes").insert({
       request_id: row.request_id,
       aircraft: row.aircraft_type,
       operator: row.operator_name,
@@ -134,12 +134,28 @@ const OperatorRequestsPage = () => {
       valid_until: validUntil.toISOString(),
       status: "draft",
       created_by: user?.id,
-    });
+    }).select("id").single();
 
     if (error) { toast.error(error.message); setConvertingId(null); return; }
 
-    // Link quote back
-    await supabase.from("operator_requests").update({ status: "accepted", responded_at: new Date().toISOString() }).eq("id", row.id);
+    // Link quote back and update operator request status
+    await supabase.from("operator_requests").update({
+      status: "accepted",
+      responded_at: new Date().toISOString(),
+      quote_id: quote.id,
+    }).eq("id", row.id);
+
+    // Log activity on both entities
+    await logActivity(row.id, "converted_to_quote", `Quote ${quote.id.slice(0, 8)} created from operator offer`);
+    await supabase.from("activity_log").insert({
+      entity_type: "quote",
+      entity_id: quote.id,
+      action: "quote_created_from_operator",
+      action_by: user?.id,
+      department: "sales",
+      notes: `Created from ${row.operator_name} offer: ${row.offered_currency} ${Number(row.offered_price).toLocaleString()}`,
+    });
+
     toast.success("Quote created from operator offer");
     setConvertingId(null);
     load();
