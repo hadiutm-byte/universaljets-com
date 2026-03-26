@@ -1,6 +1,6 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Menu, X } from "lucide-react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, useMotionValue, useTransform, useSpring } from "framer-motion";
 import { Link, useLocation } from "react-router-dom";
 import { useAuth, type AppRole } from "@/hooks/useAuth";
 
@@ -75,6 +75,24 @@ const Navbar = () => {
   const showCrmLink = !!user && !loading && CRM_ROLES.some((role) => roles.includes(role));
   const menuLinks = showCrmLink ? [...overlayLinks, { label: "CRM", href: "/crm" }] : overlayLinks;
 
+  // Logo micro-interaction: subtle parallax on cursor
+  const logoRef = useRef<HTMLAnchorElement>(null);
+  const mouseX = useMotionValue(0);
+  const mouseY = useMotionValue(0);
+  const logoX = useSpring(useTransform(mouseX, [-200, 200], [1.5, -1.5]), { stiffness: 150, damping: 25 });
+  const logoY = useSpring(useTransform(mouseY, [-200, 200], [1, -1]), { stiffness: 150, damping: 25 });
+
+  const handleLogoMouseMove = (e: React.MouseEvent) => {
+    if (!logoRef.current) return;
+    const rect = logoRef.current.getBoundingClientRect();
+    mouseX.set(e.clientX - rect.left - rect.width / 2);
+    mouseY.set(e.clientY - rect.top - rect.height / 2);
+  };
+  const handleLogoMouseLeave = () => {
+    mouseX.set(0);
+    mouseY.set(0);
+  };
+
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 80);
     window.addEventListener("scroll", onScroll);
@@ -118,14 +136,24 @@ const Navbar = () => {
         }}
       >
         <div className="container mx-auto flex items-center justify-between px-6 lg:px-8">
-          {/* Logo */}
-          <Link
-            to="/"
-            className="group font-display text-[13px] md:text-[15px] tracking-[0.5em] uppercase select-none font-light flex-shrink-0 transition-all duration-500"
+          {/* Logo — luxury micro-animation */}
+          <motion.div
+            initial={{ opacity: 0, y: 6 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1.2, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}
+            style={{ x: logoX, y: logoY }}
+            onMouseMove={handleLogoMouseMove}
+            onMouseLeave={handleLogoMouseLeave}
           >
-            <span className="text-white/90">Universal</span>
-            <span className="text-gradient-gold ml-1.5 font-normal">Jets</span>
-          </Link>
+            <Link
+              ref={logoRef}
+              to="/"
+              className="group font-display text-[13px] md:text-[15px] tracking-[0.5em] uppercase select-none font-light flex-shrink-0 transition-all duration-500 relative"
+            >
+              <span className="text-white/90">Universal</span>
+              <span className="logo-gold-shimmer ml-1.5 font-normal relative">Jets</span>
+            </Link>
+          </motion.div>
 
           {/* Center links — desktop only */}
           <div className="hidden xl:flex items-center gap-7 absolute left-1/2 -translate-x-1/2">
