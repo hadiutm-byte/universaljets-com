@@ -41,6 +41,7 @@ const getAnonKey = () => import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY;
 const SearchResults = () => {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
+  const [quoteModal, setQuoteModal] = useState<{ open: boolean; aircraft?: string; operator?: string }>({ open: false });
 
   const from_icao = searchParams.get("from_icao") || "";
   const to_icao = searchParams.get("to_icao") || "";
