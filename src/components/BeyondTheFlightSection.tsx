@@ -23,7 +23,7 @@ const itemVariants = {
 };
 
 const BeyondTheFlightSection = () => (
-  <section className="py-24 md:py-32">
+  <section className="py-28 md:py-36 lg:py-44">
     <div className="max-w-6xl mx-auto px-6 md:px-10">
       <motion.p
         initial={{ opacity: 0, y: 12 }}

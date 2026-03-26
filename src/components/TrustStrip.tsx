@@ -22,10 +22,10 @@ const TrustStrip = () => (
       <div
         className="flex flex-col lg:flex-row items-center justify-between gap-8 lg:gap-0"
         style={{
-          padding: "40px 60px",
-          background: "hsl(0, 0%, 97%)",
-          borderTop: "1px solid hsla(0, 0%, 0%, 0.06)",
-          borderBottom: "1px solid hsla(0, 0%, 0%, 0.06)",
+          padding: "44px 64px",
+          background: "hsl(0, 0%, 97.5%)",
+          borderTop: "1px solid hsla(0, 0%, 0%, 0.04)",
+          borderBottom: "1px solid hsla(0, 0%, 0%, 0.04)",
         }}
       >
         {/* LEFT: Certifications */}
@@ -45,10 +45,10 @@ const TrustStrip = () => (
                 strokeWidth={1.4}
               />
               <div className="flex flex-col">
-                <span className="text-[13px] font-semibold uppercase leading-tight tracking-[1.5px] text-foreground">
+               <span className="text-[12px] font-semibold uppercase leading-tight tracking-[0.15em] text-foreground">
                   {cert.name}
                 </span>
-                <small className="text-[11px] font-light leading-snug text-muted-foreground">
+                <small className="text-[10px] font-light leading-snug text-muted-foreground tracking-[0.02em]">
                   {cert.detail}
                 </small>
               </div>

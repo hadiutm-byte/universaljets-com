@@ -42,27 +42,28 @@ const charterCategories = [
 ];
 
 const cardVariants = {
-  hidden: { opacity: 0, y: 40, scale: 0.97 },
+  hidden: { opacity: 0, y: 36, scale: 0.98 },
   visible: (i: number) => ({
     opacity: 1,
     y: 0,
     scale: 1,
     transition: {
-      delay: i * 0.12,
-      duration: 0.7,
+      delay: i * 0.1,
+      duration: 0.8,
       ease: [0.16, 1, 0.3, 1] as const,
     },
   }),
 };
 
 const CharterSolutionsSection = () => (
-  <section className="py-24 md:py-32">
+  <section className="py-28 md:py-36 lg:py-44">
     <div className="max-w-7xl mx-auto px-6 md:px-10">
       <motion.p
         initial={{ opacity: 0, y: 12 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
-        className="text-center text-[11px] tracking-[0.3em] uppercase font-medium text-primary mb-4"
+        transition={{ duration: 0.8 }}
+        className="text-center text-[10px] tracking-[0.5em] uppercase font-medium text-primary mb-5"
       >
         What We Do
       </motion.p>
@@ -71,8 +72,8 @@ const CharterSolutionsSection = () => (
         initial={{ opacity: 0, y: 16 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
-        transition={{ delay: 0.05 }}
-        className="text-center font-display text-4xl md:text-5xl font-semibold text-foreground mb-4"
+        transition={{ delay: 0.05, duration: 0.9 }}
+        className="text-center font-display text-4xl md:text-5xl font-semibold text-foreground mb-5 tracking-[-0.01em]"
       >
         Seven Reasons They Call Us <em className="text-primary font-display">First</em>
       </motion.h2>
