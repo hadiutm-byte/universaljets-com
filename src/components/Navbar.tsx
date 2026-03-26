@@ -5,13 +5,11 @@ import { Link, useLocation } from "react-router-dom";
 import { useAuth, type AppRole } from "@/hooks/useAuth";
 
 const centerLinks = [
-  { label: "Home", href: "/" },
-  { label: "Charter Flights", href: "/#services" },
+  { label: "Charter", href: "/#services" },
   { label: "Empty Legs", href: "/#empty-legs" },
   { label: "Aircraft", href: "/aircraft" },
   { label: "Experience", href: "/#experience" },
   { label: "About", href: "/#why" },
-  { label: "Contact", href: "/#cta" },
 ];
 
 const overlayLinks = [
