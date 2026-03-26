@@ -160,7 +160,7 @@ const EmptyLegsMap = () => {
 
         {!isLoading && viewMode === "map" && (
           mappableLegs.length > 0 ? (
-            <EmptyLegsMapView legs={mappableLegs} selectedLeg={selectedLeg} onLegClick={handleLegClick} onClose={() => setSelectedLeg(null)} toMapCoords={toMapCoords} />
+            <EmptyLegsMapView legs={mappableLegs} selectedLeg={selectedLeg} onLegClick={handleLegClick} onClose={() => setSelectedLeg(null)} toMapCoords={toMapCoords} isLiveData={!!data?.results?.length} />
           ) : (
             <div className="rounded-2xl border border-border bg-card p-16 text-center mb-16">
               <Map size={32} className="text-muted-foreground/30 mx-auto mb-4" />
