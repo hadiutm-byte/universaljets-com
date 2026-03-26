@@ -226,22 +226,22 @@ html {
 
   /* === SEARCH WIDGET FIELDS === */
   .search-field {
-    @apply px-4 py-4 rounded-xl border-2 border-border bg-muted/40 transition-all duration-300;
+    @apply px-4 py-4 rounded-xl border border-border/70 bg-muted/30 transition-all duration-500;
   }
 
   .search-field:hover {
-    background: hsl(0, 0%, 95%);
-    border-color: hsla(0, 0%, 0%, 0.12);
+    background: hsl(0, 0%, 96%);
+    border-color: hsla(0, 0%, 0%, 0.1);
   }
 
   .search-field:focus-within {
     border-color: hsl(45, 79%, 46%);
-    box-shadow: 0 0 0 3px hsla(45, 79%, 46%, 0.08);
+    box-shadow: 0 0 0 3px hsla(45, 79%, 46%, 0.06);
     background: hsl(0, 0%, 100%);
   }
 
   .search-label {
-    @apply flex items-center gap-1.5 text-[9px] tracking-[0.3em] uppercase font-semibold mb-2;
+    @apply flex items-center gap-1.5 text-[9px] tracking-[0.35em] uppercase font-semibold mb-2;
     color: hsl(45, 79%, 46%);
   }
 
