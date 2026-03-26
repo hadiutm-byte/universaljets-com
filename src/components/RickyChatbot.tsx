@@ -99,7 +99,7 @@ const RickyChatbot = () => {
               exit={{ scale: 0, opacity: 0 }}
               transition={{ type: "spring", stiffness: 260, damping: 20 }}
               onClick={() => setOpen(true)}
-              className="fixed bottom-6 right-6 z-50 w-16 h-16 rounded-full overflow-hidden shadow-[0_0_25px_-5px_hsla(45,79%,46%,0.4)] hover:shadow-[0_0_35px_-5px_hsla(45,79%,46%,0.6)] transition-shadow duration-500 group"
+              className="fixed bottom-6 right-6 z-[45] w-16 h-16 rounded-full overflow-hidden shadow-[0_0_25px_-5px_hsla(45,79%,46%,0.4)] hover:shadow-[0_0_35px_-5px_hsla(45,79%,46%,0.6)] transition-shadow duration-500 group"
               aria-label="Chat with Ricky"
             >
               <div className="absolute inset-0 rounded-full animate-pulse-glow pointer-events-none" style={{ boxShadow: "0 0 20px 4px hsla(45,79%,46%,0.25)" }} />
