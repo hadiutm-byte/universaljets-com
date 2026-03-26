@@ -92,7 +92,7 @@ const fadeUp = { hidden: { opacity: 0, y: 30 }, visible: { opacity: 1, y: 0 } };
 const stagger = { hidden: {}, visible: { transition: { staggerChildren: 0.08 } } };
 
 /* ═══ TIER CARD — HIGH CONTRAST, VISIBLE PRICES ═══ */
-const TierCard = ({ tier, index }: { tier: typeof tiers[0]; index: number }) => {
+const TierCard = forwardRef<HTMLDivElement, { tier: typeof tiers[0]; index: number }>(({ tier, index }, ref) => {
   const isMaverick = "isMaverick" in tier && tier.isMaverick;
   const isPopular = "popular" in tier && tier.popular;
 
