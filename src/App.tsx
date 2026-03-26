@@ -60,6 +60,7 @@ const CareersPage = lazy(() => import("./pages/CareersPage.tsx"));
 const ContactPage = lazy(() => import("./pages/ContactPage.tsx"));
 const CharterPage = lazy(() => import("./pages/CharterPage.tsx"));
 const AircraftGuidePage = lazy(() => import("./pages/AircraftGuidePage.tsx"));
+const FleetPage = lazy(() => import("./pages/FleetPage.tsx"));
 const RequestFlightPage = lazy(() => import("./pages/RequestFlightPage.tsx"));
 const NotFound = lazy(() => import("./pages/NotFound.tsx"));
 const UnsubscribePage = lazy(() => import("./pages/UnsubscribePage.tsx"));
