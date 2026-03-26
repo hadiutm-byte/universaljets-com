@@ -417,6 +417,9 @@ const QuoteRequestModal = ({ open, onClose, flightData }: QuoteRequestModalProps
                 {form.departure} → {form.destination}
               </div>
 
+              {/* Membership upsell */}
+              <MembershipUpsell variant="inline" showReferral={true} className="text-left" />
+
               <div className="space-y-3 pt-2">
                 <button
                   onClick={handleClose}
