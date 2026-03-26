@@ -154,6 +154,7 @@ const App = () => (
             <Route path="/fleet" element={<FleetPage />} />
             <Route path="/fleet/:slug" element={<FleetDetailPage />} />
             <Route path="/unsubscribe" element={<UnsubscribePage />} />
+            <Route path="/dev/share-card-test" element={<ShareCardTest />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>
