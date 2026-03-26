@@ -27,24 +27,35 @@ serve(async (req) => {
 
     // Single aircraft lookup by slug (name-based)
     if (slug) {
-      const searchName = slug.replace(/-/g, ' ');
-      const params = new URLSearchParams({ page_size: '5', search: searchName });
-      const apiUrl = `${AVIAPAGES_BASE}/api/aircraft_types/?${params.toString()}`;
-      console.log(`[aircraft-types] Slug lookup: ${apiUrl}`);
+      // Try multiple search strategies to find the aircraft
+      const searchVariants = [
+        slug.replace(/-/g, ' '),
+        // Try just the main name parts (first 2-3 words) for better API matching
+        slug.replace(/-/g, ' ').split(' ').slice(0, 3).join(' '),
+        slug.replace(/-/g, ' ').split(' ').slice(0, 2).join(' '),
+      ];
 
-      const response = await fetch(apiUrl, {
-        headers: { 'Authorization': `Token ${apiKey}`, 'Accept': 'application/json' },
-      });
+      let match: any = null;
 
-      if (!response.ok) {
-        throw new Error(`API error [${response.status}]`);
+      for (const searchName of searchVariants) {
+        const params = new URLSearchParams({ page_size: '20', search: searchName });
+        const apiUrl = `${AVIAPAGES_BASE}/api/aircraft_types/?${params.toString()}`;
+        console.log(`[aircraft-types] Slug lookup: ${apiUrl}`);
+
+        const response = await fetch(apiUrl, {
+          headers: { 'Authorization': `Token ${apiKey}`, 'Accept': 'application/json' },
+        });
+
+        if (!response.ok) continue;
+
+        const data = await response.json();
+        match = (data.results || []).find((at: any) => {
+          const nameSlug = (at.name || '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+          return nameSlug === slug;
+        });
+
+        if (match) break;
       }
-
-      const data = await response.json();
-      const match = (data.results || []).find((at: any) => {
-        const nameSlug = (at.name || '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
-        return nameSlug === slug;
-      });
 
       if (!match) {
         return new Response(JSON.stringify({ error: 'Aircraft not found' }), {
