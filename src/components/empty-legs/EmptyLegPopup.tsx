@@ -7,6 +7,9 @@ import { useCrmApi } from "@/hooks/useCrmApi";
 import { useShareCard } from "@/hooks/useShareCard";
 import AircraftGallery from "@/components/AircraftGallery";
 import MembershipUpsell from "@/components/MembershipUpsell";
+import QuoteRouteMap from "@/components/QuoteRouteMap";
+import type { Airport } from "@/hooks/useAviapages";
+import AIRPORT_COORDS from "@/lib/airportCoords";
 
 interface EmptyLegPopupProps {
   leg: EmptyLeg | null;
