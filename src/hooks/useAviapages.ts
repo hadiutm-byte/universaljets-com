@@ -1,4 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
+import { sanitizeAircraftName, sanitizeAircraftImages } from "@/lib/sanitize";
 
 // ─── Types ──────────────────────────────────────────────────────────────────
 
