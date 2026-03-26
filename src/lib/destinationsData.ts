@@ -152,7 +152,7 @@ export const destinations: Destination[] = [
     heroDesc: "The Mediterranean's most coveted summer escape. Mykonos draws the world's elite with its blend of bohemian charm, azure waters, and world-class nightlife — all accessible by private jet.",
     region: "Europe",
     airports: [
-      { name: "Mykonos Airport", code: "LGMK / JMK", type: "Regional with GA handling", note: "Short runway (1,750m) — midsize jet maximum. Heavy jets use Athens." },
+      { name: "Mykonos Airport", code: "LGMK / JMK", icao: "LGMK", type: "Regional with GA handling", note: "Short runway (1,750m) — midsize jet maximum. Heavy jets use Athens." },
     ],
     popularRoutes: [
       { from: "Dubai", to: "Mykonos", time: "5h 30m", aircraft: "Super Midsize (via Athens for heavy)" },
