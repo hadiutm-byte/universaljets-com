@@ -2,6 +2,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { ArrowRight, X, Plane, Users, Share2 } from "lucide-react";
 import type { EmptyLeg } from "@/hooks/useAviapages";
 import { getAircraftImage, getAircraftCategory } from "@/lib/aircraftImages";
+import { generateEmptyLegShareCard } from "@/lib/emptyLegShareCard";
 import { toast } from "sonner";
 
 interface EmptyLegPopupProps {
@@ -12,14 +13,60 @@ interface EmptyLegPopupProps {
 const EmptyLegPopup = ({ leg, onClose }: EmptyLegPopupProps) => {
   if (!leg) return null;
 
+  const fromCode = leg.departure?.icao || leg.departure?.iata || "---";
+  const toCode = leg.arrival?.icao || leg.arrival?.iata || "---";
+  const fromCity = leg.departure?.city || "";
+  const toCity = leg.arrival?.city || "";
   const date = leg.from_date
     ? new Date(leg.from_date).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })
     : "TBD";
+  const priceLabel = leg.price ? `${leg.currency} ${leg.price.toLocaleString()}` : "Save up to 75%";
   const image = leg.aircraft_image || getAircraftImage(leg.aircraft_type || "midsize");
   const category = leg.aircraft_class || getAircraftCategory(leg.aircraft_type || "midsize");
   const waMsg = encodeURIComponent(
-    `Hello, I'm interested in an empty leg from ${leg.departure?.city || "?"} to ${leg.arrival?.city || "?"} on ${date} (${leg.aircraft_type}).`
+    `Hello, I'm interested in an empty leg from ${fromCity || "?"} to ${toCity || "?"} on ${date} (${leg.aircraft_type}).`
   );
+
+  const handleShare = async () => {
+    const shareText = `✈️ Empty Leg Deal — ${leg.aircraft_type || "Private Jet"}\n${fromCity || fromCode} → ${toCity || toCode}\n📅 ${date}\n💰 ${priceLabel}\n\nBook now at Universal Jets\nhttps://www.universaljets.com`;
+
+    try {
+      const blob = await generateEmptyLegShareCard({
+        fromCode,
+        fromCity,
+        toCode,
+        toCity,
+        date,
+        price: priceLabel,
+        aircraftType: leg.aircraft_type || "Private Jet",
+        category,
+      });
+
+      const file = new File([blob], `universal-jets-empty-leg-${fromCode}-${toCode}.png`, { type: "image/png" });
+
+      if (navigator.share && navigator.canShare?.({ files: [file] })) {
+        await navigator.share({ title: `Empty Leg: ${fromCity} → ${toCity}`, text: shareText, files: [file] });
+      } else if (navigator.share) {
+        await navigator.share({ title: `Empty Leg: ${fromCity} → ${toCity}`, text: shareText });
+      } else {
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = `universal-jets-empty-leg-${fromCode}-${toCode}.png`;
+        a.click();
+        URL.revokeObjectURL(url);
+        await navigator.clipboard.writeText(shareText);
+        toast.success("Branded card downloaded & details copied");
+      }
+    } catch {
+      if (navigator.share) {
+        try { await navigator.share({ title: `Empty Leg: ${fromCity} → ${toCity}`, text: shareText }); } catch {}
+      } else {
+        await navigator.clipboard.writeText(shareText);
+        toast.success("Copied to clipboard");
+      }
+    }
+  };
 
   return (
     <AnimatePresence>
@@ -30,7 +77,6 @@ const EmptyLegPopup = ({ leg, onClose }: EmptyLegPopupProps) => {
           exit={{ opacity: 0, scale: 0.95 }}
           className="absolute inset-4 md:inset-auto md:right-8 md:top-8 md:w-96 bg-card border border-border rounded-2xl shadow-xl overflow-hidden z-30"
         >
-          {/* Aircraft image header */}
           <div className="relative h-36 overflow-hidden">
             <img src={image} alt={leg.aircraft_type || "Aircraft"} className="w-full h-full object-cover" />
             <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
@@ -46,11 +92,10 @@ const EmptyLegPopup = ({ leg, onClose }: EmptyLegPopupProps) => {
           </div>
 
           <div className="p-5">
-            {/* Route */}
             <div className="flex items-center gap-3 mb-4">
               <div className="text-center">
-                <span className="font-display text-[15px] text-foreground font-medium block">{leg.departure?.icao || leg.departure?.iata || "---"}</span>
-                <span className="text-[9px] text-muted-foreground font-light">{leg.departure?.city}</span>
+                <span className="font-display text-[15px] text-foreground font-medium block">{fromCode}</span>
+                <span className="text-[9px] text-muted-foreground font-light">{fromCity}</span>
               </div>
               <div className="flex-1 flex items-center gap-1 px-2">
                 <div className="flex-1 h-px bg-border" />
@@ -58,12 +103,11 @@ const EmptyLegPopup = ({ leg, onClose }: EmptyLegPopupProps) => {
                 <div className="flex-1 h-px bg-border" />
               </div>
               <div className="text-center">
-                <span className="font-display text-[15px] text-foreground font-medium block">{leg.arrival?.icao || leg.arrival?.iata || "---"}</span>
-                <span className="text-[9px] text-muted-foreground font-light">{leg.arrival?.city}</span>
+                <span className="font-display text-[15px] text-foreground font-medium block">{toCode}</span>
+                <span className="text-[9px] text-muted-foreground font-light">{toCity}</span>
               </div>
             </div>
 
-            {/* Details grid */}
             <div className="grid grid-cols-2 gap-2 mb-4 text-[11px]">
               <div className="px-3 py-2 rounded-lg bg-muted/40">
                 <span className="text-muted-foreground font-light block text-[9px] mb-0.5">Date</span>
@@ -71,7 +115,7 @@ const EmptyLegPopup = ({ leg, onClose }: EmptyLegPopupProps) => {
               </div>
               <div className="px-3 py-2 rounded-lg bg-muted/40">
                 <span className="text-muted-foreground font-light block text-[9px] mb-0.5">Price</span>
-                <span className="text-primary font-medium">{leg.price ? `${leg.currency} ${leg.price.toLocaleString()}` : "Save up to 75%"}</span>
+                <span className="text-primary font-medium">{priceLabel}</span>
               </div>
               {leg.aircraft_max_pax && (
                 <div className="px-3 py-2 rounded-lg bg-muted/40">
@@ -101,15 +145,7 @@ const EmptyLegPopup = ({ leg, onClose }: EmptyLegPopupProps) => {
                 Request This Flight
               </a>
               <button
-                onClick={async () => {
-                  const shareText = `✈️ Empty Leg Deal — ${leg.aircraft_type || "Private Jet"}\n${leg.departure?.city || "?"} → ${leg.arrival?.city || "?"}\n📅 ${date}\n💰 ${leg.price ? `${leg.currency} ${leg.price.toLocaleString()}` : "Save up to 75%"}\n\nBook now at Universal Jets\nhttps://www.universaljets.com`;
-                  if (navigator.share) {
-                    try { await navigator.share({ title: `Empty Leg: ${leg.departure?.city} → ${leg.arrival?.city}`, text: shareText }); } catch {}
-                  } else {
-                    await navigator.clipboard.writeText(shareText);
-                    toast.success("Copied to clipboard");
-                  }
-                }}
+                onClick={handleShare}
                 className="w-10 h-10 rounded-xl border border-border flex items-center justify-center text-muted-foreground hover:text-primary hover:border-primary/30 transition-all"
                 aria-label="Share"
               >
