@@ -296,12 +296,12 @@ const QuoteDetailPage = () => {
           ) : (
             <div className="space-y-2">
               {operatorReqs.map(op => (
-                <div key={op.id} className="flex items-center justify-between text-[11px] p-2 rounded-lg bg-secondary/20">
-                  <div>
+                <div key={op.id} className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1 sm:gap-2 text-[11px] p-2 rounded-lg bg-secondary/20">
+                  <div className="min-w-0">
                     <span className="font-medium">{op.operator_name}</span>
                     <span className="text-muted-foreground/50 ml-2">{op.aircraft_type}</span>
                   </div>
-                  <div className="flex items-center gap-2">
+                  <div className="flex items-center gap-2 flex-shrink-0">
                     {op.offered_price && <span className="text-primary">${Number(op.offered_price).toLocaleString()}</span>}
                     <StatusBadge status={op.status} />
                   </div>

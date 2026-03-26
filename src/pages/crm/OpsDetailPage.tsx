@@ -181,7 +181,7 @@ const OpsDetailPage = () => {
               <textarea value={briefNotes.special} onChange={e => setBriefNotes(p => ({ ...p, special: e.target.value }))} className={inputClass} rows={2} placeholder={fr?.special_requests || "None"} />
             </div>
           </div>
-          <button onClick={handleSendBrief} disabled={actionLoading === "brief"} className="px-6 py-2.5 bg-gradient-gold text-primary-foreground text-[9px] tracking-[0.2em] uppercase font-medium rounded-lg hover:shadow-[0_0_20px_-6px_hsla(43,74%,49%,0.4)] transition-all disabled:opacity-40 flex items-center gap-2">
+          <button onClick={handleSendBrief} disabled={actionLoading === "brief"} className="w-full sm:w-auto px-6 py-2.5 bg-gradient-gold text-primary-foreground text-[9px] tracking-[0.2em] uppercase font-medium rounded-lg hover:shadow-[0_0_20px_-6px_hsla(43,74%,49%,0.4)] transition-all disabled:opacity-40 flex items-center justify-center gap-2">
             {actionLoading === "brief" ? <Loader2 size={10} className="animate-spin" /> : <Send size={10} />}
             Log & Send Brief
           </button>
