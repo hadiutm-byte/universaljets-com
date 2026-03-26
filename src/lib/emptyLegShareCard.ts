@@ -303,7 +303,7 @@ export async function generateEmptyLegShareCard(data: ShareCardData): Promise<Bl
   ctx.fillStyle = pg;
   ctx.fillRect(0, priceY - 100, W, 350);
 
-  const isPriceNumeric = /\d/.test(data.price);
+  const isPriceNumeric = /^[€$£]?\s*[\d,.]+/.test(data.price.trim()) || /^\w{3}\s+[\d,.]+/.test(data.price.trim());
 
   if (!isPriceNumeric) {
     // "SAVE UP TO" — elegant small label
