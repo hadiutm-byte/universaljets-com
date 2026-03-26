@@ -225,7 +225,7 @@ export const destinations: Destination[] = [
     heroDesc: "More than nightlife — Ibiza has evolved into a year-round destination for wellness, family retreats, and creative professionals, all while maintaining its legendary energy.",
     region: "Europe",
     airports: [
-      { name: "Ibiza Airport", code: "LEIB / IBZ", type: "Commercial with GA handling", note: "Well-equipped for private aviation. Peak summer slots require advance booking." },
+      { name: "Ibiza Airport", code: "LEIB / IBZ", icao: "LEIB", type: "Commercial with GA handling", note: "Well-equipped for private aviation. Peak summer slots require advance booking." },
     ],
     popularRoutes: [
       { from: "London", to: "Ibiza", time: "2h 20m", aircraft: "Light / Midsize" },
