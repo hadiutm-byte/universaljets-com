@@ -187,10 +187,11 @@ const TierCard = forwardRef<HTMLDivElement, { tier: typeof tiers[0]; index: numb
       </div>
     </motion.div>
   );
-};
+});
+TierCard.displayName = "TierCard";
 
 /* ═══ MOBILE COMPARISON CARD ═══ */
-const MobileComparisonCard = ({ tier, index }: { tier: typeof tiers[0]; index: number }) => {
+const MobileComparisonCard = forwardRef<HTMLDivElement, { tier: typeof tiers[0]; index: number }>(({ tier, index }, ref) => {
   const isMaverick = "isMaverick" in tier && tier.isMaverick;
   const values = comparisonRows.map(row => ({ label: row.label, value: row.values[index] }));
 
