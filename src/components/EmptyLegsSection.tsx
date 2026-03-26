@@ -3,9 +3,9 @@ import { Tag, Plane, Clock } from "lucide-react";
 import { Link } from "react-router-dom";
 
 const points = [
-  { icon: Tag, title: "Up to 75% Savings", desc: "Repositioning flights priced well below standard charter rates." },
-  { icon: Plane, title: "Same Aircraft, Same Experience", desc: "Identical jets, crews, and service — just a smarter price." },
-  { icon: Clock, title: "Limited Availability", desc: "Empty legs are time-sensitive. Act fast to secure the best deals." },
+  { icon: Tag, title: "Significant Savings", desc: "Repositioning flights priced well below standard charter rates — same service, smarter pricing." },
+  { icon: Plane, title: "Same Aircraft, Same Experience", desc: "Identical jets, crews, and service — simply a more efficient way to fly privately." },
+  { icon: Clock, title: "Limited Availability", desc: "Empty legs are time-sensitive. Speak to your advisor to secure the best opportunities." },
 ];
 
 const EmptyLegsSection = () => (
@@ -20,7 +20,7 @@ const EmptyLegsSection = () => (
       >
         <p className="text-[9px] tracking-[0.5em] uppercase text-primary/60 mb-6 font-light">Empty Legs</p>
         <h2 className="text-3xl md:text-5xl lg:text-6xl font-display font-semibold text-foreground">
-          Fly Private for <span className="text-gradient-gold italic">Less</span>
+          Fly Private, <span className="text-gradient-gold italic">Fly Smarter</span>
         </h2>
       </motion.div>
 
@@ -38,7 +38,7 @@ const EmptyLegsSection = () => (
               <p.icon className="w-5 h-5 text-primary/60" strokeWidth={1.2} />
             </div>
             <h3 className="font-display text-base mb-3 text-foreground">{p.title}</h3>
-            <p className="text-[11px] text-foreground/35 font-extralight leading-[1.9]">{p.desc}</p>
+            <p className="text-[11px] text-muted-foreground font-light leading-[1.9]">{p.desc}</p>
           </motion.div>
         ))}
       </div>
@@ -49,12 +49,12 @@ const EmptyLegsSection = () => (
         viewport={{ once: true }}
         className="text-center"
       >
-        <a
-          href="#cta"
-          className="inline-block px-12 py-4 bg-gradient-gold text-primary-foreground text-[10px] tracking-[0.3em] uppercase font-medium rounded-sm transition-all duration-500 hover:shadow-[0_0_40px_-8px_hsla(43,74%,49%,0.5)] hover:scale-[1.02]"
+        <Link
+          to="/#empty-legs"
+          className="inline-block px-12 py-4 bg-gradient-gold text-primary-foreground text-[10px] tracking-[0.3em] uppercase font-medium rounded-xl transition-all duration-500 hover:shadow-[0_0_40px_-8px_hsla(43,74%,49%,0.5)] hover:scale-[1.02]"
         >
           Browse Empty Legs
-        </a>
+        </Link>
       </motion.div>
     </div>
   </section>
