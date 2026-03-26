@@ -145,9 +145,10 @@ const EmptyLegPopup = ({ leg, onClose }: EmptyLegPopupProps) => {
             {/* Request form or CTA */}
             <AnimatePresence mode="wait">
               {submitted ? (
-                <motion.div key="success" initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="text-center py-3">
+                <motion.div key="success" initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="text-center py-3 space-y-3">
                   <p className="text-[12px] text-primary font-medium mb-1">Request Received ✓</p>
                   <p className="text-[10px] text-muted-foreground font-light">We'll get back to you within the hour.</p>
+                  <MembershipUpsell variant="inline" showReferral={false} className="text-left mt-3" />
                 </motion.div>
               ) : showRequestForm ? (
                 <motion.div key="form" initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: "auto" }} className="space-y-2.5 mb-3">
