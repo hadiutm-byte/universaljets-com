@@ -91,11 +91,11 @@ html {
     @apply bg-clip-text text-transparent;
     background-image: linear-gradient(
       90deg,
-      hsl(40, 42%, 50%) 0%,
-      hsl(40, 42%, 50%) 35%,
-      hsl(43, 65%, 68%) 50%,
-      hsl(40, 42%, 50%) 65%,
-      hsl(40, 42%, 50%) 100%
+      hsl(43, 74%, 49%) 0%,
+      hsl(43, 74%, 49%) 35%,
+      hsl(43, 85%, 62%) 50%,
+      hsl(43, 74%, 49%) 65%,
+      hsl(43, 74%, 49%) 100%
     );
     background-size: 300% 100%;
     animation: logo-shimmer 4.5s ease-in-out infinite, logo-glow-breathe 6s ease-in-out infinite;
@@ -107,8 +107,8 @@ html {
   }
 
   @keyframes logo-glow-breathe {
-    0%, 100% { filter: drop-shadow(0 0 2px hsla(40, 50%, 55%, 0.0)); }
-    50% { filter: drop-shadow(0 0 6px hsla(40, 50%, 55%, 0.18)); }
+    0%, 100% { filter: drop-shadow(0 0 2px hsla(43, 74%, 55%, 0.0)); }
+    50% { filter: drop-shadow(0 0 6px hsla(43, 74%, 55%, 0.18)); }
   }
 
   .bg-gradient-gold {
