@@ -1,7 +1,8 @@
 import { motion } from "framer-motion";
-import { ArrowRight, Plane, Users } from "lucide-react";
+import { ArrowRight, Plane, Users, Share2 } from "lucide-react";
 import type { EmptyLeg } from "@/hooks/useAviapages";
 import { getAircraftImage, getAircraftCategory } from "@/lib/aircraftImages";
+import { toast } from "sonner";
 
 interface EmptyLegCardProps {
   leg: EmptyLeg;
@@ -21,9 +22,24 @@ const EmptyLegCard = ({ leg, index, onClick }: EmptyLegCardProps) => {
     ? `${leg.currency} ${leg.price.toLocaleString()}`
     : "Save up to 75%";
 
-  // Use API image first, then fallback to category mapping
   const image = leg.aircraft_image || getAircraftImage(leg.aircraft_type || "midsize");
   const category = leg.aircraft_class || getAircraftCategory(leg.aircraft_type || "midsize");
+
+  const handleShare = async (e: React.MouseEvent) => {
+    e.stopPropagation();
+    const shareText = `✈️ Empty Leg Deal — ${leg.aircraft_type || "Private Jet"}\n${fromCity || fromCode} → ${toCity || toCode}\n📅 ${date}\n💰 ${priceLabel}\n\nBook now at Universal Jets\nhttps://www.universaljets.com`;
+
+    if (navigator.share) {
+      try {
+        await navigator.share({ title: `Empty Leg: ${fromCity} → ${toCity}`, text: shareText });
+      } catch {
+        // user cancelled
+      }
+    } else {
+      await navigator.clipboard.writeText(shareText);
+      toast.success("Empty leg details copied to clipboard");
+    }
+  };
 
   return (
     <motion.div
@@ -48,7 +64,14 @@ const EmptyLegCard = ({ leg, index, onClick }: EmptyLegCardProps) => {
             {category}
           </span>
         </div>
-        <div className="absolute top-3 right-3">
+        <div className="absolute top-3 right-3 flex items-center gap-1.5">
+          <button
+            onClick={handleShare}
+            className="w-7 h-7 rounded-full bg-white/80 backdrop-blur-sm flex items-center justify-center text-foreground/60 hover:text-primary hover:bg-white transition-all duration-300"
+            aria-label="Share this empty leg"
+          >
+            <Share2 size={12} />
+          </button>
           <span className="px-2.5 py-0.5 rounded-full text-[8px] tracking-[0.15em] uppercase font-medium bg-primary/90 text-white">
             Empty Leg
           </span>

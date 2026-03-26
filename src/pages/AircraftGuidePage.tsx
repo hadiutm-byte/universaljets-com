@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { Plane, Users, MapPin } from "lucide-react";
@@ -7,6 +7,7 @@ import Footer from "@/components/Footer";
 import SEOHead from "@/components/SEOHead";
 import AircraftRequestModal from "@/components/AircraftRequestModal";
 import { toast } from "sonner";
+import { trackAircraftGuideView } from "@/lib/gtmEvents";
 
 interface Aircraft {
   name: string;
@@ -106,6 +107,8 @@ const AircraftGuidePage = () => {
     setSelectedAircraft(aircraftName);
     setRequestModalOpen(true);
   };
+
+  useEffect(() => { trackAircraftGuideView(); }, []);
 
   return (
     <div className="min-h-screen bg-background">
