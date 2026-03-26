@@ -1,8 +1,8 @@
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { useSearchParams, useNavigate } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { motion } from "framer-motion";
-import { ArrowLeft, Plane, Calendar, Users, Clock, Loader2, MessageCircle, Phone, Shield, Wifi, BedDouble, Briefcase } from "lucide-react";
+import { ArrowLeft, Plane, Calendar, Users, Clock, Loader2, MessageCircle, Phone, Shield, Wifi, BedDouble, Briefcase, MapPin, Navigation } from "lucide-react";
 import { Gauge, Ruler } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -11,6 +11,14 @@ import AircraftGallery from "@/components/AircraftGallery";
 import MembershipUpsell from "@/components/MembershipUpsell";
 import { getAircraftImage, getAircraftCategory } from "@/lib/aircraftImages";
 import { trackQuoteRequest, trackWhatsAppClick } from "@/lib/gtmEvents";
+import AIRPORT_COORDS from "@/lib/airportCoords";
+import {
+  greatCircleDistanceNm,
+  estimateFlightTimeMin,
+  getCharterPrice,
+  formatDuration,
+  formatDistance,
+} from "@/lib/pricingEstimates";
 
 interface AircraftResult {
   id: number;
@@ -54,19 +62,6 @@ interface AircraftResult {
 const getSupabaseUrl = () => import.meta.env.VITE_SUPABASE_URL;
 const getAnonKey = () => import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY;
 
-function formatPrice(price: number, currency: string, unit?: string | null) {
-  const formatted = new Intl.NumberFormat("en-US", { style: "currency", currency, maximumFractionDigits: 0 }).format(price);
-  if (unit === "per_hour") return `${formatted}/hr`;
-  return formatted;
-}
-
-function formatFlightTime(minutes: number) {
-  const h = Math.floor(minutes / 60);
-  const m = minutes % 60;
-  if (h === 0) return `${m}min`;
-  return m > 0 ? `${h}h ${m}m` : `${h}h`;
-}
-
 const SearchResults = () => {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
@@ -78,6 +73,15 @@ const SearchResults = () => {
   const toLabel = searchParams.get("to_label") || to_icao;
   const date = searchParams.get("date") || "";
   const passengers = searchParams.get("passengers") || "";
+
+  // Calculate route distance
+  const routeInfo = useMemo(() => {
+    const fromCoords = AIRPORT_COORDS[from_icao];
+    const toCoords = AIRPORT_COORDS[to_icao];
+    if (!fromCoords || !toCoords) return null;
+    const distanceNm = greatCircleDistanceNm(fromCoords[0], fromCoords[1], toCoords[0], toCoords[1]);
+    return { distanceNm };
+  }, [from_icao, to_icao]);
 
   const { data, isLoading, error } = useQuery({
     queryKey: ["charter-search", from_icao, to_icao, date, passengers],
@@ -130,6 +134,13 @@ const SearchResults = () => {
                   <span className="flex items-center gap-1.5">
                     <Users size={12} /> {passengers} passenger{Number(passengers) > 1 ? "s" : ""}
                   </span>
+                )}
+                {routeInfo && (
+                  <>
+                    <span className="flex items-center gap-1.5">
+                      <Navigation size={12} className="text-primary/60" /> {formatDistance(routeInfo.distanceNm)}
+                    </span>
+                  </>
                 )}
               </div>
             </div>
@@ -209,6 +220,20 @@ const SearchResults = () => {
                   galleryImages.push({ url: displayImage, type: "exterior" });
                 }
 
+                // Smart pricing
+                const flightTimeMin = result.estimated_flight_time_min ||
+                  (routeInfo ? estimateFlightTimeMin(routeInfo.distanceNm, category, result.speed_kmh) : null);
+
+                const pricing = getCharterPrice({
+                  price: result.price,
+                  priceCurrency: result.price_currency,
+                  priceUnit: result.price_unit,
+                  aircraftClass: category,
+                  distanceNm: routeInfo?.distanceNm,
+                  flightTimeMin,
+                  speedKmh: result.speed_kmh,
+                });
+
                 return (
                   <motion.div
                     key={`${result.id}-${i}`}
@@ -244,19 +269,36 @@ const SearchResults = () => {
                         </div>
                       )}
 
-                      {/* Aircraft name + price overlay */}
-                      <div className="absolute bottom-4 left-4 right-4 z-10 flex items-end justify-between">
+                      {/* Aircraft name overlay */}
+                      <div className="absolute bottom-4 left-4 right-4 z-10">
                         <h3 className="font-display text-xl text-white font-semibold drop-shadow-lg">{result.aircraft_type}</h3>
-                        {result.price != null && (
-                          <span className="text-primary text-[13px] font-medium drop-shadow-lg">
-                            {formatPrice(result.price, result.price_currency || "USD", result.price_unit)}
-                          </span>
-                        )}
                       </div>
                     </div>
 
                     {/* Details */}
                     <div className="p-6">
+                      {/* Price row — always visible */}
+                      <div className="mb-4 pb-3 border-b border-border/40">
+                        <div className="flex items-center justify-between">
+                          <span className={`font-display text-[15px] font-semibold ${
+                            pricing.variant === "exact" ? "text-primary" :
+                            pricing.variant === "estimate" ? "text-foreground" :
+                            "text-muted-foreground"
+                          }`}>
+                            {pricing.display}
+                          </span>
+                          {flightTimeMin && (
+                            <span className="flex items-center gap-1 text-[11px] text-muted-foreground font-light">
+                              <Clock size={11} className="text-primary/60" />
+                              {formatDuration(flightTimeMin)}
+                            </span>
+                          )}
+                        </div>
+                        {pricing.variant === "estimate" && (
+                          <p className="text-[9px] text-muted-foreground/60 mt-0.5">Market estimate • Final price on confirmation</p>
+                        )}
+                      </div>
+
                       {/* Specs row */}
                       <div className="flex flex-wrap gap-3 mb-4 text-[11px] text-muted-foreground font-light">
                         {result.max_passengers && (
@@ -277,11 +319,6 @@ const SearchResults = () => {
                         {result.speed_kmh && (
                           <span className="flex items-center gap-1.5">
                             <Gauge size={11} className="text-primary/60" /> {result.speed_kmh.toLocaleString()} km/h
-                          </span>
-                        )}
-                        {result.estimated_flight_time_min && (
-                          <span className="flex items-center gap-1.5">
-                            <Clock size={11} className="text-primary/60" /> {formatFlightTime(result.estimated_flight_time_min)}
                           </span>
                         )}
                       </div>

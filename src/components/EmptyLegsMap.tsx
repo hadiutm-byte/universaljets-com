@@ -1,6 +1,6 @@
-import { useState, useCallback, useMemo } from "react";
+import { useState, useCallback, useMemo, useEffect } from "react";
 import { motion } from "framer-motion";
-import { Loader2, ArrowRight, Map, LayoutGrid } from "lucide-react";
+import { Loader2, ArrowRight, Map, LayoutGrid, RefreshCw } from "lucide-react";
 import { useEmptyLegs, type EmptyLeg } from "@/hooks/useAviapages";
 import EmptyLegsMapView from "./empty-legs/EmptyLegsMapView";
 import EmptyLegCard from "./empty-legs/EmptyLegCard";
@@ -53,7 +53,20 @@ const EmptyLegsMap = () => {
   const [selectedLeg, setSelectedLeg] = useState<EmptyLeg | null>(null);
   const [activeRegion, setActiveRegion] = useState("All");
   const [viewMode, setViewMode] = useState<"cards" | "map">("map");
-  const { data, isLoading, error } = useEmptyLegs(activeRegion);
+  const [refreshing, setRefreshing] = useState(false);
+  const { data, isLoading, error, refetch } = useEmptyLegs(activeRegion);
+
+  // Auto-refresh every 5 minutes
+  useEffect(() => {
+    const interval = setInterval(() => { refetch(); }, 5 * 60 * 1000);
+    return () => clearInterval(interval);
+  }, [refetch]);
+
+  const handleRefresh = async () => {
+    setRefreshing(true);
+    await refetch();
+    setTimeout(() => setRefreshing(false), 800);
+  };
 
   const legs = useMemo(() => {
     const raw = data?.results?.length ? data.results.map(enrichCoords) : fallbackLegs;
@@ -150,6 +163,14 @@ const EmptyLegsMap = () => {
               <Map size={12} /> Map
             </button>
           </div>
+          <button
+            onClick={handleRefresh}
+            disabled={refreshing || isLoading}
+            className="flex items-center gap-1.5 px-4 py-2 rounded-lg border border-border text-[10px] tracking-[0.15em] uppercase font-medium text-muted-foreground hover:text-foreground hover:border-foreground/20 transition-all duration-300 disabled:opacity-50"
+          >
+            <RefreshCw size={12} className={refreshing ? "animate-spin" : ""} />
+            {refreshing ? "Syncing" : "Refresh"}
+          </button>
         </div>
 
         {isLoading && (

@@ -1,6 +1,6 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { X, Plane, Calendar, Users, ArrowRight, CheckCircle, Phone, MessageCircle, MapPin, Clock, Shield } from "lucide-react";
+import { X, Plane, Calendar, Users, ArrowRight, CheckCircle, Phone, MessageCircle, MapPin, Clock, Shield, Navigation } from "lucide-react";
 import MembershipUpsell from "@/components/MembershipUpsell";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -9,6 +9,7 @@ import { useCrmApi } from "@/hooks/useCrmApi";
 import QuoteRouteMap from "@/components/QuoteRouteMap";
 import type { Airport } from "@/hooks/useAviapages";
 import AIRPORT_COORDS from "@/lib/airportCoords";
+import { greatCircleDistanceNm, estimateFlightTimeMin, getCharterPrice, formatDuration, formatDistance } from "@/lib/pricingEstimates";
 
 interface QuoteRequestModalProps {
   open: boolean;
@@ -98,6 +99,28 @@ const QuoteRequestModal = ({ open, onClose, flightData }: QuoteRequestModalProps
     if (coords) { toAirport.lat = coords[0]; toAirport.lng = coords[1]; }
   }
 
+  // Route calculations for pricing estimate
+  const routeInfo = useMemo(() => {
+    if (!fromAirport?.lat || !toAirport?.lat) return null;
+    const distanceNm = greatCircleDistanceNm(fromAirport.lat, fromAirport.lng, toAirport.lat, toAirport.lng);
+    const flightTimeMin = estimateFlightTimeMin(distanceNm);
+    // Determine class from aircraft name if available
+    const aircraftName = (flightData.aircraft || "").toLowerCase();
+    let aircraftClass = "midsize";
+    if (/citation|phenom|lear\s*[234]|honda/i.test(aircraftName)) aircraftClass = "light";
+    else if (/hawker|citation\s*x|praetor\s*5|challenger\s*3/i.test(aircraftName)) aircraftClass = "super midsize";
+    else if (/global|gulfstream\s*[gv]|falcon\s*(7|8|9|2000)|challenger\s*(6|650)/i.test(aircraftName)) aircraftClass = "heavy";
+    else if (/a319|a320|bbj|lineage|acj/i.test(aircraftName)) aircraftClass = "vip airliner";
+
+    const pricing = getCharterPrice({
+      aircraftClass,
+      distanceNm,
+      flightTimeMin,
+    });
+
+    return { distanceNm, flightTimeMin, pricing };
+  }, [fromAirport, toAirport, flightData.aircraft]);
+
   const canProceedStep1 = form.departure && form.destination;
   const canProceedStep2 = form.name.trim().length > 1 && form.email.includes("@");
 
@@ -161,6 +184,23 @@ const QuoteRequestModal = ({ open, onClose, flightData }: QuoteRequestModalProps
               {/* Route map */}
               {fromAirport?.lat && toAirport?.lat && (
                 <QuoteRouteMap from={fromAirport} to={toAirport} className="mt-2" />
+              )}
+
+              {/* Route metrics */}
+              {routeInfo && (
+                <div className="flex items-center justify-between gap-3 p-3 rounded-xl bg-muted/20 border border-border/30">
+                  <div className="flex items-center gap-4 text-[11px] text-muted-foreground font-light">
+                    <span className="flex items-center gap-1.5">
+                      <Navigation size={11} className="text-primary/60" /> {formatDistance(routeInfo.distanceNm)}
+                    </span>
+                    <span className="flex items-center gap-1.5">
+                      <Clock size={11} className="text-primary/60" /> ~{formatDuration(routeInfo.flightTimeMin)}
+                    </span>
+                  </div>
+                  <span className={`text-[12px] font-medium ${routeInfo.pricing.variant === "estimate" ? "text-foreground" : "text-primary"}`}>
+                    {routeInfo.pricing.display}
+                  </span>
+                </div>
               )}
 
               {/* Flight details grid */}
