@@ -91,7 +91,7 @@ const faqs = [
 const fadeUp = { hidden: { opacity: 0, y: 30 }, visible: { opacity: 1, y: 0 } };
 const stagger = { hidden: {}, visible: { transition: { staggerChildren: 0.08 } } };
 
-/* ═══ TIER CARD — HIGH CONTRAST ═══ */
+/* ═══ TIER CARD — HIGH CONTRAST, VISIBLE PRICES ═══ */
 const TierCard = ({ tier, index }: { tier: typeof tiers[0]; index: number }) => {
   const isMaverick = "isMaverick" in tier && tier.isMaverick;
   const isPopular = "popular" in tier && tier.popular;
@@ -104,7 +104,6 @@ const TierCard = ({ tier, index }: { tier: typeof tiers[0]; index: number }) => 
       transition={{ delay: index * 0.1, duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
       className="group relative"
     >
-      {/* Maverick glow */}
       {isMaverick && (
         <div className="absolute -inset-[1px] rounded-2xl bg-gradient-to-b from-primary/40 via-primary/15 to-primary/5 blur-[2px]" />
       )}
@@ -115,15 +114,14 @@ const TierCard = ({ tier, index }: { tier: typeof tiers[0]; index: number }) => 
             ? "border-2 border-primary/40 shadow-[0_0_40px_-10px_hsla(43,74%,49%,0.2)]"
             : isPopular
             ? "border border-primary/25"
-            : "border border-[hsl(228,12%,22%)]"
+            : "border border-[hsl(228,12%,24%)]"
         }`}
         style={{
           background: isMaverick
-            ? "linear-gradient(180deg, hsl(228,12%,13%) 0%, hsl(228,15%,9%) 100%)"
-            : "linear-gradient(180deg, hsl(228,12%,14%) 0%, hsl(228,15%,10%) 100%)",
+            ? "linear-gradient(180deg, hsl(228,12%,14%) 0%, hsl(228,15%,9%) 100%)"
+            : "linear-gradient(180deg, hsl(228,12%,15%) 0%, hsl(228,15%,11%) 100%)",
         }}
       >
-        {/* Badge */}
         {(isMaverick || isPopular) && (
           <div className="absolute top-4 right-4 z-20">
             <span className={`px-3 py-1 rounded-full text-[8px] tracking-[0.2em] uppercase font-semibold border ${
@@ -136,55 +134,51 @@ const TierCard = ({ tier, index }: { tier: typeof tiers[0]; index: number }) => 
           </div>
         )}
 
-        {/* Header */}
         <div className="p-6 pb-4 pt-8">
           <p className="text-[8px] tracking-[0.4em] uppercase text-white/50 font-medium mb-1">Universal Jets</p>
           <h3 className={`font-display text-2xl font-semibold mb-1 ${isMaverick ? "text-primary" : "text-white"}`}>
             {tier.name}
           </h3>
-          <p className="text-[12px] text-white/60 font-light mb-5">{tier.tagline}</p>
+          <p className="text-[12px] text-white/65 font-light mb-5">{tier.tagline}</p>
 
           {/* PRICE — MAXIMUM VISIBILITY */}
           <div className="flex items-baseline gap-1.5 mb-2">
             <span className={`text-[36px] font-display font-bold leading-none ${isMaverick ? "text-primary" : "text-white"}`}>
               {tier.monthlyPrice}
             </span>
-            <span className="text-[12px] text-white/55 font-light">/ month</span>
+            <span className="text-[12px] text-white/60 font-light">/ month</span>
           </div>
           {"bestFor" in tier && (
             <p className="text-[11px] text-primary/80 font-medium tracking-wide">{tier.bestFor}</p>
           )}
         </div>
 
-        {/* Divider */}
-        <div className={`h-[1px] mx-6 ${isMaverick ? "bg-primary/25" : "bg-white/[0.1]"}`} />
+        <div className={`h-[1px] mx-6 ${isMaverick ? "bg-primary/25" : "bg-white/[0.12]"}`} />
 
-        {/* Features */}
         <div className="p-6 pt-5 flex flex-col flex-1">
           <div className="space-y-3.5 mb-8 flex-1">
             {tier.highlights.map((h, i) => (
               <div key={i} className="flex items-start gap-3">
                 <div className={`w-4.5 h-4.5 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5 ${
-                  isMaverick ? "bg-primary/20" : "bg-white/[0.1]"
+                  isMaverick ? "bg-primary/20" : "bg-white/[0.12]"
                 }`}>
                   <Check className={`w-2.5 h-2.5 ${isMaverick ? "text-primary" : "text-primary/80"}`} strokeWidth={2.5} />
                 </div>
-                <span className={`text-[13px] leading-[1.6] font-light ${isMaverick ? "text-white/90" : "text-white/75"}`}>
+                <span className={`text-[13px] leading-[1.6] font-light ${isMaverick ? "text-white/90" : "text-white/80"}`}>
                   {h}
                 </span>
               </div>
             ))}
           </div>
 
-          {/* CTA */}
           <Link
             to={`/membership/enroll?tier=${tier.name.toLowerCase()}`}
-            className={`block text-center py-4 text-[10px] tracking-[0.2em] uppercase font-medium rounded-xl transition-all duration-500 active:scale-[0.97] ${
+            className={`block text-center py-4 text-[10px] tracking-[0.2em] uppercase font-medium rounded-xl transition-all duration-500 active:scale-[0.97] min-h-[48px] flex items-center justify-center ${
               isMaverick
                 ? "bg-gradient-gold text-primary-foreground hover:shadow-[0_0_40px_-10px_hsla(43,74%,49%,0.5)] hover:scale-[1.01]"
                 : isPopular
                 ? "bg-primary/15 border border-primary/25 text-primary hover:bg-primary/20 hover:shadow-[0_0_25px_-8px_hsla(43,74%,49%,0.3)]"
-                : "bg-white/[0.08] border border-white/[0.15] text-white/80 hover:bg-white/[0.12] hover:text-white hover:border-primary/20"
+                : "bg-white/[0.1] border border-white/[0.18] text-white/85 hover:bg-white/[0.15] hover:text-white hover:border-primary/20"
             }`}
           >
             {tier.cta}
@@ -199,15 +193,17 @@ const TierCard = ({ tier, index }: { tier: typeof tiers[0]; index: number }) => 
 const MobileComparisonCard = ({ tier, index }: { tier: typeof tiers[0]; index: number }) => {
   const isMaverick = "isMaverick" in tier && tier.isMaverick;
   const values = comparisonRows.map(row => ({ label: row.label, value: row.values[index] }));
-  
+
   return (
-    <div className={`rounded-xl p-5 border ${isMaverick ? "border-primary/30 bg-[hsl(228,14%,12%)]" : "border-[hsl(228,12%,20%)] bg-[hsl(228,14%,10%)]"}`}>
-      <h4 className={`font-display text-lg font-semibold mb-1 ${isMaverick ? "text-primary" : "text-white"}`}>{tier.name}</h4>
-      <p className="text-[12px] text-white/60 font-light mb-4">{tier.monthlyPrice}/mo</p>
+    <div className={`rounded-xl p-5 border ${isMaverick ? "border-primary/30 bg-[hsl(228,14%,13%)]" : "border-[hsl(228,12%,22%)] bg-[hsl(228,14%,11%)]"}`}>
+      <div className="flex items-baseline justify-between mb-4">
+        <h4 className={`font-display text-lg font-semibold ${isMaverick ? "text-primary" : "text-white"}`}>{tier.name}</h4>
+        <span className="text-[14px] text-white/80 font-medium">{tier.monthlyPrice}/mo</span>
+      </div>
       <div className="space-y-2.5">
         {values.map((v, i) => (
-          <div key={i} className="flex justify-between items-center py-1.5 border-b border-white/[0.06] last:border-0">
-            <span className="text-[11px] text-white/55 font-light">{v.label}</span>
+          <div key={i} className="flex justify-between items-center py-1.5 border-b border-white/[0.08] last:border-0">
+            <span className="text-[11px] text-white/60 font-light">{v.label}</span>
             <span className={`text-[11px] font-medium ${v.value === "Unlimited" || v.value === "None" ? "text-primary" : "text-white/85"}`}>{v.value}</span>
           </div>
         ))}
@@ -226,16 +222,13 @@ const MembersPage = () => (
     />
     <Navbar />
 
-    {/* ════════════════════════════════════════════════════════
-        1. HERO
-    ════════════════════════════════════════════════════════ */}
+    {/* 1. HERO */}
     <section className="relative pt-32 pb-20 md:pt-44 md:pb-28 overflow-hidden">
       <div className="absolute inset-0" style={{ background: "linear-gradient(180deg, hsl(228,18%,4%) 0%, hsl(228,14%,7%) 50%, hsl(228,18%,4%) 100%)" }} />
       <div className="absolute inset-0 opacity-20" style={{ background: "radial-gradient(ellipse 55% 35% at 50% 40%, hsla(43,74%,49%,0.12) 0%, transparent 70%)" }} />
       <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-primary/20 to-transparent" />
 
       <div className="container mx-auto px-8 text-center max-w-3xl relative z-10">
-        {/* Badge */}
         <motion.div
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
@@ -262,7 +255,7 @@ const MembersPage = () => (
           initial={{ opacity: 0, y: 15 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.35 }}
-          className="text-[20px] text-white/50 font-extralight tracking-[0.08em] mb-6"
+          className="text-[20px] text-white/55 font-extralight tracking-[0.08em] mb-6"
         >
           By Invitation Only
         </motion.p>
@@ -271,13 +264,12 @@ const MembersPage = () => (
           initial={{ opacity: 0, y: 15 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.45 }}
-          className="text-[14px] md:text-[15px] text-white/65 font-light leading-[2] max-w-lg mx-auto mb-12"
+          className="text-[14px] md:text-[15px] text-white/70 font-light leading-[2] max-w-lg mx-auto mb-12"
         >
-          Priority access. Dedicated advisors. Exclusive rates and concierge services — 
+          Priority access. Dedicated advisors. Exclusive rates and concierge services —
           reserved for members of the Universal Jets network.
         </motion.p>
 
-        {/* CTAs */}
         <motion.div
           initial={{ opacity: 0, y: 15 }}
           animate={{ opacity: 1, y: 0 }}
@@ -286,7 +278,7 @@ const MembersPage = () => (
         >
           <Link
             to="/membership/enroll"
-            className="px-10 py-4 bg-gradient-gold text-primary-foreground text-[10px] tracking-[0.3em] uppercase font-semibold rounded-xl hover:shadow-[0_0_50px_-12px_hsla(43,74%,49%,0.5)] transition-all duration-500 active:scale-[0.97]"
+            className="px-10 py-4 bg-gradient-gold text-primary-foreground text-[10px] tracking-[0.3em] uppercase font-semibold rounded-xl hover:shadow-[0_0_50px_-12px_hsla(43,74%,49%,0.5)] transition-all duration-500 active:scale-[0.97] min-h-[48px] flex items-center justify-center"
           >
             Request Membership
           </Link>
@@ -294,7 +286,7 @@ const MembersPage = () => (
             href="https://wa.me/971585918498"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2.5 px-10 py-4 border border-white/20 text-white/65 hover:text-white/85 hover:border-white/30 text-[10px] tracking-[0.3em] uppercase font-light rounded-xl transition-all duration-500 active:scale-[0.97]"
+            className="inline-flex items-center gap-2.5 px-10 py-4 border border-white/20 text-white/70 hover:text-white/90 hover:border-white/30 text-[10px] tracking-[0.3em] uppercase font-light rounded-xl transition-all duration-500 active:scale-[0.97] min-h-[48px]"
           >
             <MessageCircle size={12} />
             Speak to Advisor
@@ -305,9 +297,7 @@ const MembersPage = () => (
       <div className="absolute bottom-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-primary/15 to-transparent" />
     </section>
 
-    {/* ════════════════════════════════════════════════════════
-        2. TRUST — Why Universal Jets
-    ════════════════════════════════════════════════════════ */}
+    {/* 2. TRUST — Why Universal Jets */}
     <section className="py-20 md:py-28 relative">
       <div className="absolute inset-0" style={{ background: "linear-gradient(180deg, hsl(228,14%,7%) 0%, hsl(228,16%,5.5%) 100%)" }} />
       <div className="container mx-auto px-8 max-w-5xl relative z-10">
@@ -338,22 +328,20 @@ const MembersPage = () => (
               key={i}
               variants={fadeUp}
               transition={{ duration: 0.5 }}
-              className="rounded-xl border border-[hsl(228,12%,18%)] bg-[hsl(228,14%,10%)] p-6 hover:border-primary/20 transition-colors duration-500"
+              className="rounded-xl border border-[hsl(228,12%,20%)] bg-[hsl(228,14%,11%)] p-6 hover:border-primary/20 transition-colors duration-500"
             >
-              <div className="w-10 h-10 rounded-lg bg-primary/[0.1] border border-primary/20 flex items-center justify-center mb-4">
-                <p.icon className="w-4.5 h-4.5 text-primary/80" strokeWidth={1.5} />
+              <div className="w-10 h-10 rounded-lg bg-primary/[0.12] border border-primary/20 flex items-center justify-center mb-4">
+                <p.icon className="w-4.5 h-4.5 text-primary/85" strokeWidth={1.5} />
               </div>
               <h3 className="text-[14px] font-display font-semibold text-white mb-2">{p.title}</h3>
-              <p className="text-[12px] text-white/60 font-light leading-[1.8]">{p.desc}</p>
+              <p className="text-[12px] text-white/65 font-light leading-[1.8]">{p.desc}</p>
             </motion.div>
           ))}
         </motion.div>
       </div>
     </section>
 
-    {/* ════════════════════════════════════════════════════════
-        3. MEMBERSHIP TIERS
-    ════════════════════════════════════════════════════════ */}
+    {/* 3. MEMBERSHIP TIERS */}
     <section className="py-20 md:py-28 relative">
       <div className="absolute inset-0" style={{ background: "linear-gradient(180deg, hsl(228,16%,5.5%) 0%, hsl(228,18%,4.5%) 100%)" }} />
       <div className="container mx-auto px-6 md:px-8 relative z-10">
@@ -369,7 +357,7 @@ const MembersPage = () => (
           <h2 className="font-display text-2xl md:text-3xl lg:text-4xl font-semibold text-white">
             Choose Your <span className="text-gradient-gold italic">Level of Access</span>
           </h2>
-          <p className="text-[13px] text-white/60 font-light max-w-lg mx-auto mt-4 leading-relaxed">
+          <p className="text-[13px] text-white/65 font-light max-w-lg mx-auto mt-4 leading-relaxed">
             Each tier is designed around how you fly — from occasional regional trips to unlimited global coverage.
           </p>
         </motion.div>
@@ -386,30 +374,30 @@ const MembersPage = () => (
           transition={{ duration: 0.7, delay: 0.2 }}
           className="mt-16 max-w-5xl mx-auto hidden md:block"
         >
-          <p className="text-center text-[9px] tracking-[0.4em] uppercase text-white/50 mb-6 font-light">Detailed Comparison</p>
-          <div className="rounded-xl border border-[hsl(228,12%,18%)] overflow-hidden bg-[hsl(228,14%,9%)]">
+          <p className="text-center text-[9px] tracking-[0.4em] uppercase text-white/55 mb-6 font-light">Detailed Comparison</p>
+          <div className="rounded-xl border border-[hsl(228,12%,20%)] overflow-hidden bg-[hsl(228,14%,10%)]">
             <div className="overflow-x-auto">
               <table className="w-full text-[11px]">
                 <thead>
-                  <tr className="border-b border-[hsl(228,12%,18%)]">
-                    <th className="text-left py-4 px-5 text-[8px] tracking-[0.25em] uppercase text-white/45 font-medium w-[20%]" />
+                  <tr className="border-b border-[hsl(228,12%,20%)]">
+                    <th className="text-left py-4 px-5 text-[8px] tracking-[0.25em] uppercase text-white/50 font-medium w-[20%]" />
                     {tiers.map((t) => (
                       <th key={t.name} className={`text-center py-4 px-4 text-[10px] tracking-[0.15em] uppercase font-semibold ${
-                        t.isMaverick ? "text-primary" : "text-white/80"
+                        t.isMaverick ? "text-primary" : "text-white/85"
                       }`}>
                         {t.name}
-                        <div className="text-[10px] font-medium text-white/55 mt-0.5 tracking-normal normal-case">{t.monthlyPrice}/mo</div>
+                        <div className="text-[11px] font-semibold text-white/70 mt-0.5 tracking-normal normal-case">{t.monthlyPrice}/mo</div>
                       </th>
                     ))}
                   </tr>
                 </thead>
                 <tbody>
                   {comparisonRows.map((row, i) => (
-                    <tr key={i} className="border-t border-[hsl(228,12%,14%)] hover:bg-white/[0.02] transition-colors">
-                      <td className="py-3.5 px-5 text-white/65 font-medium text-[11px]">{row.label}</td>
+                    <tr key={i} className="border-t border-[hsl(228,12%,16%)] hover:bg-white/[0.03] transition-colors">
+                      <td className="py-3.5 px-5 text-white/70 font-medium text-[11px]">{row.label}</td>
                       {row.values.map((val, j) => (
                         <td key={j} className={`py-3.5 px-4 text-center font-light ${
-                          j === 3 ? "text-primary" : "text-white/75"
+                          j === 3 ? "text-primary" : "text-white/80"
                         } ${val === "Unlimited" || val === "None" || val === "Unlimited access" ? "font-medium" : ""}`}>
                           {val}
                         </td>
@@ -424,16 +412,14 @@ const MembersPage = () => (
 
         {/* Comparison Cards — MOBILE/TABLET */}
         <div className="mt-12 md:hidden space-y-4">
-          <p className="text-center text-[9px] tracking-[0.4em] uppercase text-white/50 mb-4 font-light">Detailed Comparison</p>
+          <p className="text-center text-[9px] tracking-[0.4em] uppercase text-white/55 mb-4 font-light">Detailed Comparison</p>
           {tiers.map((tier, i) => <MobileComparisonCard key={tier.name} tier={tier} index={i} />)}
         </div>
       </div>
     </section>
 
-    {/* ════════════════════════════════════════════════════════
-        4. HOW IT WORKS
-    ════════════════════════════════════════════════════════ */}
-    <section className="py-20 md:py-28 relative border-y border-[hsl(228,12%,16%)]">
+    {/* 4. HOW IT WORKS */}
+    <section className="py-20 md:py-28 relative border-y border-[hsl(228,12%,18%)]">
       <div className="absolute inset-0" style={{ background: "linear-gradient(180deg, hsl(228,18%,4.5%) 0%, hsl(228,14%,7%) 100%)" }} />
       <div className="container mx-auto px-8 max-w-4xl relative z-10">
         <motion.div
@@ -470,16 +456,14 @@ const MembersPage = () => (
               )}
 
               <h3 className="font-display text-[16px] mb-3 text-white font-semibold">{s.title}</h3>
-              <p className="text-[12px] text-white/60 font-light leading-[1.9] max-w-[240px] mx-auto">{s.desc}</p>
+              <p className="text-[12px] text-white/65 font-light leading-[1.9] max-w-[240px] mx-auto">{s.desc}</p>
             </motion.div>
           ))}
         </div>
       </div>
     </section>
 
-    {/* ════════════════════════════════════════════════════════
-        5. BENEFITS
-    ════════════════════════════════════════════════════════ */}
+    {/* 5. BENEFITS */}
     <section className="py-20 md:py-28 relative">
       <div className="absolute inset-0" style={{ background: "linear-gradient(180deg, hsl(228,14%,7%) 0%, hsl(228,16%,5%) 100%)" }} />
       <div className="container mx-auto px-8 max-w-5xl relative z-10">
@@ -510,14 +494,14 @@ const MembersPage = () => (
               key={i}
               variants={fadeUp}
               transition={{ duration: 0.5 }}
-              className="flex gap-4 p-5 rounded-xl border border-[hsl(228,12%,18%)] bg-[hsl(228,14%,10%)] hover:border-primary/20 transition-colors duration-500"
+              className="flex gap-4 p-5 rounded-xl border border-[hsl(228,12%,20%)] bg-[hsl(228,14%,11%)] hover:border-primary/20 transition-colors duration-500"
             >
-              <div className="w-9 h-9 rounded-lg bg-primary/[0.1] border border-primary/20 flex items-center justify-center flex-shrink-0">
-                <b.icon className="w-4 h-4 text-primary/80" strokeWidth={1.5} />
+              <div className="w-9 h-9 rounded-lg bg-primary/[0.12] border border-primary/20 flex items-center justify-center flex-shrink-0">
+                <b.icon className="w-4 h-4 text-primary/85" strokeWidth={1.5} />
               </div>
               <div>
                 <h3 className="text-[13px] font-display font-semibold text-white mb-1.5">{b.title}</h3>
-                <p className="text-[12px] text-white/60 font-light leading-[1.8]">{b.desc}</p>
+                <p className="text-[12px] text-white/65 font-light leading-[1.8]">{b.desc}</p>
               </div>
             </motion.div>
           ))}
@@ -525,10 +509,8 @@ const MembersPage = () => (
       </div>
     </section>
 
-    {/* ════════════════════════════════════════════════════════
-        FAQ
-    ════════════════════════════════════════════════════════ */}
-    <section className="py-16 md:py-24 border-t border-[hsl(228,12%,16%)]">
+    {/* FAQ */}
+    <section className="py-16 md:py-24 border-t border-[hsl(228,12%,18%)]">
       <div className="container mx-auto px-8 max-w-3xl">
         <motion.div
           initial="hidden"
@@ -546,11 +528,11 @@ const MembersPage = () => (
 
         <Accordion type="single" collapsible className="space-y-2">
           {faqs.map((faq, i) => (
-            <AccordionItem key={i} value={`faq-${i}`} className="border border-[hsl(228,12%,18%)] rounded-xl px-6 bg-[hsl(228,14%,10%)]">
-              <AccordionTrigger className="text-[13px] text-white/85 font-medium text-left py-5 hover:no-underline hover:text-white transition-colors [&>svg]:text-white/50">
+            <AccordionItem key={i} value={`faq-${i}`} className="border border-[hsl(228,12%,20%)] rounded-xl px-6 bg-[hsl(228,14%,11%)]">
+              <AccordionTrigger className="text-[13px] text-white/90 font-medium text-left py-5 hover:no-underline hover:text-white transition-colors [&>svg]:text-white/50">
                 {faq.q}
               </AccordionTrigger>
-              <AccordionContent className="text-[12px] text-white/65 font-light leading-[1.9] pb-5">
+              <AccordionContent className="text-[12px] text-white/70 font-light leading-[1.9] pb-5">
                 {faq.a}
               </AccordionContent>
             </AccordionItem>
@@ -559,9 +541,7 @@ const MembersPage = () => (
       </div>
     </section>
 
-    {/* ════════════════════════════════════════════════════════
-        6. FINAL CTA
-    ════════════════════════════════════════════════════════ */}
+    {/* 6. FINAL CTA */}
     <section className="py-20 md:py-28 relative overflow-hidden">
       <div className="absolute inset-0" style={{ background: "linear-gradient(180deg, hsl(228,14%,5%) 0%, hsl(228,18%,3.5%) 100%)" }} />
       <div className="absolute inset-0 opacity-25" style={{ background: "radial-gradient(ellipse 50% 40% at 50% 50%, hsla(43,74%,49%,0.1) 0%, transparent 65%)" }} />
@@ -573,31 +553,31 @@ const MembersPage = () => (
           viewport={{ once: true }}
           transition={{ duration: 0.8 }}
         >
-          <BadgeCheck className="w-8 h-8 text-primary/60 mx-auto mb-6" strokeWidth={1.2} />
+          <BadgeCheck className="w-8 h-8 text-primary/65 mx-auto mb-6" strokeWidth={1.2} />
           <h2 className="font-display text-2xl md:text-3xl lg:text-4xl font-semibold text-white mb-5 leading-tight">
             Your Private Aviation{" "}
             <span className="text-gradient-gold italic">Starts Here</span>
           </h2>
-          <p className="text-[13px] text-white/65 font-light leading-[1.9] mb-10 max-w-md mx-auto">
+          <p className="text-[13px] text-white/70 font-light leading-[1.9] mb-10 max-w-md mx-auto">
             Choose your tier and complete enrollment online. Your dedicated advisor will reach out within 24 hours to tailor your experience.
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center mb-8">
             <Link
               to="/membership/enroll"
-              className="px-10 py-4 bg-gradient-gold text-primary-foreground text-[10px] tracking-[0.25em] uppercase font-semibold rounded-xl hover:shadow-[0_0_50px_-12px_hsla(43,74%,49%,0.5)] transition-all duration-500 active:scale-[0.97]"
+              className="px-10 py-4 bg-gradient-gold text-primary-foreground text-[10px] tracking-[0.25em] uppercase font-semibold rounded-xl hover:shadow-[0_0_50px_-12px_hsla(43,74%,49%,0.5)] transition-all duration-500 active:scale-[0.97] min-h-[48px] flex items-center justify-center"
             >
               Enroll in Membership
             </Link>
             <Link
               to="/jet-card"
-              className="inline-flex items-center justify-center gap-2 px-10 py-4 border border-[hsl(228,12%,24%)] text-white/70 hover:text-white/90 hover:border-primary/25 text-[10px] tracking-[0.25em] uppercase font-light rounded-xl transition-all duration-500 active:scale-[0.97]"
+              className="inline-flex items-center justify-center gap-2 px-10 py-4 border border-[hsl(228,12%,26%)] text-white/75 hover:text-white/90 hover:border-primary/25 text-[10px] tracking-[0.25em] uppercase font-light rounded-xl transition-all duration-500 active:scale-[0.97] min-h-[48px]"
             >
               Explore Jet Card <ArrowRight size={11} />
             </Link>
           </div>
 
-          <p className="text-[10px] text-white/40 font-extralight tracking-wide">
+          <p className="text-[10px] text-white/45 font-extralight tracking-wide">
             All enquiries are confidential · No long-term commitment required
           </p>
         </motion.div>

@@ -63,16 +63,12 @@ const BeyondTheFlightSection = () => (
             whileInView="visible"
             viewport={{ once: true, margin: "-40px" }}
             variants={itemVariants}
-            whileHover={{ y: -6, transition: { duration: 0.35 } }}
+            whileTap={{ scale: 0.98 }}
             className="flex gap-5 rounded-2xl border border-border bg-card p-7 card-cinematic cursor-default"
           >
-            <motion.div
-              whileHover={{ scale: 1.1, rotate: 5 }}
-              transition={{ type: "spring", stiffness: 300 }}
-              className="shrink-0 w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center"
-            >
+            <div className="shrink-0 w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center">
               <item.icon size={22} className="text-primary" strokeWidth={1.4} />
-            </motion.div>
+            </div>
             <div>
               <h3 className="font-display text-lg font-semibold text-foreground mb-1">{item.title}</h3>
               <p className="text-sm text-muted-foreground leading-relaxed">{item.desc}</p>
