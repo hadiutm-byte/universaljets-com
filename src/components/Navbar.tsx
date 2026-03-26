@@ -103,8 +103,7 @@ const Navbar = () => {
 
   return (
     <>
-      {/* ═══ TOP BAR ═══ Membership banner is outside this component (z-60, top-0, h-9) */}
-      {/* ═══ NAVBAR ═══ Fixed below banner. Solid dark when scrolled. */}
+      {/* ═══ NAVBAR ═══ */}
       <motion.nav
         initial={{ opacity: 0, y: -12 }}
         animate={{ opacity: 1, y: 0 }}
@@ -124,24 +123,24 @@ const Navbar = () => {
           {/* Logo */}
           <Link
             to="/"
-            className="group font-display text-[13px] md:text-[15px] tracking-[0.45em] uppercase select-none font-light flex-shrink-0 transition-all duration-500"
+            className="group font-display text-[13px] md:text-[15px] tracking-[0.5em] uppercase select-none font-light flex-shrink-0 transition-all duration-500"
           >
             <span className="text-white/90">Universal</span>
             <span className="text-gradient-gold ml-1.5 font-normal">Jets</span>
           </Link>
 
           {/* Center links — desktop only */}
-          <div className="hidden xl:flex items-center gap-6 absolute left-1/2 -translate-x-1/2">
+          <div className="hidden xl:flex items-center gap-7 absolute left-1/2 -translate-x-1/2">
             {centerLinks.map((l) => (
               <NavLinkInner
                 key={l.label}
                 href={l.href}
                 isHome={isHome}
                 onNav={handleNavClick}
-                className="text-[10px] tracking-[0.22em] text-white/40 hover:text-primary transition-colors duration-500 uppercase font-light relative group whitespace-nowrap"
+                className="text-[10px] tracking-[0.28em] text-white/40 hover:text-primary transition-colors duration-500 uppercase font-light relative group whitespace-nowrap"
               >
                 {l.label}
-                <span className="absolute -bottom-1 left-0 w-0 h-[0.5px] bg-primary/60 group-hover:w-full transition-all duration-500" />
+                <span className="absolute -bottom-1.5 left-0 w-0 h-[1px] bg-primary/60 group-hover:w-full transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]" />
               </NavLinkInner>
             ))}
           </div>
@@ -151,14 +150,14 @@ const Navbar = () => {
             {showCrmLink && (
               <Link
                 to="/crm"
-                className="inline-flex items-center rounded-xl border border-white/10 bg-white/5 px-3 py-2 text-[10px] tracking-[0.22em] uppercase font-medium text-white/70 hover:border-primary/30 hover:text-primary transition-all duration-500"
+                className="inline-flex items-center rounded-xl border border-white/10 bg-white/5 px-3 py-2 text-[10px] tracking-[0.25em] uppercase font-medium text-white/70 hover:border-primary/30 hover:text-primary transition-all duration-500"
               >
                 CRM
               </Link>
             )}
             <Link
               to="/auth"
-              className="hidden xl:inline-block text-[10px] tracking-[0.2em] text-white/30 hover:text-primary/70 transition-colors duration-500 uppercase font-light"
+              className="hidden xl:inline-block text-[10px] tracking-[0.25em] text-white/30 hover:text-primary/70 transition-colors duration-500 uppercase font-light"
             >
               Members Login
             </Link>
@@ -166,7 +165,7 @@ const Navbar = () => {
               href="/#cta"
               isHome={isHome}
               onNav={handleNavClick}
-              className="hidden xl:inline-block px-6 py-2.5 bg-gradient-gold text-white text-[10px] tracking-[0.25em] uppercase font-medium rounded-xl hover:shadow-[0_0_30px_-8px_hsla(45,79%,46%,0.45)] transition-all duration-500 hover:scale-[1.01]"
+              className="hidden xl:inline-block px-6 py-2.5 bg-gradient-gold text-white text-[10px] tracking-[0.28em] uppercase font-medium rounded-xl hover:shadow-[0_0_30px_-8px_hsla(45,79%,46%,0.45)] transition-all duration-500 hover:scale-[1.02]"
             >
               Request a Flight
             </NavLinkInner>
@@ -200,17 +199,22 @@ const Navbar = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
+            transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
             className="fixed inset-0 z-[55] flex"
           >
-            {/* Opaque dark background — no stacking, no blur */}
-            <div className="absolute inset-0 bg-[hsl(220,10%,5%)]" />
+            {/* Opaque dark background */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.4 }}
+              className="absolute inset-0 bg-[hsl(220,10%,5%)]"
+            />
 
             <div className="relative z-10 w-full h-full flex flex-col items-center justify-center px-8">
               <motion.div
                 initial={{ scaleX: 0 }}
                 animate={{ scaleX: 1 }}
-                transition={{ duration: 0.8, delay: 0.2 }}
+                transition={{ duration: 0.9, delay: 0.25, ease: [0.16, 1, 0.3, 1] }}
                 className="w-16 h-[1px] bg-gradient-to-r from-transparent via-primary/50 to-transparent mb-10 origin-center"
               />
 
@@ -218,35 +222,39 @@ const Navbar = () => {
                 {menuLinks.map((l, i) => (
                   <motion.div
                     key={l.label}
-                    initial={{ opacity: 0, y: 20 }}
+                    initial={{ opacity: 0, y: 24 }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -10 }}
-                    transition={{ duration: 0.5, delay: 0.15 + i * 0.04, ease: [0.16, 1, 0.3, 1] }}
+                    transition={{
+                      duration: 0.6,
+                      delay: 0.18 + i * 0.045,
+                      ease: [0.16, 1, 0.3, 1],
+                    }}
                   >
                     <NavLinkInner
                       href={l.href}
                       isHome={isHome}
                       onNav={handleNavClick}
-                      className="block py-2.5 text-[15px] md:text-[18px] tracking-[0.25em] text-white/40 hover:text-white transition-all duration-500 uppercase font-extralight relative group"
+                      className="block py-2.5 text-[15px] md:text-[18px] tracking-[0.3em] text-white/35 hover:text-white transition-all duration-500 uppercase font-extralight relative group"
                     >
                       {l.label}
-                      <span className="absolute -bottom-0.5 left-1/2 -translate-x-1/2 w-0 h-[0.5px] bg-primary/50 group-hover:w-full transition-all duration-500" />
+                      <span className="absolute -bottom-0.5 left-1/2 -translate-x-1/2 w-0 h-[1px] bg-primary/50 group-hover:w-full transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]" />
                     </NavLinkInner>
                   </motion.div>
                 ))}
               </nav>
 
               <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.7, duration: 0.6 }}
-                className="flex flex-col items-center gap-5 mt-12"
+                initial={{ opacity: 0, y: 16 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.75, duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+                className="flex flex-col items-center gap-5 mt-14"
               >
                 <div className="w-10 h-[1px] bg-gradient-to-r from-transparent via-primary/30 to-transparent" />
                 <Link
                   to="/auth"
                   onClick={() => setOverlayOpen(false)}
-                  className="text-[10px] tracking-[0.3em] text-white/30 hover:text-primary/70 uppercase font-extralight transition-colors duration-500"
+                  className="text-[10px] tracking-[0.35em] text-white/30 hover:text-primary/70 uppercase font-extralight transition-colors duration-500"
                 >
                   Members Login
                 </Link>
@@ -254,7 +262,7 @@ const Navbar = () => {
                   href="/#cta"
                   isHome={isHome}
                   onNav={handleNavClick}
-                  className="px-10 py-3.5 bg-gradient-gold text-white text-[10px] tracking-[0.25em] uppercase font-medium rounded-xl hover:shadow-[0_0_40px_-8px_hsla(45,79%,46%,0.5)] transition-all duration-500"
+                  className="px-10 py-3.5 bg-gradient-gold text-white text-[10px] tracking-[0.28em] uppercase font-medium rounded-xl hover:shadow-[0_0_40px_-8px_hsla(45,79%,46%,0.5)] transition-all duration-500 hover:scale-[1.02]"
                 >
                   Request a Flight
                 </NavLinkInner>

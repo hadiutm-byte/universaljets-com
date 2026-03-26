@@ -142,16 +142,16 @@ const FlightSearchBox = () => {
   return (
     <div className="w-full max-w-5xl mx-auto">
       {/* ── Trip Type Tabs ── */}
-      <div className="flex items-center justify-center mb-5">
-        <div className="inline-flex rounded-full border-2 border-border bg-background p-1 gap-0">
+      <div className="flex items-center justify-center mb-6">
+        <div className="inline-flex rounded-full border border-border bg-background p-1 gap-0">
           {tripTabs.map((tab) => (
             <button
               key={tab.value}
               onClick={() => setTripType(tab.value)}
-              className={`relative px-6 py-2.5 text-[11px] tracking-[0.18em] uppercase font-semibold rounded-full transition-all duration-300 cursor-pointer ${
+              className={`relative px-6 py-2.5 text-[10px] tracking-[0.22em] uppercase font-semibold rounded-full transition-all duration-500 cursor-pointer ${
                 tripType === tab.value
-                  ? "bg-gradient-gold text-white shadow-[0_4px_16px_-4px_hsla(45,79%,46%,0.4)]"
-                  : "text-foreground/50 hover:text-foreground/80 border border-transparent"
+                  ? "bg-gradient-gold text-white shadow-[0_4px_16px_-4px_hsla(45,79%,46%,0.3)]"
+                  : "text-foreground/45 hover:text-foreground/75 border border-transparent"
               }`}
             >
               {tab.label}
@@ -161,7 +161,7 @@ const FlightSearchBox = () => {
       </div>
 
       {/* ── Search Card ── */}
-      <div className="rounded-2xl bg-background border-2 border-border shadow-[0_12px_48px_-12px_hsla(0,0%,0%,0.1)] p-6">
+      <div className="rounded-2xl bg-background border border-border/80 shadow-[0_12px_48px_-16px_hsla(0,0%,0%,0.08)] p-7">
         <AnimatePresence mode="wait">
           {tripType !== "multi-city" ? (
             <motion.div key="standard" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.2 }}>
