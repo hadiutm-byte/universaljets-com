@@ -376,7 +376,7 @@ export const destinations: Destination[] = [
     heroDesc: "The capital of Saudi Arabia and the nerve centre of the Middle East's most ambitious economic transformation. Riyadh is rapidly becoming one of the world's most important private aviation markets.",
     region: "Middle East",
     airports: [
-      { name: "King Khalid International", code: "OERK / RUH", type: "International with GA terminal", note: "Dedicated Royal & VIP terminal for private aviation" },
+      { name: "King Khalid International", code: "OERK / RUH", icao: "OERK", type: "International with GA terminal", note: "Dedicated Royal & VIP terminal for private aviation" },
     ],
     popularRoutes: [
       { from: "Riyadh", to: "Dubai", time: "2h", aircraft: "Light / Midsize" },
