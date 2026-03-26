@@ -12,26 +12,26 @@ html {
 
 @layer base {
   :root {
-    /* FINAL PALETTE */
+    /* MASTER BLUEPRINT PALETTE — Dark Luxury */
     --background: 0 0% 100%;           /* #FFFFFF */
-    --foreground: 0 0% 7%;             /* #121212 */
+    --foreground: 0 0% 4%;             /* #0A0A0A */
 
     --card: 0 0% 100%;
-    --card-foreground: 0 0% 7%;
+    --card-foreground: 0 0% 4%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 0 0% 7%;
+    --popover-foreground: 0 0% 4%;
 
-    --primary: 44 82% 36%;             /* #A8850F — darker gold for white-bg readability */
+    --primary: 40 42% 42%;             /* #C6A15B — blueprint gold */
     --primary-foreground: 0 0% 100%;
 
     --secondary: 0 0% 100%;
-    --secondary-foreground: 0 0% 7%;
+    --secondary-foreground: 0 0% 4%;
 
     --muted: 0 0% 95.3%;              /* #F3F3F3 */
     --muted-foreground: 0 0% 43.5%;    /* #6F6F6F */
 
-    --accent: 44 82% 36%;
+    --accent: 40 42% 42%;
     --accent-foreground: 0 0% 100%;
 
     --destructive: 0 84.2% 60.2%;
@@ -39,16 +39,16 @@ html {
 
     --border: 0 0% 0% / 0.08;
     --input: 0 0% 95.3%;
-    --ring: 44 82% 36%;
+    --ring: 40 42% 42%;
 
     --radius: 0.75rem;
 
-    --gold: 45 79% 46%;               /* #D4A017 */
-    --gold-light: 45 70% 52%;
-    --gold-dark: 44 82% 40%;           /* #B89012 */
-    --charcoal: 0 0% 10%;             /* #1A1A1A */
-    --charcoal-deep: 0 0% 16.5%;       /* #2A2A2A */
-    --midnight: 0 0% 12%;
+    --gold: 40 42% 42%;               /* #C6A15B */
+    --gold-light: 40 42% 52%;
+    --gold-dark: 40 42% 36%;
+    --charcoal: 0 0% 7%;              /* #121212 */
+    --charcoal-deep: 0 0% 4%;          /* #0A0A0A */
+    --midnight: 0 0% 4%;
 
     --sidebar-background: 0 0% 98%;
     --sidebar-foreground: 0 0% 7%;
