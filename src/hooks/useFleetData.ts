@@ -90,7 +90,12 @@ export function useFleetAircraftBySlug(slug: string | undefined) {
 
       if (!response.ok) throw new Error("Aircraft not found");
       const data = await response.json();
-      return data.result as FleetAircraft;
+      const ac = data.result as FleetAircraft;
+      return {
+        ...ac,
+        name: sanitizeAircraftName(ac.name),
+        images: sanitizeAircraftImages(ac.images),
+      };
     },
     enabled: !!slug,
     staleTime: 60 * 60 * 1000,
