@@ -108,6 +108,8 @@ const AircraftGuidePage = () => {
     setRequestModalOpen(true);
   };
 
+  useEffect(() => { trackAircraftGuideView(); }, []);
+
   return (
     <div className="min-h-screen bg-background">
       <SEOHead title="Aircraft Guide — Private Jet Fleet Overview" description="Browse the Universal Jets aircraft guide. Compare light jets, midsize, heavy, and ultra-long-range private jets with specs, range, and passenger capacity." path="/aircraft" />

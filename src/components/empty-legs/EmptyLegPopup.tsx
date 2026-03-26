@@ -91,14 +91,31 @@ const EmptyLegPopup = ({ leg, onClose }: EmptyLegPopupProps) => {
               <p className="text-[10px] text-muted-foreground font-light mb-4">Operated by {leg.company}</p>
             )}
 
-            <a
-              href={`https://wa.me/447888999944?text=${waMsg}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="block w-full py-3 btn-luxury text-[9px] tracking-[0.25em] uppercase font-medium rounded-xl text-center"
-            >
-              Request This Flight
-            </a>
+            <div className="flex gap-2">
+              <a
+                href={`https://wa.me/447888999944?text=${waMsg}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex-1 py-3 btn-luxury text-[9px] tracking-[0.25em] uppercase font-medium rounded-xl text-center"
+              >
+                Request This Flight
+              </a>
+              <button
+                onClick={async () => {
+                  const shareText = `✈️ Empty Leg Deal — ${leg.aircraft_type || "Private Jet"}\n${leg.departure?.city || "?"} → ${leg.arrival?.city || "?"}\n📅 ${date}\n💰 ${leg.price ? `${leg.currency} ${leg.price.toLocaleString()}` : "Save up to 75%"}\n\nBook now at Universal Jets\nhttps://www.universaljets.com`;
+                  if (navigator.share) {
+                    try { await navigator.share({ title: `Empty Leg: ${leg.departure?.city} → ${leg.arrival?.city}`, text: shareText }); } catch {}
+                  } else {
+                    await navigator.clipboard.writeText(shareText);
+                    toast.success("Copied to clipboard");
+                  }
+                }}
+                className="w-10 h-10 rounded-xl border border-border flex items-center justify-center text-muted-foreground hover:text-primary hover:border-primary/30 transition-all"
+                aria-label="Share"
+              >
+                <Share2 size={14} />
+              </button>
+            </div>
           </div>
         </motion.div>
       )}
