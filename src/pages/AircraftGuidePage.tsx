@@ -7,6 +7,7 @@ import Footer from "@/components/Footer";
 import SEOHead from "@/components/SEOHead";
 import AircraftRequestModal from "@/components/AircraftRequestModal";
 import { toast } from "sonner";
+import { trackAircraftGuideView } from "@/lib/gtmEvents";
 
 interface Aircraft {
   name: string;
