@@ -227,6 +227,9 @@ const RequestFlightPage = () => {
                 </div>
               </FormSection>
 
+              {/* Route Map */}
+              <QuoteRouteMap from={fromAirport} to={toAirport} className="mt-2" />
+
               {/* Aircraft & Services — Expandable */}
               <div>
                 {expandToggle("Aircraft & Service Preferences", showServices, () => setShowServices(!showServices))}
