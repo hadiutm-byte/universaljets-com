@@ -178,7 +178,10 @@ const MembershipCard = ({ tier, index }: { tier: typeof tiers[0]; index: number 
     >
       {/* Maverick glow ring */}
       {isMaverick && (
-        <div className="absolute -inset-[1px] rounded-2xl bg-gradient-to-b from-primary/20 via-primary/5 to-transparent pointer-events-none -z-10 blur-sm" />
+        <>
+          <div className="absolute -inset-[2px] rounded-2xl bg-gradient-to-b from-primary/30 via-primary/10 to-primary/5 pointer-events-none -z-10 blur-sm" />
+          <div className="absolute -inset-[1px] rounded-2xl bg-gradient-to-b from-primary/20 via-transparent to-transparent pointer-events-none -z-10" />
+        </>
       )}
 
       {/* Physical Card */}
