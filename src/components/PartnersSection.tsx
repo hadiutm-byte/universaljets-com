@@ -41,7 +41,7 @@ const partnerCards = [
     badges: [],
     featured: false,
     cta: "Join Program",
-    href: "/contact",
+    href: "/partners",
   },
   {
     icon: Layers,
