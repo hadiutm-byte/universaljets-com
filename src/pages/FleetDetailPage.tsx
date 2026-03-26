@@ -59,8 +59,16 @@ const FleetDetailPage = () => {
   if (aircraft.cabin_width_m) specs.push({ label: "Cabin Width", value: `${aircraft.cabin_width_m.toFixed(1)} m` });
   if (aircraft.cabin_height_m) specs.push({ label: "Cabin Height", value: `${aircraft.cabin_height_m.toFixed(1)} m` });
   if (aircraft.luggage_volume_m3) specs.push({ label: "Luggage", value: `${aircraft.luggage_volume_m3.toFixed(1)} m³`, icon: <Box size={14} /> });
-  if (aircraft.engine_type) specs.push({ label: "Engine Type", value: aircraft.engine_type, icon: <Cog size={14} /> });
-  if (aircraft.engine_count) specs.push({ label: "Engines", value: String(aircraft.engine_count) });
+   if (aircraft.engine_type) specs.push({ label: "Engine Type", value: aircraft.engine_type, icon: <Cog size={14} /> });
+   if (aircraft.engine_count) specs.push({ label: "Engines", value: String(aircraft.engine_count) });
+   if (aircraft.range_typical_km) {
+     const typicalNm = Math.round(aircraft.range_typical_km / 1.852);
+     specs.push({ label: "Typical Range", value: `${typicalNm.toLocaleString()} nm` });
+   }
+   if (aircraft.range_ferry_km) {
+     const ferryNm = Math.round(aircraft.range_ferry_km / 1.852);
+     specs.push({ label: "Ferry Range", value: `${ferryNm.toLocaleString()} nm` });
+   }
 
   // Route suitability
   const suitability: string[] = [];
