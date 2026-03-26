@@ -88,7 +88,7 @@ const MembershipHero = ({ onRequestInvitation, onSpeakToAdvisor }: MembershipHer
 
         <motion.p
           variants={fadeUp}
-          className="text-[14px] md:text-[15px] text-white/35 font-extralight leading-[2] max-w-lg mx-auto mb-12"
+          className="text-[14px] md:text-[15px] text-white/50 font-light leading-[2] max-w-lg mx-auto mb-12"
         >
           An exclusive network for those who expect more from private aviation.
           Priority access, dedicated advisors, and privileges reserved for members only.
