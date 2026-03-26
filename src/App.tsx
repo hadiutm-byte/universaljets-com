@@ -58,6 +58,7 @@ const BDDashboardPage = lazy(() => import("./pages/crm/BDDashboardPage.tsx"));
 const BDDetailPage = lazy(() => import("./pages/crm/BDDetailPage.tsx"));
 const CareersPage = lazy(() => import("./pages/CareersPage.tsx"));
 const ContactPage = lazy(() => import("./pages/ContactPage.tsx"));
+const ConciergePage = lazy(() => import("./pages/ConciergePage.tsx"));
 const CharterPage = lazy(() => import("./pages/CharterPage.tsx"));
 const AircraftGuidePage = lazy(() => import("./pages/AircraftGuidePage.tsx"));
 const FleetPage = lazy(() => import("./pages/FleetPage.tsx"));
@@ -137,6 +138,7 @@ const App = () => (
             <Route path="/careers" element={<CareersPage />} />
             <Route path="/contact" element={<ContactPage />} />
             <Route path="/charter/:slug" element={<CharterPage />} />
+            <Route path="/concierge" element={<ConciergePage />} />
             <Route path="/aircraft" element={<AircraftGuidePage />} />
             <Route path="/fleet" element={<FleetPage />} />
             <Route path="/unsubscribe" element={<UnsubscribePage />} />
