@@ -11,6 +11,7 @@ type TripStatus = Database["public"]["Enums"]["trip_status"];
 const STATUSES: TripStatus[] = ["scheduled", "in_progress", "completed", "cancelled"];
 
 const TripsPage = () => {
+  const navigate = useNavigate();
   const [data, setData] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [formOpen, setFormOpen] = useState(false);
