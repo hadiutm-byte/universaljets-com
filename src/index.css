@@ -302,13 +302,13 @@ html {
 
   /* === LUXURY CARD DEPTH === */
   .card-elevated {
-    box-shadow: 0 4px 20px -4px hsla(0, 0%, 0%, 0.06), 0 12px 40px -10px hsla(0, 0%, 0%, 0.04);
-    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: 0 4px 20px -4px hsla(0, 0%, 0%, 0.05), 0 12px 40px -10px hsla(0, 0%, 0%, 0.03);
+    transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
   }
 
   .card-elevated:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 12px 40px -8px hsla(0, 0%, 0%, 0.1), 0 20px 60px -15px hsla(45, 79%, 46%, 0.08);
+    transform: translateY(-3px);
+    box-shadow: 0 12px 40px -8px hsla(0, 0%, 0%, 0.08), 0 20px 60px -15px hsla(45, 79%, 46%, 0.06);
   }
 
   .ricky-panel {
