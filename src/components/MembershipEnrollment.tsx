@@ -144,9 +144,10 @@ const MembershipEnrollment = () => {
                               <PremiumInput label="WhatsApp" type="tel" value={whatsapp} onChange={(e) => setWhatsapp(e.target.value)} placeholder="+971 50 000 0000" maxLength={20} />
                             </div>
                           </FormSection>
-                          <PremiumSubmitButton disabled={!canStep1} className="mt-2">
-                            <span onClick={() => canStep1 && setStep(2)}>Continue</span>
-                          </PremiumSubmitButton>
+                          <button type="button" disabled={!canStep1} onClick={() => canStep1 && setStep(2)}
+                            className="w-full mt-2 py-3.5 bg-gradient-gold text-primary-foreground text-[10px] tracking-[0.25em] uppercase font-medium rounded-lg transition-all duration-500 hover:shadow-[0_0_40px_-10px_hsla(45,79%,46%,0.4)] disabled:opacity-40 btn-luxury">
+                            Continue
+                          </button>
                         </motion.div>
                       )}
 
