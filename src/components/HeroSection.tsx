@@ -71,7 +71,7 @@ const HeroSection = () => {
           initial={{ opacity: 0, y: 45 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1.4, delay: 0.7, ease: [0.16, 1, 0.3, 1] }}
-          className="font-display leading-[0.9] tracking-[-0.01em] mb-14"
+          className="font-display leading-[0.9] tracking-[-0.01em] mb-8"
         >
           <span
             className="block text-[2.5rem] sm:text-[3rem] md:text-[4.5rem] lg:text-[6.2rem] font-semibold text-white/95"
@@ -95,17 +95,17 @@ const HeroSection = () => {
         </motion.h1>
 
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 18 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1.2, delay: 0.95 }}
           className="max-w-lg mx-auto"
-          style={{ marginBottom: "4rem", marginTop: "-0.5rem" }}
+          style={{ marginBottom: "3.5rem" }}
         >
           <p
-            className="text-[17px] md:text-[20px] text-white/90 font-normal leading-[1.55] tracking-[0.01em]"
-            style={{ textShadow: "0 2px 20px hsla(0,0%,0%,0.6)" }}
+            className="text-[17px] md:text-[20px] text-white font-normal leading-[1.5] tracking-[0.005em]"
+            style={{ textShadow: "0 2px 24px hsla(0,0%,0%,0.7)" }}
           >
-            Access the entire global private jet market —
+            The entire global private jet market —
             <br />
             not limited to a single fleet.
           </p>
