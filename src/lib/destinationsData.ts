@@ -8,6 +8,7 @@ export interface DestinationRoute {
 export interface DestinationAirport {
   name: string;
   code: string; // ICAO or IATA
+  icao?: string; // Pure ICAO for API lookups
   type: string; // "FBO" | "Commercial" | "Private Terminal"
   note?: string;
 }
