@@ -66,14 +66,14 @@ const HeroSection = () => {
           className="font-display leading-[0.95] tracking-tight mb-10"
         >
           <span
-            className="block text-[2.8rem] sm:text-[3.5rem] md:text-[5rem] lg:text-[7rem] font-semibold text-white"
-            style={{ textShadow: "0 4px 30px hsla(0,0%,0%,0.5)" }}
+            className="block text-[2.6rem] sm:text-[3.2rem] md:text-[4.8rem] lg:text-[6.5rem] font-semibold text-white"
+            style={{ textShadow: "0 4px 40px hsla(0,0%,0%,0.6), 0 1px 0 hsla(0,0%,100%,0.05)" }}
           >
             Private Aviation.
           </span>
           <span
-            className="block text-[3.4rem] sm:text-[4.5rem] md:text-[6rem] lg:text-[8.5rem] text-gradient-gold italic font-medium mt-2"
-            style={{ textShadow: "0 4px 30px hsla(45,79%,46%,0.15)" }}
+            className="block text-[3.2rem] sm:text-[4.2rem] md:text-[5.8rem] lg:text-[8rem] text-gradient-gold italic font-medium mt-1"
+            style={{ textShadow: "0 4px 40px hsla(45,79%,46%,0.2)" }}
           >
             Perfected.
           </span>
