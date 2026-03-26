@@ -33,7 +33,7 @@ const Index = () => {
       />
       <JsonLd data={organizationSchema} />
       <JsonLd data={localBusinessSchema} />
-      <div className="noise-overlay" />
+      {/* noise-overlay removed — visual noise eliminated */}
 
       <div className="relative z-[2]">
         <MembershipBanner onRequestInvitation={() => setAuthOpen(true)} />
