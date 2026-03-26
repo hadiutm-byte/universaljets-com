@@ -88,8 +88,11 @@ const HeroSection = () => {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1.4, delay: 0.85, ease: [0.16, 1, 0.3, 1] }}
-          className="font-display text-[2rem] sm:text-[2.8rem] md:text-[3.8rem] lg:text-[5.2rem] font-extrabold italic tracking-[-0.01em] text-primary mb-10"
-          style={{ textShadow: "0 0 80px hsla(45,80%,50%,0.4), 0 0 30px hsla(45,80%,50%,0.3), 0 0 8px hsla(45,80%,50%,0.15), 0 4px 30px hsla(0,0%,0%,0.7)" }}
+          className="font-display text-[2rem] sm:text-[2.8rem] md:text-[3.8rem] lg:text-[5.2rem] font-extrabold italic tracking-[-0.01em] mb-10"
+          style={{
+            color: "hsl(43, 85%, 58%)",
+            textShadow: "0 0 60px hsla(43,85%,50%,0.5), 0 0 20px hsla(43,85%,50%,0.35), 0 0 6px hsla(43,85%,50%,0.2), 0 2px 4px hsla(0,0%,0%,0.9), 0 4px 30px hsla(0,0%,0%,0.8)",
+          }}
         >
           Without Limits.
         </motion.p>
