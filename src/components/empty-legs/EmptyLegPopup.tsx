@@ -34,7 +34,7 @@ const EmptyLegPopup = ({ leg, onClose }: EmptyLegPopupProps) => {
   const date = leg.from_date
     ? new Date(leg.from_date).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })
     : "TBD";
-  const priceLabel = leg.price ? `${leg.currency} ${leg.price.toLocaleString()}` : "Save up to 75%";
+  const priceLabel = leg.price ? `${leg.currency} ${leg.price.toLocaleString()}` : "Price on request";
   const image = leg.aircraft_image || getAircraftImage(leg.aircraft_type || "midsize");
   const category = leg.aircraft_class || getAircraftCategory(leg.aircraft_type || "midsize");
   const galleryImages = leg.aircraft_images?.length ? leg.aircraft_images : [{ url: image, type: "exterior" }];
