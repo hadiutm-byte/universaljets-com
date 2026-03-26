@@ -7,6 +7,11 @@ const corsHeaders = {
 
 const AVIAPAGES_BASE = 'https://dir.aviapages.com';
 
+/** Strip registration codes like "(HA-JEX)" from aircraft names */
+function stripReg(name: string): string {
+  return name.replace(/\s*\([A-Z0-9]{1,4}-[A-Z0-9]{2,5}\)\s*/gi, '').trim() || 'Private Jet';
+}
+
 serve(async (req) => {
   if (req.method === 'OPTIONS') {
     return new Response(null, { headers: corsHeaders });
