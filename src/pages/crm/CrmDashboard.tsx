@@ -3,6 +3,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
 import { Users, Target, Plane, FileText, Receipt, Map, Kanban, TrendingUp, Clock } from "lucide-react";
 import { Link } from "react-router-dom";
+import ClientIdentifier from "@/components/crm/ClientIdentifier";
 
 interface StatCard {
   label: string;
