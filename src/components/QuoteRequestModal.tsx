@@ -186,6 +186,23 @@ const QuoteRequestModal = ({ open, onClose, flightData }: QuoteRequestModalProps
                 <QuoteRouteMap from={fromAirport} to={toAirport} className="mt-2" />
               )}
 
+              {/* Route metrics */}
+              {routeInfo && (
+                <div className="flex items-center justify-between gap-3 p-3 rounded-xl bg-muted/20 border border-border/30">
+                  <div className="flex items-center gap-4 text-[11px] text-muted-foreground font-light">
+                    <span className="flex items-center gap-1.5">
+                      <Navigation size={11} className="text-primary/60" /> {formatDistance(routeInfo.distanceNm)}
+                    </span>
+                    <span className="flex items-center gap-1.5">
+                      <Clock size={11} className="text-primary/60" /> ~{formatDuration(routeInfo.flightTimeMin)}
+                    </span>
+                  </div>
+                  <span className={`text-[12px] font-medium ${routeInfo.pricing.variant === "estimate" ? "text-foreground" : "text-primary"}`}>
+                    {routeInfo.pricing.display}
+                  </span>
+                </div>
+              )}
+
               {/* Flight details grid */}
               <div className="grid grid-cols-2 gap-3">
                 <div className="space-y-1.5">
