@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams, useSearchParams } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { Plane, Users, Ruler, Clock, Briefcase, CheckCircle, XCircle, Calendar, Shield, MapPin } from "lucide-react";
+import { sanitizeAircraftName } from "@/lib/sanitize";
 import { getAircraftImage, getAircraftCategory } from "@/lib/aircraftImages";
 import { toast } from "sonner";
 
@@ -69,8 +70,9 @@ const QuoteViewPage = () => {
   }
 
   const fr = quote.flight_requests;
-  const category = getAircraftCategory(quote.aircraft || "");
-  const image = getAircraftImage(quote.aircraft || "");
+  const aircraftName = sanitizeAircraftName(quote.aircraft);
+  const category = getAircraftCategory(aircraftName);
+  const image = getAircraftImage(aircraftName);
   const isExpired = quote.valid_until && new Date(quote.valid_until) < new Date();
   const isResolved = quote.status === "accepted" || quote.status === "rejected" || responded;
 
@@ -124,14 +126,14 @@ const QuoteViewPage = () => {
         {/* Aircraft */}
         <div className="bg-white rounded-2xl border border-[#e8e4dc] overflow-hidden shadow-sm">
           <div className="aspect-[21/9] overflow-hidden">
-            <img src={image} alt={quote.aircraft} className="w-full h-full object-cover" />
+            <img src={image} alt={aircraftName} className="w-full h-full object-cover" />
           </div>
           <div className="p-8">
             <div className="flex items-center gap-2 mb-4">
               <Shield size={12} className="text-[#A8850F]" />
               <span className="text-[9px] tracking-[0.3em] uppercase text-[#A8850F] font-medium">Verified Aircraft</span>
             </div>
-            <h2 className="text-2xl font-serif text-[#1a1a1a] mb-4">{quote.aircraft || "Private Jet"}</h2>
+            <h2 className="text-2xl font-serif text-[#1a1a1a] mb-4">{aircraftName}</h2>
             {category && (
               <span className="inline-block px-3 py-1 bg-[#f5f2eb] text-[#A8850F] text-[9px] tracking-[0.2em] uppercase rounded-full mb-6">{category}</span>
             )}

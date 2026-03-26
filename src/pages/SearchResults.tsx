@@ -11,6 +11,7 @@ import AircraftGallery from "@/components/AircraftGallery";
 import { toast } from "sonner";
 import MembershipUpsell from "@/components/MembershipUpsell";
 import { getAircraftImage, getAircraftCategory } from "@/lib/aircraftImages";
+import { sanitizeAircraftName, sanitizeAircraftImages } from "@/lib/sanitize";
 import { trackQuoteRequest, trackWhatsAppClick } from "@/lib/gtmEvents";
 import AIRPORT_COORDS from "@/lib/airportCoords";
 import {
@@ -105,7 +106,14 @@ const SearchResults = () => {
     enabled: !!from_icao && !!to_icao,
   });
 
-  const results: AircraftResult[] = (data?.results || []).filter((r: AircraftResult) => {
+  const results: AircraftResult[] = (data?.results || []).map((r: AircraftResult) => ({
+    ...r,
+    aircraft_type: sanitizeAircraftName(r.aircraft_type),
+    images: {
+      ...r.images,
+      all: sanitizeAircraftImages(r.images?.all),
+    },
+  })).filter((r: AircraftResult) => {
     const cls = (r.aircraft_class || "").toLowerCase();
     const type = (r.aircraft_type || "").toLowerCase();
     // Exclude turboprops, propeller aircraft, and helicopters from B2C

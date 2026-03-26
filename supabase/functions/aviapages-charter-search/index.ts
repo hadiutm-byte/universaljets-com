@@ -7,6 +7,11 @@ const corsHeaders = {
 
 const AVIAPAGES_BASE = 'https://dir.aviapages.com';
 
+/** Strip registration codes like "(HA-JEX)" from aircraft names */
+function stripReg(name: string): string {
+  return name.replace(/\s*\([A-Z0-9]{1,4}-[A-Z0-9]{2,5}\)\s*/gi, '').trim() || 'Private Jet';
+}
+
 serve(async (req) => {
   if (req.method === 'OPTIONS') {
     return new Response(null, { headers: corsHeaders });
@@ -119,7 +124,7 @@ serve(async (req) => {
 
         results.push({
           id: aircraft.id,
-          aircraft_type: aircraft.ac_type || aircraft.aircraft_type || 'Private Jet',
+          aircraft_type: stripReg(aircraft.ac_type || aircraft.aircraft_type || 'Private Jet'),
           year_of_production: aircraft.year_of_production || aircraft.yom || null,
           max_passengers: aircraft.max_passengers || aircraft.pax_maximum || null,
           range_km: aircraft.range || aircraft.range_maximum || null,

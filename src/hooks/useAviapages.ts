@@ -1,4 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
+import { sanitizeAircraftName, sanitizeAircraftImages } from "@/lib/sanitize";
 
 // ─── Types ──────────────────────────────────────────────────────────────────
 
@@ -128,14 +129,16 @@ export function normalizeEmptyLeg(raw: unknown): EmptyLeg | null {
 
   const departure = normalizeAirport(o.departure);
   const arrival = normalizeAirport(o.arrival);
-  const aircraftImages = normalizeImages(o.aircraft_images);
+  const aircraftImages = sanitizeAircraftImages(
+    normalizeImages(o.aircraft_images)
+  );
 
   // Safely extract price from multiple possible fields
   const price = toNum(o.price) ?? toNum(o.price_total) ?? toNum(o.total_price) ?? null;
 
   return {
     id: typeof o.id === "number" ? o.id : 0,
-    aircraft_type: toStr(o.aircraft_type, "Unknown"),
+    aircraft_type: sanitizeAircraftName(toStr(o.aircraft_type, "Unknown")),
     aircraft_class: typeof o.aircraft_class === "string" ? o.aircraft_class : null,
     aircraft_image: typeof o.aircraft_image === "string" && o.aircraft_image ? o.aircraft_image : (aircraftImages[0]?.url || null),
     aircraft_images: aircraftImages.length > 0 ? aircraftImages : undefined,
