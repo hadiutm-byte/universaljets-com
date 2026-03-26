@@ -109,7 +109,7 @@ const Navbar = () => {
         initial={{ opacity: 0, y: -12 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 1, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
-        className={`fixed top-9 left-0 right-0 z-50 transition-all duration-500 ${
+        className={`fixed top-9 left-0 right-0 z-[56] transition-all duration-500 ${
           scrolled ? "py-3" : "py-5"
         }`}
         style={{
