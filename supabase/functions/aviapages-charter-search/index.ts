@@ -124,7 +124,7 @@ serve(async (req) => {
 
         results.push({
           id: aircraft.id,
-          aircraft_type: aircraft.ac_type || aircraft.aircraft_type || 'Private Jet',
+          aircraft_type: stripReg(aircraft.ac_type || aircraft.aircraft_type || 'Private Jet'),
           year_of_production: aircraft.year_of_production || aircraft.yom || null,
           max_passengers: aircraft.max_passengers || aircraft.pax_maximum || null,
           range_km: aircraft.range || aircraft.range_maximum || null,

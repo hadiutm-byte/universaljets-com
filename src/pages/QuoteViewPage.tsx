@@ -70,8 +70,9 @@ const QuoteViewPage = () => {
   }
 
   const fr = quote.flight_requests;
-  const category = getAircraftCategory(quote.aircraft || "");
-  const image = getAircraftImage(quote.aircraft || "");
+  const aircraftName = sanitizeAircraftName(quote.aircraft);
+  const category = getAircraftCategory(aircraftName);
+  const image = getAircraftImage(aircraftName);
   const isExpired = quote.valid_until && new Date(quote.valid_until) < new Date();
   const isResolved = quote.status === "accepted" || quote.status === "rejected" || responded;
 
