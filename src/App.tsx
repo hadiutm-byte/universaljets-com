@@ -15,6 +15,8 @@ import FloatingWhatsApp from "./components/FloatingWhatsApp.tsx";
 const AboutPage = lazy(() => import("./pages/AboutPage.tsx"));
 const MembersPage = lazy(() => import("./pages/MembersPage.tsx"));
 const JetCardPage = lazy(() => import("./pages/JetCardPage.tsx"));
+const JetCardInquiryPage = lazy(() => import("./pages/JetCardInquiryPage.tsx"));
+const MembershipEnrollPage = lazy(() => import("./pages/MembershipEnrollPage.tsx"));
 const SearchResults = lazy(() => import("./pages/SearchResults.tsx"));
 const ACMILeasingPage = lazy(() => import("./pages/ACMILeasingPage.tsx"));
 const PartnerPage = lazy(() => import("./pages/PartnerPage.tsx"));
@@ -93,7 +95,10 @@ const App = () => (
           <Routes>
             <Route path="/" element={<Index />} />
             <Route path="/members" element={<MembersPage />} />
+            <Route path="/membership" element={<MembersPage />} />
+            <Route path="/membership/enroll" element={<MembershipEnrollPage />} />
             <Route path="/jet-card" element={<JetCardPage />} />
+            <Route path="/jet-card-inquiry" element={<JetCardInquiryPage />} />
             <Route path="/auth" element={<AuthPage />} />
             <Route path="/dashboard" element={<ProtectedRoute><DashboardPage /></ProtectedRoute>} />
             <Route path="/profile" element={<ProtectedRoute><MemberProfilePage /></ProtectedRoute>} />
