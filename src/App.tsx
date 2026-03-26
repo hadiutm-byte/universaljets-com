@@ -80,6 +80,7 @@ const PageLoader = () => (
 );
 
 const App = () => (
+  <ErrorBoundary>
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
       <Toaster />
