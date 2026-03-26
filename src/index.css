@@ -594,7 +594,7 @@ textarea:focus,
 select:focus {
   outline: none;
   border-color: hsl(45, 79%, 46%) !important;
-  box-shadow: 0 0 0 3px hsla(45, 79%, 46%, 0.1), 0 0 20px -8px hsla(45, 79%, 46%, 0.15) !important;
+  box-shadow: 0 0 0 3px hsla(45, 79%, 46%, 0.08), 0 0 24px -8px hsla(45, 79%, 46%, 0.12) !important;
 }
 
 html {
