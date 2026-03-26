@@ -16,7 +16,7 @@ const overlayLinks = [
   { label: "Home", href: "/" },
   { label: "Charter Flights", href: "/#services" },
   { label: "Empty Legs", href: "/#empty-legs" },
-  { label: "Fleet", href: "/#fleet" },
+  { label: "Fleet", href: "/fleet" },
   { label: "Experience", href: "/#experience" },
   { label: "ACMI & Leasing", href: "/acmi-leasing" },
   { label: "Membership", href: "/members" },
