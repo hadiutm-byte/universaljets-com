@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useSearchParams, useNavigate } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { motion } from "framer-motion";
@@ -5,6 +6,7 @@ import { ArrowLeft, Plane, Calendar, Users, Clock, Loader2, MessageCircle, Phone
 import { Gauge, Ruler } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import QuoteRequestModal from "@/components/QuoteRequestModal";
 import { getAircraftImage, getAircraftCategory } from "@/lib/aircraftImages";
 import { trackQuoteRequest, trackWhatsAppClick } from "@/lib/gtmEvents";
 
