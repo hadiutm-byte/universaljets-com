@@ -28,7 +28,7 @@ const CookieConsent = () => {
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: 40 }}
           transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-          className="fixed bottom-6 left-6 right-6 md:left-auto md:right-8 md:max-w-md z-[60] rounded-xl border border-border/15 bg-card/95 backdrop-blur-xl p-6 shadow-[0_20px_60px_-15px_rgba(0,0,0,0.5)]"
+          className="fixed bottom-6 left-6 right-6 md:left-auto md:right-8 md:max-w-md z-[42] rounded-xl border border-border/15 bg-card/95 backdrop-blur-xl p-6 shadow-[0_20px_60px_-15px_rgba(0,0,0,0.5)]"
         >
           <p className="text-[12px] text-foreground/60 font-extralight leading-[1.8] mb-1">
             We use cookies to enhance your experience.
