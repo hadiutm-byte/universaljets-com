@@ -37,17 +37,24 @@ const AdminUsersPage = () => {
   const addRole = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!form.user_id) { toast.error("Select a user"); return; }
-    const { error } = await supabase.from("user_roles").insert({ user_id: form.user_id, role: form.role });
-    if (error) {
-      if (error.code === "23505") toast.error("User already has this role");
-      else toast.error(error.message);
+    const { data, error } = await supabase.functions.invoke("admin-roles", {
+      body: { action: "assign", user_id: form.user_id, role: form.role },
+    });
+    if (error) { toast.error("Failed to assign role"); return; }
+    const result = data as any;
+    if (result?.error) {
+      toast.error(result.error);
     } else { toast.success("Role assigned"); load(); setAddOpen(false); }
   };
 
   const removeRole = async (id: string) => {
     if (!confirm("Remove this role assignment?")) return;
-    const { error } = await supabase.from("user_roles").delete().eq("id", id);
-    if (error) toast.error(error.message); else { toast.success("Removed"); load(); }
+    const { data, error } = await supabase.functions.invoke("admin-roles", {
+      body: { action: "remove", role_id: id },
+    });
+    if (error) { toast.error("Failed to remove role"); return; }
+    const result = data as any;
+    if (result?.error) { toast.error(result.error); } else { toast.success("Removed"); load(); }
   };
 
   // Group by user
