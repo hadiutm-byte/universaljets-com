@@ -413,7 +413,7 @@ export const destinations: Destination[] = [
     heroDesc: "Switzerland's most prestigious city — where global wealth management, international diplomacy, and alpine lifestyle converge. Geneva is the discreet capital of European private aviation.",
     region: "Europe",
     airports: [
-      { name: "Geneva International", code: "LSGG / GVA", type: "International with dedicated GA terminal", note: "Excellent FBO facilities — TAG Aviation & ExecuJet" },
+      { name: "Geneva International", code: "LSGG / GVA", icao: "LSGG", type: "International with dedicated GA terminal", note: "Excellent FBO facilities — TAG Aviation & ExecuJet" },
     ],
     popularRoutes: [
       { from: "London", to: "Geneva", time: "1h 40m", aircraft: "Light / Midsize" },
