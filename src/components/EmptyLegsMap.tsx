@@ -54,17 +54,21 @@ const EmptyLegsMap = () => {
   const [activeRegion, setActiveRegion] = useState("All");
   const [viewMode, setViewMode] = useState<"cards" | "map">("map");
   const [refreshing, setRefreshing] = useState(false);
+  const [lastUpdated, setLastUpdated] = useState<Date>(new Date());
   const { data, isLoading, error, refetch } = useEmptyLegs(activeRegion);
 
   // Auto-refresh every 5 minutes
   useEffect(() => {
-    const interval = setInterval(() => { refetch(); }, 5 * 60 * 1000);
+    const interval = setInterval(() => {
+      refetch().then(() => setLastUpdated(new Date()));
+    }, 5 * 60 * 1000);
     return () => clearInterval(interval);
   }, [refetch]);
 
   const handleRefresh = async () => {
     setRefreshing(true);
     await refetch();
+    setLastUpdated(new Date());
     setTimeout(() => setRefreshing(false), 800);
   };
 
@@ -163,14 +167,19 @@ const EmptyLegsMap = () => {
               <Map size={12} /> Map
             </button>
           </div>
-          <button
-            onClick={handleRefresh}
-            disabled={refreshing || isLoading}
-            className="flex items-center gap-1.5 px-4 py-2 rounded-full border border-primary/15 bg-primary/[0.04] text-[9px] tracking-[0.2em] uppercase font-medium text-primary/60 hover:text-primary hover:border-primary/30 hover:bg-primary/[0.08] transition-all duration-500 disabled:opacity-40"
-          >
-            <RefreshCw size={10} className={refreshing ? "animate-spin" : ""} />
-            {refreshing ? "Updating…" : "Live Sync"}
-          </button>
+          <div className="flex items-center gap-3">
+            <span className="text-[9px] text-muted-foreground/40 font-light hidden sm:inline">
+              Updated {lastUpdated.toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit" })}
+            </span>
+            <button
+              onClick={handleRefresh}
+              disabled={refreshing || isLoading}
+              className="flex items-center gap-1.5 px-4 py-2 rounded-full border border-primary/15 bg-primary/[0.04] text-[9px] tracking-[0.2em] uppercase font-medium text-primary/60 hover:text-primary hover:border-primary/30 hover:bg-primary/[0.08] transition-all duration-500 disabled:opacity-40"
+            >
+              <RefreshCw size={10} className={refreshing ? "animate-spin" : ""} />
+              {refreshing ? "Updating…" : "Live Sync"}
+            </button>
+          </div>
         </div>
 
         {isLoading && (
