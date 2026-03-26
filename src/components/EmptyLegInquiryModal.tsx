@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { useCrmApi } from "@/hooks/useCrmApi";
 import { toast } from "sonner";
+import { trackEmptyLegInquiry } from "@/lib/gtmEvents";
 
 const inputClass =
   "w-full bg-secondary/50 rounded-lg px-3 py-2.5 text-[13px] text-foreground placeholder:text-foreground/20 font-light focus:outline-none focus:ring-1 focus:ring-primary/20 border border-border/20 transition-all";
