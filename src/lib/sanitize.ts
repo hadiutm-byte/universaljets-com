@@ -175,11 +175,6 @@ export function sanitizeAircraftForPublic<T extends Record<string, unknown>>(raw
         }
         cleaned[key] = sanitised;
       }
-    } else if (key === "operator") {
-      // Extract only the certified flag; never expose operator identity
-      const op = value as Record<string, unknown> | null;
-      if (op?.certified) cleaned["certified"] = true;
-      // Drop operator name, id, city, country, logo, response metrics entirely
     } else {
       cleaned[key] = value;
     }
