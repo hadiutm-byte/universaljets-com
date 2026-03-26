@@ -1,4 +1,4 @@
-import { useRef, useEffect, useState, useMemo } from "react";
+import { useRef, useEffect, useState, useMemo, forwardRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Plane } from "lucide-react";
 import mapboxgl from "mapbox-gl";
@@ -60,7 +60,7 @@ function flightTime(km: number): string {
   return h > 0 ? `~${h}h ${m}m` : `~${m}m`;
 }
 
-const QuoteRouteMap = ({ from, to, additionalLegs, className = "" }: QuoteRouteMapProps) => {
+const QuoteRouteMap = forwardRef<HTMLDivElement, QuoteRouteMapProps>(({ from, to, additionalLegs, className = "" }, _ref) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const mapRef = useRef<mapboxgl.Map | null>(null);
   const markersRef = useRef<mapboxgl.Marker[]>([]);
@@ -316,7 +316,8 @@ const QuoteRouteMap = ({ from, to, additionalLegs, className = "" }: QuoteRouteM
       </motion.div>
     </AnimatePresence>
   );
-};
+});
+QuoteRouteMap.displayName = "QuoteRouteMap";
 
 /** Create a labeled city marker */
 function createCityMarker(code: string): HTMLDivElement {

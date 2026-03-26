@@ -6,7 +6,6 @@ import MembershipBanner from "@/components/MembershipBanner";
 import AuthModal from "@/components/AuthModal";
 import HeroSection from "@/components/HeroSection";
 import SearchSection from "@/components/SearchSection";
-import EventsSection from "@/components/EventsSection";
 import TrustStrip from "@/components/TrustStrip";
 import CharterSolutionsSection from "@/components/CharterSolutionsSection";
 import BeyondTheFlightSection from "@/components/BeyondTheFlightSection";
@@ -19,6 +18,23 @@ import FinalCTASection from "@/components/FinalCTASection";
 import SEOContentSection from "@/components/SEOContentSection";
 import Footer from "@/components/Footer";
 import StickyFloatingCTA from "@/components/StickyFloatingCTA";
+import EventsSection from "@/components/EventsSection";
+import ErrorBoundary from "@/components/ErrorBoundary";
+
+/** Wrap a section so if it crashes, only that section shows a fallback — not the whole page. */
+const SectionGuard = ({ children, name }: { children: React.ReactNode; name: string }) => (
+  <ErrorBoundary
+    fallback={
+      <div className="py-16 text-center">
+        <p className="text-[12px] text-muted-foreground font-light">
+          This section couldn't load. Please refresh or try again later.
+        </p>
+      </div>
+    }
+  >
+    {children}
+  </ErrorBoundary>
+);
 
 const Index = () => {
   const [authOpen, setAuthOpen] = useState(false);
@@ -34,7 +50,6 @@ const Index = () => {
       />
       <JsonLd data={organizationSchema} />
       <JsonLd data={localBusinessSchema} />
-      {/* noise-overlay removed — visual noise eliminated */}
 
       <div className="relative">
         <MembershipBanner onRequestInvitation={() => setAuthOpen(true)} />
@@ -44,7 +59,9 @@ const Index = () => {
         <HeroSection />
 
         {/* 2. Search */}
-        <SearchSection />
+        <SectionGuard name="search">
+          <SearchSection />
+        </SectionGuard>
 
         {/* 3. Trust Strip */}
         <TrustStrip />
@@ -64,9 +81,11 @@ const Index = () => {
         <div className="divider-shimmer" />
 
         {/* 6. Empty Legs */}
-        <div className="section-white">
-          <EmptyLegsMap />
-        </div>
+        <SectionGuard name="empty-legs">
+          <div className="section-white">
+            <EmptyLegsMap />
+          </div>
+        </SectionGuard>
 
         {/* 7. Membership Hero — DARK CINEMATIC */}
         <MembershipHero
@@ -89,9 +108,11 @@ const Index = () => {
         <div className="divider-shimmer" />
 
         {/* 10. Events / Experiences */}
-        <div className="section-white">
-          <EventsSection />
-        </div>
+        <SectionGuard name="events">
+          <div className="section-white">
+            <EventsSection />
+          </div>
+        </SectionGuard>
 
         <div className="divider-shimmer" />
 
