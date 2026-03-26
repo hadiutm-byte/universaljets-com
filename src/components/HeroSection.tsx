@@ -102,15 +102,15 @@ const HeroSection = () => {
           style={{ marginBottom: "4.5rem" }}
         >
           <p
-            className="text-[15px] md:text-[17px] text-white/65 font-light leading-[2] tracking-[0.015em] mb-3"
-            style={{ textShadow: "0 2px 12px hsla(0,0%,0%,0.5)" }}
+            className="text-[16px] md:text-[18px] text-white/80 font-normal leading-[1.85] tracking-[0.02em] mb-4"
+            style={{ textShadow: "0 2px 16px hsla(0,0%,0%,0.5)" }}
           >
             Access the entire global private jet market —
-            <br className="hidden sm:block" />
-            not just one fleet.
+            <br />
+            not limited to a single fleet.
           </p>
           <p
-            className="text-[13px] md:text-[14px] text-white/40 font-light leading-[1.9] tracking-[0.02em]"
+            className="text-[13px] md:text-[15px] text-white/45 font-light leading-[1.9] tracking-[0.025em]"
             style={{ textShadow: "0 2px 8px hsla(0,0%,0%,0.4)" }}
           >
             Better aircraft. Better pricing. Total flexibility.
