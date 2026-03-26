@@ -112,6 +112,11 @@ const OpsDetailPage = () => {
             <StatusBadge status={trip.status} />
             {trip.aircraft && <span>{trip.aircraft}</span>}
             {trip.date && <span>{new Date(trip.date).toLocaleDateString()}</span>}
+            {briefSent && (
+              <span className="flex items-center gap-1 px-2 py-0.5 bg-emerald-500/10 text-emerald-400 text-[8px] tracking-[0.15em] uppercase rounded-full">
+                <CheckCircle size={8} /> Brief Sent
+              </span>
+            )}
           </div>
         </div>
       </div>
