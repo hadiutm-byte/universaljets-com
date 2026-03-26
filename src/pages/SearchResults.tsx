@@ -319,28 +319,18 @@ const SearchResults = () => {
                         </div>
                       )}
 
-                      {/* Operator */}
-                      <div className="flex items-center gap-3 mb-5 p-3 rounded-xl bg-muted/30">
-                        {result.operator.logo_url ? (
-                          <img src={result.operator.logo_url} alt={`${result.operator.name} operator`} className="w-8 h-8 rounded-lg object-contain bg-white p-0.5" />
-                        ) : (
+                      {/* Operator hidden from B2C — privacy policy. Show verified badge instead */}
+                      {result.operator.certified && (
+                        <div className="flex items-center gap-2 mb-5 p-3 rounded-xl bg-muted/30">
                           <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center">
-                            <Plane size={14} className="text-primary/40" />
+                            <Shield size={14} className="text-primary/60" />
                           </div>
-                        )}
-                        <div className="flex-1 min-w-0">
-                          <p className="text-[11px] text-foreground font-medium truncate">{result.operator.name}</p>
-                          <p className="text-[9px] text-muted-foreground font-light">
-                            {result.operator.city}{result.operator.country ? `, ${result.operator.country}` : ''}
-                          </p>
+                          <div>
+                            <p className="text-[11px] text-foreground font-medium">Verified Operator</p>
+                            <p className="text-[9px] text-muted-foreground font-light">ARGUS / WYVERN certified</p>
+                          </div>
                         </div>
-                        {result.operator.avg_response_rate != null && result.operator.avg_response_rate > 0.8 && (
-                          <div className="flex items-center gap-0.5">
-                            <Star size={9} className="text-primary fill-primary" />
-                            <span className="text-[9px] text-primary font-medium">{Math.round(result.operator.avg_response_rate * 100)}%</span>
-                          </div>
-                        )}
-                      </div>
+                      )}
 
                       {/* CTA */}
                       <button
