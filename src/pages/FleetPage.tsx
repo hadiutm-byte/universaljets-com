@@ -198,7 +198,7 @@ function FleetCard({ aircraft, index }: { aircraft: FleetAircraft; index: number
 
         {/* Specs */}
         <div className="p-5">
-          <div className="flex flex-wrap gap-3 mb-4">
+          <div className="flex flex-wrap gap-3 mb-3">
             {rangeNm && (
               <div className="flex items-center gap-1.5 text-muted-foreground">
                 <Ruler size={11} className="text-primary" />
@@ -214,11 +214,17 @@ function FleetCard({ aircraft, index }: { aircraft: FleetAircraft; index: number
           </div>
 
           {(aircraft.cabin_height_m || aircraft.cabin_length_m || aircraft.cabin_width_m) && (
-            <div className="flex gap-3 mb-4">
+            <div className="flex gap-3 mb-3">
               {aircraft.cabin_length_m && <span className="text-[10px] text-muted-foreground/70">L {aircraft.cabin_length_m.toFixed(1)}m</span>}
               {aircraft.cabin_width_m && <span className="text-[10px] text-muted-foreground/70">W {aircraft.cabin_width_m.toFixed(1)}m</span>}
               {aircraft.cabin_height_m && <span className="text-[10px] text-muted-foreground/70">H {aircraft.cabin_height_m.toFixed(1)}m</span>}
             </div>
+          )}
+
+          {aircraft.description && (
+            <p className="text-[11px] text-muted-foreground/60 font-light leading-relaxed line-clamp-2 mb-3">
+              {aircraft.description}
+            </p>
           )}
 
           <div className="pt-3 border-t border-border flex items-center justify-between">
