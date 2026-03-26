@@ -8,6 +8,7 @@ export interface DestinationRoute {
 export interface DestinationAirport {
   name: string;
   code: string; // ICAO or IATA
+  icao?: string; // Pure ICAO for API lookups
   type: string; // "FBO" | "Commercial" | "Private Terminal"
   note?: string;
 }
@@ -35,8 +36,8 @@ export const destinations: Destination[] = [
     heroDesc: "Where ambition meets opulence. Dubai is the crossroads of East and West — a global hub for finance, luxury, and private aviation with world-class FBO facilities and year-round demand.",
     region: "Middle East",
     airports: [
-      { name: "Al Maktoum International", code: "OMDW / DWC", type: "FBO & Private Terminal", note: "Preferred for private aviation — VIP terminal with customs fast-track" },
-      { name: "Dubai International", code: "OMDB / DXB", type: "Commercial with GA facilities" },
+      { name: "Al Maktoum International", code: "OMDW / DWC", icao: "OMDW", type: "FBO & Private Terminal", note: "Preferred for private aviation — VIP terminal with customs fast-track" },
+      { name: "Dubai International", code: "OMDB / DXB", icao: "OMDB", type: "Commercial with GA facilities" },
     ],
     popularRoutes: [
       { from: "Dubai", to: "London", time: "7h", aircraft: "Heavy / Ultra Long Range" },
@@ -73,10 +74,10 @@ export const destinations: Destination[] = [
     heroDesc: "Culture, power, and privilege in every corner. London remains the epicentre of global finance, luxury real estate, and private aviation, with more FBOs and private terminals than any other European city.",
     region: "Europe",
     airports: [
-      { name: "Farnborough Airport", code: "EGLF / FAB", type: "Dedicated Business Aviation", note: "UK's premier private jet airport — 100% business aviation" },
-      { name: "London Luton", code: "EGGW / LTN", type: "FBO & Commercial", note: "Major FBO hub with Signature & Harrods Aviation" },
-      { name: "RAF Northolt", code: "EGWU", type: "Military / VIP only", note: "Closest to Central London — restricted access" },
-      { name: "London Biggin Hill", code: "EGKB / BQH", type: "Business Aviation" },
+      { name: "Farnborough Airport", code: "EGLF / FAB", icao: "EGLF", type: "Dedicated Business Aviation", note: "UK's premier private jet airport — 100% business aviation" },
+      { name: "London Luton", code: "EGGW / LTN", icao: "EGGW", type: "FBO & Commercial", note: "Major FBO hub with Signature & Harrods Aviation" },
+      { name: "RAF Northolt", code: "EGWU", icao: "EGWU", type: "Military / VIP only", note: "Closest to Central London — restricted access" },
+      { name: "London Biggin Hill", code: "EGKB / BQH", icao: "EGKB", type: "Business Aviation" },
     ],
     popularRoutes: [
       { from: "London", to: "Nice", time: "1h 50m", aircraft: "Light / Midsize" },
@@ -113,8 +114,8 @@ export const destinations: Destination[] = [
     heroDesc: "The jewel of the Côte d'Azur — superyachts, casinos, and unmatched exclusivity. Monaco and the French Riviera represent the pinnacle of European luxury, with year-round demand from global UHNW clients.",
     region: "Europe",
     airports: [
-      { name: "Nice Côte d'Azur", code: "LFMN / NCE", type: "FBO & Commercial", note: "Primary airport for Monaco — 20-minute helicopter transfer to Monte-Carlo" },
-      { name: "Cannes Mandelieu", code: "LFMD", type: "Business Aviation", note: "Smaller, exclusive — popular during Cannes Film Festival & MIPIM" },
+      { name: "Nice Côte d'Azur", code: "LFMN / NCE", icao: "LFMN", type: "FBO & Commercial", note: "Primary airport for Monaco — 20-minute helicopter transfer to Monte-Carlo" },
+      { name: "Cannes Mandelieu", code: "LFMD", icao: "LFMD", type: "Business Aviation", note: "Smaller, exclusive — popular during Cannes Film Festival & MIPIM" },
     ],
     popularRoutes: [
       { from: "London", to: "Nice", time: "1h 50m", aircraft: "Light / Midsize" },
@@ -151,7 +152,7 @@ export const destinations: Destination[] = [
     heroDesc: "The Mediterranean's most coveted summer escape. Mykonos draws the world's elite with its blend of bohemian charm, azure waters, and world-class nightlife — all accessible by private jet.",
     region: "Europe",
     airports: [
-      { name: "Mykonos Airport", code: "LGMK / JMK", type: "Regional with GA handling", note: "Short runway (1,750m) — midsize jet maximum. Heavy jets use Athens." },
+      { name: "Mykonos Airport", code: "LGMK / JMK", icao: "LGMK", type: "Regional with GA handling", note: "Short runway (1,750m) — midsize jet maximum. Heavy jets use Athens." },
     ],
     popularRoutes: [
       { from: "Dubai", to: "Mykonos", time: "5h 30m", aircraft: "Super Midsize (via Athens for heavy)" },
@@ -188,7 +189,7 @@ export const destinations: Destination[] = [
     heroDesc: "Overwater villas, crystal lagoons, and total seclusion. The Maldives is the world's most exclusive escape — a destination where private aviation meets pure serenity.",
     region: "Asia",
     airports: [
-      { name: "Velana International", code: "VRMM / MLE", type: "International with GA handling", note: "Main gateway — seaplane or domestic flight to resort atolls" },
+      { name: "Velana International", code: "VRMM / MLE", icao: "VRMM", type: "International with GA handling", note: "Main gateway — seaplane or domestic flight to resort atolls" },
     ],
     popularRoutes: [
       { from: "Dubai", to: "Malé", time: "4h 15m", aircraft: "Super Midsize / Heavy" },
@@ -224,7 +225,7 @@ export const destinations: Destination[] = [
     heroDesc: "More than nightlife — Ibiza has evolved into a year-round destination for wellness, family retreats, and creative professionals, all while maintaining its legendary energy.",
     region: "Europe",
     airports: [
-      { name: "Ibiza Airport", code: "LEIB / IBZ", type: "Commercial with GA handling", note: "Well-equipped for private aviation. Peak summer slots require advance booking." },
+      { name: "Ibiza Airport", code: "LEIB / IBZ", icao: "LEIB", type: "Commercial with GA handling", note: "Well-equipped for private aviation. Peak summer slots require advance booking." },
     ],
     popularRoutes: [
       { from: "London", to: "Ibiza", time: "2h 20m", aircraft: "Light / Midsize" },
@@ -261,8 +262,8 @@ export const destinations: Destination[] = [
     heroDesc: "Where royalty and billionaires retreat in winter. St. Moritz offers the world's most exclusive ski experience, champagne-fuelled polo, and the glamour of the Engadin valley.",
     region: "Europe",
     airports: [
-      { name: "Engadin Airport (Samedan)", code: "LSZS / SMV", type: "Regional GA airport", note: "One of Europe's highest airports (1,707m). Challenging approach — experienced crew required." },
-      { name: "Zurich Airport", code: "LSZH / ZRH", type: "International with FBO", note: "Alternative for large cabin aircraft — 3h drive or helicopter to St. Moritz" },
+      { name: "Engadin Airport (Samedan)", code: "LSZS / SMV", icao: "LSZS", type: "Regional GA airport", note: "One of Europe's highest airports (1,707m). Challenging approach — experienced crew required." },
+      { name: "Zurich Airport", code: "LSZH / ZRH", icao: "LSZH", type: "International with FBO", note: "Alternative for large cabin aircraft — 3h drive or helicopter to St. Moritz" },
     ],
     popularRoutes: [
       { from: "London", to: "Samedan", time: "1h 40m", aircraft: "Light / Midsize" },
@@ -298,9 +299,9 @@ export const destinations: Destination[] = [
     heroDesc: "The city that never sleeps — and neither does its private aviation demand. New York offers more private jet access points than any US market, from Teterboro to Westchester.",
     region: "Americas",
     airports: [
-      { name: "Teterboro Airport", code: "KTEB", type: "Dedicated Business Aviation", note: "The premier NYC private jet airport — 12 miles from Manhattan" },
-      { name: "Westchester County", code: "KHPN / HPN", type: "GA & Commercial", note: "Popular for Connecticut & Westchester clients" },
-      { name: "Republic Airport (Long Island)", code: "KFRG / FRG", type: "Business Aviation", note: "Preferred for Hamptons access" },
+      { name: "Teterboro Airport", code: "KTEB", icao: "KTEB", type: "Dedicated Business Aviation", note: "The premier NYC private jet airport — 12 miles from Manhattan" },
+      { name: "Westchester County", code: "KHPN / HPN", icao: "KHPN", type: "GA & Commercial", note: "Popular for Connecticut & Westchester clients" },
+      { name: "Republic Airport (Long Island)", code: "KFRG / FRG", icao: "KFRG", type: "Business Aviation", note: "Preferred for Hamptons access" },
     ],
     popularRoutes: [
       { from: "New York", to: "Miami", time: "2h 45m", aircraft: "Light / Midsize" },
@@ -337,8 +338,8 @@ export const destinations: Destination[] = [
     heroDesc: "The City of Light remains the global capital of fashion, gastronomy, and art — with Le Bourget serving as Europe's busiest dedicated business aviation airport.",
     region: "Europe",
     airports: [
-      { name: "Paris Le Bourget", code: "LFPB / LBG", type: "Dedicated Business Aviation", note: "Europe's #1 business aviation airport — 100% GA, multiple FBOs" },
-      { name: "Paris Charles de Gaulle", code: "LFPG / CDG", type: "International with GA terminal" },
+      { name: "Paris Le Bourget", code: "LFPB / LBG", icao: "LFPB", type: "Dedicated Business Aviation", note: "Europe's #1 business aviation airport — 100% GA, multiple FBOs" },
+      { name: "Paris Charles de Gaulle", code: "LFPG / CDG", icao: "LFPG", type: "International with GA terminal" },
     ],
     popularRoutes: [
       { from: "Paris", to: "London", time: "55m", aircraft: "Light Jet" },
@@ -375,7 +376,7 @@ export const destinations: Destination[] = [
     heroDesc: "The capital of Saudi Arabia and the nerve centre of the Middle East's most ambitious economic transformation. Riyadh is rapidly becoming one of the world's most important private aviation markets.",
     region: "Middle East",
     airports: [
-      { name: "King Khalid International", code: "OERK / RUH", type: "International with GA terminal", note: "Dedicated Royal & VIP terminal for private aviation" },
+      { name: "King Khalid International", code: "OERK / RUH", icao: "OERK", type: "International with GA terminal", note: "Dedicated Royal & VIP terminal for private aviation" },
     ],
     popularRoutes: [
       { from: "Riyadh", to: "Dubai", time: "2h", aircraft: "Light / Midsize" },
@@ -412,7 +413,7 @@ export const destinations: Destination[] = [
     heroDesc: "Switzerland's most prestigious city — where global wealth management, international diplomacy, and alpine lifestyle converge. Geneva is the discreet capital of European private aviation.",
     region: "Europe",
     airports: [
-      { name: "Geneva International", code: "LSGG / GVA", type: "International with dedicated GA terminal", note: "Excellent FBO facilities — TAG Aviation & ExecuJet" },
+      { name: "Geneva International", code: "LSGG / GVA", icao: "LSGG", type: "International with dedicated GA terminal", note: "Excellent FBO facilities — TAG Aviation & ExecuJet" },
     ],
     popularRoutes: [
       { from: "London", to: "Geneva", time: "1h 40m", aircraft: "Light / Midsize" },
@@ -449,9 +450,9 @@ export const destinations: Destination[] = [
     heroDesc: "The global capital of entertainment, technology, and West Coast luxury. LA's sprawling geography makes private aviation not just convenient but essential for high-net-worth clients.",
     region: "Americas",
     airports: [
-      { name: "Van Nuys Airport", code: "KVNY / VNY", type: "Dedicated Business Aviation", note: "World's busiest GA airport — the 'Teterboro of the West Coast'" },
-      { name: "Santa Monica Airport", code: "KSMO / SMO", type: "GA (limited operations)" },
-      { name: "Burbank (Hollywood)", code: "KBUR / BUR", type: "Commercial with GA terminal" },
+      { name: "Van Nuys Airport", code: "KVNY / VNY", icao: "KVNY", type: "Dedicated Business Aviation", note: "World's busiest GA airport — the 'Teterboro of the West Coast'" },
+      { name: "Santa Monica Airport", code: "KSMO / SMO", icao: "KSMO", type: "GA (limited operations)" },
+      { name: "Burbank (Hollywood)", code: "KBUR / BUR", icao: "KBUR", type: "Commercial with GA terminal" },
     ],
     popularRoutes: [
       { from: "Los Angeles", to: "Las Vegas", time: "55m", aircraft: "Light Jet" },
@@ -485,3 +486,6 @@ export const destinations: Destination[] = [
 
 export const getDestinationBySlug = (slug: string): Destination | undefined =>
   destinations.find((d) => d.slug === slug);
+
+export const getDestinationIcaos = (dest: Destination): string[] =>
+  dest.airports.map((a) => a.icao).filter(Boolean) as string[];
