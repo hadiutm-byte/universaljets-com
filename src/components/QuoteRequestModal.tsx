@@ -99,6 +99,28 @@ const QuoteRequestModal = ({ open, onClose, flightData }: QuoteRequestModalProps
     if (coords) { toAirport.lat = coords[0]; toAirport.lng = coords[1]; }
   }
 
+  // Route calculations for pricing estimate
+  const routeInfo = useMemo(() => {
+    if (!fromAirport?.lat || !toAirport?.lat) return null;
+    const distanceNm = greatCircleDistanceNm(fromAirport.lat, fromAirport.lng, toAirport.lat, toAirport.lng);
+    const flightTimeMin = estimateFlightTimeMin(distanceNm);
+    // Determine class from aircraft name if available
+    const aircraftName = (flightData.aircraft || "").toLowerCase();
+    let aircraftClass = "midsize";
+    if (/citation|phenom|lear\s*[234]|honda/i.test(aircraftName)) aircraftClass = "light";
+    else if (/hawker|citation\s*x|praetor\s*5|challenger\s*3/i.test(aircraftName)) aircraftClass = "super midsize";
+    else if (/global|gulfstream\s*[gv]|falcon\s*(7|8|9|2000)|challenger\s*(6|650)/i.test(aircraftName)) aircraftClass = "heavy";
+    else if (/a319|a320|bbj|lineage|acj/i.test(aircraftName)) aircraftClass = "vip airliner";
+
+    const pricing = getCharterPrice({
+      aircraftClass,
+      distanceNm,
+      flightTimeMin,
+    });
+
+    return { distanceNm, flightTimeMin, pricing };
+  }, [fromAirport, toAirport, flightData.aircraft]);
+
   const canProceedStep1 = form.departure && form.destination;
   const canProceedStep2 = form.name.trim().length > 1 && form.email.includes("@");
 
