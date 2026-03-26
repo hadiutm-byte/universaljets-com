@@ -162,6 +162,7 @@ const App = () => (
             <Route path="/aircraft" element={<AircraftGuidePage />} />
             <Route path="/fleet" element={<FleetPage />} />
             <Route path="/fleet/:slug" element={<FleetDetailPage />} />
+            <Route path="/quote/:quoteId" element={<QuoteViewPage />} />
             <Route path="/unsubscribe" element={<UnsubscribePage />} />
             
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}

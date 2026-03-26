@@ -36,6 +36,7 @@ const sections: { label: string; items: NavItem[] }[] = [
       { title: "Quotes", url: "/crm/quotes", icon: FileText, roles: ["admin", "sales", "finance"] },
       { title: "Clients", url: "/crm/clients", icon: Users, roles: ["admin", "sales", "account_management"] },
       { title: "Search Inventory", url: "/crm/search-inventory", icon: Search, roles: ["admin", "sales", "operations"] },
+      { title: "Operator Requests", url: "/crm/operator-requests", icon: Radio, roles: ["admin", "sales", "operations"] },
     ],
   },
   {
