@@ -72,11 +72,28 @@ export function normalizeEmptyLeg(raw: unknown): EmptyLeg | null {
   const departure = normalizeAirport(o.departure);
   const arrival = normalizeAirport(o.arrival);
 
+  // Parse aircraft images array
+  const rawImages = Array.isArray(o.aircraft_images) ? o.aircraft_images : [];
+  const aircraftImages = rawImages
+    .filter((img: unknown) => {
+      if (!img || typeof img !== "object") return false;
+      const imgObj = img as Record<string, unknown>;
+      const t = (typeof imgObj.type === "string" ? imgObj.type : "").toLowerCase();
+      return t !== "tail" && t !== "registration";
+    })
+    .map((img: unknown) => {
+      const imgObj = img as Record<string, unknown>;
+      return { url: String(imgObj.url || ""), type: String(imgObj.type || "exterior") };
+    })
+    .filter((img) => img.url);
+
   return {
     id: typeof o.id === "number" ? o.id : Math.random(),
     aircraft_type: toStr(o.aircraft_type, "Unknown"),
     aircraft_class: typeof o.aircraft_class === "string" ? o.aircraft_class : null,
     aircraft_image: typeof o.aircraft_image === "string" ? o.aircraft_image : null,
+    aircraft_images: aircraftImages.length > 0 ? aircraftImages : undefined,
+    aircraft_floor_plan: typeof o.aircraft_floor_plan === "string" ? o.aircraft_floor_plan : null,
     aircraft_max_pax: toNum(o.aircraft_max_pax),
     aircraft_range_km: toNum(o.aircraft_range_km),
     company: toStr(o.company),

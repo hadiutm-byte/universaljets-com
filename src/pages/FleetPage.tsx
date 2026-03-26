@@ -6,8 +6,9 @@ import Footer from "@/components/Footer";
 import SEOHead from "@/components/SEOHead";
 import { useFleetAircraft, type FleetAircraft } from "@/hooks/useFleetData";
 import { getAircraftImage } from "@/lib/aircraftImages";
-import { Loader2, Users, Ruler, Gauge, Share2, ArrowRight } from "lucide-react";
+import { Loader2, Users, Ruler, Gauge, Share2, ArrowRight, Images } from "lucide-react";
 import { toast } from "sonner";
+import AircraftGallery from "@/components/AircraftGallery";
 
 const JET_CATEGORIES = [
   { label: "All Jets", filter: "" },
@@ -144,6 +145,11 @@ function FleetCard({ aircraft, index }: { aircraft: FleetAircraft; index: number
   const rangeNm = aircraft.range_km ? Math.round(aircraft.range_km / 1.852) : null;
   const speedKts = aircraft.speed_kmh ? Math.round(aircraft.speed_kmh / 1.852) : null;
 
+  // Build gallery images from all available photos (privacy-filtered at API level)
+  const galleryImages = aircraft.images?.length
+    ? aircraft.images.filter(i => i.type !== 'floor_plan' && i.type !== 'floorplan' && i.type !== 'layout')
+    : [{ url: imgSrc, type: "exterior", position: 0 }];
+
   const handleShare = async (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
@@ -171,34 +177,42 @@ function FleetCard({ aircraft, index }: { aircraft: FleetAircraft; index: number
         to={`/fleet/${aircraft.slug}`}
         className="group block cursor-pointer rounded-2xl border border-border bg-card overflow-hidden card-elevated"
       >
-        {/* Image */}
+        {/* Image Gallery */}
         <div className="relative h-52 overflow-hidden">
-          <img
-            src={imgSrc}
-            alt={aircraft.name}
-            loading="lazy"
-            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+          <AircraftGallery
+            images={galleryImages}
+            floorPlanUrl={aircraft.floor_plan_url}
+            aircraftType={aircraft.name}
+            variant="compact"
+            className="h-full"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent pointer-events-none" />
 
           {aircraft.class_name && (
-            <div className="absolute top-3 left-3 px-3 py-1 rounded-full bg-black/40 backdrop-blur-sm">
+            <div className="absolute top-3 left-3 px-3 py-1 rounded-full bg-black/40 backdrop-blur-sm z-10">
               <span className="text-[9px] tracking-[0.2em] uppercase text-white/90 font-medium">
                 {aircraft.class_name}
               </span>
             </div>
           )}
 
-          {aircraft.max_pax && (
-            <div className="absolute top-3 right-3 flex items-center gap-1.5 bg-white/90 backdrop-blur-sm rounded-full px-3 py-1">
-              <Users size={10} className="text-foreground/60" />
-              <span className="text-[9px] tracking-[0.15em] uppercase font-medium text-foreground/70">
-                {aircraft.max_pax} pax
+          <div className="absolute top-3 right-3 flex items-center gap-1.5 z-10">
+            {galleryImages.length > 1 && (
+              <span className="flex items-center gap-1 bg-black/40 backdrop-blur-sm rounded-full px-2 py-1 text-[8px] text-white/80 font-medium">
+                <Images size={9} /> {galleryImages.length}
               </span>
-            </div>
-          )}
+            )}
+            {aircraft.max_pax && (
+              <span className="flex items-center gap-1.5 bg-white/90 backdrop-blur-sm rounded-full px-3 py-1">
+                <Users size={10} className="text-foreground/60" />
+                <span className="text-[9px] tracking-[0.15em] uppercase font-medium text-foreground/70">
+                  {aircraft.max_pax} pax
+                </span>
+              </span>
+            )}
+          </div>
 
-          <div className="absolute bottom-4 left-4 right-4">
+          <div className="absolute bottom-4 left-4 right-4 z-10">
             <h3 className="font-display text-xl text-white font-semibold drop-shadow-lg leading-tight">
               {aircraft.name}
             </h3>
