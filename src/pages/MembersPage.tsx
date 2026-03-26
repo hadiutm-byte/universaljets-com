@@ -211,7 +211,8 @@ const MobileComparisonCard = forwardRef<HTMLDivElement, { tier: typeof tiers[0];
       </div>
     </div>
   );
-};
+});
+MobileComparisonCard.displayName = "MobileComparisonCard";
 
 /* ═══ PAGE ═══ */
 const MembersPage = () => (
