@@ -148,7 +148,7 @@ html {
   }
 
   .section-dark .text-foreground { color: hsl(0, 0%, 100%); }
-  .section-dark .text-muted-foreground { color: hsl(0, 0%, 70%); }
+  .section-dark .text-muted-foreground { color: hsl(0, 0%, 78%); }
 
   /* === CHARCOAL SECTIONS (cinematic rhythm) === */
   .section-charcoal {
@@ -165,11 +165,11 @@ html {
 
   .section-charcoal p,
   .section-charcoal span {
-    color: hsl(0, 0%, 72%);
+    color: hsl(0, 0%, 78%);
   }
 
   .section-charcoal .text-foreground { color: hsl(0, 0%, 100%); }
-  .section-charcoal .text-muted-foreground { color: hsl(0, 0%, 62%); }
+  .section-charcoal .text-muted-foreground { color: hsl(0, 0%, 72%); }
   .section-charcoal .text-primary { color: hsl(43, 74%, 49%); }
 
   .section-charcoal .border-border {

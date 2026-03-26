@@ -135,7 +135,7 @@ const HeroSection = () => {
             whileHover={{ scale: 1.02, y: -2 }}
             whileTap={{ scale: 0.97 }}
             transition={{ type: "spring", stiffness: 300, damping: 18 }}
-            className="px-9 py-4 border border-white/[0.08] bg-white/[0.03] hover:bg-white/[0.06] hover:border-white/[0.15] text-white/50 hover:text-white/90 text-[10px] tracking-[0.3em] uppercase font-medium rounded-xl transition-all duration-700"
+            className="px-9 py-4 border border-white/[0.12] bg-white/[0.04] hover:bg-white/[0.07] hover:border-white/[0.2] text-white/60 hover:text-white/90 text-[10px] tracking-[0.3em] uppercase font-medium rounded-xl transition-all duration-700"
             style={{ paddingTop: "1.125rem", paddingBottom: "1.125rem" }}
           >
             View Empty Legs
