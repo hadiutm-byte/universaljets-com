@@ -7,7 +7,7 @@ import { useAuth, type AppRole } from "@/hooks/useAuth";
 const centerLinks = [
   { label: "Charter", href: "/#services" },
   { label: "Empty Legs", href: "/#empty-legs" },
-  { label: "Aircraft", href: "/aircraft" },
+  { label: "Fleet", href: "/fleet" },
   { label: "Experience", href: "/#experience" },
   { label: "About", href: "/#why" },
 ];
