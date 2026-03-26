@@ -57,6 +57,17 @@ const OperatorRequestsPage = () => {
     setFormOpen(true);
   };
 
+  const logActivity = async (entityId: string, action: string, notes?: string) => {
+    await supabase.from("activity_log").insert({
+      entity_type: "operator_request",
+      entity_id: entityId,
+      action,
+      action_by: user?.id,
+      department: "sales",
+      notes,
+    });
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const now = new Date().toISOString();
@@ -83,10 +94,23 @@ const OperatorRequestsPage = () => {
 
     const op = editing?.id
       ? supabase.from("operator_requests").update(payload).eq("id", editing.id)
-      : supabase.from("operator_requests").insert(payload);
-    const { error } = await op;
-    if (error) toast.error(error.message);
-    else { toast.success(editing?.id ? "Updated" : "Created"); load(); setFormOpen(false); }
+      : supabase.from("operator_requests").insert(payload).select("id").single();
+    const { data: result, error } = await op;
+    if (error) { toast.error(error.message); return; }
+
+    // Log activity on status changes
+    const entityId = editing?.id || (result as any)?.id;
+    if (entityId) {
+      if (!editing?.id) {
+        await logActivity(entityId, "operator_request_created", `Request to ${form.operator_name} for ${form.aircraft_type || "aircraft"}`);
+      } else if (form.status !== editing.status) {
+        await logActivity(entityId, `status_${form.status}`, `Status changed from ${editing.status} to ${form.status}`);
+      }
+    }
+
+    toast.success(editing?.id ? "Updated" : "Created");
+    load();
+    setFormOpen(false);
   };
 
   const handleDelete = async (row: any) => {
