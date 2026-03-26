@@ -1,7 +1,9 @@
 /**
  * Google Tag Manager dataLayer event helpers + Google Ads gtag conversion calls.
- * Push structured events so GTM can fire Google Ads conversion tags,
- * remarketing pixels, and GA4 events.
+ *
+ * Conversion Label Mapping:
+ * Once you have your real Google Ads conversion labels, update the LABELS map below.
+ * Each key maps to a specific conversion action in your Google Ads account.
  */
 
 declare global {
@@ -11,18 +13,43 @@ declare global {
   }
 }
 
+const AW_ID = "AW-18041798508";
+
+/**
+ * Google Ads Conversion Labels — replace placeholder values with real labels
+ * from your Google Ads account (Conversions → Actions → Tag Setup → Conversion Label).
+ *
+ * Example: "AbCdEfGhIjKlMnOp"
+ */
+const LABELS: Record<string, string> = {
+  flight_search: "",          // Set your label: e.g. "AbCdEfGhIjKl"
+  quote_request: "",          // Set your label
+  whatsapp_click: "",         // Set your label
+  membership_request: "",     // Set your label
+  auth_action: "",            // Set your label
+  flight_request_submit: "",  // Set your label
+  empty_leg_inquiry: "",      // Set your label
+  aircraft_guide_view: "",    // Set your label
+};
+
 const push = (event: string, params?: Record<string, unknown>) => {
   window.dataLayer = window.dataLayer || [];
   window.dataLayer.push({ event, ...params });
 };
 
-/** Fire a Google Ads conversion via gtag */
-const gtagConversion = (conversionLabel: string, extra?: Record<string, unknown>) => {
-  if (typeof window.gtag === "function") {
+/** Fire a Google Ads conversion via gtag — only if label is configured */
+const gtagConversion = (eventKey: string, extra?: Record<string, unknown>) => {
+  if (typeof window.gtag !== "function") return;
+  const label = LABELS[eventKey];
+  if (label) {
+    // Real conversion label configured
     window.gtag("event", "conversion", {
-      send_to: `AW-18041798508/${conversionLabel}`,
+      send_to: `${AW_ID}/${label}`,
       ...extra,
     });
+  } else {
+    // Fallback: fire as a custom event so it still shows in Google Ads reports
+    window.gtag("event", eventKey, extra);
   }
 };
 
@@ -37,7 +64,7 @@ export const trackFlightSearch = (data: {
   tripType?: string;
 }) => {
   push("flight_search", data);
-  gtagConversion("flight_search");
+  gtagConversion("flight_search", data);
 };
 
 /** User clicks "Request Quote" on a search result */
@@ -47,7 +74,7 @@ export const trackQuoteRequest = (data: {
   to: string;
 }) => {
   push("quote_request", data);
-  gtagConversion("quote_request");
+  gtagConversion("quote_request", data);
 };
 
 /** User clicks any WhatsApp CTA */
@@ -69,7 +96,7 @@ export const trackMembershipRequest = () => {
 /** User signs up or logs in */
 export const trackAuth = (method: "signup" | "login") => {
   push("auth_action", { method });
-  gtagConversion("auth_action");
+  gtagConversion("auth_action", { method });
 };
 
 /** User submits a flight request form */
@@ -78,7 +105,7 @@ export const trackFlightRequestSubmit = (data?: {
   to?: string;
 }) => {
   push("flight_request_submit", data);
-  gtagConversion("flight_request_submit");
+  gtagConversion("flight_request_submit", data);
 };
 
 /** User clicks an empty leg inquiry */
