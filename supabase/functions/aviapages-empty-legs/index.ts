@@ -7,35 +7,46 @@ const corsHeaders = {
 
 const AVIAPAGES_BASE = 'https://dir.aviapages.com';
 
-// Cache aircraft type lookups in memory (refreshed per cold start)
-let aircraftTypeCache: Record<string, {
+// ─── Aircraft type cache (populated on cold start) ──────────────────────────
+interface AircraftTypeMeta {
   image_url: string | null;
   all_images: { url: string; type: string }[];
   floor_plan_url: string | null;
   class_name: string;
   max_pax: number | null;
   range_km: number | null;
-}> = {};
+}
+
+let aircraftTypeCache: Record<string, AircraftTypeMeta> = {};
 let cacheLoaded = false;
+
+const BLOCKED_IMAGE_TYPES = new Set(['tail', 'registration']);
 
 async function loadAircraftTypeCache(apiKey: string) {
   if (cacheLoaded) return;
   try {
-    const response = await fetch(`${AVIAPAGES_BASE}/api/aircraft_types/?page_size=500`, {
-      headers: { 'Authorization': `Token ${apiKey}`, 'Accept': 'application/json' },
-    });
-    if (response.ok) {
+    // Fetch up to 2 pages of aircraft types (500 + 500 = ~1000 types)
+    for (let pg = 1; pg <= 2; pg++) {
+      const response = await fetch(`${AVIAPAGES_BASE}/api/aircraft_types/?page_size=500&page=${pg}`, {
+        headers: { 'Authorization': `Token ${apiKey}`, 'Accept': 'application/json' },
+      });
+      if (!response.ok) break;
       const data = await response.json();
-      for (const at of (data.results || [])) {
-        const name = (at.name || '').toLowerCase();
-        const images = (at.images || []);
+      const results = data.results || [];
+      if (results.length === 0) break;
+
+      for (const at of results) {
+        const name = String(at.name || '').toLowerCase().trim();
+        if (!name) continue;
+
+        const images = Array.isArray(at.images) ? at.images : [];
         const allImages: { url: string; type: string }[] = [];
         let floorPlanUrl: string | null = null;
 
         for (const img of images) {
           const url = img.media?.path || img.url || null;
-          const imgType = (img.image_type || img.type || 'exterior').toLowerCase();
-          if (imgType === 'tail' || imgType === 'registration') continue;
+          const imgType = String(img.image_type || img.type || 'exterior').toLowerCase();
+          if (BLOCKED_IMAGE_TYPES.has(imgType)) continue;
           if (url) {
             allImages.push({ url, type: imgType });
             if (imgType === 'floor_plan' || imgType === 'floorplan' || imgType === 'layout') {
@@ -48,29 +59,61 @@ async function loadAircraftTypeCache(apiKey: string) {
           image_url: allImages[0]?.url || null,
           all_images: allImages,
           floor_plan_url: floorPlanUrl,
-          class_name: at.class_name || at.aircraft_class?.name || '',
-          max_pax: at.pax_maximum || null,
-          range_km: at.range_maximum || null,
+          class_name: String(at.class_name || at.aircraft_class?.name || ''),
+          max_pax: toFiniteNum(at.pax_maximum),
+          range_km: toFiniteNum(at.range_maximum),
         };
       }
-      console.log(`[empty-legs] Cached ${Object.keys(aircraftTypeCache).length} aircraft types`);
+
+      if (!data.next) break;
     }
+    console.log(`[empty-legs] Cached ${Object.keys(aircraftTypeCache).length} aircraft types`);
   } catch (e) {
     console.error('[empty-legs] Failed to load aircraft type cache:', e);
   }
   cacheLoaded = true;
 }
 
-function lookupAircraftType(typeName: string) {
-  const lower = typeName.toLowerCase();
+function lookupAircraftType(typeName: string): AircraftTypeMeta | null {
+  const lower = typeName.toLowerCase().trim();
   if (aircraftTypeCache[lower]) return aircraftTypeCache[lower];
+  // Fuzzy match: try substring both directions
   for (const [key, val] of Object.entries(aircraftTypeCache)) {
     if (lower.includes(key) || key.includes(lower)) return val;
   }
   return null;
 }
 
-/** Comprehensive ICAO → [lat, lng] lookup */
+// ─── Helpers ────────────────────────────────────────────────────────────────
+
+/** Coerce to finite number or null */
+function toFiniteNum(v: unknown): number | null {
+  if (v == null) return null;
+  const n = Number(v);
+  return Number.isFinite(n) ? n : null;
+}
+
+/** Safe string coercion */
+function toStr(v: unknown, fallback = ''): string {
+  return typeof v === 'string' ? v : fallback;
+}
+
+/** Extract price defensively from multiple possible API fields */
+function extractPrice(leg: Record<string, unknown>): number | null {
+  // Try common price field variants
+  for (const key of ['price', 'price_total', 'total_price', 'cost', 'amount']) {
+    const v = toFiniteNum(leg[key]);
+    if (v !== null && v > 0) return v;
+  }
+  return null;
+}
+
+/** Extract currency defensively */
+function extractCurrency(leg: Record<string, unknown>): string {
+  return toStr(leg.currency_code) || toStr(leg.currency) || 'USD';
+}
+
+// ─── Airport coordinates (ICAO → [lat, lng]) ───────────────────────────────
 const AIRPORT_COORDS: Record<string, [number, number]> = {
   KJFK:[40.64,-73.78],KLGA:[40.77,-73.87],KEWR:[40.69,-74.17],KTEB:[40.85,-74.06],
   KFRG:[40.73,-73.41],KHPN:[41.07,-73.71],KCDW:[40.88,-74.28],KMMU:[40.80,-74.42],
@@ -170,71 +213,94 @@ const AIRPORT_COORDS: Record<string, [number, number]> = {
   LQSA:[43.82,18.33],LWSK:[41.96,21.62],
 };
 
+// ─── Region → ISO country code mapping ──────────────────────────────────────
 const REGION_MAP: Record<string, string> = {
-  'Europe': 'GB,FR,DE,IT,ES,CH,AT,NL,BE,PT,SE,NO,DK,FI,IE,CZ,PL,GR,RO,HU',
-  'Americas': 'US,CA,MX,BR,AR,CO,CL',
-  'Middle East': 'AE,SA,QA,BH,OM,KW,JO,LB',
-  'Asia': 'SG,HK,JP,KR,IN,TH,MY,ID,CN,PH',
-  'Africa': 'ZA,NG,KE,EG,MA,TZ,GH',
+  'Europe': 'GB,FR,DE,IT,ES,CH,AT,NL,BE,PT,SE,NO,DK,FI,IE,CZ,PL,GR,RO,HU,HR,CY,TR,LU,SI,BA,MK,RS,BG,SK,LT,LV,EE,IS,MT',
+  'Americas': 'US,CA,MX,BR,AR,CO,CL,PE,EC,VE,DO,JM,BS,BB,TT,PA,CR,GT,PR,VI,KY,TC,AG,CW,AW,SX,BZ,HN,NI,SV,UY,PY,BO,GY,SR',
+  'Middle East': 'AE,SA,QA,BH,OM,KW,JO,LB,IL,IQ,IR,YE,GE,AM,AZ',
+  'Asia': 'SG,HK,JP,KR,IN,TH,MY,ID,CN,PH,TW,VN,KH,MM,LK,BD,NP,MV,MN,KZ,UZ',
+  'Africa': 'ZA,NG,KE,EG,MA,TZ,GH,ET,CI,SN,RW,UG,MU,MZ,CM,AO,ZW,BW,NA',
 };
 
-function enrichAirportCoords(airport: any): any {
-  if (!airport) return airport;
-  if (airport.lat != null && airport.lng != null) return airport;
-  const icao = airport.icao;
-  if (icao && AIRPORT_COORDS[icao]) {
-    return { ...airport, lat: AIRPORT_COORDS[icao][0], lng: AIRPORT_COORDS[icao][1] };
-  }
-  return airport;
-}
+// ─── Airport normalization ──────────────────────────────────────────────────
 
-function normalizeLeg(leg: any, typeData: any) {
-  const aircraftType = leg.aircraft_type || 'Private Jet';
+function normalizeAirport(raw: Record<string, unknown> | null | undefined) {
+  if (!raw) return null;
+  const icao = toStr(raw.icao);
+  const lat = toFiniteNum(raw.latitude) ?? toFiniteNum(raw.lat);
+  const lng = toFiniteNum(raw.longitude) ?? toFiniteNum(raw.lng) ?? toFiniteNum(raw.lon);
 
-  const depRaw = leg.dep_airport ? {
-    id: leg.dep_airport.id || 0,
-    name: leg.dep_airport.name || '',
-    iata: leg.dep_airport.iata || '',
-    icao: leg.dep_airport.icao || '',
-    city: leg.dep_airport.city?.name || leg.dep_airport.city || '',
-    country: leg.dep_airport.city?.country?.name || leg.dep_airport.country || '',
-    lat: leg.dep_airport.latitude ?? leg.dep_airport.lat ?? null,
-    lng: leg.dep_airport.longitude ?? leg.dep_airport.lng ?? null,
-  } : null;
-
-  const arrRaw = leg.arr_airport ? {
-    id: leg.arr_airport.id || 0,
-    name: leg.arr_airport.name || '',
-    iata: leg.arr_airport.iata || '',
-    icao: leg.arr_airport.icao || '',
-    city: leg.arr_airport.city?.name || leg.arr_airport.city || '',
-    country: leg.arr_airport.city?.country?.name || leg.arr_airport.country || '',
-    lat: leg.arr_airport.latitude ?? leg.arr_airport.lat ?? null,
-    lng: leg.arr_airport.longitude ?? leg.arr_airport.lng ?? null,
-  } : null;
-
-  const dep = enrichAirportCoords(depRaw);
-  const arr = enrichAirportCoords(arrRaw);
+  // Enrich from static lookup if API didn't provide coords
+  const coordsFromLookup = icao && AIRPORT_COORDS[icao] ? AIRPORT_COORDS[icao] : null;
 
   return {
-    id: leg.id || leg.availability_id || Math.random(),
+    id: typeof raw.id === 'number' ? raw.id : 0,
+    name: toStr(raw.name),
+    iata: toStr(raw.iata),
+    icao,
+    city: typeof raw.city === 'object' && raw.city !== null
+      ? toStr((raw.city as Record<string, unknown>).name)
+      : toStr(raw.city),
+    country: typeof raw.city === 'object' && raw.city !== null
+      ? toStr(((raw.city as Record<string, unknown>).country as Record<string, unknown>)?.name)
+      : toStr(raw.country),
+    lat: lat ?? coordsFromLookup?.[0] ?? null,
+    lng: lng ?? coordsFromLookup?.[1] ?? null,
+  };
+}
+
+// ─── Leg normalization (B2C sanitized) ──────────────────────────────────────
+
+function normalizeLeg(leg: Record<string, unknown>, typeData: AircraftTypeMeta | null) {
+  const aircraftType = toStr(leg.aircraft_type, 'Private Jet');
+
+  const dep = normalizeAirport(leg.dep_airport as Record<string, unknown> | null);
+  const arr = normalizeAirport(leg.arr_airport as Record<string, unknown> | null);
+
+  // Collect all images: from the leg itself + from type cache
+  const legImages = Array.isArray(leg.aircraft_images) ? leg.aircraft_images : [];
+  const allImageCandidates = [
+    ...(typeData?.all_images || []),
+    ...legImages.map((img: unknown) => {
+      if (!img || typeof img !== 'object') return null;
+      const o = img as Record<string, unknown>;
+      const url = toStr(o.media && typeof o.media === 'object' ? (o.media as Record<string, unknown>).path : o.url);
+      const type = toStr(o.image_type || o.type, 'exterior').toLowerCase();
+      return url ? { url, type } : null;
+    }).filter(Boolean),
+  ] as { url: string; type: string }[];
+
+  // Deduplicate by URL and filter blocked types
+  const seenUrls = new Set<string>();
+  const images: { url: string; type: string }[] = [];
+  for (const img of allImageCandidates) {
+    if (BLOCKED_IMAGE_TYPES.has(img.type)) continue;
+    if (seenUrls.has(img.url)) continue;
+    seenUrls.add(img.url);
+    images.push(img);
+  }
+
+  return {
+    id: typeof leg.id === 'number' ? leg.id : (typeof leg.availability_id === 'number' ? leg.availability_id : 0),
     aircraft_type: aircraftType,
     aircraft_class: typeData?.class_name || null,
-    aircraft_image: typeData?.image_url || null,
-    aircraft_images: typeData?.all_images || [],
+    aircraft_image: images[0]?.url || typeData?.image_url || null,
+    aircraft_images: images,
     aircraft_floor_plan: typeData?.floor_plan_url || null,
     aircraft_max_pax: typeData?.max_pax || null,
     aircraft_range_km: typeData?.range_km || null,
-    company: '', // Never expose operator to B2C
-    from_date: leg.from_date || leg.from_date_utc || '',
-    to_date: leg.to_date || leg.to_date_utc || '',
-    price: leg.price ?? null,
-    currency: leg.currency_code || leg.currency || 'USD',
-    comment: leg.comment || '',
+    company: '',  // NEVER expose operator identity to B2C
+    from_date: toStr(leg.from_date) || toStr(leg.from_date_utc),
+    to_date: toStr(leg.to_date) || toStr(leg.to_date_utc),
+    price: extractPrice(leg),
+    currency: extractCurrency(leg),
+    comment: toStr(leg.comment),
     departure: dep,
     arrival: arr,
   };
 }
+
+// ─── Main handler ───────────────────────────────────────────────────────────
 
 serve(async (req) => {
   if (req.method === 'OPTIONS') {
@@ -251,17 +317,20 @@ serve(async (req) => {
 
     const url = new URL(req.url);
     const region = url.searchParams.get('region') || '';
-    const maxPages = 10; // Safety cap to avoid runaway loops
+    const maxPages = 10;
     const pageSize = 50;
 
     const now = new Date();
-    const seenIds = new Set<string>();
-    const allResults: any[] = [];
+    const seenIds = new Set<number>();
+    const allResults: ReturnType<typeof normalizeLeg>[] = [];
     let page = 1;
     let hasMore = true;
 
     while (hasMore && page <= maxPages) {
-      const params = new URLSearchParams({ page: String(page), page_size: String(pageSize) });
+      const params = new URLSearchParams({
+        page: String(page),
+        page_size: String(pageSize),
+      });
 
       if (region && region !== 'All' && REGION_MAP[region]) {
         params.set('dep_airport_country_iso_in', REGION_MAP[region]);
@@ -281,34 +350,39 @@ serve(async (req) => {
       }
 
       const data = await response.json();
-      const items = data.results ?? data.items ?? [];
+      const items: unknown[] = Array.isArray(data.results) ? data.results : (Array.isArray(data.items) ? data.items : []);
 
-      for (const leg of items) {
-        const legId = String(leg.id || leg.availability_id || '');
-        if (seenIds.has(legId)) continue;
+      if (items.length === 0) break;
+
+      for (const rawLeg of items) {
+        if (!rawLeg || typeof rawLeg !== 'object') continue;
+        const leg = rawLeg as Record<string, unknown>;
+
+        // Stable unique ID
+        const legId = typeof leg.id === 'number' ? leg.id : (typeof leg.availability_id === 'number' ? leg.availability_id : 0);
+        if (legId === 0 || seenIds.has(legId)) continue;
         seenIds.add(legId);
 
         // Skip expired listings
-        if (leg.to_date) {
-          const toDate = new Date(leg.to_date);
-          if (toDate < now) continue;
+        const toDateStr = toStr(leg.to_date);
+        if (toDateStr) {
+          const toDate = new Date(toDateStr);
+          if (!isNaN(toDate.getTime()) && toDate < now) continue;
         }
 
-        const aircraftType = leg.aircraft_type || 'Private Jet';
+        const aircraftType = toStr(leg.aircraft_type, 'Private Jet');
         const typeData = lookupAircraftType(aircraftType);
         allResults.push(normalizeLeg(leg, typeData));
       }
 
-      // Continue if there's a next page and we got a full page of results
-      hasMore = Boolean(data.next) || items.length >= pageSize;
+      // Only continue if API signals more pages exist
+      hasMore = Boolean(data.next);
       page += 1;
     }
 
-    console.log(`[empty-legs] Fetched ${page - 1} pages, ${allResults.length} results total`);
+    console.log(`[empty-legs] Fetched ${page - 1} pages, ${allResults.length} unique results`);
 
-    const normalized = { count: allResults.length, results: allResults };
-
-    return new Response(JSON.stringify(normalized), {
+    return new Response(JSON.stringify({ count: allResults.length, results: allResults }), {
       headers: { ...corsHeaders, 'Content-Type': 'application/json' },
     });
   } catch (error) {
