@@ -30,6 +30,7 @@ const AuthModal = ({ open, onClose }: AuthModalProps) => {
         toast.error(error.message);
       } else {
         toast.success("Welcome back.");
+        trackAuth("login");
         onClose();
         navigate("/dashboard");
       }
