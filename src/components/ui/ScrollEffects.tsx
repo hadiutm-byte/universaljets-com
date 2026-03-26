@@ -1,4 +1,4 @@
-import { ReactNode, useRef } from "react";
+import { ReactNode, useRef, forwardRef } from "react";
 import { motion, useScroll, useTransform, useInView } from "framer-motion";
 
 /* ─── Parallax Section ─── */
@@ -19,7 +19,9 @@ export const ParallaxSection = ({ children, className = "", speed = 0.15, id }: 
 
   return (
     <div ref={ref} id={id} className={`relative overflow-hidden ${className}`}>
-      <motion.div style={{ y }}>{children}</motion.div>
+      <motion.div style={{ y }} className="will-change-transform">
+        {children}
+      </motion.div>
     </div>
   );
 };
@@ -32,27 +34,31 @@ interface FadeRevealProps {
   direction?: "up" | "down" | "left" | "right";
 }
 
-export const FadeReveal = ({ children, className = "", delay = 0, direction = "up" }: FadeRevealProps) => {
-  const dirMap = {
-    up: { y: 50, x: 0 },
-    down: { y: -50, x: 0 },
-    left: { x: 50, y: 0 },
-    right: { x: -50, y: 0 },
-  };
-  const { x, y } = dirMap[direction];
+export const FadeReveal = forwardRef<HTMLDivElement, FadeRevealProps>(
+  ({ children, className = "", delay = 0, direction = "up" }, ref) => {
+    const dirMap = {
+      up: { y: 50, x: 0 },
+      down: { y: -50, x: 0 },
+      left: { x: 50, y: 0 },
+      right: { x: -50, y: 0 },
+    };
+    const { x, y } = dirMap[direction];
 
-  return (
-    <motion.div
-      initial={{ opacity: 0, x, y }}
-      whileInView={{ opacity: 1, x: 0, y: 0 }}
-      viewport={{ once: true, margin: "-80px" }}
-      transition={{ duration: 1, delay, ease: [0.16, 1, 0.3, 1] }}
-      className={className}
-    >
-      {children}
-    </motion.div>
-  );
-};
+    return (
+      <motion.div
+        ref={ref}
+        initial={{ opacity: 0, x, y }}
+        whileInView={{ opacity: 1, x: 0, y: 0 }}
+        viewport={{ once: true, margin: "-80px" }}
+        transition={{ duration: 1, delay, ease: [0.16, 1, 0.3, 1] }}
+        className={className}
+      >
+        {children}
+      </motion.div>
+    );
+  }
+);
+FadeReveal.displayName = "FadeReveal";
 
 /* ─── Staggered Children Container ─── */
 interface StaggerContainerProps {
@@ -62,20 +68,24 @@ interface StaggerContainerProps {
   delay?: number;
 }
 
-export const StaggerContainer = ({ children, className = "", stagger = 0.08, delay = 0 }: StaggerContainerProps) => (
-  <motion.div
-    initial="hidden"
-    whileInView="visible"
-    viewport={{ once: true, margin: "-60px" }}
-    variants={{
-      hidden: {},
-      visible: { transition: { staggerChildren: stagger, delayChildren: delay } },
-    }}
-    className={className}
-  >
-    {children}
-  </motion.div>
+export const StaggerContainer = forwardRef<HTMLDivElement, StaggerContainerProps>(
+  ({ children, className = "", stagger = 0.08, delay = 0 }, ref) => (
+    <motion.div
+      ref={ref}
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true, margin: "-60px" }}
+      variants={{
+        hidden: {},
+        visible: { transition: { staggerChildren: stagger, delayChildren: delay } },
+      }}
+      className={className}
+    >
+      {children}
+    </motion.div>
+  )
 );
+StaggerContainer.displayName = "StaggerContainer";
 
 /* ─── Stagger Item (child) ─── */
 interface StaggerItemProps {
@@ -83,17 +93,21 @@ interface StaggerItemProps {
   className?: string;
 }
 
-export const StaggerItem = ({ children, className = "" }: StaggerItemProps) => (
-  <motion.div
-    variants={{
-      hidden: { opacity: 0, y: 35, scale: 0.97 },
-      visible: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.7, ease: [0.16, 1, 0.3, 1] } },
-    }}
-    className={className}
-  >
-    {children}
-  </motion.div>
+export const StaggerItem = forwardRef<HTMLDivElement, StaggerItemProps>(
+  ({ children, className = "" }, ref) => (
+    <motion.div
+      ref={ref}
+      variants={{
+        hidden: { opacity: 0, y: 35, scale: 0.97 },
+        visible: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.7, ease: [0.16, 1, 0.3, 1] } },
+      }}
+      className={className}
+    >
+      {children}
+    </motion.div>
+  )
 );
+StaggerItem.displayName = "StaggerItem";
 
 /* ─── Glass Card with breathing float ─── */
 interface GlassCardProps {
