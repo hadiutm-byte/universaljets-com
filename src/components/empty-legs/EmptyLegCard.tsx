@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import { ArrowRight, Plane, Users, Share2 } from "lucide-react";
 import type { EmptyLeg } from "@/hooks/useAviapages";
 import { getAircraftImage, getAircraftCategory } from "@/lib/aircraftImages";
+import { generateEmptyLegShareCard } from "@/lib/emptyLegShareCard";
 import { toast } from "sonner";
 
 interface EmptyLegCardProps {
@@ -27,17 +28,50 @@ const EmptyLegCard = ({ leg, index, onClick }: EmptyLegCardProps) => {
 
   const handleShare = async (e: React.MouseEvent) => {
     e.stopPropagation();
+
     const shareText = `✈️ Empty Leg Deal — ${leg.aircraft_type || "Private Jet"}\n${fromCity || fromCode} → ${toCity || toCode}\n📅 ${date}\n💰 ${priceLabel}\n\nBook now at Universal Jets\nhttps://www.universaljets.com`;
 
-    if (navigator.share) {
-      try {
+    try {
+      const blob = await generateEmptyLegShareCard({
+        fromCode,
+        fromCity,
+        toCode,
+        toCity,
+        date,
+        price: priceLabel,
+        aircraftType: leg.aircraft_type || "Private Jet",
+        category,
+      });
+
+      const file = new File([blob], `universal-jets-empty-leg-${fromCode}-${toCode}.png`, { type: "image/png" });
+
+      if (navigator.share && navigator.canShare?.({ files: [file] })) {
+        await navigator.share({
+          title: `Empty Leg: ${fromCity} → ${toCity}`,
+          text: shareText,
+          files: [file],
+        });
+      } else if (navigator.share) {
         await navigator.share({ title: `Empty Leg: ${fromCity} → ${toCity}`, text: shareText });
-      } catch {
-        // user cancelled
+      } else {
+        // Desktop fallback: download image + copy text
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = `universal-jets-empty-leg-${fromCode}-${toCode}.png`;
+        a.click();
+        URL.revokeObjectURL(url);
+        await navigator.clipboard.writeText(shareText);
+        toast.success("Branded card downloaded & details copied to clipboard");
       }
-    } else {
-      await navigator.clipboard.writeText(shareText);
-      toast.success("Empty leg details copied to clipboard");
+    } catch {
+      // Fallback to text-only
+      if (navigator.share) {
+        try { await navigator.share({ title: `Empty Leg: ${fromCity} → ${toCity}`, text: shareText }); } catch {}
+      } else {
+        await navigator.clipboard.writeText(shareText);
+        toast.success("Empty leg details copied to clipboard");
+      }
     }
   };
 
@@ -50,7 +84,6 @@ const EmptyLegCard = ({ leg, index, onClick }: EmptyLegCardProps) => {
       className="rounded-2xl border border-border bg-card overflow-hidden card-elevated group cursor-pointer"
       onClick={onClick}
     >
-      {/* Aircraft image */}
       <div className="relative h-36 overflow-hidden">
         <img
           src={image}
@@ -81,14 +114,12 @@ const EmptyLegCard = ({ leg, index, onClick }: EmptyLegCardProps) => {
         </div>
       </div>
 
-      {/* Details */}
       <div className="p-5">
         <div className="flex items-center justify-between mb-4">
           <span className="text-[10px] tracking-[0.15em] text-muted-foreground uppercase font-light">{date}</span>
           <span className="text-[10px] tracking-[0.15em] text-primary font-medium uppercase">{priceLabel}</span>
         </div>
 
-        {/* Specs */}
         {(leg.aircraft_max_pax || leg.aircraft_range_km) && (
           <div className="flex gap-3 mb-3 text-[9px] text-muted-foreground font-light">
             {leg.aircraft_max_pax && (
