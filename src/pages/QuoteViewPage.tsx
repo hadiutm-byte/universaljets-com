@@ -126,7 +126,7 @@ const QuoteViewPage = () => {
         {/* Aircraft */}
         <div className="bg-white rounded-2xl border border-[#e8e4dc] overflow-hidden shadow-sm">
           <div className="aspect-[21/9] overflow-hidden">
-            <img src={image} alt={quote.aircraft} className="w-full h-full object-cover" />
+            <img src={image} alt={aircraftName} className="w-full h-full object-cover" />
           </div>
           <div className="p-8">
             <div className="flex items-center gap-2 mb-4">
