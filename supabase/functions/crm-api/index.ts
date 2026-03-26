@@ -195,6 +195,29 @@ Deno.serve(async (req) => {
         flightReqId = flightReq.id;
       }
 
+      // Send lead notification email
+      const notifKey = `lead-notif-${lead.id}`;
+      try {
+        await admin.functions.invoke('send-transactional-email', {
+          body: {
+            templateName: 'lead-notification',
+            recipientEmail: 'hadi@universaljets.com',
+            idempotencyKey: notifKey,
+            templateData: {
+              name, email, phone: phone || whatsapp || '',
+              departure: departure || '', destination: destination || '',
+              date: date || '', passengers: passengers || '',
+              source: source || 'website',
+              aircraft: specific_aircraft || aircraft || preferred_aircraft_category || '',
+              notes: notes || '', special_requests: special_requests || '',
+              submittedAt: new Date().toISOString(),
+            },
+          },
+        });
+      } catch (notifErr) {
+        console.error('Lead notification email failed (non-blocking):', notifErr);
+      }
+
       return json({
         success: true,
         client_id: clientId,

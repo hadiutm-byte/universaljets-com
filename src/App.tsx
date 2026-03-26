@@ -55,6 +55,7 @@ import CharterPage from "./pages/CharterPage.tsx";
 import AircraftGuidePage from "./pages/AircraftGuidePage.tsx";
 import RequestFlightPage from "./pages/RequestFlightPage.tsx";
 import NotFound from "./pages/NotFound.tsx";
+import UnsubscribePage from "./pages/UnsubscribePage.tsx";
 import ScrollToTop from "./components/ScrollToTop.tsx";
 import Ricky3D from "./components/Ricky3D.tsx";
 import CookieConsent from "./components/CookieConsent.tsx";
@@ -126,6 +127,7 @@ const App = () => (
           <Route path="/contact" element={<ContactPage />} />
           <Route path="/charter/:slug" element={<CharterPage />} />
           <Route path="/aircraft" element={<AircraftGuidePage />} />
+          <Route path="/unsubscribe" element={<UnsubscribePage />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
