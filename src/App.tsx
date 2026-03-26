@@ -60,6 +60,7 @@ const SupplierHistoryPage = lazy(() => import("./pages/crm/SupplierHistoryPage.t
 const AccountMgmtDetailPage = lazy(() => import("./pages/crm/AccountMgmtDetailPage.tsx"));
 const BDDashboardPage = lazy(() => import("./pages/crm/BDDashboardPage.tsx"));
 const BDDetailPage = lazy(() => import("./pages/crm/BDDetailPage.tsx"));
+const InternalSearchPage = lazy(() => import("./pages/crm/InternalSearchPage.tsx"));
 const CareersPage = lazy(() => import("./pages/CareersPage.tsx"));
 const ContactPage = lazy(() => import("./pages/ContactPage.tsx"));
 const ConciergePage = lazy(() => import("./pages/ConciergePage.tsx"));
