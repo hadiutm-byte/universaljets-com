@@ -57,6 +57,17 @@ const OperatorRequestsPage = () => {
     setFormOpen(true);
   };
 
+  const logActivity = async (entityId: string, action: string, notes?: string) => {
+    await supabase.from("activity_log").insert({
+      entity_type: "operator_request",
+      entity_id: entityId,
+      action,
+      action_by: user?.id,
+      department: "sales",
+      notes,
+    });
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const now = new Date().toISOString();
@@ -83,10 +94,23 @@ const OperatorRequestsPage = () => {
 
     const op = editing?.id
       ? supabase.from("operator_requests").update(payload).eq("id", editing.id)
-      : supabase.from("operator_requests").insert(payload);
-    const { error } = await op;
-    if (error) toast.error(error.message);
-    else { toast.success(editing?.id ? "Updated" : "Created"); load(); setFormOpen(false); }
+      : supabase.from("operator_requests").insert(payload).select("id").single();
+    const { data: result, error } = await op;
+    if (error) { toast.error(error.message); return; }
+
+    // Log activity on status changes
+    const entityId = editing?.id || (result as any)?.id;
+    if (entityId) {
+      if (!editing?.id) {
+        await logActivity(entityId, "operator_request_created", `Request to ${form.operator_name} for ${form.aircraft_type || "aircraft"}`);
+      } else if (form.status !== editing.status) {
+        await logActivity(entityId, `status_${form.status}`, `Status changed from ${editing.status} to ${form.status}`);
+      }
+    }
+
+    toast.success(editing?.id ? "Updated" : "Created");
+    load();
+    setFormOpen(false);
   };
 
   const handleDelete = async (row: any) => {
@@ -102,7 +126,7 @@ const OperatorRequestsPage = () => {
     const validUntil = new Date();
     validUntil.setDate(validUntil.getDate() + 7);
 
-    const { error } = await supabase.from("quotes").insert({
+    const { data: quote, error } = await supabase.from("quotes").insert({
       request_id: row.request_id,
       aircraft: row.aircraft_type,
       operator: row.operator_name,
@@ -110,12 +134,28 @@ const OperatorRequestsPage = () => {
       valid_until: validUntil.toISOString(),
       status: "draft",
       created_by: user?.id,
-    });
+    }).select("id").single();
 
     if (error) { toast.error(error.message); setConvertingId(null); return; }
 
-    // Link quote back
-    await supabase.from("operator_requests").update({ status: "accepted", responded_at: new Date().toISOString() }).eq("id", row.id);
+    // Link quote back and update operator request status
+    await supabase.from("operator_requests").update({
+      status: "accepted",
+      responded_at: new Date().toISOString(),
+      quote_id: quote.id,
+    }).eq("id", row.id);
+
+    // Log activity on both entities
+    await logActivity(row.id, "converted_to_quote", `Quote ${quote.id.slice(0, 8)} created from operator offer`);
+    await supabase.from("activity_log").insert({
+      entity_type: "quote",
+      entity_id: quote.id,
+      action: "quote_created_from_operator",
+      action_by: user?.id,
+      department: "sales",
+      notes: `Created from ${row.operator_name} offer: ${row.offered_currency} ${Number(row.offered_price).toLocaleString()}`,
+    });
+
     toast.success("Quote created from operator offer");
     setConvertingId(null);
     load();

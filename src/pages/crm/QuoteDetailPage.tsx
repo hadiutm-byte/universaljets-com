@@ -262,6 +262,32 @@ const QuoteDetailPage = () => {
           </div>
         </div>
 
+        {/* Margin / Commercial Summary */}
+        {(canManageFinance || roles.includes("admin")) && (
+          <div className="rounded-xl border border-border/20 bg-card/50 p-5 space-y-3">
+            <h3 className="text-[9px] tracking-[0.3em] uppercase text-muted-foreground/40">Commercial Summary</h3>
+            {(() => {
+              const bestOp = operatorReqs.find(o => o.status === "accepted" && o.offered_price);
+              const quotePrice = quote.price ? Number(quote.price) : null;
+              const operatorCost = bestOp?.offered_price ? Number(bestOp.offered_price) : null;
+              const margin = quotePrice && operatorCost ? quotePrice - operatorCost : null;
+              const marginPct = quotePrice && margin ? ((margin / quotePrice) * 100).toFixed(1) : null;
+              return (
+                <div className="space-y-2 text-[12px]">
+                  <div className="flex justify-between"><span className="text-muted-foreground/60">Client Price</span><span className="font-medium">{quotePrice ? `$${quotePrice.toLocaleString()}` : "—"}</span></div>
+                  <div className="flex justify-between"><span className="text-muted-foreground/60">Operator Cost</span><span>{operatorCost ? `$${operatorCost.toLocaleString()}` : "—"}</span></div>
+                  <div className="flex justify-between border-t border-border/10 pt-2">
+                    <span className="text-muted-foreground/60 font-medium">Margin</span>
+                    <span className={`font-semibold ${margin && margin > 0 ? "text-emerald-400" : margin && margin < 0 ? "text-destructive" : ""}`}>
+                      {margin !== null ? `$${margin.toLocaleString()} (${marginPct}%)` : "—"}
+                    </span>
+                  </div>
+                </div>
+              );
+            })()}
+          </div>
+        )}
+
         {/* Operator Requests */}
         <div className="rounded-xl border border-border/20 bg-card/50 p-5 space-y-3">
           <h3 className="text-[9px] tracking-[0.3em] uppercase text-muted-foreground/40">Operator Requests</h3>

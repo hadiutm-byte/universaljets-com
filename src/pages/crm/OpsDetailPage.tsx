@@ -60,7 +60,26 @@ const OpsDetailPage = () => {
 
   const handleSendBrief = async () => {
     setActionLoading("brief");
-    await logActivity("flight_brief_sent", `Brief: Catering: ${briefNotes.catering || "N/A"}, Permits: ${briefNotes.permits || "N/A"}, Special: ${briefNotes.special || "N/A"}`);
+    const briefSummary = [
+      briefNotes.passenger_details && `Passengers: ${briefNotes.passenger_details}`,
+      briefNotes.catering && `Catering: ${briefNotes.catering}`,
+      briefNotes.permits && `Permits: ${briefNotes.permits}`,
+      briefNotes.special && `Special: ${briefNotes.special}`,
+    ].filter(Boolean).join(" | ") || "Standard brief";
+
+    await logActivity("flight_brief_sent", briefSummary);
+
+    // Store brief metadata on the trip activity for retrieval
+    await supabase.from("activity_log").insert({
+      entity_type: "trip",
+      entity_id: tripId!,
+      action: "flight_brief_details",
+      action_by: user?.id,
+      department: "operations",
+      metadata: briefNotes,
+      notes: "Flight brief details stored",
+    });
+
     toast.success("Flight brief logged and sent");
     setActionLoading(null);
     load();
