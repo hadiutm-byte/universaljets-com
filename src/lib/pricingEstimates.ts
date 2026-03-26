@@ -106,7 +106,8 @@ export function getCharterPrice(opts: {
   }
 
   // 2. Estimate from class + distance
-  const classKey = (aircraftClass || "").toLowerCase();
+  // Normalize class: API may return "Light Jet", "Super Midsize Jet", etc.
+  const classKey = (aircraftClass || "").toLowerCase().replace(/\s*jet$/i, "").trim();
   const rates = CLASS_HOURLY_RATES[classKey];
 
   if (rates && (distanceNm || flightTimeMin)) {
