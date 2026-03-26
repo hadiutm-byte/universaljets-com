@@ -377,7 +377,7 @@ const SearchResults = () => {
                       )}
 
                       {/* Operator hidden from B2C — privacy policy. Show verified badge instead */}
-                      {result.operator.certified && (
+                      {(result as any).certified && (
                         <div className="flex items-center gap-2 mb-5 p-3 rounded-xl bg-muted/30">
                           <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center">
                             <Shield size={14} className="text-primary/60" />
