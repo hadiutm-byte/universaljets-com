@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { sanitizeAircraftName, sanitizeAircraftImages } from "@/lib/sanitize";
+import { sanitizeAircraftForPublic } from "@/lib/sanitize";
 
 export interface FleetAircraft {
   id: number;
