@@ -35,6 +35,8 @@ async function loadAircraftTypeCache(apiKey: string) {
         for (const img of images) {
           const url = img.media?.path || img.url || null;
           const imgType = (img.image_type || img.type || 'exterior').toLowerCase();
+          // Skip images that might expose tail numbers / registration
+          if (imgType === 'tail' || imgType === 'registration') continue;
           if (url) {
             allImages.push({ url, type: imgType });
             if (imgType === 'floor_plan' || imgType === 'floorplan' || imgType === 'layout') {

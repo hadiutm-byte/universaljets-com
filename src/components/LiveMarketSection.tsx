@@ -118,7 +118,7 @@ const LiveMarketSection = () => {
                   <div className="flex items-center justify-between mt-3 pt-3 border-t border-border/40">
                     {"aircraft" in route && (route as any).aircraft && (
                       <p className="text-[9px] tracking-[0.15em] uppercase text-muted-foreground font-extralight">
-                        {String((route as any).aircraft)}
+                        {String((route as any).aircraft)}{(route as any).pax ? ` · ${(route as any).pax} pax` : ""}
                       </p>
                     )}
                     {route.urgency && (
