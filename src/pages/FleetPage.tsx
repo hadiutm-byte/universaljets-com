@@ -19,14 +19,14 @@ const JET_CATEGORIES = [
   { label: "Ultra Long Range", classId: "13" },
 ];
 
-/** Class IDs & keywords to exclude propeller aircraft */
-const PROPELLER_CLASS_IDS = ["3", "4", "5", "9", "10", "11"];
-const PROPELLER_KEYWORDS = /turbo\s*prop|piston|propeller|king\s*air|pilatus|pc-?12|beech|tbm|dornier|atr|saab|dash|caravan|piaggio/i;
+/** Class IDs & keywords to exclude non-jet aircraft (propellers + helicopters) */
+const EXCLUDED_CLASS_IDS = ["3", "4", "5", "9", "10", "11"];
+const EXCLUDED_KEYWORDS = /turbo\s*prop|piston|propeller|king\s*air|pilatus|pc-?12|beech|tbm|dornier|atr|saab|dash|caravan|piaggio|helicopter|heli|rotary|rotor|ec135|ec145|ec155|ec175|h125|h130|h135|h145|h155|h160|h175|h215|h225|aw109|aw119|aw139|aw169|aw189|bell\s*\d|s-?76|s-?92|sikorsky|eurocopter|airbus\s*heli/i;
 
 function isJetAircraft(ac: AircraftType): boolean {
-  if (ac.class_id && PROPELLER_CLASS_IDS.includes(String(ac.class_id))) return false;
-  if (PROPELLER_KEYWORDS.test(ac.name)) return false;
-  if (ac.class_name && PROPELLER_KEYWORDS.test(ac.class_name)) return false;
+  if (ac.class_id && EXCLUDED_CLASS_IDS.includes(String(ac.class_id))) return false;
+  if (EXCLUDED_KEYWORDS.test(ac.name)) return false;
+  if (ac.class_name && (EXCLUDED_KEYWORDS.test(ac.class_name) || /helicopter/i.test(ac.class_name))) return false;
   if (ac.engine_type && /piston|turboprop/i.test(ac.engine_type)) return false;
   return true;
 }
