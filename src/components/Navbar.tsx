@@ -136,14 +136,24 @@ const Navbar = () => {
         }}
       >
         <div className="container mx-auto flex items-center justify-between px-6 lg:px-8">
-          {/* Logo */}
-          <Link
-            to="/"
-            className="group font-display text-[13px] md:text-[15px] tracking-[0.5em] uppercase select-none font-light flex-shrink-0 transition-all duration-500"
+          {/* Logo — luxury micro-animation */}
+          <motion.div
+            initial={{ opacity: 0, y: 6 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1.2, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}
+            style={{ x: logoX, y: logoY }}
+            onMouseMove={handleLogoMouseMove}
+            onMouseLeave={handleLogoMouseLeave}
           >
-            <span className="text-white/90">Universal</span>
-            <span className="text-gradient-gold ml-1.5 font-normal">Jets</span>
-          </Link>
+            <Link
+              ref={logoRef}
+              to="/"
+              className="group font-display text-[13px] md:text-[15px] tracking-[0.5em] uppercase select-none font-light flex-shrink-0 transition-all duration-500 relative"
+            >
+              <span className="text-white/90">Universal</span>
+              <span className="logo-gold-shimmer ml-1.5 font-normal relative">Jets</span>
+            </Link>
+          </motion.div>
 
           {/* Center links — desktop only */}
           <div className="hidden xl:flex items-center gap-7 absolute left-1/2 -translate-x-1/2">
