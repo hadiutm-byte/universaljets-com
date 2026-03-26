@@ -105,9 +105,7 @@ const HeroSection = () => {
             className="text-[17px] md:text-[20px] text-white font-normal leading-[1.5] tracking-[0.005em]"
             style={{ textShadow: "0 2px 24px hsla(0,0%,0%,0.7)" }}
           >
-            The entire global private jet market —
-            <br />
-            not limited to a single fleet.
+            Global access. Instant quotes. Tailored journeys.
           </p>
         </motion.div>
 
