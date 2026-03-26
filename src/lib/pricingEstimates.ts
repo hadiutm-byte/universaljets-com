@@ -48,7 +48,7 @@ export function greatCircleDistanceNm(
 
 /** Estimate flight time in minutes given distance (nm) and class */
 export function estimateFlightTimeMin(distanceNm: number, aircraftClass?: string | null, speedKmh?: number | null): number {
-  const classKey = (aircraftClass || "midsize").toLowerCase();
+  const classKey = (aircraftClass || "midsize").toLowerCase().replace(/\s*jet$/i, "").trim();
   const speed = speedKmh || CLASS_SPEEDS[classKey] || 790;
   const distanceKm = distanceNm * 1.852;
   const flightHours = distanceKm / speed;
