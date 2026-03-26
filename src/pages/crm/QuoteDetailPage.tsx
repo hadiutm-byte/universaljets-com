@@ -200,19 +200,19 @@ const QuoteDetailPage = () => {
       </button>
 
       {/* Header */}
-      <div className="flex items-start justify-between">
-        <div>
-          <h1 className="font-display text-xl mb-1">
+      <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3">
+        <div className="min-w-0">
+          <h1 className="font-display text-lg sm:text-xl mb-1 truncate">
             Quote: {fr?.departure || "—"} → {fr?.destination || "—"}
           </h1>
-          <div className="flex items-center gap-3 text-[11px] text-muted-foreground/60">
-            {client && <span>{client.full_name}</span>}
+          <div className="flex flex-wrap items-center gap-2 text-[11px] text-muted-foreground/60">
+            {client && <span className="truncate max-w-[120px]">{client.full_name}</span>}
             <StatusBadge status={quote.status} />
-            <span>{quote.aircraft}</span>
+            <span className="truncate max-w-[100px]">{quote.aircraft}</span>
             {quote.price && <span className="text-primary font-medium">${Number(quote.price).toLocaleString()}</span>}
           </div>
         </div>
-        <button onClick={copyQuoteLink} className="flex items-center gap-1.5 px-3 py-2 text-[9px] tracking-wider uppercase bg-secondary/50 hover:bg-secondary rounded-lg border border-border/20 transition-all">
+        <button onClick={copyQuoteLink} className="flex items-center gap-1.5 px-3 py-2 text-[9px] tracking-wider uppercase bg-secondary/50 hover:bg-secondary rounded-lg border border-border/20 transition-all self-start flex-shrink-0">
           <Copy size={10} /> Copy Link
         </button>
       </div>
