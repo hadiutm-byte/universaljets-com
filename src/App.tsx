@@ -15,6 +15,8 @@ import FloatingWhatsApp from "./components/FloatingWhatsApp.tsx";
 const AboutPage = lazy(() => import("./pages/AboutPage.tsx"));
 const MembersPage = lazy(() => import("./pages/MembersPage.tsx"));
 const JetCardPage = lazy(() => import("./pages/JetCardPage.tsx"));
+const JetCardInquiryPage = lazy(() => import("./pages/JetCardInquiryPage.tsx"));
+const MembershipEnrollPage = lazy(() => import("./pages/MembershipEnrollPage.tsx"));
 const SearchResults = lazy(() => import("./pages/SearchResults.tsx"));
 const ACMILeasingPage = lazy(() => import("./pages/ACMILeasingPage.tsx"));
 const PartnerPage = lazy(() => import("./pages/PartnerPage.tsx"));
