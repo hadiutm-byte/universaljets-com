@@ -18,6 +18,7 @@ const SearchResults = lazy(() => import("./pages/SearchResults.tsx"));
 const ACMILeasingPage = lazy(() => import("./pages/ACMILeasingPage.tsx"));
 const PartnerPage = lazy(() => import("./pages/PartnerPage.tsx"));
 const DestinationsPage = lazy(() => import("./pages/DestinationsPage.tsx"));
+const DestinationDetailPage = lazy(() => import("./pages/DestinationDetailPage.tsx"));
 const CrmResourcesPage = lazy(() => import("./pages/crm/ResourcesPage.tsx"));
 const TermsPage = lazy(() => import("./pages/TermsPage.tsx"));
 const PrivacyPage = lazy(() => import("./pages/PrivacyPage.tsx"));
