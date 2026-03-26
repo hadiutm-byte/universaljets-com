@@ -129,9 +129,14 @@ const MembershipCard = ({ tier, index }: { tier: typeof tiers[0]; index: number 
       transition={{ delay: index * 0.1, duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
       className={`flex flex-col rounded-2xl overflow-hidden ${
         isMaverick
-          ? "border-2 border-primary/20 bg-gradient-to-b from-[hsl(228,15%,7%)] to-[hsl(228,15%,4%)] shadow-[0_0_60px_-15px_hsla(43,74%,49%,0.15)]"
-          : "border border-[hsl(228,12%,14%)] bg-gradient-to-b from-[hsl(228,15%,8%)] to-[hsl(228,15%,5%)]"
+          ? "border-2 border-primary/25 shadow-[0_0_60px_-15px_hsla(43,74%,49%,0.18)]"
+          : "border border-[hsl(228,12%,16%)]"
       }`}
+      style={{
+        background: isMaverick
+          ? "linear-gradient(180deg, hsl(228,12%,9%) 0%, hsl(228,15%,6%) 100%)"
+          : "linear-gradient(180deg, hsl(228,12%,10%) 0%, hsl(228,15%,7%) 100%)",
+      }}
     >
       {/* Card Visual */}
       <div
@@ -163,61 +168,61 @@ const MembershipCard = ({ tier, index }: { tier: typeof tiers[0]; index: number 
 
           <div className="relative z-10 p-5 sm:p-6 h-full flex flex-col justify-between">
             <div className="flex items-start justify-between">
-              <p className="text-[9px] tracking-[0.4em] uppercase text-white/40 font-medium">Universal Jets</p>
+              <p className="text-[9px] tracking-[0.4em] uppercase text-white/50 font-medium">Universal Jets</p>
               {isMaverick && (
-                <span className="px-2.5 py-0.5 bg-primary/12 rounded-full text-[7px] tracking-[0.2em] uppercase text-primary font-semibold border border-primary/20">
+                <span className="px-2.5 py-0.5 bg-primary/15 rounded-full text-[7px] tracking-[0.2em] uppercase text-primary font-semibold border border-primary/25">
                   Premium
                 </span>
               )}
               {"popular" in tier && tier.popular && (
-                <span className="px-2 py-0.5 bg-white/8 rounded-full text-[7px] tracking-[0.15em] uppercase text-white/50 font-medium border border-white/8">
+                <span className="px-2 py-0.5 bg-white/10 rounded-full text-[7px] tracking-[0.15em] uppercase text-white/60 font-medium border border-white/10">
                   Popular
                 </span>
               )}
             </div>
 
             <div>
-              <h3 className={`font-display text-2xl sm:text-3xl text-white font-semibold tracking-wide ${isMaverick ? "text-primary/90" : ""}`}>{tier.name}</h3>
-              <p className={`text-[10px] mt-0.5 font-light ${isMaverick ? "text-primary/40" : "text-white/35"}`}>{tier.tagline}</p>
+              <h3 className={`font-display text-2xl sm:text-3xl font-semibold tracking-wide ${isMaverick ? "text-primary" : "text-white"}`}>{tier.name}</h3>
+              <p className={`text-[10px] mt-0.5 font-light ${isMaverick ? "text-primary/50" : "text-white/45"}`}>{tier.tagline}</p>
             </div>
 
             <div className="flex items-end justify-between">
               <div className="flex items-center gap-2">
                 <div
-                  className="w-8 h-6 rounded-[3px] border border-white/12"
-                  style={{ background: isMaverick ? "linear-gradient(145deg, hsla(43,74%,52%,0.25) 0%, hsla(43,74%,49%,0.08) 100%)" : "linear-gradient(145deg, hsla(0,0%,100%,0.1) 0%, hsla(0,0%,100%,0.03) 100%)" }}
+                  className="w-8 h-6 rounded-[3px] border border-white/15"
+                  style={{ background: isMaverick ? "linear-gradient(145deg, hsla(43,74%,52%,0.25) 0%, hsla(43,74%,49%,0.08) 100%)" : "linear-gradient(145deg, hsla(0,0%,100%,0.12) 0%, hsla(0,0%,100%,0.04) 100%)" }}
                 />
                 <div>
-                  <p className="text-[16px] text-white/75 font-display font-semibold">{tier.monthlyPrice}</p>
-                  <p className="text-[7px] text-white/25 tracking-wider uppercase">/ month</p>
+                  <p className="text-[16px] text-white/85 font-display font-semibold">{tier.monthlyPrice}</p>
+                  <p className="text-[7px] text-white/35 tracking-wider uppercase">/ month</p>
                 </div>
               </div>
-              <p className="text-[7px] tracking-[0.3em] uppercase text-white/20 font-light">Private Access</p>
+              <p className="text-[7px] tracking-[0.3em] uppercase text-white/25 font-light">Private Access</p>
             </div>
           </div>
           <div className="absolute bottom-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-white/8 to-transparent" />
         </div>
       </div>
 
-      {/* Card Body */}
-      <div className="p-6 pt-4 flex flex-col flex-1">
+      {/* Card Body — brighter surface for contrast */}
+      <div className="p-6 pt-5 flex flex-col flex-1" style={{ background: isMaverick ? "linear-gradient(180deg, hsl(228,10%,10%) 0%, hsl(228,12%,7%) 100%)" : "linear-gradient(180deg, hsl(228,10%,12%) 0%, hsl(228,12%,8%) 100%)" }}>
         {/* Highlights */}
-        <div className="space-y-2.5 mb-6 flex-1">
+        <div className="space-y-3 mb-6 flex-1">
           {tier.highlights.map((h, i) => (
             <div key={i} className="flex items-start gap-2.5">
-              <Check className={`w-3.5 h-3.5 mt-0.5 flex-shrink-0 ${isMaverick ? "text-primary/60" : "text-foreground/25"}`} strokeWidth={1.5} />
-              <span className={`text-[12px] font-light leading-[1.6] ${isMaverick ? "text-foreground/60" : "text-foreground/45"}`}>{h}</span>
+              <Check className={`w-3.5 h-3.5 mt-0.5 flex-shrink-0 ${isMaverick ? "text-primary/70" : "text-primary/45"}`} strokeWidth={2} />
+              <span className={`text-[12px] leading-[1.6] ${isMaverick ? "text-foreground/80 font-normal" : "text-foreground/65 font-light"}`}>{h}</span>
             </div>
           ))}
         </div>
 
-        {/* CTA */}
+        {/* CTA — all cards get strong buttons */}
         <Link
           to={`/membership/enroll?tier=${tier.name.toLowerCase()}`}
           className={`block text-center py-3.5 text-[10px] tracking-[0.2em] uppercase font-medium rounded-lg transition-all duration-500 ${
             isMaverick
               ? "bg-gradient-gold text-primary-foreground hover:shadow-[0_0_30px_-8px_hsla(43,74%,49%,0.4)] hover:scale-[1.01]"
-              : "border border-[hsl(228,12%,18%)] text-foreground/50 hover:border-primary/25 hover:text-primary/80"
+              : "bg-[hsl(228,10%,16%)] border border-[hsl(228,12%,22%)] text-foreground/70 hover:bg-[hsl(228,10%,20%)] hover:text-foreground hover:border-primary/20"
           }`}
         >
           {tier.cta}
@@ -232,33 +237,33 @@ const MembersPage = () => (
     <SEOHead title="Membership — Universal Jets" description="Priority access, exclusive rates, concierge support, and a more seamless way to charter privately. Four tiers designed around how you fly." path="/membership" />
     <Navbar />
 
-    {/* ═══ HERO ═══ */}
-    <section className="pt-40 pb-16 md:pt-48 md:pb-20 relative">
-      <div className="absolute inset-0 opacity-[0.03] pointer-events-none" style={{ background: "radial-gradient(ellipse at 50% 30%, hsla(43,74%,49%,0.4) 0%, transparent 60%)" }} />
+    {/* ═══ HERO — tighter spacing ═══ */}
+    <section className="pt-32 pb-10 md:pt-40 md:pb-14 relative">
+      <div className="absolute inset-0 opacity-[0.04] pointer-events-none" style={{ background: "radial-gradient(ellipse at 50% 30%, hsla(43,74%,49%,0.5) 0%, transparent 55%)" }} />
       <div className="container mx-auto px-8 text-center max-w-3xl relative z-10">
         <motion.div initial={{ opacity: 0, scaleX: 0 }} animate={{ opacity: 1, scaleX: 1 }} transition={{ duration: 1 }}
-          className="w-12 h-[1px] bg-gradient-to-r from-transparent via-primary/80 to-transparent mx-auto mb-10 origin-center" />
+          className="w-12 h-[1px] bg-gradient-to-r from-transparent via-primary/80 to-transparent mx-auto mb-8 origin-center" />
         <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.1 }}
-          className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-primary/15 bg-primary/5 mb-8">
+          className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-primary/15 bg-primary/5 mb-6">
           <Crown className="w-3 h-3 text-primary/60" strokeWidth={1.5} />
           <span className="text-[8px] tracking-[0.4em] uppercase text-primary/60 font-medium">Private Access Network</span>
         </motion.div>
         <motion.h1 initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
-          className="text-3xl md:text-5xl lg:text-6xl font-display font-semibold mb-6 text-foreground leading-[1.1]">
+          className="text-3xl md:text-5xl lg:text-6xl font-display font-semibold mb-5 text-foreground leading-[1.1]">
           Priority Access. <span className="text-gradient-gold italic">Elevated Service.</span>
         </motion.h1>
         <motion.p initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.4 }}
-          className="text-[14px] text-foreground/40 font-light max-w-xl mx-auto leading-[1.9]">
+          className="text-[14px] text-foreground/50 font-light max-w-xl mx-auto leading-[1.9]">
           Four tiers of private aviation membership — each designed around how you fly. Exclusive rates, dedicated support, and concierge services included.
         </motion.p>
       </div>
     </section>
 
     {/* ═══ TIER CARDS ═══ */}
-    <section className="py-16 md:py-24">
+    <section className="py-10 md:py-16">
       <div className="container mx-auto px-6 md:px-8">
         <motion.p initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }}
-          className="text-center text-[9px] tracking-[0.5em] uppercase text-primary/50 mb-14 font-light">Choose Your Tier</motion.p>
+          className="text-center text-[9px] tracking-[0.5em] uppercase text-primary/50 mb-10 font-light">Choose Your Tier</motion.p>
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-5 max-w-6xl mx-auto">
           {tiers.map((tier, i) => <MembershipCard key={tier.name} tier={tier} index={i} />)}
         </div>
@@ -266,10 +271,10 @@ const MembersPage = () => (
     </section>
 
     {/* ═══ EVERY PLAN INCLUDES ═══ */}
-    <section className="py-16 md:py-24 border-y border-[hsl(228,12%,10%)]">
+    <section className="py-14 md:py-20 border-y border-[hsl(228,12%,10%)]">
       <div className="container mx-auto px-8">
-        <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center mb-14">
-          <p className="text-[9px] tracking-[0.5em] uppercase text-primary/50 mb-5 font-light">Included</p>
+        <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center mb-12">
+          <p className="text-[9px] tracking-[0.5em] uppercase text-primary/50 mb-4 font-light">Included</p>
           <h2 className="font-display text-2xl md:text-3xl font-semibold text-foreground">Every Plan <span className="text-gradient-gold italic">Includes</span></h2>
         </motion.div>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-3xl mx-auto">
@@ -279,7 +284,7 @@ const MembersPage = () => (
               <div className="w-10 h-10 rounded-full border border-[hsl(228,12%,15%)] flex items-center justify-center mx-auto mb-3 bg-[hsl(228,15%,7%)]">
                 <b.icon className="w-4 h-4 text-primary/50" strokeWidth={1.2} />
               </div>
-              <p className="text-[11px] text-foreground/45 font-light leading-relaxed">{b.text}</p>
+              <p className="text-[11px] text-foreground/55 font-light leading-relaxed">{b.text}</p>
             </motion.div>
           ))}
         </div>
@@ -287,39 +292,39 @@ const MembersPage = () => (
     </section>
 
     {/* ═══ DETAILED COMPARISON ═══ */}
-    <section className="py-16 md:py-24">
+    <section className="py-14 md:py-20">
       <div className="container mx-auto px-8 max-w-5xl">
-        <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center mb-14">
-          <p className="text-[9px] tracking-[0.5em] uppercase text-primary/50 mb-5 font-light">Compare Tiers</p>
+        <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center mb-12">
+          <p className="text-[9px] tracking-[0.5em] uppercase text-primary/50 mb-4 font-light">Compare Tiers</p>
           <h2 className="font-display text-2xl md:text-3xl font-semibold text-foreground">
             Tier <span className="text-gradient-gold italic">Comparison</span>
           </h2>
         </motion.div>
 
         <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
-          className="rounded-xl border border-[hsl(228,12%,12%)] overflow-hidden bg-[hsl(228,15%,6%)]">
+          className="rounded-xl border border-[hsl(228,12%,14%)] overflow-hidden bg-[hsl(228,12%,8%)]">
           <div className="overflow-x-auto">
             <table className="w-full text-[11px]">
               <thead>
-                <tr className="border-b border-[hsl(228,12%,12%)]">
-                  <th className="text-left py-4 px-5 text-[8px] tracking-[0.25em] uppercase text-foreground/25 font-medium w-[20%]" />
+                <tr className="border-b border-[hsl(228,12%,14%)]">
+                  <th className="text-left py-4 px-5 text-[8px] tracking-[0.25em] uppercase text-foreground/30 font-medium w-[20%]" />
                   {tiers.map((t) => (
                     <th key={t.name} className={`text-center py-4 px-4 text-[9px] tracking-[0.2em] uppercase font-semibold ${
-                      t.isMaverick ? "text-primary" : "text-foreground/50"
+                      t.isMaverick ? "text-primary" : "text-foreground/60"
                     }`}>
                       {t.name}
-                      <div className="text-[8px] font-light text-foreground/25 mt-0.5 tracking-normal normal-case">{t.monthlyPrice}/mo</div>
+                      <div className="text-[8px] font-light text-foreground/35 mt-0.5 tracking-normal normal-case">{t.monthlyPrice}/mo</div>
                     </th>
                   ))}
                 </tr>
               </thead>
               <tbody>
                 {comparisonRows.map((row, i) => (
-                  <tr key={i} className="border-t border-[hsl(228,12%,10%)]">
-                    <td className="py-3 px-5 text-foreground/35 font-medium text-[10px]">{row.label}</td>
+                  <tr key={i} className="border-t border-[hsl(228,12%,12%)]">
+                    <td className="py-3.5 px-5 text-foreground/45 font-medium text-[10px]">{row.label}</td>
                     {row.values.map((val, j) => (
-                      <td key={j} className={`py-3 px-4 text-center font-light ${
-                        j === 3 ? "text-primary/70" : "text-foreground/40"
+                      <td key={j} className={`py-3.5 px-4 text-center font-light ${
+                        j === 3 ? "text-primary/80" : "text-foreground/50"
                       } ${val === "Unlimited" || val === "No overage fees" ? "font-medium" : ""}`}>
                         {val}
                       </td>
@@ -335,7 +340,7 @@ const MembersPage = () => (
           <Link to="/membership/enroll" className="inline-flex items-center justify-center px-8 py-3.5 bg-gradient-gold text-primary-foreground text-[10px] tracking-[0.25em] uppercase font-medium rounded-lg hover:shadow-[0_0_30px_-8px_hsla(43,74%,49%,0.4)] transition-all duration-500">
             Enroll in Membership
           </Link>
-          <Link to="/jet-card" className="inline-flex items-center justify-center gap-2 px-8 py-3.5 border border-[hsl(228,12%,18%)] text-foreground/50 hover:text-foreground text-[10px] tracking-[0.25em] uppercase font-medium rounded-lg transition-all duration-500">
+          <Link to="/jet-card" className="inline-flex items-center justify-center gap-2 px-8 py-3.5 border border-[hsl(228,12%,20%)] text-foreground/60 hover:text-foreground text-[10px] tracking-[0.25em] uppercase font-medium rounded-lg transition-all duration-500">
             Explore Jet Card <ArrowRight size={10} />
           </Link>
         </div>
@@ -343,20 +348,20 @@ const MembersPage = () => (
     </section>
 
     {/* ═══ FAQ ═══ */}
-    <section className="py-16 md:py-24 border-t border-[hsl(228,12%,10%)]">
+    <section className="py-14 md:py-20 border-t border-[hsl(228,12%,10%)]">
       <div className="container mx-auto px-8 max-w-3xl">
-        <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center mb-14">
-          <p className="text-[9px] tracking-[0.5em] uppercase text-primary/50 mb-5 font-light">FAQ</p>
+        <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center mb-12">
+          <p className="text-[9px] tracking-[0.5em] uppercase text-primary/50 mb-4 font-light">FAQ</p>
           <h2 className="font-display text-2xl md:text-3xl font-semibold text-foreground">Frequently Asked <span className="text-gradient-gold italic">Questions</span></h2>
         </motion.div>
 
         <Accordion type="single" collapsible className="space-y-2">
           {faqs.map((faq, i) => (
-            <AccordionItem key={i} value={`faq-${i}`} className="border border-[hsl(228,12%,12%)] rounded-xl px-6 bg-[hsl(228,15%,6%)]">
-              <AccordionTrigger className="text-[13px] text-foreground/70 font-medium text-left py-4 hover:no-underline hover:text-foreground transition-colors">
+            <AccordionItem key={i} value={`faq-${i}`} className="border border-[hsl(228,12%,14%)] rounded-xl px-6 bg-[hsl(228,12%,8%)]">
+              <AccordionTrigger className="text-[13px] text-foreground/75 font-medium text-left py-4 hover:no-underline hover:text-foreground transition-colors">
                 {faq.q}
               </AccordionTrigger>
-              <AccordionContent className="text-[12px] text-foreground/35 font-light leading-[1.9] pb-4">
+              <AccordionContent className="text-[12px] text-foreground/45 font-light leading-[1.9] pb-4">
                 {faq.a}
               </AccordionContent>
             </AccordionItem>
@@ -366,14 +371,14 @@ const MembersPage = () => (
     </section>
 
     {/* ═══ REFERRAL ═══ */}
-    <section className="py-16 md:py-24">
+    <section className="py-14 md:py-20">
       <div className="container mx-auto px-8 max-w-4xl text-center">
         <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
-          <p className="text-[9px] tracking-[0.5em] uppercase text-primary/50 mb-5 font-light">Referral Programme</p>
+          <p className="text-[9px] tracking-[0.5em] uppercase text-primary/50 mb-4 font-light">Referral Programme</p>
           <h2 className="font-display text-2xl md:text-3xl font-semibold text-foreground mb-4">
             Share the <span className="text-gradient-gold italic">Experience</span>
           </h2>
-          <p className="text-[13px] text-foreground/35 font-light max-w-lg mx-auto leading-relaxed mb-10">
+          <p className="text-[13px] text-foreground/45 font-light max-w-lg mx-auto leading-relaxed mb-10">
             Invite 3 members → Earn $1,000 in flight credit toward your next charter.
           </p>
         </motion.div>
@@ -390,7 +395,7 @@ const MembersPage = () => (
                 <span className="text-[12px] font-display text-primary/70 font-semibold">{s.step}</span>
               </div>
               <h3 className="font-display text-[15px] mb-2 text-foreground font-medium">{s.title}</h3>
-              <p className="text-[11px] text-foreground/30 font-light leading-relaxed">{s.desc}</p>
+              <p className="text-[11px] text-foreground/40 font-light leading-relaxed">{s.desc}</p>
             </motion.div>
           ))}
         </div>
@@ -398,13 +403,13 @@ const MembersPage = () => (
     </section>
 
     {/* ═══ CTA ═══ */}
-    <section className="py-16 md:py-24 border-t border-[hsl(228,12%,10%)] relative">
-      <div className="absolute inset-0 opacity-[0.03] pointer-events-none" style={{ background: "radial-gradient(ellipse at 50% 50%, hsla(43,74%,49%,0.3) 0%, transparent 60%)" }} />
+    <section className="py-14 md:py-20 border-t border-[hsl(228,12%,10%)] relative">
+      <div className="absolute inset-0 opacity-[0.04] pointer-events-none" style={{ background: "radial-gradient(ellipse at 50% 50%, hsla(43,74%,49%,0.3) 0%, transparent 60%)" }} />
       <div className="container mx-auto px-8 text-center max-w-lg relative z-10">
         <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
-          <p className="text-[9px] tracking-[0.5em] uppercase text-primary/50 mb-6 font-light">Get Started</p>
+          <p className="text-[9px] tracking-[0.5em] uppercase text-primary/50 mb-5 font-light">Get Started</p>
           <h2 className="font-display text-2xl md:text-3xl mb-5 text-foreground">Begin Your <span className="text-gradient-gold italic">Membership</span></h2>
-          <p className="text-[13px] text-foreground/35 font-light leading-relaxed mb-10">
+          <p className="text-[13px] text-foreground/45 font-light leading-relaxed mb-10">
             Choose your tier and complete enrollment online. Your dedicated advisor will reach out within 24 hours.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
@@ -412,7 +417,7 @@ const MembersPage = () => (
               Enroll Now
             </Link>
             <a href="https://wa.me/971585918498" target="_blank" rel="noopener noreferrer"
-              className="inline-flex items-center justify-center gap-2 px-10 py-3.5 text-[10px] tracking-[0.2em] uppercase text-foreground/40 hover:text-foreground/60 transition-all duration-500 border border-[hsl(228,12%,18%)] rounded-lg">
+              className="inline-flex items-center justify-center gap-2 px-10 py-3.5 text-[10px] tracking-[0.2em] uppercase text-foreground/50 hover:text-foreground/70 transition-all duration-500 border border-[hsl(228,12%,20%)] rounded-lg">
               <MessageCircle size={12} /> Speak to Advisor
             </a>
           </div>
