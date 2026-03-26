@@ -183,16 +183,10 @@ const EmptyLegsMapView = ({ legs, selectedLeg, onLegClick, onClose, isLiveData }
       </div>
 
       {/* Route count badge */}
-      <div className="absolute top-4 left-4 z-20 flex items-center gap-2">
-        <span className="px-3 py-1.5 rounded-lg bg-white/[0.06] border border-white/[0.08] text-[10px] tracking-[0.15em] uppercase font-medium text-white/60">
-          {projectedLegs.length} {isLiveData ? "available routes" : "curated routes"}
+      <div className="absolute top-4 left-4 z-20">
+        <span className="px-3 py-1.5 rounded-lg bg-white/[0.06] border border-white/[0.08] text-[10px] tracking-[0.15em] uppercase font-medium text-white/50">
+          {projectedLegs.length} Active Route{projectedLegs.length !== 1 ? "s" : ""}
         </span>
-        {isLiveData && (
-          <span className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-emerald-500/10 border border-emerald-500/20 text-[9px] tracking-[0.1em] uppercase font-medium text-emerald-400/80">
-            <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-            Live
-          </span>
-        )}
       </div>
 
       {/* SVG Map */}
