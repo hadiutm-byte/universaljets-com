@@ -1,6 +1,6 @@
 import { useState, useCallback, useMemo, useEffect } from "react";
 import { motion } from "framer-motion";
-import { Loader2, ArrowRight, Map, LayoutGrid, RefreshCw } from "lucide-react";
+import { Loader2, ArrowRight, Map, LayoutGrid, RefreshCw, Plane } from "lucide-react";
 import { useEmptyLegs, type EmptyLeg } from "@/hooks/useAviapages";
 import EmptyLegsMapView from "./empty-legs/EmptyLegsMapView";
 import EmptyLegCard from "./empty-legs/EmptyLegCard";
@@ -29,33 +29,20 @@ const fallbackLegs: EmptyLeg[] = [
   { id: 6, aircraft_type: "Falcon 2000LXS", company: "", from_date: "2025-05-01T07:00", to_date: "2025-05-01T11:00", price: null, currency: "USD", comment: "", departure: { id: 11, name: "Changi", iata: "SIN", icao: "WSSS", city: "Singapore", country: "Singapore", lat: 1.36, lng: 103.99 }, arrival: { id: 12, name: "Hong Kong Intl", iata: "HKG", icao: "VHHH", city: "Hong Kong", country: "Hong Kong", lat: 22.31, lng: 113.91 } },
 ];
 
-const getRegionForCountry = (country: string): string => {
-  const map: Record<string, string> = {
-    "United States": "Americas", "Canada": "Americas", "Mexico": "Americas", "Brazil": "Americas",
-    "Argentina": "Americas", "Chile": "Americas", "Colombia": "Americas", "Peru": "Americas",
-    "United Kingdom": "Europe", "France": "Europe", "Germany": "Europe", "Switzerland": "Europe",
-    "Italy": "Europe", "Spain": "Europe", "Netherlands": "Europe", "Czech Republic": "Europe",
-    "Poland": "Europe", "Austria": "Europe", "Belgium": "Europe", "Portugal": "Europe",
-    "Sweden": "Europe", "Norway": "Europe", "Denmark": "Europe", "Finland": "Europe",
-    "Ireland": "Europe", "Greece": "Europe", "Romania": "Europe", "Hungary": "Europe",
-    "Croatia": "Europe", "Turkey": "Europe", "Cyprus": "Europe",
-    "UAE": "Middle East", "Saudi Arabia": "Middle East", "Qatar": "Middle East",
-    "Bahrain": "Middle East", "Israel": "Middle East", "Georgia": "Middle East",
-    "Kuwait": "Middle East", "Oman": "Middle East", "Jordan": "Middle East", "Lebanon": "Middle East",
-    "Singapore": "Asia", "Hong Kong": "Asia", "Japan": "Asia", "South Korea": "Asia",
-    "China": "Asia", "India": "Asia", "Thailand": "Asia", "Malaysia": "Asia",
-    "Indonesia": "Asia", "Philippines": "Asia", "Taiwan": "Asia",
-  };
-  return map[country] || "Other";
-};
-
 const EmptyLegsMap = () => {
   const [selectedLeg, setSelectedLeg] = useState<EmptyLeg | null>(null);
   const [activeRegion, setActiveRegion] = useState("All");
   const [viewMode, setViewMode] = useState<"cards" | "map">("map");
   const [refreshing, setRefreshing] = useState(false);
   const [lastUpdated, setLastUpdated] = useState<Date>(new Date());
-  const { data, isLoading, error, refetch } = useEmptyLegs(activeRegion);
+
+  // React Query keyed by region — cache is per-region, no cross-contamination
+  const { data, isLoading, error, refetch, isFetching } = useEmptyLegs(activeRegion);
+
+  // Reset selection when region changes to avoid showing stale detail
+  useEffect(() => {
+    setSelectedLeg(null);
+  }, [activeRegion]);
 
   // Auto-refresh every 5 minutes
   useEffect(() => {
@@ -72,10 +59,15 @@ const EmptyLegsMap = () => {
     setTimeout(() => setRefreshing(false), 800);
   };
 
+  const handleRegionChange = useCallback((region: string) => {
+    setActiveRegion(region);
+    setSelectedLeg(null); // Clear selection immediately
+  }, []);
+
+  // Data is already server-filtered by region — just enrich coords
   const legs = useMemo(() => {
-    // API already filters by region via ISO country codes — no client-side re-filtering needed
-    const raw = data?.results?.length ? data.results.map(enrichCoords) : fallbackLegs;
-    return raw;
+    if (!data?.results?.length) return fallbackLegs;
+    return data.results.map(enrichCoords);
   }, [data]);
 
   const mappableLegs = useMemo(
@@ -103,6 +95,8 @@ const EmptyLegsMap = () => {
     return [x, Math.max(0, Math.min(50, y))];
   }, []);
 
+  const showLoading = isLoading || (isFetching && !data?.results?.length);
+
   return (
     <section id="empty-legs" className="section-padding overflow-hidden section-alt">
       <div className="container mx-auto px-8 relative z-10">
@@ -121,8 +115,8 @@ const EmptyLegsMap = () => {
             When aircraft need to reposition, you benefit. Same jet. Same service. Fraction of the price.
           </p>
           {data?.count ? (
-            <p className="text-[11px] text-primary mt-3 font-medium">{data.count.toLocaleString()} empty legs available worldwide</p>
-          ) : !isLoading && !error ? (
+            <p className="text-[11px] text-primary mt-3 font-medium">{data.count.toLocaleString()} empty legs available{activeRegion !== "All" ? ` in ${activeRegion}` : " worldwide"}</p>
+          ) : !showLoading && !error ? (
             <p className="text-[11px] text-muted-foreground/70 mt-3 font-light">Showing curated routes</p>
           ) : null}
         </motion.div>
@@ -132,8 +126,9 @@ const EmptyLegsMap = () => {
           {regions.map((r) => (
             <button
               key={r}
-              onClick={() => setActiveRegion(r)}
-              className={`px-5 py-2 rounded-full text-[10px] tracking-[0.25em] uppercase font-medium transition-all duration-300 ${
+              onClick={() => handleRegionChange(r)}
+              disabled={isFetching}
+              className={`px-5 py-2 rounded-full text-[10px] tracking-[0.25em] uppercase font-medium transition-all duration-300 disabled:opacity-60 ${
                 activeRegion === r
                   ? "bg-[hsl(var(--selection))] text-[hsl(var(--selection-foreground))] shadow-[0_4px_12px_-4px_hsla(0,0%,0%,0.3)]"
                   : "border border-border text-foreground/50 hover:text-foreground hover:border-foreground/20"
@@ -173,22 +168,33 @@ const EmptyLegsMap = () => {
             </span>
             <button
               onClick={handleRefresh}
-              disabled={refreshing || isLoading}
+              disabled={refreshing || isFetching}
               className="flex items-center gap-1.5 px-4 py-2 rounded-full border border-primary/15 bg-primary/[0.04] text-[9px] tracking-[0.2em] uppercase font-medium text-primary/60 hover:text-primary hover:border-primary/30 hover:bg-primary/[0.08] transition-all duration-500 disabled:opacity-40"
             >
-              <RefreshCw size={10} className={refreshing ? "animate-spin" : ""} />
-              {refreshing ? "Updating…" : "Live Sync"}
+              <RefreshCw size={10} className={refreshing || isFetching ? "animate-spin" : ""} />
+              {refreshing || isFetching ? "Updating…" : "Live Sync"}
             </button>
           </div>
         </div>
 
-        {isLoading && (
-          <div className="flex items-center justify-center py-20">
+        {/* Loading state */}
+        {showLoading && (
+          <div className="flex flex-col items-center justify-center py-20 gap-3">
             <Loader2 className="w-6 h-6 text-primary animate-spin" />
+            <p className="text-[11px] text-muted-foreground/60 font-light">Loading {activeRegion !== "All" ? activeRegion : ""} empty legs…</p>
           </div>
         )}
 
-        {!isLoading && viewMode === "map" && (
+        {/* Empty state for a region with no results */}
+        {!showLoading && legs.length === 0 && (
+          <div className="rounded-2xl border border-border bg-card p-16 text-center mb-16">
+            <Plane size={32} className="text-muted-foreground/30 mx-auto mb-4" />
+            <p className="text-[13px] text-muted-foreground font-light mb-2">No empty legs available in {activeRegion} right now.</p>
+            <p className="text-[11px] text-muted-foreground/50 font-light">Try another region or check back shortly — new legs are added continuously.</p>
+          </div>
+        )}
+
+        {!showLoading && legs.length > 0 && viewMode === "map" && (
           mappableLegs.length > 0 ? (
             <EmptyLegsMapView legs={mappableLegs} selectedLeg={selectedLeg} onLegClick={handleLegClick} onClose={() => setSelectedLeg(null)} toMapCoords={toMapCoords} isLiveData={!!data?.results?.length} />
           ) : (
@@ -199,7 +205,7 @@ const EmptyLegsMap = () => {
           )
         )}
 
-        {!isLoading && viewMode === "cards" && (
+        {!showLoading && legs.length > 0 && viewMode === "cards" && (
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5 max-w-5xl mx-auto mb-14">
             {legs.slice(0, 12).map((leg, i) => (
               <EmptyLegCard key={leg.id} leg={leg} index={i} onClick={() => handleLegClick(leg)} />

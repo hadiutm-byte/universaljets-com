@@ -1,5 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 
+// ─── Types ──────────────────────────────────────────────────────────────────
+
 export interface EmptyLeg {
   id: number;
   aircraft_type: string;
@@ -37,76 +39,6 @@ export interface EmptyLeg {
   } | null;
 }
 
-/** Safely coerce a value to number or null */
-function toNum(v: unknown): number | null {
-  if (v == null) return null;
-  const n = Number(v);
-  return isFinite(n) ? n : null;
-}
-
-function toStr(v: unknown, fallback = ""): string {
-  return typeof v === "string" ? v : fallback;
-}
-
-/** Normalize a single airport-like object from the API into a safe shape */
-function normalizeAirport(raw: unknown): EmptyLeg["departure"] {
-  if (raw == null || typeof raw !== "object") return null;
-  const o = raw as Record<string, unknown>;
-  return {
-    id: typeof o.id === "number" ? o.id : 0,
-    name: toStr(o.name),
-    iata: toStr(o.iata),
-    icao: toStr(o.icao),
-    city: toStr(o.city),
-    country: toStr(o.country),
-    lat: toNum(o.lat ?? o.latitude),
-    lng: toNum(o.lng ?? o.lon ?? o.longitude),
-  };
-}
-
-/** Normalize a raw API empty-leg object into our known EmptyLeg shape */
-export function normalizeEmptyLeg(raw: unknown): EmptyLeg | null {
-  if (raw == null || typeof raw !== "object") return null;
-  const o = raw as Record<string, unknown>;
-
-  const departure = normalizeAirport(o.departure);
-  const arrival = normalizeAirport(o.arrival);
-
-  // Parse aircraft images array
-  const rawImages = Array.isArray(o.aircraft_images) ? o.aircraft_images : [];
-  const aircraftImages = rawImages
-    .filter((img: unknown) => {
-      if (!img || typeof img !== "object") return false;
-      const imgObj = img as Record<string, unknown>;
-      const t = (typeof imgObj.type === "string" ? imgObj.type : "").toLowerCase();
-      return t !== "tail" && t !== "registration";
-    })
-    .map((img: unknown) => {
-      const imgObj = img as Record<string, unknown>;
-      return { url: String(imgObj.url || ""), type: String(imgObj.type || "exterior") };
-    })
-    .filter((img) => img.url);
-
-  return {
-    id: typeof o.id === "number" ? o.id : Math.random(),
-    aircraft_type: toStr(o.aircraft_type, "Unknown"),
-    aircraft_class: typeof o.aircraft_class === "string" ? o.aircraft_class : null,
-    aircraft_image: typeof o.aircraft_image === "string" ? o.aircraft_image : null,
-    aircraft_images: aircraftImages.length > 0 ? aircraftImages : undefined,
-    aircraft_floor_plan: typeof o.aircraft_floor_plan === "string" ? o.aircraft_floor_plan : null,
-    aircraft_max_pax: toNum(o.aircraft_max_pax),
-    aircraft_range_km: toNum(o.aircraft_range_km),
-    company: toStr(o.company),
-    from_date: toStr(o.from_date),
-    to_date: toStr(o.to_date),
-    price: toNum(o.price),
-    currency: toStr(o.currency, "USD"),
-    comment: toStr(o.comment),
-    departure,
-    arrival,
-  };
-}
-
 export interface Airport {
   id: number;
   name: string;
@@ -139,8 +71,104 @@ export interface AircraftType {
   description: string | null;
 }
 
+// ─── Helpers ────────────────────────────────────────────────────────────────
+
+/** Safely coerce a value to number or null */
+function toNum(v: unknown): number | null {
+  if (v == null) return null;
+  const n = Number(v);
+  return Number.isFinite(n) ? n : null;
+}
+
+function toStr(v: unknown, fallback = ""): string {
+  return typeof v === "string" ? v : fallback;
+}
+
+const BLOCKED_IMAGE_TYPES = new Set(["tail", "registration"]);
+
+/** Normalize a single airport-like object from the API into a safe shape */
+function normalizeAirport(raw: unknown): EmptyLeg["departure"] {
+  if (raw == null || typeof raw !== "object") return null;
+  const o = raw as Record<string, unknown>;
+  return {
+    id: typeof o.id === "number" ? o.id : 0,
+    name: toStr(o.name),
+    iata: toStr(o.iata),
+    icao: toStr(o.icao),
+    city: toStr(o.city),
+    country: toStr(o.country),
+    lat: toNum(o.lat ?? o.latitude),
+    lng: toNum(o.lng ?? o.lon ?? o.longitude),
+  };
+}
+
+/** Normalize aircraft images array, deduplicating and filtering blocked types */
+function normalizeImages(raw: unknown): { url: string; type: string }[] {
+  if (!Array.isArray(raw)) return [];
+  const seen = new Set<string>();
+  const result: { url: string; type: string }[] = [];
+
+  for (const img of raw) {
+    if (!img || typeof img !== "object") continue;
+    const imgObj = img as Record<string, unknown>;
+    const url = String(imgObj.url || "");
+    const type = String(imgObj.type || imgObj.image_type || "exterior").toLowerCase();
+    if (!url || BLOCKED_IMAGE_TYPES.has(type) || seen.has(url)) continue;
+    seen.add(url);
+    result.push({ url, type });
+  }
+
+  return result;
+}
+
+/** Normalize a raw API empty-leg object into our known EmptyLeg shape */
+export function normalizeEmptyLeg(raw: unknown): EmptyLeg | null {
+  if (raw == null || typeof raw !== "object") return null;
+  const o = raw as Record<string, unknown>;
+
+  const departure = normalizeAirport(o.departure);
+  const arrival = normalizeAirport(o.arrival);
+  const aircraftImages = normalizeImages(o.aircraft_images);
+
+  // Safely extract price from multiple possible fields
+  const price = toNum(o.price) ?? toNum(o.price_total) ?? toNum(o.total_price) ?? null;
+
+  return {
+    id: typeof o.id === "number" ? o.id : 0,
+    aircraft_type: toStr(o.aircraft_type, "Unknown"),
+    aircraft_class: typeof o.aircraft_class === "string" ? o.aircraft_class : null,
+    aircraft_image: typeof o.aircraft_image === "string" && o.aircraft_image ? o.aircraft_image : (aircraftImages[0]?.url || null),
+    aircraft_images: aircraftImages.length > 0 ? aircraftImages : undefined,
+    aircraft_floor_plan: typeof o.aircraft_floor_plan === "string" ? o.aircraft_floor_plan : null,
+    aircraft_max_pax: toNum(o.aircraft_max_pax),
+    aircraft_range_km: toNum(o.aircraft_range_km),
+    company: "", // Never expose operator to B2C
+    from_date: toStr(o.from_date),
+    to_date: toStr(o.to_date),
+    price,
+    currency: toStr(o.currency, "USD"),
+    comment: toStr(o.comment),
+    departure,
+    arrival,
+  };
+}
+
+// ─── API helpers ────────────────────────────────────────────────────────────
+
 const getSupabaseUrl = () => import.meta.env.VITE_SUPABASE_URL;
 const getAnonKey = () => import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY;
+
+/** Deduplicate results by ID */
+function deduplicateById<T extends { id: number }>(items: T[]): T[] {
+  const seen = new Set<number>();
+  return items.filter((item) => {
+    if (seen.has(item.id)) return false;
+    seen.add(item.id);
+    return true;
+  });
+}
+
+// ─── Hooks ──────────────────────────────────────────────────────────────────
 
 export function useEmptyLegs(region: string = "All") {
   return useQuery({
@@ -158,19 +186,28 @@ export function useEmptyLegs(region: string = "All") {
       );
 
       if (!response.ok) {
-        throw new Error("Failed to fetch empty legs");
+        throw new Error(`Failed to fetch empty legs (${response.status})`);
       }
 
       const raw = await response.json();
       const rawResults = Array.isArray(raw?.results) ? raw.results : [];
-      const results = rawResults
-        .map(normalizeEmptyLeg)
-        .filter((l): l is EmptyLeg => l !== null);
 
-      return { count: typeof raw?.count === "number" ? raw.count : results.length, results };
+      // Normalize → filter nulls → deduplicate
+      const results = deduplicateById(
+        rawResults
+          .map(normalizeEmptyLeg)
+          .filter((l): l is EmptyLeg => l !== null && l.id > 0)
+      );
+
+      return {
+        count: typeof raw?.count === "number" ? raw.count : results.length,
+        results,
+      };
     },
     staleTime: 5 * 60 * 1000,
     retry: 1,
+    // React Query handles cache keying by region — switching regions
+    // automatically discards previous data so stale results never leak.
   });
 }
 
@@ -194,7 +231,7 @@ export function useAirportSearch(query: string) {
       }
 
       const result = await response.json();
-      return result.results as Airport[];
+      return (Array.isArray(result.results) ? result.results : []) as Airport[];
     },
     enabled: query.length >= 2,
     staleTime: 10 * 60 * 1000,
