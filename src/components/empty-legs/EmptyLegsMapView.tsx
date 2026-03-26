@@ -5,8 +5,7 @@ import mapboxgl from "mapbox-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
 import type { EmptyLeg } from "@/hooks/useAviapages";
 import { getAircraftImage, getAircraftCategory } from "@/lib/aircraftImages";
-import { generateEmptyLegShareCard } from "@/lib/emptyLegShareCard";
-import { toast } from "sonner";
+import { useShareCard } from "@/hooks/useShareCard";
 
 const MAPBOX_TOKEN = "pk.eyJ1IjoiaGFkaWFiZHVsaGFkaSIsImEiOiJjbW43MDV3NDQwYWZvMnhzYmF6cG05a3ZsIn0.fKSSW2NTnStIWXZyXDk_KA";
 
@@ -393,26 +392,10 @@ function SelectedLegPanel({ leg, onClose }: { leg: EmptyLeg; onClose: () => void
     `Hello, I'm interested in an empty leg from ${fromCity || "?"} to ${toCity || "?"} on ${date} (${leg.aircraft_type}).`
   );
 
+  const { share: doShare } = useShareCard();
+
   const handleShare = async () => {
-    const shareText = `✈️ Empty Leg Deal — ${leg.aircraft_type || "Private Jet"}\n${fromCity || fromCode} → ${toCity || toCode}\n📅 ${date}\n💰 ${priceLabel}\n\nBook now at Universal Jets\nhttps://www.universaljets.com`;
-    try {
-      const blob = await generateEmptyLegShareCard({ fromCode, fromCity, toCode, toCity, date, price: priceLabel, aircraftType: leg.aircraft_type || "Private Jet", category });
-      const file = new File([blob], `universal-jets-empty-leg-${fromCode}-${toCode}.png`, { type: "image/png" });
-      if (navigator.share && navigator.canShare?.({ files: [file] })) {
-        await navigator.share({ title: `Empty Leg: ${fromCity} → ${toCity}`, text: shareText, files: [file] });
-      } else if (navigator.share) {
-        await navigator.share({ title: `Empty Leg: ${fromCity} → ${toCity}`, text: shareText });
-      } else {
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement("a");
-        a.href = url; a.download = `universal-jets-empty-leg-${fromCode}-${toCode}.png`; a.click();
-        URL.revokeObjectURL(url);
-        await navigator.clipboard.writeText(shareText);
-        toast.success("Branded card downloaded & details copied");
-      }
-    } catch {
-      try { await navigator.clipboard.writeText(shareText); toast.success("Copied to clipboard"); } catch {}
-    }
+    await doShare({ fromCode, fromCity, toCode, toCity, date, price: priceLabel, aircraftType: leg.aircraft_type || "Private Jet", category });
   };
 
   return (

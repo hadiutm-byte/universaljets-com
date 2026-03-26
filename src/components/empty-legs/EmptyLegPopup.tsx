@@ -1,12 +1,11 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { ArrowRight, X, Plane, Users, Share2, MessageCircle, Download, Copy, Link } from "lucide-react";
+import { ArrowRight, X, Plane, Users, Share2, MessageCircle, Download, Copy } from "lucide-react";
 import type { EmptyLeg } from "@/hooks/useAviapages";
 import { getAircraftImage, getAircraftCategory } from "@/lib/aircraftImages";
-import { generateEmptyLegShareCard } from "@/lib/emptyLegShareCard";
 import { useCrmApi } from "@/hooks/useCrmApi";
+import { useShareCard } from "@/hooks/useShareCard";
 import AircraftGallery from "@/components/AircraftGallery";
-import { toast } from "sonner";
 
 interface EmptyLegPopupProps {
   leg: EmptyLeg | null;
@@ -20,6 +19,7 @@ const EmptyLegPopup = ({ leg, onClose }: EmptyLegPopupProps) => {
   const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const { capture } = useCrmApi();
+  const { share, download, copyText } = useShareCard();
 
   if (!leg) return null;
 
@@ -34,6 +34,8 @@ const EmptyLegPopup = ({ leg, onClose }: EmptyLegPopupProps) => {
   const image = leg.aircraft_image || getAircraftImage(leg.aircraft_type || "midsize");
   const category = leg.aircraft_class || getAircraftCategory(leg.aircraft_type || "midsize");
   const galleryImages = leg.aircraft_images?.length ? leg.aircraft_images : [{ url: image, type: "exterior" }];
+
+  const shareData = { fromCode, fromCity, toCode, toCity, date, price: priceLabel, aircraftType: leg.aircraft_type || "Private Jet", category };
 
   const handleSubmitRequest = async () => {
     if (!form.name.trim() || !form.email.includes("@")) return;
@@ -56,48 +58,11 @@ const EmptyLegPopup = ({ leg, onClose }: EmptyLegPopupProps) => {
   };
 
   const handleShare = async () => {
-    const shareText = `✈️ Empty Leg Deal — ${leg.aircraft_type || "Private Jet"}\n${fromCity || fromCode} → ${toCity || toCode}\n📅 ${date}\n💰 ${priceLabel}\n\nBook now at Universal Jets\nhttps://www.universaljets.com`;
-
     try {
-      const blob = await generateEmptyLegShareCard({
-        fromCode, fromCity, toCode, toCity, date, price: priceLabel,
-        aircraftType: leg.aircraft_type || "Private Jet", category,
-      });
-      const file = new File([blob], `universal-jets-empty-leg-${fromCode}-${toCode}.png`, { type: "image/png" });
-
-      if (navigator.share && navigator.canShare?.({ files: [file] })) {
-        await navigator.share({ title: `Empty Leg: ${fromCity} → ${toCity}`, text: shareText, files: [file] });
-        return;
-      }
-    } catch { /* fall through to menu */ }
-
-    setShowShareMenu(true);
-  };
-
-  const handleDownloadCard = async () => {
-    try {
-      const blob = await generateEmptyLegShareCard({
-        fromCode, fromCity, toCode, toCity, date, price: priceLabel,
-        aircraftType: leg.aircraft_type || "Private Jet", category,
-      });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement("a");
-      a.href = url;
-      a.download = `universal-jets-empty-leg-${fromCode}-${toCode}.png`;
-      a.click();
-      URL.revokeObjectURL(url);
-      toast.success("Share card downloaded");
+      await share(shareData);
     } catch {
-      toast.error("Failed to generate share card");
+      setShowShareMenu(true);
     }
-    setShowShareMenu(false);
-  };
-
-  const handleCopyLink = async () => {
-    const text = `✈️ Empty Leg: ${fromCity || fromCode} → ${toCity || toCode} | ${date} | ${priceLabel} — universaljets.com`;
-    await navigator.clipboard.writeText(text);
-    toast.success("Copied to clipboard");
-    setShowShareMenu(false);
   };
 
   return (
@@ -265,10 +230,10 @@ const EmptyLegPopup = ({ leg, onClose }: EmptyLegPopupProps) => {
                   className="mt-3 p-3 rounded-xl bg-muted/30 border border-border/30 space-y-2"
                 >
                   <p className="text-[9px] tracking-[0.2em] uppercase text-muted-foreground font-medium mb-2">Share</p>
-                  <button onClick={handleDownloadCard} className="w-full flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-muted/50 text-[11px] text-foreground font-light transition-colors">
+                  <button onClick={() => { download(shareData); setShowShareMenu(false); }} className="w-full flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-muted/50 text-[11px] text-foreground font-light transition-colors">
                     <Download size={12} className="text-primary/60" /> Download Branded Card
                   </button>
-                  <button onClick={handleCopyLink} className="w-full flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-muted/50 text-[11px] text-foreground font-light transition-colors">
+                  <button onClick={() => { copyText(shareData); setShowShareMenu(false); }} className="w-full flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-muted/50 text-[11px] text-foreground font-light transition-colors">
                     <Copy size={12} className="text-primary/60" /> Copy Details
                   </button>
                   <button onClick={() => setShowShareMenu(false)} className="w-full text-center py-1 text-[9px] text-muted-foreground hover:text-foreground transition-colors">
