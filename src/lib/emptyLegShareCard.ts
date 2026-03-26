@@ -38,6 +38,10 @@ function loadImage(url: string): Promise<HTMLImageElement> {
   });
 }
 
+// Mapbox static max is 1280x1280. Request 540x960 @2x = 1080x1920.
+const MAP_W = 540;
+const MAP_H = 960;
+
 function buildMapUrl(from: [number, number] | undefined, to: [number, number] | undefined): string {
   let centerLat = 30, centerLon = 25, zoom = 2;
   if (from && to) {
@@ -46,7 +50,7 @@ function buildMapUrl(from: [number, number] | undefined, to: [number, number] | 
     const dist = Math.sqrt((from[0] - to[0]) ** 2 + (from[1] - to[1]) ** 2);
     zoom = dist > 60 ? 1.5 : dist > 30 ? 2.5 : dist > 15 ? 3.5 : dist > 5 ? 4.5 : 5.5;
   }
-  return `https://api.mapbox.com/styles/v1/mapbox/dark-v11/static/${centerLon.toFixed(4)},${centerLat.toFixed(4)},${zoom},0/${W}x${H}@2x?access_token=${MAPBOX_TOKEN}&attribution=false&logo=false`;
+  return `https://api.mapbox.com/styles/v1/mapbox/dark-v11/static/${centerLon.toFixed(4)},${centerLat.toFixed(4)},${zoom},0/${MAP_W}x${MAP_H}@2x?access_token=${MAPBOX_TOKEN}&attribution=false&logo=false`;
 }
 
 function projectToCanvas(
@@ -299,7 +303,7 @@ export async function generateEmptyLegShareCard(data: ShareCardData): Promise<Bl
   ctx.fillStyle = pg;
   ctx.fillRect(0, priceY - 100, W, 350);
 
-  const isPriceNumeric = /\d/.test(data.price);
+  const isPriceNumeric = /^[€$£]?\s*[\d,.]+/.test(data.price.trim()) || /^\w{3}\s+[\d,.]+/.test(data.price.trim());
 
   if (!isPriceNumeric) {
     // "SAVE UP TO" — elegant small label

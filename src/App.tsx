@@ -72,6 +72,7 @@ const NotFound = lazy(() => import("./pages/NotFound.tsx"));
 const UnsubscribePage = lazy(() => import("./pages/UnsubscribePage.tsx"));
 const Ricky3D = lazy(() => import("./components/Ricky3D.tsx"));
 
+
 const queryClient = new QueryClient();
 
 const CRM_ROLES = ["admin", "sales", "operations", "finance", "account_management", "hr", "business_development"] as const;
@@ -153,6 +154,7 @@ const App = () => (
             <Route path="/fleet" element={<FleetPage />} />
             <Route path="/fleet/:slug" element={<FleetDetailPage />} />
             <Route path="/unsubscribe" element={<UnsubscribePage />} />
+            
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>
