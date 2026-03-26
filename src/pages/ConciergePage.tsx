@@ -160,6 +160,9 @@ const ConciergePage = () => (
       </div>
     </section>
 
+    {/* ═══ AIRPORT EXPERIENCE (Live FBO Data) ═══ */}
+    <AirportExperienceSection />
+
     {/* ═══ CTA ═══ */}
     <section className="py-20 md:py-28">
       <div className="container mx-auto px-8 text-center max-w-lg">
