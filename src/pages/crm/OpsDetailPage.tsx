@@ -104,20 +104,18 @@ const OpsDetailPage = () => {
       </button>
 
       {/* Header */}
-      <div className="flex items-start justify-between">
-        <div>
-          <h1 className="font-display text-xl mb-1">{trip.departure} → {trip.destination}</h1>
-          <div className="flex items-center gap-3 text-[11px] text-muted-foreground/60">
-            {client && <span>{client.full_name}</span>}
-            <StatusBadge status={trip.status} />
-            {trip.aircraft && <span>{trip.aircraft}</span>}
-            {trip.date && <span>{new Date(trip.date).toLocaleDateString()}</span>}
-            {briefSent && (
-              <span className="flex items-center gap-1 px-2 py-0.5 bg-emerald-500/10 text-emerald-400 text-[8px] tracking-[0.15em] uppercase rounded-full">
-                <CheckCircle size={8} /> Brief Sent
-              </span>
-            )}
-          </div>
+      <div>
+        <h1 className="font-display text-lg sm:text-xl mb-1 break-words">{trip.departure} → {trip.destination}</h1>
+        <div className="flex flex-wrap items-center gap-2 text-[11px] text-muted-foreground/60">
+          {client && <span className="truncate max-w-[140px]">{client.full_name}</span>}
+          <StatusBadge status={trip.status} />
+          {trip.aircraft && <span className="truncate max-w-[100px]">{trip.aircraft}</span>}
+          {trip.date && <span>{new Date(trip.date).toLocaleDateString()}</span>}
+          {briefSent && (
+            <span className="flex items-center gap-1 px-2 py-0.5 bg-emerald-500/10 text-emerald-400 text-[8px] tracking-[0.15em] uppercase rounded-full">
+              <CheckCircle size={8} /> Brief Sent
+            </span>
+          )}
         </div>
       </div>
 
