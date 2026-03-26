@@ -336,7 +336,7 @@ const SearchResults = () => {
                       <button
                         onClick={() => {
                           trackQuoteRequest({ aircraft: result.aircraft_type, from: fromLabel, to: toLabel });
-                          setQuoteModal({ open: true, aircraft: result.aircraft_type, operator: result.operator.name });
+                          setQuoteModal({ open: true, aircraft: result.aircraft_type });
                         }}
                         className="block w-full text-center btn-luxury px-5 py-3 text-[9px] tracking-[0.2em] uppercase font-medium rounded-xl"
                       >
