@@ -267,13 +267,35 @@ const QuoteRequestModal = ({ open, onClose, flightData }: QuoteRequestModalProps
               </div>
 
               {/* Aircraft preference */}
-              {flightData.aircraft && (
+              {flightData.aircraft && !flightData.aircraft.startsWith("Destination:") && (
                 <div className="flex items-center gap-3 p-3 rounded-xl bg-primary/5 border border-primary/10">
                   <Plane size={14} className="text-primary/60 shrink-0" />
                   <div>
                     <p className="text-[10px] tracking-[0.1em] uppercase text-primary/70 font-medium">Preferred Aircraft</p>
                     <p className="text-[12px] text-foreground font-light">{flightData.aircraft}</p>
                   </div>
+                </div>
+              )}
+
+              {/* Private terminal context */}
+              {vipTerminals.length > 0 && (
+                <div className="rounded-xl bg-muted/20 border border-border/30 p-4">
+                  <div className="flex items-center gap-2 mb-2.5">
+                    <Shield size={11} className="text-primary/50" />
+                    <p className="text-[10px] tracking-[0.15em] uppercase text-primary/60 font-medium">Private Terminal Access</p>
+                  </div>
+                  <div className="space-y-1.5">
+                    {vipTerminals.map((fbo) => (
+                      <div key={fbo.id} className="flex items-center gap-2">
+                        <div className="w-1 h-1 rounded-full bg-primary/30" />
+                        <span className="text-[11px] text-muted-foreground font-light">
+                          {fbo.name}
+                          {fbo.vip_lounge && <span className="ml-1.5 text-primary/50">· VIP Lounge</span>}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                  <p className="text-[9px] text-muted-foreground/40 font-light mt-2">Seamless tarmac-to-vehicle transfers arranged by your advisor.</p>
                 </div>
               )}
 
