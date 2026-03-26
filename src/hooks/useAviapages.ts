@@ -159,7 +159,7 @@ const getSupabaseUrl = () => import.meta.env.VITE_SUPABASE_URL;
 const getAnonKey = () => import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY;
 
 /** Deduplicate results by ID */
-function deduplicateById<T extends { id: number }>(items: T[]): T[] {
+function deduplicateLegs(items: EmptyLeg[]): EmptyLeg[] {
   const seen = new Set<number>();
   return items.filter((item) => {
     if (seen.has(item.id)) return false;
