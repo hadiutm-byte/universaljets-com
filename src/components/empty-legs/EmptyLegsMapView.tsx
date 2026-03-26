@@ -390,7 +390,7 @@ function SelectedLegPanel({ leg, onClose }: { leg: EmptyLeg; onClose: () => void
   const image = leg.aircraft_image || getAircraftImage(leg.aircraft_type || "midsize");
   const category = leg.aircraft_class || getAircraftCategory(leg.aircraft_type || "midsize");
   const galleryImages = leg.aircraft_images?.length
-    ? leg.aircraft_images.filter(img => img.type !== 'tail' && img.type !== 'registration')
+    ? leg.aircraft_images
     : [{ url: image, type: "exterior" }];
   const waMsg = encodeURIComponent(
     `Hello, I'm interested in an empty leg from ${fromCity || "?"} to ${toCity || "?"} on ${date} (${leg.aircraft_type}).`

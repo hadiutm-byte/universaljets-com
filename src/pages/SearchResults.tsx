@@ -177,9 +177,8 @@ const SearchResults = () => {
                 const fallbackImage = getAircraftImage(result.aircraft_type);
                 const displayImage = result.images.exterior || fallbackImage;
 
-                // Build gallery images array
+                // Build gallery images array (already sanitized by normalizeCharterResult)
                 const galleryImages = (result.images.all || [])
-                  .filter(img => img.type !== 'tail' && img.type !== 'registration')
                   .map(img => ({ url: img.url, type: img.type }));
                 if (galleryImages.length === 0 && displayImage) {
                   galleryImages.push({ url: displayImage, type: "exterior" });
