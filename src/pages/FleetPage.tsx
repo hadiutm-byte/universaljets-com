@@ -66,10 +66,10 @@ const FleetPage = () => {
           <div className="flex flex-wrap justify-center gap-2">
             {JET_CATEGORIES.map((cat) => (
               <button
-                key={cat.classId}
-                onClick={() => setActiveCategory(cat.classId)}
+                key={cat.filter}
+                onClick={() => setActiveFilter(cat.filter)}
                 className={`px-5 py-2.5 rounded-full text-[10px] tracking-[0.2em] uppercase font-medium transition-all duration-300 ${
-                  activeCategory === cat.classId
+                  activeFilter === cat.filter
                     ? "bg-[hsl(var(--selection))] text-[hsl(var(--selection-foreground))] shadow-sm"
                     : "border border-border text-muted-foreground hover:text-foreground hover:border-foreground/20"
                 }`}
