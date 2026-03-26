@@ -33,6 +33,7 @@ const RickyChatbot = () => {
     const handler = () => {
       setVisible(true);
       setOpen(true);
+      trackRickyOpen("concierge");
     };
     document.addEventListener("open-ricky", handler);
     return () => document.removeEventListener("open-ricky", handler);

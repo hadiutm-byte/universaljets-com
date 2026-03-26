@@ -129,6 +129,13 @@ const FlightSearchBox = () => {
         }
       });
     }
+    trackFlightSearch({
+      from: primaryLeg.selectedFrom!.city,
+      to: primaryLeg.selectedTo!.city,
+      date: primaryLeg.date ? format(primaryLeg.date, "yyyy-MM-dd") : undefined,
+      passengers: passengers ? Number(passengers) : undefined,
+      tripType,
+    });
     navigate(`/search?${params.toString()}`);
   };
 

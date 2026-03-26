@@ -50,6 +50,7 @@ export default function EmptyLegInquiryModal({ open, onOpenChange, emptyLeg }: P
           form.notes || null,
         ].filter(Boolean).join(" | "),
       });
+      trackEmptyLegInquiry(emptyLeg?.route);
       toast.success("Inquiry submitted. We'll confirm availability shortly.");
       onOpenChange(false);
     } catch {

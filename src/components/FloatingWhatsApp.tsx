@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import { MessageCircle } from "lucide-react";
+import { trackWhatsAppClick } from "@/lib/gtmEvents";
 
 const WHATSAPP_URL = "https://wa.me/447888999944?text=" + encodeURIComponent("Hello, I would like to request a private jet charter.");
 
@@ -8,6 +9,7 @@ const FloatingWhatsApp = () => (
     href={WHATSAPP_URL}
     target="_blank"
     rel="noopener noreferrer"
+    onClick={() => trackWhatsAppClick("floating_button")}
     initial={{ opacity: 0, scale: 0.8 }}
     animate={{ opacity: 1, scale: 1 }}
     transition={{ delay: 4, duration: 0.5 }}

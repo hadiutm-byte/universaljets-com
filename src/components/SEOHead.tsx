@@ -50,10 +50,12 @@ const SEOHead = ({ title, description, path, type = "website", image }: SEOHeadP
     }
     canonical.setAttribute("href", url);
 
+    trackPageView(path, fullTitle);
+
     return () => {
       // cleanup handled by next mount
     };
-  }, [fullTitle, description, url, img, type]);
+  }, [fullTitle, description, url, img, type, path]);
 
   return null;
 };
