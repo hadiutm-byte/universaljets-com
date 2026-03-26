@@ -60,7 +60,11 @@ export function useFleetAircraft(classId?: string) {
 
       if (!response.ok) throw new Error("Failed to fetch fleet data");
       const result = await response.json();
-      const all: FleetAircraft[] = result.results || [];
+      const all: FleetAircraft[] = (result.results || []).map((ac: FleetAircraft) => ({
+        ...ac,
+        name: sanitizeAircraftName(ac.name),
+        images: sanitizeAircraftImages(ac.images),
+      }));
       return { count: result.count || 0, results: all.filter(isJetAircraft) };
     },
     staleTime: 30 * 60 * 1000,
