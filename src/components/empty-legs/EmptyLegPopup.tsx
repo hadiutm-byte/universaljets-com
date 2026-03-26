@@ -41,6 +41,20 @@ const EmptyLegPopup = ({ leg, onClose }: EmptyLegPopupProps) => {
 
   const shareData = { fromCode, fromCity, toCode, toCity, date, price: priceLabel, aircraftType: leg.aircraft_type || "Private Jet", category };
 
+  // Build airport objects for the route map
+  const fromAirport: Airport | null = (() => {
+    const icao = leg.departure?.icao || "";
+    const coords = AIRPORT_COORDS[icao] || (leg.departure?.lat != null && leg.departure?.lng != null ? [leg.departure.lat, leg.departure.lng] : null);
+    if (!coords) return null;
+    return { id: 0, icao, iata: leg.departure?.iata || "", name: leg.departure?.name || "", city: fromCity, country: leg.departure?.country || "", lat: coords[0], lng: coords[1] };
+  })();
+  const toAirport: Airport | null = (() => {
+    const icao = leg.arrival?.icao || "";
+    const coords = AIRPORT_COORDS[icao] || (leg.arrival?.lat != null && leg.arrival?.lng != null ? [leg.arrival.lat, leg.arrival.lng] : null);
+    if (!coords) return null;
+    return { id: 0, icao, iata: leg.arrival?.iata || "", name: leg.arrival?.name || "", city: toCity, country: leg.arrival?.country || "", lat: coords[0], lng: coords[1] };
+  })();
+
   const handleSubmitRequest = async () => {
     if (!form.name.trim() || !form.email.includes("@")) return;
     setSubmitting(true);
