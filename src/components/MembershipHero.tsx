@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import { Shield, Plane, UserCheck, Sparkles } from "lucide-react";
+import { trackMembershipRequest } from "@/lib/gtmEvents";
 
 const privileges = [
   { icon: Shield, text: "Priority aircraft access" },
