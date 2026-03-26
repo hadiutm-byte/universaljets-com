@@ -31,12 +31,6 @@ export interface ApiFbo {
 }
 
 async function fetchAirportsForCity(cityName: string): Promise<ApiAirport[]> {
-  const { data, error } = await supabase.functions.invoke("aviapages-airports", {
-    body: undefined,
-    headers: {},
-  });
-
-  // Use query param approach
   const response = await fetch(
     `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/aviapages-airports?q=${encodeURIComponent(cityName)}`,
     {
