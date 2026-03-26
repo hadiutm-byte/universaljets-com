@@ -15,6 +15,7 @@ import MembershipHero from "@/components/MembershipHero";
 import JetCardSection from "@/components/JetCardSection";
 import PartnersSection from "@/components/PartnersSection";
 import FinalCTASection from "@/components/FinalCTASection";
+import SEOContentSection from "@/components/SEOContentSection";
 import Footer from "@/components/Footer";
 import StickyFloatingCTA from "@/components/StickyFloatingCTA";
 
@@ -91,7 +92,10 @@ const Index = () => {
           <PartnersSection />
         </div>
 
-        {/* 11. Final CTA — DARK */}
+        {/* 11. SEO Content — keyword-rich text for Google */}
+        <SEOContentSection />
+
+        {/* 12. Final CTA — DARK */}
         <div className="section-dark">
           <FinalCTASection />
         </div>
