@@ -10,19 +10,28 @@ import { Loader2, Users, Ruler, Gauge, Share2, ArrowRight } from "lucide-react";
 import { toast } from "sonner";
 
 const JET_CATEGORIES = [
-  { label: "All Jets", classId: "" },
-  { label: "Light", classId: "12" },
-  { label: "Midsize", classId: "7" },
-  { label: "Super Midsize", classId: "1" },
-  { label: "Heavy", classId: "6" },
-  { label: "Ultra Long Range", classId: "13" },
+  { label: "All Jets", filter: "" },
+  { label: "Very Light", filter: "very light" },
+  { label: "Light", filter: "light jet" },
+  { label: "Midsize", filter: "midsize" },
+  { label: "Super Midsize", filter: "super midsize" },
+  { label: "Heavy", filter: "heavy" },
+  { label: "Ultra Long Range", filter: "ultra long range" },
 ];
 
 const FleetPage = () => {
-  const [activeCategory, setActiveCategory] = useState("");
-  const { data, isLoading } = useFleetAircraft(activeCategory || undefined);
+  const [activeFilter, setActiveFilter] = useState("");
+  const { data, isLoading } = useFleetAircraft();
 
-  const aircraft = useMemo(() => data?.results || [], [data]);
+  const aircraft = useMemo(() => {
+    const all = data?.results || [];
+    if (!activeFilter) return all;
+    return all.filter(ac => {
+      const cls = (ac.class_name || "").toLowerCase();
+      // Match filter substring — e.g. "light jet" matches "Light Jet", "midsize" matches "Midsize Jet"
+      return cls.includes(activeFilter);
+    });
+  }, [data, activeFilter]);
 
   return (
     <>
