@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useSearchParams, useNavigate } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { motion } from "framer-motion";
-import { ArrowLeft, Plane, Calendar, Users, Clock, Loader2, MessageCircle, Phone, Shield, Star, Wifi, BedDouble, Briefcase } from "lucide-react";
+import { ArrowLeft, Plane, Calendar, Users, Clock, Loader2, MessageCircle, Phone, Shield, Wifi, BedDouble, Briefcase } from "lucide-react";
 import { Gauge, Ruler } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -70,7 +70,7 @@ function formatFlightTime(minutes: number) {
 const SearchResults = () => {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
-  const [quoteModal, setQuoteModal] = useState<{ open: boolean; aircraft?: string; operator?: string }>({ open: false });
+  const [quoteModal, setQuoteModal] = useState<{ open: boolean; aircraft?: string }>({ open: false });
 
   const from_icao = searchParams.get("from_icao") || "";
   const to_icao = searchParams.get("to_icao") || "";
@@ -319,34 +319,24 @@ const SearchResults = () => {
                         </div>
                       )}
 
-                      {/* Operator */}
-                      <div className="flex items-center gap-3 mb-5 p-3 rounded-xl bg-muted/30">
-                        {result.operator.logo_url ? (
-                          <img src={result.operator.logo_url} alt={`${result.operator.name} operator`} className="w-8 h-8 rounded-lg object-contain bg-white p-0.5" />
-                        ) : (
+                      {/* Operator hidden from B2C — privacy policy. Show verified badge instead */}
+                      {result.operator.certified && (
+                        <div className="flex items-center gap-2 mb-5 p-3 rounded-xl bg-muted/30">
                           <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center">
-                            <Plane size={14} className="text-primary/40" />
+                            <Shield size={14} className="text-primary/60" />
                           </div>
-                        )}
-                        <div className="flex-1 min-w-0">
-                          <p className="text-[11px] text-foreground font-medium truncate">{result.operator.name}</p>
-                          <p className="text-[9px] text-muted-foreground font-light">
-                            {result.operator.city}{result.operator.country ? `, ${result.operator.country}` : ''}
-                          </p>
+                          <div>
+                            <p className="text-[11px] text-foreground font-medium">Verified Operator</p>
+                            <p className="text-[9px] text-muted-foreground font-light">ARGUS / WYVERN certified</p>
+                          </div>
                         </div>
-                        {result.operator.avg_response_rate != null && result.operator.avg_response_rate > 0.8 && (
-                          <div className="flex items-center gap-0.5">
-                            <Star size={9} className="text-primary fill-primary" />
-                            <span className="text-[9px] text-primary font-medium">{Math.round(result.operator.avg_response_rate * 100)}%</span>
-                          </div>
-                        )}
-                      </div>
+                      )}
 
                       {/* CTA */}
                       <button
                         onClick={() => {
                           trackQuoteRequest({ aircraft: result.aircraft_type, from: fromLabel, to: toLabel });
-                          setQuoteModal({ open: true, aircraft: result.aircraft_type, operator: result.operator.name });
+                          setQuoteModal({ open: true, aircraft: result.aircraft_type });
                         }}
                         className="block w-full text-center btn-luxury px-5 py-3 text-[9px] tracking-[0.2em] uppercase font-medium rounded-xl"
                       >
@@ -414,7 +404,7 @@ const SearchResults = () => {
           date,
           passengers,
           aircraft: quoteModal.aircraft,
-          operatorName: quoteModal.operator,
+          // operatorName omitted — B2C privacy policy
         }}
       />
     </div>
