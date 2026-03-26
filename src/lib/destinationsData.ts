@@ -262,8 +262,8 @@ export const destinations: Destination[] = [
     heroDesc: "Where royalty and billionaires retreat in winter. St. Moritz offers the world's most exclusive ski experience, champagne-fuelled polo, and the glamour of the Engadin valley.",
     region: "Europe",
     airports: [
-      { name: "Engadin Airport (Samedan)", code: "LSZS / SMV", type: "Regional GA airport", note: "One of Europe's highest airports (1,707m). Challenging approach — experienced crew required." },
-      { name: "Zurich Airport", code: "LSZH / ZRH", type: "International with FBO", note: "Alternative for large cabin aircraft — 3h drive or helicopter to St. Moritz" },
+      { name: "Engadin Airport (Samedan)", code: "LSZS / SMV", icao: "LSZS", type: "Regional GA airport", note: "One of Europe's highest airports (1,707m). Challenging approach — experienced crew required." },
+      { name: "Zurich Airport", code: "LSZH / ZRH", icao: "LSZH", type: "International with FBO", note: "Alternative for large cabin aircraft — 3h drive or helicopter to St. Moritz" },
     ],
     popularRoutes: [
       { from: "London", to: "Samedan", time: "1h 40m", aircraft: "Light / Midsize" },
