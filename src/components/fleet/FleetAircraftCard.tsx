@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import { Users, Gauge, Ruler, Share2 } from "lucide-react";
 import type { AircraftType } from "@/hooks/useAviapages";
 import { getAircraftImage } from "@/lib/aircraftImages";
+import { toast } from "sonner";
 
 interface FleetAircraftCardProps {
   aircraft: AircraftType;
@@ -11,6 +12,27 @@ interface FleetAircraftCardProps {
 
 const FleetAircraftCard = ({ aircraft, index, onClick }: FleetAircraftCardProps) => {
   const imgSrc = aircraft.image_url || getAircraftImage(aircraft.name);
+  const rangeNm = aircraft.range_km ? Math.round(aircraft.range_km / 1.852) : null;
+
+  const handleShare = async (e: React.MouseEvent) => {
+    e.stopPropagation();
+    const text = `${aircraft.name}${aircraft.class_name ? ` — ${aircraft.class_name}` : ""}${aircraft.max_pax ? ` | ${aircraft.max_pax} pax` : ""}${rangeNm ? ` | ${rangeNm.toLocaleString()} nm range` : ""}\n\nUniversal Jets — universaljets.com`;
+    try {
+      if (navigator.share) {
+        await navigator.share({ title: aircraft.name, text, url: window.location.href });
+      } else {
+        await navigator.clipboard.writeText(text);
+        toast.success("Copied to clipboard");
+      }
+    } catch {
+      try {
+        await navigator.clipboard.writeText(text);
+        toast.success("Copied to clipboard");
+      } catch {
+        toast.error("Unable to share");
+      }
+    }
+  };
 
   return (
     <motion.div
@@ -106,7 +128,13 @@ const FleetAircraftCard = ({ aircraft, index, onClick }: FleetAircraftCardProps)
           <span className="text-[10px] tracking-[0.2em] uppercase text-primary font-medium group-hover:tracking-[0.3em] transition-all duration-500">
             View Details
           </span>
-          <Share2 size={12} className="text-muted-foreground/40 group-hover:text-primary transition-colors" />
+          <button
+            onClick={handleShare}
+            className="w-8 h-8 rounded-full flex items-center justify-center text-muted-foreground/40 hover:text-primary hover:bg-muted/30 transition-all"
+            aria-label="Share aircraft"
+          >
+            <Share2 size={12} />
+          </button>
         </div>
       </div>
     </motion.div>

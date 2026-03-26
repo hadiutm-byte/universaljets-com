@@ -21,6 +21,7 @@ interface QuoteRequestModalProps {
     date?: string;
     passengers?: string;
     aircraft?: string;
+    /** @internal — never displayed in B2C views */
     operatorName?: string;
   };
 }

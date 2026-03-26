@@ -478,9 +478,7 @@ function SelectedLegPanel({ leg, onClose }: { leg: EmptyLeg; onClose: () => void
           )}
         </div>
 
-        {leg.company && (
-          <p className="text-[11px] text-muted-foreground/50 font-light mb-5">Operated by {leg.company}</p>
-        )}
+        {/* Operator name hidden from B2C — privacy policy */}
 
         <div className="flex gap-2">
           <a

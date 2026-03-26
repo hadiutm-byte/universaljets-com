@@ -138,9 +138,7 @@ const EmptyLegPopup = ({ leg, onClose }: EmptyLegPopupProps) => {
               )}
             </div>
 
-            {leg.company && (
-              <p className="text-[10px] text-muted-foreground font-light mb-4">Operated by {leg.company}</p>
-            )}
+            {/* Operator name hidden from B2C — privacy policy */}
 
             {/* Request form or CTA */}
             <AnimatePresence mode="wait">
