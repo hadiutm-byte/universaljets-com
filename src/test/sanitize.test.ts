@@ -108,7 +108,9 @@ describe("looksLikeRegistration", () => {
   it("detects registrations", () => {
     expect(looksLikeRegistration("HA-JEX")).toBe(true);
     expect(looksLikeRegistration("D-IRBS")).toBe(true);
-    expect(looksLikeRegistration("N123AB")).toBe(true);
+    // N123AB has no dash separator — not ICAO-style
+    expect(looksLikeRegistration("N123AB")).toBe(false);
+    expect(looksLikeRegistration("9H-VCA")).toBe(true);
     expect(looksLikeRegistration("Gulfstream")).toBe(false);
     expect(looksLikeRegistration(null)).toBe(false);
   });
