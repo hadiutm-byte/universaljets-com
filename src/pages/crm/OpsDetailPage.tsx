@@ -92,6 +92,7 @@ const OpsDetailPage = () => {
   const contract = trip.contracts;
   const quote = contract?.quotes;
   const fr = quote?.flight_requests;
+  const briefSent = activity.some(a => a.action === "flight_brief_sent");
 
   const inputClass = "w-full bg-secondary/50 rounded-lg px-3 py-2.5 text-[13px] text-foreground font-light focus:outline-none focus:ring-1 focus:ring-primary/20 transition-all border border-border/20";
   const labelClass = "text-[9px] tracking-[0.2em] uppercase text-muted-foreground/60 mb-1.5 block font-light";
@@ -111,6 +112,11 @@ const OpsDetailPage = () => {
             <StatusBadge status={trip.status} />
             {trip.aircraft && <span>{trip.aircraft}</span>}
             {trip.date && <span>{new Date(trip.date).toLocaleDateString()}</span>}
+            {briefSent && (
+              <span className="flex items-center gap-1 px-2 py-0.5 bg-emerald-500/10 text-emerald-400 text-[8px] tracking-[0.15em] uppercase rounded-full">
+                <CheckCircle size={8} /> Brief Sent
+              </span>
+            )}
           </div>
         </div>
       </div>
