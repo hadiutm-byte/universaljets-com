@@ -8,7 +8,14 @@ const corsHeaders = {
 const AVIAPAGES_BASE = 'https://dir.aviapages.com';
 
 // Cache aircraft type lookups in memory (refreshed per cold start)
-let aircraftTypeCache: Record<string, { image_url: string | null; class_name: string; max_pax: number | null; range_km: number | null }> = {};
+let aircraftTypeCache: Record<string, {
+  image_url: string | null;
+  all_images: { url: string; type: string }[];
+  floor_plan_url: string | null;
+  class_name: string;
+  max_pax: number | null;
+  range_km: number | null;
+}> = {};
 let cacheLoaded = false;
 
 async function loadAircraftTypeCache(apiKey: string) {
@@ -21,8 +28,25 @@ async function loadAircraftTypeCache(apiKey: string) {
       const data = await response.json();
       for (const at of (data.results || [])) {
         const name = (at.name || '').toLowerCase();
+        const images = (at.images || []);
+        const allImages: { url: string; type: string }[] = [];
+        let floorPlanUrl: string | null = null;
+
+        for (const img of images) {
+          const url = img.media?.path || img.url || null;
+          const imgType = (img.image_type || img.type || 'exterior').toLowerCase();
+          if (url) {
+            allImages.push({ url, type: imgType });
+            if (imgType === 'floor_plan' || imgType === 'floorplan' || imgType === 'layout') {
+              floorPlanUrl = url;
+            }
+          }
+        }
+
         aircraftTypeCache[name] = {
-          image_url: at.images?.[0]?.media?.path || null,
+          image_url: allImages[0]?.url || null,
+          all_images: allImages,
+          floor_plan_url: floorPlanUrl,
           class_name: at.class_name || at.aircraft_class?.name || '',
           max_pax: at.pax_maximum || null,
           range_km: at.range_maximum || null,
@@ -45,7 +69,7 @@ function lookupAircraftType(typeName: string) {
   return null;
 }
 
-/** Comprehensive ICAO → [lat, lng] lookup covering ~300 business aviation airports */
+/** Comprehensive ICAO → [lat, lng] lookup */
 const AIRPORT_COORDS: Record<string, [number, number]> = {
   KJFK:[40.64,-73.78],KLGA:[40.77,-73.87],KEWR:[40.69,-74.17],KTEB:[40.85,-74.06],
   KFRG:[40.73,-73.41],KHPN:[41.07,-73.71],KCDW:[40.88,-74.28],KMMU:[40.80,-74.42],
@@ -206,57 +230,76 @@ serve(async (req) => {
     }
 
     const data = JSON.parse(responseText);
+    const now = new Date();
 
     let enrichedCount = 0;
+    const seenIds = new Set<string>();
+
     const normalized = {
       count: data.count || 0,
-      results: (data.results || []).map((leg: any) => {
-        const aircraftType = leg.aircraft_type || 'Private Jet';
-        const typeData = lookupAircraftType(aircraftType);
+      results: (data.results || [])
+        .filter((leg: any) => {
+          // Deduplicate by id
+          const legId = String(leg.id || leg.availability_id || '');
+          if (seenIds.has(legId)) return false;
+          seenIds.add(legId);
 
-        const depRaw = leg.dep_airport ? {
-          id: leg.dep_airport.id || 0,
-          name: leg.dep_airport.name || '',
-          iata: leg.dep_airport.iata || '',
-          icao: leg.dep_airport.icao || '',
-          city: leg.dep_airport.city?.name || leg.dep_airport.city || '',
-          country: leg.dep_airport.city?.country?.name || leg.dep_airport.country || '',
-          lat: leg.dep_airport.latitude ?? leg.dep_airport.lat ?? null,
-          lng: leg.dep_airport.longitude ?? leg.dep_airport.lng ?? null,
-        } : null;
+          // Expire stale listings (to_date in the past)
+          if (leg.to_date) {
+            const toDate = new Date(leg.to_date);
+            if (toDate < now) return false;
+          }
+          return true;
+        })
+        .map((leg: any) => {
+          const aircraftType = leg.aircraft_type || 'Private Jet';
+          const typeData = lookupAircraftType(aircraftType);
 
-        const arrRaw = leg.arr_airport ? {
-          id: leg.arr_airport.id || 0,
-          name: leg.arr_airport.name || '',
-          iata: leg.arr_airport.iata || '',
-          icao: leg.arr_airport.icao || '',
-          city: leg.arr_airport.city?.name || leg.arr_airport.city || '',
-          country: leg.arr_airport.city?.country?.name || leg.arr_airport.country || '',
-          lat: leg.arr_airport.latitude ?? leg.arr_airport.lat ?? null,
-          lng: leg.arr_airport.longitude ?? leg.arr_airport.lng ?? null,
-        } : null;
+          const depRaw = leg.dep_airport ? {
+            id: leg.dep_airport.id || 0,
+            name: leg.dep_airport.name || '',
+            iata: leg.dep_airport.iata || '',
+            icao: leg.dep_airport.icao || '',
+            city: leg.dep_airport.city?.name || leg.dep_airport.city || '',
+            country: leg.dep_airport.city?.country?.name || leg.dep_airport.country || '',
+            lat: leg.dep_airport.latitude ?? leg.dep_airport.lat ?? null,
+            lng: leg.dep_airport.longitude ?? leg.dep_airport.lng ?? null,
+          } : null;
 
-        const dep = enrichAirportCoords(depRaw);
-        const arr = enrichAirportCoords(arrRaw);
-        if ((dep?.lat != null && depRaw?.lat == null) || (arr?.lat != null && arrRaw?.lat == null)) enrichedCount++;
+          const arrRaw = leg.arr_airport ? {
+            id: leg.arr_airport.id || 0,
+            name: leg.arr_airport.name || '',
+            iata: leg.arr_airport.iata || '',
+            icao: leg.arr_airport.icao || '',
+            city: leg.arr_airport.city?.name || leg.arr_airport.city || '',
+            country: leg.arr_airport.city?.country?.name || leg.arr_airport.country || '',
+            lat: leg.arr_airport.latitude ?? leg.arr_airport.lat ?? null,
+            lng: leg.arr_airport.longitude ?? leg.arr_airport.lng ?? null,
+          } : null;
 
-        return {
-          id: leg.id || leg.availability_id || Math.random(),
-          aircraft_type: aircraftType,
-          aircraft_class: typeData?.class_name || null,
-          aircraft_image: typeData?.image_url || null,
-          aircraft_max_pax: typeData?.max_pax || null,
-          aircraft_range_km: typeData?.range_km || null,
-          company: leg.company || leg.operator?.name || '',
-          from_date: leg.from_date || leg.from_date_utc || '',
-          to_date: leg.to_date || leg.to_date_utc || '',
-          price: leg.price ?? null,
-          currency: leg.currency_code || leg.currency || 'USD',
-          comment: leg.comment || '',
-          departure: dep,
-          arrival: arr,
-        };
-      }),
+          const dep = enrichAirportCoords(depRaw);
+          const arr = enrichAirportCoords(arrRaw);
+          if ((dep?.lat != null && depRaw?.lat == null) || (arr?.lat != null && arrRaw?.lat == null)) enrichedCount++;
+
+          return {
+            id: leg.id || leg.availability_id || Math.random(),
+            aircraft_type: aircraftType,
+            aircraft_class: typeData?.class_name || null,
+            aircraft_image: typeData?.image_url || null,
+            aircraft_images: typeData?.all_images || [],
+            aircraft_floor_plan: typeData?.floor_plan_url || null,
+            aircraft_max_pax: typeData?.max_pax || null,
+            aircraft_range_km: typeData?.range_km || null,
+            company: leg.company || leg.operator?.name || '',
+            from_date: leg.from_date || leg.from_date_utc || '',
+            to_date: leg.to_date || leg.to_date_utc || '',
+            price: leg.price ?? null,
+            currency: leg.currency_code || leg.currency || 'USD',
+            comment: leg.comment || '',
+            departure: dep,
+            arrival: arr,
+          };
+        }),
     };
 
     console.log(`[empty-legs] Enriched ${enrichedCount}/${normalized.results.length} legs with coordinates`);
