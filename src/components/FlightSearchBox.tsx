@@ -8,6 +8,7 @@ import { useCrmApi } from "@/hooks/useCrmApi";
 import DateTimePicker from "@/components/flight-search/DateTimePicker";
 import AirportField from "@/components/flight-search/AirportField";
 import { trackFlightSearch } from "@/lib/gtmEvents";
+import QuoteRouteMap from "@/components/QuoteRouteMap";
 
 type TripType = "one-way" | "round-trip" | "multi-city";
 
