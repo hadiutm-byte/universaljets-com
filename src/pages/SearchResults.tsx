@@ -278,10 +278,10 @@ const SearchResults = () => {
                     {/* Details */}
                     <div className="p-6">
                       {/* Price row — always visible */}
-                      <div className="mb-4 pb-3 border-b border-border/40">
+                      <div className="mb-4 pb-3 border-b border-border/30">
                         <div className="flex items-center justify-between">
                           <div>
-                            <span className={`font-display text-[16px] font-semibold ${
+                            <span className={`font-display text-[17px] font-semibold ${
                               pricing.variant === "exact" ? "text-primary" :
                               pricing.variant === "estimate" ? "text-foreground" :
                               "text-muted-foreground"
@@ -289,17 +289,19 @@ const SearchResults = () => {
                               {pricing.display}
                             </span>
                             {pricing.variant === "estimate" && (
-                              <p className="text-[9px] text-primary/40 font-medium mt-0.5 tracking-[0.05em]">Indicative range · Quote to confirm</p>
+                              <p className="text-[9px] text-muted-foreground/50 mt-1 font-light">Indicative market estimate · Final quote on confirmation</p>
                             )}
                             {pricing.variant === "request" && (
-                              <p className="text-[9px] text-muted-foreground/50 mt-0.5">Contact our team for pricing</p>
+                              <p className="text-[9px] text-muted-foreground/40 mt-1 font-light">Speak to our team for a tailored quote</p>
                             )}
                           </div>
                           {flightTimeMin && (
-                            <span className="flex items-center gap-1 text-[11px] text-muted-foreground font-light">
-                              <Clock size={11} className="text-primary/60" />
-                              {formatDuration(flightTimeMin)}
-                            </span>
+                            <div className="text-right flex-shrink-0 ml-3">
+                              <span className="flex items-center gap-1 text-[12px] text-foreground/70 font-medium">
+                                <Clock size={11} className="text-primary/50" />
+                                {formatDuration(flightTimeMin)}
+                              </span>
+                            </div>
                           )}
                         </div>
                       </div>

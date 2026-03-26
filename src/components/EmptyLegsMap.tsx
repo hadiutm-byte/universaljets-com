@@ -54,17 +54,21 @@ const EmptyLegsMap = () => {
   const [activeRegion, setActiveRegion] = useState("All");
   const [viewMode, setViewMode] = useState<"cards" | "map">("map");
   const [refreshing, setRefreshing] = useState(false);
+  const [lastUpdated, setLastUpdated] = useState<Date>(new Date());
   const { data, isLoading, error, refetch } = useEmptyLegs(activeRegion);
 
   // Auto-refresh every 5 minutes
   useEffect(() => {
-    const interval = setInterval(() => { refetch(); }, 5 * 60 * 1000);
+    const interval = setInterval(() => {
+      refetch().then(() => setLastUpdated(new Date()));
+    }, 5 * 60 * 1000);
     return () => clearInterval(interval);
   }, [refetch]);
 
   const handleRefresh = async () => {
     setRefreshing(true);
     await refetch();
+    setLastUpdated(new Date());
     setTimeout(() => setRefreshing(false), 800);
   };
 

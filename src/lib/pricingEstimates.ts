@@ -123,7 +123,7 @@ export function getCharterPrice(opts: {
       }).format(lowEst);
 
       return {
-        display: `From ${formatted} est.`,
+        display: `From ${formatted} estimate`,
         low: lowEst,
         high: highEst,
         isEstimate: true,
