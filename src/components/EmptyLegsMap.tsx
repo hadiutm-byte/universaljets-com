@@ -180,6 +180,7 @@ const EmptyLegsMap = () => {
               {refreshing ? "Updating…" : "Live Sync"}
             </button>
           </div>
+        </div>
 
         {isLoading && (
           <div className="flex items-center justify-center py-20">
