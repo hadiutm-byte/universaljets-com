@@ -86,8 +86,8 @@ const SearchResults = () => {
 
             <div className="mb-12">
               <p className="text-[11px] tracking-[0.5em] uppercase text-primary mb-4 font-medium">Available Aircraft</p>
-              <h1 className="font-display text-3xl md:text-5xl font-semibold text-foreground leading-tight">
-                {fromLabel} <span className="text-primary mx-3">→</span> {toLabel}
+              <h1 className="font-display text-2xl sm:text-3xl md:text-5xl font-semibold text-foreground leading-tight break-words">
+                {fromLabel} <span className="text-primary mx-1 sm:mx-3">→</span> {toLabel}
               </h1>
               <div className="flex flex-wrap gap-4 mt-4 text-[12px] text-muted-foreground font-light">
                 {date && (
