@@ -1,15 +1,22 @@
+import { useState } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
-import { ArrowLeft, ArrowRight, Plane, MapPin, Calendar, Shield, MessageCircle, Globe, Users, Clock } from "lucide-react";
+import { ArrowLeft, ArrowRight, Plane, MapPin, Calendar, Shield, MessageCircle, Globe, Users, Clock, Building2, Loader2 } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import SEOHead from "@/components/SEOHead";
-import { getDestinationBySlug, destinations as allDestinations } from "@/lib/destinationsData";
+import QuoteRequestModal from "@/components/QuoteRequestModal";
+import { getDestinationBySlug, getDestinationIcaos, destinations as allDestinations } from "@/lib/destinationsData";
+import { useDestinationFbos, type ApiFbo } from "@/hooks/useDestinationData";
 
 const DestinationDetailPage = () => {
   const { slug } = useParams<{ slug: string }>();
   const navigate = useNavigate();
   const dest = getDestinationBySlug(slug || "");
+  const [quoteOpen, setQuoteOpen] = useState(false);
+
+  const icaos = dest ? getDestinationIcaos(dest) : [];
+  const { data: fbos, isLoading: fbosLoading } = useDestinationFbos(icaos);
 
   if (!dest) {
     return (
@@ -24,14 +31,17 @@ const DestinationDetailPage = () => {
     );
   }
 
-  // Get 3 other destinations for "Explore More"
   const others = allDestinations.filter((d) => d.slug !== dest.slug).slice(0, 3);
+  const uniqueFbos = fbos?.reduce((acc: ApiFbo[], fbo) => {
+    if (!acc.find((f) => f.name === fbo.name)) acc.push(fbo);
+    return acc;
+  }, []) || [];
 
   return (
     <div className="min-h-screen bg-background">
       <SEOHead
         title={`${dest.name} — Private Jet Charter | Universal Jets`}
-        description={`Fly private to ${dest.name}. ${dest.tagline}. Airports, routes, aircraft, and concierge services for ${dest.name} private aviation.`}
+        description={`Fly private to ${dest.name}. ${dest.tagline}. Airports, FBOs, routes, and concierge services.`}
         path={`/destinations/${dest.slug}`}
       />
       <Navbar />
@@ -59,13 +69,50 @@ const DestinationDetailPage = () => {
               {dest.name}
             </h1>
             <p className="text-lg md:text-xl text-primary/70 font-light mb-6 italic">{dest.tagline}</p>
-            <p className="text-[15px] text-muted-foreground font-light leading-[1.9] max-w-2xl">{dest.heroDesc}</p>
+            <p className="text-[15px] text-muted-foreground font-light leading-[1.9] max-w-2xl mb-8">{dest.heroDesc}</p>
+            <button
+              onClick={() => setQuoteOpen(true)}
+              className="px-8 py-3 bg-gradient-gold text-primary-foreground text-[10px] tracking-[0.25em] uppercase font-medium rounded-xl hover:shadow-[0_0_30px_-8px_hsla(45,79%,46%,0.4)] transition-all duration-500"
+            >
+              Request a Quote to {dest.name}
+            </button>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* ═══ WHY FLY PRIVATE ═══ */}
+      <section className="py-14 md:py-18">
+        <div className="container mx-auto px-8 max-w-4xl">
+          <motion.div initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }}>
+            <div className="flex items-center gap-3 mb-6">
+              <div className="w-10 h-10 rounded-xl border border-border flex items-center justify-center">
+                <Plane className="w-4 h-4 text-primary/60" strokeWidth={1.3} />
+              </div>
+              <h2 className="font-display text-xl font-semibold text-foreground">Why Fly Private to {dest.name}</h2>
+            </div>
+            <div className="rounded-xl border border-border bg-card p-6 md:p-8">
+              <p className="text-[14px] text-muted-foreground font-light leading-[1.9] mb-5">{dest.bookingTip}</p>
+              <div className="grid sm:grid-cols-3 gap-4">
+                <div className="text-center p-4 rounded-lg bg-muted/30">
+                  <p className="text-[22px] font-display font-semibold text-foreground mb-1">{dest.airports.length}</p>
+                  <p className="text-[10px] tracking-[0.15em] uppercase text-muted-foreground/60 font-light">Airport{dest.airports.length !== 1 ? 's' : ''}</p>
+                </div>
+                <div className="text-center p-4 rounded-lg bg-muted/30">
+                  <p className="text-[22px] font-display font-semibold text-foreground mb-1">{dest.popularRoutes.length}</p>
+                  <p className="text-[10px] tracking-[0.15em] uppercase text-muted-foreground/60 font-light">Popular Routes</p>
+                </div>
+                <div className="text-center p-4 rounded-lg bg-muted/30">
+                  <p className="text-[22px] font-display font-semibold text-foreground mb-1">{dest.aircraftCategories.length}</p>
+                  <p className="text-[10px] tracking-[0.15em] uppercase text-muted-foreground/60 font-light">Aircraft Categories</p>
+                </div>
+              </div>
+            </div>
           </motion.div>
         </div>
       </section>
 
       {/* ═══ AIRPORTS ═══ */}
-      <section className="py-16 md:py-20 bg-muted/30">
+      <section className="py-14 md:py-18 bg-muted/30">
         <div className="container mx-auto px-8 max-w-4xl">
           <motion.div initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }}>
             <div className="flex items-center gap-3 mb-8">
@@ -88,7 +135,12 @@ const DestinationDetailPage = () => {
                   <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-3">
                     <div>
                       <h3 className="font-display text-base font-medium text-foreground mb-1">{ap.name}</h3>
-                      <span className="text-[11px] tracking-[0.15em] uppercase text-primary/60 font-medium">{ap.code}</span>
+                      <div className="flex items-center gap-3">
+                        <span className="text-[11px] tracking-[0.15em] uppercase text-primary/60 font-medium">{ap.code}</span>
+                        {ap.icao && (
+                          <span className="text-[10px] text-muted-foreground/40 font-light">ICAO: {ap.icao}</span>
+                        )}
+                      </div>
                     </div>
                     <span className="px-3 py-1 rounded-full text-[10px] tracking-[0.15em] uppercase bg-muted text-muted-foreground font-medium self-start">
                       {ap.type}
@@ -104,15 +156,73 @@ const DestinationDetailPage = () => {
         </div>
       </section>
 
+      {/* ═══ FBO / VIP TERMINALS (Live API) ═══ */}
+      {(fbosLoading || uniqueFbos.length > 0) && (
+        <section className="py-14 md:py-18">
+          <div className="container mx-auto px-8 max-w-4xl">
+            <motion.div initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }}>
+              <div className="flex items-center gap-3 mb-8">
+                <div className="w-10 h-10 rounded-xl border border-border flex items-center justify-center">
+                  <Building2 className="w-4 h-4 text-primary/60" strokeWidth={1.3} />
+                </div>
+                <div>
+                  <h2 className="font-display text-xl font-semibold text-foreground">FBO & VIP Terminal Services</h2>
+                  <p className="text-[10px] text-muted-foreground/40 font-light mt-0.5">Live data from aviation directory</p>
+                </div>
+              </div>
+
+              {fbosLoading ? (
+                <div className="flex items-center justify-center py-12">
+                  <Loader2 className="w-5 h-5 animate-spin text-primary/40" />
+                  <span className="ml-3 text-[11px] text-muted-foreground/50 font-light">Loading FBO data…</span>
+                </div>
+              ) : (
+                <div className="grid sm:grid-cols-2 gap-4">
+                  {uniqueFbos.slice(0, 8).map((fbo, i) => (
+                    <motion.div
+                      key={fbo.id}
+                      initial={{ opacity: 0, y: 12 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      viewport={{ once: true }}
+                      transition={{ delay: i * 0.05 }}
+                      className="rounded-xl border border-border bg-card p-5"
+                    >
+                      <h3 className="font-display text-sm font-medium text-foreground mb-1">{fbo.name}</h3>
+                      <p className="text-[10px] text-muted-foreground/50 font-light mb-3">
+                        {fbo.airport_name} ({fbo.airport_icao}{fbo.airport_iata ? ` / ${fbo.airport_iata}` : ''})
+                      </p>
+                      <div className="flex flex-wrap gap-1.5">
+                        {fbo.vip_lounge && (
+                          <span className="px-2 py-0.5 rounded-md bg-primary/10 text-[9px] tracking-[0.1em] text-primary/70 font-medium uppercase">VIP Lounge</span>
+                        )}
+                        {fbo.customs && (
+                          <span className="px-2 py-0.5 rounded-md bg-muted text-[9px] tracking-[0.1em] text-muted-foreground/60 font-medium uppercase">Customs</span>
+                        )}
+                        {fbo.hangar && (
+                          <span className="px-2 py-0.5 rounded-md bg-muted text-[9px] tracking-[0.1em] text-muted-foreground/60 font-medium uppercase">Hangar</span>
+                        )}
+                        {fbo.fuel && (
+                          <span className="px-2 py-0.5 rounded-md bg-muted text-[9px] tracking-[0.1em] text-muted-foreground/60 font-medium uppercase">Fuel</span>
+                        )}
+                      </div>
+                    </motion.div>
+                  ))}
+                </div>
+              )}
+            </motion.div>
+          </div>
+        </section>
+      )}
+
       {/* ═══ POPULAR ROUTES ═══ */}
-      <section className="py-16 md:py-20">
+      <section className="py-14 md:py-18 bg-muted/30">
         <div className="container mx-auto px-8 max-w-4xl">
           <motion.div initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }}>
             <div className="flex items-center gap-3 mb-8">
               <div className="w-10 h-10 rounded-xl border border-border flex items-center justify-center">
                 <Plane className="w-4 h-4 text-primary/60" strokeWidth={1.3} />
               </div>
-              <h2 className="font-display text-xl font-semibold text-foreground">Popular Routes</h2>
+              <h2 className="font-display text-xl font-semibold text-foreground">Route Inspiration</h2>
             </div>
 
             <div className="grid sm:grid-cols-2 gap-4">
@@ -130,19 +240,19 @@ const DestinationDetailPage = () => {
                     <ArrowRight className="w-3.5 h-3.5 text-primary/40" />
                     <span className="text-[14px] font-display font-medium text-foreground">{route.to}</span>
                   </div>
-                  <div className="flex items-center gap-4">
+                  <div className="flex items-center gap-4 mb-3">
                     <div className="flex items-center gap-1.5">
                       <Clock className="w-3 h-3 text-muted-foreground/40" strokeWidth={1.3} />
                       <span className="text-[11px] text-muted-foreground/60 font-light">{route.time}</span>
                     </div>
                     <span className="text-[10px] text-primary/50 font-light">{route.aircraft}</span>
                   </div>
-                  <Link
-                    to="/request-flight"
-                    className="mt-3 inline-flex items-center gap-1.5 text-[10px] tracking-[0.2em] uppercase text-primary/50 font-medium hover:text-primary transition-colors"
+                  <button
+                    onClick={() => setQuoteOpen(true)}
+                    className="inline-flex items-center gap-1.5 text-[10px] tracking-[0.2em] uppercase text-primary/50 font-medium hover:text-primary transition-colors"
                   >
                     Request This Route <ArrowRight size={10} />
-                  </Link>
+                  </button>
                 </motion.div>
               ))}
             </div>
@@ -151,10 +261,9 @@ const DestinationDetailPage = () => {
       </section>
 
       {/* ═══ AIRCRAFT + SEASONAL ═══ */}
-      <section className="py-16 md:py-20 bg-muted/30">
+      <section className="py-14 md:py-18">
         <div className="container mx-auto px-8 max-w-4xl">
           <div className="grid md:grid-cols-2 gap-8">
-            {/* Aircraft Categories */}
             <motion.div initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
               <div className="flex items-center gap-3 mb-6">
                 <div className="w-10 h-10 rounded-xl border border-border flex items-center justify-center">
@@ -177,7 +286,6 @@ const DestinationDetailPage = () => {
               </Link>
             </motion.div>
 
-            {/* Seasonal Insights */}
             <motion.div initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.1 }}>
               <div className="flex items-center gap-3 mb-6">
                 <div className="w-10 h-10 rounded-xl border border-border flex items-center justify-center">
@@ -196,10 +304,9 @@ const DestinationDetailPage = () => {
       </section>
 
       {/* ═══ CONCIERGE & LIFESTYLE ═══ */}
-      <section className="py-16 md:py-20">
+      <section className="py-14 md:py-18 bg-muted/30">
         <div className="container mx-auto px-8 max-w-4xl">
           <div className="grid md:grid-cols-2 gap-10">
-            {/* Concierge */}
             <motion.div initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
               <div className="flex items-center gap-3 mb-6">
                 <div className="w-10 h-10 rounded-xl border border-border flex items-center justify-center">
@@ -223,7 +330,6 @@ const DestinationDetailPage = () => {
               </Link>
             </motion.div>
 
-            {/* Lifestyle */}
             <motion.div initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.1 }}>
               <div className="flex items-center gap-3 mb-6">
                 <div className="w-10 h-10 rounded-xl border border-border flex items-center justify-center">
@@ -244,22 +350,7 @@ const DestinationDetailPage = () => {
         </div>
       </section>
 
-      {/* ═══ BOOKING TIP ═══ */}
-      <section className="py-10">
-        <div className="container mx-auto px-8 max-w-4xl">
-          <motion.div
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
-            className="rounded-xl border border-primary/15 bg-primary/[0.03] p-6 md:p-8"
-          >
-            <p className="text-[10px] tracking-[0.3em] uppercase text-primary/60 font-medium mb-3">Advisory Note</p>
-            <p className="text-[14px] text-foreground/70 font-light leading-[1.9]">{dest.bookingTip}</p>
-          </motion.div>
-        </div>
-      </section>
-
-      {/* ═══ CTA ═══ */}
+      {/* ═══ STICKY CTA ═══ */}
       <section className="py-16 md:py-24">
         <div className="container mx-auto px-8 max-w-xl text-center">
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
@@ -271,12 +362,12 @@ const DestinationDetailPage = () => {
               Tell us your dates and requirements — we'll source the best aircraft and handle every detail.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link
-                to="/request-flight"
+              <button
+                onClick={() => setQuoteOpen(true)}
                 className="px-10 py-3.5 bg-gradient-gold text-primary-foreground text-[10px] tracking-[0.2em] uppercase font-medium rounded-xl hover:shadow-[0_0_30px_-8px_hsla(45,79%,46%,0.4)] transition-all duration-500"
               >
-                Request This Trip
-              </Link>
+                Request a Quote
+              </button>
               <a
                 href="https://wa.me/971585918498"
                 target="_blank"
@@ -291,7 +382,7 @@ const DestinationDetailPage = () => {
       </section>
 
       {/* ═══ EXPLORE MORE ═══ */}
-      <section className="py-16 md:py-20 bg-muted/30">
+      <section className="py-14 md:py-18 bg-muted/30">
         <div className="container mx-auto px-8 max-w-4xl">
           <p className="text-[11px] tracking-[0.4em] uppercase text-primary mb-8 font-medium text-center">Explore More</p>
           <div className="grid sm:grid-cols-3 gap-5">
@@ -310,6 +401,13 @@ const DestinationDetailPage = () => {
       </section>
 
       <Footer />
+
+      {/* Quote Modal with destination context */}
+      <QuoteRequestModal
+        isOpen={quoteOpen}
+        onClose={() => setQuoteOpen(false)}
+        preferredAircraft={`Destination: ${dest.name}`}
+      />
     </div>
   );
 };
