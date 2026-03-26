@@ -37,7 +37,8 @@ const LiveMarketSection = () => {
         const aircraft = leg.aircraft_type;
         const price = leg.price;
         const currency = leg.currency || "USD";
-        return { from, to, status, statusColor, urgency, aircraft, price, currency };
+        const pax = leg.aircraft_max_pax;
+        return { from, to, status, statusColor, urgency, aircraft, price, currency, pax };
       });
   }, [data]);
 
