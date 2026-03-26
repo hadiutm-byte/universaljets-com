@@ -26,6 +26,10 @@ const EmptyLegCard = ({ leg, index, onClick }: EmptyLegCardProps) => {
   const image = leg.aircraft_image || getAircraftImage(leg.aircraft_type || "midsize");
   const category = leg.aircraft_class || getAircraftCategory(leg.aircraft_type || "midsize");
 
+  // Use gallery images if available, show dots for multiple
+  const galleryImages = leg.aircraft_images?.filter((img, i, arr) => arr.findIndex(x => x.url === img.url) === i) || [];
+  const hasMultipleImages = galleryImages.length > 1;
+
   const handleShare = async (e: React.MouseEvent) => {
     e.stopPropagation();
 
@@ -33,44 +37,34 @@ const EmptyLegCard = ({ leg, index, onClick }: EmptyLegCardProps) => {
 
     try {
       const blob = await generateEmptyLegShareCard({
-        fromCode,
-        fromCity,
-        toCode,
-        toCity,
-        date,
-        price: priceLabel,
-        aircraftType: leg.aircraft_type || "Private Jet",
-        category,
+        fromCode, fromCity, toCode, toCity, date, price: priceLabel,
+        aircraftType: leg.aircraft_type || "Private Jet", category,
       });
-
       const file = new File([blob], `universal-jets-empty-leg-${fromCode}-${toCode}.png`, { type: "image/png" });
 
       if (navigator.share && navigator.canShare?.({ files: [file] })) {
-        await navigator.share({
-          title: `Empty Leg: ${fromCity} → ${toCity}`,
-          text: shareText,
-          files: [file],
-        });
-      } else if (navigator.share) {
-        await navigator.share({ title: `Empty Leg: ${fromCity} → ${toCity}`, text: shareText });
-      } else {
-        // Desktop fallback: download image + copy text
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement("a");
-        a.href = url;
-        a.download = `universal-jets-empty-leg-${fromCode}-${toCode}.png`;
-        a.click();
-        URL.revokeObjectURL(url);
-        await navigator.clipboard.writeText(shareText);
-        toast.success("Branded card downloaded & details copied to clipboard");
+        await navigator.share({ title: `Empty Leg: ${fromCity} → ${toCity}`, text: shareText, files: [file] });
+        return;
       }
-    } catch {
-      // Fallback to text-only
       if (navigator.share) {
-        try { await navigator.share({ title: `Empty Leg: ${fromCity} → ${toCity}`, text: shareText }); } catch {}
-      } else {
+        await navigator.share({ title: `Empty Leg: ${fromCity} → ${toCity}`, text: shareText });
+        return;
+      }
+      // Desktop fallback: download + copy
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `universal-jets-empty-leg-${fromCode}-${toCode}.png`;
+      a.click();
+      URL.revokeObjectURL(url);
+      await navigator.clipboard.writeText(shareText);
+      toast.success("Share card downloaded & details copied");
+    } catch {
+      try {
         await navigator.clipboard.writeText(shareText);
-        toast.success("Empty leg details copied to clipboard");
+        toast.success("Details copied to clipboard");
+      } catch {
+        toast.error("Unable to share");
       }
     }
   };
@@ -87,7 +81,7 @@ const EmptyLegCard = ({ leg, index, onClick }: EmptyLegCardProps) => {
       <div className="relative h-36 overflow-hidden">
         <img
           src={image}
-          alt={leg.aircraft_type || "Private Jet"}
+          alt={`${leg.aircraft_type || "Private Jet"} aircraft`}
           loading="lazy"
           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
         />
@@ -112,6 +106,14 @@ const EmptyLegCard = ({ leg, index, onClick }: EmptyLegCardProps) => {
         <div className="absolute bottom-3 left-3">
           <p className="text-white text-[13px] font-display font-medium drop-shadow-lg">{leg.aircraft_type}</p>
         </div>
+        {/* Multi-image indicator */}
+        {hasMultipleImages && (
+          <div className="absolute bottom-2 right-3 flex gap-0.5">
+            {galleryImages.slice(0, 5).map((_, i) => (
+              <div key={i} className="w-1 h-1 rounded-full bg-white/50" />
+            ))}
+          </div>
+        )}
       </div>
 
       <div className="p-5">
