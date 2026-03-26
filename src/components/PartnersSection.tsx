@@ -19,7 +19,7 @@ const partnerCards = [
     badges: ["Visa Infinite", "Mastercard World Elite", "Amex"],
     featured: true,
     cta: "Explore Program",
-    href: "/contact",
+    href: "/partners",
   },
   {
     icon: Globe,
