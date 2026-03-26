@@ -69,6 +69,9 @@ const CrmDashboard = () => {
         </p>
       </div>
 
+      {/* Client Identification Panel */}
+      {isSales && <ClientIdentifier />}
+
       {loading ? (
         <div className="flex items-center justify-center py-20">
           <div className="w-5 h-5 border border-primary/30 border-t-primary/80 rounded-full animate-spin" />
