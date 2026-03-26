@@ -10,6 +10,7 @@ import QuoteRouteMap from "@/components/QuoteRouteMap";
 import type { Airport } from "@/hooks/useAviapages";
 import AIRPORT_COORDS from "@/lib/airportCoords";
 import { greatCircleDistanceNm, estimateFlightTimeMin, getCharterPrice, formatDuration, formatDistance } from "@/lib/pricingEstimates";
+import { useDestinationFbos, type ApiFbo } from "@/hooks/useDestinationData";
 
 interface QuoteRequestModalProps {
   open: boolean;

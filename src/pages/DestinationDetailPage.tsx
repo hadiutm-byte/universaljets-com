@@ -156,25 +156,25 @@ const DestinationDetailPage = () => {
         </div>
       </section>
 
-      {/* ═══ FBO / VIP TERMINALS (Live API) ═══ */}
+      {/* ═══ PRIVATE TERMINAL ACCESS ═══ */}
       {(fbosLoading || uniqueFbos.length > 0) && (
         <section className="py-14 md:py-18">
           <div className="container mx-auto px-8 max-w-4xl">
             <motion.div initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }}>
-              <div className="flex items-center gap-3 mb-8">
+              <div className="flex items-center gap-3 mb-3">
                 <div className="w-10 h-10 rounded-xl border border-border flex items-center justify-center">
                   <Building2 className="w-4 h-4 text-primary/60" strokeWidth={1.3} />
                 </div>
-                <div>
-                  <h2 className="font-display text-xl font-semibold text-foreground">FBO & VIP Terminal Services</h2>
-                  <p className="text-[10px] text-muted-foreground/40 font-light mt-0.5">Live data from aviation directory</p>
-                </div>
+                <h2 className="font-display text-xl font-semibold text-foreground">Private Terminal Access</h2>
               </div>
+              <p className="text-[13px] text-muted-foreground/60 font-light leading-[1.8] mb-8 max-w-2xl">
+                Skip the commercial terminal entirely. Arrive at a private VIP facility with dedicated security, customs clearance, and direct tarmac access to your aircraft.
+              </p>
 
               {fbosLoading ? (
                 <div className="flex items-center justify-center py-12">
                   <Loader2 className="w-5 h-5 animate-spin text-primary/40" />
-                  <span className="ml-3 text-[11px] text-muted-foreground/50 font-light">Loading FBO data…</span>
+                  <span className="ml-3 text-[11px] text-muted-foreground/50 font-light">Loading terminal data…</span>
                 </div>
               ) : (
                 <div className="grid sm:grid-cols-2 gap-4">
@@ -196,7 +196,7 @@ const DestinationDetailPage = () => {
                           <span className="px-2 py-0.5 rounded-md bg-primary/10 text-[9px] tracking-[0.1em] text-primary/70 font-medium uppercase">VIP Lounge</span>
                         )}
                         {fbo.customs && (
-                          <span className="px-2 py-0.5 rounded-md bg-muted text-[9px] tracking-[0.1em] text-muted-foreground/60 font-medium uppercase">Customs</span>
+                          <span className="px-2 py-0.5 rounded-md bg-muted text-[9px] tracking-[0.1em] text-muted-foreground/60 font-medium uppercase">Private Customs</span>
                         )}
                         {fbo.hangar && (
                           <span className="px-2 py-0.5 rounded-md bg-muted text-[9px] tracking-[0.1em] text-muted-foreground/60 font-medium uppercase">Hangar</span>
