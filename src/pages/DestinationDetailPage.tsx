@@ -404,7 +404,7 @@ const DestinationDetailPage = () => {
 
       {/* Quote Modal with destination context */}
       <QuoteRequestModal
-        isOpen={quoteOpen}
+        open={quoteOpen}
         onClose={() => setQuoteOpen(false)}
         preferredAircraft={`Destination: ${dest.name}`}
       />
