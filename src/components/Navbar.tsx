@@ -8,7 +8,7 @@ const centerLinks = [
   { label: "Charter", href: "/#services" },
   { label: "Empty Legs", href: "/#empty-legs" },
   { label: "Fleet", href: "/fleet" },
-  { label: "Membership", href: "/members" },
+  { label: "Membership", href: "/membership" },
   { label: "About", href: "/about" },
 ];
 
@@ -17,7 +17,7 @@ const overlayLinks = [
   { label: "Charter Flights", href: "/#services" },
   { label: "Empty Legs", href: "/#empty-legs" },
   { label: "Fleet", href: "/fleet" },
-  { label: "Membership", href: "/members" },
+  { label: "Membership", href: "/membership" },
   { label: "Concierge", href: "/concierge" },
   { label: "ACMI & Leasing", href: "/acmi-leasing" },
   { label: "Jet Card", href: "/jet-card" },
