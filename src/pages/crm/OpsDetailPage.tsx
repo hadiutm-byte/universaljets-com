@@ -49,7 +49,7 @@ const OpsDetailPage = () => {
     });
   };
 
-  const updateTripStatus = async (status: string) => {
+  const updateTripStatus = async (status: "scheduled" | "in_progress" | "completed" | "cancelled") => {
     setActionLoading(status);
     await supabase.from("trips").update({ status }).eq("id", tripId!);
     await logActivity(`status_${status}`, `Trip status changed to ${status}`);
