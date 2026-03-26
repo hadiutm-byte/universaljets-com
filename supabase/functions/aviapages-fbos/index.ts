@@ -21,8 +21,9 @@ serve(async (req) => {
     const query = url.searchParams.get('q') || '';
 
     const params = new URLSearchParams({ page_size: '20' });
-    if (airportIcao) params.set('airport__icao', airportIcao);
-    if (query) params.set('search', query);
+    // The Aviapages FBO API uses 'search' for ICAO/text filtering
+    if (airportIcao) params.set('search', airportIcao);
+    else if (query) params.set('search', query);
 
     const response = await fetch(`${AVIAPAGES_BASE}/api/fbos/?${params.toString()}`, {
       headers: { 'Authorization': `Token ${apiKey}`, 'Accept': 'application/json' },
