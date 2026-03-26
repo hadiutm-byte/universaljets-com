@@ -100,7 +100,7 @@ const OpsDetailPage = () => {
       {canManage && (
         <div className="flex flex-wrap gap-2 p-4 rounded-xl border border-border/20 bg-card/50">
           <span className="text-[8px] tracking-[0.3em] uppercase text-muted-foreground/40 self-center mr-2">Status</span>
-          {["scheduled", "in_progress", "completed", "cancelled"].map(s => (
+          {(["scheduled", "in_progress", "completed", "cancelled"] as const).map(s => (
             <button key={s} onClick={() => updateTripStatus(s)} disabled={trip.status === s || actionLoading !== null}
               className={`px-3 py-2 text-[9px] tracking-wider uppercase rounded-lg transition-all ${trip.status === s ? "bg-primary/20 text-primary" : "bg-secondary/50 text-foreground/60 hover:bg-secondary/80"} disabled:opacity-40`}>
               {s.replace(/_/g, " ")}
