@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams, useSearchParams } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { Plane, Users, Ruler, Clock, Briefcase, CheckCircle, XCircle, Calendar, Shield, MapPin } from "lucide-react";
+import { sanitizeAircraftName } from "@/lib/sanitize";
 import { getAircraftImage, getAircraftCategory } from "@/lib/aircraftImages";
 import { toast } from "sonner";
 
