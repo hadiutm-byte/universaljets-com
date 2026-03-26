@@ -62,7 +62,7 @@ const HeroSection = () => {
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1.2, delay: 0.5 }}
-          className="font-body text-[10px] md:text-[11px] tracking-[0.65em] uppercase text-white mb-14 font-medium"
+          className="font-display text-[10px] md:text-[11px] tracking-[0.65em] uppercase text-white mb-14 font-medium"
           style={{ textShadow: "0 2px 12px hsla(0,0%,0%,0.8)" }}
         >
           Private Aviation Redefined
@@ -73,7 +73,7 @@ const HeroSection = () => {
           initial={{ opacity: 0, y: 45 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1.4, delay: 0.7, ease: [0.16, 1, 0.3, 1] }}
-          className="font-body leading-[0.95] tracking-[-0.01em] mb-4"
+          className="font-display leading-[0.95] tracking-[-0.01em] mb-4"
         >
           <span
             className="block text-[2.5rem] sm:text-[3rem] md:text-[4.5rem] lg:text-[6.2rem] font-semibold text-white"
@@ -83,13 +83,13 @@ const HeroSection = () => {
           </span>
         </motion.h1>
 
-        {/* "Without Limits" — same font, slightly smaller, soft gold */}
+        {/* "Without Limits" — bold italic, same font family */}
         <motion.p
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1.4, delay: 0.85, ease: [0.16, 1, 0.3, 1] }}
-          className="font-body text-[2rem] sm:text-[2.8rem] md:text-[3.8rem] lg:text-[5.2rem] font-light tracking-[-0.01em] text-primary mb-10"
-          style={{ textShadow: "0 4px 30px hsla(40,42%,42%,0.35), 0 2px 0 hsla(0,0%,0%,0.3)" }}
+          className="font-display text-[2rem] sm:text-[2.8rem] md:text-[3.8rem] lg:text-[5.2rem] font-bold italic tracking-[-0.01em] text-primary mb-10"
+          style={{ textShadow: "0 4px 30px hsla(40,42%,42%,0.4), 0 2px 0 hsla(0,0%,0%,0.4)" }}
         >
           Without Limits.
         </motion.p>
@@ -102,7 +102,7 @@ const HeroSection = () => {
           className="max-w-lg mx-auto mb-14"
         >
           <p
-            className="font-body text-[16px] md:text-[19px] text-white/90 font-light leading-[1.6] tracking-[0.02em]"
+            className="font-display text-[16px] md:text-[19px] text-white/90 font-normal leading-[1.6] tracking-[0.02em]"
             style={{ textShadow: "0 2px 20px hsla(0,0%,0%,0.8)" }}
           >
             Global access. Instant quotes. Tailored journeys.
