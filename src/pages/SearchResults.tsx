@@ -70,7 +70,7 @@ function formatFlightTime(minutes: number) {
 const SearchResults = () => {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
-  const [quoteModal, setQuoteModal] = useState<{ open: boolean; aircraft?: string; operator?: string }>({ open: false });
+  const [quoteModal, setQuoteModal] = useState<{ open: boolean; aircraft?: string }>({ open: false });
 
   const from_icao = searchParams.get("from_icao") || "";
   const to_icao = searchParams.get("to_icao") || "";
