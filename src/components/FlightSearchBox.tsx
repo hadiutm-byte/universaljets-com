@@ -7,6 +7,7 @@ import { useAirportSearch, type Airport } from "@/hooks/useAviapages";
 import { useCrmApi } from "@/hooks/useCrmApi";
 import DateTimePicker from "@/components/flight-search/DateTimePicker";
 import AirportField from "@/components/flight-search/AirportField";
+import { trackFlightSearch } from "@/lib/gtmEvents";
 
 type TripType = "one-way" | "round-trip" | "multi-city";
 
