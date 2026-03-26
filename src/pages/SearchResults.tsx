@@ -139,20 +139,20 @@ const SearchResults = () => {
                 Our concierge team can source aircraft from our global network within minutes.
               </p>
               <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
+                <button
+                  onClick={() => setQuoteModal({ open: true })}
+                  className="btn-luxury px-8 py-3 text-[10px] tracking-[0.25em] uppercase font-medium rounded-xl inline-flex items-center gap-2"
+                >
+                  Request Quote
+                </button>
                 <a
                   href={`https://wa.me/447888999944?text=${encodeURIComponent(`Hello, I'd like to charter a flight from ${fromLabel} to ${toLabel}${date ? ` on ${date}` : ''}${passengers ? ` for ${passengers} passengers` : ''}.`)}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="btn-luxury px-8 py-3 text-[10px] tracking-[0.25em] uppercase font-medium rounded-xl inline-flex items-center gap-2"
-                >
-                  <MessageCircle size={12} /> Request via WhatsApp
-                </a>
-                <button
-                  onClick={() => document.dispatchEvent(new CustomEvent("open-ricky-booking"))}
                   className="flex items-center gap-2 px-8 py-3 border border-border text-foreground/50 hover:text-foreground text-[10px] tracking-[0.25em] uppercase font-light rounded-xl transition-colors"
                 >
-                  Speak to Ricky
-                </button>
+                  <MessageCircle size={12} /> WhatsApp Advisor
+                </a>
               </div>
             </motion.div>
           )}
