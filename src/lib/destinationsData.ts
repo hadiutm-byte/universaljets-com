@@ -74,10 +74,10 @@ export const destinations: Destination[] = [
     heroDesc: "Culture, power, and privilege in every corner. London remains the epicentre of global finance, luxury real estate, and private aviation, with more FBOs and private terminals than any other European city.",
     region: "Europe",
     airports: [
-      { name: "Farnborough Airport", code: "EGLF / FAB", type: "Dedicated Business Aviation", note: "UK's premier private jet airport — 100% business aviation" },
-      { name: "London Luton", code: "EGGW / LTN", type: "FBO & Commercial", note: "Major FBO hub with Signature & Harrods Aviation" },
-      { name: "RAF Northolt", code: "EGWU", type: "Military / VIP only", note: "Closest to Central London — restricted access" },
-      { name: "London Biggin Hill", code: "EGKB / BQH", type: "Business Aviation" },
+      { name: "Farnborough Airport", code: "EGLF / FAB", icao: "EGLF", type: "Dedicated Business Aviation", note: "UK's premier private jet airport — 100% business aviation" },
+      { name: "London Luton", code: "EGGW / LTN", icao: "EGGW", type: "FBO & Commercial", note: "Major FBO hub with Signature & Harrods Aviation" },
+      { name: "RAF Northolt", code: "EGWU", icao: "EGWU", type: "Military / VIP only", note: "Closest to Central London — restricted access" },
+      { name: "London Biggin Hill", code: "EGKB / BQH", icao: "EGKB", type: "Business Aviation" },
     ],
     popularRoutes: [
       { from: "London", to: "Nice", time: "1h 50m", aircraft: "Light / Midsize" },
