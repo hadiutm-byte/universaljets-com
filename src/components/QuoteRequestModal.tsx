@@ -83,10 +83,10 @@ const QuoteRequestModal = ({ open, onClose, flightData }: QuoteRequestModalProps
 
   // Build airport objects for the map
   const fromAirport: Airport | null = flightData.fromIcao
-    ? { id: 0, icao: flightData.fromIcao, iata: "", name: flightData.fromLabel, city: "", country: "", lat: 0, lng: 0 }
+    ? { id: 0, icao: flightData.fromIcao, iata: "", name: flightData.fromLabel, city: "", country: "", lat: null as unknown as number, lng: null as unknown as number }
     : null;
   const toAirport: Airport | null = flightData.toIcao
-    ? { id: 0, icao: flightData.toIcao, iata: "", name: flightData.toLabel, city: "", country: "", lat: 0, lng: 0 }
+    ? { id: 0, icao: flightData.toIcao, iata: "", name: flightData.toLabel, city: "", country: "", lat: null as unknown as number, lng: null as unknown as number }
     : null;
 
   // Resolve coords from airportCoords
@@ -101,7 +101,7 @@ const QuoteRequestModal = ({ open, onClose, flightData }: QuoteRequestModalProps
 
   // Route calculations for pricing estimate
   const routeInfo = useMemo(() => {
-    if (!fromAirport?.lat || !toAirport?.lat) return null;
+    if (fromAirport?.lat == null || toAirport?.lat == null) return null;
     const distanceNm = greatCircleDistanceNm(fromAirport.lat, fromAirport.lng, toAirport.lat, toAirport.lng);
     const flightTimeMin = estimateFlightTimeMin(distanceNm);
     // Determine class from aircraft name if available
