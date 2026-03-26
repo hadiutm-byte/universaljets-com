@@ -140,21 +140,40 @@ const Footer = () => (
     </div>
 
     {/* BOTTOM */}
-    <div className="pt-5 flex flex-col md:flex-row items-start md:items-center justify-between gap-3 border-t border-white/8">
-      <p className="text-[12px] text-white/40">
-        © {new Date().getFullYear()} Universal Jets Aviation Brokerage FZCO. All rights reserved.
-      </p>
-      <div className="flex items-center gap-5">
+    <div className="pt-8 flex flex-col items-center gap-6 border-t border-white/[0.06]">
+      {/* Legal links */}
+      <div className="flex items-center gap-6">
         {[
           { label: "Terms", href: "/terms" },
           { label: "Privacy", href: "/privacy" },
           { label: "Cookies", href: "/cookies" },
-        ].map((l) => (
-          <Link key={l.label} to={l.href} className="text-[10px] tracking-[0.15em] text-white/40 hover:text-white transition-colors uppercase">
-            {l.label}
-          </Link>
+        ].map((l, i) => (
+          <span key={l.label} className="flex items-center gap-6">
+            {i > 0 && <span className="text-white/10">·</span>}
+            <Link to={l.href} className="text-[10px] tracking-[0.2em] text-white/30 hover:text-white/60 transition-colors uppercase">
+              {l.label}
+            </Link>
+          </span>
         ))}
       </div>
+
+      {/* Divider line */}
+      <div className="w-16 h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
+
+      {/* Corporate identity block */}
+      <div className="text-center space-y-2">
+        <p className="text-[11px] tracking-[0.35em] uppercase text-white/25 font-light">
+          Universal Jets F.Z.C.O.
+        </p>
+        <p className="text-[10px] tracking-[0.15em] text-white/20 font-light">
+          © {new Date().getFullYear()} Universal Jets. All Rights Reserved.
+        </p>
+      </div>
+
+      {/* Credit line */}
+      <p className="text-[9px] tracking-[0.2em] uppercase text-white/15 font-light pb-2">
+        Designed and Developed by Universal Jets
+      </p>
     </div>
   </footer>
 );
