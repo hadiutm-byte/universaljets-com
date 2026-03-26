@@ -2,25 +2,41 @@ import { useState } from "react";
 import { useSearchParams, useNavigate } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { motion } from "framer-motion";
-import { ArrowLeft, Plane, Calendar, Users, Clock, Loader2, MessageCircle, Phone, Shield, Star } from "lucide-react";
+import { ArrowLeft, Plane, Calendar, Users, Clock, Loader2, MessageCircle, Phone, Shield, Star, Wifi, BedDouble, Briefcase } from "lucide-react";
 import { Gauge, Ruler } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import QuoteRequestModal from "@/components/QuoteRequestModal";
+import AircraftGallery from "@/components/AircraftGallery";
+import MembershipUpsell from "@/components/MembershipUpsell";
 import { getAircraftImage, getAircraftCategory } from "@/lib/aircraftImages";
 import { trackQuoteRequest, trackWhatsAppClick } from "@/lib/gtmEvents";
 
 interface AircraftResult {
   id: number;
   aircraft_type: string;
-  year_of_production?: number;
-  max_passengers?: number;
-  range_km?: number;
-  speed_kmh?: number;
+  aircraft_class?: string | null;
+  manufacturer?: string | null;
+  year_of_production?: number | null;
+  max_passengers?: number | null;
+  range_km?: number | null;
+  speed_kmh?: number | null;
+  cabin_height_m?: number | null;
+  cabin_width_m?: number | null;
+  cabin_length_m?: number | null;
+  luggage_volume_m3?: number | null;
+  sleeping_places?: number | null;
+  amenities?: string[];
+  price?: number | null;
+  price_currency?: string;
+  price_unit?: string | null;
+  estimated_flight_time_min?: number | null;
+  engine_type?: string | null;
+  engine_count?: number | null;
   images: {
-    exterior?: string;
-    cabin?: string;
-    notail?: string;
+    exterior?: string | null;
+    cabin?: string | null;
+    floor_plan?: string | null;
     all?: { url: string; type: string; position: number }[];
   };
   operator: {
@@ -28,15 +44,28 @@ interface AircraftResult {
     name: string;
     city: string;
     country: string;
-    logo_url?: string;
+    logo_url?: string | null;
     certified: boolean;
-    avg_response_time?: number;
-    avg_response_rate?: number;
+    avg_response_time?: number | null;
+    avg_response_rate?: number | null;
   };
 }
 
 const getSupabaseUrl = () => import.meta.env.VITE_SUPABASE_URL;
 const getAnonKey = () => import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY;
+
+function formatPrice(price: number, currency: string, unit?: string | null) {
+  const formatted = new Intl.NumberFormat("en-US", { style: "currency", currency, maximumFractionDigits: 0 }).format(price);
+  if (unit === "per_hour") return `${formatted}/hr`;
+  return formatted;
+}
+
+function formatFlightTime(minutes: number) {
+  const h = Math.floor(minutes / 60);
+  const m = minutes % 60;
+  if (h === 0) return `${m}min`;
+  return m > 0 ? `${h}h ${m}m` : `${h}h`;
+}
 
 const SearchResults = () => {
   const [searchParams] = useSearchParams();
@@ -168,30 +197,39 @@ const SearchResults = () => {
           {!isLoading && hasResults && (
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
               {results.map((result, i) => {
-                const category = getAircraftCategory(result.aircraft_type);
+                const category = result.aircraft_class || getAircraftCategory(result.aircraft_type);
                 const fallbackImage = getAircraftImage(result.aircraft_type);
-                const displayImage = result.images.notail || result.images.exterior || fallbackImage;
+                const displayImage = result.images.exterior || fallbackImage;
+
+                // Build gallery images array
+                const galleryImages = (result.images.all || [])
+                  .filter(img => img.type !== 'tail' && img.type !== 'registration')
+                  .map(img => ({ url: img.url, type: img.type }));
+                if (galleryImages.length === 0 && displayImage) {
+                  galleryImages.push({ url: displayImage, type: "exterior" });
+                }
 
                 return (
                   <motion.div
-                    key={result.id}
+                    key={`${result.id}-${i}`}
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.5, delay: i * 0.06 }}
                     className="group rounded-2xl border border-border bg-card overflow-hidden card-elevated"
                   >
-                    {/* Aircraft image */}
+                    {/* Aircraft gallery */}
                     <div className="relative h-52 overflow-hidden">
-                      <img
-                        src={displayImage}
-                        alt={result.aircraft_type}
-                        loading="lazy"
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                      <AircraftGallery
+                        images={galleryImages}
+                        floorPlanUrl={result.images.floor_plan}
+                        aircraftType={result.aircraft_type}
+                        variant="compact"
+                        className="h-full"
                       />
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent" />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent pointer-events-none" />
 
                       {/* Category badge */}
-                      <div className="absolute top-4 left-4">
+                      <div className="absolute top-4 left-4 z-10">
                         <span className="px-3 py-1 rounded-full text-[9px] tracking-[0.15em] uppercase font-medium bg-white/90 text-foreground backdrop-blur-sm">
                           {category}
                         </span>
@@ -199,16 +237,21 @@ const SearchResults = () => {
 
                       {/* Certified badge */}
                       {result.operator.certified && (
-                        <div className="absolute top-4 right-4">
+                        <div className="absolute top-4 right-4 z-10">
                           <span className="px-2.5 py-1 rounded-full text-[8px] tracking-[0.1em] uppercase font-medium bg-primary/90 text-primary-foreground flex items-center gap-1">
                             <Shield size={8} /> Verified
                           </span>
                         </div>
                       )}
 
-                      {/* Aircraft name overlay */}
-                      <div className="absolute bottom-4 left-4 right-4">
+                      {/* Aircraft name + price overlay */}
+                      <div className="absolute bottom-4 left-4 right-4 z-10 flex items-end justify-between">
                         <h3 className="font-display text-xl text-white font-semibold drop-shadow-lg">{result.aircraft_type}</h3>
+                        {result.price != null && (
+                          <span className="text-primary text-[13px] font-medium drop-shadow-lg">
+                            {formatPrice(result.price, result.price_currency || "USD", result.price_unit)}
+                          </span>
+                        )}
                       </div>
                     </div>
 
@@ -236,12 +279,50 @@ const SearchResults = () => {
                             <Gauge size={11} className="text-primary/60" /> {result.speed_kmh.toLocaleString()} km/h
                           </span>
                         )}
+                        {result.estimated_flight_time_min && (
+                          <span className="flex items-center gap-1.5">
+                            <Clock size={11} className="text-primary/60" /> {formatFlightTime(result.estimated_flight_time_min)}
+                          </span>
+                        )}
                       </div>
+
+                      {/* Amenities */}
+                      {result.amenities && result.amenities.length > 0 && (
+                        <div className="flex flex-wrap gap-1.5 mb-4">
+                          {result.amenities.slice(0, 4).map(a => (
+                            <span key={a} className="px-2 py-0.5 rounded-full text-[8px] tracking-[0.1em] uppercase bg-muted/30 text-muted-foreground/70 border border-border/20">
+                              {a}
+                            </span>
+                          ))}
+                          {result.amenities.length > 4 && (
+                            <span className="px-2 py-0.5 rounded-full text-[8px] text-muted-foreground/50">
+                              +{result.amenities.length - 4}
+                            </span>
+                          )}
+                        </div>
+                      )}
+
+                      {/* Cabin details */}
+                      {(result.cabin_length_m || result.cabin_width_m || result.sleeping_places) && (
+                        <div className="flex flex-wrap gap-3 mb-4 text-[10px] text-muted-foreground/60 font-light">
+                          {result.cabin_length_m && result.cabin_width_m && (
+                            <span>Cabin {result.cabin_length_m}m × {result.cabin_width_m}m</span>
+                          )}
+                          {result.cabin_height_m && (
+                            <span>Height {result.cabin_height_m}m</span>
+                          )}
+                          {result.sleeping_places && (
+                            <span className="flex items-center gap-1">
+                              <BedDouble size={9} /> {result.sleeping_places} beds
+                            </span>
+                          )}
+                        </div>
+                      )}
 
                       {/* Operator */}
                       <div className="flex items-center gap-3 mb-5 p-3 rounded-xl bg-muted/30">
                         {result.operator.logo_url ? (
-                          <img src={result.operator.logo_url} alt={result.operator.name} className="w-8 h-8 rounded-lg object-contain bg-white p-0.5" />
+                          <img src={result.operator.logo_url} alt={`${result.operator.name} operator`} className="w-8 h-8 rounded-lg object-contain bg-white p-0.5" />
                         ) : (
                           <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center">
                             <Plane size={14} className="text-primary/40" />
@@ -253,25 +334,13 @@ const SearchResults = () => {
                             {result.operator.city}{result.operator.country ? `, ${result.operator.country}` : ''}
                           </p>
                         </div>
-                        {result.operator.avg_response_rate && result.operator.avg_response_rate > 0.8 && (
+                        {result.operator.avg_response_rate != null && result.operator.avg_response_rate > 0.8 && (
                           <div className="flex items-center gap-0.5">
                             <Star size={9} className="text-primary fill-primary" />
                             <span className="text-[9px] text-primary font-medium">{Math.round(result.operator.avg_response_rate * 100)}%</span>
                           </div>
                         )}
                       </div>
-
-                      {/* Cabin images preview */}
-                      {result.images.cabin && (
-                        <div className="mb-4 rounded-xl overflow-hidden h-20">
-                          <img
-                            src={result.images.cabin}
-                            alt={`${result.aircraft_type} cabin`}
-                            className="w-full h-full object-cover"
-                            loading="lazy"
-                          />
-                        </div>
-                      )}
 
                       {/* CTA */}
                       <button
@@ -288,7 +357,7 @@ const SearchResults = () => {
                         target="_blank"
                         rel="noopener noreferrer"
                         onClick={() => trackWhatsAppClick("quote_request")}
-                        className="block w-full text-center mt-2 px-5 py-2.5 border border-border/40 text-muted-foreground hover:text-foreground text-[9px] tracking-[0.15em] uppercase font-light rounded-xl transition-colors flex items-center justify-center gap-1.5"
+                        className="w-full mt-2 px-5 py-2.5 border border-border/40 text-muted-foreground hover:text-foreground text-[9px] tracking-[0.15em] uppercase font-light rounded-xl transition-colors flex items-center justify-center gap-1.5"
                       >
                         <MessageCircle size={10} /> Talk to Advisor
                       </a>
@@ -297,6 +366,13 @@ const SearchResults = () => {
                 );
               })}
             </div>
+          )}
+
+          {/* Membership upsell after results */}
+          {!isLoading && hasResults && (
+            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.6 }} className="mt-10 max-w-md mx-auto">
+              <MembershipUpsell variant="inline" showReferral={false} />
+            </motion.div>
           )}
 
           {/* Bottom CTA */}

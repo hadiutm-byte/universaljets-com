@@ -62,36 +62,89 @@ serve(async (req) => {
     const data = await response.json();
     console.log(`[charter-search] Got ${data.companies?.length || 0} companies`);
 
-    // The API returns { companies: [...] } where each company has aircraft array
     const companies = data.companies || [];
     
-    // Flatten into individual aircraft offers
+    // Flatten into individual aircraft offers, extracting ALL useful B2C data
     const results = [];
     for (const company of companies) {
       for (const aircraft of (company.aircraft || [])) {
-        // Get the best exterior image
-        const exteriorImage = aircraft.images?.find((img: any) => img.image_type === 'exterior')?.url || null;
-        const cabinImage = aircraft.images?.find((img: any) => img.image_type === 'cabin')?.url || null;
-        const notailImage = aircraft.images?.find((img: any) => img.image_type === 'notail')?.url || null;
-        const allImages = (aircraft.images || []).map((img: any) => ({
-          url: img.url,
-          type: img.image_type,
-          position: img.position,
-        }));
+        // ── Images: collect all, filter out any with tail numbers ──
+        const allImages: { url: string; type: string; position: number }[] = [];
+        let floorPlanUrl: string | null = null;
+
+        for (const img of (aircraft.images || [])) {
+          const imgType = (img.image_type || '').toLowerCase();
+          // Skip images that might expose tail numbers
+          if (imgType === 'tail' || imgType === 'registration') continue;
+          
+          if (img.url) {
+            allImages.push({
+              url: img.url,
+              type: imgType || 'exterior',
+              position: img.position ?? 0,
+            });
+          }
+          if (imgType === 'floor_plan' || imgType === 'floorplan' || imgType === 'layout') {
+            floorPlanUrl = img.url || null;
+          }
+        }
+
+        // Prefer 'notail' exterior, then regular exterior
+        const notailImage = allImages.find(i => i.type === 'notail')?.url || null;
+        const exteriorImage = allImages.find(i => i.type === 'exterior')?.url || null;
+        const cabinImage = allImages.find(i => i.type === 'cabin')?.url || null;
+
+        // ── Cabin dimensions ──
+        const cabinHeight = aircraft.cabin_height ?? aircraft.cabin_height_m ?? null;
+        const cabinWidth = aircraft.cabin_width ?? aircraft.cabin_width_m ?? null;
+        const cabinLength = aircraft.cabin_length ?? aircraft.cabin_length_m ?? null;
+        const luggageVolume = aircraft.luggage_volume ?? aircraft.luggage_volume_m3 ?? null;
+
+        // ── Amenities / features ──
+        const amenities: string[] = [];
+        if (aircraft.wifi || aircraft.has_wifi) amenities.push('Wi-Fi');
+        if (aircraft.lavatory || aircraft.has_lavatory) amenities.push('Lavatory');
+        if (aircraft.galley || aircraft.has_galley) amenities.push('Galley');
+        if (aircraft.shower || aircraft.has_shower) amenities.push('Shower');
+        if (aircraft.entertainment || aircraft.has_entertainment) amenities.push('Entertainment');
+        if (aircraft.satellite_phone || aircraft.has_satphone) amenities.push('Satellite Phone');
+        if (aircraft.bed || aircraft.has_bed || aircraft.sleeping_places) amenities.push('Sleeping');
+        if (aircraft.baggage_compartment) amenities.push('Baggage Hold');
+
+        // ── Pricing ──
+        const price = aircraft.price ?? aircraft.charter_price ?? null;
+        const priceCurrency = aircraft.currency_code || aircraft.currency || company.currency || 'USD';
+        const priceUnit = aircraft.price_unit || aircraft.pricing_type || null; // e.g. 'per_hour', 'total'
+        const estimatedFlightTime = aircraft.flight_time ?? aircraft.estimated_flight_time ?? null;
 
         results.push({
           id: aircraft.id,
-          aircraft_type: aircraft.ac_type || 'Private Jet',
-          year_of_production: aircraft.year_of_production || null,
-          max_passengers: aircraft.max_passengers || null,
-          range_km: aircraft.range || null,
-          speed_kmh: aircraft.speed || null,
+          aircraft_type: aircraft.ac_type || aircraft.aircraft_type || 'Private Jet',
+          year_of_production: aircraft.year_of_production || aircraft.yom || null,
+          max_passengers: aircraft.max_passengers || aircraft.pax_maximum || null,
+          range_km: aircraft.range || aircraft.range_maximum || null,
+          speed_kmh: aircraft.speed || aircraft.cruise_speed || null,
+          // Cabin details
+          cabin_height_m: cabinHeight,
+          cabin_width_m: cabinWidth,
+          cabin_length_m: cabinLength,
+          luggage_volume_m3: luggageVolume,
+          sleeping_places: aircraft.sleeping_places || null,
+          // Amenities
+          amenities,
+          // Pricing (B2C safe — no internal cost data)
+          price: typeof price === 'number' ? price : null,
+          price_currency: priceCurrency,
+          price_unit: priceUnit,
+          estimated_flight_time_min: estimatedFlightTime,
+          // Images — NO tail number images
           images: {
-            exterior: exteriorImage,
+            exterior: notailImage || exteriorImage,
             cabin: cabinImage,
-            notail: notailImage,
+            floor_plan: floorPlanUrl,
             all: allImages,
           },
+          // Operator (public info only)
           operator: {
             id: company.id,
             name: company.name || '',
@@ -102,6 +155,11 @@ serve(async (req) => {
             avg_response_time: company.company_extenion?.avg_response_time || null,
             avg_response_rate: company.company_extenion?.avg_response_rate || null,
           },
+          // Category / class
+          aircraft_class: aircraft.aircraft_class?.name || aircraft.class_name || null,
+          manufacturer: aircraft.manufacturer?.name || aircraft.manufacturer || null,
+          engine_type: aircraft.engine_type || null,
+          engine_count: aircraft.engine_count || null,
         });
       }
     }
