@@ -107,7 +107,7 @@ const SearchResults = () => {
   });
 
   const results: AircraftResult[] = (data?.results || [])
-    .map((r: AircraftResult) => sanitizeAircraftForPublic(r) as unknown as AircraftResult)
+    .map((r: AircraftResult) => sanitizeAircraftForPublic(r as unknown as Record<string, unknown>) as unknown as AircraftResult)
     .filter((r: AircraftResult) => {
     const cls = (r.aircraft_class || "").toLowerCase();
     const type = (r.aircraft_type || "").toLowerCase();
