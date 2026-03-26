@@ -128,10 +128,10 @@ const EmptyLegsMapView = ({ legs, selectedLeg, onLegClick, onClose, isLiveData }
     map.current.fitBounds(bounds, { padding: 80, maxZoom: 6, duration: 1200 });
   }, [bounds, mapLoaded]);
 
-  // Draw routes + markers
+   // Draw routes + markers
   useEffect(() => {
     const m = map.current;
-    if (!m || !mapLoaded) return;
+    if (!m || !mapLoaded || !m.isStyleLoaded()) return;
 
     // Clean up old markers
     markersRef.current.forEach((mk) => mk.remove());
