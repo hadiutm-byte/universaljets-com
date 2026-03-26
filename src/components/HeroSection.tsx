@@ -31,7 +31,7 @@ const HeroSection = () => {
       </motion.div>
 
       {/* Single dark gradient overlay */}
-      <div className="absolute inset-0 bg-gradient-to-b from-[hsla(220,10%,6%,0.75)] via-[hsla(220,10%,6%,0.5)] to-[hsla(220,10%,6%,0.85)] pointer-events-none" />
+      <div className="absolute inset-0 bg-gradient-to-b from-[hsla(220,10%,6%,0.55)] via-[hsla(220,10%,6%,0.3)] to-[hsla(220,10%,6%,0.7)] pointer-events-none" />
 
       {/* Content */}
       <motion.div
