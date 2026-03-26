@@ -12,7 +12,7 @@ import { toast } from "sonner";
 const JET_CATEGORIES = [
   { label: "All Jets", filter: "" },
   { label: "Very Light", filter: "very light" },
-  { label: "Light", filter: "light jet" },
+  { label: "Light", filter: "light" },
   { label: "Midsize", filter: "midsize" },
   { label: "Super Midsize", filter: "super midsize" },
   { label: "Heavy", filter: "heavy" },
