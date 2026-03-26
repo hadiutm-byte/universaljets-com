@@ -11,7 +11,7 @@ import AircraftGallery from "@/components/AircraftGallery";
 import { toast } from "sonner";
 import MembershipUpsell from "@/components/MembershipUpsell";
 import { getAircraftImage, getAircraftCategory } from "@/lib/aircraftImages";
-import { sanitizeAircraftName, sanitizeAircraftImages } from "@/lib/sanitize";
+import { sanitizeAircraftForPublic } from "@/lib/sanitize";
 import { trackQuoteRequest, trackWhatsAppClick } from "@/lib/gtmEvents";
 import AIRPORT_COORDS from "@/lib/airportCoords";
 import {
@@ -106,22 +106,14 @@ const SearchResults = () => {
     enabled: !!from_icao && !!to_icao,
   });
 
-  const results: AircraftResult[] = (data?.results || []).map((r: AircraftResult) => ({
-    ...r,
-    aircraft_type: sanitizeAircraftName(r.aircraft_type),
-    images: {
-      ...r.images,
-      all: sanitizeAircraftImages(r.images?.all),
-    },
-  })).filter((r: AircraftResult) => {
+  const results: AircraftResult[] = (data?.results || [])
+    .map((r: AircraftResult) => sanitizeAircraftForPublic(r as unknown as Record<string, unknown>) as unknown as AircraftResult)
+    .filter((r: AircraftResult) => {
     const cls = (r.aircraft_class || "").toLowerCase();
     const type = (r.aircraft_type || "").toLowerCase();
-    // Exclude turboprops, propeller aircraft, and helicopters from B2C
     if (cls.includes("turboprop") || cls.includes("propeller") || cls.includes("helicopter")) return false;
     if (type.includes("turboprop") || type.includes("caravan") || type.includes("pc-12") || type.includes("tbm") || type.includes("king air")) return false;
-    // Exclude helicopters by model name
     if (/robinson|r22|r44|r66|bell\s*\d|eurocopter|ec\s*1[345]|as\s*3[56]|agusta|aw\s*1[0-9]|guimbal|cabri|airbus\s*h1[2356]|sikorsky|s-76|md\s*[5-9]|hughes/i.test(type)) return false;
-    // Exclude known propeller aircraft by model
     if (/piper|cessna\s*(1[7-9]|2[0-9]|4[01])|beech(craft)?(?!\s*premier)|baron|bonanza|cirrus|pilatus|dornier|saab|dash|atr|emb-1[12]|chieftain|cheyenne|navajo|seneca|aztec|seminole/i.test(type)) return false;
     if (r.engine_type && /piston|turboprop|propeller/i.test(r.engine_type)) return false;
     return true;
@@ -282,7 +274,7 @@ const SearchResults = () => {
                       </div>
 
                       {/* Certified badge */}
-                      {result.operator.certified && (
+                      {(result as any).certified && (
                         <div className="absolute top-4 right-4 z-10">
                           <span className="px-2.5 py-1 rounded-full text-[8px] tracking-[0.1em] uppercase font-medium bg-primary/90 text-primary-foreground flex items-center gap-1">
                             <Shield size={8} /> Verified
@@ -385,7 +377,7 @@ const SearchResults = () => {
                       )}
 
                       {/* Operator hidden from B2C — privacy policy. Show verified badge instead */}
-                      {result.operator.certified && (
+                      {(result as any).certified && (
                         <div className="flex items-center gap-2 mb-5 p-3 rounded-xl bg-muted/30">
                           <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center">
                             <Shield size={14} className="text-primary/60" />

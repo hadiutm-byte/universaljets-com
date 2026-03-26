@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { sanitizeAircraftName, sanitizeAircraftImages } from "@/lib/sanitize";
+import { sanitizeAircraftForPublic } from "@/lib/sanitize";
 
 export interface FleetAircraft {
   id: number;
@@ -62,9 +62,8 @@ export function useFleetAircraft(classId?: string) {
       const result = await response.json();
       const all: FleetAircraft[] = (result.results || []).map((ac: FleetAircraft) => ({
         ...ac,
-        name: sanitizeAircraftName(ac.name),
-        images: sanitizeAircraftImages(ac.images),
-      }));
+        ...sanitizeAircraftForPublic(ac as unknown as Record<string, unknown>),
+      } as FleetAircraft));
       return { count: result.count || 0, results: all.filter(isJetAircraft) };
     },
     staleTime: 30 * 60 * 1000,
@@ -93,9 +92,8 @@ export function useFleetAircraftBySlug(slug: string | undefined) {
       const ac = data.result as FleetAircraft;
       return {
         ...ac,
-        name: sanitizeAircraftName(ac.name),
-        images: sanitizeAircraftImages(ac.images),
-      };
+        ...sanitizeAircraftForPublic(ac as unknown as Record<string, unknown>),
+      } as FleetAircraft;
     },
     enabled: !!slug,
     staleTime: 60 * 60 * 1000,

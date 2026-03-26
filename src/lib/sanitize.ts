@@ -100,3 +100,83 @@ export function looksLikeRegistration(text: string | null | undefined): boolean 
   if (!text) return false;
   return /^[A-Z0-9]{1,4}-[A-Z0-9]{2,5}$/i.test(text.trim());
 }
+
+// ── One-stop aircraft sanitiser for all B2C surfaces ────────────────────────
+
+export interface PublicAircraft {
+  id: number;
+  name: string;
+  aircraft_type?: string;
+  category?: string;
+  class_name?: string;
+  manufacturer?: string;
+  max_pax?: number | null;
+  range_km?: number | null;
+  speed_kmh?: number | null;
+  altitude_m?: number | null;
+  cabin_height_m?: number | null;
+  cabin_length_m?: number | null;
+  cabin_width_m?: number | null;
+  luggage_volume_m3?: number | null;
+  engine_type?: string | null;
+  engine_count?: number | null;
+  description?: string | null;
+  image_url?: string | null;
+  floor_plan_url?: string | null;
+  images?: { url: string; type: string }[];
+  slug?: string;
+  icao?: string;
+  price?: number | null;
+  currency?: string;
+  amenities?: string[];
+  year_of_production?: number | null;
+  sleeping_places?: number | null;
+  estimated_flight_time_min?: number | null;
+  certified?: boolean;
+  [key: string]: unknown;
+}
+
+/**
+ * Single entry-point for sanitising any aircraft-like object before B2C render.
+ *
+ * Strips private keys, cleans display names, filters images.
+ * Returns a new object — never mutates the input.
+ */
+export function sanitizeAircraftForPublic<T extends Record<string, unknown>>(raw: T): PublicAircraft {
+  const cleaned: Record<string, unknown> = {};
+
+  for (const [key, value] of Object.entries(raw)) {
+    // Drop all private fields
+    if (PRIVATE_KEYS.has(key)) continue;
+
+    // Clean aircraft name fields
+    if (key === "aircraft_type" || key === "aircraft_name" || key === "aircraft" || key === "name") {
+      cleaned[key] = sanitizeAircraftName(value as string);
+    } else if (key === "images") {
+      // Sanitise image arrays (handles both flat arrays and { all, exterior, … } shapes)
+      if (Array.isArray(value)) {
+        cleaned[key] = sanitizeAircraftImages(value as { url: string; type?: string }[]);
+      } else if (value && typeof value === "object") {
+        const imgObj = value as Record<string, unknown>;
+        const sanitised: Record<string, unknown> = {};
+        for (const [ik, iv] of Object.entries(imgObj)) {
+          if (ik === "all" && Array.isArray(iv)) {
+            sanitised[ik] = sanitizeAircraftImages(iv as { url: string; type?: string }[]);
+          } else {
+            sanitised[ik] = iv;
+          }
+        }
+        cleaned[key] = sanitised;
+      }
+    } else if (key === "operator") {
+      // Extract only the certified flag; never expose operator identity
+      const op = value as Record<string, unknown> | null;
+      if (op?.certified) cleaned["certified"] = true;
+      // Drop operator name, id, city, country, logo, response metrics entirely
+    } else {
+      cleaned[key] = value;
+    }
+  }
+
+  return cleaned as unknown as PublicAircraft;
+}
