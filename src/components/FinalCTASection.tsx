@@ -17,7 +17,7 @@ const FinalCTASection = () => (
           Request Your{" "}
           <span className="text-gradient-gold italic font-medium">Flight</span>
         </h2>
-        <p className="text-[15px] text-white/55 font-light leading-[2.1] mb-12 max-w-md mx-auto tracking-[0.01em]">
+        <p className="text-[15px] text-white/70 font-light leading-[2.1] mb-12 max-w-md mx-auto tracking-[0.01em]">
           Speak directly with an aviation advisor.
           <br />
           We respond within minutes.
