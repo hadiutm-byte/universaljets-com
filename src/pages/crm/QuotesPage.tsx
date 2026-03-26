@@ -85,6 +85,7 @@ const QuotesPage = () => {
       <CrmTable title="Quotes"
         columns={columns}
         data={data} loading={loading} onAdd={() => openForm()} onEdit={openForm} onDelete={handleDelete}
+        onRowClick={(row: any) => navigate(`/crm/quotes/${row.id}`)}
       />
       <Dialog open={formOpen} onOpenChange={setFormOpen}>
         <DialogContent className="bg-card border-border/30 max-w-md">
