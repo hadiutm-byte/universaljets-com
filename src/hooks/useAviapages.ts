@@ -193,7 +193,7 @@ export function useEmptyLegs(region: string = "All") {
       const rawResults = Array.isArray(raw?.results) ? raw.results : [];
 
       // Normalize → filter nulls → deduplicate
-      const results = deduplicateById(
+      const results = deduplicateLegs(
         rawResults
           .map(normalizeEmptyLeg)
           .filter((l): l is EmptyLeg => l !== null && l.id > 0)
