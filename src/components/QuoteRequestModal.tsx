@@ -80,10 +80,10 @@ const QuoteRequestModal = ({ open, onClose, flightData }: QuoteRequestModalProps
 
   // Build airport objects for the map
   const fromAirport: Airport | null = flightData.fromIcao
-    ? { icao: flightData.fromIcao, iata: "", name: flightData.fromLabel, city: "", country: "", lat: 0, lng: 0 }
+    ? { id: 0, icao: flightData.fromIcao, iata: "", name: flightData.fromLabel, city: "", country: "", lat: 0, lng: 0 }
     : null;
   const toAirport: Airport | null = flightData.toIcao
-    ? { icao: flightData.toIcao, iata: "", name: flightData.toLabel, city: "", country: "", lat: 0, lng: 0 }
+    ? { id: 0, icao: flightData.toIcao, iata: "", name: flightData.toLabel, city: "", country: "", lat: 0, lng: 0 }
     : null;
 
   // Resolve coords from airportCoords
