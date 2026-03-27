@@ -375,15 +375,14 @@ const CharterSolutionsSection = () => {
           className="mt-20 md:mt-28 max-w-3xl mx-auto text-center"
         >
           <p className="text-[11px] tracking-[0.3em] uppercase font-medium text-primary mb-4">
-            Our Core
+            The Standard
           </p>
           <h3 className="font-display text-3xl md:text-4xl font-semibold text-foreground mb-6">
-            Private Jet Charter Is What We Do
+            Global Access. Uncompromised.
           </h3>
           <p className="text-muted-foreground text-base md:text-lg leading-relaxed mb-8">
-            Universal Jets is a broker-led private jet charter company providing global aircraft access
-            for leisure, corporate, urgent, and specialist missions. 50,000+ aircraft. Every single operator
-            vetted through ARGUS and Wyvern before we put their name in front of you.
+            Universal Jets sources from 7,000+ vetted aircraft across six continents — every operator
+            verified through ARGUS and Wyvern before they reach your itinerary.
           </p>
           <Link
             to="/request-flight"
