@@ -33,7 +33,7 @@ const WhySection = () => (
         whileInView={{ opacity: 1 }}
         viewport={{ once: true }}
         transition={{ duration: 0.8, delay: 0.2 }}
-        className="text-[13px] text-foreground/50 font-light leading-[2] max-w-md mx-auto text-center mb-20"
+        className="text-[13px] text-muted-foreground font-light leading-[2] max-w-md mx-auto text-center mb-20"
       >
         The smartest travellers don't book direct. Here's why.
       </motion.p>
@@ -53,7 +53,7 @@ const WhySection = () => (
             </div>
             <div>
               <h3 className="font-display text-lg mb-2 text-foreground">{p.title}</h3>
-              <p className="text-[13px] text-foreground/55 font-light leading-[2]">{p.desc}</p>
+              <p className="text-[13px] text-muted-foreground font-light leading-[2]">{p.desc}</p>
             </div>
           </motion.div>
         ))}

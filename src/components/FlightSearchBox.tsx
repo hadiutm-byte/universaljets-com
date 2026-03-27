@@ -48,10 +48,11 @@ const jetSizes = [
 const SwapButton = ({ onClick }: { onClick: () => void }) => (
   <motion.button
     onClick={onClick}
+    aria-label="Swap departure and destination"
     whileHover={{ scale: 1.15, rotate: 180 }}
     whileTap={{ scale: 0.9 }}
     transition={{ type: "spring", stiffness: 400, damping: 15 }}
-    className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-10 w-9 h-9 rounded-full bg-background border-2 border-border flex items-center justify-center text-foreground/50 hover:text-primary hover:border-primary/40 transition-colors duration-300 cursor-pointer shadow-sm hidden md:flex"
+    className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-10 w-9 h-9 rounded-full bg-background border-2 border-border flex items-center justify-center text-foreground/60 hover:text-primary hover:border-primary/40 transition-colors duration-300 cursor-pointer shadow-sm hidden md:flex"
   >
     <ArrowLeftRight size={13} strokeWidth={1.5} />
   </motion.button>

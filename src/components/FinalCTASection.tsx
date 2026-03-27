@@ -17,7 +17,7 @@ const FinalCTASection = () => (
           Request Your{" "}
           <span className="text-gradient-gold italic font-medium">Flight</span>
         </h2>
-        <p className="text-[15px] text-white/70 font-light leading-[2.1] mb-12 max-w-md mx-auto tracking-[0.01em]">
+        <p className="text-[15px] text-white/85 font-light leading-[2.1] mb-12 max-w-md mx-auto tracking-[0.01em]">
           Speak directly with an aviation advisor.
           <br />
           We respond within minutes.
@@ -40,7 +40,7 @@ const FinalCTASection = () => (
             whileHover={{ scale: 1.02, y: -2 }}
             whileTap={{ scale: 0.97 }}
             transition={{ type: "spring", stiffness: 300, damping: 18 }}
-            className="btn-luxury inline-flex items-center gap-3 px-10 py-[1.125rem] border border-white/[0.15] hover:border-white/[0.25] text-white/60 hover:text-white/90 text-[11px] tracking-[0.3em] uppercase font-light rounded-xl transition-all duration-700"
+            className="btn-luxury inline-flex items-center gap-3 px-10 py-[1.125rem] border border-white/[0.2] hover:border-white/[0.35] text-white/80 hover:text-white text-[11px] tracking-[0.3em] uppercase font-light rounded-xl transition-all duration-700"
           >
             Chat on WhatsApp
           </motion.a>

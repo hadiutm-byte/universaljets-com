@@ -21,7 +21,7 @@ const QuickOption = ({ icon: Icon, label, onClick }: { icon: any; label: string;
     className="flex items-center gap-2.5 px-5 py-3 rounded-lg glass-panel border border-border/10 hover:border-primary/20 transition-all duration-300 cursor-pointer group"
   >
     <Icon className="w-4 h-4 text-primary/50 group-hover:text-primary/80 transition-colors" strokeWidth={1.3} />
-    <span className="text-[11px] tracking-[0.15em] uppercase text-foreground/50 group-hover:text-foreground/80 font-light transition-colors">
+    <span className="text-[11px] tracking-[0.15em] uppercase text-foreground/65 group-hover:text-foreground/90 font-light transition-colors">
       {label}
     </span>
   </motion.button>
@@ -51,6 +51,7 @@ const CTASection = () => {
   const [showForm, setShowForm] = useState(false);
   const [loading, setLoading] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  const [touched, setTouched] = useState<Record<string, boolean>>({});
   const [form, setForm] = useState({
     name: "", email: "", phone: "", departure: "", destination: "",
     date: "", returnDate: "", passengers: "", aircraft: "", budget: "", notes: "",
@@ -59,10 +60,21 @@ const CTASection = () => {
   const set = (key: string) => (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) =>
     setForm(p => ({ ...p, [key]: e.target.value }));
 
+  const markTouched = (key: string) => setTouched(p => ({ ...p, [key]: true }));
+
+  const emailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email);
+  const errors = {
+    name: touched.name && !form.name ? "Name is required" : "",
+    email: touched.email && !form.email ? "Email is required" : touched.email && !emailValid ? "Enter a valid email" : "",
+    departure: touched.departure && !form.departure ? "Departure is required" : "",
+    destination: touched.destination && !form.destination ? "Destination is required" : "",
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!form.name || !form.email || !form.departure || !form.destination) {
-      toast.error("Please fill in all required fields.");
+    setTouched({ name: true, email: true, departure: true, destination: true });
+    if (!form.name || !form.email || !form.departure || !form.destination || !emailValid) {
+      toast.error("Please fill in all required fields correctly.");
       return;
     }
     setLoading(true);
@@ -83,11 +95,11 @@ const CTASection = () => {
       <div className="py-28 md:py-40 relative">
         <div className="container mx-auto px-8 relative z-10">
           <FadeReveal className="text-center max-w-3xl mx-auto">
-            <p className="text-[9px] tracking-[0.5em] uppercase text-primary/45 mb-8 font-light">Your Journey Starts Here</p>
+            <p className="text-[9px] tracking-[0.5em] uppercase text-primary/60 mb-8 font-light">Your Journey Starts Here</p>
             <h2 className="text-4xl md:text-6xl lg:text-7xl font-display font-semibold text-foreground mb-6 leading-[1.1]">
               Request Your <span className="text-gradient-gold italic font-medium">Flight</span>
             </h2>
-            <p className="text-[12px] md:text-[13px] tracking-[0.12em] text-foreground/30 font-extralight leading-[2] mb-10 max-w-lg mx-auto">
+            <p className="text-[12px] md:text-[13px] tracking-[0.12em] text-muted-foreground font-extralight leading-[2] mb-10 max-w-lg mx-auto">
               Speak directly with an aviation advisor.<br />We respond within minutes.
             </p>
             <motion.button
@@ -116,8 +128,8 @@ const CTASection = () => {
                   <span className="text-[10px] font-display font-semibold text-primary/70">R</span>
                 </div>
                 <div>
-                  <p className="text-[10px] tracking-[0.2em] uppercase text-primary/40 font-light mb-2">Ricky — Senior Aviation Advisor</p>
-                  <p className="text-[13px] text-foreground/60 font-light leading-[1.9]">
+                  <p className="text-[10px] tracking-[0.2em] uppercase text-primary/50 font-light mb-2">Ricky — Senior Aviation Advisor</p>
+                  <p className="text-[13px] text-foreground/70 font-light leading-[1.9]">
                     "You don't need to fill forms.<br />Tell me what you need — I'll handle the rest."
                   </p>
                 </div>
@@ -133,7 +145,7 @@ const CTASection = () => {
 
               <div className="flex items-center gap-4 my-6">
                 <div className="flex-1 h-px bg-border/10" />
-                <span className="text-[9px] tracking-[0.3em] uppercase text-foreground/15 font-light">or fill in details</span>
+                <span className="text-[9px] tracking-[0.3em] uppercase text-foreground/30 font-light">or fill in details</span>
                 <div className="flex-1 h-px bg-border/10" />
               </div>
 
@@ -170,16 +182,24 @@ const CTASection = () => {
                           <Check className="w-7 h-7 text-primary" strokeWidth={1.5} />
                         </div>
                         <h3 className="font-display text-xl mb-3 text-foreground">Request Received</h3>
-                        <p className="text-[12px] text-foreground/35 font-extralight">Expect a personalised quote within minutes.</p>
+                        <p className="text-[12px] text-muted-foreground font-extralight">Expect a personalised quote within minutes.</p>
                       </motion.div>
                     ) : (
                       <form onSubmit={handleSubmit}>
                         {/* Trip Details */}
                         <div className="mb-8">
-                          <p className="text-[10px] tracking-[0.3em] uppercase text-foreground/20 font-light mb-5">Trip Details</p>
+                          <p className="text-[10px] tracking-[0.3em] uppercase text-muted-foreground font-light mb-5">Trip Details</p>
                           <div className="grid md:grid-cols-2 gap-5 mb-5">
-                            <div><label className={labelClass}>From *</label><input value={form.departure} onChange={set("departure")} placeholder="City or airport" required className={inputClass} /></div>
-                            <div><label className={labelClass}>To *</label><input value={form.destination} onChange={set("destination")} placeholder="City or airport" required className={inputClass} /></div>
+                            <div>
+                              <label className={labelClass}>From *</label>
+                              <input value={form.departure} onChange={set("departure")} onBlur={() => markTouched("departure")} placeholder="City or airport" required className={inputClass} aria-label="Departure city or airport" />
+                              {errors.departure && <p className="text-[11px] text-destructive/80 mt-1 font-light">{errors.departure}</p>}
+                            </div>
+                            <div>
+                              <label className={labelClass}>To *</label>
+                              <input value={form.destination} onChange={set("destination")} onBlur={() => markTouched("destination")} placeholder="City or airport" required className={inputClass} aria-label="Destination city or airport" />
+                              {errors.destination && <p className="text-[11px] text-destructive/80 mt-1 font-light">{errors.destination}</p>}
+                            </div>
                           </div>
                           <div className="grid grid-cols-2 md:grid-cols-3 gap-5">
                             <div><label className={labelClass}>Departure Date</label><input type="date" value={form.date} onChange={set("date")} className={inputClass} /></div>
@@ -190,7 +210,7 @@ const CTASection = () => {
 
                         {/* Preferences */}
                         <div className="mb-8">
-                          <p className="text-[10px] tracking-[0.3em] uppercase text-foreground/20 font-light mb-5">Preferences</p>
+                          <p className="text-[10px] tracking-[0.3em] uppercase text-muted-foreground font-light mb-5">Preferences</p>
                           <div className="grid md:grid-cols-2 gap-5 mb-5">
                             <div>
                               <label className={labelClass}>Aircraft Type</label>
@@ -223,11 +243,22 @@ const CTASection = () => {
 
                         {/* Contact */}
                         <div className="mb-10">
-                          <p className="text-[10px] tracking-[0.3em] uppercase text-foreground/20 font-light mb-5">Contact</p>
+                          <p className="text-[10px] tracking-[0.3em] uppercase text-muted-foreground font-light mb-5">Contact</p>
                           <div className="grid md:grid-cols-3 gap-5">
-                            <div><label className={labelClass}>Full Name *</label><input value={form.name} onChange={set("name")} placeholder="John Smith" required className={inputClass} /></div>
-                            <div><label className={labelClass}>Email *</label><input type="email" value={form.email} onChange={set("email")} placeholder="john@company.com" required className={inputClass} /></div>
-                            <div><label className={labelClass}>Phone / WhatsApp</label><input value={form.phone} onChange={set("phone")} placeholder="+44 20 1234 5678" className={inputClass} /></div>
+                            <div>
+                              <label className={labelClass}>Full Name *</label>
+                              <input value={form.name} onChange={set("name")} onBlur={() => markTouched("name")} placeholder="John Smith" required className={inputClass} aria-label="Full name" />
+                              {errors.name && <p className="text-[11px] text-destructive/80 mt-1 font-light">{errors.name}</p>}
+                            </div>
+                            <div>
+                              <label className={labelClass}>Email *</label>
+                              <input type="email" value={form.email} onChange={set("email")} onBlur={() => markTouched("email")} placeholder="john@company.com" required className={inputClass} aria-label="Email address" />
+                              {errors.email && <p className="text-[11px] text-destructive/80 mt-1 font-light">{errors.email}</p>}
+                            </div>
+                            <div>
+                              <label className={labelClass}>Phone / WhatsApp</label>
+                              <input value={form.phone} onChange={set("phone")} placeholder="+44 20 1234 5678" className={inputClass} aria-label="Phone or WhatsApp number" />
+                            </div>
                           </div>
                         </div>
 
@@ -253,7 +284,7 @@ const CTASection = () => {
       <div className="py-20 md:py-28">
         <div className="container mx-auto px-8">
           <FadeReveal className="max-w-3xl mx-auto">
-            <p className="text-[9px] tracking-[0.5em] uppercase text-primary/40 mb-6 font-light text-center">Transparent Process</p>
+            <p className="text-[9px] tracking-[0.5em] uppercase text-primary/55 mb-6 font-light text-center">Transparent Process</p>
             <h3 className="text-2xl md:text-4xl font-display font-semibold text-foreground text-center mb-14">
               What Happens <span className="text-gradient-gold italic font-medium">Next</span>
             </h3>
@@ -261,8 +292,8 @@ const CTASection = () => {
               {nextSteps.map((step, i) => (
                 <FadeReveal key={i} delay={i * 0.15}>
                   <GlassCard hover={false} className="p-8 text-center h-full">
-                    <span className="text-3xl font-display font-bold text-primary/10 block mb-4">{step.num}</span>
-                    <p className="text-[12px] text-foreground/40 font-extralight leading-[2]">{step.text}</p>
+                    <span className="text-3xl font-display font-bold text-primary/20 block mb-4">{step.num}</span>
+                    <p className="text-[12px] text-muted-foreground font-extralight leading-[2]">{step.text}</p>
                   </GlassCard>
                 </FadeReveal>
               ))}
@@ -282,7 +313,7 @@ const CTASection = () => {
                 <div className="w-8 h-8 rounded-full glass-panel flex items-center justify-center">
                   <item.icon className="w-3.5 h-3.5 text-primary/50" strokeWidth={1.2} />
                 </div>
-                <span className="text-[10px] tracking-[0.2em] uppercase text-foreground/40 font-extralight">{item.text}</span>
+                <span className="text-[10px] tracking-[0.2em] uppercase text-muted-foreground font-extralight">{item.text}</span>
               </motion.div>
             ))}
           </FadeReveal>
@@ -302,7 +333,7 @@ const CTASection = () => {
               <h3 className="font-display text-xl md:text-2xl font-semibold text-foreground mb-3">
                 Need Immediate Assistance?
               </h3>
-              <p className="text-[12px] text-foreground/30 font-extralight leading-[2] mb-8">
+              <p className="text-[12px] text-muted-foreground font-extralight leading-[2] mb-8">
                 Skip the forms. Message us directly for immediate, personal assistance.
               </p>
               <a
@@ -313,7 +344,7 @@ const CTASection = () => {
                 <MessageCircle className="w-4 h-4" strokeWidth={1.5} />
                 Chat on WhatsApp
               </a>
-              <p className="text-[9px] text-foreground/20 font-extralight mt-5 tracking-wide">Available 24/7 · Typical response under 5 minutes</p>
+              <p className="text-[9px] text-muted-foreground/70 font-extralight mt-5 tracking-wide">Available 24/7 · Typical response under 5 minutes</p>
             </GlassCard>
           </FadeReveal>
         </div>

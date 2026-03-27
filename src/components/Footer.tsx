@@ -46,7 +46,7 @@ const partnerNames = [
 ];
 
 const LinkItem = ({ label, href }: { label: string; href: string }) => {
-  const cls = "block text-[13px] mb-2 text-white/50 hover:text-white hover:translate-x-[5px] transition-all duration-300";
+  const cls = "block text-[13px] mb-2 text-white/65 hover:text-white hover:translate-x-[5px] transition-all duration-300 focus-visible:text-white";
   return href.startsWith("/") && !href.startsWith("/#") ? (
     <Link to={href} className={cls}>{label}</Link>
   ) : (
@@ -71,13 +71,13 @@ const Footer = () => (
             <span className="text-gradient-gold font-normal">Jets</span>
           </h2>
         </Link>
-        <p className="text-[14px] text-white/50 max-w-[300px] leading-[1.6] font-light mb-4">
+        <p className="text-[14px] text-white/65 max-w-[300px] leading-[1.6] font-light mb-4">
           Private aviation, redefined.<br />
           Seamless global charter solutions for those who expect more.
         </p>
         <div className="space-y-2">
-          <a href="mailto:sales@universaljets.com" className="block text-[13px] text-white/60 hover:text-primary transition-colors">sales@universaljets.com</a>
-          <a href="https://wa.me/971585918498" target="_blank" rel="noopener noreferrer" className="block text-[13px] text-white/60 hover:text-primary transition-colors">+971 58 591 8498</a>
+          <a href="mailto:sales@universaljets.com" className="block text-[13px] text-white/70 hover:text-primary transition-colors" aria-label="Email Universal Jets sales team">sales@universaljets.com</a>
+          <a href="https://wa.me/971585918498" target="_blank" rel="noopener noreferrer" className="block text-[13px] text-white/70 hover:text-primary transition-colors" aria-label="Contact Universal Jets on WhatsApp">+971 58 591 8498</a>
         </div>
       </div>
 
