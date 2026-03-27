@@ -100,17 +100,18 @@ function toStr(v: unknown, fallback = ''): string {
 
 /** Extract price defensively from multiple possible API fields */
 function extractPrice(leg: Record<string, unknown>): number | null {
-  // Try common price field variants
-  for (const key of ['price', 'price_total', 'total_price', 'cost', 'amount']) {
-    const v = toFiniteNum(leg[key]);
-    if (v !== null && v > 0) return v;
-  }
-  return null;
+  return toFiniteNum(leg.price) ??
+    toFiniteNum(leg.charter_price) ??
+    toFiniteNum(leg.price_total) ??
+    toFiniteNum(leg.total_price) ??
+    toFiniteNum(leg.amount) ??
+    null;
 }
 
 /** Extract currency defensively */
 function extractCurrency(leg: Record<string, unknown>): string {
-  return toStr(leg.currency_code) || toStr(leg.currency) || 'USD';
+  const company = (leg.company || {}) as Record<string, unknown>;
+  return toStr(leg.currency_code) || toStr(leg.currency) || toStr(leg.price_currency) || toStr(company.currency) || 'USD';
 }
 
 // ─── Airport coordinates (ICAO → [lat, lng]) ───────────────────────────────
@@ -222,6 +223,41 @@ const REGION_MAP: Record<string, string> = {
   'Africa': 'ZA,NG,KE,EG,MA,TZ,GH,ET,CI,SN,RW,UG,MU,MZ,CM,AO,ZW,BW,NA',
 };
 
+// ─── Country code normalization ─────────────────────────────────────────────
+
+function normalizeCountryCode(value: unknown): string {
+  return String(value || "").trim().toUpperCase();
+}
+
+function getLegCountryCodes(leg: Record<string, unknown>): string[] {
+  const dep = leg.dep_airport as Record<string, unknown> | null;
+  const arr = leg.arr_airport as Record<string, unknown> | null;
+
+  const depCity = dep?.city as Record<string, unknown> | undefined;
+  const arrCity = arr?.city as Record<string, unknown> | undefined;
+
+  const depCountry =
+    normalizeCountryCode(depCity?.country_code) ||
+    normalizeCountryCode((depCity?.country as Record<string, unknown> | undefined)?.code) ||
+    normalizeCountryCode(dep?.country_code);
+
+  const arrCountry =
+    normalizeCountryCode(arrCity?.country_code) ||
+    normalizeCountryCode((arrCity?.country as Record<string, unknown> | undefined)?.code) ||
+    normalizeCountryCode(arr?.country_code);
+
+  return [depCountry, arrCountry].filter(Boolean);
+}
+
+function legMatchesRegion(leg: Record<string, unknown>, region: string): boolean {
+  if (!region || region === "All") return true;
+  const allowed = new Set((REGION_MAP[region] || "").split(",").map(s => s.trim().toUpperCase()).filter(Boolean));
+  if (allowed.size === 0) return true;
+
+  const countries = getLegCountryCodes(leg);
+  return countries.some(code => allowed.has(code));
+}
+
 // ─── Airport normalization ──────────────────────────────────────────────────
 
 function normalizeAirport(raw: Record<string, unknown> | null | undefined) {
@@ -332,9 +368,8 @@ serve(async (req) => {
         page_size: String(pageSize),
       });
 
-      if (region && region !== 'All' && REGION_MAP[region]) {
-        params.set('dep_airport_country_iso_in', REGION_MAP[region]);
-      }
+      // Region filtering is now done client-side via legMatchesRegion
+      // to catch legs where ARRIVAL matches the region too
 
       const apiUrl = `${AVIAPAGES_BASE}/api/availabilities/?${params.toString()}`;
       console.log(`[empty-legs] Page ${page}: ${apiUrl}`);
@@ -354,8 +389,12 @@ serve(async (req) => {
 
       if (items.length === 0) break;
 
-      for (const rawLeg of items) {
-        if (!rawLeg || typeof rawLeg !== 'object') continue;
+      // Filter by region client-side (catches both dep AND arr country matches)
+      const filteredItems = items.filter((leg: unknown) =>
+        leg && typeof leg === 'object' && legMatchesRegion(leg as Record<string, unknown>, region)
+      );
+
+      for (const rawLeg of filteredItems) {
         const leg = rawLeg as Record<string, unknown>;
 
         // Stable unique ID
