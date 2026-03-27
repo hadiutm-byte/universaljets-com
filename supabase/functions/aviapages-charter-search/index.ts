@@ -93,16 +93,28 @@ serve(async (req) => {
     // Flatten into individual aircraft offers, extracting ALL useful B2C data
     const results = [];
     for (const company of companies) {
-      // Log first aircraft's raw price fields for debugging
+      // Log first company's raw structure for debugging
       if (results.length === 0 && (company.aircraft || []).length > 0) {
         const sample = (company.aircraft || [])[0];
-        console.log(`[charter-search] Sample price fields:`, JSON.stringify({
+        const companyKeys = Object.keys(company).filter(k => k !== 'aircraft');
+        console.log(`[charter-search] Company keys: ${companyKeys.join(', ')}`);
+        console.log(`[charter-search] Company price fields:`, JSON.stringify({
+          price: company.price, charter_price: company.charter_price,
+          min_price: company.min_price, max_price: company.max_price,
+          currency: company.currency, price_per_hour: company.price_per_hour,
+        }));
+        const sampleKeys = Object.keys(sample);
+        console.log(`[charter-search] Aircraft keys: ${sampleKeys.join(', ')}`);
+        console.log(`[charter-search] Aircraft sample:`, JSON.stringify({
           price: sample.price, charter_price: sample.charter_price,
           price_total: sample.price_total, total_price: sample.total_price,
           amount: sample.amount, price_unit: sample.price_unit,
-          pricing_type: sample.pricing_type,
+          pricing_type: sample.pricing_type, price_per_hour: sample.price_per_hour,
+          hourly_rate: sample.hourly_rate, rate: sample.rate,
           currency_code: sample.currency_code, currency: sample.currency,
           price_currency: sample.price_currency,
+          ac_type: sample.ac_type, aircraft_type: sample.aircraft_type,
+          aircraft_class: sample.aircraft_class, class_name: sample.class_name,
           company_currency: company.currency,
         }));
       }
