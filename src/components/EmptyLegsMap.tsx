@@ -156,8 +156,7 @@ const EmptyLegsMap = () => {
         </motion.div>
 
         <div className="flex flex-wrap justify-center gap-3 mb-14">
-          {/* Map/Cards toggle — desktop only */}
-          {!isMobile && (
+          {/* Map/Cards toggle */}
             <div className="inline-flex rounded-lg border border-border bg-muted/30 p-1 gap-0">
               <button
                 onClick={() => setViewMode("cards")}
