@@ -9,6 +9,7 @@ import {
 } from "@/components/ui/popover";
 import { cn } from "@/lib/utils";
 import { motion } from "framer-motion";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 interface DateTimePickerProps {
   label: string;
@@ -25,7 +26,100 @@ const timeOptions = Array.from({ length: 48 }, (_, i) => {
   return `${String(h).padStart(2, "0")}:${m}`;
 });
 
-const DateTimePicker = ({
+/* ─── Mobile-native picker (uses OS scroll wheels) ─── */
+const MobileDateTimePicker = ({
+  label,
+  icon: Icon,
+  value,
+  onChange,
+  disabled = false,
+  placeholder = "Select",
+}: DateTimePickerProps) => {
+  const dateRef = useRef<HTMLInputElement>(null);
+  const timeRef = useRef<HTMLInputElement>(null);
+
+  const dateStr = value ? format(value, "yyyy-MM-dd") : "";
+  const timeStr = value ? format(value, "HH:mm") : "";
+
+  const handleDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const val = e.target.value;
+    if (!val) return;
+    const [y, mo, d] = val.split("-").map(Number);
+    const existing = value ? new Date(value) : new Date();
+    existing.setFullYear(y, mo - 1, d);
+    if (!value) existing.setHours(12, 0, 0, 0);
+    onChange(new Date(existing));
+  };
+
+  const handleTimeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const val = e.target.value;
+    if (!val) return;
+    const [h, m] = val.split(":").map(Number);
+    const existing = value ? new Date(value) : new Date();
+    existing.setHours(h, m, 0, 0);
+    onChange(new Date(existing));
+  };
+
+  const displayValue = value
+    ? `${format(value, "dd MMM")} • ${format(value, "HH:mm")}`
+    : null;
+
+  const today = format(new Date(), "yyyy-MM-dd");
+
+  return (
+    <div className="search-field relative">
+      <label className="search-label">
+        <Icon size={10} strokeWidth={1.5} /> {label}
+      </label>
+      {disabled ? (
+        <p className="text-[14px] text-muted-foreground/40 font-normal">{placeholder}</p>
+      ) : (
+        <div className="relative">
+          {/* Visible display */}
+          <button
+            type="button"
+            onClick={() => dateRef.current?.showPicker?.() || dateRef.current?.focus()}
+            className={cn(
+              "w-full text-left bg-transparent text-[14px] font-normal focus:outline-none cursor-pointer transition-colors duration-200",
+              value ? "text-foreground" : "text-muted-foreground/40"
+            )}
+          >
+            {displayValue || placeholder}
+          </button>
+
+          {/* Hidden native date input — triggers iOS scroll wheel */}
+          <input
+            ref={dateRef}
+            type="date"
+            value={dateStr}
+            min={today}
+            onChange={handleDateChange}
+            className="absolute inset-0 opacity-0 w-full h-full cursor-pointer"
+            style={{ WebkitAppearance: "none" }}
+          />
+
+          {/* Time picker — show after date is selected */}
+          {value && (
+            <div className="mt-2 flex items-center gap-2">
+              <Clock size={10} className="text-primary/60" strokeWidth={1.5} />
+              <input
+                ref={timeRef}
+                type="time"
+                value={timeStr}
+                onChange={handleTimeChange}
+                className="bg-transparent text-[13px] text-foreground/80 font-normal focus:outline-none border-b border-primary/20 pb-0.5 cursor-pointer"
+                style={{ WebkitAppearance: "none" }}
+              />
+            </div>
+          )}
+        </div>
+      )}
+    </div>
+  );
+};
+
+/* ─── Desktop rich picker (calendar + time list) ─── */
+const DesktopDateTimePicker = ({
   label,
   icon: Icon,
   value,
@@ -155,6 +249,12 @@ const DateTimePicker = ({
       </div>
     </div>
   );
+};
+
+/* ─── Adaptive wrapper ─── */
+const DateTimePicker = (props: DateTimePickerProps) => {
+  const isMobile = useIsMobile();
+  return isMobile ? <MobileDateTimePicker {...props} /> : <DesktopDateTimePicker {...props} />;
 };
 
 export default DateTimePicker;
