@@ -38,6 +38,11 @@ const HeroSection = () => {
         <div className="hero-cloud hero-cloud-3" />
       </div>
 
+      {/* Gold dust particles */}
+      <div className="absolute inset-0 pointer-events-none z-[2]">
+        <GoldParticles />
+      </div>
+
       {/* Dark gradient overlay for text readability */}
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute inset-0 bg-gradient-to-b from-[hsla(0,0%,3%,0.72)] via-[hsla(0,0%,4%,0.45)] to-[hsla(0,0%,3%,0.82)]" />
