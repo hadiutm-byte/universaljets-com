@@ -218,6 +218,7 @@ const EmptyLegPopup = ({ leg, onClose }: EmptyLegPopupProps) => {
                       maxLength={15}
                     />
                   </div>
+                  <div className="flex gap-2">
                     <button
                       onClick={() => setShowRequestForm(false)}
                       className="px-4 py-2.5 border border-border/40 text-muted-foreground text-[9px] tracking-[0.15em] uppercase font-light rounded-xl transition-colors hover:text-foreground"
