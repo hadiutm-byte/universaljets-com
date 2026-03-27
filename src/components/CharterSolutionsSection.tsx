@@ -36,7 +36,6 @@ const charterCategories: CharterCategory[] = [
       "18+ years arranging leisure charters worldwide",
     ],
     aircraft: [
-      { name: "Cessna Citation XLS", link: "/fleet" },
       { name: "Bombardier Challenger 350", link: "/fleet" },
       { name: "Gulfstream G550", link: "/fleet" },
       { name: "Global 7500", link: "/fleet" },
