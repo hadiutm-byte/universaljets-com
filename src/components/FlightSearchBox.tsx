@@ -6,8 +6,10 @@ import { format } from "date-fns";
 import { useAirportSearch, type Airport } from "@/hooks/useAviapages";
 import { useCrmApi } from "@/hooks/useCrmApi";
 import useUserGeolocation from "@/hooks/useUserGeolocation";
+import { useIsMobile } from "@/hooks/use-mobile";
 import DateTimePicker from "@/components/flight-search/DateTimePicker";
 import AirportField from "@/components/flight-search/AirportField";
+import MobileScrollPicker from "@/components/flight-search/MobileScrollPicker";
 import { trackFlightSearch } from "@/lib/gtmEvents";
 import QuoteRouteMap from "@/components/QuoteRouteMap";
 
