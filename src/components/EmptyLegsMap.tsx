@@ -156,8 +156,7 @@ const EmptyLegsMap = () => {
         </motion.div>
 
         <div className="flex flex-wrap justify-center gap-3 mb-14">
-          {/* Map/Cards toggle — desktop only */}
-          {!isMobile && (
+          {/* Map/Cards toggle */}
             <div className="inline-flex rounded-lg border border-border bg-muted/30 p-1 gap-0">
               <button
                 onClick={() => setViewMode("cards")}
@@ -180,7 +179,6 @@ const EmptyLegsMap = () => {
                 <Map size={12} /> Map
               </button>
             </div>
-          )}
           <div className="flex items-center gap-3">
             <span className="text-[9px] text-muted-foreground/40 font-light hidden sm:inline">
               Updated {lastUpdated.toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit" })}
