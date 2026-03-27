@@ -132,7 +132,11 @@ const SearchResults = () => {
 
     return normalized.filter((r) =>
       matchesSelectedSize(
-        { category: r.aircraft_class, aircraftType: r.aircraft_type },
+        {
+          category: r.aircraft_class,
+          aircraftType: r.aircraft_type,
+          size: getAircraftCategory(r.aircraft_type || ""),
+        },
         jetSize
       )
     );
