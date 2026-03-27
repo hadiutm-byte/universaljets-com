@@ -54,23 +54,33 @@ serve(async (req) => {
 
     console.log(`[charter-search] Searching ${from_icao} → ${to_icao}, pax=${passengers || 'any'}`);
 
-    const response = await fetch(
-      `${AVIAPAGES_BASE}/api/charter_searches/`,
-      {
-        method: 'POST',
-        headers: {
-          'Authorization': `Token ${apiKey}`,
-          'Accept': 'application/json',
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(searchBody),
+    let response: Response | null = null;
+    for (let attempt = 0; attempt < 3; attempt++) {
+      response = await fetch(
+        `${AVIAPAGES_BASE}/api/charter_searches/`,
+        {
+          method: 'POST',
+          headers: {
+            'Authorization': `Token ${apiKey}`,
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(searchBody),
+        }
+      );
+      if (response.status === 429) {
+        const wait = Math.pow(2, attempt) * 2;
+        console.log(`[charter-search] Rate limited, retrying in ${wait}s (attempt ${attempt + 1}/3)`);
+        await new Promise(r => setTimeout(r, wait * 1000));
+        continue;
       }
-    );
+      break;
+    }
 
-    if (!response.ok) {
-      const errorText = await response.text();
-      console.error(`[charter-search] API error [${response.status}]: ${errorText}`);
-      return new Response(JSON.stringify({ results: [], error: `API error ${response.status}` }), {
+    if (!response || !response.ok) {
+      const errorText = response ? await response.text() : 'No response';
+      console.error(`[charter-search] API error [${response?.status}]: ${errorText}`);
+      return new Response(JSON.stringify({ results: [], error: `API error ${response?.status}` }), {
         headers: { ...corsHeaders, 'Content-Type': 'application/json' },
       });
     }
