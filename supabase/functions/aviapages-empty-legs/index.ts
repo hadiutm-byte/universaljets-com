@@ -110,7 +110,8 @@ function extractPrice(leg: Record<string, unknown>): number | null {
 
 /** Extract currency defensively */
 function extractCurrency(leg: Record<string, unknown>): string {
-  return toStr(leg.currency_code) || toStr(leg.currency) || 'USD';
+  const company = (leg.company || {}) as Record<string, unknown>;
+  return toStr(leg.currency_code) || toStr(leg.currency) || toStr(leg.price_currency) || toStr(company.currency) || 'USD';
 }
 
 // ─── Airport coordinates (ICAO → [lat, lng]) ───────────────────────────────
