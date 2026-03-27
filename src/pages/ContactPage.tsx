@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { MapPin, FileCheck, Mail, Clock, Send, Shield, Globe, MessageCircle } from "lucide-react";
 import { Link } from "react-router-dom";
