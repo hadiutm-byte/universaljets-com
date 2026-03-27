@@ -1,6 +1,7 @@
 import { useState, forwardRef } from "react";
 import { motion } from "framer-motion";
 import { Check, Shield, ArrowRight, MessageCircle, Globe, Clock, Users, Plane, HeartHandshake, UserCheck, Zap, Calendar, Star, Crown, ChevronRight, Award, Lock, Headphones, CreditCard, BadgeCheck } from "lucide-react";
+import { MembershipCardsShowcase } from "@/components/PremiumCards";
 import { Link } from "react-router-dom";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -363,6 +364,11 @@ const MembersPage = () => (
             Each tier is designed around how you fly — from occasional regional trips to unlimited global coverage.
           </p>
         </motion.div>
+
+        {/* Member Cards Showcase */}
+        <div className="mb-16">
+          <MembershipCardsShowcase />
+        </div>
 
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-5 max-w-6xl mx-auto">
           {tiers.map((tier, i) => <TierCard key={tier.name} tier={tier} index={i} />)}
