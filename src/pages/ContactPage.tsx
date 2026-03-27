@@ -25,10 +25,16 @@ const fadeUp = {
 };
 
 const ContactPage = () => {
-  const [form, setForm] = useState({ name: "", email: "", phone: "", inquiry: "", message: "" });
+  const geo = useUserGeolocation();
+  const [form, setForm] = useState({ name: "", email: "", countryCode: "+971", phone: "", inquiry: "", message: "" });
   const [loading, setLoading] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [termsAccepted, setTermsAccepted] = useState(false);
+
+  const resolvedCode = resolveCountryCode(geo.countryCode);
+  if (form.countryCode === "+971" && resolvedCode !== "+971") {
+    setForm((p) => p.countryCode === "+971" ? { ...p, countryCode: resolvedCode } : p);
+  }
 
   const update = (field: string, value: string) => setForm((p) => ({ ...p, [field]: value }));
 
