@@ -215,13 +215,43 @@ const AIRPORT_COORDS: Record<string, [number, number]> = {
 };
 
 // ─── Region → ISO country code mapping ──────────────────────────────────────
-const REGION_MAP: Record<string, string> = {
-  'Europe': 'GB,FR,DE,IT,ES,CH,AT,NL,BE,PT,SE,NO,DK,FI,IE,CZ,PL,GR,RO,HU,HR,CY,TR,LU,SI,BA,MK,RS,BG,SK,LT,LV,EE,IS,MT',
-  'Americas': 'US,CA,MX,BR,AR,CO,CL,PE,EC,VE,DO,JM,BS,BB,TT,PA,CR,GT,PR,VI,KY,TC,AG,CW,AW,SX,BZ,HN,NI,SV,UY,PY,BO,GY,SR',
-  'Middle East': 'AE,SA,QA,BH,OM,KW,JO,LB,IL,IQ,IR,YE,GE,AM,AZ',
-  'Asia': 'SG,HK,JP,KR,IN,TH,MY,ID,CN,PH,TW,VN,KH,MM,LK,BD,NP,MV,MN,KZ,UZ',
-  'Africa': 'ZA,NG,KE,EG,MA,TZ,GH,ET,CI,SN,RW,UG,MU,MZ,CM,AO,ZW,BW,NA',
+const REGION_MAP: Record<string, Set<string>> = {
+  'middle_east': new Set(['AE','SA','QA','BH','OM','KW','JO','LB','IL','IQ','IR','YE','GE','AM','AZ']),
+  'asia': new Set(['SG','HK','JP','KR','IN','TH','MY','ID','CN','PH','TW','VN','KH','MM','LK','BD','NP','MV','MN','KZ','UZ']),
+  'europe': new Set(['GB','FR','DE','IT','ES','CH','AT','NL','BE','PT','SE','NO','DK','FI','IE','CZ','PL','GR','RO','HU','HR','CY','TR','LU','SI','BA','MK','RS','BG','SK','LT','LV','EE','IS','MT']),
+  'americas': new Set(['US','CA','MX','BR','AR','CO','CL','PE','EC','VE','DO','JM','BS','BB','TT','PA','CR','GT','PR','VI','KY','TC','AG','CW','AW','SX','BZ','HN','NI','SV','UY','PY','BO','GY','SR']),
+  'africa': new Set(['ZA','NG','KE','EG','MA','TZ','GH','ET','CI','SN','RW','UG','MU','MZ','CM','AO','ZW','BW','NA']),
 };
+
+// ─── ICAO prefix → country code (reliable fallback) ─────────────────────────
+const ICAO_PREFIX_COUNTRY: Record<string, string> = {
+  K:'US',C:'CA',M:'MX',T:'',S:'',
+  EG:'GB',EI:'IE',LF:'FR',ED:'DE',LI:'IT',LE:'ES',LS:'CH',LO:'AT',EH:'NL',EB:'BE',LP:'PT',
+  ES:'SE',EN:'NO',EK:'DK',EF:'FI',LK:'CZ',EP:'PL',LG:'GR',LR:'RO',LH:'HU',LD:'HR',LC:'CY',
+  LT:'TR',EL:'LU',LJ:'SI',LQ:'BA',LW:'MK',LY:'RS',LB:'BG',LZ:'SK',EY:'LT',EV:'LV',EE:'EE',BI:'IS',LM:'MT',
+  OM:'AE',OE:'SA',OT:'QA',OB:'BH',OO:'OM',OK:'KW',OJ:'JO',OL:'LB',LL:'IL',OR:'IQ',OI:'IR',OY:'YE',UG:'GE',
+  WS:'SG',VH:'HK',RJ:'JP',RK:'KR',VI:'IN',VT:'TH',WM:'MY',WI:'ID',ZB:'CN',ZS:'CN',ZG:'CN',RP:'PH',RC:'TW',VV:'VN',VD:'KH',
+  FA:'ZA',DN:'NG',HK:'KE',HE:'EG',GM:'MA',HT:'TZ',DG:'GH',
+  SB:'BR',SA:'AR',SC:'CL',SK:'CO',SP:'PE',SE:'EC',SV:'VE',
+  UU:'RU',UL:'RU',UR:'RU',
+};
+
+function icaoToCountry(icao: string): string {
+  if (!icao || icao.length < 2) return '';
+  const upper = icao.toUpperCase();
+  // Try 2-char prefix first (most specific)
+  const two = upper.substring(0, 2);
+  if (ICAO_PREFIX_COUNTRY[two]) return ICAO_PREFIX_COUNTRY[two];
+  // US airports start with K
+  if (upper.startsWith('K') && upper.length === 4) return 'US';
+  // Canadian airports start with C
+  if (upper.startsWith('C') && upper.length === 4) return 'CA';
+  // Try 1-char for some regions
+  const one = upper[0];
+  if (one === 'K') return 'US';
+  if (one === 'P') return 'US'; // Pacific US (PHNL etc)
+  return '';
+}
 
 // ─── Country code normalization ─────────────────────────────────────────────
 
@@ -236,23 +266,39 @@ function getLegCountryCodes(leg: Record<string, unknown>): string[] {
   const depCity = dep?.city as Record<string, unknown> | undefined;
   const arrCity = arr?.city as Record<string, unknown> | undefined;
 
-  const depCountry =
+  let depCountry =
     normalizeCountryCode(depCity?.country_code) ||
     normalizeCountryCode((depCity?.country as Record<string, unknown> | undefined)?.code) ||
     normalizeCountryCode(dep?.country_code);
 
-  const arrCountry =
+  let arrCountry =
     normalizeCountryCode(arrCity?.country_code) ||
     normalizeCountryCode((arrCity?.country as Record<string, unknown> | undefined)?.code) ||
     normalizeCountryCode(arr?.country_code);
 
+  // ICAO fallback — most reliable when API country data is missing
+  if (!depCountry) depCountry = icaoToCountry(toStr(dep?.icao));
+  if (!arrCountry) arrCountry = icaoToCountry(toStr(arr?.icao));
+
   return [depCountry, arrCountry].filter(Boolean);
 }
 
-function legMatchesRegion(leg: Record<string, unknown>, region: string): boolean {
-  if (!region || region === "All") return true;
-  const allowed = new Set((REGION_MAP[region] || "").split(",").map(s => s.trim().toUpperCase()).filter(Boolean));
-  if (allowed.size === 0) return true;
+function normalizeRegion(value: string | null | undefined): string {
+  const v = String(value || '').trim().toLowerCase();
+  if (!v || v === 'all') return 'all';
+  if (v === 'middle east' || v === 'middle-east' || v === 'middle_east') return 'middle_east';
+  if (v === 'asia') return 'asia';
+  if (v === 'europe') return 'europe';
+  if (v === 'americas' || v === 'america') return 'americas';
+  if (v === 'africa') return 'africa';
+  return 'all';
+}
+
+function legMatchesRegion(leg: Record<string, unknown>, rawRegion: string): boolean {
+  const region = normalizeRegion(rawRegion);
+  if (region === 'all') return true;
+  const allowed = REGION_MAP[region];
+  if (!allowed || allowed.size === 0) return true;
 
   const countries = getLegCountryCodes(leg);
   return countries.some(code => allowed.has(code));
