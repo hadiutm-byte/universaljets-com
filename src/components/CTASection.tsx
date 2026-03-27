@@ -83,7 +83,7 @@ const CTASection = () => {
       <div className="py-28 md:py-40 relative">
         <div className="container mx-auto px-8 relative z-10">
           <FadeReveal className="text-center max-w-3xl mx-auto">
-            <p className="text-[9px] tracking-[0.5em] uppercase text-primary/45 mb-8 font-light">Your Journey Starts Here</p>
+            <p className="text-[9px] tracking-[0.5em] uppercase text-primary/60 mb-8 font-light">Your Journey Starts Here</p>
             <h2 className="text-4xl md:text-6xl lg:text-7xl font-display font-semibold text-foreground mb-6 leading-[1.1]">
               Request Your <span className="text-gradient-gold italic font-medium">Flight</span>
             </h2>
