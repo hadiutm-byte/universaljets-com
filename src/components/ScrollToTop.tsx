@@ -12,17 +12,21 @@ const ScrollToTop = () => {
     const params = new URLSearchParams(search);
     const scrollTo = params.get("scrollTo");
 
-    // Always scroll to top first
-    window.scrollTo({ top: 0, left: 0, behavior: "instant" });
-
     if (scrollTo) {
-      // Wait for DOM to settle, then smooth-scroll to target
+      // Instant jump to target section — no visible scroll-to-top first
       requestAnimationFrame(() => {
         setTimeout(() => {
           const el = document.getElementById(scrollTo) || document.querySelector(`#${scrollTo}`);
-          el?.scrollIntoView({ behavior: "smooth", block: "start" });
+          if (el) {
+            el.scrollIntoView({ behavior: "instant", block: "start" });
+          } else {
+            window.scrollTo({ top: 0, left: 0, behavior: "instant" });
+          }
         }, 100);
       });
+    } else {
+      // Normal page change — jump to top instantly
+      window.scrollTo({ top: 0, left: 0, behavior: "instant" });
     }
   }, [pathname, search]);
 

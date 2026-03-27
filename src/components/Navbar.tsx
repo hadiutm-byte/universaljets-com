@@ -115,11 +115,12 @@ const Navbar = () => {
     setOverlayOpen(false);
     if (href.startsWith("/#") && isHome) {
       const id = href.replace("/#", "");
-      window.scrollTo({ top: 0, behavior: "instant" });
+      // Instant jump — no visible scroll sequence
       requestAnimationFrame(() => {
-        setTimeout(() => {
-          document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" });
-        }, 50);
+        const el = document.getElementById(id);
+        if (el) {
+          el.scrollIntoView({ behavior: "instant", block: "start" });
+        }
       });
     }
   };
