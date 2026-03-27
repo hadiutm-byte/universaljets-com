@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { Shield, Award, FileCheck, Globe, ArrowRight, MessageCircle, Compass, Target, Zap, MapPin } from "lucide-react";
+import { Shield, Award, FileCheck, Globe, ArrowRight, MessageCircle, Compass, Target, Zap, MapPin, Mail, Linkedin } from "lucide-react";
 import { Link } from "react-router-dom";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
