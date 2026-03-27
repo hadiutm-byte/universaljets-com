@@ -108,6 +108,10 @@ Deno.serve(async (req) => {
       } = body;
 
       if (!name || !email) return err("Name and email are required");
+      if (!isValidEmail(email)) return err("Invalid email format");
+
+      // Calculate lead score
+      const leadScore = calcLeadScore(body);
 
       // Find or create client
       const { data: existing } = await admin.from("clients").select("id").eq("email", email).limit(1);
