@@ -9,7 +9,7 @@ import AIRPORT_COORDS from "@/lib/airportCoords";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { setBodyUiState } from "@/lib/bodyUiState";
 
-const regions = ["All", "Americas", "Europe", "Middle East", "Asia"];
+const regions = ["All", "Americas", "Europe", "Middle East", "Asia", "Africa"];
 
 function enrichCoords(leg: EmptyLeg): EmptyLeg {
   const enrichAirport = (airport: EmptyLeg["departure"]) => {
