@@ -103,7 +103,7 @@ const AirportField = ({
           }}
           onFocus={() => query.length >= 2 && setShowDropdown(true)}
           placeholder="City or airport"
-          className="w-full bg-transparent text-[14px] text-foreground placeholder:text-muted-foreground/40 font-normal focus:outline-none"
+          className="w-full bg-transparent text-[14px] text-white placeholder:text-white/35 font-normal focus:outline-none"
         />
       </div>
       {error && (
