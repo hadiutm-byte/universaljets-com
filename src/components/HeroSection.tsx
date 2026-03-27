@@ -1,7 +1,7 @@
 import { useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
-import { ArrowRight } from "lucide-react";
 import heroJet from "@/assets/hero-jet.jpg";
+import GoldParticles from "@/components/GoldParticles";
 
 const HeroSection = () => {
   const ref = useRef<HTMLElement>(null);
