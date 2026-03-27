@@ -16,7 +16,7 @@ const HeroSection = () => {
   return (
     <section
       ref={ref}
-      className="relative min-h-screen min-h-[100dvh] w-full overflow-hidden flex flex-col items-center justify-start pt-[22vh]"
+      className="relative min-h-screen min-h-[100dvh] w-full overflow-hidden flex flex-col items-center justify-start pt-[18vh] md:pt-[22vh]"
     >
       {/* Background image with parallax + Ken Burns */}
       <motion.div
@@ -83,15 +83,15 @@ const HeroSection = () => {
           initial={{ opacity: 0, scaleY: 0 }}
           animate={{ opacity: 1, scaleY: 1 }}
           transition={{ duration: 1.6, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
-          className="w-[2px] h-20 bg-gradient-to-b from-transparent via-primary to-transparent mb-8 origin-top"
+          className="w-[2px] h-14 md:h-20 bg-gradient-to-b from-transparent via-primary to-transparent mb-6 md:mb-8 origin-top"
         />
 
         <motion.p
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1.2, delay: 0.5 }}
-          className="font-display tracking-[0.65em] uppercase text-white/95 font-semibold -mt-4"
-          style={{ fontSize: "clamp(2rem, 6vw, 4.5rem)", textShadow: "0 0 15px hsl(43, 85%, 42%)" }}
+          className="font-display tracking-[0.35em] md:tracking-[0.65em] uppercase text-white/95 font-semibold -mt-2 md:-mt-4 px-4"
+          style={{ fontSize: "clamp(1.4rem, 5vw, 4.5rem)", textShadow: "0 0 15px hsl(43, 85%, 42%)" }}
         >
           Private Aviation Redefined
         </motion.p>
@@ -102,7 +102,7 @@ const HeroSection = () => {
         initial={{ opacity: 0, y: 18 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 1.2, delay: 0.95 }}
-        className="absolute bottom-[38vh] left-0 right-0 z-10 text-center"
+        className="absolute bottom-[28vh] md:bottom-[38vh] left-0 right-0 z-10 text-center px-6"
       >
         <p
           className="font-display text-[13px] md:text-[15px] text-white/80 font-semibold leading-[1.8] tracking-[0.18em] uppercase"
@@ -116,7 +116,7 @@ const HeroSection = () => {
           initial={{ opacity: 0, y: 14 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1, delay: 1.3 }}
-          className="flex gap-4 mt-6"
+          className="flex flex-wrap justify-center gap-3 md:gap-4 mt-5 md:mt-6"
         >
           <Link
             to="/#cta"
