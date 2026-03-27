@@ -117,7 +117,6 @@ const charterCategories: CharterCategory[] = [
     ],
     aircraft: [
       { name: "Airbus H145", link: "/fleet" },
-      { name: "Bell 429", link: "/fleet" },
       { name: "AgustaWestland AW139", link: "/fleet" },
       { name: "Sikorsky S-76", link: "/fleet" },
     ],
