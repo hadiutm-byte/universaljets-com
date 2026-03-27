@@ -161,7 +161,7 @@ const CharterPage = () => {
               <div key={name} className="rounded-xl border border-border bg-card p-5 text-center hover:shadow-[0_10px_30px_rgba(0,0,0,0.06)] transition-all">
                 <p className="font-display text-sm font-medium text-foreground">{name}</p>
                 <Link
-                  to="/contact"
+                  to="/request-flight"
                   className="mt-3 inline-block text-[9px] tracking-[0.12em] uppercase text-primary hover:underline"
                 >
                   Request This Aircraft
