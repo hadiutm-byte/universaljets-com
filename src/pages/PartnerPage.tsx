@@ -268,29 +268,13 @@ const PartnerPage = () => {
                   transition={{ delay: i * 0.15, duration: 0.7 }}
                   className="rounded-2xl border border-border/15 bg-card/15 p-8 md:p-10 hover:border-primary/15 transition-all duration-500"
                 >
-                  {/* Visual Card */}
-                  <div className="relative rounded-xl overflow-hidden aspect-[1.586/1] mb-8 shadow-[0_20px_50px_-15px_rgba(0,0,0,0.5)]" style={{ background: card.gradient }}>
-                    <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-primary/30 to-transparent" />
-                    <div className="absolute bottom-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-primary/15 to-transparent" />
-                    <motion.div
-                      className="absolute inset-0 opacity-[0.08]"
-                      animate={{ backgroundPosition: ["0% 0%", "200% 200%"] }}
-                      transition={{ duration: 6, repeat: Infinity, ease: "linear" }}
-                      style={{ backgroundImage: "linear-gradient(135deg, transparent 25%, hsla(43,74%,49%,0.4) 35%, transparent 45%)", backgroundSize: "200% 200%" }}
+                  {/* Premium Card Visual */}
+                  <div className="flex justify-center mb-8">
+                    <CoBrandedCard
+                      network={i === 0 ? "visa" : "mastercard"}
+                      cardNumber={i === 0 ? "4000  1234  5678  9010" : "5400  8800  2211  6633"}
+                      delay={i * 0.15}
                     />
-                    <div className="relative z-10 p-6 h-full flex flex-col justify-between">
-                      <div className="flex items-start justify-between">
-                        <p className="text-[10px] tracking-[0.4em] uppercase text-primary/70 font-medium">Universal Jets</p>
-                        <p className="text-[8px] tracking-[0.25em] uppercase text-foreground/30 font-light">{card.type}</p>
-                      </div>
-                      <div>
-                        <div className="flex items-center gap-3 mb-3">
-                          <div className="w-8 h-6 rounded-[3px] border border-primary/20" style={{ background: "linear-gradient(145deg, hsla(43,74%,49%,0.2) 0%, hsla(43,74%,49%,0.08) 100%)" }} />
-                          <p className="text-[13px] tracking-[0.15em] text-foreground/50 font-light font-mono">•••• •••• •••• ••••</p>
-                        </div>
-                        <p className="text-[9px] tracking-[0.2em] uppercase text-foreground/30 font-extralight">Aviation Rewards Card</p>
-                      </div>
-                    </div>
                   </div>
 
                   <h3 className="font-display text-lg text-foreground mb-2">{card.type}</h3>
@@ -304,6 +288,22 @@ const PartnerPage = () => {
                   </div>
                 </motion.div>
               ))}
+            </div>
+
+            {/* White Label Card */}
+            <div className="mt-16 max-w-4xl mx-auto">
+              <div className="text-center mb-8">
+                <p className="text-[9px] tracking-[0.5em] uppercase text-white/40 mb-3 font-light">Enterprise Solution</p>
+                <h3 className="font-display text-xl text-foreground font-semibold">
+                  White Label <span className="text-gradient-gold italic">Aviation Card</span>
+                </h3>
+                <p className="text-[12px] text-foreground/40 font-light mt-2 max-w-md mx-auto">
+                  Your brand identity. Our aviation infrastructure. No Universal Jets branding.
+                </p>
+              </div>
+              <div className="flex justify-center">
+                <WhiteLabelCard delay={0.2} />
+              </div>
             </div>
           </div>
         </section>

@@ -90,39 +90,7 @@ const JetCardPage = () => (
 
             {/* Right: Visual Jet Card */}
             <div className="hidden lg:block">
-              <motion.div
-                initial={{ opacity: 0, x: 20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 1, delay: 0.3 }}
-                className="relative w-[340px]"
-              >
-                <div
-                  className="rounded-2xl overflow-hidden aspect-[1.586/1] relative"
-                  style={{
-                    background: "linear-gradient(160deg, hsl(228 10% 14%) 0%, hsl(228 12% 5%) 40%, hsl(228 10% 9%) 100%)",
-                    boxShadow: "0 30px 80px -20px rgba(0,0,0,0.7), 0 0 60px -15px hsla(43,74%,49%,0.15), inset 0 1px 0 hsla(43,74%,49%,0.12)",
-                  }}
-                >
-                  <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-primary/40 to-transparent" />
-                  <motion.div
-                    className="absolute inset-0 opacity-[0.08]"
-                    animate={{ backgroundPosition: ["0% 0%", "200% 200%"] }}
-                    transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
-                    style={{ backgroundImage: "linear-gradient(135deg, transparent 30%, hsla(43,74%,49%,0.4) 40%, transparent 50%)", backgroundSize: "200% 200%" }}
-                  />
-                  <div className="relative z-10 p-6 h-full flex flex-col justify-between">
-                    <div className="flex items-start justify-between">
-                      <p className="text-[9px] tracking-[0.4em] uppercase text-primary font-medium">Universal Jets</p>
-                      <p className="text-[8px] tracking-[0.2em] uppercase text-foreground/50 font-light">Altus Global</p>
-                    </div>
-                    <div>
-                      <p className="text-[13px] tracking-[0.15em] text-foreground/60 font-light font-mono mb-1">•••• •••• •••• ••••</p>
-                      <p className="text-[8px] tracking-[0.2em] uppercase text-foreground/40 font-light">Jet Card</p>
-                    </div>
-                  </div>
-                  <div className="absolute bottom-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-primary/20 to-transparent" />
-                </div>
-              </motion.div>
+              <JetCardVisual delay={0.3} />
             </div>
           </div>
         </motion.div>

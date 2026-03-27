@@ -365,6 +365,11 @@ const MembersPage = () => (
           </p>
         </motion.div>
 
+        {/* Member Cards Showcase */}
+        <div className="mb-16">
+          <MembershipCardsShowcase />
+        </div>
+
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-5 max-w-6xl mx-auto">
           {tiers.map((tier, i) => <TierCard key={tier.name} tier={tier} index={i} />)}
         </div>
