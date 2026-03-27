@@ -90,6 +90,40 @@ export function getCharterPrice(opts: {
 
   // 1. Exact price from API
   if (price != null && price > 0) {
+    // If price_unit is per_hour, multiply by estimated flight hours to show total
+    if (priceUnit === "per_hour" || priceUnit === "hourly") {
+      const classKey = (aircraftClass || "").toLowerCase().replace(/\s*jet$/i, "").trim();
+      const minutes = flightTimeMin || (distanceNm ? estimateFlightTimeMin(distanceNm, aircraftClass, speedKmh) : null);
+      if (minutes && minutes > 0) {
+        const totalPrice = Math.round(price * Math.max(minutes / 60, 1));
+        const formatted = new Intl.NumberFormat("en-US", {
+          style: "currency",
+          currency: priceCurrency,
+          maximumFractionDigits: 0,
+        }).format(totalPrice);
+        return {
+          display: `From ${formatted}`,
+          low: totalPrice,
+          high: totalPrice,
+          isEstimate: false,
+          variant: "exact",
+        };
+      }
+      // Can't calculate total without flight time — show per-hour
+      const formatted = new Intl.NumberFormat("en-US", {
+        style: "currency",
+        currency: priceCurrency,
+        maximumFractionDigits: 0,
+      }).format(price);
+      return {
+        display: `${formatted}/hr`,
+        low: price,
+        high: price,
+        isEstimate: false,
+        variant: "exact",
+      };
+    }
+
     const formatted = new Intl.NumberFormat("en-US", {
       style: "currency",
       currency: priceCurrency,
