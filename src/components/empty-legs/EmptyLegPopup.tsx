@@ -298,7 +298,9 @@ const EmptyLegPopup = ({ leg, onClose }: EmptyLegPopupProps) => {
               )}
             </AnimatePresence>
           </div>
-        </motion.div>
+            </div>
+          </motion.div>
+        </>
       )}
     </AnimatePresence>
   );
