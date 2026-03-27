@@ -3,6 +3,11 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Plane, ArrowRight, ChevronDown, Shield, Clock, Globe, X } from "lucide-react";
 import { Link } from "react-router-dom";
 import { getAircraftImage } from "@/lib/aircraftImages";
+import leisureImg from "@/assets/charter/leisure-charter.jpg";
+import corporateImg from "@/assets/charter/corporate-charter.jpg";
+import medevacImg from "@/assets/charter/medevac-charter.jpg";
+import cargoImg from "@/assets/charter/cargo-charter.jpg";
+import groupImg from "@/assets/charter/group-charter.jpg";
 
 interface CharterCategory {
   title: string;
