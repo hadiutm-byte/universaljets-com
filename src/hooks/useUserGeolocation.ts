@@ -66,6 +66,17 @@ const CITY_AIRPORT_MAP: Record<string, { iata: string; icao: string; label: stri
   "toronto": { iata: "YYZ", icao: "CYYZ", label: "Toronto (CYYZ)" },
   "montreal": { iata: "YUL", icao: "CYUL", label: "Montreal (CYUL)" },
   "mexico city": { iata: "MEX", icao: "MMMX", label: "Mexico City (MMMX)" },
+  "beirut": { iata: "BEY", icao: "OLBA", label: "Beirut (OLBA)" },
+  "amman": { iata: "AMM", icao: "OJAI", label: "Amman (OJAI)" },
+  "baghdad": { iata: "BGW", icao: "ORBI", label: "Baghdad (ORBI)" },
+  "tehran": { iata: "IKA", icao: "OIIE", label: "Tehran (OIIE)" },
+  "nairobi": { iata: "NBO", icao: "HKJK", label: "Nairobi (HKJK)" },
+  "casablanca": { iata: "CMN", icao: "GMMN", label: "Casablanca (GMMN)" },
+  "tunis": { iata: "TUN", icao: "DTTA", label: "Tunis (DTTA)" },
+  "algiers": { iata: "ALG", icao: "DAAG", label: "Algiers (DAAG)" },
+  "addis ababa": { iata: "ADD", icao: "HAAB", label: "Addis Ababa (HAAB)" },
+  "dar es salaam": { iata: "DAR", icao: "HTDA", label: "Dar es Salaam (HTDA)" },
+  "accra": { iata: "ACC", icao: "DGAA", label: "Accra (DGAA)" },
 };
 
 const COUNTRY_AIRPORT_MAP: Record<string, { iata: string; icao: string; label: string }> = {
@@ -104,6 +115,18 @@ const COUNTRY_AIRPORT_MAP: Record<string, { iata: string; icao: string; label: s
   "MX": { iata: "MEX", icao: "MMMX", label: "Mexico City (MMMX)" },
   "MY": { iata: "KUL", icao: "WMKK", label: "Kuala Lumpur (WMKK)" },
   "TH": { iata: "BKK", icao: "VTBS", label: "Bangkok (VTBS)" },
+  "LB": { iata: "BEY", icao: "OLBA", label: "Beirut (OLBA)" },
+  "JO": { iata: "AMM", icao: "OJAI", label: "Amman (OJAI)" },
+  "IQ": { iata: "BGW", icao: "ORBI", label: "Baghdad (ORBI)" },
+  "IR": { iata: "IKA", icao: "OIIE", label: "Tehran (OIIE)" },
+  "KE": { iata: "NBO", icao: "HKJK", label: "Nairobi (HKJK)" },
+  "MA": { iata: "CMN", icao: "GMMN", label: "Casablanca (GMMN)" },
+  "TN": { iata: "TUN", icao: "DTTA", label: "Tunis (DTTA)" },
+  "DZ": { iata: "ALG", icao: "DAAG", label: "Algiers (DAAG)" },
+  "ET": { iata: "ADD", icao: "HAAB", label: "Addis Ababa (HAAB)" },
+  "TZ": { iata: "DAR", icao: "HTDA", label: "Dar es Salaam (HTDA)" },
+  "GH": { iata: "ACC", icao: "DGAA", label: "Accra (DGAA)" },
+  "CY": { iata: "LCA", icao: "LCLK", label: "Larnaca (LCLK)" },
 };
 
 const CACHE_KEY = "uj_user_geo";
