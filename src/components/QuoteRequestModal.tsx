@@ -1,6 +1,8 @@
 import { useState, useCallback, useMemo, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, Plane, Calendar, Users, ArrowRight, CheckCircle, MessageCircle, MapPin, Clock, Shield, Navigation, Loader2 } from "lucide-react";
+import useUserGeolocation from "@/hooks/useUserGeolocation";
+import PhoneWithCountryCode, { buildFullPhone, resolveCountryCode } from "@/components/forms/PhoneWithCountryCode";
 import MembershipUpsell from "@/components/MembershipUpsell";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
