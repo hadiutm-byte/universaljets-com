@@ -174,7 +174,7 @@ const CharterPage = () => {
         {/* CTA */}
         <div className="flex flex-wrap gap-4">
           <Link
-            to="/contact"
+            to="/request-flight"
             className="inline-flex items-center gap-2 px-8 py-3.5 rounded-full bg-primary text-primary-foreground text-[12px] tracking-[0.15em] uppercase font-semibold hover:bg-primary/90 transition-colors shadow-[0_8px_24px_hsl(var(--primary)/0.25)]"
           >
             <Plane size={16} strokeWidth={1.5} />
