@@ -527,6 +527,35 @@ html {
                 0 0 50px hsla(43, 85%, 58%, 0.3);
   }
 
+  /* CTA light sweep effect on hover */
+  [class*="ctaGold"], [class*="ctaDark"] {
+    position: relative;
+    overflow: hidden;
+  }
+
+  [class*="ctaGold"]::before, [class*="ctaDark"]::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 200%;
+    height: 300%;
+    background: radial-gradient(circle at center, hsla(43, 85%, 70%, 0.4), transparent 70%);
+    transform: rotate(-45deg);
+    z-index: 0;
+    transition: left 0.5s ease-in-out;
+    pointer-events: none;
+  }
+
+  [class*="ctaGold"]:hover::before, [class*="ctaDark"]:hover::before {
+    left: 0;
+  }
+
+  [class*="ctaGold"] > *, [class*="ctaDark"] > * {
+    position: relative;
+    z-index: 1;
+  }
+
   .bg-primary,
   .bg-gradient-gold,
   .search-cta-btn,
