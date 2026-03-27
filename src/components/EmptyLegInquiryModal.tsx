@@ -28,9 +28,11 @@ export default function EmptyLegInquiryModal({ open, onOpenChange, emptyLeg }: P
   const [termsAccepted, setTermsAccepted] = useState(false);
 
   const resolvedCode = resolveCountryCode(geo.countryCode);
-  if (form.countryCode === "+971" && resolvedCode !== "+971") {
-    setForm((p) => p.countryCode === "+971" ? { ...p, countryCode: resolvedCode } : p);
-  }
+  useEffect(() => {
+    if (form.countryCode === "+971" && resolvedCode !== "+971") {
+      setForm((p) => p.countryCode === "+971" ? { ...p, countryCode: resolvedCode } : p);
+    }
+  }, [resolvedCode]);
 
   const set = (k: string, v: any) => setForm((p) => ({ ...p, [k]: v }));
   const canSubmit = form.name && form.email && termsAccepted;
