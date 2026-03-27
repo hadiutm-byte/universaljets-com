@@ -102,7 +102,7 @@ export function useEmptyLegs(region: string = "All") {
     },
     staleTime: 5 * 60 * 1000,
     retry: 1,
-    select: (data) => {
+    select: (data): { count: number; results: EmptyLeg[] } => {
       if (!region || region === "All") return data;
       const filtered = data.results.filter(leg => legMatchesRegion(leg, region));
       return { count: filtered.length, results: filtered };
