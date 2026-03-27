@@ -30,8 +30,10 @@ const JetCardInquiryPage = () => {
   const [loading, setLoading] = useState(false);
   const { capture } = useCrmApi();
 
+  const geo = useUserGeolocation();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
+  const [countryCode, setCountryCode] = useState("+971");
   const [phone, setPhone] = useState("");
   const [company, setCompany] = useState("");
   const [plan, setPlan] = useState("");
