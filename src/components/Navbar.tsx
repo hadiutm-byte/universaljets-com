@@ -155,7 +155,7 @@ const Navbar = () => {
             style={{ x: logoX, y: logoY }}
             onMouseMove={handleLogoMouseMove}
             onMouseLeave={handleLogoMouseLeave}
-            className="relative"
+            className="relative animate-logo-float"
           >
             {/* Particle glow behind logo */}
             <div className="absolute inset-0 -inset-x-8 -inset-y-6 pointer-events-none z-[-1] overflow-visible">
