@@ -124,44 +124,65 @@ const AboutPage = () => (
 
       {/* ===== CEO SECTION — Apple editorial style ===== */}
       <section className="relative bg-[#000000] overflow-hidden">
-        {/* Full-bleed cinematic photo */}
         <div className="relative w-full flex flex-col items-center">
           {/* Intro text above photo */}
-          <FadeReveal className="text-center pt-24 md:pt-32 pb-16 md:pb-20 px-6 relative z-10">
-            <p className="text-[10px] tracking-[0.6em] uppercase text-white/40 font-light mb-6">Leadership</p>
-            <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-semibold text-white leading-[1.08] mb-5">
-              Hadi Abdel Hadi
+          <FadeReveal className="text-center pt-24 md:pt-32 pb-12 md:pb-16 px-6 relative z-10">
+            <p className="text-[10px] tracking-[0.6em] uppercase text-white/40 font-light mb-6">A Message from the Founder</p>
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-display font-semibold text-white leading-[1.08] mb-5">
+              We Are Redefining{" "}
+              <span className="text-gradient-gold italic">Private Aviation</span>
             </h2>
-            <p className="text-[15px] md:text-[17px] text-white/50 font-light">Founder & CEO</p>
           </FadeReveal>
 
-          {/* Hero photo — large, editorial crop */}
-          <FadeReveal delay={0.15} className="w-full max-w-3xl mx-auto px-6 md:px-0">
+          {/* Cinematic portrait */}
+          <FadeReveal delay={0.15} className="w-full max-w-2xl mx-auto px-6 md:px-0">
             <div className="relative rounded-3xl overflow-hidden shadow-2xl shadow-black/60">
               <img
                 src={ceoPhoto}
                 alt="Hadi Abdel Hadi — Founder & CEO of Universal Jets"
-                className="w-full aspect-[4/5] md:aspect-[3/4] object-cover object-top"
-                loading="lazy"
+                className="w-full aspect-[3/4] object-cover object-top"
+                loading="eager"
+                fetchPriority="high"
                 style={{ imageRendering: "auto" }}
               />
-              {/* Subtle bottom gradient for text legibility */}
-              <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-black/60 to-transparent" />
+              <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-black/70 to-transparent" />
             </div>
           </FadeReveal>
 
-          {/* Quote block — below photo, Apple keynote style */}
-          <FadeReveal delay={0.3} className="max-w-2xl mx-auto text-center px-6 pt-16 md:pt-20 pb-24 md:pb-32">
-            <blockquote className="text-[20px] md:text-[24px] lg:text-[28px] text-white font-display font-light leading-[1.5] italic mb-8">
-              "This is not about jets. This is about how you move through the world."
-            </blockquote>
-            <div className="w-12 h-[1px] bg-primary/40 mx-auto mb-8" />
-            <p className="text-[14px] md:text-[15px] text-white/50 font-light leading-[2] max-w-lg mx-auto mb-4">
-              After nearly two decades in private aviation, Hadi built Universal Jets on one principle — every flight should feel effortless. No friction. No uncertainty. Just clarity, precision, and trust.
-            </p>
-            <p className="text-[11px] text-primary/60 tracking-[0.2em] uppercase font-medium mt-6">
-              18+ Years · Europe · GCC · Global
-            </p>
+          {/* CEO Letter */}
+          <FadeReveal delay={0.3} className="max-w-2xl mx-auto px-6 pt-16 md:pt-24 pb-24 md:pb-32">
+            <div className="w-12 h-[1px] bg-primary/40 mx-auto mb-10" />
+
+            <div className="space-y-6 text-[14px] md:text-[15px] text-white/60 font-light leading-[2]">
+              <p>
+                Private aviation is no longer a luxury reserved for the privileged few. It is essential for those who refuse to compromise on time, privacy, and precision. When I founded Universal Jets in 2018, my singular commitment was clear: to build the world's most capable aviation brokerage, one that serves every client with the same level of excellence, transparency, and unwavering integrity.
+              </p>
+              <p>
+                My experience spans nearly two decades, serving the most discerning clients, from managing VIP accounts at Michelin-starred hotels in France and Abu Dhabi, to commanding luxury yacht operations across the Mediterranean, to building travel management enterprises catering to high-net-worth individuals. Every role taught me one lesson: excellence is non-negotiable. Our clients don't just book flights. They expect seamless experiences where every detail is anticipated, every concern resolved before it arises, and every journey unforgettable.
+              </p>
+              <p>
+                Today, the aviation industry stands at a pivotal moment. Global commerce is accelerating. High-net-worth individuals demand unprecedented flexibility. Governments and humanitarian organizations require rapid-response capabilities. Dubai, at the crossroads of East and West, is the epicenter of this transformation. Universal Jets was built precisely for this moment.
+              </p>
+              <p>
+                We don't just book flights. We execute missions. From evacuating critically ill patients in conflict zones, to transporting dangerous goods with full regulatory compliance, to coordinating multi-leg government cargo operations, to delivering humanitarian aid where others cannot reach, we operate at the highest level every single day.
+              </p>
+              <p>
+                Alongside these critical operations, we deliver the refined leisure and corporate charter experiences our clients expect, with identical precision, care, and excellence. With access to 60,000+ aircraft, operations across 160 countries, and 24/7 control from Dubai and London, we've set a global standard for private aviation brokerage.
+              </p>
+              <p className="text-white/70">
+                The Universal Jets difference is simple: we compete at the highest level and we win. We don't compromise. We don't cut corners. We don't settle for "good enough." Excellence is our standard, never the exception.
+              </p>
+              <p>
+                I invite you to experience what world-class private aviation truly means.
+              </p>
+            </div>
+
+            <div className="mt-12 text-center">
+              <p className="text-[13px] text-primary/80 italic font-display mb-4">Universally Yours,</p>
+              <p className="text-[17px] md:text-[19px] text-white font-display font-semibold">Hadi Abdel Hadi</p>
+              <p className="text-[12px] text-white/40 tracking-[0.15em] uppercase font-light mt-1">Founder & Chief Executive Officer</p>
+              <p className="text-[11px] text-white/30 tracking-[0.1em] uppercase font-light mt-0.5">Universal Jets Aviation Brokerage FZCO</p>
+            </div>
           </FadeReveal>
         </div>
       </section>
