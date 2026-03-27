@@ -35,7 +35,12 @@ const EmptyLegsMap = () => {
   const isMobile = useIsMobile();
   const [selectedLeg, setSelectedLeg] = useState<EmptyLeg | null>(null);
   const [activeRegion, setActiveRegion] = useState("All");
-  const [viewMode, setViewMode] = useState<"cards" | "map">(isMobile ? "cards" : "map");
+  const [viewMode, setViewMode] = useState<"cards" | "map">("cards");
+
+  // Sync default view: cards on mobile, map on desktop (after hydration)
+  useEffect(() => {
+    if (isMobile === false) setViewMode("map");
+  }, [isMobile]);
   const [refreshing, setRefreshing] = useState(false);
   const [lastUpdated, setLastUpdated] = useState<Date>(new Date());
 
