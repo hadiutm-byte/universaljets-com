@@ -45,7 +45,7 @@ const StickyFloatingCTA = () => {
         rel="noopener noreferrer"
         className="flex items-center gap-2 px-5 py-3.5 rounded-full border border-white/[0.08] text-white/50 text-[9px] tracking-[0.2em] uppercase font-medium hover:text-white hover:border-primary/30 transition-all duration-500 active:scale-95 min-h-[48px]"
       >
-        <Phone size={12} strokeWidth={1.5} />
+        <MessageCircle size={12} strokeWidth={1.5} />
         WhatsApp
       </a>
     </motion.div>
