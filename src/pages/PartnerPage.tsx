@@ -4,6 +4,7 @@ import {
   Handshake, Hotel, Car, Gem, Check, CreditCard, Building2, Globe, Shield,
   ArrowRight, Crown, Landmark, Heart, Wine, Briefcase, Star, Users, Sparkles
 } from "lucide-react";
+import { CoBrandedCard, WhiteLabelCard } from "@/components/PremiumCards";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import Navbar from "@/components/Navbar";
