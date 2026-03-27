@@ -56,6 +56,7 @@ const Index = () => {
         <Navbar />
 
         {/* 1. Hero */}
+        <main id="main-content">
         <HeroSection />
 
         {/* 2. Search */}
