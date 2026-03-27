@@ -3,7 +3,7 @@ import { MessageCircle } from "lucide-react";
 import { FadeReveal, GlassCard } from "./ui/ScrollEffects";
 import { trackWhatsAppClick } from "@/lib/gtmEvents";
 
-const WHATSAPP_NUMBER = "447888999944";
+const WHATSAPP_NUMBER = "971585918498";
 const WHATSAPP_MESSAGE = encodeURIComponent(
   "Hello, I would like to request a private jet charter."
 );

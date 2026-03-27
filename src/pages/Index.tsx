@@ -39,8 +39,6 @@ const SectionGuard = ({ children, name }: { children: React.ReactNode; name: str
 const Index = () => {
   const [authOpen, setAuthOpen] = useState(false);
 
-  const openRicky = () => document.dispatchEvent(new CustomEvent("open-ricky"));
-
   return (
     <div className="min-h-screen bg-background relative">
       <SEOHead
@@ -91,7 +89,6 @@ const Index = () => {
         {/* 7. Membership Hero — DARK CINEMATIC */}
         <MembershipHero
           onRequestInvitation={() => setAuthOpen(true)}
-          onSpeakToAdvisor={openRicky}
         />
 
         {/* 8. Jet Card — CHARCOAL */}
@@ -117,7 +114,7 @@ const Index = () => {
 
         <div className="divider-shimmer" />
 
-        {/* 11. Partners */}
+        {/* 10. Partners */}
         <div className="section-white">
           <PartnersSection />
         </div>

@@ -9,7 +9,7 @@ import {
 } from "lucide-react";
 import { FadeReveal, GlassCard } from "./ui/ScrollEffects";
 
-const WHATSAPP_NUMBER = "447888999944";
+const WHATSAPP_NUMBER = "971585918498";
 const WHATSAPP_MSG = encodeURIComponent("Hi, I'd like to speak with an aviation advisor at Universal Jets.");
 
 /* ─── Ricky Quick‑Option Chip ─── */
