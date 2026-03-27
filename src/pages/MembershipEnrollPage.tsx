@@ -173,7 +173,7 @@ const MembershipEnrollPage = () => {
                   {step === 2 && (
                     <motion.div key="s2" initial={{ opacity: 0, x: 30 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -30 }} className="space-y-5">
                       <FormSection title="Select Your Tier">
-                        <div className="grid sm:grid-cols-2 gap-3">
+                        <div className="grid grid-cols-2 gap-3">
                           {TIERS.map(t => (
                             <button key={t.key} type="button" onClick={() => setSelectedTier(t.key)}
                               className={`p-4 rounded-xl border text-left transition-all duration-300 ${
