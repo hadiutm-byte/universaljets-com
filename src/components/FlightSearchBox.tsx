@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { MapPin, Calendar, Users, Search, ArrowLeftRight, RotateCcw, Plus, X, PlaneTakeoff } from "lucide-react";
@@ -12,6 +12,7 @@ import AirportField from "@/components/flight-search/AirportField";
 import MobileScrollPicker from "@/components/flight-search/MobileScrollPicker";
 import { trackFlightSearch } from "@/lib/gtmEvents";
 import QuoteRouteMap from "@/components/QuoteRouteMap";
+import { setBodyUiState } from "@/lib/bodyUiState";
 
 type TripType = "one-way" | "round-trip" | "multi-city";
 
@@ -62,6 +63,7 @@ const SEARCH_CACHE_KEY = "uj_last_search";
 
 const FlightSearchBox = () => {
   const navigate = useNavigate();
+  const shellRef = useRef<HTMLDivElement>(null);
   const { capture } = useCrmApi();
   const geo = useUserGeolocation();
   const isMobile = useIsMobile();
@@ -130,6 +132,8 @@ const FlightSearchBox = () => {
     if (tripType === "one-way") setReturnDate(undefined);
   }, [tripType]);
 
+  useEffect(() => () => setBodyUiState("flight-search-active", false), []);
+
   const primaryLeg = legs[0];
   const canSearch = primaryLeg.selectedFrom && primaryLeg.selectedTo;
 
@@ -181,8 +185,26 @@ const FlightSearchBox = () => {
     navigate(`/search?${params.toString()}`);
   };
 
+  const handleSearchInteractionStart = () => {
+    setBodyUiState("flight-search-active", true);
+  };
+
+  const handleSearchInteractionEnd = () => {
+    requestAnimationFrame(() => {
+      if (!shellRef.current?.contains(document.activeElement)) {
+        setBodyUiState("flight-search-active", false);
+      }
+    });
+  };
+
   return (
-    <div className="flight-search-shell w-full max-w-5xl mx-auto">
+    <div
+      ref={shellRef}
+      className="flight-search-shell w-full max-w-5xl mx-auto"
+      onFocusCapture={handleSearchInteractionStart}
+      onBlurCapture={handleSearchInteractionEnd}
+      onPointerDownCapture={handleSearchInteractionStart}
+    >
       {/* ── Trip Type Tabs ── */}
       <div className="flex items-center justify-center mb-6">
         <div className="inline-flex rounded-full border border-border bg-background p-1 gap-0">

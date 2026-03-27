@@ -13,6 +13,7 @@ import { useAirportSearch, type Airport } from "@/hooks/useAviapages";
 import AIRPORT_COORDS from "@/lib/airportCoords";
 import { greatCircleDistanceNm, estimateFlightTimeMin, getCharterPrice, formatDuration, formatDistance } from "@/lib/pricingEstimates";
 import { useDestinationFbos, type ApiFbo } from "@/hooks/useDestinationData";
+import { setBodyUiState } from "@/lib/bodyUiState";
 
 interface QuoteRequestModalProps {
   open: boolean;
@@ -219,6 +220,13 @@ const QuoteRequestModal = ({ open, onClose, flightData }: QuoteRequestModalProps
     setSelectedToAirport(buildFallbackAirport(flightData.toLabel, flightData.toIcao));
   }, [open, flightData]);
 
+  useEffect(() => {
+    if (!open) return;
+
+    setBodyUiState("overlay-active", true);
+    return () => setBodyUiState("overlay-active", false);
+  }, [open]);
+
   const updateField = useCallback((field: string, value: string) => {
     setForm((prev) => ({ ...prev, [field]: value }));
   }, []);
@@ -311,7 +319,7 @@ const QuoteRequestModal = ({ open, onClose, flightData }: QuoteRequestModalProps
   if (!open) return null;
 
   return (
-    <div className="fixed inset-0 z-[100] flex items-center justify-center">
+    <div className="fixed inset-0 z-[100] flex items-start justify-center px-3 pt-[max(1rem,env(safe-area-inset-top,0px))] pb-[max(1rem,env(safe-area-inset-bottom,0px))] sm:items-center sm:px-4">
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
@@ -325,7 +333,7 @@ const QuoteRequestModal = ({ open, onClose, flightData }: QuoteRequestModalProps
         animate={{ opacity: 1, scale: 1, y: 0 }}
         exit={{ opacity: 0, scale: 0.95, y: 20 }}
         transition={{ duration: 0.3, ease: "easeOut" }}
-        className="relative z-10 w-full max-w-lg mx-4 max-h-[90vh] overflow-y-auto rounded-2xl border border-border/50 bg-card shadow-2xl"
+        className="relative z-10 w-full max-w-lg max-h-[calc(100dvh-1.5rem)] overflow-y-auto rounded-2xl border border-border/50 bg-card shadow-2xl sm:max-h-[90vh]"
       >
         <div className="sticky top-0 z-20 flex items-center justify-between px-6 py-4 border-b border-border/30 bg-card/95 backdrop-blur-md rounded-t-2xl">
           <div>
@@ -389,7 +397,7 @@ const QuoteRequestModal = ({ open, onClose, flightData }: QuoteRequestModalProps
                 </div>
               )}
 
-              <div className="grid grid-cols-2 gap-3">
+              <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
                 <QuoteAirportField
                   label="From"
                   value={form.departure}
