@@ -63,9 +63,12 @@ const HeroSection = () => {
         }}
       />
 
-      {/* Dark gradient overlay for text readability */}
+      {/* Deep radial background + dark overlay */}
+      <div className="absolute inset-0 pointer-events-none"
+        style={{ background: "radial-gradient(circle at 50% 40%, hsla(0,0%,8%,0.6), hsla(0,0%,0%,0.95) 80%)" }}
+      />
       <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute inset-0 bg-gradient-to-b from-[hsla(0,0%,3%,0.72)] via-[hsla(0,0%,4%,0.45)] to-[hsla(0,0%,3%,0.82)]" />
+        <div className="absolute inset-0 bg-gradient-to-b from-[hsla(0,0%,3%,0.72)] via-[hsla(0,0%,4%,0.35)] to-[hsla(0,0%,3%,0.82)]" />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_30%,hsla(0,0%,2%,0.55)_100%)]" />
       </div>
 
