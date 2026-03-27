@@ -190,7 +190,7 @@ const CTASection = () => {
 
                         {/* Preferences */}
                         <div className="mb-8">
-                          <p className="text-[10px] tracking-[0.3em] uppercase text-foreground/20 font-light mb-5">Preferences</p>
+                          <p className="text-[10px] tracking-[0.3em] uppercase text-muted-foreground font-light mb-5">Preferences</p>
                           <div className="grid md:grid-cols-2 gap-5 mb-5">
                             <div>
                               <label className={labelClass}>Aircraft Type</label>
