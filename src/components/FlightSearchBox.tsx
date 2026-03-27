@@ -213,7 +213,7 @@ const FlightSearchBox = () => {
     >
       {/* ── Trip Type Tabs ── */}
       <div className="flex items-center justify-center mb-5">
-        <div className="inline-flex rounded-full bg-foreground/[0.04] backdrop-blur-2xl border border-foreground/[0.06] p-1 gap-0.5">
+        <div className="inline-flex rounded-full bg-[hsla(220,20%,8%,0.8)] backdrop-blur-2xl border border-primary/10 p-1 gap-0.5">
           {tripTabs.map((tab) => (
             <button
               key={tab.value}
@@ -221,7 +221,7 @@ const FlightSearchBox = () => {
               className={`relative px-7 py-2.5 text-[10px] tracking-[0.25em] uppercase font-semibold rounded-full transition-all duration-500 cursor-pointer ${
                 tripType === tab.value
                   ? "bg-primary text-primary-foreground shadow-[0_4px_20px_-4px_hsl(var(--primary)/0.4)]"
-                  : "text-foreground/40 hover:text-foreground/70"
+                  : "text-white/35 hover:text-white/60"
               }`}
             >
               {tab.label}
@@ -231,10 +231,10 @@ const FlightSearchBox = () => {
       </div>
 
       {/* ── Search Card ── */}
-      <div className="search-card-futuristic relative rounded-3xl overflow-hidden group/search transition-all duration-500 hover:shadow-[0_0_30px_-8px_hsl(var(--primary)/0.25)]">
+      <div className="search-card-futuristic relative rounded-3xl overflow-hidden group/search transition-all duration-500 hover:shadow-[0_0_40px_-8px_hsl(var(--primary)/0.3)]">
         {/* Ambient glow border */}
-        <div className="absolute inset-0 rounded-3xl bg-gradient-to-br from-primary/10 via-transparent to-primary/5 pointer-events-none transition-all duration-500 group-hover/search:from-primary/25 group-hover/search:to-primary/15" />
-        <div className="absolute inset-[1px] rounded-[23px] bg-background/95 backdrop-blur-3xl transition-[backdrop-filter] duration-500 group-hover/search:backdrop-blur-[30px]" />
+        <div className="absolute inset-0 rounded-3xl bg-gradient-to-br from-primary/15 via-primary/[0.03] to-primary/10 pointer-events-none transition-all duration-500 group-hover/search:from-primary/30 group-hover/search:to-primary/20" />
+        <div className="absolute inset-[1px] rounded-[23px] bg-[hsla(220,18%,7%,0.95)] backdrop-blur-3xl transition-[backdrop-filter] duration-500 group-hover/search:backdrop-blur-[30px]" />
 
         {/* Inner content */}
         <div className="relative z-10 p-5 sm:p-7">
@@ -365,7 +365,7 @@ const FlightSearchBox = () => {
                 <AnimatePresence initial={false}>
                   {legs.map((leg, idx) => (
                     <motion.div key={idx} initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: "auto" }} exit={{ opacity: 0, height: 0 }} transition={{ duration: 0.3 }} className="overflow-hidden">
-                      <div className="flex items-center gap-0 rounded-2xl border border-foreground/[0.06] bg-foreground/[0.02]">
+                      <div className="flex items-center gap-0 rounded-2xl border border-primary/10 bg-[hsla(220,20%,8%,0.5)]">
                         <div className="flex-shrink-0 w-10 hidden md:flex items-center justify-center">
                           <span className="text-[10px] font-semibold text-primary/50">{String(idx + 1).padStart(2, "0")}</span>
                         </div>
