@@ -54,7 +54,7 @@ const JetCardInquiryPage = () => {
     try {
       await capture({
         name, email,
-        phone: phone || undefined,
+        phone: buildFullPhone(countryCode, phone),
         company: company || undefined,
         departure: regions || "N/A",
         destination: "Jet Card Inquiry",
