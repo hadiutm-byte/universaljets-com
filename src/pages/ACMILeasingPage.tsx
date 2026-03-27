@@ -162,7 +162,7 @@ const ACMILeasingPage = () => {
               <a href="#acmi-form" className="px-10 py-4 bg-gradient-gold text-primary-foreground text-[10px] tracking-[0.3em] uppercase font-medium rounded-sm hover:shadow-[0_0_40px_-8px_hsla(43,74%,49%,0.5)] transition-all duration-500 inline-flex items-center gap-2">
                 Request Operational Support <ArrowRight className="w-3.5 h-3.5" />
               </a>
-              <a href="#capabilities" className="px-8 py-4 border border-[hsl(228,15%,18%)] text-foreground/50 text-[10px] tracking-[0.3em] uppercase font-medium rounded-sm hover:border-primary/20 hover:text-foreground/70 transition-all duration-500">
+              <a href="#capabilities" className="px-8 py-4 border border-[hsl(228,15%,18%)] text-white/50 text-[10px] tracking-[0.3em] uppercase font-medium rounded-sm hover:border-primary/20 hover:text-white/70 transition-all duration-500">
                 View Capabilities
               </a>
             </div>
