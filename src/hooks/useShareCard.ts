@@ -1,5 +1,5 @@
 import { useCallback } from "react";
-import { generateEmptyLegShareCard } from "@/lib/emptyLegShareCard";
+import { generateEmptyLegShareCard, SHARE_DEEP_LINK } from "@/lib/emptyLegShareCard";
 import { toast } from "sonner";
 
 export interface ShareData {
@@ -17,37 +17,46 @@ export interface ShareData {
  * Platform-wide share hook.
  * Generates a branded share card, attempts native Web Share API,
  * then falls back to download + clipboard copy.
+ * Includes deep link to empty legs section.
  */
 export function useShareCard() {
-  const buildShareText = (data: ShareData) =>
-    `✈️ Empty Leg Deal — ${data.aircraftType}\n${data.fromCity || data.fromCode} → ${data.toCity || data.toCode}\n📅 ${data.date}\n💰 ${data.price}\n\nBook now at Universal Jets\nhttps://www.universaljets.com`;
+  const buildShareText = (data: ShareData) => {
+    const from = data.fromCity || data.fromCode;
+    const to = data.toCity || data.toCode;
+    return `✈️ Empty Leg Deal — ${data.aircraftType}\n${from} → ${to}\n📅 ${data.date}\n💰 ${data.price}\n\nSave up to 75% vs on-demand charter\n\nBook now:\n${SHARE_DEEP_LINK}`;
+  };
 
-  const buildFileName = (data: ShareData) =>
-    `universal-jets-empty-leg-${data.fromCode}-${data.toCode}.png`;
+  const buildFileName = (data: ShareData) => {
+    const from = (data.fromCity || data.fromCode).replace(/\s+/g, "-").toLowerCase();
+    const to = (data.toCity || data.toCode).replace(/\s+/g, "-").toLowerCase();
+    return `universal-jets-empty-leg-${from}-${to}.png`;
+  };
 
   const share = useCallback(async (data: ShareData) => {
     const shareText = buildShareText(data);
     const fileName = buildFileName(data);
+    const from = data.fromCity || data.fromCode;
+    const to = data.toCity || data.toCode;
 
     try {
       const blob = await generateEmptyLegShareCard(data);
       const file = new File([blob], fileName, { type: "image/png" });
 
-      // Try native share with file
       if (navigator.share && navigator.canShare?.({ files: [file] })) {
         await navigator.share({
-          title: `Empty Leg: ${data.fromCity || data.fromCode} → ${data.toCity || data.toCode}`,
+          title: `Empty Leg: ${from} → ${to}`,
           text: shareText,
+          url: SHARE_DEEP_LINK,
           files: [file],
         });
         return;
       }
 
-      // Try native share without file
       if (navigator.share) {
         await navigator.share({
-          title: `Empty Leg: ${data.fromCity || data.fromCode} → ${data.toCity || data.toCode}`,
+          title: `Empty Leg: ${from} → ${to}`,
           text: shareText,
+          url: SHARE_DEEP_LINK,
         });
         return;
       }
@@ -62,7 +71,6 @@ export function useShareCard() {
       await navigator.clipboard.writeText(shareText);
       toast.success("Share card downloaded & details copied");
     } catch {
-      // Last resort: clipboard only
       try {
         await navigator.clipboard.writeText(shareText);
         toast.success("Details copied to clipboard");
@@ -88,7 +96,9 @@ export function useShareCard() {
   }, []);
 
   const copyText = useCallback(async (data: ShareData) => {
-    const text = `✈️ Empty Leg: ${data.fromCity || data.fromCode} → ${data.toCity || data.toCode} | ${data.date} | ${data.price} — universaljets.com`;
+    const from = data.fromCity || data.fromCode;
+    const to = data.toCity || data.toCode;
+    const text = `✈️ Empty Leg: ${from} → ${to} | ${data.date} | ${data.price}\n\n${SHARE_DEEP_LINK}`;
     await navigator.clipboard.writeText(text);
     toast.success("Copied to clipboard");
   }, []);
