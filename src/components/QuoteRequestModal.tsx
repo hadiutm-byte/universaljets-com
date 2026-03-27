@@ -204,7 +204,6 @@ const QuoteRequestModal = ({ open, onClose, flightData }: QuoteRequestModalProps
     setForm({
       name: "",
       email: "",
-      phone: "",
       notes: "",
       departure: flightData.fromLabel,
       destination: flightData.toLabel,
@@ -212,6 +211,8 @@ const QuoteRequestModal = ({ open, onClose, flightData }: QuoteRequestModalProps
       passengers: flightData.passengers || "1",
       aircraft: flightData.aircraft || "",
     });
+    setPhoneNumber("");
+    setPhoneCode(resolvedCode);
     setFromQuery(flightData.fromLabel);
     setToQuery(flightData.toLabel);
     setSelectedFromAirport(buildFallbackAirport(flightData.fromLabel, flightData.fromIcao));
