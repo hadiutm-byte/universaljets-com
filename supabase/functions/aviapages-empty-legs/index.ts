@@ -222,6 +222,41 @@ const REGION_MAP: Record<string, string> = {
   'Africa': 'ZA,NG,KE,EG,MA,TZ,GH,ET,CI,SN,RW,UG,MU,MZ,CM,AO,ZW,BW,NA',
 };
 
+// ─── Country code normalization ─────────────────────────────────────────────
+
+function normalizeCountryCode(value: unknown): string {
+  return String(value || "").trim().toUpperCase();
+}
+
+function getLegCountryCodes(leg: Record<string, unknown>): string[] {
+  const dep = leg.dep_airport as Record<string, unknown> | null;
+  const arr = leg.arr_airport as Record<string, unknown> | null;
+
+  const depCity = dep?.city as Record<string, unknown> | undefined;
+  const arrCity = arr?.city as Record<string, unknown> | undefined;
+
+  const depCountry =
+    normalizeCountryCode(depCity?.country_code) ||
+    normalizeCountryCode((depCity?.country as Record<string, unknown> | undefined)?.code) ||
+    normalizeCountryCode(dep?.country_code);
+
+  const arrCountry =
+    normalizeCountryCode(arrCity?.country_code) ||
+    normalizeCountryCode((arrCity?.country as Record<string, unknown> | undefined)?.code) ||
+    normalizeCountryCode(arr?.country_code);
+
+  return [depCountry, arrCountry].filter(Boolean);
+}
+
+function legMatchesRegion(leg: Record<string, unknown>, region: string): boolean {
+  if (!region || region === "All") return true;
+  const allowed = new Set((REGION_MAP[region] || "").split(",").map(s => s.trim().toUpperCase()).filter(Boolean));
+  if (allowed.size === 0) return true;
+
+  const countries = getLegCountryCodes(leg);
+  return countries.some(code => allowed.has(code));
+}
+
 // ─── Airport normalization ──────────────────────────────────────────────────
 
 function normalizeAirport(raw: Record<string, unknown> | null | undefined) {
