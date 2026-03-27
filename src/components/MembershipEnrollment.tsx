@@ -70,7 +70,7 @@ const MembershipEnrollment = () => {
     try {
       await capture({
         name, email,
-        phone: phone || undefined, whatsapp: whatsapp || undefined,
+        phone: buildFullPhone(countryCode, phone), whatsapp: buildFullPhone(whatsappCode, whatsapp),
         city: city || undefined, country: country || undefined,
         nationality: nationality || undefined, company: company || undefined,
         title: title || undefined, departure: city || "N/A",

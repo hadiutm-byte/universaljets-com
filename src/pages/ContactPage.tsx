@@ -32,9 +32,11 @@ const ContactPage = () => {
   const [termsAccepted, setTermsAccepted] = useState(false);
 
   const resolvedCode = resolveCountryCode(geo.countryCode);
-  if (form.countryCode === "+971" && resolvedCode !== "+971") {
-    setForm((p) => p.countryCode === "+971" ? { ...p, countryCode: resolvedCode } : p);
-  }
+  useEffect(() => {
+    if (form.countryCode === "+971" && resolvedCode !== "+971") {
+      setForm((p) => p.countryCode === "+971" ? { ...p, countryCode: resolvedCode } : p);
+    }
+  }, [resolvedCode]);
 
   const update = (field: string, value: string) => setForm((p) => ({ ...p, [field]: value }));
 
