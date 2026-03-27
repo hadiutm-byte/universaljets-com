@@ -411,8 +411,8 @@ serve(async (req) => {
 
     const url = new URL(req.url);
     const region = url.searchParams.get('region') || '';
-    const maxPages = 10;
-    const pageSize = 50;
+    const maxPages = 20;
+    const pageSize = 100;
 
     const now = new Date();
     const seenIds = new Set<number>();
