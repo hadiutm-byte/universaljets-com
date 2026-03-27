@@ -531,17 +531,12 @@ const QuoteRequestModal = ({ open, onClose, flightData }: QuoteRequestModalProps
                     maxLength={255}
                   />
                 </div>
-                <div className="space-y-1.5">
-                  <Label className="text-[10px] tracking-[0.15em] uppercase text-muted-foreground font-medium">Phone / WhatsApp</Label>
-                  <Input
-                    type="tel"
-                    value={form.phone}
-                    onChange={(e) => updateField("phone", e.target.value)}
-                    placeholder="+44 7000 000 000"
-                    className="h-11 text-[13px] bg-muted/20 border-border/30 rounded-xl font-light"
-                    maxLength={30}
-                  />
-                </div>
+                <PhoneWithCountryCode
+                  phone={phoneNumber}
+                  onPhoneChange={setPhoneNumber}
+                  countryCode={phoneCode}
+                  onCountryCodeChange={setPhoneCode}
+                />
                 <div className="space-y-1.5">
                   <Label className="text-[10px] tracking-[0.15em] uppercase text-muted-foreground font-medium">Additional Notes</Label>
                   <Textarea
