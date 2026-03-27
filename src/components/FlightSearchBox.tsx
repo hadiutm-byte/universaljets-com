@@ -5,6 +5,7 @@ import { MapPin, Calendar, Users, Search, ArrowLeftRight, RotateCcw, Plus, X, Pl
 import { format } from "date-fns";
 import { useAirportSearch, type Airport } from "@/hooks/useAviapages";
 import { useCrmApi } from "@/hooks/useCrmApi";
+import useUserGeolocation from "@/hooks/useUserGeolocation";
 import DateTimePicker from "@/components/flight-search/DateTimePicker";
 import AirportField from "@/components/flight-search/AirportField";
 import { trackFlightSearch } from "@/lib/gtmEvents";
