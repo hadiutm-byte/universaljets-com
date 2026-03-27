@@ -10,8 +10,11 @@ html {
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
   text-size-adjust: 100%;
-  overscroll-behavior-y: none;            /* prevent pull-to-refresh / rubber-band */
-  -webkit-tap-highlight-color: transparent; /* remove blue flash on tap */
+  overscroll-behavior-y: none;
+  -webkit-tap-highlight-color: transparent;
+  /* Modern smooth scroll with native deceleration */
+  scroll-behavior: smooth;
+  scrollbar-gutter: stable;
 }
 
 @layer base {
@@ -73,24 +76,37 @@ html {
   * {
     @apply border-border;
     -webkit-tap-highlight-color: transparent;
+    /* Prevent layout shift on scroll */
+    box-sizing: border-box;
   }
   body {
     @apply text-foreground font-body antialiased;
     overflow-x: hidden;
     background: hsl(0, 0%, 100%);
     min-height: 100vh;
-    min-height: 100dvh;                    /* dynamic viewport height */
+    min-height: 100dvh;
+    min-height: 100svh;                    /* small viewport height for iOS */
     overscroll-behavior: none;
     padding-top: env(safe-area-inset-top);
     padding-bottom: env(safe-area-inset-bottom);
     padding-left: env(safe-area-inset-left);
     padding-right: env(safe-area-inset-right);
-    touch-action: manipulation;            /* eliminate 300ms tap delay */
+    touch-action: manipulation;
+    /* Prevent text selection on interactive surfaces */
+    -webkit-user-select: none;
+    user-select: none;
   }
 
-  /* GPU-accelerated images */
+  /* Allow text selection in content areas */
+  p, span, h1, h2, h3, h4, h5, h6, article, blockquote, li, td, th, label, pre, code {
+    -webkit-user-select: text;
+    user-select: text;
+  }
+
+  /* GPU-accelerated images with lazy rendering */
   img, video {
     content-visibility: auto;
+    contain-intrinsic-size: auto 300px;
   }
 
   /* Smooth button/link interactions */
