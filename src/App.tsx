@@ -10,6 +10,7 @@ import ScrollToTop from "./components/ScrollToTop.tsx";
 import CookieConsent from "./components/CookieConsent.tsx";
 import ContentProtection from "./components/ContentProtection.tsx";
 import FloatingWhatsApp from "./components/FloatingWhatsApp.tsx";
+import FloatingContactStack from "./components/FloatingContactStack.tsx";
 
 // Lazy-loaded routes for code splitting
 const AboutPage = lazy(() => import("./pages/AboutPage.tsx"));
@@ -174,6 +175,7 @@ const App = () => (
           <Ricky3D />
         </Suspense> */}
         <FloatingWhatsApp />
+        <FloatingContactStack />
         <CookieConsent />
       </BrowserRouter>
     </TooltipProvider>

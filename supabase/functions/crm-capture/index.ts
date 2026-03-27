@@ -15,10 +15,10 @@ Deno.serve(async (req) => {
 
   try {
     const body = await req.json();
-    const { name, email, phone, departure, destination, date, passengers, source } = body;
+    const { name, email, phone, departure, destination, date, passengers, source, serviceType, message } = body;
 
-    if (!name || !email || !departure || !destination) {
-      return new Response(JSON.stringify({ error: "Name, email, departure, and destination are required" }), {
+    if (!name || !email) {
+      return new Response(JSON.stringify({ error: "Name and email are required" }), {
         status: 400,
         headers: { ...corsHeaders, "Content-Type": "application/json" },
       });
@@ -51,7 +51,7 @@ Deno.serve(async (req) => {
     }
 
     // Determine lead source
-    const leadSource = source || "website";
+    const leadSource = source || (serviceType ? `service-${serviceType}` : "website");
 
     // 2. Create lead
     const { data: lead, error: leadErr } = await supabase
@@ -63,25 +63,35 @@ Deno.serve(async (req) => {
     if (leadErr) throw leadErr;
 
     // 3. Create flight request (or general inquiry)
+    const notesArr = [
+      source ? `Source: ${source}` : null,
+      serviceType ? `Service Type: ${serviceType}` : null,
+      message ? `Message: ${message}` : null,
+    ].filter(Boolean);
+
     const { data: flightReq, error: reqErr } = await supabase
       .from("flight_requests")
       .insert({
         client_id: clientId,
         lead_id: lead.id,
-        departure,
-        destination,
+        departure: departure || "TBD",
+        destination: destination || "TBD",
         date: date || null,
         passengers: passengers ? parseInt(passengers) : 1,
         status: "pending",
-        notes: source ? `Source: ${source}` : null,
+        notes: notesArr.join("\n") || null,
       })
       .select("id")
       .single();
 
     if (reqErr) throw reqErr;
 
-    // 4. Send notification email to hadi@universaljets.com
+    // 4. Send notification email
     try {
+      const subjectPrefix = serviceType
+        ? `🚨 SERVICE LEAD: ${serviceType.toUpperCase()}`
+        : "✈️ New Flight Request";
+
       await supabase.functions.invoke("send-transactional-email", {
         body: {
           templateName: "lead-notification",
@@ -91,17 +101,18 @@ Deno.serve(async (req) => {
             name,
             email,
             phone: phone || "Not provided",
-            departure,
-            destination,
+            departure: departure || "TBD",
+            destination: destination || "TBD",
             date: date || "Flexible",
             passengers: passengers || "1",
             source: leadSource,
-            notes: body.notes || "",
+            notes: message || body.notes || "",
+            serviceType: serviceType || "",
+            subjectPrefix,
           },
         },
       });
     } catch (emailErr) {
-      // Don't fail the capture if email notification fails
       console.error("Notification email failed:", emailErr);
     }
 
