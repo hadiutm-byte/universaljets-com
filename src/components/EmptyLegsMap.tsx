@@ -39,10 +39,17 @@ const EmptyLegsMap = () => {
   const [refreshing, setRefreshing] = useState(false);
   const [lastUpdated, setLastUpdated] = useState<Date>(new Date());
 
-  // Hide floating CTAs while user is browsing empty legs
+  // Hide floating CTAs while empty legs section is in viewport
+  const sectionRef = useRef<HTMLElement>(null);
   useEffect(() => {
-    setBodyUiState("empty-legs-active", true);
-    return () => setBodyUiState("empty-legs-active", false);
+    const el = sectionRef.current;
+    if (!el) return;
+    const obs = new IntersectionObserver(
+      ([entry]) => setBodyUiState("empty-legs-active", entry.isIntersecting),
+      { threshold: 0.1 }
+    );
+    obs.observe(el);
+    return () => { obs.disconnect(); setBodyUiState("empty-legs-active", false); };
   }, []);
 
   // React Query keyed by region — cache is per-region, no cross-contamination
