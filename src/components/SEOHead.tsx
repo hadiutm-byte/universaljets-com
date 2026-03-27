@@ -9,7 +9,7 @@ interface SEOHeadProps {
   image?: string;
 }
 
-const SITE = "https://www.universaljets.com";
+const SITE = "https://universaljets.com";
 const DEFAULT_IMAGE = "https://www.universaljets.com/og-image.jpg";
 
 const SEOHead = ({ title, description, path, type = "website", image }: SEOHeadProps) => {
