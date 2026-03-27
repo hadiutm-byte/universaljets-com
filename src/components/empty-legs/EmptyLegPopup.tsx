@@ -21,9 +21,17 @@ interface EmptyLegPopupProps {
 const EmptyLegPopup = ({ leg, onClose }: EmptyLegPopupProps) => {
   const [showRequestForm, setShowRequestForm] = useState(false);
   const [showShareMenu, setShowShareMenu] = useState(false);
-  const [form, setForm] = useState({ name: "", email: "", phone: "" });
+  const [form, setForm] = useState({ name: "", email: "", phone: "", countryCode: "+971" });
   const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  const geo = useUserGeolocation();
+
+  const resolvedCode = resolveCountryCode(geo.countryCode);
+  useEffect(() => {
+    if (form.countryCode === "+971" && resolvedCode !== "+971") {
+      setForm((p) => p.countryCode === "+971" ? { ...p, countryCode: resolvedCode } : p);
+    }
+  }, [resolvedCode]);
   const { capture } = useCrmApi();
   const { share, download, copyText } = useShareCard();
 
