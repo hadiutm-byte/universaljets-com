@@ -133,7 +133,10 @@ const FlightSearchBox = () => {
   const handleSearch = () => {
     if (!canSearch) return;
 
-    // Fire CRM capture in background (non-blocking)
+    // Persist search preferences
+    try {
+      localStorage.setItem(SEARCH_CACHE_KEY, JSON.stringify({ passengers, jetSize, tripType }));
+    } catch {}
     capture({
       name: "Website Visitor",
       email: "search@universaljets.com",
