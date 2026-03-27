@@ -22,8 +22,8 @@ export const organizationSchema = {
   contactPoint: [
     {
       "@type": "ContactPoint",
-      telephone: "+44-7888-999944",
       contactType: "sales",
+      email: "sales@universaljets.com",
       availableLanguage: ["English", "Arabic"],
     },
   ],
