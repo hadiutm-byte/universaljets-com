@@ -56,9 +56,12 @@ const CrmDashboard = () => {
       const { data: requests } = await supabase.from("flight_requests").select("*, clients(full_name)").order("created_at", { ascending: false }).limit(5);
       setRecentRequests(requests ?? []);
 
-      // Fetch analytics
-      const { data: analyticsData } = await call("dashboard-analytics", { method: "GET" });
-      if (analyticsData) setAnalytics(analyticsData);
+      // Fetch analytics via edge function
+      const { data: analyticsRes } = await supabase.functions.invoke("crm-api", {
+        method: "POST",
+        body: { _endpoint: "dashboard-analytics", _method: "GET" },
+      });
+      if (analyticsRes && !analyticsRes.error) setAnalytics(analyticsRes);
 
       setLoading(false);
     };

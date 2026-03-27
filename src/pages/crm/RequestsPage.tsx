@@ -23,7 +23,7 @@ const RequestsPage = () => {
   const load = useCallback(async () => {
     setLoading(true);
     let query = supabase.from("flight_requests").select("*, clients(full_name)").order("created_at", { ascending: false });
-    if (filterStatus !== "all") query = query.eq("status", filterStatus);
+    if (filterStatus !== "all") query = query.eq("status", filterStatus as any);
     const { data: rows } = await query;
     setData(rows ?? []);
     setLoading(false);
