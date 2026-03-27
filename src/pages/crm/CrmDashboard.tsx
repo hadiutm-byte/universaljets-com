@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
-import { useCrmApi } from "@/hooks/useCrmApi";
 import { Users, Target, Plane, FileText, Receipt, Map, Kanban, TrendingUp, Clock, BarChart3 } from "lucide-react";
 import { Link } from "react-router-dom";
 import ClientIdentifier from "@/components/crm/ClientIdentifier";
