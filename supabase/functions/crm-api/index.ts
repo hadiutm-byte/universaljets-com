@@ -590,6 +590,98 @@ Deno.serve(async (req) => {
       });
     }
 
+    // ══════════════════════════════════════════════════════════
+    // ANALYTICS: GET /dashboard-analytics — Charts/conversion data
+    // ══════════════════════════════════════════════════════════
+    if (endpoint === "dashboard-analytics" && httpMethod === "GET") {
+      if (!isStaff) return err("Forbidden", 403);
+
+      // Fetch all core data for analytics
+      const [leadsRes, requestsRes, quotesRes, invoicesRes, tripsRes, paymentsRes] = await Promise.all([
+        admin.from("leads").select("status, created_at, source"),
+        admin.from("flight_requests").select("status, created_at"),
+        admin.from("quotes").select("status, price, created_at"),
+        admin.from("invoices").select("status, amount, created_at, due_date"),
+        admin.from("trips").select("status, created_at"),
+        admin.from("payments").select("amount, status, payment_type, payment_date, created_at"),
+      ]);
+
+      const leads = leadsRes.data ?? [];
+      const requests = requestsRes.data ?? [];
+      const quotes = quotesRes.data ?? [];
+      const invoices = invoicesRes.data ?? [];
+      const trips = tripsRes.data ?? [];
+      const payments = paymentsRes.data ?? [];
+
+      // Conversion funnel
+      const totalLeads = leads.length;
+      const contactedLeads = leads.filter(l => l.status !== "new").length;
+      const quotedLeads = leads.filter(l => ["quote_sent", "negotiation", "confirmed"].includes(l.status)).length;
+      const confirmedLeads = leads.filter(l => l.status === "confirmed").length;
+      const lostLeads = leads.filter(l => l.status === "lost").length;
+
+      // Revenue
+      const totalQuoteValue = quotes.reduce((s, q) => s + Number(q.price || 0), 0);
+      const acceptedQuoteValue = quotes.filter(q => q.status === "accepted").reduce((s, q) => s + Number(q.price || 0), 0);
+      const totalInvoiced = invoices.reduce((s, i) => s + Number(i.amount || 0), 0);
+      const totalCollected = invoices.filter(i => i.status === "paid").reduce((s, i) => s + Number(i.amount || 0), 0);
+      const totalPending = invoices.filter(i => i.status === "pending").reduce((s, i) => s + Number(i.amount || 0), 0);
+      const overdueInvoices = invoices.filter(i => i.status === "pending" && i.due_date && new Date(i.due_date) < new Date()).length;
+
+      // Monthly revenue (last 6 months)
+      const now = new Date();
+      const monthlyRevenue: { month: string; invoiced: number; collected: number }[] = [];
+      for (let i = 5; i >= 0; i--) {
+        const d = new Date(now.getFullYear(), now.getMonth() - i, 1);
+        const monthKey = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}`;
+        const monthLabel = d.toLocaleString("en", { month: "short", year: "2-digit" });
+        const monthInvoices = invoices.filter(inv => inv.created_at?.startsWith(monthKey));
+        monthlyRevenue.push({
+          month: monthLabel,
+          invoiced: monthInvoices.reduce((s, inv) => s + Number(inv.amount || 0), 0),
+          collected: monthInvoices.filter(inv => inv.status === "paid").reduce((s, inv) => s + Number(inv.amount || 0), 0),
+        });
+      }
+
+      // Lead sources
+      const sourceCounts: Record<string, number> = {};
+      leads.forEach(l => { const s = l.source || "unknown"; sourceCounts[s] = (sourceCounts[s] || 0) + 1; });
+
+      // Avg deal size
+      const acceptedQuotes = quotes.filter(q => q.status === "accepted" && q.price);
+      const avgDealSize = acceptedQuotes.length > 0 ? acceptedQuotes.reduce((s, q) => s + Number(q.price), 0) / acceptedQuotes.length : 0;
+
+      return json({
+        funnel: { totalLeads, contactedLeads, quotedLeads, confirmedLeads, lostLeads },
+        revenue: { totalQuoteValue, acceptedQuoteValue, totalInvoiced, totalCollected, totalPending, overdueInvoices },
+        monthlyRevenue,
+        leadSources: Object.entries(sourceCounts).map(([source, count]) => ({ source, count })).sort((a, b) => b.count - a.count),
+        avgDealSize: Math.round(avgDealSize),
+        conversionRate: totalLeads > 0 ? Math.round((confirmedLeads / totalLeads) * 100) : 0,
+        totals: { leads: totalLeads, requests: requests.length, quotes: quotes.length, invoices: invoices.length, trips: trips.length },
+      });
+    }
+
+    // ══════════════════════════════════════════════════════════
+    // POST /add-note — Add note to client activity log
+    // ══════════════════════════════════════════════════════════
+    if (endpoint === "add-note" && httpMethod === "POST") {
+      if (!isStaff) return err("Forbidden", 403);
+      const { client_id, note, note_type } = body;
+      if (!client_id || !note) return err("client_id and note required");
+
+      const { error } = await admin.from("activity_log").insert({
+        entity_type: "client",
+        entity_id: client_id,
+        action: note_type || "note",
+        notes: note,
+        action_by: userId,
+        department: userRoles[0] || "sales",
+      });
+      if (error) throw error;
+      return json({ success: true });
+    }
+
     return err("Unknown endpoint: " + endpoint, 404);
   } catch (e: any) {
     return err(e.message || "Internal error", 500);
