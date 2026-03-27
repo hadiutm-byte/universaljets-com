@@ -20,12 +20,14 @@ const ContractsPage = () => {
   const [form, setForm] = useState({ quote_id: "", file_url: "", status: "draft" as ContractStatus });
   const { roles } = useAuth();
 
-  // Only Operations and Admin can manage contracts (supplier/partner documents)
   const canManage = roles.includes("admin") || roles.includes("operations");
 
   const load = useCallback(async () => {
     setLoading(true);
-    const { data: rows } = await supabase.from("contracts").select("*, quotes(aircraft, price)").order("created_at", { ascending: false });
+    const { data: rows } = await supabase
+      .from("contracts")
+      .select("*, quotes(aircraft, price, flight_requests(departure, destination, clients(full_name)))")
+      .order("created_at", { ascending: false });
     setData(rows ?? []);
     setLoading(false);
   }, []);
@@ -69,8 +71,16 @@ const ContractsPage = () => {
       </div>
       <CrmTable title="Contracts"
         columns={[
-          { key: "quote", label: "Quote", render: (r: any) => r.quotes ? `${r.quotes.aircraft} — $${Number(r.quotes.price).toLocaleString()}` : "—" },
-          { key: "file_url", label: "Document", render: (r: any) => r.file_url ? <a href={r.file_url} target="_blank" className="text-primary hover:underline">View</a> : "—" },
+          { key: "client", label: "Client", render: (r: any) => {
+            const client = r.quotes?.flight_requests?.clients;
+            return client?.full_name || "—";
+          }},
+          { key: "route", label: "Route", render: (r: any) => {
+            const fr = r.quotes?.flight_requests;
+            return fr ? `${fr.departure} → ${fr.destination}` : "—";
+          }},
+          { key: "quote", label: "Quote", render: (r: any) => r.quotes ? `${r.quotes.aircraft || "—"} — $${Number(r.quotes.price).toLocaleString()}` : "—" },
+          { key: "file_url", label: "Document", render: (r: any) => r.file_url ? <a href={r.file_url} target="_blank" className="text-primary hover:underline text-[11px]">View</a> : "—" },
           { key: "status", label: "Status", render: (r: any) => <StatusBadge status={r.status} /> },
           { key: "created_at", label: "Created", render: (r: any) => new Date(r.created_at).toLocaleDateString() },
         ]}
