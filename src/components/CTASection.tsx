@@ -1,13 +1,25 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import {
   Check, Plane, CreditCard, Tag, Headphones,
   MessageCircle, Globe, ShieldCheck, Clock, Users,
-  ChevronRight, Send, ArrowRight,
+  ChevronRight, Send, ArrowRight, MapPin, Calendar, ChevronDown,
 } from "lucide-react";
 import { FadeReveal, GlassCard } from "./ui/ScrollEffects";
+import { useCrmApi } from "@/hooks/useCrmApi";
+import useUserGeolocation from "@/hooks/useUserGeolocation";
+import { useAirportSearch, type Airport } from "@/hooks/useAviapages";
+import AirportField from "@/components/flight-search/AirportField";
+import DateTimePicker from "@/components/flight-search/DateTimePicker";
+import QuoteRouteMap from "@/components/QuoteRouteMap";
+import PhoneWithCountryCode, { buildFullPhone, resolveCountryCode } from "@/components/forms/PhoneWithCountryCode";
+import {
+  PremiumInput, PremiumSelect, PremiumTextarea, PremiumCheckbox,
+  FormSection, LegalConsent, FormDisclaimer, PremiumSubmitButton,
+  ConfidentialityNotice, ValidationMessage,
+} from "@/components/forms/PremiumFormComponents";
+import { format } from "date-fns";
 
 const WHATSAPP_NUMBER = "447888999944";
 const WHATSAPP_MSG = encodeURIComponent("Hi, I'd like to speak with an aviation advisor at Universal Jets.");
@@ -27,11 +39,6 @@ const QuickOption = ({ icon: Icon, label, onClick }: { icon: any; label: string;
   </motion.button>
 );
 
-/* ─── Form field classes ─── */
-const inputClass =
-  "w-full bg-card/50 backdrop-blur-sm rounded-lg px-4 py-3.5 text-[13px] text-foreground placeholder:text-muted-foreground/60 font-light focus:outline-none focus:ring-1 focus:ring-primary/30 transition-all duration-300 border border-border hover:border-primary/20";
-const labelClass = "text-[10px] tracking-[0.25em] uppercase text-muted-foreground mb-1.5 block font-light";
-
 /* ─── Authority items ─── */
 const authorityItems = [
   { icon: Clock, text: "18+ Years Experience" },
@@ -47,40 +54,100 @@ const nextSteps = [
   { num: "03", text: "You receive tailored options within minutes" },
 ];
 
+const aircraftCategories = [
+  { value: "", label: "No preference" },
+  { value: "light", label: "Light Jet" },
+  { value: "midsize", label: "Midsize Jet" },
+  { value: "super_midsize", label: "Super Midsize" },
+  { value: "heavy", label: "Heavy Jet" },
+  { value: "ultra_long_range", label: "Ultra Long Range" },
+  { value: "vip_airliner", label: "VIP Airliner" },
+  { value: "helicopter", label: "Helicopter" },
+];
+
 const CTASection = () => {
+  const { capture } = useCrmApi();
+  const geo = useUserGeolocation();
   const [showForm, setShowForm] = useState(false);
   const [loading, setLoading] = useState(false);
   const [submitted, setSubmitted] = useState(false);
-  const [touched, setTouched] = useState<Record<string, boolean>>({});
-  const [form, setForm] = useState({
-    name: "", email: "", phone: "", departure: "", destination: "",
-    date: "", returnDate: "", passengers: "", aircraft: "", budget: "", notes: "",
-  });
+  const [attempted, setAttempted] = useState(false);
 
-  const set = (key: string) => (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) =>
-    setForm(p => ({ ...p, [key]: e.target.value }));
+  // Route
+  const [fromAirport, setFromAirport] = useState<Airport | null>(null);
+  const [toAirport, setToAirport] = useState<Airport | null>(null);
+  const [from, setFrom] = useState("");
+  const [to, setTo] = useState("");
+  const [fromQuery, setFromQuery] = useState("");
+  const [toQuery, setToQuery] = useState("");
+  const [date, setDate] = useState<Date | undefined>();
+  const [returnDate, setReturnDate] = useState<Date | undefined>();
+  const [passengers, setPassengers] = useState("1");
+  const [tripType, setTripType] = useState<"one_way" | "round_trip">("one_way");
 
-  const markTouched = (key: string) => setTouched(p => ({ ...p, [key]: true }));
+  // Aircraft prefs
+  const [aircraftCategory, setAircraftCategory] = useState("");
+  const [budgetRange, setBudgetRange] = useState("");
+  const [specialRequests, setSpecialRequests] = useState("");
 
-  const emailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email);
-  const errors = {
-    name: touched.name && !form.name ? "Name is required" : "",
-    email: touched.email && !form.email ? "Email is required" : touched.email && !emailValid ? "Enter a valid email" : "",
-    departure: touched.departure && !form.departure ? "Departure is required" : "",
-    destination: touched.destination && !form.destination ? "Destination is required" : "",
-  };
+  // Contact
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [phoneCode, setPhoneCode] = useState("+971");
+  const [phone, setPhone] = useState("");
+
+  // Legal
+  const [termsAccepted, setTermsAccepted] = useState(false);
+
+  // Expandable prefs
+  const [showPrefs, setShowPrefs] = useState(false);
+
+  const resolvedCode = resolveCountryCode(geo.countryCode);
+
+  useEffect(() => {
+    if (phoneCode === "+971" && resolvedCode !== "+971") setPhoneCode(resolvedCode);
+  }, [resolvedCode]);
+
+  useEffect(() => {
+    if (!fromAirport && !from && geo.airportIcao && geo.airportLabel) {
+      setFrom(geo.airportLabel);
+      setFromQuery(geo.airportLabel);
+      setFromAirport({
+        id: 0, icao: geo.airportIcao, iata: geo.airportIata,
+        name: "", city: geo.city, country: geo.countryName,
+        lat: geo.latitude ?? 0, lng: geo.longitude ?? 0,
+      });
+    }
+  }, [geo.airportIcao]);
+
+  const canSubmit = fromAirport && toAirport && date && name && email && parseInt(passengers) > 0 && termsAccepted;
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setTouched({ name: true, email: true, departure: true, destination: true });
-    if (!form.name || !form.email || !form.departure || !form.destination || !emailValid) {
-      toast.error("Please fill in all required fields correctly.");
-      return;
-    }
+    setAttempted(true);
+    if (!canSubmit) { toast.error("Please complete all required fields and accept the terms."); return; }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { toast.error("Please enter a valid email address."); return; }
     setLoading(true);
-    const { error } = await supabase.functions.invoke("crm-capture", { body: form });
-    if (error) toast.error("Something went wrong. Please try again.");
-    else { setSubmitted(true); toast.success("Your flight request has been received."); }
+    try {
+      await capture({
+        name, email,
+        phone: buildFullPhone(phoneCode, phone),
+        departure: `${fromAirport!.city} (${fromAirport!.icao || fromAirport!.iata})`,
+        destination: `${toAirport!.city} (${toAirport!.icao || toAirport!.iata})`,
+        date: date ? format(date, "yyyy-MM-dd'T'HH:mm") : undefined,
+        passengers,
+        source: "cta_section",
+        trip_type: tripType,
+        return_date: returnDate ? format(returnDate, "yyyy-MM-dd'T'HH:mm") : undefined,
+        preferred_aircraft_category: aircraftCategory || undefined,
+        budget_range: budgetRange || undefined,
+        special_requests: specialRequests || undefined,
+      });
+      setSubmitted(true);
+      toast.success("Your flight request has been received.");
+    } catch {
+      toast.error("We were unable to submit your request. Please try again or contact our team directly.");
+    }
     setLoading(false);
   };
 
@@ -162,7 +229,7 @@ const CTASection = () => {
         </div>
       </div>
 
-      {/* ═══════ SECTION 3 — SMART FORM ═══════ */}
+      {/* ═══════ SECTION 3 — PREMIUM FORM ═══════ */}
       <AnimatePresence>
         {showForm && (
           <motion.div
@@ -173,104 +240,122 @@ const CTASection = () => {
             className="overflow-hidden"
           >
             <div className="pb-20 md:pb-28">
-              <div className="container mx-auto px-8">
+              <div className="container mx-auto px-4 sm:px-8">
                 <div className="max-w-3xl mx-auto">
-                  <GlassCard hover={false} className="p-8 md:p-12">
-                    {submitted ? (
+                  {submitted ? (
+                    <GlassCard hover={false} className="p-8 md:p-12">
                       <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} className="py-16 text-center">
                         <div className="w-16 h-16 rounded-full border border-primary/20 flex items-center justify-center mx-auto mb-6">
                           <Check className="w-7 h-7 text-primary" strokeWidth={1.5} />
                         </div>
                         <h3 className="font-display text-xl mb-3 text-foreground">Request Received</h3>
-                        <p className="text-[12px] text-muted-foreground font-extralight">Expect a personalised quote within minutes.</p>
+                        <p className="text-[12px] text-muted-foreground font-extralight">Your dedicated aviation advisor will contact you within the hour with tailored aircraft options and pricing.</p>
                       </motion.div>
-                    ) : (
-                      <form onSubmit={handleSubmit}>
-                        {/* Trip Details */}
-                        <div className="mb-8">
-                          <p className="text-[10px] tracking-[0.3em] uppercase text-muted-foreground font-light mb-5">Trip Details</p>
-                          <div className="grid md:grid-cols-2 gap-5 mb-5">
-                            <div>
-                              <label className={labelClass}>From *</label>
-                              <input value={form.departure} onChange={set("departure")} onBlur={() => markTouched("departure")} placeholder="City or airport" required className={inputClass} aria-label="Departure city or airport" />
-                              {errors.departure && <p className="text-[11px] text-destructive/80 mt-1 font-light">{errors.departure}</p>}
-                            </div>
-                            <div>
-                              <label className={labelClass}>To *</label>
-                              <input value={form.destination} onChange={set("destination")} onBlur={() => markTouched("destination")} placeholder="City or airport" required className={inputClass} aria-label="Destination city or airport" />
-                              {errors.destination && <p className="text-[11px] text-destructive/80 mt-1 font-light">{errors.destination}</p>}
-                            </div>
-                          </div>
-                          <div className="grid grid-cols-2 md:grid-cols-3 gap-5">
-                            <div><label className={labelClass}>Departure Date</label><input type="date" value={form.date} onChange={set("date")} className={inputClass} /></div>
-                            <div><label className={labelClass}>Return Date</label><input type="date" value={form.returnDate} onChange={set("returnDate")} className={inputClass} /></div>
-                            <div><label className={labelClass}>Passengers</label><input type="number" min={1} max={50} value={form.passengers} onChange={set("passengers")} placeholder="4" className={inputClass} /></div>
-                          </div>
-                        </div>
+                    </GlassCard>
+                  ) : (
+                    <form onSubmit={handleSubmit}>
+                      <div className="rounded-2xl border border-foreground/[0.06] bg-muted/20 p-5 sm:p-8 md:p-10 space-y-8">
 
-                        {/* Preferences */}
-                        <div className="mb-8">
-                          <p className="text-[10px] tracking-[0.3em] uppercase text-muted-foreground font-light mb-5">Preferences</p>
-                          <div className="grid md:grid-cols-2 gap-5 mb-5">
-                            <div>
-                              <label className={labelClass}>Aircraft Type</label>
-                              <select value={form.aircraft} onChange={set("aircraft")} className={inputClass}>
-                                <option value="">No preference</option>
-                                <option value="Light Jet">Light Jet</option>
-                                <option value="Midsize Jet">Midsize Jet</option>
-                                <option value="Super Midsize">Super Midsize</option>
-                                <option value="Heavy Jet">Heavy Jet</option>
-                                <option value="Ultra Long Range">Ultra Long Range</option>
-                                <option value="VIP Airliner">VIP Airliner</option>
-                              </select>
-                            </div>
-                            <div>
-                              <label className={labelClass}>Budget Range</label>
-                              <select value={form.budget} onChange={set("budget")} className={inputClass}>
-                                <option value="">Flexible</option>
-                                <option value="Under $25K">Under $25K</option>
-                                <option value="$25K – $50K">$25K – $50K</option>
-                                <option value="$50K – $100K">$50K – $100K</option>
-                                <option value="$100K+">$100K+</option>
-                              </select>
-                            </div>
+                        {/* Trip Type */}
+                        <FormSection title="Trip Type">
+                          <div className="flex gap-2">
+                            {([["one_way", "One Way"], ["round_trip", "Round Trip"]] as const).map(([val, label]) => (
+                              <button key={val} type="button" onClick={() => setTripType(val as any)}
+                                className={`px-5 py-2.5 rounded-lg text-[11px] tracking-[0.15em] uppercase font-medium border transition-all duration-300 ${
+                                  tripType === val ? "border-primary bg-primary/10 text-primary" : "border-foreground/[0.06] bg-muted/40 text-foreground/40 hover:border-primary/20"
+                                }`}>
+                                {label}
+                              </button>
+                            ))}
                           </div>
-                          <div>
-                            <label className={labelClass}>Special Requests</label>
-                            <textarea value={form.notes} onChange={set("notes")} placeholder="Catering, ground transport, specific requirements..." rows={3} className={`${inputClass} resize-none`} />
-                          </div>
-                        </div>
+                        </FormSection>
 
-                        {/* Contact */}
-                        <div className="mb-10">
-                          <p className="text-[10px] tracking-[0.3em] uppercase text-muted-foreground font-light mb-5">Contact</p>
-                          <div className="grid md:grid-cols-3 gap-5">
-                            <div>
-                              <label className={labelClass}>Full Name *</label>
-                              <input value={form.name} onChange={set("name")} onBlur={() => markTouched("name")} placeholder="John Smith" required className={inputClass} aria-label="Full name" />
-                              {errors.name && <p className="text-[11px] text-destructive/80 mt-1 font-light">{errors.name}</p>}
+                        {/* Route */}
+                        <FormSection title="Route Details">
+                          <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-3">
+                            <div className="rounded-xl border border-foreground/[0.06] bg-muted/30 overflow-hidden">
+                              <AirportField label="Departure" icon={MapPin} value={from} onChangeValue={setFrom} query={fromQuery} onChangeQuery={setFromQuery}
+                                selectedAirport={fromAirport} onSelect={(a) => { setFrom(`${a.city} (${a.icao || a.iata})`); setFromAirport(a); }}
+                                onClearSelection={() => setFromAirport(null)} />
                             </div>
-                            <div>
-                              <label className={labelClass}>Email *</label>
-                              <input type="email" value={form.email} onChange={set("email")} onBlur={() => markTouched("email")} placeholder="john@company.com" required className={inputClass} aria-label="Email address" />
-                              {errors.email && <p className="text-[11px] text-destructive/80 mt-1 font-light">{errors.email}</p>}
-                            </div>
-                            <div>
-                              <label className={labelClass}>Phone / WhatsApp</label>
-                              <input value={form.phone} onChange={set("phone")} placeholder="+44 20 1234 5678" className={inputClass} aria-label="Phone or WhatsApp number" />
+                            <div className="rounded-xl border border-foreground/[0.06] bg-muted/30 overflow-hidden">
+                              <AirportField label="Arrival" icon={MapPin} value={to} onChangeValue={setTo} query={toQuery} onChangeQuery={setToQuery}
+                                selectedAirport={toAirport} onSelect={(a) => { setTo(`${a.city} (${a.icao || a.iata})`); setToAirport(a); }}
+                                onClearSelection={() => setToAirport(null)} />
                             </div>
                           </div>
-                        </div>
+                          <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+                            <div className="rounded-xl border border-foreground/[0.06] bg-muted/30 overflow-hidden">
+                              <DateTimePicker label="Departure Date *" icon={Calendar} value={date} onChange={setDate} placeholder="Select date" />
+                            </div>
+                            <AnimatePresence>
+                              {tripType === "round_trip" && (
+                                <motion.div initial={{ opacity: 0, width: 0 }} animate={{ opacity: 1, width: "auto" }} exit={{ opacity: 0, width: 0 }}
+                                  className="rounded-xl border border-foreground/[0.06] bg-muted/30 overflow-hidden">
+                                  <DateTimePicker label="Return Date" icon={Calendar} value={returnDate} onChange={setReturnDate} placeholder="Select return" />
+                                </motion.div>
+                              )}
+                            </AnimatePresence>
+                            <PremiumSelect label="Passengers" required value={passengers} onChange={(e) => setPassengers(e.target.value)}>
+                              {[...Array(19)].map((_, i) => (
+                                <option key={i + 1} value={i + 1}>{i + 1} {i === 0 ? "passenger" : "passengers"}</option>
+                              ))}
+                            </PremiumSelect>
+                          </div>
+                        </FormSection>
 
-                        {/* Submit */}
-                        <div className="text-center">
-                          <button type="submit" disabled={loading} className="w-full md:w-auto px-16 py-4.5 bg-gradient-gold text-primary-foreground text-[10px] tracking-[0.3em] uppercase font-medium rounded-sm transition-all duration-500 hover:shadow-[0_0_40px_-8px_hsla(43,74%,49%,0.5)] hover:scale-[1.02] disabled:opacity-50 cursor-pointer">
-                            {loading ? "Submitting..." : "Get My Options"}
+                        {/* Route Map */}
+                        <QuoteRouteMap from={fromAirport} to={toAirport} className="mt-2" />
+
+                        {/* Preferences — Expandable */}
+                        <div>
+                          <button type="button" onClick={() => setShowPrefs(!showPrefs)}
+                            className="flex items-center gap-2 text-[10px] tracking-[0.2em] uppercase text-primary/60 font-medium hover:text-primary transition-colors cursor-pointer">
+                            <ChevronDown size={12} className={`transition-transform duration-300 ${showPrefs ? "rotate-180" : ""}`} />
+                            Aircraft & Budget Preferences
                           </button>
+                          <AnimatePresence>
+                            {showPrefs && (
+                              <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: "auto" }} exit={{ opacity: 0, height: 0 }}
+                                className="overflow-hidden mt-4 space-y-4">
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                  <PremiumSelect label="Aircraft Category" value={aircraftCategory} onChange={(e) => setAircraftCategory(e.target.value)}>
+                                    {aircraftCategories.map((c) => <option key={c.value} value={c.value}>{c.label}</option>)}
+                                  </PremiumSelect>
+                                  <PremiumSelect label="Budget Range" value={budgetRange} onChange={(e) => setBudgetRange(e.target.value)}>
+                                    <option value="">Prefer not to say</option>
+                                    <option value="under_25k">Under $25,000</option>
+                                    <option value="25k_50k">$25,000 – $50,000</option>
+                                    <option value="50k_100k">$50,000 – $100,000</option>
+                                    <option value="100k_250k">$100,000 – $250,000</option>
+                                    <option value="250k_plus">$250,000+</option>
+                                  </PremiumSelect>
+                                </div>
+                                <PremiumTextarea label="Special Requests" value={specialRequests} onChange={(e) => setSpecialRequests(e.target.value)} rows={2} placeholder="Catering, ground transport, specific requirements..." maxLength={1000} />
+                              </motion.div>
+                            )}
+                          </AnimatePresence>
                         </div>
-                      </form>
-                    )}
-                  </GlassCard>
+
+                        {/* Contact Details */}
+                        <FormSection title="Your Details">
+                          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <PremiumInput label="Full Name" required value={name} onChange={(e) => setName(e.target.value)} placeholder="Full name" maxLength={100}
+                              error={attempted && !name ? "Required" : undefined} />
+                            <PremiumInput label="Email" required type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="you@email.com" maxLength={255}
+                              error={attempted && !email ? "Required" : undefined} />
+                          </div>
+                          <PhoneWithCountryCode phone={phone} onPhoneChange={setPhone} countryCode={phoneCode} onCountryCodeChange={setPhoneCode} />
+                        </FormSection>
+
+                        <LegalConsent checked={termsAccepted} onChange={setTermsAccepted} />
+                        <ValidationMessage show={attempted && !canSubmit} />
+                        <FormDisclaimer />
+                        <PremiumSubmitButton loading={loading} disabled={!canSubmit}>Get My Options</PremiumSubmitButton>
+                        <ConfidentialityNotice />
+                      </div>
+                    </form>
+                  )}
                 </div>
               </div>
             </div>
