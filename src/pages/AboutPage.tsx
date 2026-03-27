@@ -122,42 +122,47 @@ const AboutPage = () => (
         </div>
       </section>
 
-      {/* ===== CEO SECTION ===== */}
-      <section className="section-white">
-        <div className="container mx-auto px-6 py-24 md:py-32">
-          <div className="max-w-6xl mx-auto grid lg:grid-cols-5 gap-16 items-center">
-            {/* Left — Photo */}
-            <FadeReveal className="lg:col-span-2">
-              <div className="relative">
-                <div className="rounded-2xl overflow-hidden shadow-xl">
-                  <img
-                    src={ceoPhoto}
-                    alt="Hadi Abdel Hadi — Founder & CEO"
-                    className="w-full aspect-[3/4] object-cover object-top"
-                    loading="lazy"
-                  />
-                </div>
-                <div className="absolute -bottom-4 -right-4 w-24 h-24 rounded-full bg-primary/10 blur-2xl" />
-              </div>
-            </FadeReveal>
+      {/* ===== CEO SECTION — Apple editorial style ===== */}
+      <section className="relative bg-[#000000] overflow-hidden">
+        {/* Full-bleed cinematic photo */}
+        <div className="relative w-full flex flex-col items-center">
+          {/* Intro text above photo */}
+          <FadeReveal className="text-center pt-24 md:pt-32 pb-16 md:pb-20 px-6 relative z-10">
+            <p className="text-[10px] tracking-[0.6em] uppercase text-white/40 font-light mb-6">Leadership</p>
+            <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-semibold text-white leading-[1.08] mb-5">
+              Hadi Abdel Hadi
+            </h2>
+            <p className="text-[15px] md:text-[17px] text-white/50 font-light">Founder & CEO</p>
+          </FadeReveal>
 
-            {/* Right — Text */}
-            <FadeReveal delay={0.15} className="lg:col-span-3">
-              <p className="text-[11px] tracking-[0.4em] uppercase text-primary font-medium mb-5">A Word from Our Founder</p>
-              <div className="space-y-5 text-[15px] text-muted-foreground font-light leading-[2]">
-                <p>At Universal Jets, we don't just arrange flights — we design experiences around the people who trust us with their time.</p>
-                <p>After nearly two decades in private aviation, I've learned one thing: clients don't want options — they want clarity, precision, and trust.</p>
-                <p className="text-foreground font-normal italic text-[17px]">That's what we deliver.</p>
-                <p>Every flight we arrange is built around one principle — it should feel effortless. No friction. No uncertainty. Just the right aircraft, at the right time.</p>
-                <p>This is not about jets. This is about how you move through the world.</p>
-              </div>
-              <div className="mt-10 pt-8 border-t border-border">
-                <p className="font-display text-[17px] font-semibold text-foreground">— Hadi Abdel Hadi</p>
-                <p className="text-[13px] text-muted-foreground font-light mt-1">Founder & CEO</p>
-                <p className="text-[11px] text-primary/70 tracking-[0.1em] mt-1">18+ Years in Private Aviation · Europe · GCC</p>
-              </div>
-            </FadeReveal>
-          </div>
+          {/* Hero photo — large, editorial crop */}
+          <FadeReveal delay={0.15} className="w-full max-w-3xl mx-auto px-6 md:px-0">
+            <div className="relative rounded-3xl overflow-hidden shadow-2xl shadow-black/60">
+              <img
+                src={ceoPhoto}
+                alt="Hadi Abdel Hadi — Founder & CEO of Universal Jets"
+                className="w-full aspect-[4/5] md:aspect-[3/4] object-cover object-top"
+                loading="lazy"
+                style={{ imageRendering: "auto" }}
+              />
+              {/* Subtle bottom gradient for text legibility */}
+              <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-black/60 to-transparent" />
+            </div>
+          </FadeReveal>
+
+          {/* Quote block — below photo, Apple keynote style */}
+          <FadeReveal delay={0.3} className="max-w-2xl mx-auto text-center px-6 pt-16 md:pt-20 pb-24 md:pb-32">
+            <blockquote className="text-[20px] md:text-[24px] lg:text-[28px] text-white font-display font-light leading-[1.5] italic mb-8">
+              "This is not about jets. This is about how you move through the world."
+            </blockquote>
+            <div className="w-12 h-[1px] bg-primary/40 mx-auto mb-8" />
+            <p className="text-[14px] md:text-[15px] text-white/50 font-light leading-[2] max-w-lg mx-auto mb-4">
+              After nearly two decades in private aviation, Hadi built Universal Jets on one principle — every flight should feel effortless. No friction. No uncertainty. Just clarity, precision, and trust.
+            </p>
+            <p className="text-[11px] text-primary/60 tracking-[0.2em] uppercase font-medium mt-6">
+              18+ Years · Europe · GCC · Global
+            </p>
+          </FadeReveal>
         </div>
       </section>
 
