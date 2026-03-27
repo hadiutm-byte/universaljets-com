@@ -72,6 +72,10 @@ const FlightSearchBox = () => {
   const [returnDate, setReturnDate] = useState<Date | undefined>(undefined);
   const [passengers, setPassengers] = useState("");
   const [jetSize, setJetSize] = useState("");
+  const [attempted, setAttempted] = useState(false);
+
+  const showFromError = attempted && !legs[0]?.selectedFrom;
+  const showToError = attempted && !legs[0]?.selectedTo;
 
   // Auto-set departure airport from geolocation
   useEffect(() => {
@@ -108,6 +112,8 @@ const FlightSearchBox = () => {
 
   const updateLeg = (index: number, updates: Partial<Leg>) => {
     setLegs((prev) => prev.map((l, i) => (i === index ? { ...l, ...updates } : l)));
+    // Clear validation errors when user makes a selection
+    if (updates.selectedFrom || updates.selectedTo) setAttempted(false);
   };
 
   const swapRoute = (index: number) => {
@@ -138,6 +144,7 @@ const FlightSearchBox = () => {
   const canSearch = primaryLeg.selectedFrom && primaryLeg.selectedTo;
 
   const handleSearch = () => {
+    setAttempted(true);
     if (!canSearch) return;
 
     // Persist search preferences
@@ -242,6 +249,7 @@ const FlightSearchBox = () => {
                     selectedAirport={primaryLeg.selectedFrom}
                     onSelect={(a) => updateLeg(0, { from: `${a.city} (${a.icao || a.iata})`, selectedFrom: a })}
                     onClearSelection={() => updateLeg(0, { selectedFrom: null })}
+                    error={showFromError}
                   />
                   <SwapButton onClick={() => swapRoute(0)} />
                   <AirportField
@@ -254,6 +262,7 @@ const FlightSearchBox = () => {
                     selectedAirport={primaryLeg.selectedTo}
                     onSelect={(a) => updateLeg(0, { to: `${a.city} (${a.icao || a.iata})`, selectedTo: a })}
                     onClearSelection={() => updateLeg(0, { selectedTo: null })}
+                    error={showToError}
                   />
                 </div>
                 <DateTimePicker label="Departure" icon={Calendar} value={primaryLeg.date} onChange={(d) => updateLeg(0, { date: d })} placeholder="Select date" />
