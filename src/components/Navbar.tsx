@@ -127,15 +127,17 @@ const Navbar = () => {
         initial={{ opacity: 0, y: -12 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 1, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
-        className={`fixed top-9 left-0 right-0 z-[56] transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] ${
+        className={`fixed left-0 right-0 z-[56] transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] ${
           scrolled ? "py-2.5" : "py-5"
         }`}
         style={{
+          top: "max(env(safe-area-inset-top, 0px), 2.25rem)",
           background: scrolled
             ? "hsl(220 10% 6% / 0.97)"
             : "linear-gradient(to bottom, hsla(220,10%,5%,0.9), hsla(220,10%,5%,0))",
           borderBottom: scrolled ? "1px solid hsla(43,74%,49%,0.08)" : "1px solid transparent",
-          backdropFilter: scrolled ? "blur(12px) saturate(1.2)" : "none",
+          backdropFilter: scrolled ? "blur(16px) saturate(1.4)" : "none",
+          WebkitBackdropFilter: scrolled ? "blur(16px) saturate(1.4)" : "none",
         }}
       >
         <div className="container mx-auto flex items-center justify-between px-6 lg:px-8">
