@@ -107,7 +107,9 @@ const FlightSearchBox = () => {
       if (data.passengers) setPassengers(data.passengers);
       if (data.jetSize) setJetSize(data.jetSize);
       if (data.tripType) setTripType(data.tripType);
-    } catch {}
+    } catch (e) {
+      console.warn("Failed to restore search preferences from localStorage:", e);
+    }
   }, []);
 
   const updateLeg = (index: number, updates: Partial<Leg>) => {
@@ -150,7 +152,9 @@ const FlightSearchBox = () => {
     // Persist search preferences
     try {
       localStorage.setItem(SEARCH_CACHE_KEY, JSON.stringify({ passengers, jetSize, tripType }));
-    } catch {}
+    } catch (e) {
+      console.warn("Failed to persist search preferences to localStorage:", e);
+    }
     capture({
       name: "Website Visitor",
       email: "search@universaljets.com",

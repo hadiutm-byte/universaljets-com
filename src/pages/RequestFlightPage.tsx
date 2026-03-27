@@ -89,6 +89,8 @@ const RequestFlightPage = () => {
       setPhoneCode(resolvedCode);
       setWhatsappCode(resolvedCode);
     }
+    // phoneCode intentionally excluded — only auto-update when default (+971) is still set
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [resolvedCode]);
 
   // Auto-set departure airport based on user location
@@ -107,6 +109,8 @@ const RequestFlightPage = () => {
         lng: geo.longitude ?? 0,
       });
     }
+    // fromAirport and from intentionally excluded — used as guard condition only
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [geo.airportIcao]);
 
   // Expand sections

@@ -28,15 +28,21 @@ export function useAuth() {
   }, []);
 
   useEffect(() => {
+    let resolved = false;
+
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
       async (_event, session) => {
+        resolved = true;
         const user = session?.user ?? null;
         const roles = user ? await fetchRoles(user.id) : [];
         setState({ user, session, roles, loading: false });
       }
     );
 
+    // Fallback: load the current session in case onAuthStateChange doesn't fire
+    // immediately (e.g. when there is no active session at all).
     supabase.auth.getSession().then(async ({ data: { session } }) => {
+      if (resolved) return; // onAuthStateChange already handled this
       const user = session?.user ?? null;
       const roles = user ? await fetchRoles(user.id) : [];
       setState({ user, session, roles, loading: false });

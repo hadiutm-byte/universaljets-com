@@ -279,7 +279,7 @@ Deno.serve(async (req) => {
       const { data: clientData } = await admin.from("clients").select("id").eq("user_id", userId).maybeSingle();
       let requests: any[] = [];
       let trips: any[] = [];
-      let invoices: any[] = [];
+      const invoices: any[] = [];
       let membershipApps: any[] = [];
 
       if (clientData) {
