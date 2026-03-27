@@ -174,12 +174,12 @@ serve(async (req) => {
           price_currency: priceCurrency,
           price_unit: priceUnit,
           estimated_flight_time_min: toFiniteNum(aircraft.flight_time) ?? toFiniteNum(aircraft.estimated_flight_time),
-          // Images — NO tail number images
+          // Images — NO tail number images; notail replaces exterior
           images: {
             exterior: notailImage || exteriorImage,
             cabin: cabinImage,
             floor_plan: floorPlanUrl,
-            all: allImages,
+            all: filteredImages,
           },
           // Operator — strip identity for B2C privacy; only expose certification status
           operator: {
