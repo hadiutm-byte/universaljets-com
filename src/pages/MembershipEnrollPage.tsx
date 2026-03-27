@@ -202,7 +202,7 @@ const MembershipEnrollPage = () => {
                       <FormSection title="Your Travel Profile">
                         <div>
                           <p className="text-[10px] tracking-[0.25em] uppercase font-medium mb-2.5 text-foreground/55">Estimated Flights Per Year</p>
-                          <div className="grid grid-cols-4 gap-2">
+                          <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
                             {flightOptions.map(opt => (
                               <button key={opt} type="button" onClick={() => setTravelFrequency(opt)}
                                 className={`py-2.5 rounded-lg text-[12px] font-medium border transition-all duration-300 ${
