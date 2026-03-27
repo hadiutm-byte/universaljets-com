@@ -89,7 +89,6 @@ const Index = () => {
         {/* 7. Membership Hero — DARK CINEMATIC */}
         <MembershipHero
           onRequestInvitation={() => setAuthOpen(true)}
-          onSpeakToAdvisor={openRicky}
         />
 
         {/* 8. Jet Card — CHARCOAL */}
