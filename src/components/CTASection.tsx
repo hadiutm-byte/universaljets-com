@@ -105,7 +105,7 @@ const CTASection = () => {
             <motion.button
               whileHover={{ scale: 1.03 }}
               whileTap={{ scale: 0.98 }}
-              onClick={openRicky}
+              onClick={openWhatsApp}
               className="btn-luxury inline-flex items-center gap-3 px-10 py-4 bg-gradient-gold text-primary-foreground text-[10px] tracking-[0.3em] uppercase font-medium rounded-sm cursor-pointer"
             >
               Start with Ricky
@@ -137,10 +137,10 @@ const CTASection = () => {
 
               {/* Quick options */}
               <div className="grid grid-cols-2 gap-3 mb-6">
-                <QuickOption icon={Plane} label="Request a Flight" onClick={openRicky} />
-                <QuickOption icon={CreditCard} label="Explore Jet Card" onClick={openRicky} />
-                <QuickOption icon={Tag} label="Find Empty Legs" onClick={openRicky} />
-                <QuickOption icon={Headphones} label="Speak to Advisor" onClick={openRicky} />
+                <QuickOption icon={Plane} label="Request a Flight" onClick={openWhatsApp} />
+                <QuickOption icon={CreditCard} label="Explore Jet Card" onClick={openWhatsApp} />
+                <QuickOption icon={Tag} label="Find Empty Legs" onClick={openWhatsApp} />
+                <QuickOption icon={Headphones} label="Speak to Advisor" onClick={openWhatsApp} />
               </div>
 
               <div className="flex items-center gap-4 my-6">
