@@ -257,6 +257,7 @@ Deno.serve(async (req) => {
         lead_id: lead.id,
         request_id: flightReqId,
         membership_application_id: membershipAppId,
+        lead_score: leadScore,
       });
     }
 
