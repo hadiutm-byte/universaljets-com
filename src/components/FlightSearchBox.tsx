@@ -213,7 +213,7 @@ const FlightSearchBox = () => {
     >
       {/* ── Trip Type Tabs ── */}
       <div className="flex items-center justify-center mb-5">
-        <div className="inline-flex rounded-full bg-[hsl(var(--charcoal-deep)/0.9)] backdrop-blur-2xl border border-primary/10 p-1 gap-0.5">
+        <div className="inline-flex rounded-full bg-[hsl(0,0%,14%,0.9)] backdrop-blur-2xl border border-primary/10 p-1 gap-0.5">
           {tripTabs.map((tab) => (
             <button
               key={tab.value}
