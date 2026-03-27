@@ -1,4 +1,4 @@
-import { Plane, Phone } from "lucide-react";
+import { Plane, MessageCircle } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useEffect, useState } from "react";
