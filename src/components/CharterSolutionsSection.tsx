@@ -36,9 +36,9 @@ const charterCategories: CharterCategory[] = [
       "18+ years arranging leisure charters worldwide",
     ],
     aircraft: [
-      { name: "Citation CJ3", link: "/fleet" },
-      { name: "Phenom 300", link: "/fleet" },
-      { name: "Challenger 350", link: "/fleet" },
+      { name: "Cessna Citation XLS", link: "/fleet" },
+      { name: "Bombardier Challenger 350", link: "/fleet" },
+      { name: "Gulfstream G550", link: "/fleet" },
       { name: "Global 7500", link: "/fleet" },
     ],
   },
@@ -57,10 +57,10 @@ const charterCategories: CharterCategory[] = [
       "Invoice consolidation and corporate billing",
     ],
     aircraft: [
-      { name: "Phenom 300", link: "/fleet" },
-      { name: "Citation Latitude", link: "/fleet" },
-      { name: "Challenger 650", link: "/fleet" },
-      { name: "Gulfstream G650", link: "/fleet" },
+      { name: "Cessna Citation Latitude", link: "/fleet" },
+      { name: "Embraer Praetor 600", link: "/fleet" },
+      { name: "Bombardier Challenger 650", link: "/fleet" },
+      { name: "Gulfstream G650ER", link: "/fleet" },
     ],
   },
   {
@@ -78,10 +78,10 @@ const charterCategories: CharterCategory[] = [
       "Response within 2 hours, departure within 6",
     ],
     aircraft: [
-      { name: "Learjet 35", link: "/fleet" },
-      { name: "Citation CJ3", link: "/fleet" },
-      { name: "Challenger 604", link: "/fleet" },
-      { name: "Gulfstream G550", link: "/fleet" },
+      { name: "Learjet 35A Air Ambulance", link: "/fleet" },
+      { name: "Learjet 60 Medevac", link: "/fleet" },
+      { name: "Challenger 604 ICU", link: "/fleet" },
+      { name: "Gulfstream G550 Medevac", link: "/fleet" },
     ],
   },
   {
@@ -99,10 +99,10 @@ const charterCategories: CharterCategory[] = [
       "Global freight aircraft sourcing across all categories",
     ],
     aircraft: [
-      { name: "Boeing 737", link: "/fleet" },
-      { name: "Pilatus PC-12", link: "/fleet" },
-      { name: "Gulfstream G550", link: "/fleet" },
-      { name: "Challenger 604", link: "/fleet" },
+      { name: "Boeing 737-800 Freighter", link: "/fleet" },
+      { name: "Antonov AN-12 Cargo", link: "/fleet" },
+      { name: "Airbus A330 Freighter", link: "/fleet" },
+      { name: "Boeing 747 Cargo", link: "/fleet" },
     ],
   },
   {
@@ -141,10 +141,10 @@ const charterCategories: CharterCategory[] = [
       "VIP airliners configured for team and group travel",
     ],
     aircraft: [
-      { name: "Embraer Lineage 1000", link: "/fleet" },
-      { name: "Boeing BBJ", link: "/fleet" },
-      { name: "Airbus ACJ319", link: "/fleet" },
-      { name: "Challenger 850", link: "/fleet" },
+      { name: "Boeing BBJ VIP Airliner", link: "/fleet" },
+      { name: "Airbus ACJ320neo", link: "/fleet" },
+      { name: "Embraer Lineage 1000E", link: "/fleet" },
+      { name: "Boeing 767 VIP", link: "/fleet" },
     ],
   },
 ];
