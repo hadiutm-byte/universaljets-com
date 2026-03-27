@@ -396,6 +396,19 @@ Deno.serve(async (req) => {
       if (table === "quotes" && newStatus === "accepted") {
         await admin.from("contracts").insert({ quote_id: id, status: "draft" });
         automations.push("contract_draft_created");
+
+        // Auto-create trip from accepted quote
+        const { data: acceptedQuote } = await admin.from("quotes").select("request_id, aircraft, price").eq("id", id).single();
+        if (acceptedQuote?.request_id) {
+          const { data: fr } = await admin.from("flight_requests").select("client_id, departure, destination, date").eq("id", acceptedQuote.request_id).single();
+          if (fr) {
+            await admin.from("trips").insert({
+              client_id: fr.client_id, departure: fr.departure, destination: fr.destination,
+              date: fr.date, aircraft: acceptedQuote.aircraft, status: "scheduled",
+            });
+            automations.push("trip_scheduled");
+          }
+        }
       }
 
       if (table === "contracts" && newStatus === "signed") {
