@@ -621,7 +621,7 @@ html {
   }
 
   .search-field:hover {
-    background: hsla(220, 20%, 10%, 0.8);
+    background: hsl(var(--charcoal) / 0.8);
     border-color: hsla(43, 85%, 58%, 0.2);
     box-shadow: 0 0 16px -6px hsla(43, 85%, 58%, 0.1);
   }
