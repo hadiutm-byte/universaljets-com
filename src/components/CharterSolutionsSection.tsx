@@ -67,7 +67,7 @@ const charterCategories: CharterCategory[] = [
     title: "Medical Evacuations",
     tagline: "ICU-equipped. 24/7 response. Anywhere.",
     slug: "medevac",
-    image: "https://d2xsxph8kpxj0f.cloudfront.net/310519663441238946/F94ypwks3ADk2wFrxZVnWB/medical-jet-evacuation_c1c73ba0.png",
+    image: medevacImg,
     icon: Clock,
     justification:
       "In a medical emergency, operators quote from their own fleet — which may not be ICU-configured or in the right location. We source air ambulance aircraft globally with stretcher configurations, medical crews, and conflict-zone clearances that single operators simply cannot match.",
