@@ -182,6 +182,8 @@ export function sanitizeAircraftForPublic<T extends Record<string, unknown>>(raw
     // Clean aircraft name fields
     if (key === "aircraft_type" || key === "aircraft_name" || key === "aircraft" || key === "name") {
       cleaned[key] = sanitizeAircraftName(value as string);
+    } else if (key === "description" || key === "comment") {
+      cleaned[key] = sanitizeDescription(value as string);
     } else if (key === "images") {
       // Sanitise image arrays (handles both flat arrays and { all, exterior, … } shapes)
       if (Array.isArray(value)) {
