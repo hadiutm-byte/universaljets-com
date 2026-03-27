@@ -76,7 +76,7 @@ const HeroSection = () => {
           className="font-display leading-[0.95] tracking-[-0.01em] mb-4"
         >
           <span
-            className="block text-[2.5rem] sm:text-[3rem] md:text-[4.5rem] lg:text-[6.2rem] font-semibold text-white"
+            className="block text-fluid-hero font-semibold text-white"
             style={{ textShadow: "0 4px 40px hsla(0,0%,0%,0.8), 0 1px 0 hsla(0,0%,100%,0.03)" }}
           >
             Private Aviation.
@@ -88,8 +88,9 @@ const HeroSection = () => {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1.4, delay: 0.85, ease: [0.16, 1, 0.3, 1] }}
-          className="font-display text-[2rem] sm:text-[2.8rem] md:text-[3.8rem] lg:text-[5.2rem] font-extrabold italic tracking-[-0.01em] mb-10"
+          className="font-display font-extrabold italic tracking-[-0.01em] mb-10"
           style={{
+            fontSize: "clamp(2rem, 1rem + 5vw, 5.2rem)",
             color: "hsl(43, 85%, 58%)",
             textShadow: "0 0 60px hsla(43,85%,50%,0.5), 0 0 20px hsla(43,85%,50%,0.35), 0 0 6px hsla(43,85%,50%,0.2), 0 2px 4px hsla(0,0%,0%,0.9), 0 4px 30px hsla(0,0%,0%,0.8)",
           }}
