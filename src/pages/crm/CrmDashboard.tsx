@@ -24,7 +24,6 @@ const CrmDashboard = () => {
   const [analytics, setAnalytics] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const { roles, user } = useAuth();
-  const { call } = useCrmApi();
 
   const isAdmin = roles.includes("admin");
   const isSales = roles.includes("sales") || isAdmin;
