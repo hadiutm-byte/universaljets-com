@@ -641,11 +641,16 @@ html {
   }
 
   .search-select {
-    @apply w-full bg-transparent text-[14px] text-foreground font-normal focus:outline-none appearance-none cursor-pointer;
+    @apply w-full bg-transparent text-[14px] font-normal focus:outline-none appearance-none cursor-pointer;
+    color: hsl(0 0% 100%);
   }
 
   .search-input {
-    @apply bg-transparent text-[14px] text-foreground font-normal focus:outline-none placeholder:text-muted-foreground/40;
+    @apply bg-transparent text-[14px] font-normal focus:outline-none;
+    color: hsl(0 0% 100%);
+  }
+  .search-input::placeholder {
+    color: hsl(0 0% 100% / 0.35);
   }
 
   /* Search CTA button */
