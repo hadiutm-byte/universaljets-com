@@ -121,7 +121,7 @@ const ACMILeasingPage = () => {
   };
 
   const set = (key: string, value: string) => setForm(f => ({ ...f, [key]: value }));
-  const inputClass = "bg-[hsl(228,20%,8%)] border-[hsl(228,15%,18%)] text-foreground/80 text-[13px] placeholder:text-foreground/20 focus:border-primary/30";
+  const inputClass = "bg-[hsl(228,20%,8%)] border-[hsl(228,15%,18%)] text-white/80 text-[13px] placeholder:text-white/25 focus:border-primary/30";
 
   return (
     <div className="acmi-page min-h-screen bg-[hsl(228,28%,4%)]">
@@ -177,7 +177,7 @@ const ACMILeasingPage = () => {
             {trustSignals.map((signal, i) => (
               <div key={i} className="flex items-center gap-2">
                 <Check className="w-3 h-3 text-primary/40" strokeWidth={2} />
-                <span className="text-[9px] tracking-[0.2em] uppercase text-foreground/30 font-light whitespace-nowrap">{signal}</span>
+                <span className="text-[9px] tracking-[0.2em] uppercase text-white/55 font-light whitespace-nowrap">{signal}</span>
               </div>
             ))}
           </div>
@@ -189,10 +189,10 @@ const ACMILeasingPage = () => {
         <div className="container mx-auto px-8 max-w-5xl">
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.8 }} className="text-center mb-16">
             <p className="text-[9px] tracking-[0.5em] uppercase text-primary/50 mb-5 font-light">Core Capabilities</p>
-            <h2 className="text-2xl md:text-4xl font-display font-semibold text-foreground mb-4">
+            <h2 className="text-2xl md:text-4xl font-display font-semibold text-white mb-4">
               Full-Spectrum <span className="text-gradient-gold italic">Aviation Operations</span>
             </h2>
-            <p className="text-[13px] text-foreground/35 font-extralight leading-[2] max-w-lg mx-auto">
+            <p className="text-[13px] text-white/60 font-extralight leading-[2] max-w-lg mx-auto">
               From ACMI wet leases to humanitarian response — we deploy the right aircraft for every mission.
             </p>
           </motion.div>
@@ -211,9 +211,9 @@ const ACMILeasingPage = () => {
                   <div className="w-11 h-11 rounded-lg bg-primary/6 border border-primary/10 flex items-center justify-center group-hover:bg-primary/10 transition-all duration-500">
                     <cap.icon className="w-5 h-5 text-primary/60" strokeWidth={1.3} />
                   </div>
-                  <h3 className="font-display text-[15px] font-semibold text-foreground leading-tight">{cap.title}</h3>
+                  <h3 className="font-display text-[15px] font-semibold text-white leading-tight">{cap.title}</h3>
                 </div>
-                <p className="text-[11px] text-foreground/35 font-extralight leading-[1.9] mb-5">{cap.desc}</p>
+                <p className="text-[11px] text-white/60 font-extralight leading-[1.9] mb-5">{cap.desc}</p>
                 <div className="flex flex-wrap gap-2">
                   {cap.tags.map((tag) => (
                     <span key={tag} className="px-2.5 py-1 rounded text-[8px] tracking-[0.15em] uppercase text-primary/50 font-medium border border-primary/8 bg-primary/3">
@@ -235,7 +235,7 @@ const ACMILeasingPage = () => {
         <div className="container mx-auto px-8 max-w-5xl relative z-10">
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.8 }} className="text-center mb-16">
             <p className="text-[9px] tracking-[0.5em] uppercase text-primary/50 mb-5 font-light">Why Universal Jets</p>
-            <h2 className="text-2xl md:text-4xl font-display font-semibold text-foreground mb-4">
+            <h2 className="text-2xl md:text-4xl font-display font-semibold text-white mb-4">
               Operational <span className="text-gradient-gold italic">Strengths</span>
             </h2>
           </motion.div>
@@ -254,8 +254,8 @@ const ACMILeasingPage = () => {
                   <s.icon className="w-4.5 h-4.5 text-primary/50" strokeWidth={1.3} />
                 </div>
                 <p className="text-[22px] font-display font-bold text-primary/70 mb-1">{s.stat}</p>
-                <h4 className="font-display text-[13px] font-semibold text-foreground mb-2">{s.title}</h4>
-                <p className="text-[10px] text-foreground/30 font-extralight leading-[1.9]">{s.desc}</p>
+                <h4 className="font-display text-[13px] font-semibold text-white mb-2">{s.title}</h4>
+                <p className="text-[10px] text-white/55 font-extralight leading-[1.9]">{s.desc}</p>
               </motion.div>
             ))}
           </div>
@@ -267,7 +267,7 @@ const ACMILeasingPage = () => {
         <div className="container mx-auto px-8 max-w-5xl">
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.8 }} className="text-center mb-16">
             <p className="text-[9px] tracking-[0.5em] uppercase text-primary/50 mb-5 font-light">Deployment Scenarios</p>
-            <h2 className="text-2xl md:text-4xl font-display font-semibold text-foreground mb-4">
+            <h2 className="text-2xl md:text-4xl font-display font-semibold text-white mb-4">
               What We <span className="text-gradient-gold italic">Deploy For</span>
             </h2>
           </motion.div>
@@ -292,8 +292,8 @@ const ACMILeasingPage = () => {
                     <div className="w-2 h-2 rounded-full bg-primary/50" />
                   </div>
                 )}
-                <h4 className="font-display text-[13px] font-semibold text-foreground mb-2 group-hover:text-primary/80 transition-colors duration-500">{uc.title}</h4>
-                <p className="text-[10px] text-foreground/30 font-extralight leading-[1.9]">{uc.desc}</p>
+                <h4 className="font-display text-[13px] font-semibold text-white mb-2 group-hover:text-primary/80 transition-colors duration-500">{uc.title}</h4>
+                <p className="text-[10px] text-white/55 font-extralight leading-[1.9]">{uc.desc}</p>
               </motion.div>
             ))}
           </div>
@@ -316,8 +316,8 @@ const ACMILeasingPage = () => {
                 <div className="w-12 h-12 rounded-full border border-[hsl(228,15%,15%)] flex items-center justify-center mx-auto mb-4 bg-[hsl(228,22%,7%)]">
                   <c.icon className="w-5 h-5 text-primary/45" strokeWidth={1.3} />
                 </div>
-                <p className="font-display text-[14px] font-semibold text-foreground mb-1">{c.label}</p>
-                <p className="text-[10px] text-foreground/30 font-extralight leading-[1.8]">{c.desc}</p>
+                <p className="font-display text-[14px] font-semibold text-white mb-1">{c.label}</p>
+                <p className="text-[10px] text-white/55 font-extralight leading-[1.8]">{c.desc}</p>
               </motion.div>
             ))}
           </div>
@@ -330,10 +330,10 @@ const ACMILeasingPage = () => {
         <div className="container mx-auto px-8 relative z-10 max-w-2xl">
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.8 }} className="text-center mb-12">
             <p className="text-[9px] tracking-[0.5em] uppercase text-primary/50 mb-5 font-light">Get Started</p>
-            <h2 className="text-2xl md:text-3xl font-display font-semibold text-foreground mb-4">
+            <h2 className="text-2xl md:text-3xl font-display font-semibold text-white mb-4">
               Discuss an ACMI / <span className="text-gradient-gold italic">Mission Requirement</span>
             </h2>
-            <p className="text-[13px] text-foreground/35 font-extralight leading-[2] max-w-md mx-auto">
+            <p className="text-[13px] text-white/60 font-extralight leading-[2] max-w-md mx-auto">
               Tell us your operational requirements — our team will structure a proposal within 24 hours.
             </p>
           </motion.div>
@@ -350,8 +350,8 @@ const ACMILeasingPage = () => {
                 <div className="w-14 h-14 rounded-full border border-primary/20 flex items-center justify-center mx-auto mb-5 bg-primary/5">
                   <Check className="w-6 h-6 text-primary/70" strokeWidth={1.5} />
                 </div>
-                <h3 className="font-display text-lg text-foreground mb-3">Operational Inquiry Received</h3>
-                <p className="text-[12px] text-foreground/35 font-extralight leading-[2] max-w-sm mx-auto">
+                <h3 className="font-display text-lg text-white mb-3">Operational Inquiry Received</h3>
+                <p className="text-[12px] text-white/60 font-extralight leading-[2] max-w-sm mx-auto">
                   Our operations team will review your requirements and respond within 24 hours with a structured proposal.
                 </p>
               </div>
@@ -422,7 +422,7 @@ const ACMILeasingPage = () => {
                   {loading ? "Submitting..." : "Request Operational Support"}
                 </button>
 
-                <p className="text-[10px] text-foreground/15 font-extralight text-center">
+                <p className="text-[10px] text-white/40 font-extralight text-center">
                   Every inquiry is reviewed by our operations team — not an automated system.
                 </p>
               </form>
@@ -437,17 +437,17 @@ const ACMILeasingPage = () => {
         <div className="container mx-auto px-8 relative z-10 text-center">
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.8 }}>
             <p className="text-[9px] tracking-[0.5em] uppercase text-primary/40 mb-5 font-light">Ready to Deploy</p>
-            <h2 className="text-2xl md:text-3xl font-display font-semibold text-foreground mb-6">
+            <h2 className="text-2xl md:text-3xl font-display font-semibold text-white mb-6">
               Mission-Critical Aviation. <span className="text-gradient-gold italic">On Demand.</span>
             </h2>
-            <p className="text-[13px] text-foreground/35 font-extralight leading-[2] max-w-md mx-auto mb-10">
+            <p className="text-[13px] text-white/60 font-extralight leading-[2] max-w-md mx-auto mb-10">
               Whether you need an aircraft in 48 hours or a long-term ACMI contract, we're ready.
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
               <a href="#acmi-form" className="px-10 py-4 bg-gradient-gold text-primary-foreground text-[10px] tracking-[0.3em] uppercase font-medium rounded-sm hover:shadow-[0_0_40px_-8px_hsla(43,74%,49%,0.5)] transition-all duration-500 inline-flex items-center gap-2">
                 Request Operational Support <ArrowRight className="w-3.5 h-3.5" />
               </a>
-              <a href="mailto:ops@universaljets.com" className="px-8 py-4 border border-[hsl(228,15%,18%)] text-foreground/50 text-[10px] tracking-[0.3em] uppercase font-medium rounded-sm hover:border-primary/20 hover:text-foreground/70 transition-all duration-500">
+              <a href="mailto:ops@universaljets.com" className="px-8 py-4 border border-[hsl(228,15%,18%)] text-white/50 text-[10px] tracking-[0.3em] uppercase font-medium rounded-sm hover:border-primary/20 hover:text-white/75 transition-all duration-500">
                 ops@universaljets.com
               </a>
             </div>
