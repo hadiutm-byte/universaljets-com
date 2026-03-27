@@ -72,7 +72,7 @@ const EmptyLegPopup = ({ leg, onClose }: EmptyLegPopupProps) => {
       await capture({
         name: form.name,
         email: form.email,
-        phone: form.phone || undefined,
+        phone: buildFullPhone(form.countryCode, form.phone),
         departure: `${fromCity || fromCode}`,
         destination: `${toCity || toCode}`,
         date: leg.from_date || undefined,
