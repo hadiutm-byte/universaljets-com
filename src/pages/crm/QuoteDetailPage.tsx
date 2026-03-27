@@ -22,6 +22,8 @@ const QuoteDetailPage = () => {
   const canManageOps = roles.includes("admin") || roles.includes("operations");
   const canManageFinance = roles.includes("admin") || roles.includes("finance");
 
+  const [pipelineStatus, setPipelineStatus] = useState<{contract?: any; invoice?: any; trip?: any; payment?: any}>({});
+
   const load = useCallback(async () => {
     if (!quoteId) return;
     setLoading(true);
@@ -48,6 +50,26 @@ const QuoteDetailPage = () => {
       .order("created_at", { ascending: false });
     setOperatorReqs(ops ?? []);
 
+    // Pipeline status — check downstream entities
+    const { data: contractData } = await supabase.from("contracts").select("id, status").eq("quote_id", quoteId).limit(1);
+    const contract = contractData?.[0] || null;
+    let invoice = null;
+    let payment = null;
+    if (contract) {
+      const { data: invData } = await supabase.from("invoices").select("id, status, amount, due_date").eq("contract_id", contract.id).limit(1);
+      invoice = invData?.[0] || null;
+      if (invoice) {
+        const { data: payData } = await supabase.from("payments").select("id, status, amount").eq("related_entity_id", invoice.id).limit(1);
+        payment = payData?.[0] || null;
+      }
+    }
+    const { data: tripData } = await supabase.from("trips").select("id, status")
+      .eq("client_id", data?.flight_requests?.client_id || "")
+      .eq("departure", data?.flight_requests?.departure || "")
+      .eq("destination", data?.flight_requests?.destination || "")
+      .limit(1);
+
+    setPipelineStatus({ contract, invoice, trip: tripData?.[0] || null, payment });
     setLoading(false);
   }, [quoteId]);
 
@@ -226,6 +248,30 @@ const QuoteDetailPage = () => {
         {quote.status === "accepted" && canManageFinance && <ActionBtn icon={Receipt} label="Generate Invoice" onClick={handleGenerateInvoice} loading={actionLoading === "invoice"} />}
         {canManageFinance && <ActionBtn icon={DollarSign} label="Mark Paid" onClick={handleMarkPaid} loading={actionLoading === "paid"} />}
         {quote.status === "accepted" && canManageOps && <ActionBtn icon={Plane} label="Generate Booking" onClick={handleGenerateBooking} loading={actionLoading === "booking"} />}
+      </div>
+
+      {/* Pipeline Status Tracker */}
+      <div className="rounded-xl border border-border/20 bg-card/50 p-4">
+        <span className="text-[8px] tracking-[0.3em] uppercase text-muted-foreground/40 mb-3 block">Pipeline Status</span>
+        <div className="flex items-center gap-1 overflow-x-auto">
+          {[
+            { label: "Quote", status: quote.status, done: quote.status === "accepted" },
+            { label: "Contract", status: pipelineStatus.contract?.status || "—", done: pipelineStatus.contract?.status === "signed" },
+            { label: "Invoice", status: pipelineStatus.invoice?.status || "—", done: pipelineStatus.invoice?.status === "paid" },
+            { label: "Payment", status: pipelineStatus.payment?.status || "—", done: !!pipelineStatus.payment },
+            { label: "Trip", status: pipelineStatus.trip?.status || "—", done: pipelineStatus.trip?.status === "completed" },
+          ].map((step, i, arr) => (
+            <div key={step.label} className="flex items-center gap-1 flex-shrink-0">
+              <div className={`flex flex-col items-center px-3 py-2 rounded-lg ${step.done ? "bg-emerald-500/10" : step.status !== "—" ? "bg-primary/10" : "bg-secondary/30"}`}>
+                <span className="text-[9px] font-medium tracking-wider uppercase">{step.label}</span>
+                <span className={`text-[8px] mt-0.5 ${step.done ? "text-emerald-400" : step.status !== "—" ? "text-primary" : "text-muted-foreground/30"}`}>
+                  {step.status}
+                </span>
+              </div>
+              {i < arr.length - 1 && <ArrowRight size={10} className="text-muted-foreground/20 flex-shrink-0" />}
+            </div>
+          ))}
+        </div>
       </div>
 
       {/* Details Grid */}

@@ -396,6 +396,19 @@ Deno.serve(async (req) => {
       if (table === "quotes" && newStatus === "accepted") {
         await admin.from("contracts").insert({ quote_id: id, status: "draft" });
         automations.push("contract_draft_created");
+
+        // Auto-create trip from accepted quote
+        const { data: acceptedQuote } = await admin.from("quotes").select("request_id, aircraft, price").eq("id", id).single();
+        if (acceptedQuote?.request_id) {
+          const { data: fr } = await admin.from("flight_requests").select("client_id, departure, destination, date").eq("id", acceptedQuote.request_id).single();
+          if (fr) {
+            await admin.from("trips").insert({
+              client_id: fr.client_id, departure: fr.departure, destination: fr.destination,
+              date: fr.date, aircraft: acceptedQuote.aircraft, status: "scheduled",
+            });
+            automations.push("trip_scheduled");
+          }
+        }
       }
 
       if (table === "contracts" && newStatus === "signed") {
@@ -411,7 +424,7 @@ Deno.serve(async (req) => {
       }
 
       if (table === "invoices" && newStatus === "paid") {
-        const { data: invoice } = await admin.from("invoices").select("contract_id").eq("id", id).single();
+        const { data: invoice } = await admin.from("invoices").select("contract_id, amount").eq("id", id).single();
         if (invoice?.contract_id) {
           const { data: contract } = await admin.from("contracts").select("quote_id").eq("id", invoice.contract_id).single();
           if (contract?.quote_id) {
@@ -420,6 +433,25 @@ Deno.serve(async (req) => {
               await admin.from("flight_requests").update({ status: "confirmed" }).eq("id", quote.request_id);
               automations.push("request_confirmed");
             }
+
+            // Find client from quote chain
+            const { data: qWithClient } = await admin.from("quotes").select("flight_requests(client_id)").eq("id", contract.quote_id).single();
+            const clientId = (qWithClient as any)?.flight_requests?.client_id;
+
+            // Auto-create payment record
+            await admin.from("payments").insert({
+              client_id: clientId || null,
+              amount: invoice.amount || 0,
+              currency: "USD",
+              payment_type: "incoming",
+              status: "completed",
+              payment_date: new Date().toISOString(),
+              related_entity_type: "invoice",
+              related_entity_id: id,
+              created_by: userId,
+              notes: `Auto-generated from invoice ${id.slice(0, 8)}`,
+            });
+            automations.push("payment_recorded");
           }
         }
       }
