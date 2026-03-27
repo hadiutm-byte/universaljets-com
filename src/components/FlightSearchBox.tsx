@@ -231,10 +231,10 @@ const FlightSearchBox = () => {
       </div>
 
       {/* ── Search Card ── */}
-      <div className="search-card-futuristic relative rounded-3xl overflow-hidden group/search transition-all duration-500 hover:shadow-[0_0_40px_-8px_hsl(var(--primary)/0.3)]">
-        {/* Ambient glow border */}
-        <div className="absolute inset-0 rounded-3xl bg-gradient-to-br from-primary/15 via-primary/[0.03] to-primary/10 pointer-events-none transition-all duration-500 group-hover/search:from-primary/30 group-hover/search:to-primary/20" />
-        <div className="absolute inset-[1px] rounded-[23px] bg-[hsl(0,0%,20%,0.97)] backdrop-blur-3xl transition-[backdrop-filter] duration-500 group-hover/search:backdrop-blur-[30px]" />
+      <div className="search-card-futuristic relative rounded-3xl overflow-hidden group/search transition-all duration-500">
+        {/* Background */}
+        <div className="absolute inset-0 rounded-3xl pointer-events-none" />
+        <div className="absolute inset-0 rounded-3xl bg-[hsl(0,0%,20%,0.97)] backdrop-blur-3xl" />
 
         {/* Inner content */}
         <div className="relative z-10 p-5 sm:p-7">
