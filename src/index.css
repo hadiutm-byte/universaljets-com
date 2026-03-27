@@ -475,6 +475,45 @@ html {
     text-shadow: 0 0 12px hsla(43, 85%, 58%, 0.16), 0 0 28px hsla(43, 85%, 58%, 0.08);
   }
 
+  /* Pulsing gold glow for hero headings */
+  .glow-pulse-gold {
+    color: hsl(43, 85%, 58%);
+    text-shadow: 0 0 10px hsla(43, 85%, 58%, 0.6),
+                 0 0 20px hsla(43, 85%, 58%, 0.4),
+                 0 0 40px hsla(43, 85%, 58%, 0.2);
+    animation: goldGlowPulse 2.5s ease-in-out infinite;
+  }
+
+  @keyframes goldGlowPulse {
+    0%, 100% {
+      text-shadow: 0 0 10px hsla(43, 85%, 58%, 0.6),
+                   0 0 20px hsla(43, 85%, 58%, 0.4),
+                   0 0 40px hsla(43, 85%, 58%, 0.2);
+    }
+    50% {
+      text-shadow: 0 0 20px hsla(43, 85%, 58%, 0.8),
+                   0 0 50px hsla(43, 85%, 58%, 0.5),
+                   0 0 70px hsla(43, 85%, 58%, 0.3);
+    }
+  }
+
+  /* Radiant CTA button with gold aura */
+  .cta-radiant {
+    border: 2px solid hsl(43, 85%, 58%);
+    background: transparent;
+    color: hsl(43, 85%, 58%);
+    box-shadow: 0 0 10px hsla(43, 85%, 58%, 0.4),
+                0 0 20px hsla(43, 85%, 58%, 0.2);
+    transition: all 0.3s ease;
+  }
+
+  .cta-radiant:hover {
+    background: hsl(43, 85%, 58%);
+    color: hsl(0, 0%, 4%);
+    box-shadow: 0 0 30px hsla(43, 85%, 58%, 0.6),
+                0 0 50px hsla(43, 85%, 58%, 0.3);
+  }
+
   .bg-primary,
   .bg-gradient-gold,
   .search-cta-btn,
