@@ -160,12 +160,12 @@ const EmptyLegsMap = () => {
           ))}
         </motion.div>
 
-        <div className="flex flex-wrap justify-center gap-3 mb-14">
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-3 mb-10 sm:mb-14">
           {/* Map/Cards toggle */}
             <div className="inline-flex rounded-lg border border-border bg-muted/30 p-1 gap-0">
               <button
                 onClick={() => setViewMode("cards")}
-                className={`flex items-center gap-1.5 px-5 py-2 rounded-md text-[10px] tracking-[0.15em] uppercase font-medium transition-all duration-300 ${
+                className={`flex items-center gap-1.5 px-5 py-2.5 rounded-md text-[10px] tracking-[0.15em] uppercase font-medium transition-all duration-300 touch-manipulation active:scale-95 min-h-[40px] ${
                   viewMode === "cards"
                     ? "bg-[hsl(var(--selection))] text-[hsl(var(--selection-foreground))] shadow-sm"
                     : "text-muted-foreground hover:text-foreground"
@@ -175,7 +175,7 @@ const EmptyLegsMap = () => {
               </button>
               <button
                 onClick={() => setViewMode("map")}
-                className={`flex items-center gap-1.5 px-5 py-2 rounded-md text-[10px] tracking-[0.15em] uppercase font-medium transition-all duration-300 ${
+                className={`flex items-center gap-1.5 px-5 py-2.5 rounded-md text-[10px] tracking-[0.15em] uppercase font-medium transition-all duration-300 touch-manipulation active:scale-95 min-h-[40px] ${
                   viewMode === "map"
                     ? "bg-[hsl(var(--selection))] text-[hsl(var(--selection-foreground))] shadow-sm"
                     : "text-muted-foreground hover:text-foreground"
@@ -191,7 +191,7 @@ const EmptyLegsMap = () => {
             <button
               onClick={handleRefresh}
               disabled={refreshing || isFetching}
-              className="flex items-center gap-1.5 px-4 py-2 rounded-full border border-primary/15 bg-primary/[0.04] text-[9px] tracking-[0.2em] uppercase font-medium text-primary/60 hover:text-primary hover:border-primary/30 hover:bg-primary/[0.08] transition-all duration-500 disabled:opacity-40"
+              className="flex items-center gap-1.5 px-4 py-2.5 rounded-full border border-primary/15 bg-primary/[0.04] text-[9px] tracking-[0.2em] uppercase font-medium text-primary/60 hover:text-primary hover:border-primary/30 hover:bg-primary/[0.08] transition-all duration-500 disabled:opacity-40 touch-manipulation active:scale-95 min-h-[40px]"
             >
               <RefreshCw size={10} className={refreshing || isFetching ? "animate-spin" : ""} />
               {refreshing || isFetching ? "Updating…" : "Live Sync"}
