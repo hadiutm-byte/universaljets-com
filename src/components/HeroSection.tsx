@@ -110,6 +110,27 @@ const HeroSection = () => {
         >
           Global access · Instant quotes · Tailored journeys
         </p>
+
+        {/* CTA Buttons */}
+        <motion.div
+          initial={{ opacity: 0, y: 14 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1, delay: 1.3 }}
+          className="flex gap-4 mt-6"
+        >
+          <Link
+            to="/#cta"
+            className="hero-cta-primary px-8 py-3 rounded-full text-[10px] md:text-[11px] tracking-[0.25em] uppercase font-medium transition-all duration-500 hover:scale-[1.08]"
+          >
+            Request a Flight
+          </Link>
+          <Link
+            to="/fleet"
+            className="hero-cta-secondary px-8 py-3 rounded-full text-[10px] md:text-[11px] tracking-[0.25em] uppercase font-medium transition-all duration-500 hover:scale-[1.08]"
+          >
+            Explore Fleet
+          </Link>
+        </motion.div>
       </motion.div>
 
       {/* Scroll indicator */}
