@@ -7,9 +7,20 @@ const corsHeaders = {
 
 const AVIAPAGES_BASE = 'https://dir.aviapages.com';
 
-/** Strip registration codes like "(HA-JEX)" from aircraft names */
+/** Strip registration codes like "(HA-JEX)" or standalone "N123AB" from aircraft names */
 function stripReg(name: string): string {
-  return name.replace(/\s*\([A-Z0-9]{1,4}-[A-Z0-9]{2,5}\)\s*/gi, '').trim() || 'Private Jet';
+  return name
+    .replace(/\s*\(([A-Z0-9]{1,5}-[A-Z0-9]{2,6}|N\d{1,5}[A-Z]{0,2})\)\s*/gi, ' ')
+    .replace(/\b([A-Z0-9]{1,5}-[A-Z0-9]{2,6}|N\d{1,5}[A-Z]{0,2})\b/gi, ' ')
+    .replace(/\s{2,}/g, ' ')
+    .trim() || 'Private Jet';
+}
+
+/** Coerce to finite number or null */
+function toFiniteNum(v: unknown): number | null {
+  if (v == null) return null;
+  const n = Number(v);
+  return Number.isFinite(n) ? n : null;
 }
 
 serve(async (req) => {
