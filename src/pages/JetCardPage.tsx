@@ -156,9 +156,9 @@ const JetCardPage = () => (
           {keyFeatures.map((f, i) => (
             <motion.div key={i} initial={{ opacity: 0, y: 10 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
               transition={{ delay: i * 0.04, duration: 0.4 }}
-              className="flex items-center gap-3 p-4 rounded-lg border border-border bg-card">
+              className="flex items-center gap-3 p-4 rounded-lg border border-white/[0.12] bg-white/[0.06]">
               <Check className="w-3.5 h-3.5 text-primary flex-shrink-0" strokeWidth={2} />
-              <span className="text-[12px] text-foreground/80 font-light">{f}</span>
+              <span className="text-[12px] text-foreground/85 font-light">{f}</span>
             </motion.div>
           ))}
         </div>
