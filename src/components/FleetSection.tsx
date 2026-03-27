@@ -51,7 +51,6 @@ const FleetSection = () => {
 
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
           {fleetCategories.map((f, i) => {
-            const apiImage = imageByClass[f.classId];
             const examples = examplesByClass[f.classId]?.join("  ·  ") || "";
 
             return (
