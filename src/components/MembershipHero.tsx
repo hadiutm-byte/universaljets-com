@@ -24,7 +24,7 @@ const fadeUp = {
 
 interface MembershipHeroProps {
   onRequestInvitation: () => void;
-  onSpeakToAdvisor: () => void;
+  onSpeakToAdvisor?: () => void;
 }
 
 const MembershipHero = ({ onRequestInvitation, onSpeakToAdvisor }: MembershipHeroProps) => (
