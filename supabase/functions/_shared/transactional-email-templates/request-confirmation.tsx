@@ -5,7 +5,6 @@ import {
 import type { TemplateEntry } from './registry.ts'
 
 const SITE_NAME = "Universal Jets"
-const SITE_URL = "https://universaljets.com"
 
 interface RequestConfirmationProps {
   name?: string
@@ -17,18 +16,78 @@ interface RequestConfirmationProps {
   aircraft?: string
 }
 
-const sourceMessages: Record<string, string> = {
-  website: 'flight request',
-  contact_form: 'inquiry',
-  membership_enrollment: 'membership application',
-  membership_page: 'membership application',
-  founders_circle: 'Founders Circle application',
-  empty_leg_inquiry: 'empty leg inquiry',
-  aircraft_guide: 'aircraft request',
-  acmi_inquiry: 'ACMI leasing inquiry',
-  partner_inquiry: 'partnership inquiry',
-  jet_card_inquiry: 'Jet Card inquiry',
-  corporate_inquiry: 'corporate inquiry',
+const sourceConfig: Record<string, { label: string; message: string; previewPrefix: string }> = {
+  website: {
+    label: 'Flight Request',
+    message: 'Your flight request has been received. A dedicated aviation advisor will review your requirements and present tailored options — typically within the hour.',
+    previewPrefix: 'Your flight request',
+  },
+  homepage_widget: {
+    label: 'Flight Search',
+    message: 'Your flight search has been received. Our team is sourcing the best available aircraft for your route and will follow up shortly.',
+    previewPrefix: 'Your flight search',
+  },
+  contact_form: {
+    label: 'Inquiry',
+    message: 'Thank you for reaching out. A member of our team will respond to your inquiry promptly.',
+    previewPrefix: 'Your inquiry',
+  },
+  membership_enrollment: {
+    label: 'Membership Application',
+    message: 'Your membership application has been received. Our membership committee will review your profile and a dedicated advisor will be in touch to discuss next steps.',
+    previewPrefix: 'Your membership application',
+  },
+  membership_page: {
+    label: 'Membership Application',
+    message: 'Your membership application has been received. Our membership committee will review your profile and a dedicated advisor will be in touch to discuss next steps.',
+    previewPrefix: 'Your membership application',
+  },
+  founders_circle: {
+    label: 'Founders Circle Application',
+    message: 'Your Founders Circle application has been received. Given the exclusivity of this programme, a senior advisor will personally review your submission and reach out within 24 hours.',
+    previewPrefix: 'Your Founders Circle application',
+  },
+  empty_leg_inquiry: {
+    label: 'Empty Leg Inquiry',
+    message: 'Your empty leg inquiry has been received. As empty legs are time-sensitive, our team will confirm availability and pricing as quickly as possible — often within minutes.',
+    previewPrefix: 'Your empty leg inquiry',
+  },
+  aircraft_guide: {
+    label: 'Aircraft Request',
+    message: 'Your aircraft request has been received. Our fleet specialists will source availability and present you with options tailored to your requirements.',
+    previewPrefix: 'Your aircraft request',
+  },
+  acmi_inquiry: {
+    label: 'ACMI Leasing Inquiry',
+    message: 'Your ACMI leasing inquiry has been received. Our commercial aviation team will review your operational requirements and respond with a detailed proposal.',
+    previewPrefix: 'Your ACMI leasing inquiry',
+  },
+  partner_inquiry: {
+    label: 'Partnership Inquiry',
+    message: 'Your partnership inquiry has been received. Our business development team will review your proposal and reach out to discuss potential collaboration.',
+    previewPrefix: 'Your partnership inquiry',
+  },
+  jet_card_inquiry: {
+    label: 'Jet Card Inquiry',
+    message: 'Your Jet Card inquiry has been received. A dedicated advisor will present you with the Altus Jet Card programme details and tailor a plan to your travel profile.',
+    previewPrefix: 'Your Jet Card inquiry',
+  },
+  corporate_inquiry: {
+    label: 'Corporate Inquiry',
+    message: 'Your corporate inquiry has been received. Our enterprise aviation team will review your requirements and propose a bespoke solution for your organisation.',
+    previewPrefix: 'Your corporate inquiry',
+  },
+  newsletter: {
+    label: 'Newsletter Subscription',
+    message: 'You have been added to our exclusive Jet Charter Secrets newsletter. Expect curated insights on private aviation, empty leg opportunities, and destination intelligence.',
+    previewPrefix: 'Welcome to Jet Charter Secrets',
+  },
+}
+
+const defaultConfig = {
+  label: 'Request',
+  message: 'Your request has been received. A member of our team will be in touch shortly.',
+  previewPrefix: 'Your request',
 }
 
 const RequestConfirmationEmail = (props: RequestConfirmationProps) => {
@@ -42,30 +101,29 @@ const RequestConfirmationEmail = (props: RequestConfirmationProps) => {
     aircraft = '',
   } = props
 
+  const config = sourceConfig[source || ''] || defaultConfig
   const greeting = name ? `Dear ${name},` : 'Dear Client,'
-  const requestType = sourceMessages[source || ''] || 'request'
+  const hasTripDetails = departure && departure !== 'N/A' && departure !== 'Newsletter'
 
   return (
     <Html lang="en" dir="ltr">
       <Head />
-      <Preview>Your {requestType} has been received — Universal Jets</Preview>
+      <Preview>{config.previewPrefix} has been received — Universal Jets</Preview>
       <Body style={main}>
         <Container style={container}>
           <Section style={headerSection}>
             <Text style={brandText}>UNIVERSAL JETS</Text>
-            <Heading style={h1}>Request Received</Heading>
+            <Heading style={h1}>{config.label} Received</Heading>
           </Section>
 
           <Hr style={divider} />
 
           <Text style={text}>{greeting}</Text>
-          <Text style={text}>
-            Thank you for submitting your {requestType}. Our aviation advisory team has received your details and will be in touch shortly — typically within the hour.
-          </Text>
+          <Text style={text}>{config.message}</Text>
 
-          {(departure || destination) && (
+          {hasTripDetails && (
             <Section style={summaryBox}>
-              <Heading as="h2" style={h2}>Your Trip Summary</Heading>
+              <Heading as="h2" style={h2}>Your Details</Heading>
               {departure && <Text style={detail}><strong>From:</strong> {departure}</Text>}
               {destination && <Text style={detail}><strong>To:</strong> {destination}</Text>}
               {date && <Text style={detail}><strong>Date:</strong> {date}</Text>}
@@ -75,11 +133,11 @@ const RequestConfirmationEmail = (props: RequestConfirmationProps) => {
           )}
 
           <Text style={text}>
-            If you need immediate assistance, our team is available 24/7 via WhatsApp or phone at <strong>+971 58 263 5338</strong>.
+            For immediate assistance, our team is available 24/7 via WhatsApp or by phone at <strong>+971 58 263 5338</strong>.
           </Text>
 
           <Section style={ctaSection}>
-            <Button style={button} href={`https://wa.me/971582635338`}>
+            <Button style={button} href="https://wa.me/971582635338">
               Chat on WhatsApp
             </Button>
           </Section>
@@ -87,7 +145,7 @@ const RequestConfirmationEmail = (props: RequestConfirmationProps) => {
           <Hr style={divider} />
 
           <Text style={footer}>
-            This is an automated confirmation from {SITE_NAME}. Please do not reply to this email.
+            This is an automated confirmation from {SITE_NAME}. Please do not reply directly to this email.
           </Text>
           <Text style={footerNote}>
             Universal Jets — Private Aviation, Elevated.
@@ -101,8 +159,8 @@ const RequestConfirmationEmail = (props: RequestConfirmationProps) => {
 export const template = {
   component: RequestConfirmationEmail,
   subject: (data: Record<string, any>) => {
-    const type = sourceMessages[data.source || ''] || 'request'
-    return `Your ${type} has been received — Universal Jets`
+    const config = sourceConfig[data.source || ''] || defaultConfig
+    return `${config.previewPrefix} has been received — Universal Jets`
   },
   displayName: 'Request confirmation',
   previewData: {
