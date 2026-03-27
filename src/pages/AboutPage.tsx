@@ -200,7 +200,6 @@ const AboutPage = () => (
           </div>
         </div>
       </section>
-      </section>
 
       {/* ===== HOW WE OPERATE ===== */}
       <section className="section-light">
