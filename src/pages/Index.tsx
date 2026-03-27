@@ -40,7 +40,7 @@ const Index = () => {
   const [authOpen, setAuthOpen] = useState(false);
 
   return (
-    <div className="min-h-screen bg-background relative">
+    <div className="min-h-screen bg-background relative overflow-x-hidden">
       <SEOHead
         title="Private Jet Charter — Fly Smarter. Fly Private"
         description="Access the global private jet market with Universal Jets. On-demand charter, empty legs, and 24/7 concierge. 18+ years of private aviation excellence."
