@@ -24,7 +24,11 @@ const MobileScrollPicker = ({
   onChange,
   placeholder = "Select",
 }: MobileScrollPickerProps) => {
-  const [open, setOpen] = useState(false);
+  const [open, setOpenState] = useState(false);
+  const setOpen = (v: boolean) => {
+    setOpenState(v);
+    document.dispatchEvent(new CustomEvent(v ? "picker-open" : "picker-close"));
+  };
   const [currentIndex, setCurrentIndex] = useState(() => {
     const idx = options.findIndex((o) => o.value === value);
     return idx >= 0 ? idx : 0;

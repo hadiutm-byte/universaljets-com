@@ -51,7 +51,11 @@ const MobileDateTimePicker = ({
   disabled = false,
   placeholder = "Select",
 }: DateTimePickerProps) => {
-  const [open, setOpen] = useState(false);
+  const [open, setOpenState] = useState(false);
+  const setOpen = (v: boolean) => {
+    setOpenState(v);
+    document.dispatchEvent(new CustomEvent(v ? "picker-open" : "picker-close"));
+  };
   const dateOpts = buildDateOptions();
   const timeOpts = buildTimeOptions();
 
