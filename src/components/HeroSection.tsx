@@ -73,7 +73,7 @@ const HeroSection = () => {
           initial={{ opacity: 0, y: 18 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1.2, delay: 0.95 }}
-          className="max-w-lg mx-auto"
+          className="max-w-lg mx-auto mt-6"
         >
           <p
             className="font-display text-[13px] md:text-[15px] text-white/80 font-semibold leading-[1.8] tracking-[0.18em] uppercase"
