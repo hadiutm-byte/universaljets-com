@@ -36,7 +36,6 @@ const charterCategories: CharterCategory[] = [
       "18+ years arranging leisure charters worldwide",
     ],
     aircraft: [
-      { name: "Cessna Citation XLS", link: "/fleet" },
       { name: "Bombardier Challenger 350", link: "/fleet" },
       { name: "Gulfstream G550", link: "/fleet" },
       { name: "Global 7500", link: "/fleet" },
@@ -57,7 +56,6 @@ const charterCategories: CharterCategory[] = [
       "Invoice consolidation and corporate billing",
     ],
     aircraft: [
-      { name: "Cessna Citation Latitude", link: "/fleet" },
       { name: "Embraer Praetor 600", link: "/fleet" },
       { name: "Bombardier Challenger 650", link: "/fleet" },
       { name: "Gulfstream G650ER", link: "/fleet" },
@@ -79,9 +77,8 @@ const charterCategories: CharterCategory[] = [
     ],
     aircraft: [
       { name: "Learjet 35A Air Ambulance", link: "/fleet" },
-      { name: "Learjet 60 Medevac", link: "/fleet" },
       { name: "Challenger 604 ICU", link: "/fleet" },
-      { name: "Gulfstream G550 Medevac", link: "/fleet" },
+      { name: "King Air 350 Medevac", link: "/fleet" },
     ],
   },
   {
@@ -101,7 +98,6 @@ const charterCategories: CharterCategory[] = [
     aircraft: [
       { name: "Boeing 737-800 Freighter", link: "/fleet" },
       { name: "Antonov AN-12 Cargo", link: "/fleet" },
-      { name: "Airbus A330 Freighter", link: "/fleet" },
       { name: "Boeing 747 Cargo", link: "/fleet" },
     ],
   },
@@ -121,7 +117,6 @@ const charterCategories: CharterCategory[] = [
     ],
     aircraft: [
       { name: "Airbus H145", link: "/fleet" },
-      { name: "Bell 429", link: "/fleet" },
       { name: "AgustaWestland AW139", link: "/fleet" },
       { name: "Sikorsky S-76", link: "/fleet" },
     ],
@@ -143,7 +138,6 @@ const charterCategories: CharterCategory[] = [
     aircraft: [
       { name: "Boeing BBJ VIP Airliner", link: "/fleet" },
       { name: "Airbus ACJ320neo", link: "/fleet" },
-      { name: "Embraer Lineage 1000E", link: "/fleet" },
       { name: "Boeing 767 VIP", link: "/fleet" },
     ],
   },
@@ -317,7 +311,7 @@ const CharterSolutionsSection = () => {
                           <p className="text-[10px] tracking-[0.3em] uppercase text-primary/70 font-medium mb-4">
                             Recommended Aircraft
                           </p>
-                          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                          <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
                             {cat.aircraft.map((ac) => (
                               <Link
                                 key={ac.name}
