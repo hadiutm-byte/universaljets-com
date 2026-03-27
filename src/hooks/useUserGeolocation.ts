@@ -154,7 +154,7 @@ const useUserGeolocation = (): UserGeoData => {
         const airportInfo =
           CITY_AIRPORT_MAP[cityLower] ||
           COUNTRY_AIRPORT_MAP[countryCodeIso] ||
-          defaultGeo;
+          { iata: "DXB", icao: "OMDB", label: "Dubai (OMDB)" };
 
         const result: UserGeoData = {
           countryCode: data.country_calling_code || "+971",
