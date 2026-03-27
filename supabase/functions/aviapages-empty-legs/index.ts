@@ -367,9 +367,8 @@ serve(async (req) => {
         page_size: String(pageSize),
       });
 
-      if (region && region !== 'All' && REGION_MAP[region]) {
-        params.set('dep_airport_country_iso_in', REGION_MAP[region]);
-      }
+      // Region filtering is now done client-side via legMatchesRegion
+      // to catch legs where ARRIVAL matches the region too
 
       const apiUrl = `${AVIAPAGES_BASE}/api/availabilities/?${params.toString()}`;
       console.log(`[empty-legs] Page ${page}: ${apiUrl}`);
