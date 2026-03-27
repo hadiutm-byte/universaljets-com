@@ -282,7 +282,7 @@ const QuoteRequestModal = ({ open, onClose, flightData }: QuoteRequestModalProps
       await capture({
         name: form.name,
         email: form.email,
-        phone: form.phone || undefined,
+        phone: buildFullPhone(phoneCode, phoneNumber),
         departure: form.departure,
         destination: form.destination,
         date: form.date || undefined,
