@@ -11,7 +11,8 @@ interface FleetAircraftCardProps {
 }
 
 const FleetAircraftCard = ({ aircraft, index, onClick }: FleetAircraftCardProps) => {
-  const imgSrc = aircraft.image_url || getAircraftImage(aircraft.name);
+  // Always use curated local images for hero — API image_url may show painted registrations
+  const imgSrc = getAircraftImage(aircraft.name);
   const rangeNm = aircraft.range_km ? Math.round(aircraft.range_km / 1.852) : null;
 
   const handleShare = async (e: React.MouseEvent) => {

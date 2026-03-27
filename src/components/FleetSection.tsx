@@ -64,7 +64,7 @@ const FleetSection = () => {
               >
                 <div className="relative h-44 overflow-hidden">
                   <img
-                    src={apiImage || f.fallbackImage}
+                    src={f.fallbackImage}
                     alt={f.category}
                     loading="lazy"
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
