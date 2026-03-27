@@ -134,7 +134,7 @@ const JetCardInquiryPage = () => {
                           <PremiumInput label="Email" required type="email" value={email} onChange={e => setEmail(e.target.value)} placeholder="alex@example.com" maxLength={255} />
                         </div>
                         <div className="grid sm:grid-cols-2 gap-4">
-                          <PhoneWithCountryCode phone={phone} onPhoneChange={setPhone} countryCode={resolveCountryCode(geo.countryCode) !== "+971" && countryCode === "+971" ? (() => { setCountryCode(resolveCountryCode(geo.countryCode)); return resolveCountryCode(geo.countryCode); })() : countryCode} onCountryCodeChange={setCountryCode} />
+                          <PhoneWithCountryCode phone={phone} onPhoneChange={setPhone} countryCode={countryCode} onCountryCodeChange={setCountryCode} />
                           <PremiumInput label="Company" value={company} onChange={e => setCompany(e.target.value)} placeholder="Optional" maxLength={100} />
                         </div>
                       </FormSection>
