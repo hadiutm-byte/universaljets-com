@@ -165,10 +165,10 @@ serve(async (req) => {
           // Amenities
           amenities,
           // Pricing (B2C safe — no internal cost data)
-          price: typeof price === 'number' ? price : null,
+          price: price,
           price_currency: priceCurrency,
           price_unit: priceUnit,
-          estimated_flight_time_min: estimatedFlightTime,
+          estimated_flight_time_min: toFiniteNum(aircraft.flight_time) ?? toFiniteNum(aircraft.estimated_flight_time),
           // Images — NO tail number images
           images: {
             exterior: notailImage || exteriorImage,

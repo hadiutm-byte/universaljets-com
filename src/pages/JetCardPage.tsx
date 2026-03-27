@@ -200,7 +200,7 @@ const JetCardPage = () => (
                 <w.icon className="w-4 h-4 text-primary" strokeWidth={1.3} />
               </div>
               <h4 className="font-display text-[13px] font-semibold text-foreground mb-1">{w.title}</h4>
-              <p className="text-[10px] text-muted-foreground font-light leading-[1.8]">{w.desc}</p>
+              <p className="text-[11px] text-muted-foreground/85 font-light leading-[1.8]">{w.desc}</p>
             </motion.div>
           ))}
         </div>
