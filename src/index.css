@@ -617,7 +617,7 @@ html {
   .search-field {
     @apply px-4 py-4 rounded-2xl border transition-all duration-500;
     border-color: hsla(43, 85%, 58%, 0.08);
-    background: hsla(220, 20%, 8%, 0.6);
+    background: hsl(var(--charcoal) / 0.6);
   }
 
   .search-field:hover {
