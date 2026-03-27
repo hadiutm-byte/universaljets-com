@@ -79,8 +79,17 @@ function matchesSelectedSize(
 
 // ─────────────────────────────────────────────────────────────────────────────
 
+const aircraftSizeLabels: Record<string, string> = {
+  light: "Light Jet",
+  midsize: "Midsize Jet",
+  super_midsize: "Super Midsize",
+  heavy: "Heavy / Long Range",
+  long_range: "Long Range",
+  ultra_long_range: "Ultra Long Range",
+};
+
 const SearchResults = () => {
-  const [searchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams();
   const navigate = useNavigate();
   const [quoteModal, setQuoteModal] = useState<{ open: boolean; aircraft?: string }>({ open: false });
 
