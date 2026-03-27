@@ -209,7 +209,7 @@ const RequestFlightPage = () => {
           </motion.div>
 
           <form onSubmit={handleSubmit} className="max-w-3xl mx-auto">
-            <div className="rounded-2xl border border-foreground/[0.06] bg-muted/20 p-8 md:p-10 space-y-8">
+            <div className="rounded-2xl border border-foreground/[0.06] bg-muted/20 p-5 sm:p-8 md:p-10 space-y-8">
 
               {/* Trip Type */}
               <FormSection title="Trip Type">

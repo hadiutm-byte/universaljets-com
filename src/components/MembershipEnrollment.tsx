@@ -136,7 +136,7 @@ const MembershipEnrollment = () => {
                 {/* Multi-step Form */}
                 <div className="lg:col-span-3">
                   <motion.div initial={{ opacity: 0, x: 15 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ duration: 0.7, delay: 0.2 }}
-                    className="rounded-2xl border border-foreground/[0.06] bg-muted/20 p-8 md:p-10 shadow-sm">
+                    className="rounded-2xl border border-foreground/[0.06] bg-muted/20 p-5 sm:p-8 md:p-10 shadow-sm">
                     {/* Progress */}
                     <div className="flex gap-1 mb-6">
                       {[1, 2, 3].map((s) => (
