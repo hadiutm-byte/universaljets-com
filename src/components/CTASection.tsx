@@ -292,8 +292,8 @@ const CTASection = () => {
               {nextSteps.map((step, i) => (
                 <FadeReveal key={i} delay={i * 0.15}>
                   <GlassCard hover={false} className="p-8 text-center h-full">
-                    <span className="text-3xl font-display font-bold text-primary/10 block mb-4">{step.num}</span>
-                    <p className="text-[12px] text-foreground/40 font-extralight leading-[2]">{step.text}</p>
+                    <span className="text-3xl font-display font-bold text-primary/20 block mb-4">{step.num}</span>
+                    <p className="text-[12px] text-muted-foreground font-extralight leading-[2]">{step.text}</p>
                   </GlassCard>
                 </FadeReveal>
               ))}
