@@ -5,7 +5,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import SEOHead from "@/components/SEOHead";
 import { FadeReveal } from "@/components/ui/ScrollEffects";
-import ceoPhoto from "@/assets/ceo-portrait.jpg";
+import ceoPhoto from "@/assets/hadi-ceo.png";
 import RickyAvatar from "@/components/ricky/RickyAvatar";
 
 const certifications = [
