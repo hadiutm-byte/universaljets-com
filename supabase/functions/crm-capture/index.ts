@@ -17,8 +17,15 @@ Deno.serve(async (req) => {
     const body = await req.json();
     const { name, email, phone, departure, destination, date, passengers, source, serviceType, message } = body;
 
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!name || !email) {
       return new Response(JSON.stringify({ error: "Name and email are required" }), {
+        status: 400,
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
+    }
+    if (!emailRegex.test(email)) {
+      return new Response(JSON.stringify({ error: "Invalid email format" }), {
         status: 400,
         headers: { ...corsHeaders, "Content-Type": "application/json" },
       });
