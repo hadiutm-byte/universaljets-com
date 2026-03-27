@@ -133,7 +133,7 @@ const CTASection = () => {
 
               <div className="flex items-center gap-4 my-6">
                 <div className="flex-1 h-px bg-border/10" />
-                <span className="text-[9px] tracking-[0.3em] uppercase text-foreground/15 font-light">or fill in details</span>
+                <span className="text-[9px] tracking-[0.3em] uppercase text-foreground/30 font-light">or fill in details</span>
                 <div className="flex-1 h-px bg-border/10" />
               </div>
 
