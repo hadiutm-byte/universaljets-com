@@ -25,6 +25,37 @@ import {
 const getSupabaseUrl = () => import.meta.env.VITE_SUPABASE_URL;
 const getAnonKey = () => import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY;
 
+// ── Aircraft size normalization & filtering ─────────────────────────────────
+
+function normalizeAircraftSize(value: string | null | undefined): string {
+  const v = String(value || "").toLowerCase();
+  if (v.includes("turbo")) return "turboprop";
+  if (v.includes("very light") || v.includes("vlj") || v === "very_light") return "light";
+  if (v.includes("light")) return "light";
+  if (v.includes("super mid") || v === "super_midsize") return "midsize";
+  if (v.includes("mid")) return "midsize";
+  if (v.includes("ultra long") || v === "ultra_long_range") return "heavy";
+  if (v.includes("heavy") || v.includes("long range")) return "heavy";
+  if (v.includes("vip") || v.includes("airliner") || v === "vip_airliner") return "heavy";
+  if (v.includes("helicopter") || v.includes("heli")) return "helicopter";
+  return "";
+}
+
+function matchesSelectedSize(
+  aircraft: { category?: string | null; aircraftType?: string | null },
+  selectedSize: string | null | undefined
+): boolean {
+  if (!selectedSize) return true;
+  const wanted = normalizeAircraftSize(selectedSize);
+  if (!wanted) return true;
+  const actual =
+    normalizeAircraftSize(aircraft.category) ||
+    normalizeAircraftSize(aircraft.aircraftType);
+  return actual === wanted;
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+
 const SearchResults = () => {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
@@ -36,6 +67,7 @@ const SearchResults = () => {
   const toLabel = searchParams.get("to_label") || to_icao;
   const date = searchParams.get("date") || "";
   const passengers = searchParams.get("passengers") || "";
+  const jetSize = searchParams.get("jet_size") || "";
 
   // Calculate route distance
   const routeInfo = useMemo(() => {
@@ -67,9 +99,22 @@ const SearchResults = () => {
     enabled: !!from_icao && !!to_icao,
   });
 
-  const results: NormalizedCharterResult[] = (data?.results || [])
-    .map((r: unknown) => normalizeCharterResult(r))
-    .filter((r): r is NormalizedCharterResult => r !== null);
+  // Normalize then filter by selected jet size
+  const results: NormalizedCharterResult[] = useMemo(() => {
+    const normalized = (data?.results || [])
+      .map((r: unknown) => normalizeCharterResult(r))
+      .filter((r): r is NormalizedCharterResult => r !== null);
+
+    if (!jetSize) return normalized;
+
+    return normalized.filter((r) =>
+      matchesSelectedSize(
+        { category: r.aircraft_class, aircraftType: r.aircraft_type },
+        jetSize
+      )
+    );
+  }, [data, jetSize]);
+
   const hasResults = results.length > 0;
 
   return (
