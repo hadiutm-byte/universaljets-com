@@ -413,8 +413,6 @@ serve(async (req) => {
 
     await loadAircraftTypeCache(apiKey);
 
-    const url = new URL(req.url);
-    const region = url.searchParams.get('region') || '';
     const maxPages = 20;
     const pageSize = 100;
 
@@ -430,9 +428,6 @@ serve(async (req) => {
         page_size: String(pageSize),
       });
 
-      // Region filtering is now done client-side via legMatchesRegion
-      // to catch legs where ARRIVAL matches the region too
-
       const apiUrl = `${AVIAPAGES_BASE}/api/availabilities/?${params.toString()}`;
       console.log(`[empty-legs] Page ${page}: ${apiUrl}`);
 
@@ -443,6 +438,11 @@ serve(async (req) => {
       if (!response.ok) {
         const errorText = await response.text();
         console.error(`[empty-legs] API error [${response.status}]: ${errorText.substring(0, 200)}`);
+        // On rate limit, wait and retry once
+        if (response.status === 429) {
+          await new Promise(r => setTimeout(r, 5000));
+          continue;
+        }
         break;
       }
 
@@ -451,12 +451,8 @@ serve(async (req) => {
 
       if (items.length === 0) break;
 
-      // Filter by region client-side (catches both dep AND arr country matches)
-      const filteredItems = items.filter((leg: unknown) =>
-        leg && typeof leg === 'object' && legMatchesRegion(leg as Record<string, unknown>, region)
-      );
-
-      for (const rawLeg of filteredItems) {
+      for (const rawLeg of items) {
+        if (!rawLeg || typeof rawLeg !== 'object') continue;
         const leg = rawLeg as Record<string, unknown>;
 
         // Stable unique ID
