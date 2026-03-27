@@ -62,7 +62,8 @@ export function normalizeAirport(raw: unknown): NormalizedAirport | null {
 
 const BLOCKED_IMAGE_TYPES = new Set(["tail", "registration"]);
 
-/** Normalize any image array shape, dedup, and filter blocked types */
+/** Normalize any image array shape, dedup, and filter blocked types.
+ *  When 'notail' images exist, drop regular 'exterior' images (they show painted registrations). */
 export function normalizeImages(raw: unknown): { url: string; type: string }[] {
   if (!Array.isArray(raw)) return [];
   const seen = new Set<string>();
@@ -80,7 +81,9 @@ export function normalizeImages(raw: unknown): { url: string; type: string }[] {
     result.push({ url, type });
   }
 
-  return result;
+  // If notail images exist, drop exterior images (they show painted registrations on the aircraft)
+  const hasNotail = result.some(i => i.type === "notail");
+  return hasNotail ? result.filter(i => i.type !== "exterior") : result;
 }
 
 // ── Empty Leg normalization ─────────────────────────────────────────────────

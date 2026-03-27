@@ -106,10 +106,15 @@ serve(async (req) => {
           }
         }
 
-        // Prefer 'notail' exterior, then regular exterior
-        const notailImage = allImages.find(i => i.type === 'notail')?.url || null;
-        const exteriorImage = allImages.find(i => i.type === 'exterior')?.url || null;
-        const cabinImage = allImages.find(i => i.type === 'cabin')?.url || null;
+        // If notail images exist, drop all exterior images (they show painted registrations)
+        const hasNotail = allImages.some(i => i.type === 'notail');
+        const filteredImages = hasNotail
+          ? allImages.filter(i => i.type !== 'exterior')
+          : allImages;
+
+        const notailImage = filteredImages.find(i => i.type === 'notail')?.url || null;
+        const exteriorImage = filteredImages.find(i => i.type === 'exterior')?.url || null;
+        const cabinImage = filteredImages.find(i => i.type === 'cabin')?.url || null;
 
         // ── Cabin dimensions ──
         const cabinHeight = aircraft.cabin_height ?? aircraft.cabin_height_m ?? null;
@@ -169,12 +174,12 @@ serve(async (req) => {
           price_currency: priceCurrency,
           price_unit: priceUnit,
           estimated_flight_time_min: toFiniteNum(aircraft.flight_time) ?? toFiniteNum(aircraft.estimated_flight_time),
-          // Images — NO tail number images
+          // Images — NO tail number images; notail replaces exterior
           images: {
             exterior: notailImage || exteriorImage,
             cabin: cabinImage,
             floor_plan: floorPlanUrl,
-            all: allImages,
+            all: filteredImages,
           },
           // Operator — strip identity for B2C privacy; only expose certification status
           operator: {
