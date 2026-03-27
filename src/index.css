@@ -51,9 +51,9 @@ html {
 
     --radius: 0.75rem;
 
-    --gold: 43 85% 58%;               /* Cinematic gold */
-    --gold-light: 43 90% 65%;         /* Lighter highlight glow */
-    --gold-dark: 43 80% 45%;          /* Deeper gold for borders/accents */
+    --gold: 43 85% 58%;               /* Unified cinematic gold */
+    --gold-light: 43 85% 58%;         /* Unified cinematic gold */
+    --gold-dark: 43 85% 58%;          /* Unified cinematic gold */
     --charcoal: 0 0% 7%;              /* #121212 */
     --charcoal-deep: 0 0% 4%;          /* #0A0A0A */
     --midnight: 0 0% 4%;
@@ -254,7 +254,8 @@ html {
 
   .text-gradient-gold {
     @apply bg-clip-text text-transparent;
-    background-image: linear-gradient(135deg, hsl(43, 85%, 58%), hsl(43, 80%, 48%), hsl(43, 85%, 58%));
+    background-image: linear-gradient(135deg, hsla(43, 85%, 58%, 0.84), hsl(43, 85%, 58%), hsla(43, 85%, 58%, 0.92));
+    filter: drop-shadow(0 0 10px hsla(43, 85%, 58%, 0.26)) drop-shadow(0 0 28px hsla(43, 85%, 58%, 0.14));
   }
 
   .acmi-page .text-foreground {
@@ -294,11 +295,11 @@ html {
     @apply bg-clip-text text-transparent;
     background-image: linear-gradient(
       90deg,
-      hsl(43, 85%, 58%) 0%,
+      hsla(43, 85%, 58%, 0.82) 0%,
       hsl(43, 85%, 58%) 35%,
-      hsl(43, 85%, 62%) 50%,
+      hsla(43, 85%, 58%, 0.98) 50%,
       hsl(43, 85%, 58%) 65%,
-      hsl(43, 85%, 58%) 100%
+      hsla(43, 85%, 58%, 0.82) 100%
     );
     background-size: 300% 100%;
     animation: logo-shimmer 4.5s ease-in-out infinite, logo-glow-breathe 6s ease-in-out infinite;
@@ -310,12 +311,16 @@ html {
   }
 
   @keyframes logo-glow-breathe {
-    0%, 100% { filter: drop-shadow(0 0 2px hsla(43, 85%, 58%, 0.0)); }
-    50% { filter: drop-shadow(0 0 6px hsla(43, 85%, 58%, 0.18)); }
+    0%, 100% { filter: drop-shadow(0 0 4px hsla(43, 85%, 58%, 0.08)) drop-shadow(0 0 16px hsla(43, 85%, 58%, 0.04)); }
+    50% { filter: drop-shadow(0 0 10px hsla(43, 85%, 58%, 0.22)) drop-shadow(0 0 30px hsla(43, 85%, 58%, 0.12)); }
   }
 
   .bg-gradient-gold {
-    background-image: linear-gradient(135deg, hsl(43, 85%, 58%), hsl(43, 80%, 45%), hsl(43, 85%, 58%));
+    background-image: linear-gradient(135deg, hsla(43, 85%, 58%, 0.92), hsl(43, 85%, 58%), hsla(43, 85%, 58%, 0.88));
+    box-shadow:
+      0 0 0 1px hsla(43, 85%, 58%, 0.16) inset,
+      0 10px 30px -10px hsla(43, 85%, 58%, 0.42),
+      0 0 52px -18px hsla(43, 85%, 58%, 0.22);
   }
 
   /* === SECTION ALTERNATION === */
@@ -443,19 +448,43 @@ html {
 
   /* === GLOW SYSTEM === */
   .glow-gold {
-    box-shadow: 0 0 50px -12px hsla(43, 85%, 58%, 0.25), 0 0 20px -8px hsla(43, 85%, 58%, 0.15);
+    box-shadow:
+      0 0 0 1px hsla(43, 85%, 58%, 0.12) inset,
+      0 0 28px -8px hsla(43, 85%, 58%, 0.34),
+      0 0 72px -22px hsla(43, 85%, 58%, 0.18);
   }
 
   .glow-gold-soft {
-    box-shadow: 0 0 80px -25px hsla(43, 85%, 58%, 0.08);
+    box-shadow:
+      0 0 22px -10px hsla(43, 85%, 58%, 0.18),
+      0 0 64px -26px hsla(43, 85%, 58%, 0.12);
   }
 
   .glow-subtle {
-    box-shadow: 0 0 80px -25px hsla(43, 85%, 58%, 0.08);
+    box-shadow:
+      0 0 18px -12px hsla(43, 85%, 58%, 0.16),
+      0 0 48px -28px hsla(43, 85%, 58%, 0.1);
   }
 
   .glow-line {
-    box-shadow: 0 0 15px 0 hsla(43, 85%, 58%, 0.2);
+    box-shadow:
+      0 0 10px hsla(43, 85%, 58%, 0.18),
+      0 0 24px hsla(43, 85%, 58%, 0.08);
+  }
+
+  .text-primary,
+  [class*="text-primary/"] {
+    text-shadow: 0 0 12px hsla(43, 85%, 58%, 0.16), 0 0 28px hsla(43, 85%, 58%, 0.08);
+  }
+
+  .bg-primary,
+  .bg-gradient-gold,
+  .search-cta-btn,
+  .btn-luxury {
+    box-shadow:
+      0 0 0 1px hsla(43, 85%, 58%, 0.14) inset,
+      0 10px 30px -10px hsla(43, 85%, 58%, 0.42),
+      0 0 52px -18px hsla(43, 85%, 58%, 0.22);
   }
 
   /* === SEARCH WIDGET FIELDS — Futuristic 2050 === */
@@ -472,7 +501,10 @@ html {
 
   .search-field:focus-within {
     border-color: hsl(43, 85%, 58%);
-    box-shadow: 0 0 0 3px hsla(43, 85%, 58%, 0.08), 0 0 20px -6px hsla(43, 85%, 58%, 0.12);
+    box-shadow:
+      0 0 0 3px hsla(43, 85%, 58%, 0.08),
+      0 0 22px -6px hsla(43, 85%, 58%, 0.16),
+      0 0 48px -20px hsla(43, 85%, 58%, 0.1);
     background: hsla(43, 85%, 58%, 0.03);
   }
 
@@ -491,17 +523,18 @@ html {
 
   /* Search CTA button */
   .search-cta-btn {
-    background: linear-gradient(135deg, hsl(43, 85%, 58%) 0%, hsl(38, 80%, 42%) 100%);
+    background: linear-gradient(135deg, hsla(43, 85%, 58%, 0.94) 0%, hsl(43, 85%, 58%) 100%);
     box-shadow:
-      0 8px 32px -8px hsla(43, 85%, 58%, 0.4),
-      0 0 0 1px hsla(43, 85%, 58%, 0.1) inset;
+      0 0 0 1px hsla(43, 85%, 58%, 0.16) inset,
+      0 8px 26px -8px hsla(43, 85%, 58%, 0.42),
+      0 0 48px -18px hsla(43, 85%, 58%, 0.2);
   }
 
   .search-cta-btn:hover:not(:disabled) {
     box-shadow:
-      0 12px 48px -8px hsla(43, 85%, 58%, 0.5),
-      0 0 60px -20px hsla(43, 85%, 58%, 0.3),
-      0 0 0 1px hsla(43, 85%, 58%, 0.2) inset;
+      0 0 0 1px hsla(43, 85%, 58%, 0.2) inset,
+      0 12px 34px -8px hsla(43, 85%, 58%, 0.52),
+      0 0 64px -18px hsla(43, 85%, 58%, 0.28);
   }
 
   /* === LAYOUT === */
@@ -537,7 +570,7 @@ html {
     content: '';
     position: absolute;
     inset: 0;
-    background: linear-gradient(135deg, hsla(45, 79%, 60%, 0.25) 0%, transparent 40%, hsla(45, 79%, 50%, 0.12) 100%);
+    background: linear-gradient(135deg, hsla(43, 85%, 58%, 0.24) 0%, transparent 40%, hsla(43, 85%, 58%, 0.12) 100%);
     opacity: 0;
     transition: opacity 0.6s ease;
   }
@@ -548,7 +581,11 @@ html {
 
   .btn-luxury:hover {
     transform: translateY(-2px) scale(1.02);
-    box-shadow: 0 8px 40px -8px hsla(43, 85%, 58%, 0.4), 0 0 80px -20px hsla(43, 85%, 58%, 0.12), 0 2px 8px -2px hsla(43, 85%, 58%, 0.15);
+    box-shadow:
+      0 0 0 1px hsla(43, 85%, 58%, 0.18) inset,
+      0 10px 34px -8px hsla(43, 85%, 58%, 0.48),
+      0 0 68px -18px hsla(43, 85%, 58%, 0.24),
+      0 2px 8px -2px hsla(43, 85%, 58%, 0.15);
   }
 
   .btn-luxury:active {
@@ -912,7 +949,7 @@ html {
 
 .ambient-light-2 {
   position: fixed; width: 50vw; height: 50vh; bottom: -15%; left: -10%;
-  background: radial-gradient(ellipse, hsla(45, 79%, 60%, 0.03) 0%, transparent 70%);
+  background: radial-gradient(ellipse, hsla(43, 85%, 58%, 0.03) 0%, transparent 70%);
   animation: ambient-drift 25s ease-in-out infinite reverse; pointer-events: none; z-index: 0;
 }
 
@@ -944,8 +981,8 @@ html {
 }
 
 @keyframes pulse-gold {
-  0%, 100% { box-shadow: 0 0 8px 2px hsla(45, 79%, 50%, 0.4); transform: scale(1); }
-  50% { box-shadow: 0 0 16px 6px hsla(45, 79%, 50%, 0.6); transform: scale(1.15); }
+  0%, 100% { box-shadow: 0 0 8px 2px hsla(43, 85%, 58%, 0.4), 0 0 18px 4px hsla(43, 85%, 58%, 0.18); transform: scale(1); }
+  50% { box-shadow: 0 0 16px 6px hsla(43, 85%, 58%, 0.58), 0 0 34px 10px hsla(43, 85%, 58%, 0.26); transform: scale(1.15); }
 }
 
 /* Hide scrollbar for horizontal scroll areas */
