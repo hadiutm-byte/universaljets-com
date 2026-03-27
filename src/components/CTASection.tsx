@@ -344,7 +344,7 @@ const CTASection = () => {
                 <MessageCircle className="w-4 h-4" strokeWidth={1.5} />
                 Chat on WhatsApp
               </a>
-              <p className="text-[9px] text-foreground/20 font-extralight mt-5 tracking-wide">Available 24/7 · Typical response under 5 minutes</p>
+              <p className="text-[9px] text-muted-foreground/70 font-extralight mt-5 tracking-wide">Available 24/7 · Typical response under 5 minutes</p>
             </GlassCard>
           </FadeReveal>
         </div>
