@@ -63,6 +63,35 @@ Deno.serve(async (req) => {
     return Math.round((filled / fields.length) * 100);
   }
 
+  // Lead scoring: rate lead quality 0-100 based on data richness and intent signals
+  function calcLeadScore(data: Record<string, any>): number {
+    let score = 0;
+    // Contact completeness (max 25)
+    if (data.email) score += 10;
+    if (data.phone || data.whatsapp) score += 10;
+    if (data.company) score += 5;
+    // Intent signals (max 35)
+    if (data.departure && data.departure !== "TBD") score += 10;
+    if (data.destination && data.destination !== "TBD") score += 10;
+    if (data.date) score += 5;
+    if (data.passengers && data.passengers > 1) score += 5;
+    if (data.budget_range) score += 5;
+    // Premium signals (max 25)
+    if (data.is_urgent) score += 10;
+    if (data.specific_aircraft || data.preferred_aircraft_category) score += 5;
+    if (data.concierge_needed || data.vip_terminal || data.helicopter_transfer) score += 5;
+    if (data.trip_type === "round_trip") score += 5;
+    // Source quality (max 15)
+    const highValueSources = ["referral", "membership_enrollment", "jet_card", "founders_circle", "partner"];
+    if (highValueSources.some(s => (data.source || "").toLowerCase().includes(s))) score += 15;
+    else if (data.source && data.source !== "website") score += 5;
+    return Math.min(score, 100);
+  }
+
+  function isValidEmail(email: string): boolean {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  }
+
   try {
     // ══════════════════════════════════════════════════════════
     // PUBLIC: POST /capture — Universal lead capture
