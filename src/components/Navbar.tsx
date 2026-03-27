@@ -232,6 +232,7 @@ const Navbar = () => {
             exit={{ opacity: 0 }}
             transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
             className="fixed inset-0 z-[55] flex"
+            style={{ paddingTop: "env(safe-area-inset-top, 0px)" }}
           >
             {/* Opaque dark background */}
             <motion.div
