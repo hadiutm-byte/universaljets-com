@@ -275,8 +275,8 @@ const FlightSearchBox = () => {
                 <DateTimePicker label="Return" icon={RotateCcw} value={returnDate} onChange={setReturnDate} disabled={tripType !== "round-trip"} placeholder={tripType === "round-trip" ? "Select date" : "—"} />
               </div>
 
-              {/* Row 2: Passengers / Jet Size / CTA */}
-              <div className="grid grid-cols-2 md:grid-cols-[1fr_1fr_auto] gap-3">
+              {/* Row 2: Passengers / Jet Size / Phone / CTA */}
+              <div className="grid grid-cols-2 md:grid-cols-[1fr_1fr_1.5fr_auto] gap-3">
                 {isMobile ? (
                   <>
                     <MobileScrollPicker
@@ -299,6 +299,18 @@ const FlightSearchBox = () => {
                       value={jetSize}
                       onChange={setJetSize}
                     />
+                    {/* Phone field (mobile) */}
+                    <div className="col-span-2 search-field">
+                      <label className="search-label">
+                        <Phone size={10} strokeWidth={1.5} /> Phone <span className="text-muted-foreground/30 font-normal">(optional)</span>
+                      </label>
+                      <div className="flex gap-1.5">
+                        <select value={phoneCode} onChange={(e) => setPhoneCode(e.target.value)} className="search-select !w-[85px] flex-shrink-0">
+                          {sortedCodes.map((c) => <option key={`${c.iso}-${c.code}`} value={c.code} className="bg-background">{c.flag} {c.code}</option>)}
+                        </select>
+                        <input type="tel" value={phoneNumber} onChange={(e) => setPhoneNumber(e.target.value)} placeholder="Phone / WhatsApp" maxLength={15} className="search-input flex-1 min-w-0" />
+                      </div>
+                    </div>
                   </>
                 ) : (
                   <>
@@ -331,6 +343,19 @@ const FlightSearchBox = () => {
                           <option key={s.value} value={s.value} className="bg-background">{s.label}</option>
                         ))}
                       </select>
+                    </div>
+
+                    {/* Phone field (desktop) */}
+                    <div className="search-field">
+                      <label className="search-label">
+                        <Phone size={10} strokeWidth={1.5} /> Phone <span className="text-muted-foreground/30 font-normal">(optional)</span>
+                      </label>
+                      <div className="flex gap-1.5">
+                        <select value={phoneCode} onChange={(e) => setPhoneCode(e.target.value)} className="search-select !w-[85px] flex-shrink-0">
+                          {sortedCodes.map((c) => <option key={`${c.iso}-${c.code}`} value={c.code} className="bg-background">{c.flag} {c.code}</option>)}
+                        </select>
+                        <input type="tel" value={phoneNumber} onChange={(e) => setPhoneNumber(e.target.value)} placeholder="Phone / WhatsApp" maxLength={15} className="search-input flex-1 min-w-0" />
+                      </div>
                     </div>
                   </>
                 )}
