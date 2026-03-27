@@ -64,6 +64,7 @@ const FlightSearchBox = () => {
   const navigate = useNavigate();
   const { capture } = useCrmApi();
   const geo = useUserGeolocation();
+  const isMobile = useIsMobile();
   const [tripType, setTripType] = useState<TripType>("one-way");
   const [legs, setLegs] = useState<Leg[]>([emptyLeg()]);
   const [returnDate, setReturnDate] = useState<Date | undefined>(undefined);
