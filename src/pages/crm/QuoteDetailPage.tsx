@@ -22,6 +22,8 @@ const QuoteDetailPage = () => {
   const canManageOps = roles.includes("admin") || roles.includes("operations");
   const canManageFinance = roles.includes("admin") || roles.includes("finance");
 
+  const [pipelineStatus, setPipelineStatus] = useState<{contract?: any; invoice?: any; trip?: any; payment?: any}>({});
+
   const load = useCallback(async () => {
     if (!quoteId) return;
     setLoading(true);
@@ -48,6 +50,26 @@ const QuoteDetailPage = () => {
       .order("created_at", { ascending: false });
     setOperatorReqs(ops ?? []);
 
+    // Pipeline status — check downstream entities
+    const { data: contractData } = await supabase.from("contracts").select("id, status").eq("quote_id", quoteId).limit(1);
+    const contract = contractData?.[0] || null;
+    let invoice = null;
+    let payment = null;
+    if (contract) {
+      const { data: invData } = await supabase.from("invoices").select("id, status, amount, due_date").eq("contract_id", contract.id).limit(1);
+      invoice = invData?.[0] || null;
+      if (invoice) {
+        const { data: payData } = await supabase.from("payments").select("id, status, amount").eq("related_entity_id", invoice.id).limit(1);
+        payment = payData?.[0] || null;
+      }
+    }
+    const { data: tripData } = await supabase.from("trips").select("id, status")
+      .eq("client_id", data?.flight_requests?.client_id || "")
+      .eq("departure", data?.flight_requests?.departure || "")
+      .eq("destination", data?.flight_requests?.destination || "")
+      .limit(1);
+
+    setPipelineStatus({ contract, invoice, trip: tripData?.[0] || null, payment });
     setLoading(false);
   }, [quoteId]);
 
