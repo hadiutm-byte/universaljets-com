@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Check, Lock, Repeat, Globe, Plane, Shield, ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
