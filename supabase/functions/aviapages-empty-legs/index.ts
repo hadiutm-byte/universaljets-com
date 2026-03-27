@@ -100,12 +100,12 @@ function toStr(v: unknown, fallback = ''): string {
 
 /** Extract price defensively from multiple possible API fields */
 function extractPrice(leg: Record<string, unknown>): number | null {
-  // Try common price field variants
-  for (const key of ['price', 'price_total', 'total_price', 'cost', 'amount']) {
-    const v = toFiniteNum(leg[key]);
-    if (v !== null && v > 0) return v;
-  }
-  return null;
+  return toFiniteNum(leg.price) ??
+    toFiniteNum(leg.charter_price) ??
+    toFiniteNum(leg.price_total) ??
+    toFiniteNum(leg.total_price) ??
+    toFiniteNum(leg.amount) ??
+    null;
 }
 
 /** Extract currency defensively */
