@@ -9,7 +9,6 @@ const Index = lazy(() => import("./pages/Index.tsx"));
 import ScrollToTop from "./components/ScrollToTop.tsx";
 import CookieConsent from "./components/CookieConsent.tsx";
 import ContentProtection from "./components/ContentProtection.tsx";
-import FloatingWhatsApp from "./components/FloatingWhatsApp.tsx";
 import FloatingContactStack from "./components/FloatingContactStack.tsx";
 
 // Lazy-loaded routes for code splitting
