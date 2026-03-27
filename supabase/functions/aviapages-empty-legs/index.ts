@@ -388,8 +388,12 @@ serve(async (req) => {
 
       if (items.length === 0) break;
 
-      for (const rawLeg of items) {
-        if (!rawLeg || typeof rawLeg !== 'object') continue;
+      // Filter by region client-side (catches both dep AND arr country matches)
+      const filteredItems = items.filter((leg: unknown) =>
+        leg && typeof leg === 'object' && legMatchesRegion(leg as Record<string, unknown>, region)
+      );
+
+      for (const rawLeg of filteredItems) {
         const leg = rawLeg as Record<string, unknown>;
 
         // Stable unique ID
