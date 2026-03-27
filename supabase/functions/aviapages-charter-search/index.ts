@@ -106,10 +106,15 @@ serve(async (req) => {
           }
         }
 
-        // Prefer 'notail' exterior, then regular exterior
-        const notailImage = allImages.find(i => i.type === 'notail')?.url || null;
-        const exteriorImage = allImages.find(i => i.type === 'exterior')?.url || null;
-        const cabinImage = allImages.find(i => i.type === 'cabin')?.url || null;
+        // If notail images exist, drop all exterior images (they show painted registrations)
+        const hasNotail = allImages.some(i => i.type === 'notail');
+        const filteredImages = hasNotail
+          ? allImages.filter(i => i.type !== 'exterior')
+          : allImages;
+
+        const notailImage = filteredImages.find(i => i.type === 'notail')?.url || null;
+        const exteriorImage = filteredImages.find(i => i.type === 'exterior')?.url || null;
+        const cabinImage = filteredImages.find(i => i.type === 'cabin')?.url || null;
 
         // ── Cabin dimensions ──
         const cabinHeight = aircraft.cabin_height ?? aircraft.cabin_height_m ?? null;
