@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import { CreditCard, Clock, Lock, Repeat, Globe, Shield, ArrowRight } from "lucide-react";
 import { FadeReveal, GlassCard } from "./ui/ScrollEffects";
 import { Link } from "react-router-dom";
+import { Button } from "./ui/button";
 
 const pillars = [
   { icon: Lock, title: "Rates Locked at Purchase" },
