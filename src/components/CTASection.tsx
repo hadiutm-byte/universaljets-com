@@ -223,7 +223,7 @@ const CTASection = () => {
 
                         {/* Contact */}
                         <div className="mb-10">
-                          <p className="text-[10px] tracking-[0.3em] uppercase text-foreground/20 font-light mb-5">Contact</p>
+                          <p className="text-[10px] tracking-[0.3em] uppercase text-muted-foreground font-light mb-5">Contact</p>
                           <div className="grid md:grid-cols-3 gap-5">
                             <div><label className={labelClass}>Full Name *</label><input value={form.name} onChange={set("name")} placeholder="John Smith" required className={inputClass} /></div>
                             <div><label className={labelClass}>Email *</label><input type="email" value={form.email} onChange={set("email")} placeholder="john@company.com" required className={inputClass} /></div>
