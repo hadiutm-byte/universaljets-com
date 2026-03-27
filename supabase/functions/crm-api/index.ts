@@ -251,6 +251,28 @@ Deno.serve(async (req) => {
         console.error('Lead notification email failed (non-blocking):', notifErr);
       }
 
+      // Send confirmation email to the submitter
+      try {
+        await admin.functions.invoke('send-transactional-email', {
+          body: {
+            templateName: 'request-confirmation',
+            recipientEmail: email,
+            idempotencyKey: `request-confirm-${lead.id}`,
+            templateData: {
+              name,
+              departure: departure || '',
+              destination: destination || '',
+              date: date || '',
+              passengers: passengers || '',
+              source: source || 'website',
+              aircraft: specific_aircraft || aircraft || preferred_aircraft_category || '',
+            },
+          },
+        });
+      } catch (confirmErr) {
+        console.error('Confirmation email failed (non-blocking):', confirmErr);
+      }
+
       return json({
         success: true,
         client_id: clientId,
