@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import { Outlet } from "react-router-dom";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { CrmSidebar } from "@/components/crm/CrmSidebar";
@@ -24,7 +25,13 @@ const CrmLayout = () => {
             </span>
           </header>
           <main className="flex-1 p-6 overflow-auto">
-            <Outlet />
+            <Suspense fallback={
+              <div className="flex items-center justify-center py-20">
+                <div className="w-5 h-5 border border-primary/30 border-t-primary rounded-full animate-spin" />
+              </div>
+            }>
+              <Outlet />
+            </Suspense>
           </main>
         </div>
       </div>
