@@ -313,7 +313,7 @@ const CTASection = () => {
                 <div className="w-8 h-8 rounded-full glass-panel flex items-center justify-center">
                   <item.icon className="w-3.5 h-3.5 text-primary/50" strokeWidth={1.2} />
                 </div>
-                <span className="text-[10px] tracking-[0.2em] uppercase text-foreground/40 font-extralight">{item.text}</span>
+                <span className="text-[10px] tracking-[0.2em] uppercase text-muted-foreground font-extralight">{item.text}</span>
               </motion.div>
             ))}
           </FadeReveal>
