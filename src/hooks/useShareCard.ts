@@ -12,6 +12,7 @@ export interface ShareData {
   aircraftType: string;
   category: string;
   aircraftImage?: string;
+  maxPax?: number | null;
 }
 
 /**
