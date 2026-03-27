@@ -33,7 +33,7 @@ const EmptyLegCard = ({ leg, index, onClick }: EmptyLegCardProps) => {
   const handleShare = async (e: React.MouseEvent) => {
     e.stopPropagation();
     try {
-      await share({ fromCode, fromCity, toCode, toCity, date, price: priceLabel, aircraftType: leg.aircraft_type || "Private Jet", category, aircraftImage: image });
+      await share({ fromCode, fromCity, toCode, toCity, date, price: priceLabel, aircraftType: leg.aircraft_type || "Private Jet", category, aircraftImage: image, maxPax: leg.aircraft_max_pax });
     } catch {
       // Fallback already handled inside useShareCard (download + clipboard)
     }
