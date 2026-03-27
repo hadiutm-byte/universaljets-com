@@ -6,8 +6,10 @@ import { format } from "date-fns";
 import { useAirportSearch, type Airport } from "@/hooks/useAviapages";
 import { useCrmApi } from "@/hooks/useCrmApi";
 import useUserGeolocation from "@/hooks/useUserGeolocation";
+import { useIsMobile } from "@/hooks/use-mobile";
 import DateTimePicker from "@/components/flight-search/DateTimePicker";
 import AirportField from "@/components/flight-search/AirportField";
+import MobileScrollPicker from "@/components/flight-search/MobileScrollPicker";
 import { trackFlightSearch } from "@/lib/gtmEvents";
 import QuoteRouteMap from "@/components/QuoteRouteMap";
 
@@ -62,6 +64,7 @@ const FlightSearchBox = () => {
   const navigate = useNavigate();
   const { capture } = useCrmApi();
   const geo = useUserGeolocation();
+  const isMobile = useIsMobile();
   const [tripType, setTripType] = useState<TripType>("one-way");
   const [legs, setLegs] = useState<Leg[]>([emptyLeg()]);
   const [returnDate, setReturnDate] = useState<Date | undefined>(undefined);
@@ -237,36 +240,63 @@ const FlightSearchBox = () => {
 
               {/* Row 2: Passengers / Jet Size / CTA */}
               <div className="grid grid-cols-2 md:grid-cols-[1fr_1fr_auto] gap-3">
-                <div className="search-field">
-                  <label className="search-label">
-                    <Users size={10} strokeWidth={1.5} /> Passengers
-                  </label>
-                  <select
-                    value={passengers}
-                    onChange={(e) => setPassengers(e.target.value)}
-                    className="search-select"
-                  >
-                    <option value="" className="bg-background">Select</option>
-                    {[...Array(16)].map((_, i) => (
-                      <option key={i + 1} value={i + 1} className="bg-background">{i + 1} {i === 0 ? "passenger" : "passengers"}</option>
-                    ))}
-                  </select>
-                </div>
+                {isMobile ? (
+                  <>
+                    <MobileScrollPicker
+                      label="Passengers"
+                      icon={<Users size={10} strokeWidth={1.5} />}
+                      options={[
+                        { value: "", label: "Select" },
+                        ...[...Array(16)].map((_, i) => ({
+                          value: String(i + 1),
+                          label: `${i + 1} ${i === 0 ? "passenger" : "passengers"}`,
+                        })),
+                      ]}
+                      value={passengers}
+                      onChange={setPassengers}
+                    />
+                    <MobileScrollPicker
+                      label="Jet Size"
+                      icon={<PlaneTakeoff size={10} strokeWidth={1.5} />}
+                      options={jetSizes}
+                      value={jetSize}
+                      onChange={setJetSize}
+                    />
+                  </>
+                ) : (
+                  <>
+                    <div className="search-field">
+                      <label className="search-label">
+                        <Users size={10} strokeWidth={1.5} /> Passengers
+                      </label>
+                      <select
+                        value={passengers}
+                        onChange={(e) => setPassengers(e.target.value)}
+                        className="search-select"
+                      >
+                        <option value="" className="bg-background">Select</option>
+                        {[...Array(16)].map((_, i) => (
+                          <option key={i + 1} value={i + 1} className="bg-background">{i + 1} {i === 0 ? "passenger" : "passengers"}</option>
+                        ))}
+                      </select>
+                    </div>
 
-                <div className="search-field">
-                  <label className="search-label">
-                    <PlaneTakeoff size={10} strokeWidth={1.5} /> Jet Size
-                  </label>
-                  <select
-                    value={jetSize}
-                    onChange={(e) => setJetSize(e.target.value)}
-                    className="search-select"
-                  >
-                    {jetSizes.map((s) => (
-                      <option key={s.value} value={s.value} className="bg-background">{s.label}</option>
-                    ))}
-                  </select>
-                </div>
+                    <div className="search-field">
+                      <label className="search-label">
+                        <PlaneTakeoff size={10} strokeWidth={1.5} /> Jet Size
+                      </label>
+                      <select
+                        value={jetSize}
+                        onChange={(e) => setJetSize(e.target.value)}
+                        className="search-select"
+                      >
+                        {jetSizes.map((s) => (
+                          <option key={s.value} value={s.value} className="bg-background">{s.label}</option>
+                        ))}
+                      </select>
+                    </div>
+                  </>
+                )}
 
                 <motion.button
                   onClick={handleSearch}
