@@ -10,7 +10,7 @@ interface SEOHeadProps {
 }
 
 const SITE = "https://universaljets.com";
-const DEFAULT_IMAGE = "https://www.universaljets.com/og-image.jpg";
+const DEFAULT_IMAGE = "https://universaljets.com/og-image.jpg";
 
 const SEOHead = ({ title, description, path, type = "website", image }: SEOHeadProps) => {
   const fullTitle = `${title} | Universal Jets`;
