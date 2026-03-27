@@ -157,7 +157,7 @@ const CharterSolutionsSection = () => {
           transition={{ duration: 0.8 }}
           className="text-center text-[10px] tracking-[0.5em] uppercase font-medium text-primary mb-5"
         >
-          What We Do
+          Charter Solutions
         </motion.p>
 
         <motion.h2
@@ -167,7 +167,7 @@ const CharterSolutionsSection = () => {
           transition={{ delay: 0.05, duration: 0.9 }}
           className="text-center font-display text-4xl md:text-5xl font-semibold text-foreground mb-5 tracking-[-0.01em]"
         >
-          Six Reasons They Call Us <em className="text-primary font-display">First</em>
+          Every Mission. <em className="text-primary font-display">One Standard.</em>
         </motion.h2>
 
         <motion.p
@@ -177,7 +177,7 @@ const CharterSolutionsSection = () => {
           transition={{ delay: 0.1 }}
           className="text-center text-muted-foreground text-base md:text-lg max-w-2xl mx-auto mb-16"
         >
-          Every mission is different. The broker shouldn't be.
+          Six disciplines. One promise. Wherever you need to be.
         </motion.p>
 
         {/* Cards */}
@@ -274,7 +274,7 @@ const CharterSolutionsSection = () => {
                         <div className="absolute inset-0 bg-gradient-to-t from-card via-card/60 to-transparent" />
                         <div className="absolute bottom-6 left-6 md:left-10">
                           <p className="text-[10px] tracking-[0.4em] uppercase text-primary font-medium mb-2">
-                            {String(i + 1).padStart(2, "0")} — {cat.title}
+                            {cat.title}
                           </p>
                           <h3 className="font-display text-2xl md:text-3xl font-semibold text-foreground tracking-[-0.01em]">
                             {cat.tagline}
@@ -287,7 +287,7 @@ const CharterSolutionsSection = () => {
                         {/* Why us section */}
                         <div className="mb-10">
                           <p className="text-[10px] tracking-[0.3em] uppercase text-primary/70 font-medium mb-3">
-                            Why Universal Jets
+                            The Advantage
                           </p>
                           <p className="text-foreground/70 text-sm md:text-base leading-relaxed max-w-3xl font-light">
                             {cat.justification}
@@ -309,7 +309,7 @@ const CharterSolutionsSection = () => {
                         {/* Aircraft grid */}
                         <div className="mb-10">
                           <p className="text-[10px] tracking-[0.3em] uppercase text-primary/70 font-medium mb-4">
-                            Recommended Aircraft
+                            Preferred Aircraft
                           </p>
                           <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
                             {cat.aircraft.map((ac) => (
@@ -330,7 +330,7 @@ const CharterSolutionsSection = () => {
                                 </div>
                                 <div className="p-3 text-center">
                                   <p className="font-display text-[12px] font-medium text-foreground tracking-tight">{ac.name}</p>
-                                  <p className="text-[9px] tracking-[0.1em] uppercase text-primary/60 mt-1">View in Fleet →</p>
+                                  <p className="text-[9px] tracking-[0.1em] uppercase text-primary/60 mt-1">Explore →</p>
                                 </div>
                               </Link>
                             ))}
@@ -375,15 +375,14 @@ const CharterSolutionsSection = () => {
           className="mt-20 md:mt-28 max-w-3xl mx-auto text-center"
         >
           <p className="text-[11px] tracking-[0.3em] uppercase font-medium text-primary mb-4">
-            Our Core
+            The Standard
           </p>
           <h3 className="font-display text-3xl md:text-4xl font-semibold text-foreground mb-6">
-            Private Jet Charter Is What We Do
+            Global Access. Uncompromised.
           </h3>
           <p className="text-muted-foreground text-base md:text-lg leading-relaxed mb-8">
-            Universal Jets is a broker-led private jet charter company providing global aircraft access
-            for leisure, corporate, urgent, and specialist missions. 50,000+ aircraft. Every single operator
-            vetted through ARGUS and Wyvern before we put their name in front of you.
+            Universal Jets sources from 7,000+ vetted aircraft across six continents — every operator
+            verified through ARGUS and Wyvern before they reach your itinerary.
           </p>
           <Link
             to="/request-flight"
