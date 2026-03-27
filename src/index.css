@@ -78,6 +78,33 @@ html {
   h1, h2, h3, h4, h5, h6 {
     @apply font-display;
   }
+
+  /* ── Global focus-visible styles for keyboard accessibility ── */
+  *:focus-visible {
+    outline: 2px solid hsl(43, 74%, 49%);
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+
+  /* Skip-to-content link */
+  .skip-to-content {
+    position: absolute;
+    top: -100%;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 9999;
+    padding: 0.75rem 1.5rem;
+    background: hsl(43, 74%, 49%);
+    color: hsl(0, 0%, 100%);
+    font-size: 0.875rem;
+    font-weight: 500;
+    border-radius: 0 0 0.5rem 0.5rem;
+    text-decoration: none;
+    transition: top 0.2s ease;
+  }
+  .skip-to-content:focus {
+    top: 0;
+  }
 }
 
 @layer utilities {
