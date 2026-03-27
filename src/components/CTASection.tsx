@@ -190,8 +190,16 @@ const CTASection = () => {
                         <div className="mb-8">
                           <p className="text-[10px] tracking-[0.3em] uppercase text-muted-foreground font-light mb-5">Trip Details</p>
                           <div className="grid md:grid-cols-2 gap-5 mb-5">
-                            <div><label className={labelClass}>From *</label><input value={form.departure} onChange={set("departure")} placeholder="City or airport" required className={inputClass} /></div>
-                            <div><label className={labelClass}>To *</label><input value={form.destination} onChange={set("destination")} placeholder="City or airport" required className={inputClass} /></div>
+                            <div>
+                              <label className={labelClass}>From *</label>
+                              <input value={form.departure} onChange={set("departure")} onBlur={() => markTouched("departure")} placeholder="City or airport" required className={inputClass} aria-label="Departure city or airport" />
+                              {errors.departure && <p className="text-[11px] text-destructive/80 mt-1 font-light">{errors.departure}</p>}
+                            </div>
+                            <div>
+                              <label className={labelClass}>To *</label>
+                              <input value={form.destination} onChange={set("destination")} onBlur={() => markTouched("destination")} placeholder="City or airport" required className={inputClass} aria-label="Destination city or airport" />
+                              {errors.destination && <p className="text-[11px] text-destructive/80 mt-1 font-light">{errors.destination}</p>}
+                            </div>
                           </div>
                           <div className="grid grid-cols-2 md:grid-cols-3 gap-5">
                             <div><label className={labelClass}>Departure Date</label><input type="date" value={form.date} onChange={set("date")} className={inputClass} /></div>
