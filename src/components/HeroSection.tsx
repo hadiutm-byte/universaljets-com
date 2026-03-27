@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useRef, useCallback } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { Link } from "react-router-dom";
 import heroJet from "@/assets/hero-jet.jpg";
@@ -121,6 +121,15 @@ const HeroSection = () => {
           <Link
             to="/#cta"
             className="hero-cta-primary px-8 py-3 rounded-full text-[10px] md:text-[11px] tracking-[0.25em] uppercase font-medium transition-all duration-500 hover:scale-[1.08]"
+            onMouseMove={(e) => {
+              const rect = e.currentTarget.getBoundingClientRect();
+              const x = e.clientX - rect.left;
+              const y = e.clientY - rect.top;
+              e.currentTarget.style.background = `radial-gradient(circle at ${x}px ${y}px, hsl(43, 90%, 68%), hsl(43, 80%, 42%))`;
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.background = '';
+            }}
           >
             Request a Flight
           </Link>
