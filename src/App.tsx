@@ -175,6 +175,7 @@ const App = () => (
           <Ricky3D />
         </Suspense> */}
         <FloatingWhatsApp />
+        <FloatingContactStack />
         <CookieConsent />
       </BrowserRouter>
     </TooltipProvider>
