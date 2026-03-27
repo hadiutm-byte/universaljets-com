@@ -14,7 +14,7 @@
  * Public components then additionally pipe through sanitize.ts helpers.
  */
 
-import { sanitizeAircraftName, sanitizeAircraftImages, sanitizeAircraftForPublic } from "./sanitize";
+import { sanitizeAircraftName, sanitizeAircraftImages, sanitizeAircraftForPublic, sanitizeDescription } from "./sanitize";
 import type { PublicAircraft } from "./sanitize";
 import { getAircraftImage, getAircraftCategory } from "./aircraftImages";
 
