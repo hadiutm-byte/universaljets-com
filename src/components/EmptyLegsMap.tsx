@@ -1,4 +1,4 @@
-import { useState, useCallback, useMemo, useEffect } from "react";
+import { useState, useCallback, useMemo, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import { Loader2, ArrowRight, Map, LayoutGrid, RefreshCw, Plane } from "lucide-react";
 import { useEmptyLegs, type EmptyLeg } from "@/hooks/useAviapages";
