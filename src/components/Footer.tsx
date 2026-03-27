@@ -46,7 +46,7 @@ const partnerNames = [
 ];
 
 const LinkItem = ({ label, href }: { label: string; href: string }) => {
-  const cls = "block text-[13px] mb-2 text-white/50 hover:text-white hover:translate-x-[5px] transition-all duration-300";
+  const cls = "block text-[13px] mb-2 text-white/65 hover:text-white hover:translate-x-[5px] transition-all duration-300 focus-visible:text-white";
   return href.startsWith("/") && !href.startsWith("/#") ? (
     <Link to={href} className={cls}>{label}</Link>
   ) : (
