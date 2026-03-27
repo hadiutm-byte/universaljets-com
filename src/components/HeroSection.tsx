@@ -83,7 +83,7 @@ const HeroSection = () => {
           initial={{ opacity: 0, scaleY: 0 }}
           animate={{ opacity: 1, scaleY: 1 }}
           transition={{ duration: 1.6, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
-          className="w-[2px] h-14 md:h-20 bg-gradient-to-b from-transparent via-primary to-transparent mb-6 md:mb-8 origin-top"
+          className="w-[2px] h-14 md:h-20 mb-6 md:mb-8 origin-top hero-gold-divider"
         />
 
         <motion.p
