@@ -100,7 +100,7 @@ const EmptyLegPopup = ({ leg, onClose }: EmptyLegPopupProps) => {
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
           exit={{ opacity: 0, scale: 0.95 }}
-          className="absolute inset-4 md:inset-auto md:right-8 md:top-8 md:w-96 bg-card border border-border rounded-2xl shadow-xl overflow-hidden z-30 max-h-[calc(100%-2rem)] overflow-y-auto"
+          className="fixed inset-0 m-auto w-[calc(100%-2rem)] max-w-md h-fit max-h-[calc(100dvh-2rem)] md:absolute md:inset-auto md:right-8 md:top-8 md:w-96 md:max-h-[calc(100%-2rem)] bg-card border border-border rounded-2xl shadow-xl overflow-hidden z-30 overflow-y-auto"
         >
           {/* Gallery */}
           <div className="relative h-40 overflow-hidden">
