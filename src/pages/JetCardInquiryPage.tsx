@@ -46,14 +46,13 @@ const JetCardInquiryPage = () => {
   const [marketingConsent, setMarketingConsent] = useState(false);
 
   const resolvedCode = resolveCountryCode(geo.countryCode);
-  // Sync detected country code once
-  useState(() => { /* placeholder for effect below */ });
-  if (countryCode === "+971" && resolvedCode !== "+971") {
-    // Safe: only triggers on first geo detection, same pattern as EmptyLegInquiryModal
-  }
+  useEffect(() => {
+    if (countryCode === "+971" && resolvedCode !== "+971") {
+      setCountryCode(resolvedCode);
+    }
+  }, [resolvedCode]);
 
-  // Use useEffect for side-effect
-  import { useEffect } from "react";
+  const canSubmit = name && email && termsAccepted;
 
 
   const handleSubmit = async () => {
