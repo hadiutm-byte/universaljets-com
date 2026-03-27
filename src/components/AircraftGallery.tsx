@@ -163,7 +163,7 @@ const AircraftGallery = ({ images, floorPlanUrl, aircraftType, variant = "full",
         {/* Image type label */}
         {!showFloorPlan && uniqueImages[current]?.type && uniqueImages[current].type !== "exterior" && (
           <div className="absolute top-2 left-2 px-2 py-0.5 rounded-full bg-black/30 backdrop-blur-sm text-[8px] text-white/70 tracking-wider uppercase">
-            {uniqueImages[current].type}
+            {typeLabel(uniqueImages[current].type)}
           </div>
         )}
       </div>
