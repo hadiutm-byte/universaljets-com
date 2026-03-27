@@ -78,7 +78,7 @@ const HeroSection = () => {
         initial={{ opacity: 0, y: 18 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 1.2, delay: 0.95 }}
-        className="absolute bottom-28 left-0 right-0 z-10 text-center"
+        className="absolute bottom-[38vh] left-0 right-0 z-10 text-center"
       >
         <p
           className="font-display text-[13px] md:text-[15px] text-white/80 font-semibold leading-[1.8] tracking-[0.18em] uppercase"
