@@ -15,18 +15,22 @@
 // Matches common ICAO-style registrations: HA-JEX, D-IRBS, N123AB, G-ABCD,
 // VP-BNR, A6-FLJ, 9H-VCA, etc.  Also catches generic alphanumeric codes
 // that look like tail/reg numbers when wrapped in parens.
-const REG_IN_PARENS = /\s*\([A-Z0-9]{1,4}-[A-Z0-9]{2,5}\)\s*/gi;
-const REG_STANDALONE = /\b[A-Z]{1,2}-[A-Z]{2,5}\b/g;
+const REG_IN_PARENS = /\s*\(([A-Z0-9]{1,5}-[A-Z0-9]{2,6}|N\d{1,5}[A-Z]{0,2})\)\s*/gi;
+const REG_STANDALONE = /\b([A-Z0-9]{1,5}-[A-Z0-9]{2,6}|N\d{1,5}[A-Z]{0,2})\b/gi;
 
 // ── Blocked image types ─────────────────────────────────────────────────────
 const BLOCKED_IMAGE_TYPES = new Set(["tail", "registration"]);
 
 // ── Public sanitisation helpers ─────────────────────────────────────────────
 
-/** Strip bracketed registration from an aircraft display name. */
+/** Strip bracketed registration and standalone registration from an aircraft display name. */
 export function sanitizeAircraftName(name: string | null | undefined): string {
   if (!name) return "Private Jet";
-  return name.replace(REG_IN_PARENS, "").trim() || "Private Jet";
+  return name
+    .replace(REG_IN_PARENS, " ")
+    .replace(REG_STANDALONE, " ")
+    .replace(/\s{2,}/g, " ")
+    .trim() || "Private Jet";
 }
 
 /** Remove any standalone registration code from a generic text field. */

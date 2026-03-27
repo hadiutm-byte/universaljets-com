@@ -71,8 +71,10 @@ export function normalizeImages(raw: unknown): { url: string; type: string }[] {
   for (const img of raw) {
     if (!img || typeof img !== "object") continue;
     const imgObj = img as Record<string, unknown>;
-    const url = String(imgObj.url || "");
+    const media = imgObj.media as Record<string, unknown> | undefined;
+    const url = String(imgObj.url || media?.path || "");
     const type = String(imgObj.type || imgObj.image_type || "exterior").toLowerCase();
+
     if (!url || BLOCKED_IMAGE_TYPES.has(type) || seen.has(url)) continue;
     seen.add(url);
     result.push({ url, type });

@@ -7,9 +7,20 @@ const corsHeaders = {
 
 const AVIAPAGES_BASE = 'https://dir.aviapages.com';
 
-/** Strip registration codes like "(HA-JEX)" from aircraft names */
+/** Strip registration codes like "(HA-JEX)" or standalone "N123AB" from aircraft names */
 function stripReg(name: string): string {
-  return name.replace(/\s*\([A-Z0-9]{1,4}-[A-Z0-9]{2,5}\)\s*/gi, '').trim() || 'Private Jet';
+  return name
+    .replace(/\s*\(([A-Z0-9]{1,5}-[A-Z0-9]{2,6}|N\d{1,5}[A-Z]{0,2})\)\s*/gi, ' ')
+    .replace(/\b([A-Z0-9]{1,5}-[A-Z0-9]{2,6}|N\d{1,5}[A-Z]{0,2})\b/gi, ' ')
+    .replace(/\s{2,}/g, ' ')
+    .trim() || 'Private Jet';
+}
+
+/** Coerce to finite number or null */
+function toFiniteNum(v: unknown): number | null {
+  if (v == null) return null;
+  const n = Number(v);
+  return Number.isFinite(n) ? n : null;
 }
 
 serve(async (req) => {
@@ -78,19 +89,20 @@ serve(async (req) => {
         let floorPlanUrl: string | null = null;
 
         for (const img of (aircraft.images || [])) {
-          const imgType = (img.image_type || '').toLowerCase();
+          const imgType = (img.image_type || img.type || '').toLowerCase();
           // Skip images that might expose tail numbers
           if (imgType === 'tail' || imgType === 'registration') continue;
           
-          if (img.url) {
+          const imgUrl = img.url || (img.media && typeof img.media === 'object' ? img.media.path : null);
+          if (imgUrl) {
             allImages.push({
-              url: img.url,
+              url: imgUrl,
               type: imgType || 'exterior',
               position: img.position ?? 0,
             });
           }
           if (imgType === 'floor_plan' || imgType === 'floorplan' || imgType === 'layout') {
-            floorPlanUrl = img.url || null;
+            floorPlanUrl = imgUrl || null;
           }
         }
 
@@ -116,11 +128,26 @@ serve(async (req) => {
         if (aircraft.bed || aircraft.has_bed || aircraft.sleeping_places) amenities.push('Sleeping');
         if (aircraft.baggage_compartment) amenities.push('Baggage Hold');
 
-        // ── Pricing ──
-        const price = aircraft.price ?? aircraft.charter_price ?? null;
-        const priceCurrency = aircraft.currency_code || aircraft.currency || company.currency || 'USD';
-        const priceUnit = aircraft.price_unit || aircraft.pricing_type || null; // e.g. 'per_hour', 'total'
-        const estimatedFlightTime = aircraft.flight_time ?? aircraft.estimated_flight_time ?? null;
+        // ── Pricing — defensive multi-field extraction ──
+        const price =
+          toFiniteNum(aircraft.price) ??
+          toFiniteNum(aircraft.charter_price) ??
+          toFiniteNum(aircraft.price_total) ??
+          toFiniteNum(aircraft.total_price) ??
+          toFiniteNum(aircraft.amount) ??
+          null;
+
+        const priceCurrency =
+          aircraft.currency_code ||
+          aircraft.currency ||
+          aircraft.price_currency ||
+          company.currency ||
+          'USD';
+
+        const priceUnit =
+          aircraft.price_unit ||
+          aircraft.pricing_type ||
+          (price ? 'total' : null);
 
         results.push({
           id: aircraft.id,
@@ -138,10 +165,10 @@ serve(async (req) => {
           // Amenities
           amenities,
           // Pricing (B2C safe — no internal cost data)
-          price: typeof price === 'number' ? price : null,
+          price: price,
           price_currency: priceCurrency,
           price_unit: priceUnit,
-          estimated_flight_time_min: estimatedFlightTime,
+          estimated_flight_time_min: toFiniteNum(aircraft.flight_time) ?? toFiniteNum(aircraft.estimated_flight_time),
           // Images — NO tail number images
           images: {
             exterior: notailImage || exteriorImage,

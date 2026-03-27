@@ -139,7 +139,7 @@ const TierCard = forwardRef<HTMLDivElement, { tier: typeof tiers[0]; index: numb
           <h3 className={`font-display text-2xl font-semibold mb-1 ${isMaverick ? "text-primary" : "text-white"}`}>
             {tier.name}
           </h3>
-          <p className="text-[12px] text-white/65 font-light mb-5">{tier.tagline}</p>
+          <p className="text-[12px] text-white/80 font-light mb-5">{tier.tagline}</p>
 
           {/* PRICE — MAXIMUM VISIBILITY */}
           <div className="flex items-baseline gap-1.5 mb-2">
@@ -164,7 +164,7 @@ const TierCard = forwardRef<HTMLDivElement, { tier: typeof tiers[0]; index: numb
                 }`}>
                   <Check className={`w-2.5 h-2.5 ${isMaverick ? "text-primary" : "text-primary/80"}`} strokeWidth={2.5} />
                 </div>
-                <span className={`text-[13px] leading-[1.6] font-light ${isMaverick ? "text-white/90" : "text-white/80"}`}>
+                <span className={`text-[13px] leading-[1.6] font-light ${isMaverick ? "text-white/90" : "text-white/85"}`}>
                   {h}
                 </span>
               </div>
@@ -336,7 +336,7 @@ const MembersPage = () => (
                 <p.icon className="w-4.5 h-4.5 text-primary/85" strokeWidth={1.5} />
               </div>
               <h3 className="text-[14px] font-display font-semibold text-white mb-2">{p.title}</h3>
-              <p className="text-[12px] text-white/65 font-light leading-[1.8]">{p.desc}</p>
+              <p className="text-[12px] text-white/75 font-light leading-[1.8]">{p.desc}</p>
             </motion.div>
           ))}
         </motion.div>
@@ -359,7 +359,7 @@ const MembersPage = () => (
           <h2 className="font-display text-2xl md:text-3xl lg:text-4xl font-semibold text-white">
             Choose Your <span className="text-gradient-gold italic">Level of Access</span>
           </h2>
-          <p className="text-[13px] text-white/65 font-light max-w-lg mx-auto mt-4 leading-relaxed">
+          <p className="text-[13px] text-white/75 font-light max-w-lg mx-auto mt-4 leading-relaxed">
             Each tier is designed around how you fly — from occasional regional trips to unlimited global coverage.
           </p>
         </motion.div>
@@ -458,7 +458,7 @@ const MembersPage = () => (
               )}
 
               <h3 className="font-display text-[16px] mb-3 text-white font-semibold">{s.title}</h3>
-              <p className="text-[12px] text-white/65 font-light leading-[1.9] max-w-[240px] mx-auto">{s.desc}</p>
+              <p className="text-[12px] text-white/75 font-light leading-[1.9] max-w-[240px] mx-auto">{s.desc}</p>
             </motion.div>
           ))}
         </div>
@@ -503,7 +503,7 @@ const MembersPage = () => (
               </div>
               <div>
                 <h3 className="text-[13px] font-display font-semibold text-white mb-1.5">{b.title}</h3>
-                <p className="text-[12px] text-white/65 font-light leading-[1.8]">{b.desc}</p>
+                <p className="text-[12px] text-white/75 font-light leading-[1.8]">{b.desc}</p>
               </div>
             </motion.div>
           ))}

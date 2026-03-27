@@ -156,9 +156,9 @@ const JetCardPage = () => (
           {keyFeatures.map((f, i) => (
             <motion.div key={i} initial={{ opacity: 0, y: 10 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
               transition={{ delay: i * 0.04, duration: 0.4 }}
-              className="flex items-center gap-3 p-4 rounded-lg border border-border bg-card">
+              className="flex items-center gap-3 p-4 rounded-lg border border-white/[0.12] bg-white/[0.06]">
               <Check className="w-3.5 h-3.5 text-primary flex-shrink-0" strokeWidth={2} />
-              <span className="text-[12px] text-foreground/80 font-light">{f}</span>
+              <span className="text-[12px] text-foreground/85 font-light">{f}</span>
             </motion.div>
           ))}
         </div>
@@ -182,7 +182,7 @@ const JetCardPage = () => (
                 <b.icon className="w-5 h-5 text-primary" strokeWidth={1.2} />
               </div>
               <h3 className="font-display text-[15px] font-semibold mb-2 text-foreground">{b.title}</h3>
-              <p className="text-[11px] text-muted-foreground font-light leading-[1.9]">{b.desc}</p>
+              <p className="text-[12px] text-muted-foreground/85 font-light leading-[1.9]">{b.desc}</p>
             </motion.div>
           ))}
         </div>
@@ -200,7 +200,7 @@ const JetCardPage = () => (
                 <w.icon className="w-4 h-4 text-primary" strokeWidth={1.3} />
               </div>
               <h4 className="font-display text-[13px] font-semibold text-foreground mb-1">{w.title}</h4>
-              <p className="text-[10px] text-muted-foreground font-light leading-[1.8]">{w.desc}</p>
+              <p className="text-[11px] text-muted-foreground/85 font-light leading-[1.8]">{w.desc}</p>
             </motion.div>
           ))}
         </div>
