@@ -22,8 +22,25 @@ const AircraftGallery = ({ images, floorPlanUrl, aircraftType, variant = "full",
 
   if (uniqueImages.length === 0) return null;
 
+  // Human-readable image type labels
+  const typeLabel = (type: string) => {
+    const map: Record<string, string> = {
+      exterior: "Exterior",
+      cabin: "Cabin",
+      interior: "Interior",
+      cockpit: "Cockpit",
+      galley: "Galley",
+      lavatory: "Lavatory",
+      floor_plan: "Floor Plan",
+      floorplan: "Floor Plan",
+      layout: "Layout",
+      detail: "Detail",
+    };
+    return map[type.toLowerCase()] || type.charAt(0).toUpperCase() + type.slice(1);
+  };
+
   const displayUrl = showFloorPlan && floorPlanUrl ? floorPlanUrl : uniqueImages[current]?.url;
-  const displayAlt = showFloorPlan ? `${aircraftType} floor plan` : `${aircraftType} - ${uniqueImages[current]?.type || "photo"}`;
+  const displayAlt = showFloorPlan ? `${aircraftType} floor plan` : `${aircraftType} — ${typeLabel(uniqueImages[current]?.type || "photo")}`;
 
   const goNext = (e?: React.MouseEvent) => {
     e?.stopPropagation();
@@ -146,7 +163,7 @@ const AircraftGallery = ({ images, floorPlanUrl, aircraftType, variant = "full",
         {/* Image type label */}
         {!showFloorPlan && uniqueImages[current]?.type && uniqueImages[current].type !== "exterior" && (
           <div className="absolute top-2 left-2 px-2 py-0.5 rounded-full bg-black/30 backdrop-blur-sm text-[8px] text-white/70 tracking-wider uppercase">
-            {uniqueImages[current].type}
+            {typeLabel(uniqueImages[current].type)}
           </div>
         )}
       </div>
