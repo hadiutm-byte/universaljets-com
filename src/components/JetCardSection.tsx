@@ -47,10 +47,10 @@ const JetCardSection = () => (
       </div>
 
       <FadeReveal delay={0.3} className="flex flex-col sm:flex-row items-center justify-center gap-4">
-        <Button variant="ctaGold" asChild className="px-10 py-4 text-[10px] tracking-[0.28em] uppercase rounded-xl h-auto">
+        <Button variant="ctaGold" size="cta" asChild>
           <Link to="/jet-card">Explore Jet Card</Link>
         </Button>
-        <Button variant="ctaDark" asChild className="px-10 py-4 text-[10px] tracking-[0.28em] uppercase rounded-xl h-auto">
+        <Button variant="ctaDark" size="cta" asChild>
           <Link to="/jet-card-inquiry">Apply for Your Jet Card</Link>
         </Button>
       </FadeReveal>
