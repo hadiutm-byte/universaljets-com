@@ -46,7 +46,7 @@ const charterCategories: CharterCategory[] = [
     title: "Corporate Solutions",
     tagline: "Three cities. One day. Boardroom at 40,000 ft.",
     slug: "corporate",
-    image: "https://d2xsxph8kpxj0f.cloudfront.net/310519663441238946/F94ypwks3ADk2wFrxZVnWB/corporate-executive-jet-a3dWZJiLaShszow9sv8fuB.webp",
+    image: corporateImg,
     icon: Shield,
     justification:
       "Corporate operators lock you into their fleet and schedule. We match the right aircraft to each leg of your trip — light jet for a 90-minute hop, heavy jet for the transatlantic — saving you up to 40% versus booking everything on a single operator's largest plane.",
