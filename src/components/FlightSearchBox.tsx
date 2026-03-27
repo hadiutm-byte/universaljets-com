@@ -365,7 +365,7 @@ const FlightSearchBox = () => {
                 <AnimatePresence initial={false}>
                   {legs.map((leg, idx) => (
                     <motion.div key={idx} initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: "auto" }} exit={{ opacity: 0, height: 0 }} transition={{ duration: 0.3 }} className="overflow-hidden">
-                      <div className="flex items-center gap-0 rounded-2xl border border-foreground/[0.06] bg-foreground/[0.02]">
+                      <div className="flex items-center gap-0 rounded-2xl border border-primary/10 bg-[hsla(220,20%,8%,0.5)]">
                         <div className="flex-shrink-0 w-10 hidden md:flex items-center justify-center">
                           <span className="text-[10px] font-semibold text-primary/50">{String(idx + 1).padStart(2, "0")}</span>
                         </div>
