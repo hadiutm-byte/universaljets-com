@@ -148,29 +148,32 @@ const EmptyLegsMap = () => {
           ))}
         </motion.div>
 
-        <div className="flex justify-center mb-14">
-          <div className="inline-flex rounded-lg border border-border bg-muted/30 p-1 gap-0">
-            <button
-              onClick={() => setViewMode("cards")}
-              className={`flex items-center gap-1.5 px-5 py-2 rounded-md text-[10px] tracking-[0.15em] uppercase font-medium transition-all duration-300 ${
-                viewMode === "cards"
-                  ? "bg-[hsl(var(--selection))] text-[hsl(var(--selection-foreground))] shadow-sm"
-                  : "text-muted-foreground hover:text-foreground"
-              }`}
-            >
-              <LayoutGrid size={12} /> Cards
-            </button>
-            <button
-              onClick={() => setViewMode("map")}
-              className={`flex items-center gap-1.5 px-5 py-2 rounded-md text-[10px] tracking-[0.15em] uppercase font-medium transition-all duration-300 ${
-                viewMode === "map"
-                  ? "bg-[hsl(var(--selection))] text-[hsl(var(--selection-foreground))] shadow-sm"
-                  : "text-muted-foreground hover:text-foreground"
-              }`}
-            >
-              <Map size={12} /> Map
-            </button>
-          </div>
+        <div className="flex flex-wrap justify-center gap-3 mb-14">
+          {/* Map/Cards toggle — desktop only */}
+          {!isMobile && (
+            <div className="inline-flex rounded-lg border border-border bg-muted/30 p-1 gap-0">
+              <button
+                onClick={() => setViewMode("cards")}
+                className={`flex items-center gap-1.5 px-5 py-2 rounded-md text-[10px] tracking-[0.15em] uppercase font-medium transition-all duration-300 ${
+                  viewMode === "cards"
+                    ? "bg-[hsl(var(--selection))] text-[hsl(var(--selection-foreground))] shadow-sm"
+                    : "text-muted-foreground hover:text-foreground"
+                }`}
+              >
+                <LayoutGrid size={12} /> Cards
+              </button>
+              <button
+                onClick={() => setViewMode("map")}
+                className={`flex items-center gap-1.5 px-5 py-2 rounded-md text-[10px] tracking-[0.15em] uppercase font-medium transition-all duration-300 ${
+                  viewMode === "map"
+                    ? "bg-[hsl(var(--selection))] text-[hsl(var(--selection-foreground))] shadow-sm"
+                    : "text-muted-foreground hover:text-foreground"
+                }`}
+              >
+                <Map size={12} /> Map
+              </button>
+            </div>
+          )}
           <div className="flex items-center gap-3">
             <span className="text-[9px] text-muted-foreground/40 font-light hidden sm:inline">
               Updated {lastUpdated.toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit" })}
