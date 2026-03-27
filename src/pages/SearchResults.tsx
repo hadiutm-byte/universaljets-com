@@ -192,6 +192,24 @@ const SearchResults = () => {
             </div>
           </motion.div>
 
+          {/* Active filter chip */}
+          {jetSize && aircraftSizeLabels[jetSize] && (
+            <div className="mb-6">
+              <button
+                onClick={() => {
+                  const next = new URLSearchParams(searchParams);
+                  next.delete("jet_size");
+                  setSearchParams(next, { replace: true });
+                }}
+                className="inline-flex items-center gap-2 rounded-full border border-border bg-muted/40 px-4 py-1.5 text-[11px] tracking-[0.12em] uppercase text-foreground/80 hover:bg-muted/60 transition-colors cursor-pointer"
+              >
+                <Plane size={11} className="text-primary" />
+                Aircraft Size: {aircraftSizeLabels[jetSize]}
+                <X size={11} className="text-foreground/40 hover:text-foreground ml-1" />
+              </button>
+            </div>
+          )}
+
           {/* Loading */}
           {isLoading && (
             <div className="flex flex-col items-center justify-center py-32 gap-4">
