@@ -1,7 +1,8 @@
 import { motion } from "framer-motion";
-import { MapPin, ArrowRight } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
 import { destinations } from "@/lib/destinationsData";
+import { destinationImages } from "@/lib/destinationImages";
 
 const featured = destinations.slice(0, 8);
 
@@ -32,13 +33,23 @@ const DestinationsSection = () => (
           >
             <Link
               to={`/destinations/${d.slug}`}
-              className="block text-center py-6 px-4 rounded-xl border border-border bg-card group hover:border-primary/20 transition-all duration-500"
+              className="group relative block rounded-xl overflow-hidden aspect-[3/4] hover:shadow-[0_16px_50px_-12px_hsla(0,0%,0%,0.3)] transition-all duration-700"
             >
-              <div className="w-11 h-11 rounded-full border border-border flex items-center justify-center mx-auto mb-3 group-hover:border-primary/30 transition-all duration-500">
-                <MapPin className="w-4 h-4 text-primary/50" strokeWidth={1.2} />
+              <img
+                src={destinationImages[d.slug]}
+                alt={d.name}
+                loading="lazy"
+                width={400}
+                height={533}
+                className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/20 to-transparent" />
+              <div className="absolute bottom-0 left-0 right-0 p-4">
+                <h3 className="font-display text-sm md:text-base text-white font-semibold mb-0.5 group-hover:text-primary transition-colors duration-500">
+                  {d.name}
+                </h3>
+                <p className="text-[9px] text-white/40 font-light">{d.tagline}</p>
               </div>
-              <h3 className="font-display text-sm text-foreground mb-1 group-hover:text-primary transition-colors">{d.name}</h3>
-              <p className="text-[10px] text-muted-foreground/40 font-light">{d.tagline}</p>
             </Link>
           </motion.div>
         ))}

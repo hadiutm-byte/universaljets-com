@@ -1,10 +1,11 @@
 import { motion } from "framer-motion";
-import { ArrowRight, Plane, TrendingUp, AlertTriangle, MapPin, Calendar } from "lucide-react";
+import { ArrowRight, Plane, TrendingUp, AlertTriangle, Calendar } from "lucide-react";
 import { Link } from "react-router-dom";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import SEOHead from "@/components/SEOHead";
 import { destinations } from "@/lib/destinationsData";
+import { destinationImages } from "@/lib/destinationImages";
 
 import monacoGpImg from "@/assets/events/monaco-gp.jpg";
 import cannesImg from "@/assets/events/cannes.jpg";
@@ -40,12 +41,7 @@ const DestinationsPage = () => (
     {/* Hero */}
     <section className="pt-40 pb-16 md:pt-48 md:pb-24">
       <div className="container mx-auto px-8 text-center max-w-3xl">
-        <motion.div
-          initial={{ opacity: 0, scaleX: 0 }}
-          animate={{ opacity: 1, scaleX: 1 }}
-          transition={{ duration: 1 }}
-          className="w-12 h-[1px] bg-gradient-to-r from-transparent via-primary/80 to-transparent mx-auto mb-10 origin-center"
-        />
+        <motion.div initial={{ opacity: 0, scaleX: 0 }} animate={{ opacity: 1, scaleX: 1 }} transition={{ duration: 1 }} className="w-12 h-[1px] bg-gradient-to-r from-transparent via-primary/80 to-transparent mx-auto mb-10 origin-center" />
         <motion.p initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.2 }} className="text-[11px] tracking-[0.5em] uppercase text-primary mb-6 font-medium">
           Destinations & Events
         </motion.p>
@@ -58,7 +54,7 @@ const DestinationsPage = () => (
       </div>
     </section>
 
-    {/* ═══ DESTINATIONS GRID — clickable ═══ */}
+    {/* ═══ DESTINATIONS GRID ═══ */}
     <section className="py-16 md:py-24">
       <div className="container mx-auto px-6 md:px-8">
         <motion.p initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} className="text-center text-[11px] tracking-[0.4em] uppercase text-primary mb-12 font-medium">
@@ -75,31 +71,52 @@ const DestinationsPage = () => (
             >
               <Link
                 to={`/destinations/${d.slug}`}
-                className="block rounded-xl border border-border bg-card p-6 group hover:border-primary/20 hover:shadow-[0_12px_40px_-12px_hsla(0,0%,0%,0.1)] transition-all duration-500"
+                className="group relative block rounded-2xl overflow-hidden aspect-[3/4] hover:shadow-[0_20px_60px_-15px_hsla(0,0%,0%,0.35)] transition-all duration-700"
               >
-                <div className="flex items-center gap-3 mb-4">
-                  <div className="w-10 h-10 rounded-full border border-border flex items-center justify-center group-hover:border-primary/30 transition-all duration-500">
-                    <MapPin className="w-4 h-4 text-primary/50" strokeWidth={1.2} />
-                  </div>
-                  <div>
-                    <h3 className="font-display text-lg font-semibold text-foreground group-hover:text-primary transition-colors duration-300">{d.name}</h3>
-                    <p className="text-[10px] text-primary/40 font-light">{d.region}</p>
-                  </div>
-                </div>
-                <p className="text-[12px] text-muted-foreground/60 font-light leading-[1.8] mb-4">{d.tagline}</p>
-                <div className="flex flex-wrap gap-2 mb-4">
-                  {d.airports.slice(0, 2).map((ap) => (
-                    <span key={ap.code} className="px-2.5 py-1 rounded-md bg-muted/50 text-[9px] tracking-[0.1em] text-muted-foreground/50 font-light">
-                      {ap.code.split(" / ")[1] || ap.code}
-                    </span>
-                  ))}
-                  <span className="px-2.5 py-1 rounded-md bg-muted/50 text-[9px] tracking-[0.1em] text-muted-foreground/50 font-light">
-                    {d.popularRoutes.length} routes
+                {/* Background photo */}
+                <img
+                  src={destinationImages[d.slug]}
+                  alt={d.name}
+                  loading="lazy"
+                  width={800}
+                  height={1024}
+                  className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                />
+                {/* Gradient overlay */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent" />
+
+                {/* Region badge */}
+                <div className="absolute top-4 left-4">
+                  <span className="px-3 py-1 rounded-full bg-white/10 backdrop-blur-md text-[9px] tracking-[0.2em] uppercase text-white/80 font-medium border border-white/10">
+                    {d.region}
                   </span>
                 </div>
-                <span className="flex items-center gap-1.5 text-[10px] tracking-[0.2em] uppercase text-primary/50 font-medium group-hover:text-primary transition-colors">
-                  Explore <ArrowRight size={10} />
-                </span>
+
+                {/* Content overlay */}
+                <div className="absolute bottom-0 left-0 right-0 p-6">
+                  <h3 className="font-display text-2xl font-semibold text-white mb-1 group-hover:text-primary transition-colors duration-500">
+                    {d.name}
+                  </h3>
+                  <p className="text-[11px] text-white/50 font-light leading-[1.8] mb-4 line-clamp-2">
+                    {d.tagline}
+                  </p>
+
+                  {/* Airport tags */}
+                  <div className="flex flex-wrap gap-1.5 mb-4">
+                    {d.airports.slice(0, 2).map((ap) => (
+                      <span key={ap.code} className="px-2 py-0.5 rounded-md bg-white/10 backdrop-blur-sm text-[8px] tracking-[0.1em] text-white/60 font-light">
+                        {ap.code.split(" / ")[1] || ap.code}
+                      </span>
+                    ))}
+                    <span className="px-2 py-0.5 rounded-md bg-white/10 backdrop-blur-sm text-[8px] tracking-[0.1em] text-white/60 font-light">
+                      {d.popularRoutes.length} routes
+                    </span>
+                  </div>
+
+                  <span className="flex items-center gap-1.5 text-[10px] tracking-[0.2em] uppercase text-primary/80 font-medium group-hover:text-primary transition-colors">
+                    Explore <ArrowRight size={10} className="transition-transform duration-500 group-hover:translate-x-1" />
+                  </span>
+                </div>
               </Link>
             </motion.div>
           ))}
@@ -171,24 +188,50 @@ const DestinationsPage = () => (
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: i * 0.06 }}
-              className="group relative rounded-xl overflow-hidden border border-border/10"
             >
-              <div className="aspect-[4/5] overflow-hidden">
-                <img src={e.img} alt={e.title} loading="lazy" width={640} height={800} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
-                <div className="absolute inset-0 bg-gradient-to-t from-background via-background/40 to-transparent" />
-              </div>
-              <div className="absolute bottom-0 left-0 right-0 p-6">
-                <p className="text-[9px] tracking-[0.3em] uppercase text-primary/50 font-light mb-2">{e.when}</p>
-                <h3 className="font-display text-xl font-semibold text-foreground mb-2">{e.title}</h3>
-                <p className="text-[11px] text-foreground/45 font-extralight leading-[1.9] mb-3">{e.desc}</p>
-                <div className="flex items-center gap-2 mb-4">
-                  <Plane className="w-3 h-3 text-primary/50" strokeWidth={1.5} />
-                  <span className="text-[10px] text-primary/60 font-light">{e.flight}</span>
+              <Link
+                to="/request-flight"
+                className="group relative block rounded-2xl overflow-hidden aspect-[3/4] hover:shadow-[0_20px_60px_-15px_hsla(0,0%,0%,0.35)] transition-all duration-700"
+              >
+                {/* Background photo */}
+                <img
+                  src={e.img}
+                  alt={e.title}
+                  loading="lazy"
+                  width={640}
+                  height={800}
+                  className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                />
+                {/* Gradient overlay */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent" />
+
+                {/* Date badge */}
+                <div className="absolute top-4 left-4">
+                  <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/10 backdrop-blur-md text-[9px] tracking-[0.15em] uppercase text-white/80 font-medium border border-white/10">
+                    <Calendar className="w-3 h-3" strokeWidth={1.2} />
+                    {e.when}
+                  </span>
                 </div>
-                <Link to="/request-flight" className="inline-flex items-center gap-2 text-[10px] tracking-[0.25em] uppercase text-primary/60 font-medium hover:text-primary transition-colors duration-500">
-                  Request Flight <ArrowRight className="w-3.5 h-3.5" strokeWidth={1.5} />
-                </Link>
-              </div>
+
+                {/* Content overlay */}
+                <div className="absolute bottom-0 left-0 right-0 p-6">
+                  <h3 className="font-display text-xl font-semibold text-white mb-2 group-hover:text-primary transition-colors duration-500">
+                    {e.title}
+                  </h3>
+                  <p className="text-[11px] text-white/50 font-light leading-[1.8] mb-4 line-clamp-2">
+                    {e.desc}
+                  </p>
+
+                  <div className="flex items-center gap-2 mb-4">
+                    <Plane className="w-3 h-3 text-primary/60" strokeWidth={1.5} />
+                    <span className="text-[10px] text-white/50 font-light">{e.flight}</span>
+                  </div>
+
+                  <span className="flex items-center gap-1.5 text-[10px] tracking-[0.2em] uppercase text-primary/80 font-medium group-hover:text-primary transition-colors">
+                    Request Flight <ArrowRight size={10} className="transition-transform duration-500 group-hover:translate-x-1" />
+                  </span>
+                </div>
+              </Link>
             </motion.div>
           ))}
         </div>
