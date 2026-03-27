@@ -1,4 +1,4 @@
-import { useState, useCallback, useMemo, useEffect } from "react";
+import { useState, useCallback, useMemo, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import { Loader2, ArrowRight, Map, LayoutGrid, RefreshCw, Plane } from "lucide-react";
 import { useEmptyLegs, type EmptyLeg } from "@/hooks/useAviapages";
@@ -6,6 +6,8 @@ import EmptyLegsMapView from "./empty-legs/EmptyLegsMapView";
 import EmptyLegCard from "./empty-legs/EmptyLegCard";
 import EmptyLegPopup from "./empty-legs/EmptyLegPopup";
 import AIRPORT_COORDS from "@/lib/airportCoords";
+import { useIsMobile } from "@/hooks/use-mobile";
+import { setBodyUiState } from "@/lib/bodyUiState";
 
 const regions = ["All", "Americas", "Europe", "Middle East", "Asia"];
 
@@ -30,11 +32,25 @@ const fallbackLegs: EmptyLeg[] = [
 ];
 
 const EmptyLegsMap = () => {
+  const isMobile = useIsMobile();
   const [selectedLeg, setSelectedLeg] = useState<EmptyLeg | null>(null);
   const [activeRegion, setActiveRegion] = useState("All");
-  const [viewMode, setViewMode] = useState<"cards" | "map">("map");
+  const [viewMode, setViewMode] = useState<"cards" | "map">(isMobile ? "cards" : "map");
   const [refreshing, setRefreshing] = useState(false);
   const [lastUpdated, setLastUpdated] = useState<Date>(new Date());
+
+  // Hide floating CTAs while empty legs section is in viewport
+  const sectionRef = useRef<HTMLElement>(null);
+  useEffect(() => {
+    const el = sectionRef.current;
+    if (!el) return;
+    const obs = new IntersectionObserver(
+      ([entry]) => setBodyUiState("empty-legs-active", entry.isIntersecting),
+      { threshold: 0.1 }
+    );
+    obs.observe(el);
+    return () => { obs.disconnect(); setBodyUiState("empty-legs-active", false); };
+  }, []);
 
   // React Query keyed by region — cache is per-region, no cross-contamination
   const { data, isLoading, error, refetch, isFetching } = useEmptyLegs(activeRegion);
@@ -98,7 +114,7 @@ const EmptyLegsMap = () => {
   const showLoading = isLoading || (isFetching && !data?.results?.length);
 
   return (
-    <section id="empty-legs" className="section-padding overflow-hidden section-alt">
+    <section ref={sectionRef} id="empty-legs" className="section-padding overflow-hidden section-alt">
       <div className="container mx-auto px-8 relative z-10">
         <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.8 }} className="text-center mb-8">
           <p className="text-[11px] tracking-[0.5em] uppercase text-primary mb-6 font-medium">Exclusive Opportunity</p>
@@ -139,29 +155,32 @@ const EmptyLegsMap = () => {
           ))}
         </motion.div>
 
-        <div className="flex justify-center mb-14">
-          <div className="inline-flex rounded-lg border border-border bg-muted/30 p-1 gap-0">
-            <button
-              onClick={() => setViewMode("cards")}
-              className={`flex items-center gap-1.5 px-5 py-2 rounded-md text-[10px] tracking-[0.15em] uppercase font-medium transition-all duration-300 ${
-                viewMode === "cards"
-                  ? "bg-[hsl(var(--selection))] text-[hsl(var(--selection-foreground))] shadow-sm"
-                  : "text-muted-foreground hover:text-foreground"
-              }`}
-            >
-              <LayoutGrid size={12} /> Cards
-            </button>
-            <button
-              onClick={() => setViewMode("map")}
-              className={`flex items-center gap-1.5 px-5 py-2 rounded-md text-[10px] tracking-[0.15em] uppercase font-medium transition-all duration-300 ${
-                viewMode === "map"
-                  ? "bg-[hsl(var(--selection))] text-[hsl(var(--selection-foreground))] shadow-sm"
-                  : "text-muted-foreground hover:text-foreground"
-              }`}
-            >
-              <Map size={12} /> Map
-            </button>
-          </div>
+        <div className="flex flex-wrap justify-center gap-3 mb-14">
+          {/* Map/Cards toggle — desktop only */}
+          {!isMobile && (
+            <div className="inline-flex rounded-lg border border-border bg-muted/30 p-1 gap-0">
+              <button
+                onClick={() => setViewMode("cards")}
+                className={`flex items-center gap-1.5 px-5 py-2 rounded-md text-[10px] tracking-[0.15em] uppercase font-medium transition-all duration-300 ${
+                  viewMode === "cards"
+                    ? "bg-[hsl(var(--selection))] text-[hsl(var(--selection-foreground))] shadow-sm"
+                    : "text-muted-foreground hover:text-foreground"
+                }`}
+              >
+                <LayoutGrid size={12} /> Cards
+              </button>
+              <button
+                onClick={() => setViewMode("map")}
+                className={`flex items-center gap-1.5 px-5 py-2 rounded-md text-[10px] tracking-[0.15em] uppercase font-medium transition-all duration-300 ${
+                  viewMode === "map"
+                    ? "bg-[hsl(var(--selection))] text-[hsl(var(--selection-foreground))] shadow-sm"
+                    : "text-muted-foreground hover:text-foreground"
+                }`}
+              >
+                <Map size={12} /> Map
+              </button>
+            </div>
+          )}
           <div className="flex items-center gap-3">
             <span className="text-[9px] text-muted-foreground/40 font-light hidden sm:inline">
               Updated {lastUpdated.toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit" })}

@@ -185,9 +185,11 @@ html {
   body[data-ui-flight-search-active="true"] .floating-search-aware,
   body[data-ui-picker-open="true"] .floating-search-aware,
   body[data-ui-overlay-active="true"] .floating-search-aware,
+  body[data-ui-empty-legs-active="true"] .floating-search-aware,
   body:has(.flight-search-shell :focus-within) .floating-search-aware {
-    opacity: 0;
+    opacity: 0 !important;
     visibility: hidden;
+    pointer-events: none;
     pointer-events: none;
   }
 }
