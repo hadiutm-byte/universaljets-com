@@ -11,6 +11,7 @@ export interface ShareData {
   price: string;
   aircraftType: string;
   category: string;
+  aircraftImage?: string;
 }
 
 /**
