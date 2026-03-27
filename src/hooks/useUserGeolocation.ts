@@ -129,8 +129,8 @@ const COUNTRY_AIRPORT_MAP: Record<string, { iata: string; icao: string; label: s
   "CY": { iata: "LCA", icao: "LCLK", label: "Larnaca (LCLK)" },
 };
 
-const CACHE_KEY = "uj_user_geo";
-const CACHE_TTL = 24 * 60 * 60 * 1000; // 24 hours
+const CACHE_KEY = "uj_user_geo_v2"; // v2: invalidate stale UAE-only caches
+const CACHE_TTL = 4 * 60 * 60 * 1000; // 4 hours
 
 const defaultGeo: UserGeoData = {
   countryCode: "+971",
