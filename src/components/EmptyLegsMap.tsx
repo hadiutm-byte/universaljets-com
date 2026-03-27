@@ -143,13 +143,13 @@ const EmptyLegsMap = () => {
         </motion.div>
 
         {/* Filters + View Toggle */}
-        <motion.div initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} className="flex flex-wrap items-center justify-center gap-3 mb-6">
+        <motion.div initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} className="flex items-center justify-start sm:justify-center gap-2 sm:gap-3 mb-6 overflow-x-auto pb-2 -mx-4 px-4 sm:mx-0 sm:px-0 sm:flex-wrap scrollbar-hide">
           {regions.map((r) => (
             <button
               key={r}
               onClick={() => handleRegionChange(r)}
               disabled={isFetching}
-              className={`px-5 py-2 rounded-full text-[10px] tracking-[0.25em] uppercase font-medium transition-all duration-300 disabled:opacity-60 ${
+              className={`px-4 sm:px-5 py-2.5 rounded-full text-[10px] tracking-[0.2em] sm:tracking-[0.25em] uppercase font-medium transition-all duration-300 disabled:opacity-60 flex-shrink-0 touch-manipulation active:scale-95 min-h-[40px] ${
                 activeRegion === r
                   ? "bg-[hsl(var(--selection))] text-[hsl(var(--selection-foreground))] shadow-[0_4px_12px_-4px_hsla(0,0%,0%,0.3)]"
                   : "border border-border text-foreground/50 hover:text-foreground hover:border-foreground/20"
