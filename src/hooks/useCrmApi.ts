@@ -15,19 +15,30 @@ export function useCrmApi() {
     ): Promise<{ data: T | null; error: string | null }> => {
       const { method = "GET", body, params } = options ?? {};
 
-      const { data, error } = await supabase.functions.invoke(CRM_FUNCTION, {
-        method: "POST",
-        body: {
-          _endpoint: endpoint,
-          _method: method,
-          _params: params,
-          ...body,
-        },
-      });
+      const controller = new AbortController();
+      const timeout = setTimeout(() => controller.abort(), 30_000);
 
-      if (error) return { data: null, error: error.message };
-      if (data?.error) return { data: null, error: data.error };
-      return { data: data as T, error: null };
+      try {
+        const { data, error } = await supabase.functions.invoke(CRM_FUNCTION, {
+          method: "POST",
+          body: {
+            _endpoint: endpoint,
+            _method: method,
+            _params: params,
+            ...body,
+          },
+        });
+
+        clearTimeout(timeout);
+
+        if (error) return { data: null, error: error.message };
+        if (data?.error) return { data: null, error: data.error };
+        return { data: data as T, error: null };
+      } catch (e: any) {
+        clearTimeout(timeout);
+        console.error(`CRM API [${endpoint}] failed:`, e);
+        return { data: null, error: e?.message || "Request failed" };
+      }
     },
     []
   );
