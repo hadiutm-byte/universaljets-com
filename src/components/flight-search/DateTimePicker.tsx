@@ -78,7 +78,13 @@ const MobileDateTimePicker = ({
           {/* Visible display */}
           <button
             type="button"
-            onClick={() => dateRef.current?.showPicker?.() || dateRef.current?.focus()}
+            onClick={() => {
+              if (dateRef.current?.showPicker) {
+                dateRef.current.showPicker();
+              } else {
+                dateRef.current?.focus();
+              }
+            }}
             className={cn(
               "w-full text-left bg-transparent text-[14px] font-normal focus:outline-none cursor-pointer transition-colors duration-200",
               value ? "text-foreground" : "text-muted-foreground/40"
