@@ -2,7 +2,7 @@ import { useState, useMemo } from "react";
 import { useSearchParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
-import { Search, Plane, Users, Clock, Loader2, Shield, Ruler, Gauge, ArrowRight, Calendar, User } from "lucide-react";
+import { Search, Plane, Users, Clock, Loader2, Shield, Ruler, Gauge, ArrowRight, Calendar, User, ChevronDown } from "lucide-react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { toast } from "sonner";
 import { useAuth } from "@/hooks/useAuth";
@@ -15,8 +15,8 @@ const getAnonKey = () => import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY;
 
 const InternalSearchPage = () => {
   const [searchParams] = useSearchParams();
-  const clientId = searchParams.get("client_id") || "";
-  const clientName = searchParams.get("client_name") || "";
+  const preClientId = searchParams.get("client_id") || "";
+  const preClientName = searchParams.get("client_name") || "";
   const { user } = useAuth();
 
   const [fromIcao, setFromIcao] = useState("");
@@ -27,6 +27,32 @@ const InternalSearchPage = () => {
   const [quoteDialog, setQuoteDialog] = useState<{ open: boolean; aircraft?: string; price?: number }>({ open: false });
   const [quoteForm, setQuoteForm] = useState({ price: "", validDays: "7" });
   const [submitting, setSubmitting] = useState(false);
+
+  // Client selector
+  const [clientId, setClientId] = useState(preClientId);
+  const [clientName, setClientName] = useState(preClientName);
+  const [clientSearch, setClientSearch] = useState("");
+  const [clientDropdownOpen, setClientDropdownOpen] = useState(false);
+
+  // Fetch clients for selector
+  const { data: clients } = useQuery({
+    queryKey: ["crm-clients-for-search"],
+    queryFn: async () => {
+      const { data } = await supabase.from("clients").select("id, full_name, email, company").order("full_name").limit(500);
+      return data || [];
+    },
+  });
+
+  const filteredClients = useMemo(() => {
+    if (!clients) return [];
+    if (!clientSearch) return clients.slice(0, 20);
+    const q = clientSearch.toLowerCase();
+    return clients.filter(c =>
+      c.full_name?.toLowerCase().includes(q) ||
+      c.email?.toLowerCase().includes(q) ||
+      c.company?.toLowerCase().includes(q)
+    ).slice(0, 20);
+  }, [clients, clientSearch]);
 
   // Search
   const { data, isLoading } = useQuery({
@@ -62,11 +88,10 @@ const InternalSearchPage = () => {
   };
 
   const handleCreateQuote = async () => {
-    if (!clientId) { toast.error("No client selected"); return; }
+    if (!clientId) { toast.error("Select a client first"); return; }
     if (!quoteForm.price) { toast.error("Price required"); return; }
     setSubmitting(true);
 
-    // First create flight request if needed
     const { data: reqData, error: reqErr } = await supabase.from("flight_requests").insert({
       client_id: clientId,
       departure: fromIcao,
@@ -81,7 +106,6 @@ const InternalSearchPage = () => {
 
     if (reqErr) { toast.error(reqErr.message); setSubmitting(false); return; }
 
-    // Create quote
     const validUntil = new Date();
     validUntil.setDate(validUntil.getDate() + parseInt(quoteForm.validDays || "7"));
 
@@ -109,11 +133,61 @@ const InternalSearchPage = () => {
       {/* Header */}
       <div>
         <h1 className="font-display text-xl">Internal Inventory Search</h1>
-        {clientName && (
+        <p className="text-[11px] text-muted-foreground/50 font-light mt-1">Search flights and generate quotes for clients</p>
+      </div>
+
+      {/* Client Selector */}
+      <div className="rounded-xl border border-border/20 bg-card/50 p-4">
+        <label className={labelClass}>Client</label>
+        <div className="relative">
+          <button
+            type="button"
+            onClick={() => setClientDropdownOpen(!clientDropdownOpen)}
+            className={`${inputClass} text-left flex items-center justify-between cursor-pointer`}
+          >
+            <span className={clientId ? "text-foreground" : "text-muted-foreground/40"}>
+              {clientName || "Select a client..."}
+            </span>
+            <ChevronDown size={14} className="text-muted-foreground/40" />
+          </button>
+          {clientDropdownOpen && (
+            <>
+              <div className="fixed inset-0 z-40" onClick={() => { setClientDropdownOpen(false); setClientSearch(""); }} />
+              <div className="absolute top-full left-0 right-0 mt-1 rounded-xl bg-card border border-border/30 shadow-2xl z-50 overflow-hidden max-w-md">
+                <div className="p-2 border-b border-border/10">
+                  <input
+                    type="text"
+                    placeholder="Search by name, email, or company..."
+                    value={clientSearch}
+                    onChange={(e) => setClientSearch(e.target.value)}
+                    autoFocus
+                    className="w-full px-3 py-2 text-[12px] rounded-lg bg-secondary/30 border border-border/10 text-foreground placeholder:text-muted-foreground/30 focus:outline-none focus:border-primary/30"
+                  />
+                </div>
+                <div className="overflow-y-auto max-h-[200px]">
+                  {filteredClients.map(c => (
+                    <button
+                      key={c.id}
+                      type="button"
+                      onClick={() => { setClientId(c.id); setClientName(c.full_name); setClientDropdownOpen(false); setClientSearch(""); }}
+                      className={`w-full text-left px-3 py-2.5 hover:bg-secondary/40 transition-colors border-b border-border/5 ${c.id === clientId ? "bg-primary/5" : ""}`}
+                    >
+                      <p className="text-[12px] font-medium text-foreground">{c.full_name}</p>
+                      <p className="text-[10px] text-muted-foreground/40">{c.email}{c.company ? ` · ${c.company}` : ""}</p>
+                    </button>
+                  ))}
+                  {filteredClients.length === 0 && <p className="text-center py-4 text-[11px] text-muted-foreground/30">No clients found</p>}
+                </div>
+              </div>
+            </>
+          )}
+        </div>
+        {clientId && (
           <div className="flex items-center gap-2 mt-2">
             <User size={12} className="text-primary/60" />
             <span className="text-[11px] text-muted-foreground font-light">Searching on behalf of:</span>
             <span className="text-[11px] text-foreground font-medium">{clientName}</span>
+            <button onClick={() => { setClientId(""); setClientName(""); }} className="text-[9px] text-destructive/60 hover:text-destructive ml-2">Clear</button>
           </div>
         )}
       </div>
@@ -163,7 +237,7 @@ const InternalSearchPage = () => {
         </div>
       )}
 
-      {/* Results - Internal view shows MORE data than public */}
+      {/* Results */}
       {searchTriggered && !isLoading && results.length === 0 && (
         <div className="text-center py-12 rounded-xl border border-border/20 bg-card/50">
           <Plane className="w-8 h-8 text-muted-foreground/20 mx-auto mb-3" />
@@ -179,7 +253,6 @@ const InternalSearchPage = () => {
               const category = r.aircraft_class || getAircraftCategory(r.aircraft_type);
               const fallbackImage = getAircraftImage(r.aircraft_type);
               const displayImage = r.images?.exterior || fallbackImage;
-
               const flightTimeMin = r.estimated_flight_time_min || (routeInfo ? estimateFlightTimeMin(routeInfo.distanceNm, category, r.speed_kmh) : null);
               const pricing = getCharterPrice({
                 price: r.price, priceCurrency: r.price_currency, priceUnit: r.price_unit,
@@ -188,12 +261,9 @@ const InternalSearchPage = () => {
 
               return (
                 <div key={`${r.id}-${i}`} className="rounded-xl border border-border/20 bg-card/50 p-4 flex gap-4 items-start hover:bg-secondary/20 transition-all">
-                  {/* Thumbnail */}
                   <div className="w-28 h-20 rounded-lg overflow-hidden flex-shrink-0 bg-secondary/30">
                     <img src={displayImage} alt={r.aircraft_type} className="w-full h-full object-cover" loading="lazy" />
                   </div>
-
-                  {/* Info */}
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2 mb-1">
                       <h3 className="text-[14px] font-display font-medium">{r.aircraft_type}</h3>
@@ -219,8 +289,6 @@ const InternalSearchPage = () => {
                       </div>
                     )}
                   </div>
-
-                  {/* Price + Action */}
                   <div className="flex-shrink-0 text-right space-y-2">
                     <div>
                       <p className={`font-display text-[15px] font-semibold ${pricing.variant === "exact" ? "text-primary" : pricing.variant === "estimate" ? "text-foreground" : "text-muted-foreground"}`}>
@@ -228,17 +296,20 @@ const InternalSearchPage = () => {
                       </p>
                       {pricing.variant === "estimate" && <p className="text-[8px] text-muted-foreground/40">estimate</p>}
                     </div>
-                    {clientId && (
-                      <button
-                        onClick={() => {
-                          setQuoteForm({ price: r.price?.toString() || "", validDays: "7" });
-                          setQuoteDialog({ open: true, aircraft: r.aircraft_type, price: r.price });
-                        }}
-                        className="px-4 py-2 bg-gradient-gold text-primary-foreground text-[9px] tracking-[0.15em] uppercase font-medium rounded-lg hover:shadow-[0_0_15px_-4px_hsla(43,74%,49%,0.4)] transition-all flex items-center gap-1.5"
-                      >
-                        Create Quote <ArrowRight size={9} />
-                      </button>
-                    )}
+                    <button
+                      onClick={() => {
+                        if (!clientId) { toast.error("Select a client first to create a quote"); return; }
+                        setQuoteForm({ price: r.price?.toString() || "", validDays: "7" });
+                        setQuoteDialog({ open: true, aircraft: r.aircraft_type, price: r.price });
+                      }}
+                      className={`px-4 py-2 text-[9px] tracking-[0.15em] uppercase font-medium rounded-lg transition-all flex items-center gap-1.5 ${
+                        clientId
+                          ? "bg-gradient-gold text-primary-foreground hover:shadow-[0_0_15px_-4px_hsla(43,74%,49%,0.4)]"
+                          : "bg-secondary/50 text-muted-foreground/40 border border-border/20"
+                      }`}
+                    >
+                      Create Quote <ArrowRight size={9} />
+                    </button>
                   </div>
                 </div>
               );

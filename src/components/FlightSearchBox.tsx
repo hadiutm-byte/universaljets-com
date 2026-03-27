@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import { MapPin, Calendar, Users, Search, ArrowLeftRight, RotateCcw, Plus, X, PlaneTakeoff } from "lucide-react";
+import { MapPin, Calendar, Users, Search, ArrowLeftRight, RotateCcw, Plus, X, PlaneTakeoff, Phone } from "lucide-react";
 import { format } from "date-fns";
 import { useAirportSearch, type Airport } from "@/hooks/useAviapages";
 import { useCrmApi } from "@/hooks/useCrmApi";
@@ -13,6 +13,9 @@ import MobileScrollPicker from "@/components/flight-search/MobileScrollPicker";
 import { trackFlightSearch } from "@/lib/gtmEvents";
 import QuoteRouteMap from "@/components/QuoteRouteMap";
 import { setBodyUiState } from "@/lib/bodyUiState";
+import { getSortedCountryCodes, resolveCountryCode } from "@/lib/countryCodes";
+
+const sortedCodes = getSortedCountryCodes();
 
 type TripType = "one-way" | "round-trip" | "multi-city";
 
@@ -73,6 +76,9 @@ const FlightSearchBox = () => {
   const [passengers, setPassengers] = useState("");
   const [jetSize, setJetSize] = useState("");
   const [attempted, setAttempted] = useState(false);
+  const [phoneCode, setPhoneCode] = useState("+971");
+  const [phoneNumber, setPhoneNumber] = useState("");
+  useEffect(() => { if (geo.countryCode) setPhoneCode(resolveCountryCode(geo.countryCode)); }, [geo.countryCode]);
 
   const showFromError = attempted && !legs[0]?.selectedFrom;
   const showToError = attempted && !legs[0]?.selectedTo;
@@ -151,6 +157,7 @@ const FlightSearchBox = () => {
     try {
       localStorage.setItem(SEARCH_CACHE_KEY, JSON.stringify({ passengers, jetSize, tripType }));
     } catch {}
+    const fullPhone = phoneNumber ? `${phoneCode} ${phoneNumber}` : undefined;
     capture({
       name: "Website Visitor",
       email: "search@universaljets.com",
@@ -159,6 +166,7 @@ const FlightSearchBox = () => {
       date: primaryLeg.date ? format(primaryLeg.date, "yyyy-MM-dd'T'HH:mm") : undefined,
       passengers: passengers || "1",
       source: "homepage_widget",
+      ...(fullPhone ? { phone: fullPhone } : {}),
     }).catch(() => {}); // Silent — don't block search
 
     const params = new URLSearchParams({
@@ -269,8 +277,8 @@ const FlightSearchBox = () => {
                 <DateTimePicker label="Return" icon={RotateCcw} value={returnDate} onChange={setReturnDate} disabled={tripType !== "round-trip"} placeholder={tripType === "round-trip" ? "Select date" : "—"} />
               </div>
 
-              {/* Row 2: Passengers / Jet Size / CTA */}
-              <div className="grid grid-cols-2 md:grid-cols-[1fr_1fr_auto] gap-3">
+              {/* Row 2: Passengers / Jet Size / Phone / CTA */}
+              <div className="grid grid-cols-2 md:grid-cols-[1fr_1fr_1.5fr_auto] gap-3">
                 {isMobile ? (
                   <>
                     <MobileScrollPicker
@@ -293,6 +301,18 @@ const FlightSearchBox = () => {
                       value={jetSize}
                       onChange={setJetSize}
                     />
+                    {/* Phone field (mobile) */}
+                    <div className="col-span-2 search-field">
+                      <label className="search-label">
+                        <Phone size={10} strokeWidth={1.5} /> Phone <span className="text-muted-foreground/30 font-normal">(optional)</span>
+                      </label>
+                      <div className="flex gap-1.5">
+                        <select value={phoneCode} onChange={(e) => setPhoneCode(e.target.value)} className="search-select !w-[85px] flex-shrink-0">
+                          {sortedCodes.map((c) => <option key={`${c.iso}-${c.code}`} value={c.code} className="bg-background">{c.flag} {c.code}</option>)}
+                        </select>
+                        <input type="tel" value={phoneNumber} onChange={(e) => setPhoneNumber(e.target.value)} placeholder="Phone / WhatsApp" maxLength={15} className="search-input flex-1 min-w-0" />
+                      </div>
+                    </div>
                   </>
                 ) : (
                   <>
@@ -325,6 +345,19 @@ const FlightSearchBox = () => {
                           <option key={s.value} value={s.value} className="bg-background">{s.label}</option>
                         ))}
                       </select>
+                    </div>
+
+                    {/* Phone field (desktop) */}
+                    <div className="search-field">
+                      <label className="search-label">
+                        <Phone size={10} strokeWidth={1.5} /> Phone <span className="text-muted-foreground/30 font-normal">(optional)</span>
+                      </label>
+                      <div className="flex gap-1.5">
+                        <select value={phoneCode} onChange={(e) => setPhoneCode(e.target.value)} className="search-select !w-[85px] flex-shrink-0">
+                          {sortedCodes.map((c) => <option key={`${c.iso}-${c.code}`} value={c.code} className="bg-background">{c.flag} {c.code}</option>)}
+                        </select>
+                        <input type="tel" value={phoneNumber} onChange={(e) => setPhoneNumber(e.target.value)} placeholder="Phone / WhatsApp" maxLength={15} className="search-input flex-1 min-w-0" />
+                      </div>
                     </div>
                   </>
                 )}
