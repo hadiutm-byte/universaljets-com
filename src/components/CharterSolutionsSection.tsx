@@ -130,7 +130,7 @@ const charterCategories: CharterCategory[] = [
     title: "Group Charter",
     tagline: "12 to 200+ passengers. Six continents.",
     slug: "group",
-    image: "https://d2xsxph8kpxj0f.cloudfront.net/310519663441238946/F94ypwks3ADk2wFrxZVnWB/group-charter-boarding_c6a14ad9.jpg",
+    image: groupImg,
     icon: Shield,
     justification:
       "Airlines sell seats — we sell solutions. Sports teams, corporate delegations, concert tours, and pilgrimages require coordinated scheduling, ground handling, and catering that commercial carriers can't customize. We've moved 50,000+ passengers including FIFA World Cup 2022.",
