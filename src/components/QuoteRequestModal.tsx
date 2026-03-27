@@ -287,7 +287,7 @@ const QuoteRequestModal = ({ open, onClose, flightData }: QuoteRequestModalProps
   const handleSubmit = async () => {
     setSubmitting(true);
     try {
-      await capture({
+      const result = await capture({
         name: form.name,
         email: form.email,
         phone: buildFullPhone(phoneCode, phoneNumber),
@@ -300,8 +300,12 @@ const QuoteRequestModal = ({ open, onClose, flightData }: QuoteRequestModalProps
         source: "search_results_quote",
         specific_aircraft: flightData.aircraft || undefined,
       });
+      if (result?.error) {
+        console.error("Quote capture error:", result.error);
+      }
       setStep(4);
-    } catch {
+    } catch (err) {
+      console.error("Quote submission failed:", err);
       setStep(4);
     } finally {
       setSubmitting(false);
