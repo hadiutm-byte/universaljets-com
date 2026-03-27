@@ -107,25 +107,15 @@ const HeroSection = () => {
         />
 
         {/* Headline */}
-        <motion.h1
-          initial={{ opacity: 0, y: 20 }}
+        <motion.p
+          initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1.4, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}
-          className="font-display font-semibold text-white/95 leading-[1.05] tracking-[0.08em] uppercase"
-          style={{
-            fontSize: "clamp(1.6rem, 5.5vw, 4.2rem)",
-            textShadow: "0 2px 30px hsla(0, 0%, 0%, 0.5)",
-          }}
+          transition={{ duration: 1.2, delay: 0.5 }}
+          className="font-display tracking-[0.35em] md:tracking-[0.65em] uppercase text-white/95 font-semibold"
+          style={{ fontSize: "clamp(1.4rem, 5vw, 4.5rem)", textShadow: "0 0 15px hsl(43, 85%, 42%)" }}
         >
-          Private Aviation
-          <br />
-          <span
-            className="font-light italic tracking-[0.12em]"
-            style={{ color: "hsl(43, 85%, 68%)" }}
-          >
-            Redefined
-          </span>
-        </motion.h1>
+          Private Aviation Redefined
+        </motion.p>
 
         {/* Gold divider */}
         <motion.div
