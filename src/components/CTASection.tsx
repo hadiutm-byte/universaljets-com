@@ -253,7 +253,7 @@ const CTASection = () => {
       <div className="py-20 md:py-28">
         <div className="container mx-auto px-8">
           <FadeReveal className="max-w-3xl mx-auto">
-            <p className="text-[9px] tracking-[0.5em] uppercase text-primary/40 mb-6 font-light text-center">Transparent Process</p>
+            <p className="text-[9px] tracking-[0.5em] uppercase text-primary/55 mb-6 font-light text-center">Transparent Process</p>
             <h3 className="text-2xl md:text-4xl font-display font-semibold text-foreground text-center mb-14">
               What Happens <span className="text-gradient-gold italic font-medium">Next</span>
             </h3>
