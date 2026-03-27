@@ -96,12 +96,22 @@ const EmptyLegPopup = ({ leg, onClose }: EmptyLegPopupProps) => {
   return (
     <AnimatePresence>
       {leg && (
-        <motion.div
-          initial={{ opacity: 0, scale: 0.95 }}
-          animate={{ opacity: 1, scale: 1 }}
-          exit={{ opacity: 0, scale: 0.95 }}
-          className="fixed inset-0 m-auto w-[calc(100%-1.5rem)] max-w-md h-fit max-h-[calc(100dvh-2rem)] md:absolute md:inset-auto md:right-8 md:top-8 md:w-96 md:max-h-[calc(100%-2rem)] bg-card border border-border rounded-2xl shadow-xl overflow-hidden z-30 overflow-y-auto"
-        >
+        <>
+          {/* Backdrop overlay */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={onClose}
+            className="fixed inset-0 bg-black/50 backdrop-blur-sm z-[29]"
+          />
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.95 }}
+            className="fixed inset-0 z-30 flex items-center justify-center p-4 pointer-events-none"
+          >
+            <div className="w-full max-w-md max-h-[calc(100dvh-2rem)] bg-card border border-border rounded-2xl shadow-xl overflow-hidden overflow-y-auto pointer-events-auto">
           {/* Gallery */}
           <div className="relative h-40 overflow-hidden">
             <AircraftGallery
