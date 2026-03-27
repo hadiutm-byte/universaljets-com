@@ -98,7 +98,6 @@ const charterCategories: CharterCategory[] = [
     aircraft: [
       { name: "Boeing 737-800 Freighter", link: "/fleet" },
       { name: "Antonov AN-12 Cargo", link: "/fleet" },
-      { name: "Airbus A330 Freighter", link: "/fleet" },
       { name: "Boeing 747 Cargo", link: "/fleet" },
     ],
   },
