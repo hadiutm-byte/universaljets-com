@@ -128,11 +128,26 @@ serve(async (req) => {
         if (aircraft.bed || aircraft.has_bed || aircraft.sleeping_places) amenities.push('Sleeping');
         if (aircraft.baggage_compartment) amenities.push('Baggage Hold');
 
-        // ── Pricing ──
-        const price = aircraft.price ?? aircraft.charter_price ?? null;
-        const priceCurrency = aircraft.currency_code || aircraft.currency || company.currency || 'USD';
-        const priceUnit = aircraft.price_unit || aircraft.pricing_type || null; // e.g. 'per_hour', 'total'
-        const estimatedFlightTime = aircraft.flight_time ?? aircraft.estimated_flight_time ?? null;
+        // ── Pricing — defensive multi-field extraction ──
+        const price =
+          toFiniteNum(aircraft.price) ??
+          toFiniteNum(aircraft.charter_price) ??
+          toFiniteNum(aircraft.price_total) ??
+          toFiniteNum(aircraft.total_price) ??
+          toFiniteNum(aircraft.amount) ??
+          null;
+
+        const priceCurrency =
+          aircraft.currency_code ||
+          aircraft.currency ||
+          aircraft.price_currency ||
+          company.currency ||
+          'USD';
+
+        const priceUnit =
+          aircraft.price_unit ||
+          aircraft.pricing_type ||
+          (price ? 'total' : null);
 
         results.push({
           id: aircraft.id,
