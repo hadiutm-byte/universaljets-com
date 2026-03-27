@@ -32,11 +32,18 @@ const fallbackLegs: EmptyLeg[] = [
 ];
 
 const EmptyLegsMap = () => {
+  const isMobile = useIsMobile();
   const [selectedLeg, setSelectedLeg] = useState<EmptyLeg | null>(null);
   const [activeRegion, setActiveRegion] = useState("All");
-  const [viewMode, setViewMode] = useState<"cards" | "map">("map");
+  const [viewMode, setViewMode] = useState<"cards" | "map">(isMobile ? "cards" : "map");
   const [refreshing, setRefreshing] = useState(false);
   const [lastUpdated, setLastUpdated] = useState<Date>(new Date());
+
+  // Hide floating CTAs while user is browsing empty legs
+  useEffect(() => {
+    setBodyUiState("empty-legs-active", true);
+    return () => setBodyUiState("empty-legs-active", false);
+  }, []);
 
   // React Query keyed by region — cache is per-region, no cross-contamination
   const { data, isLoading, error, refetch, isFetching } = useEmptyLegs(activeRegion);
