@@ -46,7 +46,7 @@ const HeroSection = () => {
 
       {/* Content */}
       <motion.div
-        className="relative z-10 container mx-auto px-6 text-center flex flex-col items-center pt-20 pb-20"
+        className="relative z-10 container mx-auto px-6 text-center flex flex-col items-center pt-8 pb-20"
         style={{ opacity: contentOpacity, y: contentY }}
       >
         {/* Gold accent line — bolder and taller */}
