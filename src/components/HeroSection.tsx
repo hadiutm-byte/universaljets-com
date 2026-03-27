@@ -49,51 +49,23 @@ const HeroSection = () => {
         className="relative z-10 container mx-auto px-6 text-center flex flex-col items-center pt-36 pb-20"
         style={{ opacity: contentOpacity, y: contentY }}
       >
-        {/* Gold accent line */}
+        {/* Gold accent line — bolder and taller */}
         <motion.div
           initial={{ opacity: 0, scaleY: 0 }}
           animate={{ opacity: 1, scaleY: 1 }}
           transition={{ duration: 1.6, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
-          className="w-[1px] h-16 bg-gradient-to-b from-transparent via-primary/80 to-transparent mb-10 origin-top"
+          className="w-[2px] h-20 bg-gradient-to-b from-transparent via-primary to-transparent mb-8 origin-top"
         />
 
-        {/* Eyebrow — "Private Aviation Redefined" */}
+        {/* Eyebrow — "Private Aviation Redefined" — moved up */}
         <motion.p
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1.2, delay: 0.5 }}
-          className="font-display text-[10px] md:text-[12px] tracking-[0.65em] uppercase text-white/95 mb-14 font-semibold"
+          className="font-display text-[11px] md:text-[13px] tracking-[0.65em] uppercase text-white/95 mb-6 font-semibold"
           style={{ textShadow: "0 0 30px hsla(0,0%,100%,0.15), 0 2px 12px hsla(0,0%,0%,0.8)" }}
         >
           Private Aviation Redefined
-        </motion.p>
-
-        {/* Main headline */}
-        <motion.h1
-          initial={{ opacity: 0, y: 45 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1.4, delay: 0.7, ease: [0.16, 1, 0.3, 1] }}
-          className="font-display leading-[0.95] tracking-[-0.01em] mb-4"
-        >
-          <span
-            className="block text-fluid-hero font-semibold text-white"
-            style={{ textShadow: "0 4px 40px hsla(0,0%,0%,0.8), 0 1px 0 hsla(0,0%,100%,0.03)" }}
-          >
-            Private Aviation.
-          </span>
-        </motion.h1>
-
-        {/* "Without Limits" — extrabold italic with layered gold glow */}
-        <motion.p
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1.4, delay: 0.85, ease: [0.16, 1, 0.3, 1] }}
-          className="font-display font-extrabold italic tracking-[-0.01em] mb-10 glow-pulse-gold"
-          style={{
-            fontSize: "clamp(2rem, 1rem + 5vw, 5.2rem)",
-          }}
-        >
-          Without Limits.
         </motion.p>
 
         {/* Subtext */}
