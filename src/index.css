@@ -1006,6 +1006,16 @@ html {
   animation: hero-ken-burns 25s ease-in-out infinite;
 }
 
+/* Floating orb animation */
+@keyframes hero-orb-float {
+  0%   { transform: translate(0, 0) scale(1); }
+  50%  { transform: translate(30px, -40px) scale(1.15); }
+  100% { transform: translate(0, 0) scale(1); }
+}
+.animate-hero-orb {
+  animation: hero-orb-float 6s ease-in-out infinite alternate;
+}
+
 /* Animated cloud layers for hero */
 @keyframes cloud-drift-1 {
   0% { transform: translateX(-5%) translateY(0); opacity: 0.03; }
