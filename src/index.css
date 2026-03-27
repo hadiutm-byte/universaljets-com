@@ -51,9 +51,9 @@ html {
 
     --radius: 0.75rem;
 
-    --gold: 43 74% 49%;               /* Cinematic gold */
-    --gold-light: 43 85% 58%;         /* "Without Limits" highlight tone */
-    --gold-dark: 43 74% 38%;          /* Deeper gold for borders/accents */
+    --gold: 43 85% 58%;               /* Cinematic gold */
+    --gold-light: 43 90% 65%;         /* Lighter highlight glow */
+    --gold-dark: 43 80% 45%;          /* Deeper gold for borders/accents */
     --charcoal: 0 0% 7%;              /* #121212 */
     --charcoal-deep: 0 0% 4%;          /* #0A0A0A */
     --midnight: 0 0% 4%;
