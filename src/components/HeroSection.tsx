@@ -49,12 +49,12 @@ const HeroSection = () => {
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_30%,hsla(0,0%,2%,0.55)_100%)]" />
       </div>
 
-      {/* Content */}
+      {/* Upper Content — Private Aviation Redefined */}
       <motion.div
-        className="relative z-10 container mx-auto px-6 text-center flex flex-col items-center pt-8 pb-20"
+        className="relative z-10 container mx-auto px-6 text-center flex flex-col items-center pt-8"
         style={{ opacity: contentOpacity, y: contentY }}
       >
-        {/* Gold accent line — bolder and taller */}
+        {/* Gold accent line */}
         <motion.div
           initial={{ opacity: 0, scaleY: 0 }}
           animate={{ opacity: 1, scaleY: 1 }}
@@ -62,31 +62,30 @@ const HeroSection = () => {
           className="w-[2px] h-20 bg-gradient-to-b from-transparent via-primary to-transparent mb-8 origin-top"
         />
 
-        {/* Eyebrow — "Private Aviation Redefined" — moved up */}
         <motion.p
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1.2, delay: 0.5 }}
-          className="font-display text-[11px] md:text-[13px] tracking-[0.65em] uppercase text-white/95 mb-6 font-semibold -mt-4"
+          className="font-display text-[11px] md:text-[13px] tracking-[0.65em] uppercase text-white/95 font-semibold -mt-4"
           style={{ textShadow: "0 0 30px hsla(0,0%,100%,0.15), 0 2px 12px hsla(0,0%,0%,0.8)" }}
         >
           Private Aviation Redefined
         </motion.p>
+      </motion.div>
 
-        {/* Subtext */}
-        <motion.div
-          initial={{ opacity: 0, y: 18 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1.2, delay: 0.95 }}
-          className="max-w-lg mx-auto mt-6"
+      {/* Lower Content — Global access (below aircraft, near bottom) */}
+      <motion.div
+        initial={{ opacity: 0, y: 18 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 1.2, delay: 0.95 }}
+        className="absolute bottom-28 left-0 right-0 z-10 text-center"
+      >
+        <p
+          className="font-display text-[13px] md:text-[15px] text-white/80 font-semibold leading-[1.8] tracking-[0.18em] uppercase"
+          style={{ textShadow: "0 2px 20px hsla(0,0%,0%,0.8)" }}
         >
-          <p
-            className="font-display text-[13px] md:text-[15px] text-white/80 font-semibold leading-[1.8] tracking-[0.18em] uppercase"
-            style={{ textShadow: "0 2px 20px hsla(0,0%,0%,0.8)" }}
-          >
-            Global access · Instant quotes · Tailored journeys
-          </p>
-        </motion.div>
+          Global access · Instant quotes · Tailored journeys
+        </p>
       </motion.div>
 
       {/* Scroll indicator */}
