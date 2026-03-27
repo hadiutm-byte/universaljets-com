@@ -86,7 +86,7 @@ Deno.serve(async (req) => {
 
     if (reqErr) throw reqErr;
 
-    // 4. Send notification email
+    // 4. Send notification email to team
     try {
       const subjectPrefix = serviceType
         ? `🚨 SERVICE LEAD: ${serviceType.toUpperCase()}`
@@ -114,6 +114,28 @@ Deno.serve(async (req) => {
       });
     } catch (emailErr) {
       console.error("Notification email failed:", emailErr);
+    }
+
+    // 5. Send confirmation email to the client
+    try {
+      await supabase.functions.invoke("send-transactional-email", {
+        body: {
+          templateName: "request-confirmation",
+          recipientEmail: email,
+          idempotencyKey: `request-confirm-${flightReq.id}`,
+          templateData: {
+            name,
+            departure: departure || "",
+            destination: destination || "",
+            date: date || "",
+            passengers: passengers || "",
+            source: leadSource,
+            aircraft: body.specific_aircraft || body.aircraft || "",
+          },
+        },
+      });
+    } catch (confirmErr) {
+      console.error("Confirmation email failed:", confirmErr);
     }
 
     return new Response(
