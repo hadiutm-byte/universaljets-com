@@ -3,11 +3,18 @@ import { motion, useScroll, useTransform } from "framer-motion";
 import heroJet from "@/assets/hero-jet.jpg";
 
 const SERVICE_LABELS = [
-  { label: "On-Demand Charter", angle: -45, delay: 1.2 },
-  { label: "Empty Legs", angle: 45, delay: 1.4 },
-  { label: "Concierge & Beyond", angle: 225, delay: 1.6 },
-  { label: "Aircraft Management", angle: 135, delay: 1.8 },
+  { label: "On-Demand Charter", position: "top" as const, delay: 1.2 },
+  { label: "Empty Legs", position: "right" as const, delay: 1.4 },
+  { label: "Aircraft Management", position: "bottom" as const, delay: 1.6 },
+  { label: "Concierge & Beyond", position: "left" as const, delay: 1.8 },
 ];
+
+const LABEL_POSITIONS: Record<string, string> = {
+  top: "left-1/2 -translate-x-1/2 -top-10",
+  right: "top-1/2 -translate-y-1/2 -right-12 translate-x-full",
+  bottom: "left-1/2 -translate-x-1/2 -bottom-10",
+  left: "top-1/2 -translate-y-1/2 -left-12 -translate-x-full",
+};
 
 const HeroSection = () => {
   const ref = useRef<HTMLElement>(null);
@@ -47,7 +54,7 @@ const HeroSection = () => {
         }}
       />
 
-      {/* Subtle vignette */}
+      {/* Vignette */}
       <div
         className="absolute inset-0 pointer-events-none"
         style={{
@@ -55,37 +62,40 @@ const HeroSection = () => {
         }}
       />
 
-      {/* Central content with orbital ring */}
+      {/* Central content */}
       <motion.div
         className="relative z-10 flex flex-col items-center justify-center text-center px-6"
         style={{ opacity: contentOpacity, y: contentY }}
       >
-        {/* Orbital ring */}
-        <div className="absolute hero-orbit-ring">
+        {/* Orbital ring + floating labels (desktop) */}
+        <div className="absolute hidden md:flex items-center justify-center">
           <motion.div
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 2, delay: 0.8, ease: [0.16, 1, 0.3, 1] }}
-            className="w-[280px] h-[280px] md:w-[420px] md:h-[420px] lg:w-[520px] lg:h-[520px] rounded-full border border-white/[0.07]"
-            style={{ boxShadow: "0 0 60px 10px hsla(43, 85%, 58%, 0.03)" }}
-          />
-        </div>
-
-        {/* Floating service labels */}
-        {SERVICE_LABELS.map(({ label, angle, delay }) => (
-          <motion.span
-            key={label}
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 1.2, delay, ease: [0.16, 1, 0.3, 1] }}
-            className="absolute text-[9px] md:text-[10px] tracking-[0.25em] uppercase text-white/40 font-light pointer-events-none whitespace-nowrap hidden md:block"
-            style={{
-              transform: `rotate(${angle}deg) translateY(-${window.innerWidth >= 1024 ? 290 : 240}px) rotate(-${angle}deg)`,
-            }}
+            className="relative w-[420px] lg:w-[520px] h-[420px] lg:h-[520px] rounded-full border border-white/[0.06]"
+            style={{ boxShadow: "0 0 80px 10px hsla(43, 85%, 58%, 0.03)" }}
           >
-            {label}
-          </motion.span>
-        ))}
+            {/* Orbiting dot accent */}
+            <div
+              className="absolute w-2 h-2 rounded-full top-0 left-1/2 -translate-x-1/2 -translate-y-1/2"
+              style={{ background: "hsl(43, 85%, 58%)", boxShadow: "0 0 12px 3px hsla(43, 85%, 58%, 0.4)" }}
+            />
+
+            {/* Service labels positioned around the ring */}
+            {SERVICE_LABELS.map(({ label, position, delay }) => (
+              <motion.span
+                key={label}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 1.2, delay, ease: "easeOut" }}
+                className={`absolute text-[9px] lg:text-[10px] tracking-[0.25em] uppercase text-white/35 font-light pointer-events-none whitespace-nowrap ${LABEL_POSITIONS[position]}`}
+              >
+                {label}
+              </motion.span>
+            ))}
+          </motion.div>
+        </div>
 
         {/* Gold accent dot */}
         <motion.div
@@ -117,7 +127,7 @@ const HeroSection = () => {
           </span>
         </motion.h1>
 
-        {/* Thin gold divider */}
+        {/* Gold divider */}
         <motion.div
           initial={{ scaleX: 0 }}
           animate={{ scaleX: 1 }}
@@ -148,7 +158,7 @@ const HeroSection = () => {
           {SERVICE_LABELS.map(({ label }) => (
             <span
               key={label}
-              className="text-[8px] tracking-[0.2em] uppercase text-white/30 font-light"
+              className="text-[8px] tracking-[0.2em] uppercase text-white/25 font-light"
             >
               {label}
             </span>
