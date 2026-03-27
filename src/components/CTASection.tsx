@@ -116,8 +116,8 @@ const CTASection = () => {
                   <span className="text-[10px] font-display font-semibold text-primary/70">R</span>
                 </div>
                 <div>
-                  <p className="text-[10px] tracking-[0.2em] uppercase text-primary/40 font-light mb-2">Ricky — Senior Aviation Advisor</p>
-                  <p className="text-[13px] text-foreground/60 font-light leading-[1.9]">
+                  <p className="text-[10px] tracking-[0.2em] uppercase text-primary/50 font-light mb-2">Ricky — Senior Aviation Advisor</p>
+                  <p className="text-[13px] text-foreground/70 font-light leading-[1.9]">
                     "You don't need to fill forms.<br />Tell me what you need — I'll handle the rest."
                   </p>
                 </div>
