@@ -10,7 +10,7 @@ const MembershipBanner = ({ onRequestInvitation }: MembershipBannerProps) => (
     initial={{ opacity: 0, y: -20 }}
     animate={{ opacity: 1, y: 0 }}
     transition={{ duration: 0.8, delay: 0.1 }}
-    className="fixed top-0 left-0 right-0 z-[60] bg-[hsl(220,10%,8%)] h-9 flex items-center justify-center px-4 border-b border-[hsla(43,85%,58%,0.1)]"
+    className="fixed top-0 left-0 right-0 z-[60] h-9 flex items-center justify-center px-4 border-b border-[hsla(43,85%,58%,0.15)] membership-banner-shimmer"
   >
     {/* Mobile: tappable */}
     <button onClick={onRequestInvitation} className="flex items-center gap-3 sm:hidden cursor-pointer">
