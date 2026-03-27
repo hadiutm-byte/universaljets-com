@@ -23,10 +23,14 @@ const BLOCKED_IMAGE_TYPES = new Set(["tail", "registration"]);
 
 // ── Public sanitisation helpers ─────────────────────────────────────────────
 
-/** Strip bracketed registration from an aircraft display name. */
+/** Strip bracketed registration and standalone registration from an aircraft display name. */
 export function sanitizeAircraftName(name: string | null | undefined): string {
   if (!name) return "Private Jet";
-  return name.replace(REG_IN_PARENS, "").trim() || "Private Jet";
+  return name
+    .replace(REG_IN_PARENS, " ")
+    .replace(REG_STANDALONE, " ")
+    .replace(/\s{2,}/g, " ")
+    .trim() || "Private Jet";
 }
 
 /** Remove any standalone registration code from a generic text field. */
