@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { MapPin, FileCheck, Mail, Clock, Send, Shield, Globe, MessageCircle } from "lucide-react";
 import { Link } from "react-router-dom";
@@ -7,6 +7,8 @@ import { toast } from "sonner";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import SEOHead from "@/components/SEOHead";
+import useUserGeolocation from "@/hooks/useUserGeolocation";
+import PhoneWithCountryCode, { buildFullPhone, resolveCountryCode } from "@/components/forms/PhoneWithCountryCode";
 import {
   PremiumInput, PremiumSelect, PremiumTextarea,
   FormSection, LegalConsent, PremiumSubmitButton,
@@ -23,10 +25,18 @@ const fadeUp = {
 };
 
 const ContactPage = () => {
-  const [form, setForm] = useState({ name: "", email: "", phone: "", inquiry: "", message: "" });
+  const geo = useUserGeolocation();
+  const [form, setForm] = useState({ name: "", email: "", countryCode: "+971", phone: "", inquiry: "", message: "" });
   const [loading, setLoading] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [termsAccepted, setTermsAccepted] = useState(false);
+
+  const resolvedCode = resolveCountryCode(geo.countryCode);
+  useEffect(() => {
+    if (form.countryCode === "+971" && resolvedCode !== "+971") {
+      setForm((p) => p.countryCode === "+971" ? { ...p, countryCode: resolvedCode } : p);
+    }
+  }, [resolvedCode]);
 
   const update = (field: string, value: string) => setForm((p) => ({ ...p, [field]: value }));
 
@@ -45,7 +55,7 @@ const ContactPage = () => {
         body: {
           name: form.name.trim(),
           email: form.email.trim(),
-          phone: form.phone.trim(),
+          phone: buildFullPhone(form.countryCode, form.phone.trim()) || form.phone.trim(),
           departure: form.inquiry || "General Inquiry",
           destination: "Contact Form",
           source: "contact_page",
@@ -171,7 +181,7 @@ const ContactPage = () => {
                       <PremiumInput label="Email" required type="email" value={form.email} onChange={(e) => update("email", e.target.value)} placeholder="you@example.com" maxLength={255} />
                     </div>
                     <div className="grid sm:grid-cols-2 gap-5">
-                      <PremiumInput label="Phone / WhatsApp" type="tel" value={form.phone} onChange={(e) => update("phone", e.target.value)} placeholder="+971 50 000 0000" maxLength={20} />
+                      <PhoneWithCountryCode phone={form.phone} onPhoneChange={(v) => update("phone", v)} countryCode={form.countryCode} onCountryCodeChange={(v) => update("countryCode", v)} />
                       <PremiumSelect label="Inquiry Type" value={form.inquiry} onChange={(e) => update("inquiry", e.target.value)}>
                         <option value="">Select...</option>
                         {inquiryTypes.map((t) => <option key={t} value={t}>{t}</option>)}

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Check, Lock, Repeat, Globe, Plane, Shield, ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
@@ -7,6 +7,8 @@ import Footer from "@/components/Footer";
 import SEOHead from "@/components/SEOHead";
 import { useCrmApi } from "@/hooks/useCrmApi";
 import { toast } from "sonner";
+import useUserGeolocation from "@/hooks/useUserGeolocation";
+import PhoneWithCountryCode, { buildFullPhone, resolveCountryCode } from "@/components/forms/PhoneWithCountryCode";
 import {
   PremiumInput, PremiumSelect, PremiumTextarea,
   FormSection, LegalConsent, ConfidentialityNotice,
@@ -28,8 +30,10 @@ const JetCardInquiryPage = () => {
   const [loading, setLoading] = useState(false);
   const { capture } = useCrmApi();
 
+  const geo = useUserGeolocation();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
+  const [countryCode, setCountryCode] = useState("+971");
   const [phone, setPhone] = useState("");
   const [company, setCompany] = useState("");
   const [plan, setPlan] = useState("");
@@ -41,7 +45,15 @@ const JetCardInquiryPage = () => {
   const [termsAccepted, setTermsAccepted] = useState(false);
   const [marketingConsent, setMarketingConsent] = useState(false);
 
+  const resolvedCode = resolveCountryCode(geo.countryCode);
+  useEffect(() => {
+    if (countryCode === "+971" && resolvedCode !== "+971") {
+      setCountryCode(resolvedCode);
+    }
+  }, [resolvedCode]);
+
   const canSubmit = name && email && termsAccepted;
+
 
   const handleSubmit = async () => {
     if (!canSubmit) return;
@@ -50,7 +62,7 @@ const JetCardInquiryPage = () => {
     try {
       await capture({
         name, email,
-        phone: phone || undefined,
+        phone: buildFullPhone(countryCode, phone),
         company: company || undefined,
         departure: regions || "N/A",
         destination: "Jet Card Inquiry",
@@ -130,7 +142,7 @@ const JetCardInquiryPage = () => {
                           <PremiumInput label="Email" required type="email" value={email} onChange={e => setEmail(e.target.value)} placeholder="alex@example.com" maxLength={255} />
                         </div>
                         <div className="grid sm:grid-cols-2 gap-4">
-                          <PremiumInput label="Phone / WhatsApp" type="tel" value={phone} onChange={e => setPhone(e.target.value)} placeholder="+971 50 000 0000" maxLength={20} />
+                          <PhoneWithCountryCode phone={phone} onPhoneChange={setPhone} countryCode={countryCode} onCountryCodeChange={setCountryCode} />
                           <PremiumInput label="Company" value={company} onChange={e => setCompany(e.target.value)} placeholder="Optional" maxLength={100} />
                         </div>
                       </FormSection>

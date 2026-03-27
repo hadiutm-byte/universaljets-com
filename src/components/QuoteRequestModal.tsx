@@ -1,6 +1,8 @@
 import { useState, useCallback, useMemo, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, Plane, Calendar, Users, ArrowRight, CheckCircle, MessageCircle, MapPin, Clock, Shield, Navigation, Loader2 } from "lucide-react";
+import useUserGeolocation from "@/hooks/useUserGeolocation";
+import PhoneWithCountryCode, { buildFullPhone, resolveCountryCode } from "@/components/forms/PhoneWithCountryCode";
 import MembershipUpsell from "@/components/MembershipUpsell";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -165,14 +167,17 @@ const formatAirportDisplay = (airport: Airport) => {
 };
 
 const QuoteRequestModal = ({ open, onClose, flightData }: QuoteRequestModalProps) => {
+  const geo = useUserGeolocation();
   const [step, setStep] = useState<Step>(1);
   const [submitting, setSubmitting] = useState(false);
   const { capture } = useCrmApi();
 
+  const [phoneCode, setPhoneCode] = useState("+971");
+  const [phoneNumber, setPhoneNumber] = useState("");
+
   const [form, setForm] = useState({
     name: "",
     email: "",
-    phone: "",
     notes: "",
     departure: flightData.fromLabel,
     destination: flightData.toLabel,
@@ -180,6 +185,11 @@ const QuoteRequestModal = ({ open, onClose, flightData }: QuoteRequestModalProps
     passengers: flightData.passengers || "1",
     aircraft: flightData.aircraft || "",
   });
+
+  const resolvedCode = resolveCountryCode(geo.countryCode);
+  useEffect(() => {
+    if (phoneCode === "+971" && resolvedCode !== "+971") setPhoneCode(resolvedCode);
+  }, [resolvedCode]);
 
   const [fromQuery, setFromQuery] = useState(flightData.fromLabel);
   const [toQuery, setToQuery] = useState(flightData.toLabel);
@@ -194,7 +204,6 @@ const QuoteRequestModal = ({ open, onClose, flightData }: QuoteRequestModalProps
     setForm({
       name: "",
       email: "",
-      phone: "",
       notes: "",
       departure: flightData.fromLabel,
       destination: flightData.toLabel,
@@ -202,6 +211,8 @@ const QuoteRequestModal = ({ open, onClose, flightData }: QuoteRequestModalProps
       passengers: flightData.passengers || "1",
       aircraft: flightData.aircraft || "",
     });
+    setPhoneNumber("");
+    setPhoneCode(resolvedCode);
     setFromQuery(flightData.fromLabel);
     setToQuery(flightData.toLabel);
     setSelectedFromAirport(buildFallbackAirport(flightData.fromLabel, flightData.fromIcao));
@@ -271,7 +282,7 @@ const QuoteRequestModal = ({ open, onClose, flightData }: QuoteRequestModalProps
       await capture({
         name: form.name,
         email: form.email,
-        phone: form.phone || undefined,
+        phone: buildFullPhone(phoneCode, phoneNumber),
         departure: form.departure,
         destination: form.destination,
         date: form.date || undefined,
@@ -520,17 +531,12 @@ const QuoteRequestModal = ({ open, onClose, flightData }: QuoteRequestModalProps
                     maxLength={255}
                   />
                 </div>
-                <div className="space-y-1.5">
-                  <Label className="text-[10px] tracking-[0.15em] uppercase text-muted-foreground font-medium">Phone / WhatsApp</Label>
-                  <Input
-                    type="tel"
-                    value={form.phone}
-                    onChange={(e) => updateField("phone", e.target.value)}
-                    placeholder="+44 7000 000 000"
-                    className="h-11 text-[13px] bg-muted/20 border-border/30 rounded-xl font-light"
-                    maxLength={30}
-                  />
-                </div>
+                <PhoneWithCountryCode
+                  phone={phoneNumber}
+                  onPhoneChange={setPhoneNumber}
+                  countryCode={phoneCode}
+                  onCountryCodeChange={setPhoneCode}
+                />
                 <div className="space-y-1.5">
                   <Label className="text-[10px] tracking-[0.15em] uppercase text-muted-foreground font-medium">Additional Notes</Label>
                   <Textarea
@@ -607,7 +613,7 @@ const QuoteRequestModal = ({ open, onClose, flightData }: QuoteRequestModalProps
                   <p className="text-[9px] tracking-[0.3em] uppercase text-primary/70 font-medium mb-2">Contact</p>
                   <p className="text-[13px] text-foreground font-light">{form.name}</p>
                   <p className="text-[11px] text-muted-foreground font-light">{form.email}</p>
-                  {form.phone && <p className="text-[11px] text-muted-foreground font-light">{form.phone}</p>}
+                  {phoneNumber && <p className="text-[11px] text-muted-foreground font-light">{phoneCode} {phoneNumber}</p>}
                   {form.notes && <p className="text-[11px] text-muted-foreground/60 font-light mt-1 italic">"{form.notes}"</p>}
                 </div>
               </div>

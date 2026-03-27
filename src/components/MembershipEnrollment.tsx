@@ -1,8 +1,10 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Plane, UserCheck, Tag, Sparkles, CreditCard, Download, MessageCircle } from "lucide-react";
 import { useCrmApi } from "@/hooks/useCrmApi";
 import { toast } from "sonner";
+import useUserGeolocation from "@/hooks/useUserGeolocation";
+import PhoneWithCountryCode, { buildFullPhone, resolveCountryCode } from "@/components/forms/PhoneWithCountryCode";
 import {
   PremiumInput, PremiumSelect, PremiumTextarea, PremiumCheckbox,
   FormSection, LegalConsent, PremiumSubmitButton, ConfidentialityNotice,
@@ -23,12 +25,23 @@ const MembershipEnrollment = () => {
   const [loading, setLoading] = useState(false);
   const [member, setMember] = useState<{ name: string; id: string; memberSince: string } | null>(null);
   const { capture } = useCrmApi();
+  const geo = useUserGeolocation();
 
   // Step 1: Identity
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
+  const [countryCode, setCountryCode] = useState("+971");
   const [phone, setPhone] = useState("");
+  const [whatsappCode, setWhatsappCode] = useState("+971");
   const [whatsapp, setWhatsapp] = useState("");
+
+  const resolvedCode = resolveCountryCode(geo.countryCode);
+  useEffect(() => {
+    if (countryCode === "+971" && resolvedCode !== "+971") {
+      setCountryCode(resolvedCode);
+      setWhatsappCode(resolvedCode);
+    }
+  }, [resolvedCode]);
 
   // Step 2: Background
   const [city, setCity] = useState("");
@@ -57,7 +70,7 @@ const MembershipEnrollment = () => {
     try {
       await capture({
         name, email,
-        phone: phone || undefined, whatsapp: whatsapp || undefined,
+        phone: buildFullPhone(countryCode, phone), whatsapp: buildFullPhone(whatsappCode, whatsapp),
         city: city || undefined, country: country || undefined,
         nationality: nationality || undefined, company: company || undefined,
         title: title || undefined, departure: city || "N/A",
@@ -140,8 +153,8 @@ const MembershipEnrollment = () => {
                               <PremiumInput label="Email" required type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="alex@example.com" maxLength={255} />
                             </div>
                             <div className="grid sm:grid-cols-2 gap-4">
-                              <PremiumInput label="Phone" type="tel" value={phone} onChange={(e) => setPhone(e.target.value)} placeholder="+971 50 000 0000" maxLength={20} />
-                              <PremiumInput label="WhatsApp" type="tel" value={whatsapp} onChange={(e) => setWhatsapp(e.target.value)} placeholder="+971 50 000 0000" maxLength={20} />
+                              <PhoneWithCountryCode label="Phone" phone={phone} onPhoneChange={setPhone} countryCode={countryCode} onCountryCodeChange={setCountryCode} />
+                              <PhoneWithCountryCode label="WhatsApp" phone={whatsapp} onPhoneChange={setWhatsapp} countryCode={whatsappCode} onCountryCodeChange={setWhatsappCode} />
                             </div>
                           </FormSection>
                           <button type="button" disabled={!canStep1} onClick={() => canStep1 && setStep(2)}

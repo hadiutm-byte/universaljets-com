@@ -1,4 +1,6 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import useUserGeolocation from "@/hooks/useUserGeolocation";
+import { resolveCountryCode, countryCodes as ccList, buildFullPhone } from "@/components/forms/PhoneWithCountryCode";
 import { motion, AnimatePresence } from "framer-motion";
 import { ArrowRight, X, Plane, Users, Share2, MessageCircle, Download, Copy } from "lucide-react";
 import type { EmptyLeg } from "@/hooks/useAviapages";
@@ -19,9 +21,17 @@ interface EmptyLegPopupProps {
 const EmptyLegPopup = ({ leg, onClose }: EmptyLegPopupProps) => {
   const [showRequestForm, setShowRequestForm] = useState(false);
   const [showShareMenu, setShowShareMenu] = useState(false);
-  const [form, setForm] = useState({ name: "", email: "", phone: "" });
+  const [form, setForm] = useState({ name: "", email: "", phone: "", countryCode: "+971" });
   const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  const geo = useUserGeolocation();
+
+  const resolvedCode = resolveCountryCode(geo.countryCode);
+  useEffect(() => {
+    if (form.countryCode === "+971" && resolvedCode !== "+971") {
+      setForm((p) => p.countryCode === "+971" ? { ...p, countryCode: resolvedCode } : p);
+    }
+  }, [resolvedCode]);
   const { capture } = useCrmApi();
   const { share, download, copyText } = useShareCard();
 
@@ -62,7 +72,7 @@ const EmptyLegPopup = ({ leg, onClose }: EmptyLegPopupProps) => {
       await capture({
         name: form.name,
         email: form.email,
-        phone: form.phone || undefined,
+        phone: buildFullPhone(form.countryCode, form.phone),
         departure: `${fromCity || fromCode}`,
         destination: `${toCity || toCode}`,
         date: leg.from_date || undefined,
@@ -189,14 +199,25 @@ const EmptyLegPopup = ({ leg, onClose }: EmptyLegPopupProps) => {
                     className="w-full px-3 py-2.5 rounded-lg bg-muted/30 border border-border/30 text-[12px] text-foreground font-light placeholder:text-muted-foreground/50 focus:outline-none focus:border-primary/30"
                     maxLength={255}
                   />
-                  <input
-                    type="tel"
-                    value={form.phone}
-                    onChange={(e) => setForm({ ...form, phone: e.target.value })}
-                    placeholder="Phone / WhatsApp"
-                    className="w-full px-3 py-2.5 rounded-lg bg-muted/30 border border-border/30 text-[12px] text-foreground font-light placeholder:text-muted-foreground/50 focus:outline-none focus:border-primary/30"
-                    maxLength={30}
-                  />
+                  <div className="flex gap-2">
+                    <select
+                      value={form.countryCode}
+                      onChange={(e) => setForm({ ...form, countryCode: e.target.value })}
+                      className="w-[90px] px-2 py-2.5 rounded-lg bg-muted/30 border border-border/30 text-[11px] text-foreground font-light focus:outline-none focus:border-primary/30 appearance-none cursor-pointer"
+                    >
+                      {ccList.map((c) => (
+                        <option key={c.code} value={c.code}>{c.label}</option>
+                      ))}
+                    </select>
+                    <input
+                      type="tel"
+                      value={form.phone}
+                      onChange={(e) => setForm({ ...form, phone: e.target.value })}
+                      placeholder="50 000 0000"
+                      className="flex-1 px-3 py-2.5 rounded-lg bg-muted/30 border border-border/30 text-[12px] text-foreground font-light placeholder:text-muted-foreground/50 focus:outline-none focus:border-primary/30"
+                      maxLength={15}
+                    />
+                  </div>
                   <div className="flex gap-2">
                     <button
                       onClick={() => setShowRequestForm(false)}

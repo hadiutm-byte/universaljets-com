@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { MapPin, Calendar, Users, PlaneTakeoff, ArrowRight, ChevronDown } from "lucide-react";
 import { format } from "date-fns";
@@ -11,6 +11,8 @@ import AirportField from "@/components/flight-search/AirportField";
 import DateTimePicker from "@/components/flight-search/DateTimePicker";
 import { toast } from "sonner";
 import QuoteRouteMap from "@/components/QuoteRouteMap";
+import useUserGeolocation from "@/hooks/useUserGeolocation";
+import PhoneWithCountryCode, { buildFullPhone, resolveCountryCode } from "@/components/forms/PhoneWithCountryCode";
 import {
   PremiumInput, PremiumSelect, PremiumTextarea, PremiumCheckbox,
   FormSection, LegalConsent, FormDisclaimer, PremiumSubmitButton,
@@ -32,6 +34,7 @@ const aircraftCategories = [
 
 const RequestFlightPage = () => {
   const { capture } = useCrmApi();
+  const geo = useUserGeolocation();
   const [loading, setLoading] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [tripType, setTripType] = useState<TripType>("one_way");
@@ -66,7 +69,9 @@ const RequestFlightPage = () => {
   // Contact
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
+  const [phoneCode, setPhoneCode] = useState("+971");
   const [phone, setPhone] = useState("");
+  const [whatsappCode, setWhatsappCode] = useState("+971");
   const [whatsapp, setWhatsapp] = useState("");
   const [company, setCompany] = useState("");
   const [budgetRange, setBudgetRange] = useState("");
@@ -76,6 +81,33 @@ const RequestFlightPage = () => {
   // Legal
   const [termsAccepted, setTermsAccepted] = useState(false);
   const [marketingConsent, setMarketingConsent] = useState(false);
+
+  // Auto-set country code and departure airport from geolocation
+  const resolvedCode = resolveCountryCode(geo.countryCode);
+  useEffect(() => {
+    if (phoneCode === "+971" && resolvedCode !== "+971") {
+      setPhoneCode(resolvedCode);
+      setWhatsappCode(resolvedCode);
+    }
+  }, [resolvedCode]);
+
+  // Auto-set departure airport based on user location
+  useEffect(() => {
+    if (!fromAirport && !from && geo.airportIcao && geo.airportLabel) {
+      setFrom(geo.airportLabel);
+      setFromQuery(geo.airportLabel);
+      setFromAirport({
+        id: 0,
+        icao: geo.airportIcao,
+        iata: geo.airportIata,
+        name: "",
+        city: geo.city,
+        country: geo.countryName,
+        lat: geo.latitude ?? 0,
+        lng: geo.longitude ?? 0,
+      });
+    }
+  }, [geo.airportIcao]);
 
   // Expand sections
   const [showServices, setShowServices] = useState(false);
@@ -94,8 +126,8 @@ const RequestFlightPage = () => {
     try {
       await capture({
         name, email,
-        phone: phone || undefined,
-        whatsapp: whatsapp || undefined,
+        phone: buildFullPhone(phoneCode, phone),
+        whatsapp: buildFullPhone(whatsappCode, whatsapp),
         departure: `${fromAirport!.city} (${fromAirport!.icao || fromAirport!.iata})`,
         destination: `${toAirport!.city} (${toAirport!.icao || toAirport!.iata})`,
         date: date ? format(date, "yyyy-MM-dd'T'HH:mm") : undefined,
@@ -283,8 +315,8 @@ const RequestFlightPage = () => {
                   <PremiumInput label="Email" required type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="alex@example.com" maxLength={255} />
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                  <PremiumInput label="Phone" type="tel" value={phone} onChange={(e) => setPhone(e.target.value)} placeholder="+971 50 000 0000" maxLength={20} />
-                  <PremiumInput label="WhatsApp" type="tel" value={whatsapp} onChange={(e) => setWhatsapp(e.target.value)} placeholder="+971 50 000 0000" maxLength={20} />
+                  <PhoneWithCountryCode label="Phone" phone={phone} onPhoneChange={setPhone} countryCode={phoneCode} onCountryCodeChange={setPhoneCode} />
+                  <PhoneWithCountryCode label="WhatsApp" phone={whatsapp} onPhoneChange={setWhatsapp} countryCode={whatsappCode} onCountryCodeChange={setWhatsappCode} />
                   <PremiumInput label="Company" value={company} onChange={(e) => setCompany(e.target.value)} placeholder="Company name" maxLength={100} />
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
