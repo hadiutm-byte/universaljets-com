@@ -182,6 +182,14 @@ const AboutPage = () => (
               <p className="text-[17px] md:text-[19px] text-white font-display font-semibold">Hadi Abdel Hadi</p>
               <p className="text-[12px] text-white/40 tracking-[0.15em] uppercase font-light mt-1">Founder & Chief Executive Officer</p>
               <p className="text-[11px] text-white/30 tracking-[0.1em] uppercase font-light mt-0.5">Universal Jets Aviation Brokerage FZCO</p>
+              <div className="flex items-center justify-center gap-4 mt-5">
+                <a href="mailto:hadi@universaljets.com" target="_blank" rel="noopener noreferrer" className="w-9 h-9 rounded-full border border-white/15 flex items-center justify-center text-white/50 hover:text-primary hover:border-primary/30 transition-all duration-300">
+                  <Mail className="w-4 h-4" strokeWidth={1.5} />
+                </a>
+                <a href="https://www.linkedin.com/in/hadi-abdel-hadi-59411412" target="_blank" rel="noopener noreferrer" className="w-9 h-9 rounded-full border border-white/15 flex items-center justify-center text-white/50 hover:text-primary hover:border-primary/30 transition-all duration-300">
+                  <Linkedin className="w-4 h-4" strokeWidth={1.5} />
+                </a>
+              </div>
             </div>
           </FadeReveal>
         </div>
