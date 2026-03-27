@@ -35,14 +35,11 @@ const tripTabs: { value: TripType; label: string }[] = [
 
 const jetSizes = [
   { value: "", label: "Any Size" },
-  { value: "very_light", label: "Very Light Jet" },
   { value: "light", label: "Light Jet" },
   { value: "midsize", label: "Midsize Jet" },
   { value: "super_midsize", label: "Super Midsize" },
-  { value: "heavy", label: "Heavy Jet" },
+  { value: "heavy", label: "Heavy / Long Range" },
   { value: "ultra_long_range", label: "Ultra Long Range" },
-  { value: "vip_airliner", label: "VIP Airliner" },
-  { value: "helicopter", label: "Helicopter" },
 ];
 
 const SwapButton = ({ onClick }: { onClick: () => void }) => (
