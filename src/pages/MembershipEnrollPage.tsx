@@ -129,7 +129,7 @@ const MembershipEnrollPage = () => {
       <Navbar />
 
       <section className="pt-32 pb-20 md:pt-44 md:pb-28">
-        <div className="container mx-auto px-6 md:px-8 max-w-2xl">
+        <div className="container mx-auto px-4 sm:px-6 md:px-8 max-w-2xl">
           <AnimatePresence mode="wait">
             {!submitted ? (
               <motion.div key="form" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }}>
