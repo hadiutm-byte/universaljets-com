@@ -25,12 +25,23 @@ const MembershipEnrollment = () => {
   const [loading, setLoading] = useState(false);
   const [member, setMember] = useState<{ name: string; id: string; memberSince: string } | null>(null);
   const { capture } = useCrmApi();
+  const geo = useUserGeolocation();
 
   // Step 1: Identity
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
+  const [countryCode, setCountryCode] = useState("+971");
   const [phone, setPhone] = useState("");
+  const [whatsappCode, setWhatsappCode] = useState("+971");
   const [whatsapp, setWhatsapp] = useState("");
+
+  const resolvedCode = resolveCountryCode(geo.countryCode);
+  useEffect(() => {
+    if (countryCode === "+971" && resolvedCode !== "+971") {
+      setCountryCode(resolvedCode);
+      setWhatsappCode(resolvedCode);
+    }
+  }, [resolvedCode]);
 
   // Step 2: Background
   const [city, setCity] = useState("");
