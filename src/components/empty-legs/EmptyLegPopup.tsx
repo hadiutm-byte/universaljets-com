@@ -1,4 +1,6 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import useUserGeolocation from "@/hooks/useUserGeolocation";
+import { resolveCountryCode, countryCodes as ccList, buildFullPhone } from "@/components/forms/PhoneWithCountryCode";
 import { motion, AnimatePresence } from "framer-motion";
 import { ArrowRight, X, Plane, Users, Share2, MessageCircle, Download, Copy } from "lucide-react";
 import type { EmptyLeg } from "@/hooks/useAviapages";
