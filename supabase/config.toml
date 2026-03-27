@@ -12,4 +12,6 @@ project_id = "zfuiwvvtjgcpwmhpqoaz"
   [functions.process-email-queue]
     verify_jwt = true
   [functions.send-transactional-email]
-    verify_jwt = true
+    verify_jwt = false
+  [functions.crm-capture]
+    verify_jwt = false
