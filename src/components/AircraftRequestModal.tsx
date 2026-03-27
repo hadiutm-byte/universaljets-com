@@ -55,10 +55,25 @@ export default function AircraftRequestModal({ open, onOpenChange, aircraftName 
     : "+971";
 
   useEffect(() => {
-    if (resolvedCountryCode !== "+971") {
-      setForm((prev) => ({ ...prev, countryCode: resolvedCountryCode }));
+    // Only apply geolocated country code while the modal is open and the field
+    // is still at its default value, to avoid overwriting user selections.
+    if (!open) {
+      return;
     }
-  }, [resolvedCountryCode]);
+    if (!resolvedCountryCode || resolvedCountryCode === "+971") {
+      return;
+    }
+    setForm((prev) => {
+      if (prev.countryCode === resolvedCountryCode) {
+        return prev;
+      }
+      if (prev.countryCode !== "+971") {
+        // User has already selected a different country code; don't overwrite it.
+        return prev;
+      }
+      return { ...prev, countryCode: resolvedCountryCode };
+    });
+  }, [resolvedCountryCode, open]);
 
   const set = (k: string, v: any) => setForm((p) => ({ ...p, [k]: v }));
 
