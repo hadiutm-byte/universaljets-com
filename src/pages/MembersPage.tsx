@@ -1,6 +1,7 @@
 import { useState, forwardRef } from "react";
 import { motion } from "framer-motion";
 import { Check, Shield, ArrowRight, MessageCircle, Globe, Clock, Users, Plane, HeartHandshake, UserCheck, Zap, Calendar, Star, Crown, ChevronRight, Award, Lock, Headphones, CreditCard, BadgeCheck } from "lucide-react";
+import { MembershipCardsShowcase } from "@/components/PremiumCards";
 import { Link } from "react-router-dom";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
