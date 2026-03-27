@@ -36,6 +36,15 @@ const countryCodes = [
   { code: "+52", label: "🇲🇽 +52" },
   { code: "+60", label: "🇲🇾 +60" },
   { code: "+66", label: "🇹🇭 +66" },
+  { code: "+961", label: "🇱🇧 +961" },
+  { code: "+962", label: "🇯🇴 +962" },
+  { code: "+964", label: "🇮🇶 +964" },
+  { code: "+98", label: "🇮🇷 +98" },
+  { code: "+254", label: "🇰🇪 +254" },
+  { code: "+212", label: "🇲🇦 +212" },
+  { code: "+216", label: "🇹🇳 +216" },
+  { code: "+213", label: "🇩🇿 +213" },
+  { code: "+357", label: "🇨🇾 +357" },
 ];
 
 interface PhoneWithCountryCodeProps {
