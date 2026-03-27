@@ -88,8 +88,8 @@ const AirportField = ({
 
   return (
     <div className="relative" ref={ref}>
-      <div className="search-field">
-        <label className="search-label">
+      <div className={`search-field ${error ? "ring-2 ring-destructive/50 border-destructive/40" : ""}`}>
+        <label className={`search-label ${error ? "text-destructive" : ""}`}>
           <Icon size={10} strokeWidth={1.5} /> {label}
         </label>
         <input
@@ -106,6 +106,11 @@ const AirportField = ({
           className="w-full bg-transparent text-[14px] text-foreground placeholder:text-muted-foreground/40 font-normal focus:outline-none"
         />
       </div>
+      {error && (
+        <p className="text-[10px] text-destructive mt-1 ml-1 font-medium">
+          Please select {label === "From" ? "a departure" : "a destination"} airport
+        </p>
+      )}
       <AnimatePresence>
         {showDropdown && query.length >= 2 && (
           <AirportDropdown
