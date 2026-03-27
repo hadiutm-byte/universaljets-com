@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 import FlightSearchBox from "./FlightSearchBox";
 
 const SearchSection = () => (
-  <section className="relative -mt-8 z-20 pb-20">
+  <section className="relative -mt-8 z-20 pb-20 bg-[hsl(0,0%,20%)]">
     <div className="container mx-auto px-6">
       <motion.div
         initial={{ opacity: 0, y: 30 }}
