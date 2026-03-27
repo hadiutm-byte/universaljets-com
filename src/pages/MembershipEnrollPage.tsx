@@ -7,8 +7,6 @@ import Footer from "@/components/Footer";
 import SEOHead from "@/components/SEOHead";
 import { useCrmApi } from "@/hooks/useCrmApi";
 import { toast } from "sonner";
-import useUserGeolocation from "@/hooks/useUserGeolocation";
-import PhoneWithCountryCode, { buildFullPhone, resolveCountryCode } from "@/components/forms/PhoneWithCountryCode";
 import {
   PremiumInput, PremiumSelect, PremiumTextarea, PremiumCheckbox,
   FormSection, LegalConsent, ConfidentialityNotice,
@@ -32,26 +30,15 @@ const MembershipEnrollPage = () => {
   const [loading, setLoading] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const { capture } = useCrmApi();
-  const geo = useUserGeolocation();
 
   // Step 1 — Identity
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
-  const [countryCode, setCountryCode] = useState("+971");
   const [phone, setPhone] = useState("");
-  const [whatsappCode, setWhatsappCode] = useState("+971");
   const [whatsapp, setWhatsapp] = useState("");
   const [country, setCountry] = useState("");
   const [city, setCity] = useState("");
 
-  // Auto-detect country code from geolocation
-  const resolvedCode = resolveCountryCode(geo.countryCode);
-  useEffect(() => {
-    if (countryCode === "+971" && resolvedCode !== "+971") {
-      setCountryCode(resolvedCode);
-      setWhatsappCode(resolvedCode);
-    }
-  }, [resolvedCode]);
   // Step 2 — Tier
   const [selectedTier, setSelectedTier] = useState("");
 
@@ -92,8 +79,8 @@ const MembershipEnrollPage = () => {
     try {
       await capture({
         name, email,
-        phone: buildFullPhone(countryCode, phone),
-        whatsapp: buildFullPhone(whatsappCode, whatsapp),
+        phone: phone || undefined,
+        whatsapp: whatsapp || undefined,
         city: city || undefined,
         country: country || undefined,
         departure: city || "N/A",
@@ -129,7 +116,7 @@ const MembershipEnrollPage = () => {
       <Navbar />
 
       <section className="pt-32 pb-20 md:pt-44 md:pb-28">
-        <div className="container mx-auto px-4 sm:px-6 md:px-8 max-w-2xl">
+        <div className="container mx-auto px-6 md:px-8 max-w-2xl">
           <AnimatePresence mode="wait">
             {!submitted ? (
               <motion.div key="form" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }}>
@@ -154,8 +141,8 @@ const MembershipEnrollPage = () => {
                           <PremiumInput label="Email" required type="email" value={email} onChange={e => setEmail(e.target.value)} placeholder="alex@example.com" maxLength={255} />
                         </div>
                         <div className="grid sm:grid-cols-2 gap-4">
-                          <PhoneWithCountryCode label="Phone" phone={phone} onPhoneChange={setPhone} countryCode={countryCode} onCountryCodeChange={setCountryCode} />
-                          <PhoneWithCountryCode label="WhatsApp" phone={whatsapp} onPhoneChange={setWhatsapp} countryCode={whatsappCode} onCountryCodeChange={setWhatsappCode} />
+                          <PremiumInput label="Phone" type="tel" value={phone} onChange={e => setPhone(e.target.value)} placeholder="+971 50 000 0000" maxLength={20} />
+                          <PremiumInput label="WhatsApp" type="tel" value={whatsapp} onChange={e => setWhatsapp(e.target.value)} placeholder="+971 50 000 0000" maxLength={20} />
                         </div>
                         <div className="grid sm:grid-cols-2 gap-4">
                           <PremiumInput label="Country" value={country} onChange={e => setCountry(e.target.value)} placeholder="UAE" maxLength={100} />
@@ -173,7 +160,7 @@ const MembershipEnrollPage = () => {
                   {step === 2 && (
                     <motion.div key="s2" initial={{ opacity: 0, x: 30 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -30 }} className="space-y-5">
                       <FormSection title="Select Your Tier">
-                        <div className="grid grid-cols-2 gap-3">
+                        <div className="grid sm:grid-cols-2 gap-3">
                           {TIERS.map(t => (
                             <button key={t.key} type="button" onClick={() => setSelectedTier(t.key)}
                               className={`p-4 rounded-xl border text-left transition-all duration-300 ${
@@ -202,7 +189,7 @@ const MembershipEnrollPage = () => {
                       <FormSection title="Your Travel Profile">
                         <div>
                           <p className="text-[10px] tracking-[0.25em] uppercase font-medium mb-2.5 text-foreground/55">Estimated Flights Per Year</p>
-                          <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+                          <div className="grid grid-cols-4 gap-2">
                             {flightOptions.map(opt => (
                               <button key={opt} type="button" onClick={() => setTravelFrequency(opt)}
                                 className={`py-2.5 rounded-lg text-[12px] font-medium border transition-all duration-300 ${
