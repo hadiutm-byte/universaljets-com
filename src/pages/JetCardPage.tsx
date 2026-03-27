@@ -66,9 +66,9 @@ const JetCardPage = () => (
               <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold text-foreground mb-2 leading-[1.1] tracking-[-0.01em]">
                 Pure Flying
               </h1>
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-semibold italic mb-6 leading-[1.1] tracking-[-0.01em] text-gradient-gold">
+              <p className="text-4xl md:text-5xl lg:text-6xl font-display font-semibold italic mb-6 leading-[1.1] tracking-[-0.01em] text-gradient-gold" aria-hidden="true">
                 Freedom.
-              </h1>
+              </p>
 
               <p className="text-[15px] md:text-[16px] text-muted-foreground font-light leading-[1.9] mb-3 max-w-md">
                 No hidden costs. No positioning fees. No membership fees. Just pure flying freedom.
