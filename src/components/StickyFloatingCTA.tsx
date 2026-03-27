@@ -25,7 +25,7 @@ const StickyFloatingCTA = () => {
   return (
     <motion.div
       style={{ opacity, bottom: "calc(1.5rem + env(safe-area-inset-bottom, 0px))" }}
-      className="fixed left-1/2 -translate-x-1/2 z-40 flex items-center gap-3 rounded-full px-2.5 py-2.5 bg-[hsl(220,10%,8%)] border border-white/[0.06] shadow-[0_8px_40px_hsla(0,0%,0%,0.5)]"
+      className="floating-search-aware fixed left-1/2 -translate-x-1/2 z-40 flex items-center gap-3 rounded-full px-2.5 py-2.5 bg-[hsl(220,10%,8%)] border border-white/[0.06] shadow-[0_8px_40px_hsla(0,0%,0%,0.5)] transition-opacity duration-200"
     >
       <Link
         to="/request-flight"

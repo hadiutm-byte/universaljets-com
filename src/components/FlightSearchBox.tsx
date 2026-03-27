@@ -182,7 +182,7 @@ const FlightSearchBox = () => {
   };
 
   return (
-    <div className="w-full max-w-5xl mx-auto">
+    <div className="flight-search-shell w-full max-w-5xl mx-auto">
       {/* ── Trip Type Tabs ── */}
       <div className="flex items-center justify-center mb-6">
         <div className="inline-flex rounded-full border border-border bg-background p-1 gap-0">
