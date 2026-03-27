@@ -51,6 +51,7 @@ const CTASection = () => {
   const [showForm, setShowForm] = useState(false);
   const [loading, setLoading] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  const [touched, setTouched] = useState<Record<string, boolean>>({});
   const [form, setForm] = useState({
     name: "", email: "", phone: "", departure: "", destination: "",
     date: "", returnDate: "", passengers: "", aircraft: "", budget: "", notes: "",
@@ -59,10 +60,21 @@ const CTASection = () => {
   const set = (key: string) => (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) =>
     setForm(p => ({ ...p, [key]: e.target.value }));
 
+  const markTouched = (key: string) => setTouched(p => ({ ...p, [key]: true }));
+
+  const emailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email);
+  const errors = {
+    name: touched.name && !form.name ? "Name is required" : "",
+    email: touched.email && !form.email ? "Email is required" : touched.email && !emailValid ? "Enter a valid email" : "",
+    departure: touched.departure && !form.departure ? "Departure is required" : "",
+    destination: touched.destination && !form.destination ? "Destination is required" : "",
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!form.name || !form.email || !form.departure || !form.destination) {
-      toast.error("Please fill in all required fields.");
+    setTouched({ name: true, email: true, departure: true, destination: true });
+    if (!form.name || !form.email || !form.departure || !form.destination || !emailValid) {
+      toast.error("Please fill in all required fields correctly.");
       return;
     }
     setLoading(true);
