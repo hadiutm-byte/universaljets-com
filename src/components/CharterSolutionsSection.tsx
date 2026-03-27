@@ -274,7 +274,7 @@ const CharterSolutionsSection = () => {
                         <div className="absolute inset-0 bg-gradient-to-t from-card via-card/60 to-transparent" />
                         <div className="absolute bottom-6 left-6 md:left-10">
                           <p className="text-[10px] tracking-[0.4em] uppercase text-primary font-medium mb-2">
-                            {String(i + 1).padStart(2, "0")} — {cat.title}
+                            {cat.title}
                           </p>
                           <h3 className="font-display text-2xl md:text-3xl font-semibold text-foreground tracking-[-0.01em]">
                             {cat.tagline}
