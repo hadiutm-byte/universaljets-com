@@ -146,7 +146,7 @@ const DashboardPage = () => {
                         <p className="text-[10px] text-muted-foreground/50 font-light">{a.desc}</p>
                       </div>
                     );
-                    if (a.onClick) return <div key={i} onClick={a.onClick}>{content}</div>;
+                    if ((a as any).external) return <a key={i} href={a.href!} target="_blank" rel="noopener noreferrer">{content}</a>;
                     return <Link key={i} to={a.href!}>{content}</Link>;
                   })}
                 </div>

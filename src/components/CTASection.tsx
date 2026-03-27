@@ -84,7 +84,7 @@ const CTASection = () => {
     setLoading(false);
   };
 
-  const openRicky = () => document.dispatchEvent(new CustomEvent("open-ricky"));
+  const openWhatsApp = () => window.open("https://wa.me/971585918498", "_blank");
 
   return (
     <section id="cta" className="relative">
