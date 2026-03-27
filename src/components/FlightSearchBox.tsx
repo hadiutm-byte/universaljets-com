@@ -142,6 +142,7 @@ const FlightSearchBox = () => {
   const canSearch = primaryLeg.selectedFrom && primaryLeg.selectedTo;
 
   const handleSearch = () => {
+    setAttempted(true);
     if (!canSearch) return;
 
     // Persist search preferences
