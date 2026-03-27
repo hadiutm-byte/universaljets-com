@@ -13,6 +13,9 @@ import MobileScrollPicker from "@/components/flight-search/MobileScrollPicker";
 import { trackFlightSearch } from "@/lib/gtmEvents";
 import QuoteRouteMap from "@/components/QuoteRouteMap";
 import { setBodyUiState } from "@/lib/bodyUiState";
+import { getSortedCountryCodes, resolveCountryCode } from "@/lib/countryCodes";
+
+const sortedCodes = getSortedCountryCodes();
 
 type TripType = "one-way" | "round-trip" | "multi-city";
 
