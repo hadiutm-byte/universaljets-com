@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { MapPin, Calendar, Users, PlaneTakeoff, ArrowRight, ChevronDown } from "lucide-react";
 import { format } from "date-fns";
@@ -11,6 +11,8 @@ import AirportField from "@/components/flight-search/AirportField";
 import DateTimePicker from "@/components/flight-search/DateTimePicker";
 import { toast } from "sonner";
 import QuoteRouteMap from "@/components/QuoteRouteMap";
+import useUserGeolocation from "@/hooks/useUserGeolocation";
+import PhoneWithCountryCode, { buildFullPhone, resolveCountryCode } from "@/components/forms/PhoneWithCountryCode";
 import {
   PremiumInput, PremiumSelect, PremiumTextarea, PremiumCheckbox,
   FormSection, LegalConsent, FormDisclaimer, PremiumSubmitButton,
