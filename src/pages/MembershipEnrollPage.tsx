@@ -111,12 +111,12 @@ const MembershipEnrollPage = () => {
   const tierLabel = TIERS.find(t => t.key === selectedTier)?.name || "";
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background overflow-x-hidden">
       <SEOHead title="Membership Enrollment | Universal Jets" description="Enroll in Universal Jets membership. Choose your tier and complete your application online." path="/membership/enroll" />
       <Navbar />
 
       <section className="pt-32 pb-20 md:pt-44 md:pb-28">
-        <div className="container mx-auto px-6 md:px-8 max-w-2xl">
+        <div className="container mx-auto px-4 sm:px-6 md:px-8 max-w-2xl">
           <AnimatePresence mode="wait">
             {!submitted ? (
               <motion.div key="form" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }}>
