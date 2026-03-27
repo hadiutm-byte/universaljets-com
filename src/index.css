@@ -349,6 +349,31 @@ html {
     animation: logo-float 4s ease-in-out infinite;
   }
 
+  /* Hero CTA buttons */
+  .hero-cta-primary {
+    background: hsla(43, 85%, 58%, 0.1);
+    color: hsl(43, 85%, 58%);
+    border: 2px solid hsl(43, 85%, 58%);
+    box-shadow: 0 0 20px hsla(43, 85%, 58%, 0.2);
+  }
+  .hero-cta-primary:hover {
+    background: hsl(43, 85%, 58%);
+    color: hsl(0, 0%, 3%);
+    box-shadow: 0 0 12px hsl(43, 85%, 58%), 0 0 28px hsla(43, 85%, 58%, 0.5);
+  }
+
+  .hero-cta-secondary {
+    background: transparent;
+    color: hsl(200, 85%, 58%);
+    border: 2px solid hsl(200, 85%, 58%);
+    box-shadow: 0 0 15px hsla(200, 85%, 58%, 0.15);
+  }
+  .hero-cta-secondary:hover {
+    background: hsl(200, 85%, 58%);
+    color: hsl(0, 0%, 3%);
+    box-shadow: 0 0 12px hsl(200, 85%, 58%), 0 0 28px hsla(200, 85%, 58%, 0.4);
+  }
+
   .bg-gradient-gold {
     background-image: linear-gradient(135deg, hsla(43, 85%, 58%, 0.92), hsl(43, 85%, 58%), hsla(43, 85%, 58%, 0.88));
     box-shadow:
