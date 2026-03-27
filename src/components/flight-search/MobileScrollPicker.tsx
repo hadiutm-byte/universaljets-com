@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import DrumColumn, { ITEM_H, MID } from "./DrumColumn";
+import { setBodyUiState } from "@/lib/bodyUiState";
 
 interface Option {
   value: string;
@@ -38,6 +39,13 @@ const MobileScrollPicker = ({
     const idx = options.findIndex((o) => o.value === value);
     if (idx >= 0) setCurrentIndex(idx);
   }, [value, options]);
+
+  useEffect(() => {
+    if (!open) return;
+
+    setBodyUiState("picker-open", true);
+    return () => setBodyUiState("picker-open", false);
+  }, [open]);
 
   const confirm = () => {
     onChange(options[currentIndex]?.value || "");

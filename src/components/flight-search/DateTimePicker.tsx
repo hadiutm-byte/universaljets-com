@@ -11,6 +11,7 @@ import { cn } from "@/lib/utils";
 import { motion, AnimatePresence } from "framer-motion";
 import { useIsMobile } from "@/hooks/use-mobile";
 import DrumColumn, { ITEM_H, MID } from "./DrumColumn";
+import { setBodyUiState } from "@/lib/bodyUiState";
 
 interface DateTimePickerProps {
   label: string;
@@ -82,6 +83,13 @@ const MobileDateTimePicker = ({
       if (ti >= 0) setTimeIdx(ti);
     }
   }, [value]);
+
+  useEffect(() => {
+    if (!open) return;
+
+    setBodyUiState("picker-open", true);
+    return () => setBodyUiState("picker-open", false);
+  }, [open]);
 
   const confirm = () => {
     const dateEntry = dateOpts[dateIdx];

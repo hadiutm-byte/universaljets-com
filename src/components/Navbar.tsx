@@ -75,6 +75,10 @@ const Navbar = () => {
   const location = useLocation();
   const { user, roles, loading } = useAuth();
   const isHome = location.pathname === "/";
+  const navTop = isHome
+    ? "calc(env(safe-area-inset-top, 0px) + 2.25rem)"
+    : "env(safe-area-inset-top, 0px)";
+  const solidNavbar = scrolled || !isHome;
   const showCrmLink = !!user && !loading && CRM_ROLES.some((role) => roles.includes(role));
   const menuLinks = showCrmLink ? [...overlayLinks, { label: "CRM", href: "/crm" }] : overlayLinks;
 
@@ -131,13 +135,13 @@ const Navbar = () => {
           scrolled ? "py-2.5" : "py-5"
         }`}
         style={{
-          top: "max(env(safe-area-inset-top, 0px), 2.25rem)",
-          background: scrolled
-            ? "hsl(220 10% 6% / 0.97)"
-            : "linear-gradient(to bottom, hsla(220,10%,5%,0.9), hsla(220,10%,5%,0))",
-          borderBottom: scrolled ? "1px solid hsla(43,74%,49%,0.08)" : "1px solid transparent",
-          backdropFilter: scrolled ? "blur(16px) saturate(1.4)" : "none",
-          WebkitBackdropFilter: scrolled ? "blur(16px) saturate(1.4)" : "none",
+          top: navTop,
+          background: solidNavbar
+            ? "hsl(var(--charcoal-deep) / 0.96)"
+            : "linear-gradient(to bottom, hsl(var(--charcoal-deep) / 0.92), hsl(var(--charcoal-deep) / 0))",
+          borderBottom: solidNavbar ? "1px solid hsl(var(--primary) / 0.1)" : "1px solid transparent",
+          backdropFilter: solidNavbar ? "blur(16px) saturate(1.4)" : "none",
+          WebkitBackdropFilter: solidNavbar ? "blur(16px) saturate(1.4)" : "none",
         }}
       >
         <div className="container mx-auto flex items-center justify-between px-6 lg:px-8">

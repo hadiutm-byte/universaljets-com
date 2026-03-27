@@ -10,6 +10,7 @@ html {
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
   text-size-adjust: 100%;
+  background: hsl(var(--charcoal-deep));
   overscroll-behavior-y: none;
   -webkit-tap-highlight-color: transparent;
   /* Modern smooth scroll with native deceleration */
@@ -181,6 +182,9 @@ html {
     pointer-events: auto;
   }
 
+  body[data-ui-flight-search-active="true"] .floating-search-aware,
+  body[data-ui-picker-open="true"] .floating-search-aware,
+  body[data-ui-overlay-active="true"] .floating-search-aware,
   body:has(.flight-search-shell :focus-within) .floating-search-aware {
     opacity: 0;
     visibility: hidden;
