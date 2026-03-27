@@ -1,6 +1,5 @@
 import { useState, useRef, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { X } from "lucide-react";
 
 interface Option {
   value: string;
@@ -16,9 +15,10 @@ interface MobileScrollPickerProps {
   placeholder?: string;
 }
 
-const ITEM_HEIGHT = 44;
-const VISIBLE_ITEMS = 5;
+const ITEM_HEIGHT = 40;
+const VISIBLE_ITEMS = 7;
 const PICKER_HEIGHT = ITEM_HEIGHT * VISIBLE_ITEMS;
+const CENTER = Math.floor(VISIBLE_ITEMS / 2);
 
 const MobileScrollPicker = ({
   label,
@@ -35,21 +35,40 @@ const MobileScrollPicker = ({
     return idx >= 0 ? idx : 0;
   });
 
+  // Sync index when value changes externally
+  useEffect(() => {
+    const idx = options.findIndex((o) => o.value === value);
+    if (idx >= 0) setCurrentIndex(idx);
+  }, [value, options]);
+
+  // Scroll to current on open
   useEffect(() => {
     if (open && scrollRef.current) {
-      scrollRef.current.scrollTop = currentIndex * ITEM_HEIGHT;
+      requestAnimationFrame(() => {
+        if (scrollRef.current) {
+          scrollRef.current.scrollTop = currentIndex * ITEM_HEIGHT;
+        }
+      });
     }
   }, [open]);
 
   const handleScroll = useCallback(() => {
     if (!scrollRef.current) return;
     const idx = Math.round(scrollRef.current.scrollTop / ITEM_HEIGHT);
-    setCurrentIndex(Math.max(0, Math.min(idx, options.length - 1)));
+    const clamped = Math.max(0, Math.min(idx, options.length - 1));
+    setCurrentIndex(clamped);
   }, [options.length]);
 
   const confirm = () => {
     onChange(options[currentIndex]?.value || "");
     setOpen(false);
+  };
+
+  const scrollToIndex = (idx: number) => {
+    if (scrollRef.current) {
+      scrollRef.current.scrollTo({ top: idx * ITEM_HEIGHT, behavior: "smooth" });
+    }
+    setCurrentIndex(idx);
   };
 
   const selectedLabel = options.find((o) => o.value === value)?.label || placeholder;
@@ -71,83 +90,113 @@ const MobileScrollPicker = ({
         </button>
       </div>
 
-      {/* Bottom sheet overlay */}
       <AnimatePresence>
         {open && (
           <>
+            {/* Backdrop */}
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
+              transition={{ duration: 0.2 }}
               onClick={() => setOpen(false)}
-              className="fixed inset-0 bg-black/40 z-50"
+              className="fixed inset-0 bg-black/50 backdrop-blur-[2px] z-50"
             />
+
+            {/* Bottom sheet */}
             <motion.div
               initial={{ y: "100%" }}
               animate={{ y: 0 }}
               exit={{ y: "100%" }}
-              transition={{ type: "spring", damping: 28, stiffness: 300 }}
-              className="fixed bottom-0 left-0 right-0 z-50 bg-background rounded-t-2xl border-t border-border shadow-[0_-10px_40px_-10px_hsla(0,0%,0%,0.2)]"
+              transition={{ type: "spring", damping: 30, stiffness: 350 }}
+              className="fixed bottom-0 left-0 right-0 z-50 bg-background rounded-t-3xl shadow-[0_-20px_60px_-10px_hsla(0,0%,0%,0.25)]"
             >
+              {/* Drag handle */}
+              <div className="flex justify-center pt-3 pb-1">
+                <div className="w-10 h-1 rounded-full bg-foreground/10" />
+              </div>
+
               {/* Header */}
-              <div className="flex items-center justify-between px-5 py-4 border-b border-border/50">
+              <div className="flex items-center justify-between px-6 py-3">
                 <button
                   type="button"
                   onClick={() => setOpen(false)}
-                  className="text-[13px] text-muted-foreground font-medium"
+                  className="text-[14px] text-muted-foreground font-medium active:opacity-60 transition-opacity"
                 >
                   Cancel
                 </button>
-                <span className="text-[12px] tracking-[0.2em] uppercase text-foreground/60 font-semibold">
+                <span className="text-[11px] tracking-[0.25em] uppercase text-foreground/50 font-semibold">
                   {label}
                 </span>
                 <button
                   type="button"
                   onClick={confirm}
-                  className="text-[13px] text-primary font-semibold"
+                  className="text-[14px] text-primary font-semibold active:opacity-60 transition-opacity"
                 >
                   Done
                 </button>
               </div>
 
-              {/* Scroll wheel */}
-              <div className="relative" style={{ height: PICKER_HEIGHT }}>
-                {/* Selection highlight */}
+              {/* 3D Drum Roller */}
+              <div
+                className="relative overflow-hidden mx-4 mb-6"
+                style={{
+                  height: PICKER_HEIGHT,
+                  maskImage: "linear-gradient(to bottom, transparent 0%, black 30%, black 70%, transparent 100%)",
+                  WebkitMaskImage: "linear-gradient(to bottom, transparent 0%, black 30%, black 70%, transparent 100%)",
+                }}
+              >
+                {/* Center selection band */}
                 <div
-                  className="absolute left-4 right-4 border-y border-primary/20 bg-primary/[0.04] rounded-lg pointer-events-none z-10"
+                  className="absolute left-0 right-0 z-10 pointer-events-none border-y border-primary/15 bg-primary/[0.04] rounded-xl"
                   style={{
-                    top: ITEM_HEIGHT * Math.floor(VISIBLE_ITEMS / 2),
+                    top: CENTER * ITEM_HEIGHT,
                     height: ITEM_HEIGHT,
                   }}
                 />
 
-                {/* Scrollable list */}
+                {/* Scrollable drum */}
                 <div
                   ref={scrollRef}
                   onScroll={handleScroll}
-                  className="h-full overflow-y-auto snap-y snap-mandatory scrollbar-none"
+                  className="h-full overflow-y-auto scrollbar-none"
                   style={{
                     scrollSnapType: "y mandatory",
                     WebkitOverflowScrolling: "touch",
                   }}
                 >
-                  {/* Top padding */}
-                  <div style={{ height: ITEM_HEIGHT * Math.floor(VISIBLE_ITEMS / 2) }} />
+                  {/* Top spacer */}
+                  <div style={{ height: CENTER * ITEM_HEIGHT }} />
 
                   {options.map((opt, i) => {
-                    const isSelected = i === currentIndex;
+                    const distance = Math.abs(i - currentIndex);
+                    const maxTilt = 65;
+                    const rotateX = Math.min(distance, 3) * (i < currentIndex ? maxTilt / 3 : -maxTilt / 3);
+                    const scale = distance === 0 ? 1 : Math.max(0.7, 1 - distance * 0.12);
+                    const opacity = distance === 0 ? 1 : Math.max(0.2, 1 - distance * 0.25);
+                    const translateZ = distance === 0 ? 0 : -distance * 8;
+
                     return (
                       <div
-                        key={opt.value}
-                        className="snap-center flex items-center justify-center transition-all duration-150"
-                        style={{ height: ITEM_HEIGHT }}
+                        key={opt.value + i}
+                        onClick={() => scrollToIndex(i)}
+                        className="snap-center flex items-center justify-center cursor-pointer"
+                        style={{
+                          height: ITEM_HEIGHT,
+                          perspective: "300px",
+                        }}
                       >
                         <span
-                          className={`text-[16px] transition-all duration-150 ${
-                            isSelected
-                              ? "text-foreground font-semibold scale-105"
-                              : "text-muted-foreground/50 font-normal"
-                          }`}
+                          className="transition-all duration-100 ease-out select-none"
+                          style={{
+                            transform: `rotateX(${rotateX}deg) scale(${scale}) translateZ(${translateZ}px)`,
+                            opacity,
+                            fontSize: distance === 0 ? "17px" : "15px",
+                            fontWeight: distance === 0 ? 600 : 400,
+                            color: distance === 0
+                              ? "hsl(var(--foreground))"
+                              : `hsl(var(--muted-foreground) / ${opacity})`,
+                          }}
                         >
                           {opt.label}
                         </span>
@@ -155,8 +204,8 @@ const MobileScrollPicker = ({
                     );
                   })}
 
-                  {/* Bottom padding */}
-                  <div style={{ height: ITEM_HEIGHT * Math.floor(VISIBLE_ITEMS / 2) }} />
+                  {/* Bottom spacer */}
+                  <div style={{ height: CENTER * ITEM_HEIGHT }} />
                 </div>
               </div>
             </motion.div>
