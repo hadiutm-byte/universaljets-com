@@ -179,7 +179,6 @@ const EmptyLegsMap = () => {
                 <Map size={12} /> Map
               </button>
             </div>
-          )}
           <div className="flex items-center gap-3">
             <span className="text-[9px] text-muted-foreground/40 font-light hidden sm:inline">
               Updated {lastUpdated.toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit" })}
