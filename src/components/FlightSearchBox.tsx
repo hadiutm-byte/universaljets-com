@@ -74,12 +74,8 @@ const FlightSearchBox = () => {
   const [jetSize, setJetSize] = useState("");
   const [attempted, setAttempted] = useState(false);
 
-  // Validation helpers
-  const errors = {
-    from: !primaryLeg?.selectedFrom,
-    to: !primaryLeg?.selectedTo,
-  };
-  const showError = (field: keyof typeof errors) => attempted && errors[field];
+  const showFromError = attempted && !legs[0]?.selectedFrom;
+  const showToError = attempted && !legs[0]?.selectedTo;
 
   // Auto-set departure airport from geolocation
   useEffect(() => {
