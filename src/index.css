@@ -926,3 +926,12 @@ html {
   0%, 100% { box-shadow: 0 0 8px 2px hsla(45, 79%, 50%, 0.4); transform: scale(1); }
   50% { box-shadow: 0 0 16px 6px hsla(45, 79%, 50%, 0.6); transform: scale(1.15); }
 }
+
+/* Hide scrollbar for horizontal scroll areas */
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
