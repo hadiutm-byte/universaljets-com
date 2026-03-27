@@ -120,7 +120,7 @@ const EmptyLegsMap = () => {
 
   return (
     <section ref={sectionRef} id="empty-legs" className="section-padding overflow-hidden section-alt">
-      <div className="container mx-auto px-8 relative z-10">
+      <div className="container mx-auto px-4 sm:px-8 relative z-10">
         <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.8 }} className="text-center mb-8">
           <p className="text-[11px] tracking-[0.5em] uppercase text-primary mb-6 font-medium">Exclusive Opportunity</p>
           <h2 className="text-3xl md:text-5xl lg:text-6xl font-display font-semibold mb-6 text-foreground">
@@ -143,13 +143,13 @@ const EmptyLegsMap = () => {
         </motion.div>
 
         {/* Filters + View Toggle */}
-        <motion.div initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} className="flex flex-wrap items-center justify-center gap-3 mb-6">
+        <motion.div initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} className="flex items-center justify-start sm:justify-center gap-2 sm:gap-3 mb-6 overflow-x-auto pb-2 -mx-4 px-4 sm:mx-0 sm:px-0 sm:flex-wrap scrollbar-hide">
           {regions.map((r) => (
             <button
               key={r}
               onClick={() => handleRegionChange(r)}
               disabled={isFetching}
-              className={`px-5 py-2 rounded-full text-[10px] tracking-[0.25em] uppercase font-medium transition-all duration-300 disabled:opacity-60 ${
+              className={`px-4 sm:px-5 py-2.5 rounded-full text-[10px] tracking-[0.2em] sm:tracking-[0.25em] uppercase font-medium transition-all duration-300 disabled:opacity-60 flex-shrink-0 touch-manipulation active:scale-95 min-h-[40px] ${
                 activeRegion === r
                   ? "bg-[hsl(var(--selection))] text-[hsl(var(--selection-foreground))] shadow-[0_4px_12px_-4px_hsla(0,0%,0%,0.3)]"
                   : "border border-border text-foreground/50 hover:text-foreground hover:border-foreground/20"
@@ -160,12 +160,12 @@ const EmptyLegsMap = () => {
           ))}
         </motion.div>
 
-        <div className="flex flex-wrap justify-center gap-3 mb-14">
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-3 mb-10 sm:mb-14">
           {/* Map/Cards toggle */}
             <div className="inline-flex rounded-lg border border-border bg-muted/30 p-1 gap-0">
               <button
                 onClick={() => setViewMode("cards")}
-                className={`flex items-center gap-1.5 px-5 py-2 rounded-md text-[10px] tracking-[0.15em] uppercase font-medium transition-all duration-300 ${
+                className={`flex items-center gap-1.5 px-5 py-2.5 rounded-md text-[10px] tracking-[0.15em] uppercase font-medium transition-all duration-300 touch-manipulation active:scale-95 min-h-[40px] ${
                   viewMode === "cards"
                     ? "bg-[hsl(var(--selection))] text-[hsl(var(--selection-foreground))] shadow-sm"
                     : "text-muted-foreground hover:text-foreground"
@@ -175,7 +175,7 @@ const EmptyLegsMap = () => {
               </button>
               <button
                 onClick={() => setViewMode("map")}
-                className={`flex items-center gap-1.5 px-5 py-2 rounded-md text-[10px] tracking-[0.15em] uppercase font-medium transition-all duration-300 ${
+                className={`flex items-center gap-1.5 px-5 py-2.5 rounded-md text-[10px] tracking-[0.15em] uppercase font-medium transition-all duration-300 touch-manipulation active:scale-95 min-h-[40px] ${
                   viewMode === "map"
                     ? "bg-[hsl(var(--selection))] text-[hsl(var(--selection-foreground))] shadow-sm"
                     : "text-muted-foreground hover:text-foreground"
@@ -191,7 +191,7 @@ const EmptyLegsMap = () => {
             <button
               onClick={handleRefresh}
               disabled={refreshing || isFetching}
-              className="flex items-center gap-1.5 px-4 py-2 rounded-full border border-primary/15 bg-primary/[0.04] text-[9px] tracking-[0.2em] uppercase font-medium text-primary/60 hover:text-primary hover:border-primary/30 hover:bg-primary/[0.08] transition-all duration-500 disabled:opacity-40"
+              className="flex items-center gap-1.5 px-4 py-2.5 rounded-full border border-primary/15 bg-primary/[0.04] text-[9px] tracking-[0.2em] uppercase font-medium text-primary/60 hover:text-primary hover:border-primary/30 hover:bg-primary/[0.08] transition-all duration-500 disabled:opacity-40 touch-manipulation active:scale-95 min-h-[40px]"
             >
               <RefreshCw size={10} className={refreshing || isFetching ? "animate-spin" : ""} />
               {refreshing || isFetching ? "Updating…" : "Live Sync"}
@@ -228,7 +228,7 @@ const EmptyLegsMap = () => {
         )}
 
         {!showLoading && legs.length > 0 && viewMode === "cards" && (
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5 max-w-5xl mx-auto mb-14">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5 max-w-5xl mx-auto mb-14">
             {legs.slice(0, 12).map((leg, i) => (
               <EmptyLegCard key={leg.id} leg={leg} index={i} onClick={() => handleLegClick(leg)} />
             ))}
