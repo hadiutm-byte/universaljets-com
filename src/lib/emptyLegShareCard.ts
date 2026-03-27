@@ -192,7 +192,7 @@ function drawSeatIcon(ctx: CanvasRenderingContext2D, x: number, y: number, size:
   ctx.restore();
 }
 
-export const SHARE_DEEP_LINK = "https://www.universaljets.com/#empty-legs";
+export const SHARE_DEEP_LINK = "https://universaljets.com/#empty-legs";
 
 /* ═══════════════ MAIN ═══════════════ */
 export async function generateEmptyLegShareCard(data: ShareCardData): Promise<Blob> {

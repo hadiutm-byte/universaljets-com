@@ -15,8 +15,8 @@ export const organizationSchema = {
   "@context": "https://schema.org",
   "@type": "Organization",
   name: "Universal Jets",
-  url: "https://www.universaljets.com",
-  logo: "https://www.universaljets.com/favicon.png",
+  url: "https://universaljets.com",
+  logo: "https://universaljets.com/favicon.png",
   description: "Private jet charter brokerage with 18+ years of experience. On-demand charter, empty legs, jet cards, and 24/7 concierge.",
   foundingDate: "2006",
   contactPoint: [
@@ -43,7 +43,7 @@ export const localBusinessSchema = {
   "@context": "https://schema.org",
   "@type": "LocalBusiness",
   name: "Universal Jets Aviation Brokerage FZCO",
-  url: "https://www.universaljets.com",
+  url: "https://universaljets.com",
   email: "sales@universaljets.com",
   priceRange: "$$$$$",
   address: {
