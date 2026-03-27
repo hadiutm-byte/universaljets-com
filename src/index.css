@@ -617,11 +617,11 @@ html {
   .search-field {
     @apply px-4 py-4 rounded-2xl border transition-all duration-500;
     border-color: hsla(43, 85%, 58%, 0.08);
-    background: hsla(220, 20%, 8%, 0.6);
+    background: hsl(var(--charcoal) / 0.6);
   }
 
   .search-field:hover {
-    background: hsla(220, 20%, 10%, 0.8);
+    background: hsl(var(--charcoal) / 0.8);
     border-color: hsla(43, 85%, 58%, 0.2);
     box-shadow: 0 0 16px -6px hsla(43, 85%, 58%, 0.1);
   }
@@ -632,7 +632,7 @@ html {
       0 0 0 3px hsla(43, 85%, 58%, 0.1),
       0 0 24px -6px hsla(43, 85%, 58%, 0.2),
       0 0 48px -20px hsla(43, 85%, 58%, 0.12);
-    background: hsla(220, 20%, 10%, 0.9);
+    background: hsl(var(--charcoal) / 0.9);
   }
 
   .search-label {
