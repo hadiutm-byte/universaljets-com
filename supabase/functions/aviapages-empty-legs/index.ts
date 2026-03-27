@@ -451,21 +451,6 @@ serve(async (req) => {
 
       if (items.length === 0) break;
 
-      // Debug: log first leg's airport structure on page 1
-      if (page === 1 && items.length > 0) {
-        const sample = items[0] as Record<string, unknown>;
-        const depKeys = sample.dep_airport ? Object.keys(sample.dep_airport as object) : [];
-        const arrKeys = sample.arr_airport ? Object.keys(sample.arr_airport as object) : [];
-        const depAirport = sample.dep_airport as Record<string, unknown> | null;
-        const depCity = depAirport?.city;
-        const depIcao = depAirport?.icao;
-        console.log(`[empty-legs] DEBUG dep_airport keys: ${JSON.stringify(depKeys)}`);
-        console.log(`[empty-legs] DEBUG dep_airport.city: ${JSON.stringify(depCity)}`);
-        console.log(`[empty-legs] DEBUG dep_airport.icao: ${depIcao}`);
-        console.log(`[empty-legs] DEBUG arr_airport keys: ${JSON.stringify(arrKeys)}`);
-        console.log(`[empty-legs] DEBUG region=${region}, countries=${JSON.stringify(getLegCountryCodes(sample))}`);
-      }
-
       // Filter by region client-side (catches both dep AND arr country matches)
       const filteredItems = items.filter((leg: unknown) =>
         leg && typeof leg === 'object' && legMatchesRegion(leg as Record<string, unknown>, region)
