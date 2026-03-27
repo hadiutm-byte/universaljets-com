@@ -6,6 +6,8 @@ import EmptyLegsMapView from "./empty-legs/EmptyLegsMapView";
 import EmptyLegCard from "./empty-legs/EmptyLegCard";
 import EmptyLegPopup from "./empty-legs/EmptyLegPopup";
 import AIRPORT_COORDS from "@/lib/airportCoords";
+import { useIsMobile } from "@/hooks/use-mobile";
+import { setBodyUiState } from "@/lib/bodyUiState";
 
 const regions = ["All", "Americas", "Europe", "Middle East", "Asia"];
 
