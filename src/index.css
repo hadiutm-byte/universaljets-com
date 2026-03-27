@@ -1032,6 +1032,25 @@ html {
   animation: hero-ken-burns 18s ease-in-out infinite;
 }
 
+/* Hero vertical gold divider with shimmer */
+@keyframes shimmer-vertical {
+  0%   { background-position: 0% 0%; }
+  100% { background-position: 0% 200%; }
+}
+
+.hero-gold-divider {
+  background: linear-gradient(
+    180deg,
+    transparent,
+    hsl(var(--gold-light)),
+    hsl(var(--primary)),
+    hsl(var(--gold-dark)),
+    transparent
+  );
+  background-size: 100% 200%;
+  animation: shimmer-vertical 3s linear infinite;
+}
+
 /* Floating orb animation */
 @keyframes hero-orb-float {
   0%   { transform: translate(0, 0) scale(1); }
