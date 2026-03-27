@@ -271,14 +271,18 @@ function getLegCountryCodes(leg: Record<string, unknown>): string[] {
   const depCity = dep?.city as Record<string, unknown> | undefined;
   const arrCity = arr?.city as Record<string, unknown> | undefined;
 
+  const countryObj = (city: Record<string, unknown> | undefined) => city?.country as Record<string, unknown> | undefined;
+
   let depCountry =
     normalizeCountryCode(depCity?.country_code) ||
-    normalizeCountryCode((depCity?.country as Record<string, unknown> | undefined)?.code) ||
+    normalizeCountryCode(countryObj(depCity)?.iso_alpha2) ||
+    normalizeCountryCode(countryObj(depCity)?.code) ||
     normalizeCountryCode(dep?.country_code);
 
   let arrCountry =
     normalizeCountryCode(arrCity?.country_code) ||
-    normalizeCountryCode((arrCity?.country as Record<string, unknown> | undefined)?.code) ||
+    normalizeCountryCode(countryObj(arrCity)?.iso_alpha2) ||
+    normalizeCountryCode(countryObj(arrCity)?.code) ||
     normalizeCountryCode(arr?.country_code);
 
   // ICAO fallback — most reliable when API country data is missing
@@ -409,8 +413,6 @@ serve(async (req) => {
 
     await loadAircraftTypeCache(apiKey);
 
-    const url = new URL(req.url);
-    const region = url.searchParams.get('region') || '';
     const maxPages = 20;
     const pageSize = 100;
 
@@ -426,9 +428,6 @@ serve(async (req) => {
         page_size: String(pageSize),
       });
 
-      // Region filtering is now done client-side via legMatchesRegion
-      // to catch legs where ARRIVAL matches the region too
-
       const apiUrl = `${AVIAPAGES_BASE}/api/availabilities/?${params.toString()}`;
       console.log(`[empty-legs] Page ${page}: ${apiUrl}`);
 
@@ -439,6 +438,11 @@ serve(async (req) => {
       if (!response.ok) {
         const errorText = await response.text();
         console.error(`[empty-legs] API error [${response.status}]: ${errorText.substring(0, 200)}`);
+        // On rate limit, wait and retry once
+        if (response.status === 429) {
+          await new Promise(r => setTimeout(r, 5000));
+          continue;
+        }
         break;
       }
 
@@ -447,12 +451,8 @@ serve(async (req) => {
 
       if (items.length === 0) break;
 
-      // Filter by region client-side (catches both dep AND arr country matches)
-      const filteredItems = items.filter((leg: unknown) =>
-        leg && typeof leg === 'object' && legMatchesRegion(leg as Record<string, unknown>, region)
-      );
-
-      for (const rawLeg of filteredItems) {
+      for (const rawLeg of items) {
+        if (!rawLeg || typeof rawLeg !== 'object') continue;
         const leg = rawLeg as Record<string, unknown>;
 
         // Stable unique ID
