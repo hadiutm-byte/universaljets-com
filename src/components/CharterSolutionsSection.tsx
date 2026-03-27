@@ -287,7 +287,7 @@ const CharterSolutionsSection = () => {
                         {/* Why us section */}
                         <div className="mb-10">
                           <p className="text-[10px] tracking-[0.3em] uppercase text-primary/70 font-medium mb-3">
-                            Why Universal Jets
+                            The Advantage
                           </p>
                           <p className="text-foreground/70 text-sm md:text-base leading-relaxed max-w-3xl font-light">
                             {cat.justification}
