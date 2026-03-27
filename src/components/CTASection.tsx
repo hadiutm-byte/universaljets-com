@@ -170,7 +170,7 @@ const CTASection = () => {
                           <Check className="w-7 h-7 text-primary" strokeWidth={1.5} />
                         </div>
                         <h3 className="font-display text-xl mb-3 text-foreground">Request Received</h3>
-                        <p className="text-[12px] text-foreground/35 font-extralight">Expect a personalised quote within minutes.</p>
+                        <p className="text-[12px] text-muted-foreground font-extralight">Expect a personalised quote within minutes.</p>
                       </motion.div>
                     ) : (
                       <form onSubmit={handleSubmit}>
