@@ -6,13 +6,16 @@ import { useLocation } from "react-router-dom";
 
 const WHATSAPP_URL = "https://wa.me/971585918498?text=" + encodeURIComponent("Hello, I would like to request a private jet charter.");
 
+/** Routes where the user is actively taking action — no floating CTA needed */
+const ACTION_ROUTES = ["/request-flight", "/search", "/jet-card-inquiry"];
+
 const FloatingWhatsApp = () => {
   const location = useLocation();
-  const [hidden, setHidden] = useState(false);
+  const [pickerOpen, setPickerOpen] = useState(false);
 
   useEffect(() => {
-    const handlePickerOpen = () => setHidden(true);
-    const handlePickerClose = () => setHidden(false);
+    const handlePickerOpen = () => setPickerOpen(true);
+    const handlePickerClose = () => setPickerOpen(false);
     document.addEventListener("picker-open", handlePickerOpen);
     document.addEventListener("picker-close", handlePickerClose);
     return () => {
@@ -21,9 +24,7 @@ const FloatingWhatsApp = () => {
     };
   }, []);
 
-  const shouldHideOnRoute = location.pathname === "/request-flight" || location.pathname === "/search";
-
-  if (hidden || shouldHideOnRoute) return null;
+  if (pickerOpen || ACTION_ROUTES.includes(location.pathname)) return null;
 
   return (
     <motion.a

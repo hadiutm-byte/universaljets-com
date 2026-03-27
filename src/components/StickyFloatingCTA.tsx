@@ -1,17 +1,20 @@
 import { Plane, Phone } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useEffect, useState } from "react";
+
+/** Routes where the user is actively taking action — no CTA needed */
+const ACTION_ROUTES = ["/request-flight", "/search", "/jet-card-inquiry"];
 
 const StickyFloatingCTA = () => {
   const { scrollYProgress } = useScroll();
   const opacity = useTransform(scrollYProgress, [0, 0.08], [0, 1]);
-  const [hidden, setHidden] = useState(false);
+  const location = useLocation();
+  const [pickerOpen, setPickerOpen] = useState(false);
 
-  // Listen for picker open/close events to hide CTA
   useEffect(() => {
-    const handlePickerOpen = () => setHidden(true);
-    const handlePickerClose = () => setHidden(false);
+    const handlePickerOpen = () => setPickerOpen(true);
+    const handlePickerClose = () => setPickerOpen(false);
     document.addEventListener("picker-open", handlePickerOpen);
     document.addEventListener("picker-close", handlePickerClose);
     return () => {
@@ -20,7 +23,9 @@ const StickyFloatingCTA = () => {
     };
   }, []);
 
-  if (hidden) return null;
+  const onActionRoute = ACTION_ROUTES.includes(location.pathname);
+
+  if (pickerOpen || onActionRoute) return null;
 
   return (
     <motion.div
