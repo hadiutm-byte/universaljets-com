@@ -141,10 +141,10 @@ const charterCategories: CharterCategory[] = [
       "VIP airliners configured for team and group travel",
     ],
     aircraft: [
-      { name: "Embraer Lineage 1000", link: "/fleet" },
-      { name: "Boeing BBJ", link: "/fleet" },
-      { name: "Airbus ACJ319", link: "/fleet" },
-      { name: "Challenger 850", link: "/fleet" },
+      { name: "Boeing BBJ VIP Airliner", link: "/fleet" },
+      { name: "Airbus ACJ320neo", link: "/fleet" },
+      { name: "Embraer Lineage 1000E", link: "/fleet" },
+      { name: "Boeing 767 VIP", link: "/fleet" },
     ],
   },
 ];
