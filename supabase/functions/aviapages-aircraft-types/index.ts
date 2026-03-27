@@ -42,11 +42,21 @@ serve(async (req) => {
         const apiUrl = `${AVIAPAGES_BASE}/api/aircraft_types/?${params.toString()}`;
         console.log(`[aircraft-types] Slug lookup: ${apiUrl}`);
 
-        const response = await fetch(apiUrl, {
-          headers: { 'Authorization': `Token ${apiKey}`, 'Accept': 'application/json' },
-        });
+        let response: Response | null = null;
+        for (let retryAttempt = 0; retryAttempt < 3; retryAttempt++) {
+          response = await fetch(apiUrl, {
+            headers: { 'Authorization': `Token ${apiKey}`, 'Accept': 'application/json' },
+          });
+          if (response.status === 429) {
+            const wait = Math.pow(2, retryAttempt) * 2;
+            console.log(`[aircraft-types] Rate limited on slug lookup, retrying in ${wait}s`);
+            await new Promise(r => setTimeout(r, wait * 1000));
+            continue;
+          }
+          break;
+        }
 
-        if (!response.ok) continue;
+        if (!response || !response.ok) continue;
 
         const data = await response.json();
         match = (data.results || []).find((at: any) => {
