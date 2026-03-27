@@ -126,8 +126,8 @@ const RequestFlightPage = () => {
     try {
       await capture({
         name, email,
-        phone: phone || undefined,
-        whatsapp: whatsapp || undefined,
+        phone: buildFullPhone(phoneCode, phone),
+        whatsapp: buildFullPhone(whatsappCode, whatsapp),
         departure: `${fromAirport!.city} (${fromAirport!.icao || fromAirport!.iata})`,
         destination: `${toAirport!.city} (${toAirport!.icao || toAirport!.iata})`,
         date: date ? format(date, "yyyy-MM-dd'T'HH:mm") : undefined,
