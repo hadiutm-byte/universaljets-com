@@ -51,7 +51,7 @@ const EmptyLegsSection = () => (
       >
         <Link
           to="/#empty-legs"
-          className="inline-block px-12 py-4 bg-gradient-gold text-primary-foreground text-[10px] tracking-[0.3em] uppercase font-medium rounded-xl transition-all duration-500 hover:shadow-[0_0_40px_-8px_hsla(43,74%,49%,0.5)] hover:scale-[1.02]"
+          className="inline-block px-12 py-4 bg-gradient-gold text-primary-foreground text-[10px] tracking-[0.3em] uppercase font-medium rounded-xl transition-all duration-500 hover:shadow-[0_0_40px_-8px_hsla(43,85%,58%,0.5)] hover:scale-[1.02]"
         >
           Browse Empty Legs
         </Link>

@@ -138,7 +138,7 @@ const ACMILeasingPage = () => {
         <div className="absolute inset-0 bg-gradient-to-b from-[hsl(228,30%,3%)] via-[hsl(228,28%,5%)] to-[hsl(228,28%,4%)]" />
         <div className="absolute inset-0 opacity-[0.02] pointer-events-none" style={{ backgroundImage: "linear-gradient(hsla(0,0%,100%,0.08) 1px, transparent 1px), linear-gradient(90deg, hsla(0,0%,100%,0.08) 1px, transparent 1px)", backgroundSize: "80px 80px" }} />
         {/* Radial glow */}
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[500px] opacity-[0.06] pointer-events-none" style={{ background: "radial-gradient(ellipse at center, hsla(43,74%,49%,1) 0%, transparent 70%)" }} />
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[500px] opacity-[0.06] pointer-events-none" style={{ background: "radial-gradient(ellipse at center, hsla(43,85%,58%,1) 0%, transparent 70%)" }} />
         {/* Bottom accent line */}
         <div className="absolute bottom-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-primary/15 to-transparent" />
 
@@ -159,7 +159,7 @@ const ACMILeasingPage = () => {
             </p>
 
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-              <a href="#acmi-form" className="px-10 py-4 bg-gradient-gold text-primary-foreground text-[10px] tracking-[0.3em] uppercase font-medium rounded-sm hover:shadow-[0_0_40px_-8px_hsla(43,74%,49%,0.5)] transition-all duration-500 inline-flex items-center gap-2">
+              <a href="#acmi-form" className="px-10 py-4 bg-gradient-gold text-primary-foreground text-[10px] tracking-[0.3em] uppercase font-medium rounded-sm hover:shadow-[0_0_40px_-8px_hsla(43,85%,58%,0.5)] transition-all duration-500 inline-flex items-center gap-2">
                 Request Operational Support <ArrowRight className="w-3.5 h-3.5" />
               </a>
               <a href="#capabilities" className="px-8 py-4 border border-[hsl(228,15%,18%)] text-white/50 text-[10px] tracking-[0.3em] uppercase font-medium rounded-sm hover:border-primary/20 hover:text-white/70 transition-all duration-500">
@@ -230,7 +230,7 @@ const ACMILeasingPage = () => {
       {/* ── OPERATIONAL STRENGTHS ── */}
       <section className="py-20 md:py-28 relative">
         <div className="absolute inset-0 bg-gradient-to-b from-[hsl(228,25%,3%)] via-[hsl(228,22%,5%)] to-[hsl(228,28%,4%)] pointer-events-none" />
-        <div className="absolute inset-0 opacity-[0.015] pointer-events-none" style={{ backgroundImage: "radial-gradient(circle at 20% 50%, hsla(43,74%,49%,0.15) 0%, transparent 50%), radial-gradient(circle at 80% 50%, hsla(43,74%,49%,0.1) 0%, transparent 50%)" }} />
+        <div className="absolute inset-0 opacity-[0.015] pointer-events-none" style={{ backgroundImage: "radial-gradient(circle at 20% 50%, hsla(43,85%,58%,0.15) 0%, transparent 50%), radial-gradient(circle at 80% 50%, hsla(43,85%,58%,0.1) 0%, transparent 50%)" }} />
 
         <div className="container mx-auto px-8 max-w-5xl relative z-10">
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.8 }} className="text-center mb-16">
@@ -326,7 +326,7 @@ const ACMILeasingPage = () => {
 
       {/* ── INQUIRY FORM ── */}
       <section id="acmi-form" className="py-20 md:py-28 relative">
-        <div className="absolute inset-0 opacity-[0.02] pointer-events-none" style={{ background: "radial-gradient(ellipse at 50% 20%, hsla(43,74%,49%,0.3) 0%, transparent 60%)" }} />
+        <div className="absolute inset-0 opacity-[0.02] pointer-events-none" style={{ background: "radial-gradient(ellipse at 50% 20%, hsla(43,85%,58%,0.3) 0%, transparent 60%)" }} />
         <div className="container mx-auto px-8 relative z-10 max-w-2xl">
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.8 }} className="text-center mb-12">
             <p className="text-[9px] tracking-[0.5em] uppercase text-primary/50 mb-5 font-light">Get Started</p>
@@ -416,7 +416,7 @@ const ACMILeasingPage = () => {
                 <button
                   type="submit"
                   disabled={loading}
-                  className="w-full py-4 bg-gradient-gold text-primary-foreground text-[10px] tracking-[0.3em] uppercase font-medium rounded-sm hover:shadow-[0_0_40px_-8px_hsla(43,74%,49%,0.5)] transition-all duration-500 disabled:opacity-50 flex items-center justify-center gap-2"
+                  className="w-full py-4 bg-gradient-gold text-primary-foreground text-[10px] tracking-[0.3em] uppercase font-medium rounded-sm hover:shadow-[0_0_40px_-8px_hsla(43,85%,58%,0.5)] transition-all duration-500 disabled:opacity-50 flex items-center justify-center gap-2"
                 >
                   <FileText className="w-4 h-4" />
                   {loading ? "Submitting..." : "Request Operational Support"}
@@ -433,7 +433,7 @@ const ACMILeasingPage = () => {
 
       {/* ── BOTTOM CTA ── */}
       <section className="py-20 md:py-24 border-t border-[hsl(228,15%,10%)] relative">
-        <div className="absolute inset-0 opacity-[0.03] pointer-events-none" style={{ background: "radial-gradient(ellipse at 50% 50%, hsla(43,74%,49%,0.2) 0%, transparent 60%)" }} />
+        <div className="absolute inset-0 opacity-[0.03] pointer-events-none" style={{ background: "radial-gradient(ellipse at 50% 50%, hsla(43,85%,58%,0.2) 0%, transparent 60%)" }} />
         <div className="container mx-auto px-8 relative z-10 text-center">
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.8 }}>
             <p className="text-[9px] tracking-[0.5em] uppercase text-primary/40 mb-5 font-light">Ready to Deploy</p>
@@ -444,7 +444,7 @@ const ACMILeasingPage = () => {
               Whether you need an aircraft in 48 hours or a long-term ACMI contract, we're ready.
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-              <a href="#acmi-form" className="px-10 py-4 bg-gradient-gold text-primary-foreground text-[10px] tracking-[0.3em] uppercase font-medium rounded-sm hover:shadow-[0_0_40px_-8px_hsla(43,74%,49%,0.5)] transition-all duration-500 inline-flex items-center gap-2">
+              <a href="#acmi-form" className="px-10 py-4 bg-gradient-gold text-primary-foreground text-[10px] tracking-[0.3em] uppercase font-medium rounded-sm hover:shadow-[0_0_40px_-8px_hsla(43,85%,58%,0.5)] transition-all duration-500 inline-flex items-center gap-2">
                 Request Operational Support <ArrowRight className="w-3.5 h-3.5" />
               </a>
               <a href="mailto:ops@universaljets.com" className="px-8 py-4 border border-[hsl(228,15%,18%)] text-white/50 text-[10px] tracking-[0.3em] uppercase font-medium rounded-sm hover:border-primary/20 hover:text-white/75 transition-all duration-500">

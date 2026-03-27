@@ -205,7 +205,7 @@ const QuoteDetailPage = () => {
       disabled={isLoading || actionLoading !== null}
       className={`flex items-center gap-2 px-4 py-2.5 text-[9px] tracking-[0.15em] uppercase font-medium rounded-lg transition-all disabled:opacity-40 ${
         variant === "primary"
-          ? "bg-gradient-gold text-primary-foreground hover:shadow-[0_0_20px_-6px_hsla(43,74%,49%,0.4)]"
+          ? "bg-gradient-gold text-primary-foreground hover:shadow-[0_0_20px_-6px_hsla(43,85%,58%,0.4)]"
           : "bg-secondary/50 text-foreground hover:bg-secondary/80 border border-border/20"
       }`}
     >

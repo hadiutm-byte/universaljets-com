@@ -158,7 +158,7 @@ const MembershipEnrollment = () => {
                             </div>
                           </FormSection>
                           <button type="button" disabled={!canStep1} onClick={() => canStep1 && setStep(2)}
-                            className="w-full mt-2 py-3.5 bg-gradient-gold text-primary-foreground text-[10px] tracking-[0.25em] uppercase font-medium rounded-lg transition-all duration-500 hover:shadow-[0_0_40px_-10px_hsla(43,74%,49%,0.4)] disabled:opacity-40 btn-luxury">
+                            className="w-full mt-2 py-3.5 bg-gradient-gold text-primary-foreground text-[10px] tracking-[0.25em] uppercase font-medium rounded-lg transition-all duration-500 hover:shadow-[0_0_40px_-10px_hsla(43,85%,58%,0.4)] disabled:opacity-40 btn-luxury">
                             Continue
                           </button>
                         </motion.div>
@@ -179,7 +179,7 @@ const MembershipEnrollment = () => {
                           </FormSection>
                           <div className="flex gap-3">
                             <button type="button" onClick={() => setStep(1)} className="flex-1 py-3.5 border border-foreground/[0.06] text-foreground/50 text-[10px] tracking-[0.2em] uppercase font-medium rounded-lg transition-all hover:border-primary/30">Back</button>
-                            <button type="button" onClick={() => setStep(3)} className="flex-1 py-3.5 bg-gradient-gold text-primary-foreground text-[10px] tracking-[0.25em] uppercase font-medium rounded-lg transition-all duration-500 hover:shadow-[0_0_40px_-10px_hsla(43,74%,49%,0.4)] btn-luxury">Continue</button>
+                            <button type="button" onClick={() => setStep(3)} className="flex-1 py-3.5 bg-gradient-gold text-primary-foreground text-[10px] tracking-[0.25em] uppercase font-medium rounded-lg transition-all duration-500 hover:shadow-[0_0_40px_-10px_hsla(43,85%,58%,0.4)] btn-luxury">Continue</button>
                           </div>
                         </motion.div>
                       )}
@@ -215,7 +215,7 @@ const MembershipEnrollment = () => {
                           <div className="flex gap-3 pt-1">
                             <button type="button" onClick={() => setStep(2)} className="flex-1 py-3.5 border border-foreground/[0.06] text-foreground/50 text-[10px] tracking-[0.2em] uppercase font-medium rounded-lg transition-all hover:border-primary/30">Back</button>
                             <button type="button" disabled={!canSubmit || loading} onClick={handleSubmit}
-                              className="flex-1 py-3.5 bg-gradient-gold text-primary-foreground text-[10px] tracking-[0.25em] uppercase font-medium rounded-lg transition-all duration-500 hover:shadow-[0_0_40px_-10px_hsla(43,74%,49%,0.4)] disabled:opacity-40 btn-luxury">
+                              className="flex-1 py-3.5 bg-gradient-gold text-primary-foreground text-[10px] tracking-[0.25em] uppercase font-medium rounded-lg transition-all duration-500 hover:shadow-[0_0_40px_-10px_hsla(43,85%,58%,0.4)] disabled:opacity-40 btn-luxury">
                               {loading ? "Processing…" : "Request Invitation"}
                             </button>
                           </div>
@@ -235,7 +235,7 @@ const MembershipEnrollment = () => {
                 </motion.div>
 
                 <div className="relative rounded-2xl overflow-hidden aspect-[1.586/1] shadow-[0_25px_60px_-15px_rgba(0,0,0,0.5)]" style={{ background: "linear-gradient(160deg, hsl(240 3% 15%) 0%, hsl(240 3% 8%) 40%, hsl(240 2% 12%) 100%)" }}>
-                  <motion.div className="absolute inset-0 opacity-[0.07]" animate={{ backgroundPosition: ["0% 0%", "200% 200%"] }} transition={{ duration: 6, repeat: Infinity, ease: "linear" }} style={{ backgroundImage: "linear-gradient(135deg, transparent 25%, hsla(43,74%,49%,0.4) 35%, transparent 45%, hsla(43,74%,49%,0.2) 55%, transparent 65%)", backgroundSize: "200% 200%" }} />
+                  <motion.div className="absolute inset-0 opacity-[0.07]" animate={{ backgroundPosition: ["0% 0%", "200% 200%"] }} transition={{ duration: 6, repeat: Infinity, ease: "linear" }} style={{ backgroundImage: "linear-gradient(135deg, transparent 25%, hsla(43,85%,58%,0.4) 35%, transparent 45%, hsla(43,85%,58%,0.2) 55%, transparent 65%)", backgroundSize: "200% 200%" }} />
                   <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-primary/30 to-transparent" />
                   <div className="absolute bottom-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-primary/15 to-transparent" />
 
@@ -245,7 +245,7 @@ const MembershipEnrollment = () => {
                       <p className="text-[9px] tracking-[0.3em] uppercase text-primary/40 font-light">Founder Circle</p>
                     </div>
                     <div className="flex items-center gap-4">
-                      <div className="w-10 h-8 rounded-[4px] border border-primary/25 relative overflow-hidden" style={{ background: "linear-gradient(145deg, hsla(43,74%,49%,0.2) 0%, hsla(43,74%,49%,0.08) 100%)" }}>
+                      <div className="w-10 h-8 rounded-[4px] border border-primary/25 relative overflow-hidden" style={{ background: "linear-gradient(145deg, hsla(43,85%,58%,0.2) 0%, hsla(43,85%,58%,0.08) 100%)" }}>
                         <div className="absolute inset-[3px] border border-primary/15 rounded-[2px]" />
                       </div>
                       <p className="text-[16px] tracking-[0.2em] text-white/60 font-light font-mono">{member.id}</p>
@@ -269,7 +269,7 @@ const MembershipEnrollment = () => {
                     <button onClick={() => toast.success("Card saved to your device.")} className="flex items-center gap-2 px-8 py-3.5 border border-foreground/[0.06] text-foreground/60 hover:text-foreground text-[10px] tracking-[0.25em] uppercase font-medium rounded-lg transition-all duration-500">
                       <Download className="w-3.5 h-3.5" strokeWidth={1.3} /> Save Card
                     </button>
-                    <button onClick={() => document.dispatchEvent(new CustomEvent("open-ricky"))} className="flex items-center gap-2 px-8 py-3.5 bg-gradient-gold text-primary-foreground text-[10px] tracking-[0.25em] uppercase font-medium rounded-lg transition-all duration-500 hover:shadow-[0_0_40px_-8px_hsla(43,74%,49%,0.5)] btn-luxury">
+                    <button onClick={() => document.dispatchEvent(new CustomEvent("open-ricky"))} className="flex items-center gap-2 px-8 py-3.5 bg-gradient-gold text-primary-foreground text-[10px] tracking-[0.25em] uppercase font-medium rounded-lg transition-all duration-500 hover:shadow-[0_0_40px_-8px_hsla(43,85%,58%,0.5)] btn-luxury">
                       <MessageCircle className="w-3.5 h-3.5" strokeWidth={1.3} /> Contact Advisor
                     </button>
                   </div>

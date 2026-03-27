@@ -154,7 +154,7 @@ export const JetCard = ({
       background: "radial-gradient(ellipse 80% 60% at 70% 30%, hsl(43, 85%, 58%) 0%, transparent 60%)",
     }} />
     <div className="absolute inset-0 opacity-[0.04]" style={{
-      backgroundImage: "repeating-linear-gradient(135deg, transparent, transparent 2px, hsla(43,74%,49%,0.15) 2px, hsla(43,74%,49%,0.15) 3px)",
+      backgroundImage: "repeating-linear-gradient(135deg, transparent, transparent 2px, hsla(43,85%,58%,0.15) 2px, hsla(43,85%,58%,0.15) 3px)",
     }} />
 
     {/* Diagonal gold accent */}

@@ -6,7 +6,7 @@ const hubs = ["Dubai", "London", "Geneva", "Paris", "New York", "Riyadh"];
 const TrustedNetworkSection = () => (
   <section className="relative py-16 md:py-20 overflow-hidden">
     <div className="absolute inset-0 pointer-events-none opacity-[0.03]" style={{
-      backgroundImage: "radial-gradient(ellipse 50% 40% at 50% 50%, hsla(43,74%,49%,0.2) 0%, transparent 70%)",
+      backgroundImage: "radial-gradient(ellipse 50% 40% at 50% 50%, hsla(43,85%,58%,0.2) 0%, transparent 70%)",
     }} />
 
     <div className="container mx-auto px-8 relative z-10">

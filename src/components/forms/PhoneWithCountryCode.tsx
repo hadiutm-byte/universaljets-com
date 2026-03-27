@@ -131,7 +131,7 @@ const PhoneWithCountryCode = ({
           onChange={(e) => onPhoneChange(e.target.value)}
           placeholder={placeholder}
           maxLength={15}
-          className="flex-1 rounded-lg px-4 py-3.5 text-[13px] text-foreground font-light bg-muted/50 border border-foreground/[0.06] placeholder:text-muted-foreground/40 focus:outline-none focus:border-primary/30 focus:bg-background focus:shadow-[0_0_0_3px_hsla(43,74%,49%,0.06)]"
+          className="flex-1 rounded-lg px-4 py-3.5 text-[13px] text-foreground font-light bg-muted/50 border border-foreground/[0.06] placeholder:text-muted-foreground/40 focus:outline-none focus:border-primary/30 focus:bg-background focus:shadow-[0_0_0_3px_hsla(43,85%,58%,0.06)]"
         />
       </div>
     </div>

@@ -309,7 +309,7 @@ const DesktopDateTimePicker = ({
                   </span>
                   <button
                     onClick={() => setOpen(false)}
-                    className="text-[10px] tracking-[0.2em] uppercase text-white font-semibold bg-gradient-gold px-4 py-1.5 rounded-lg hover:shadow-[0_4px_16px_-4px_hsla(43,74%,49%,0.4)] transition-all cursor-pointer"
+                    className="text-[10px] tracking-[0.2em] uppercase text-white font-semibold bg-gradient-gold px-4 py-1.5 rounded-lg hover:shadow-[0_4px_16px_-4px_hsla(43,85%,58%,0.4)] transition-all cursor-pointer"
                   >
                     Confirm
                   </button>

@@ -75,7 +75,7 @@ const AboutPage = () => (
             >
               <button
                 onClick={() => document.dispatchEvent(new CustomEvent("open-ricky"))}
-                className="inline-flex items-center gap-3 px-10 py-4 bg-gradient-gold text-white text-[11px] tracking-[0.25em] uppercase font-medium rounded-xl hover:shadow-[0_0_40px_-10px_hsla(43,74%,49%,0.4)] transition-all duration-500"
+                className="inline-flex items-center gap-3 px-10 py-4 bg-gradient-gold text-white text-[11px] tracking-[0.25em] uppercase font-medium rounded-xl hover:shadow-[0_0_40px_-10px_hsla(43,85%,58%,0.4)] transition-all duration-500"
               >
                 Start With Ricky <ArrowRight className="w-4 h-4" strokeWidth={1.5} />
               </button>
@@ -254,7 +254,7 @@ const AboutPage = () => (
               </div>
               <button
                 onClick={() => document.dispatchEvent(new CustomEvent("open-ricky"))}
-                className="inline-flex items-center gap-3 px-10 py-4 bg-gradient-gold text-white text-[11px] tracking-[0.25em] uppercase font-medium rounded-xl hover:shadow-[0_0_40px_-10px_hsla(43,74%,49%,0.4)] transition-all duration-500"
+                className="inline-flex items-center gap-3 px-10 py-4 bg-gradient-gold text-white text-[11px] tracking-[0.25em] uppercase font-medium rounded-xl hover:shadow-[0_0_40px_-10px_hsla(43,85%,58%,0.4)] transition-all duration-500"
               >
                 Start With Ricky <ArrowRight className="w-4 h-4" strokeWidth={1.5} />
               </button>

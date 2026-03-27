@@ -215,7 +215,7 @@ const InternalSearchPage = () => {
             <button
               onClick={handleSearch}
               disabled={isLoading}
-              className="w-full py-2.5 bg-gradient-gold text-primary-foreground text-[10px] tracking-[0.2em] uppercase font-medium rounded-lg hover:shadow-[0_0_20px_-6px_hsla(43,74%,49%,0.4)] transition-all disabled:opacity-40 flex items-center justify-center gap-1.5"
+              className="w-full py-2.5 bg-gradient-gold text-primary-foreground text-[10px] tracking-[0.2em] uppercase font-medium rounded-lg hover:shadow-[0_0_20px_-6px_hsla(43,85%,58%,0.4)] transition-all disabled:opacity-40 flex items-center justify-center gap-1.5"
             >
               {isLoading ? <Loader2 size={12} className="animate-spin" /> : <Search size={12} />}
               Search
@@ -304,7 +304,7 @@ const InternalSearchPage = () => {
                       }}
                       className={`px-4 py-2 text-[9px] tracking-[0.15em] uppercase font-medium rounded-lg transition-all flex items-center gap-1.5 ${
                         clientId
-                          ? "bg-gradient-gold text-primary-foreground hover:shadow-[0_0_15px_-4px_hsla(43,74%,49%,0.4)]"
+                          ? "bg-gradient-gold text-primary-foreground hover:shadow-[0_0_15px_-4px_hsla(43,85%,58%,0.4)]"
                           : "bg-secondary/50 text-muted-foreground/40 border border-border/20"
                       }`}
                     >
@@ -355,7 +355,7 @@ const InternalSearchPage = () => {
             <button
               onClick={handleCreateQuote}
               disabled={submitting}
-              className="w-full py-3 bg-gradient-gold text-primary-foreground text-[9px] tracking-[0.25em] uppercase font-medium rounded-lg hover:shadow-[0_0_30px_-8px_hsla(43,74%,49%,0.45)] transition-all duration-500 disabled:opacity-40 flex items-center justify-center gap-1.5"
+              className="w-full py-3 bg-gradient-gold text-primary-foreground text-[9px] tracking-[0.25em] uppercase font-medium rounded-lg hover:shadow-[0_0_30px_-8px_hsla(43,85%,58%,0.45)] transition-all duration-500 disabled:opacity-40 flex items-center justify-center gap-1.5"
             >
               {submitting ? <Loader2 size={12} className="animate-spin" /> : null}
               Create Quote

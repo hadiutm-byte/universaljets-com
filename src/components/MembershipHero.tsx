@@ -43,7 +43,7 @@ const MembershipHero = ({ onRequestInvitation, onSpeakToAdvisor }: MembershipHer
       }}
     />
 
-    <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-[hsl(43,74%,49%,0.2)] to-transparent" />
+    <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-[hsl(43,85%,58%,0.2)] to-transparent" />
 
     <div className="container mx-auto px-8 relative z-10">
       <motion.div
@@ -55,9 +55,9 @@ const MembershipHero = ({ onRequestInvitation, onSpeakToAdvisor }: MembershipHer
       >
         <motion.div
           variants={fadeUp}
-          className="inline-flex items-center gap-2 px-5 py-2 rounded-full border border-[hsl(43,74%,49%,0.15)] bg-[hsl(43,74%,49%,0.04)] mb-10"
+          className="inline-flex items-center gap-2 px-5 py-2 rounded-full border border-[hsl(43,85%,58%,0.15)] bg-[hsl(43,85%,58%,0.04)] mb-10"
         >
-          <div className="w-1.5 h-1.5 rounded-full bg-[hsl(43,74%,49%)] animate-pulse" />
+          <div className="w-1.5 h-1.5 rounded-full bg-[hsl(43,85%,58%)] animate-pulse" />
           <span className="text-[9px] tracking-[0.4em] uppercase text-primary/80 font-light">
             Limited invitations released monthly
           </span>
@@ -92,7 +92,7 @@ const MembershipHero = ({ onRequestInvitation, onSpeakToAdvisor }: MembershipHer
           className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-20"
         >
           <motion.button
-            whileHover={{ scale: 1.04, boxShadow: "0 0 50px -12px hsla(43,74%,49%,0.5)" }}
+            whileHover={{ scale: 1.04, boxShadow: "0 0 50px -12px hsla(43,85%,58%,0.5)" }}
             whileTap={{ scale: 0.95 }}
             onClick={() => { trackMembershipRequest(); onRequestInvitation(); }}
             className="px-10 py-4 bg-gradient-gold text-white text-[10px] tracking-[0.3em] uppercase font-semibold rounded-xl transition-all duration-500 cursor-pointer min-h-[48px]"
@@ -134,7 +134,7 @@ const MembershipHero = ({ onRequestInvitation, onSpeakToAdvisor }: MembershipHer
       </motion.div>
     </div>
 
-    <div className="absolute bottom-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-[hsl(43,74%,49%,0.15)] to-transparent" />
+    <div className="absolute bottom-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-[hsl(43,85%,58%,0.15)] to-transparent" />
   </section>
 );
 

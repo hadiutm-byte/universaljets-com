@@ -35,7 +35,7 @@ const RickyAnimatedAvatar = ({
       <motion.div
         className="absolute inset-0 rounded-full"
         style={{
-          background: "radial-gradient(circle, hsla(43,74%,49%,0.15) 0%, transparent 70%)",
+          background: "radial-gradient(circle, hsla(43,85%,58%,0.15) 0%, transparent 70%)",
         }}
         animate={{
           scale: speaking ? [1, 1.2, 1] : [1, 1.08, 1],
@@ -53,7 +53,7 @@ const RickyAnimatedAvatar = ({
         src={img}
         alt="Ricky — Aviation Concierge"
         className="w-full h-full object-contain drop-shadow-lg"
-        style={{ filter: "drop-shadow(0 4px 12px hsla(43,74%,49%,0.2))" }}
+        style={{ filter: "drop-shadow(0 4px 12px hsla(43,85%,58%,0.2))" }}
         animate={{
           scale: speaking ? [1, 1.04, 1, 1.03, 1] : [1, 1.02, 1],
         }}

@@ -112,7 +112,7 @@ const TierCard = forwardRef<HTMLDivElement, { tier: typeof tiers[0]; index: numb
       <div
         className={`relative flex flex-col rounded-2xl overflow-hidden transition-all duration-300 h-full ${
           isMaverick
-            ? "border-2 border-primary/40 shadow-[0_0_40px_-10px_hsla(43,74%,49%,0.2)]"
+            ? "border-2 border-primary/40 shadow-[0_0_40px_-10px_hsla(43,85%,58%,0.2)]"
             : isPopular
             ? "border border-primary/25"
             : "border border-[hsl(228,12%,24%)]"
@@ -176,9 +176,9 @@ const TierCard = forwardRef<HTMLDivElement, { tier: typeof tiers[0]; index: numb
             to={`/membership/enroll?tier=${tier.name.toLowerCase()}`}
             className={`block text-center py-4 text-[10px] tracking-[0.2em] uppercase font-medium rounded-xl transition-all duration-500 active:scale-[0.97] min-h-[48px] flex items-center justify-center ${
               isMaverick
-                ? "bg-gradient-gold text-primary-foreground hover:shadow-[0_0_40px_-10px_hsla(43,74%,49%,0.5)] hover:scale-[1.01]"
+                ? "bg-gradient-gold text-primary-foreground hover:shadow-[0_0_40px_-10px_hsla(43,85%,58%,0.5)] hover:scale-[1.01]"
                 : isPopular
-                ? "bg-primary/15 border border-primary/25 text-primary hover:bg-primary/20 hover:shadow-[0_0_25px_-8px_hsla(43,74%,49%,0.3)]"
+                ? "bg-primary/15 border border-primary/25 text-primary hover:bg-primary/20 hover:shadow-[0_0_25px_-8px_hsla(43,85%,58%,0.3)]"
                 : "bg-white/[0.1] border border-white/[0.18] text-white/85 hover:bg-white/[0.15] hover:text-white hover:border-primary/20"
             }`}
           >
@@ -228,7 +228,7 @@ const MembersPage = () => (
     {/* 1. HERO */}
     <section className="relative pt-32 pb-20 md:pt-44 md:pb-28 overflow-hidden">
       <div className="absolute inset-0" style={{ background: "linear-gradient(180deg, hsl(228,18%,4%) 0%, hsl(228,14%,7%) 50%, hsl(228,18%,4%) 100%)" }} />
-      <div className="absolute inset-0 opacity-20" style={{ background: "radial-gradient(ellipse 55% 35% at 50% 40%, hsla(43,74%,49%,0.12) 0%, transparent 70%)" }} />
+      <div className="absolute inset-0 opacity-20" style={{ background: "radial-gradient(ellipse 55% 35% at 50% 40%, hsla(43,85%,58%,0.12) 0%, transparent 70%)" }} />
       <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-primary/20 to-transparent" />
 
       <div className="container mx-auto px-8 text-center max-w-3xl relative z-10">
@@ -281,7 +281,7 @@ const MembersPage = () => (
         >
           <Link
             to="/membership/enroll"
-            className="px-10 py-4 bg-gradient-gold text-primary-foreground text-[10px] tracking-[0.3em] uppercase font-semibold rounded-xl hover:shadow-[0_0_50px_-12px_hsla(43,74%,49%,0.5)] transition-all duration-500 active:scale-[0.97] min-h-[48px] flex items-center justify-center"
+            className="px-10 py-4 bg-gradient-gold text-primary-foreground text-[10px] tracking-[0.3em] uppercase font-semibold rounded-xl hover:shadow-[0_0_50px_-12px_hsla(43,85%,58%,0.5)] transition-all duration-500 active:scale-[0.97] min-h-[48px] flex items-center justify-center"
           >
             Request Membership
           </Link>
@@ -552,7 +552,7 @@ const MembersPage = () => (
     {/* 6. FINAL CTA */}
     <section className="py-20 md:py-28 relative overflow-hidden">
       <div className="absolute inset-0" style={{ background: "linear-gradient(180deg, hsl(228,14%,5%) 0%, hsl(228,18%,3.5%) 100%)" }} />
-      <div className="absolute inset-0 opacity-25" style={{ background: "radial-gradient(ellipse 50% 40% at 50% 50%, hsla(43,74%,49%,0.1) 0%, transparent 65%)" }} />
+      <div className="absolute inset-0 opacity-25" style={{ background: "radial-gradient(ellipse 50% 40% at 50% 50%, hsla(43,85%,58%,0.1) 0%, transparent 65%)" }} />
 
       <div className="container mx-auto px-8 text-center max-w-xl relative z-10">
         <motion.div
@@ -573,7 +573,7 @@ const MembersPage = () => (
           <div className="flex flex-col sm:flex-row gap-4 justify-center mb-8">
             <Link
               to="/membership/enroll"
-              className="px-10 py-4 bg-gradient-gold text-primary-foreground text-[10px] tracking-[0.25em] uppercase font-semibold rounded-xl hover:shadow-[0_0_50px_-12px_hsla(43,74%,49%,0.5)] transition-all duration-500 active:scale-[0.97] min-h-[48px] flex items-center justify-center"
+              className="px-10 py-4 bg-gradient-gold text-primary-foreground text-[10px] tracking-[0.25em] uppercase font-semibold rounded-xl hover:shadow-[0_0_50px_-12px_hsla(43,85%,58%,0.5)] transition-all duration-500 active:scale-[0.97] min-h-[48px] flex items-center justify-center"
             >
               Enroll in Membership
             </Link>

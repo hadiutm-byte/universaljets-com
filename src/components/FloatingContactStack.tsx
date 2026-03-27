@@ -81,7 +81,7 @@ const FloatingContactStack = () => {
           className="group flex items-center gap-2.5"
           aria-label={btn.label}
         >
-          <div className="w-11 h-11 min-w-[44px] min-h-[44px] rounded-full bg-[hsl(220,10%,12%)] border border-white/10 shadow-[0_4px_20px_hsla(0,0%,0%,0.4)] flex items-center justify-center transition-all duration-300 group-hover:shadow-[0_0_20px_-4px_hsla(43,74%,49%,0.25)] group-hover:border-primary/20">
+          <div className="w-11 h-11 min-w-[44px] min-h-[44px] rounded-full bg-[hsl(220,10%,12%)] border border-white/10 shadow-[0_4px_20px_hsla(0,0%,0%,0.4)] flex items-center justify-center transition-all duration-300 group-hover:shadow-[0_0_20px_-4px_hsla(43,85%,58%,0.25)] group-hover:border-primary/20">
             <btn.icon className="w-[18px] h-[18px] text-primary/80 group-hover:text-primary transition-colors" strokeWidth={1.5} />
           </div>
           <AnimatePresence>

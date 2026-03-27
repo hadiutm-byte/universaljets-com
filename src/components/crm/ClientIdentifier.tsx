@@ -245,7 +245,7 @@ export default function ClientIdentifier() {
             </Link>
             <Link
               to={`/crm/search-inventory?client_id=${selected.id}&client_name=${encodeURIComponent(selected.full_name)}`}
-              className="flex-1 text-center py-2.5 bg-gradient-gold text-primary-foreground text-[9px] tracking-[0.2em] uppercase font-medium rounded-lg hover:shadow-[0_0_20px_-6px_hsla(43,74%,49%,0.4)] transition-all flex items-center justify-center gap-1.5"
+              className="flex-1 text-center py-2.5 bg-gradient-gold text-primary-foreground text-[9px] tracking-[0.2em] uppercase font-medium rounded-lg hover:shadow-[0_0_20px_-6px_hsla(43,85%,58%,0.4)] transition-all flex items-center justify-center gap-1.5"
             >
               <Plane size={10} /> Search for Client
             </Link>

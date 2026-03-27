@@ -75,7 +75,7 @@ const AdminUsersPage = () => {
           <h1 className="font-display text-xl md:text-2xl">User Management</h1>
           <p className="text-[11px] text-muted-foreground/60 mt-1">{userMap.size} users · {roles.length} role assignments</p>
         </div>
-        <button onClick={() => setAddOpen(true)} className="flex items-center gap-2 px-5 py-2.5 bg-gradient-gold text-primary-foreground text-[9px] tracking-[0.2em] uppercase font-medium rounded-lg hover:shadow-[0_0_30px_-8px_hsla(43,74%,49%,0.45)] transition-all duration-500">
+        <button onClick={() => setAddOpen(true)} className="flex items-center gap-2 px-5 py-2.5 bg-gradient-gold text-primary-foreground text-[9px] tracking-[0.2em] uppercase font-medium rounded-lg hover:shadow-[0_0_30px_-8px_hsla(43,85%,58%,0.45)] transition-all duration-500">
           <Plus className="w-3.5 h-3.5" /> Assign Role
         </button>
       </div>
@@ -132,7 +132,7 @@ const AdminUsersPage = () => {
                 {ALL_ROLES.map(r => <option key={r} value={r}>{r.replace("_", " ")}</option>)}
               </select>
             </div>
-            <button type="submit" className="w-full py-3 bg-gradient-gold text-primary-foreground text-[9px] tracking-[0.25em] uppercase font-medium rounded-lg hover:shadow-[0_0_30px_-8px_hsla(43,74%,49%,0.45)] transition-all duration-500">Assign</button>
+            <button type="submit" className="w-full py-3 bg-gradient-gold text-primary-foreground text-[9px] tracking-[0.25em] uppercase font-medium rounded-lg hover:shadow-[0_0_30px_-8px_hsla(43,85%,58%,0.45)] transition-all duration-500">Assign</button>
           </form>
         </DialogContent>
       </Dialog>

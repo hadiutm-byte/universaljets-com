@@ -254,7 +254,7 @@ html {
 
   .text-gradient-gold {
     @apply bg-clip-text text-transparent;
-    background-image: linear-gradient(135deg, hsl(43, 85%, 58%), hsl(43, 74%, 42%), hsl(43, 85%, 58%));
+    background-image: linear-gradient(135deg, hsl(43, 85%, 58%), hsl(43, 80%, 48%), hsl(43, 85%, 58%));
   }
 
   .acmi-page .text-foreground {
@@ -310,12 +310,12 @@ html {
   }
 
   @keyframes logo-glow-breathe {
-    0%, 100% { filter: drop-shadow(0 0 2px hsla(43, 74%, 55%, 0.0)); }
-    50% { filter: drop-shadow(0 0 6px hsla(43, 74%, 55%, 0.18)); }
+    0%, 100% { filter: drop-shadow(0 0 2px hsla(43, 85%, 58%, 0.0)); }
+    50% { filter: drop-shadow(0 0 6px hsla(43, 85%, 58%, 0.18)); }
   }
 
   .bg-gradient-gold {
-    background-image: linear-gradient(135deg, hsl(43, 85%, 58%), hsl(43, 74%, 38%), hsl(43, 85%, 58%));
+    background-image: linear-gradient(135deg, hsl(43, 85%, 58%), hsl(43, 80%, 45%), hsl(43, 85%, 58%));
   }
 
   /* === SECTION ALTERNATION === */

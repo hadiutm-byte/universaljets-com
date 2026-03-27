@@ -99,7 +99,7 @@ const AuthModal = ({ open, onClose }: AuthModalProps) => {
             }}
           >
             {/* Top gold line */}
-            <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-[hsl(43,74%,49%,0.4)] to-transparent" />
+            <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-[hsl(43,85%,58%,0.4)] to-transparent" />
 
             {/* Close */}
             <button
@@ -112,7 +112,7 @@ const AuthModal = ({ open, onClose }: AuthModalProps) => {
             <div className="p-8 pt-10">
               {/* Header */}
               <div className="text-center mb-8">
-                <p className="text-[9px] tracking-[0.5em] uppercase text-[hsl(43,74%,49%,0.6)] mb-4 font-light">
+                <p className="text-[9px] tracking-[0.5em] uppercase text-[hsl(43,85%,58%,0.6)] mb-4 font-light">
                   Private Access Network
                 </p>
                 <h3 className="text-xl font-display font-semibold text-white/90 mb-2">
@@ -162,7 +162,7 @@ const AuthModal = ({ open, onClose }: AuthModalProps) => {
               <form onSubmit={handleEmailAuth} className="space-y-3.5">
                 {mode === "signup" && (
                   <div>
-                    <label className="text-[8px] tracking-[0.3em] uppercase text-[hsl(43,74%,49%,0.5)] mb-1.5 block font-light">
+                    <label className="text-[8px] tracking-[0.3em] uppercase text-[hsl(43,85%,58%,0.5)] mb-1.5 block font-light">
                       Full Name
                     </label>
                     <input
@@ -171,12 +171,12 @@ const AuthModal = ({ open, onClose }: AuthModalProps) => {
                       onChange={(e) => setFullName(e.target.value)}
                       placeholder="Your name"
                       required
-                      className="w-full bg-white/[0.04] border border-white/8 rounded-lg px-4 py-3 text-[13px] text-white/90 placeholder:text-white/15 font-light focus:outline-none focus:border-[hsl(43,74%,49%,0.3)] transition-colors"
+                      className="w-full bg-white/[0.04] border border-white/8 rounded-lg px-4 py-3 text-[13px] text-white/90 placeholder:text-white/15 font-light focus:outline-none focus:border-[hsl(43,85%,58%,0.3)] transition-colors"
                     />
                   </div>
                 )}
                 <div>
-                  <label className="text-[8px] tracking-[0.3em] uppercase text-[hsl(43,74%,49%,0.5)] mb-1.5 block font-light">
+                  <label className="text-[8px] tracking-[0.3em] uppercase text-[hsl(43,85%,58%,0.5)] mb-1.5 block font-light">
                     Email
                   </label>
                   <input
@@ -185,11 +185,11 @@ const AuthModal = ({ open, onClose }: AuthModalProps) => {
                     onChange={(e) => setEmail(e.target.value)}
                     placeholder="your@email.com"
                     required
-                    className="w-full bg-white/[0.04] border border-white/8 rounded-lg px-4 py-3 text-[13px] text-white/90 placeholder:text-white/15 font-light focus:outline-none focus:border-[hsl(43,74%,49%,0.3)] transition-colors"
+                    className="w-full bg-white/[0.04] border border-white/8 rounded-lg px-4 py-3 text-[13px] text-white/90 placeholder:text-white/15 font-light focus:outline-none focus:border-[hsl(43,85%,58%,0.3)] transition-colors"
                   />
                 </div>
                 <div>
-                  <label className="text-[8px] tracking-[0.3em] uppercase text-[hsl(43,74%,49%,0.5)] mb-1.5 block font-light">
+                  <label className="text-[8px] tracking-[0.3em] uppercase text-[hsl(43,85%,58%,0.5)] mb-1.5 block font-light">
                     Password
                   </label>
                   <input
@@ -199,14 +199,14 @@ const AuthModal = ({ open, onClose }: AuthModalProps) => {
                     placeholder="••••••••"
                     required
                     minLength={6}
-                    className="w-full bg-white/[0.04] border border-white/8 rounded-lg px-4 py-3 text-[13px] text-white/90 placeholder:text-white/15 font-light focus:outline-none focus:border-[hsl(43,74%,49%,0.3)] transition-colors"
+                    className="w-full bg-white/[0.04] border border-white/8 rounded-lg px-4 py-3 text-[13px] text-white/90 placeholder:text-white/15 font-light focus:outline-none focus:border-[hsl(43,85%,58%,0.3)] transition-colors"
                   />
                 </div>
 
                 <button
                   type="submit"
                   disabled={loading}
-                  className="w-full py-3.5 bg-gradient-gold text-white text-[10px] tracking-[0.25em] uppercase font-semibold rounded-lg hover:shadow-[0_0_30px_-8px_hsla(43,74%,49%,0.45)] transition-all duration-500 mt-1 disabled:opacity-50 cursor-pointer"
+                  className="w-full py-3.5 bg-gradient-gold text-white text-[10px] tracking-[0.25em] uppercase font-semibold rounded-lg hover:shadow-[0_0_30px_-8px_hsla(43,85%,58%,0.45)] transition-all duration-500 mt-1 disabled:opacity-50 cursor-pointer"
                 >
                   {loading
                     ? "Please wait..."
@@ -221,7 +221,7 @@ const AuthModal = ({ open, onClose }: AuthModalProps) => {
                 {mode === "signup" ? "Already a member?" : "Don't have access?"}{" "}
                 <button
                   onClick={() => setMode(mode === "signup" ? "login" : "signup")}
-                  className="text-[hsl(43,74%,49%,0.6)] hover:text-[hsl(43,74%,49%,0.9)] transition-colors cursor-pointer"
+                  className="text-[hsl(43,85%,58%,0.6)] hover:text-[hsl(43,85%,58%,0.9)] transition-colors cursor-pointer"
                 >
                   {mode === "signup" ? "Sign In" : "Request Invitation"}
                 </button>
@@ -229,7 +229,7 @@ const AuthModal = ({ open, onClose }: AuthModalProps) => {
             </div>
 
             {/* Bottom gold line */}
-            <div className="h-[1px] bg-gradient-to-r from-transparent via-[hsl(43,74%,49%,0.15)] to-transparent" />
+            <div className="h-[1px] bg-gradient-to-r from-transparent via-[hsl(43,85%,58%,0.15)] to-transparent" />
           </motion.div>
         </motion.div>
       )}

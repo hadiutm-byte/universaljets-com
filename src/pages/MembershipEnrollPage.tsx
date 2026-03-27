@@ -150,7 +150,7 @@ const MembershipEnrollPage = () => {
                         </div>
                       </FormSection>
                       <button type="button" disabled={!canStep1} onClick={() => setStep(2)}
-                        className="w-full py-3.5 bg-gradient-gold text-primary-foreground text-[10px] tracking-[0.25em] uppercase font-medium rounded-lg transition-all duration-500 hover:shadow-[0_0_40px_-10px_hsla(43,74%,49%,0.4)] disabled:opacity-40 btn-luxury">
+                        className="w-full py-3.5 bg-gradient-gold text-primary-foreground text-[10px] tracking-[0.25em] uppercase font-medium rounded-lg transition-all duration-500 hover:shadow-[0_0_40px_-10px_hsla(43,85%,58%,0.4)] disabled:opacity-40 btn-luxury">
                         Continue
                       </button>
                     </motion.div>
@@ -165,7 +165,7 @@ const MembershipEnrollPage = () => {
                             <button key={t.key} type="button" onClick={() => setSelectedTier(t.key)}
                               className={`p-4 rounded-xl border text-left transition-all duration-300 ${
                                 selectedTier === t.key
-                                  ? "border-primary bg-primary/5 shadow-[0_0_20px_-5px_hsla(43,74%,49%,0.15)]"
+                                  ? "border-primary bg-primary/5 shadow-[0_0_20px_-5px_hsla(43,85%,58%,0.15)]"
                                   : "border-foreground/[0.06] bg-muted/30 hover:border-primary/20"
                               }`}>
                               <p className={`font-display text-lg font-semibold mb-1 ${selectedTier === t.key ? "text-primary" : "text-foreground"}`}>{t.name}</p>
@@ -178,7 +178,7 @@ const MembershipEnrollPage = () => {
                       <div className="flex gap-3">
                         <button type="button" onClick={() => setStep(1)} className="flex-1 py-3.5 border border-foreground/[0.06] text-foreground/50 text-[10px] tracking-[0.2em] uppercase font-medium rounded-lg transition-all hover:border-primary/30">Back</button>
                         <button type="button" disabled={!canStep2} onClick={() => setStep(3)}
-                          className="flex-1 py-3.5 bg-gradient-gold text-primary-foreground text-[10px] tracking-[0.25em] uppercase font-medium rounded-lg transition-all duration-500 hover:shadow-[0_0_40px_-10px_hsla(43,74%,49%,0.4)] disabled:opacity-40 btn-luxury">Continue</button>
+                          className="flex-1 py-3.5 bg-gradient-gold text-primary-foreground text-[10px] tracking-[0.25em] uppercase font-medium rounded-lg transition-all duration-500 hover:shadow-[0_0_40px_-10px_hsla(43,85%,58%,0.4)] disabled:opacity-40 btn-luxury">Continue</button>
                       </div>
                     </motion.div>
                   )}
@@ -207,7 +207,7 @@ const MembershipEnrollPage = () => {
                       <div className="flex gap-3">
                         <button type="button" onClick={() => setStep(2)} className="flex-1 py-3.5 border border-foreground/[0.06] text-foreground/50 text-[10px] tracking-[0.2em] uppercase font-medium rounded-lg transition-all hover:border-primary/30">Back</button>
                         <button type="button" onClick={() => setStep(4)}
-                          className="flex-1 py-3.5 bg-gradient-gold text-primary-foreground text-[10px] tracking-[0.25em] uppercase font-medium rounded-lg transition-all duration-500 hover:shadow-[0_0_40px_-10px_hsla(43,74%,49%,0.4)] btn-luxury">Continue</button>
+                          className="flex-1 py-3.5 bg-gradient-gold text-primary-foreground text-[10px] tracking-[0.25em] uppercase font-medium rounded-lg transition-all duration-500 hover:shadow-[0_0_40px_-10px_hsla(43,85%,58%,0.4)] btn-luxury">Continue</button>
                       </div>
                     </motion.div>
                   )}
@@ -226,7 +226,7 @@ const MembershipEnrollPage = () => {
                       <div className="flex gap-3">
                         <button type="button" onClick={() => setStep(3)} className="flex-1 py-3.5 border border-foreground/[0.06] text-foreground/50 text-[10px] tracking-[0.2em] uppercase font-medium rounded-lg transition-all hover:border-primary/30">Back</button>
                         <button type="button" onClick={() => setStep(5)}
-                          className="flex-1 py-3.5 bg-gradient-gold text-primary-foreground text-[10px] tracking-[0.25em] uppercase font-medium rounded-lg transition-all duration-500 hover:shadow-[0_0_40px_-10px_hsla(43,74%,49%,0.4)] btn-luxury">Continue</button>
+                          className="flex-1 py-3.5 bg-gradient-gold text-primary-foreground text-[10px] tracking-[0.25em] uppercase font-medium rounded-lg transition-all duration-500 hover:shadow-[0_0_40px_-10px_hsla(43,85%,58%,0.4)] btn-luxury">Continue</button>
                       </div>
                     </motion.div>
                   )}
@@ -279,7 +279,7 @@ const MembershipEnrollPage = () => {
                       <div className="flex gap-3">
                         <button type="button" onClick={() => setStep(4)} className="flex-1 py-3.5 border border-foreground/[0.06] text-foreground/50 text-[10px] tracking-[0.2em] uppercase font-medium rounded-lg transition-all hover:border-primary/30">Back</button>
                         <button type="button" disabled={!canSubmit || loading} onClick={handleSubmit}
-                          className="flex-1 py-3.5 bg-gradient-gold text-primary-foreground text-[10px] tracking-[0.25em] uppercase font-medium rounded-lg transition-all duration-500 hover:shadow-[0_0_40px_-10px_hsla(43,74%,49%,0.4)] disabled:opacity-40 btn-luxury">
+                          className="flex-1 py-3.5 bg-gradient-gold text-primary-foreground text-[10px] tracking-[0.25em] uppercase font-medium rounded-lg transition-all duration-500 hover:shadow-[0_0_40px_-10px_hsla(43,85%,58%,0.4)] disabled:opacity-40 btn-luxury">
                           {loading ? "Processing…" : "Submit Application"}
                         </button>
                       </div>
@@ -303,7 +303,7 @@ const MembershipEnrollPage = () => {
                   Your membership application has been received. A dedicated advisor will contact you shortly.
                 </p>
                 <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                  <Link to="/" className="px-8 py-3.5 bg-gradient-gold text-primary-foreground text-[10px] tracking-[0.25em] uppercase font-medium rounded-xl hover:shadow-[0_0_30px_-8px_hsla(43,74%,49%,0.45)] transition-all duration-500">
+                  <Link to="/" className="px-8 py-3.5 bg-gradient-gold text-primary-foreground text-[10px] tracking-[0.25em] uppercase font-medium rounded-xl hover:shadow-[0_0_30px_-8px_hsla(43,85%,58%,0.45)] transition-all duration-500">
                     Return Home
                   </Link>
                   <Link to="/fleet" className="inline-flex items-center justify-center gap-2 px-8 py-3.5 border border-border text-foreground/60 hover:text-foreground text-[10px] tracking-[0.25em] uppercase font-medium rounded-xl transition-all duration-500">
