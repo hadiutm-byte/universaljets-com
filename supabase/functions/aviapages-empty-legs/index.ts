@@ -407,9 +407,6 @@ serve(async (req) => {
       throw new Error('AVIAPAGES_API_KEY not configured');
     }
 
-    // Debug: log key prefix to verify correct key is loaded
-    console.log(`[empty-legs] Using API key: ${apiKey.substring(0, 6)}...${apiKey.substring(apiKey.length - 4)}`);
-
     await loadAircraftTypeCache(apiKey);
 
     const url = new URL(req.url);
