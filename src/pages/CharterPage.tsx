@@ -161,7 +161,7 @@ const CharterPage = () => {
               <div key={name} className="rounded-xl border border-border bg-card p-5 text-center hover:shadow-[0_10px_30px_rgba(0,0,0,0.06)] transition-all">
                 <p className="font-display text-sm font-medium text-foreground">{name}</p>
                 <Link
-                  to="/contact"
+                  to="/request-flight"
                   className="mt-3 inline-block text-[9px] tracking-[0.12em] uppercase text-primary hover:underline"
                 >
                   Request This Aircraft
@@ -174,7 +174,7 @@ const CharterPage = () => {
         {/* CTA */}
         <div className="flex flex-wrap gap-4">
           <Link
-            to="/contact"
+            to="/request-flight"
             className="inline-flex items-center gap-2 px-8 py-3.5 rounded-full bg-primary text-primary-foreground text-[12px] tracking-[0.15em] uppercase font-semibold hover:bg-primary/90 transition-colors shadow-[0_8px_24px_hsl(var(--primary)/0.25)]"
           >
             <Plane size={16} strokeWidth={1.5} />
