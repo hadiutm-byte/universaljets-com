@@ -458,7 +458,7 @@ const MembersPage = () => (
               )}
 
               <h3 className="font-display text-[16px] mb-3 text-white font-semibold">{s.title}</h3>
-              <p className="text-[12px] text-white/65 font-light leading-[1.9] max-w-[240px] mx-auto">{s.desc}</p>
+              <p className="text-[12px] text-white/75 font-light leading-[1.9] max-w-[240px] mx-auto">{s.desc}</p>
             </motion.div>
           ))}
         </div>
