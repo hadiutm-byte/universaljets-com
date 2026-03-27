@@ -60,6 +60,7 @@ const AirportField = ({
   onSelect,
   onClearSelection,
   compact = false,
+  error = false,
 }: {
   label: string;
   icon: typeof MapPin;
@@ -71,6 +72,7 @@ const AirportField = ({
   onSelect: (a: Airport) => void;
   onClearSelection: () => void;
   compact?: boolean;
+  error?: boolean;
 }) => {
   const ref = useRef<HTMLDivElement>(null);
   const [showDropdown, setShowDropdown] = useState(false);
