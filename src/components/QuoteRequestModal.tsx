@@ -613,7 +613,7 @@ const QuoteRequestModal = ({ open, onClose, flightData }: QuoteRequestModalProps
                   <p className="text-[9px] tracking-[0.3em] uppercase text-primary/70 font-medium mb-2">Contact</p>
                   <p className="text-[13px] text-foreground font-light">{form.name}</p>
                   <p className="text-[11px] text-muted-foreground font-light">{form.email}</p>
-                  {form.phone && <p className="text-[11px] text-muted-foreground font-light">{form.phone}</p>}
+                  {phoneNumber && <p className="text-[11px] text-muted-foreground font-light">{phoneCode} {phoneNumber}</p>}
                   {form.notes && <p className="text-[11px] text-muted-foreground/60 font-light mt-1 italic">"{form.notes}"</p>}
                 </div>
               </div>
