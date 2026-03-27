@@ -22,6 +22,8 @@ export default defineConfig(({ mode }) => ({
           'vendor-query': ['@tanstack/react-query'],
           'vendor-supabase': ['@supabase/supabase-js'],
           'vendor-recharts': ['recharts'],
+          'vendor-mapbox': ['mapbox-gl'],
+          'vendor-datefns': ['date-fns'],
         },
       },
     },
