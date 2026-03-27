@@ -167,14 +167,17 @@ const formatAirportDisplay = (airport: Airport) => {
 };
 
 const QuoteRequestModal = ({ open, onClose, flightData }: QuoteRequestModalProps) => {
+  const geo = useUserGeolocation();
   const [step, setStep] = useState<Step>(1);
   const [submitting, setSubmitting] = useState(false);
   const { capture } = useCrmApi();
 
+  const [phoneCode, setPhoneCode] = useState("+971");
+  const [phoneNumber, setPhoneNumber] = useState("");
+
   const [form, setForm] = useState({
     name: "",
     email: "",
-    phone: "",
     notes: "",
     departure: flightData.fromLabel,
     destination: flightData.toLabel,
@@ -182,6 +185,11 @@ const QuoteRequestModal = ({ open, onClose, flightData }: QuoteRequestModalProps
     passengers: flightData.passengers || "1",
     aircraft: flightData.aircraft || "",
   });
+
+  const resolvedCode = resolveCountryCode(geo.countryCode);
+  useEffect(() => {
+    if (phoneCode === "+971" && resolvedCode !== "+971") setPhoneCode(resolvedCode);
+  }, [resolvedCode]);
 
   const [fromQuery, setFromQuery] = useState(flightData.fromLabel);
   const [toQuery, setToQuery] = useState(flightData.toLabel);
