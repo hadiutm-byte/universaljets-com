@@ -333,7 +333,8 @@ export function toPublicDisplay(ac: {
   const gallery = (ac.images || [])
     .filter(i => i.type !== "floor_plan" && i.type !== "floorplan" && i.type !== "layout")
     .map(i => ({ url: i.url, type: i.type || "exterior" }));
-  const image = ac.image_url || gallery[0]?.url || getAircraftImage(name);
+  // Never use image_url (API hero) — may show painted registrations; always use curated local
+  const image = getAircraftImage(name);
 
   return {
     name,
