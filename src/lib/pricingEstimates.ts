@@ -90,31 +90,66 @@ export function getCharterPrice(opts: {
 
   // 1. Exact price from API
   if (price != null && price > 0) {
+    // Server-side estimate — display as "From $XX,XXX est."
+    if (priceUnit === "estimate") {
+      const formatted = new Intl.NumberFormat("en-US", {
+        style: "currency",
+        currency: priceCurrency,
+        maximumFractionDigits: 0,
+      }).format(price);
+      return {
+        display: `From ${formatted} estimate`,
+        low: price,
+        high: price,
+        isEstimate: true,
+        variant: "estimate",
+      };
+    }
+
+    // If price_unit is per_hour, multiply by estimated flight hours
+    if (priceUnit === "per_hour" || priceUnit === "hourly") {
+      const minutes = flightTimeMin || (distanceNm ? estimateFlightTimeMin(distanceNm, aircraftClass, speedKmh) : null);
+      if (minutes && minutes > 0) {
+        const totalPrice = Math.round(price * Math.max(minutes / 60, 1));
+        const formatted = new Intl.NumberFormat("en-US", {
+          style: "currency",
+          currency: priceCurrency,
+          maximumFractionDigits: 0,
+        }).format(totalPrice);
+        return {
+          display: `From ${formatted}`,
+          low: totalPrice,
+          high: totalPrice,
+          isEstimate: false,
+          variant: "exact",
+        };
+      }
+      const formatted = new Intl.NumberFormat("en-US", {
+        style: "currency",
+        currency: priceCurrency,
+        maximumFractionDigits: 0,
+      }).format(price);
+      return { display: `${formatted}/hr`, low: price, high: price, isEstimate: false, variant: "exact" };
+    }
+
+    // Total price from API
     const formatted = new Intl.NumberFormat("en-US", {
       style: "currency",
       currency: priceCurrency,
       maximumFractionDigits: 0,
     }).format(price);
-    const suffix = priceUnit === "per_hour" ? "/hr" : "";
-    return {
-      display: `${formatted}${suffix}`,
-      low: price,
-      high: price,
-      isEstimate: false,
-      variant: "exact",
-    };
+    return { display: formatted, low: price, high: price, isEstimate: false, variant: "exact" };
   }
 
-  // 2. Estimate from class + distance
-  // Normalize class: API may return "Light Jet", "Super Midsize Jet", etc.
+  // 2. Client-side estimate from class + distance
   const classKey = (aircraftClass || "").toLowerCase().replace(/\s*jet$/i, "").trim();
   const rates = CLASS_HOURLY_RATES[classKey];
 
   if (rates && (distanceNm || flightTimeMin)) {
     const minutes = flightTimeMin || (distanceNm ? estimateFlightTimeMin(distanceNm, aircraftClass, speedKmh) : null);
     if (minutes && minutes > 0) {
-      const flightHours = Math.max(minutes / 60, 1); // minimum 1 hour
-      const lowEst = Math.round(rates.low * flightHours / 500) * 500; // round to nearest $500
+      const flightHours = Math.max(minutes / 60, 1);
+      const lowEst = Math.round(rates.low * flightHours / 500) * 500;
       const highEst = Math.round(rates.high * flightHours / 500) * 500;
 
       const formatted = new Intl.NumberFormat("en-US", {
