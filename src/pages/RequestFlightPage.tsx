@@ -34,6 +34,7 @@ const aircraftCategories = [
 
 const RequestFlightPage = () => {
   const { capture } = useCrmApi();
+  const geo = useUserGeolocation();
   const [loading, setLoading] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [tripType, setTripType] = useState<TripType>("one_way");
@@ -68,7 +69,9 @@ const RequestFlightPage = () => {
   // Contact
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
+  const [phoneCode, setPhoneCode] = useState("+971");
   const [phone, setPhone] = useState("");
+  const [whatsappCode, setWhatsappCode] = useState("+971");
   const [whatsapp, setWhatsapp] = useState("");
   const [company, setCompany] = useState("");
   const [budgetRange, setBudgetRange] = useState("");
@@ -78,6 +81,33 @@ const RequestFlightPage = () => {
   // Legal
   const [termsAccepted, setTermsAccepted] = useState(false);
   const [marketingConsent, setMarketingConsent] = useState(false);
+
+  // Auto-set country code and departure airport from geolocation
+  const resolvedCode = resolveCountryCode(geo.countryCode);
+  useEffect(() => {
+    if (phoneCode === "+971" && resolvedCode !== "+971") {
+      setPhoneCode(resolvedCode);
+      setWhatsappCode(resolvedCode);
+    }
+  }, [resolvedCode]);
+
+  // Auto-set departure airport based on user location
+  useEffect(() => {
+    if (!fromAirport && !from && geo.airportIcao && geo.airportLabel) {
+      setFrom(geo.airportLabel);
+      setFromQuery(geo.airportLabel);
+      setFromAirport({
+        id: 0,
+        icao: geo.airportIcao,
+        iata: geo.airportIata,
+        name: "",
+        city: geo.city,
+        country: geo.countryName,
+        lat: geo.latitude ?? 0,
+        lng: geo.longitude ?? 0,
+      });
+    }
+  }, [geo.airportIcao]);
 
   // Expand sections
   const [showServices, setShowServices] = useState(false);
