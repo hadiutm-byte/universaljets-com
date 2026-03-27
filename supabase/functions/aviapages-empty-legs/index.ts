@@ -271,14 +271,18 @@ function getLegCountryCodes(leg: Record<string, unknown>): string[] {
   const depCity = dep?.city as Record<string, unknown> | undefined;
   const arrCity = arr?.city as Record<string, unknown> | undefined;
 
+  const countryObj = (city: Record<string, unknown> | undefined) => city?.country as Record<string, unknown> | undefined;
+
   let depCountry =
     normalizeCountryCode(depCity?.country_code) ||
-    normalizeCountryCode((depCity?.country as Record<string, unknown> | undefined)?.code) ||
+    normalizeCountryCode(countryObj(depCity)?.iso_alpha2) ||
+    normalizeCountryCode(countryObj(depCity)?.code) ||
     normalizeCountryCode(dep?.country_code);
 
   let arrCountry =
     normalizeCountryCode(arrCity?.country_code) ||
-    normalizeCountryCode((arrCity?.country as Record<string, unknown> | undefined)?.code) ||
+    normalizeCountryCode(countryObj(arrCity)?.iso_alpha2) ||
+    normalizeCountryCode(countryObj(arrCity)?.code) ||
     normalizeCountryCode(arr?.country_code);
 
   // ICAO fallback — most reliable when API country data is missing
