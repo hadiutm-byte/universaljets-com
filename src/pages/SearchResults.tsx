@@ -2,7 +2,7 @@ import { useState, useMemo } from "react";
 import { useSearchParams, useNavigate } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { motion } from "framer-motion";
-import { ArrowLeft, Plane, Calendar, Users, Clock, Loader2, MessageCircle, Phone, Shield, Wifi, BedDouble, Briefcase, MapPin, Navigation, Share2 } from "lucide-react";
+import { ArrowLeft, Plane, Calendar, Users, Clock, Loader2, MessageCircle, Phone, Shield, Wifi, BedDouble, Briefcase, MapPin, Navigation, Share2, X } from "lucide-react";
 import { Gauge, Ruler } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -79,8 +79,17 @@ function matchesSelectedSize(
 
 // ─────────────────────────────────────────────────────────────────────────────
 
+const aircraftSizeLabels: Record<string, string> = {
+  light: "Light Jet",
+  midsize: "Midsize Jet",
+  super_midsize: "Super Midsize",
+  heavy: "Heavy / Long Range",
+  long_range: "Long Range",
+  ultra_long_range: "Ultra Long Range",
+};
+
 const SearchResults = () => {
-  const [searchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams();
   const navigate = useNavigate();
   const [quoteModal, setQuoteModal] = useState<{ open: boolean; aircraft?: string }>({ open: false });
 
@@ -182,6 +191,24 @@ const SearchResults = () => {
               </div>
             </div>
           </motion.div>
+
+          {/* Active filter chip */}
+          {jetSize && aircraftSizeLabels[jetSize] && (
+            <div className="mb-6">
+              <button
+                onClick={() => {
+                  const next = new URLSearchParams(searchParams);
+                  next.delete("jet_size");
+                  setSearchParams(next, { replace: true });
+                }}
+                className="inline-flex items-center gap-2 rounded-full border border-border bg-muted/40 px-4 py-1.5 text-[11px] tracking-[0.12em] uppercase text-foreground/80 hover:bg-muted/60 transition-colors cursor-pointer"
+              >
+                <Plane size={11} className="text-primary" />
+                Aircraft Size: {aircraftSizeLabels[jetSize]}
+                <X size={11} className="text-foreground/40 hover:text-foreground ml-1" />
+              </button>
+            </div>
+          )}
 
           {/* Loading */}
           {isLoading && (
