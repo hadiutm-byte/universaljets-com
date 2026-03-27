@@ -99,7 +99,7 @@ const PartnersSection = () => (
           <FadeReveal key={card.title} delay={i * 0.1}>
             <motion.div
               whileHover={{ y: -6, boxShadow: card.featured
-                ? "0 30px 80px -16px hsla(43, 74%, 49%, 0.22), 0 0 0 1px hsla(43, 74%, 49%, 0.15)"
+                ? "0 30px 80px -16px hsla(43, 85%, 58%, 0.22), 0 0 0 1px hsla(43, 85%, 58%, 0.15)"
                 : "0 20px 60px -16px hsla(0, 0%, 0%, 0.12)"
               }}
               transition={{ duration: 0.35 }}
