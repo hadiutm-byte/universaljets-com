@@ -175,7 +175,7 @@ serve(async (req) => {
         const priceUnit =
           aircraft.price_unit ||
           aircraft.pricing_type ||
-          (price ? 'total' : null);
+          null;  // Don't assume 'total' — API may return per-hour prices
 
         results.push({
           id: aircraft.id,
