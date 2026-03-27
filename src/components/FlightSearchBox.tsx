@@ -56,14 +56,50 @@ const SwapButton = ({ onClick }: { onClick: () => void }) => (
   </motion.button>
 );
 
+const SEARCH_CACHE_KEY = "uj_last_search";
+
 const FlightSearchBox = () => {
   const navigate = useNavigate();
   const { capture } = useCrmApi();
+  const geo = useUserGeolocation();
   const [tripType, setTripType] = useState<TripType>("one-way");
   const [legs, setLegs] = useState<Leg[]>([emptyLeg()]);
   const [returnDate, setReturnDate] = useState<Date | undefined>(undefined);
   const [passengers, setPassengers] = useState("");
   const [jetSize, setJetSize] = useState("");
+
+  // Auto-set departure airport from geolocation
+  useEffect(() => {
+    const primaryLeg = legs[0];
+    if (!primaryLeg.selectedFrom && !primaryLeg.from && geo.airportIcao && geo.airportLabel) {
+      updateLeg(0, {
+        from: geo.airportLabel,
+        fromQuery: geo.airportLabel,
+        selectedFrom: {
+          id: 0,
+          icao: geo.airportIcao,
+          iata: geo.airportIata,
+          name: "",
+          city: geo.city,
+          country: geo.countryName,
+          lat: geo.latitude ?? 0,
+          lng: geo.longitude ?? 0,
+        },
+      });
+    }
+  }, [geo.airportIcao]);
+
+  // Restore last search from localStorage
+  useEffect(() => {
+    try {
+      const saved = localStorage.getItem(SEARCH_CACHE_KEY);
+      if (!saved) return;
+      const data = JSON.parse(saved);
+      if (data.passengers) setPassengers(data.passengers);
+      if (data.jetSize) setJetSize(data.jetSize);
+      if (data.tripType) setTripType(data.tripType);
+    } catch {}
+  }, []);
 
   const updateLeg = (index: number, updates: Partial<Leg>) => {
     setLegs((prev) => prev.map((l, i) => (i === index ? { ...l, ...updates } : l)));
