@@ -111,10 +111,22 @@ export function useEmptyLegs(region: string = "All") {
 }
 
 export function useAirportSearch(query: string) {
+  // Debounce: only fire after 400ms of no typing
+  const [debouncedQuery, setDebouncedQuery] = useState(query);
+
+  useEffect(() => {
+    if (query.length < 2) {
+      setDebouncedQuery('');
+      return;
+    }
+    const timer = setTimeout(() => setDebouncedQuery(query), 400);
+    return () => clearTimeout(timer);
+  }, [query]);
+
   return useQuery({
-    queryKey: ["airports", query],
+    queryKey: ["airports", debouncedQuery],
     queryFn: async () => {
-      const params = new URLSearchParams({ q: query });
+      const params = new URLSearchParams({ q: debouncedQuery });
       const response = await fetch(
         `${getSupabaseUrl()}/functions/v1/aviapages-airports?${params.toString()}`,
         {
@@ -132,8 +144,13 @@ export function useAirportSearch(query: string) {
       const result = await response.json();
       return (Array.isArray(result.results) ? result.results : []) as Airport[];
     },
-    enabled: query.length >= 2,
+    enabled: debouncedQuery.length >= 2,
     staleTime: 10 * 60 * 1000,
+    retry: (failureCount, error) => {
+      // Don't retry on rate limit errors
+      if (error?.message?.includes('429')) return false;
+      return failureCount < 2;
+    },
   });
 }
 
