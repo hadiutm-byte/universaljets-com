@@ -116,7 +116,7 @@ const HeroSection = () => {
           initial={{ opacity: 0, y: 14 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1, delay: 1.3 }}
-          className="flex gap-4 mt-6"
+          className="flex flex-wrap justify-center gap-3 md:gap-4 mt-5 md:mt-6"
         >
           <Link
             to="/#cta"
