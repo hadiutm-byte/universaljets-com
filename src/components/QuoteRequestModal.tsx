@@ -230,29 +230,42 @@ const QuoteRequestModal = ({ open, onClose, flightData }: QuoteRequestModalProps
               <div className="grid grid-cols-2 gap-3">
                 <div className="space-y-1.5">
                   <Label className="text-[10px] tracking-[0.15em] uppercase text-muted-foreground font-medium">From</Label>
-                  <div className="flex items-center gap-2 p-3 rounded-xl bg-muted/20 border border-border/30">
-                    <MapPin size={12} className="text-primary/60 shrink-0" />
-                    <span className="text-[12px] text-foreground font-light truncate">{form.departure}</span>
-                  </div>
+                  <Input
+                    value={form.departure}
+                    onChange={(e) => updateField("departure", e.target.value)}
+                    placeholder="e.g. DXB, OMDB, Dubai"
+                    className="h-10 text-[12px] bg-muted/20 border-border/30 rounded-xl font-light"
+                    maxLength={100}
+                  />
                 </div>
                 <div className="space-y-1.5">
                   <Label className="text-[10px] tracking-[0.15em] uppercase text-muted-foreground font-medium">To</Label>
-                  <div className="flex items-center gap-2 p-3 rounded-xl bg-muted/20 border border-border/30">
-                    <MapPin size={12} className="text-primary/60 shrink-0" />
-                    <span className="text-[12px] text-foreground font-light truncate">{form.destination}</span>
-                  </div>
+                  <Input
+                    value={form.destination}
+                    onChange={(e) => updateField("destination", e.target.value)}
+                    placeholder="e.g. LHR, EGLL, London"
+                    className="h-10 text-[12px] bg-muted/20 border-border/30 rounded-xl font-light"
+                    maxLength={100}
+                  />
                 </div>
-                {form.date && (
-                  <div className="space-y-1.5">
-                    <Label className="text-[10px] tracking-[0.15em] uppercase text-muted-foreground font-medium">Date</Label>
+                <div className="space-y-1.5">
+                  <Label className="text-[10px] tracking-[0.15em] uppercase text-muted-foreground font-medium">Date</Label>
+                  {form.date ? (
                     <div className="flex items-center gap-2 p-3 rounded-xl bg-muted/20 border border-border/30">
                       <Calendar size={12} className="text-primary/60 shrink-0" />
                       <span className="text-[12px] text-foreground font-light">
                         {new Date(form.date).toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" })}
                       </span>
                     </div>
-                  </div>
-                )}
+                  ) : (
+                    <Input
+                      type="date"
+                      value={form.date}
+                      onChange={(e) => updateField("date", e.target.value)}
+                      className="h-10 text-[12px] bg-muted/20 border-border/30 rounded-xl font-light"
+                    />
+                  )}
+                </div>
                 <div className="space-y-1.5">
                   <Label className="text-[10px] tracking-[0.15em] uppercase text-muted-foreground font-medium">Passengers</Label>
                   <Input
