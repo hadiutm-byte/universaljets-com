@@ -1,5 +1,5 @@
-import { useState, useRef, useEffect } from "react";
-import { format } from "date-fns";
+import { useState, useRef, useEffect, useCallback } from "react";
+import { format, addDays } from "date-fns";
 import { Calendar as CalendarIcon, Clock } from "lucide-react";
 import { Calendar } from "@/components/ui/calendar";
 import {
@@ -8,7 +8,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { cn } from "@/lib/utils";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { useIsMobile } from "@/hooks/use-mobile";
 
 interface DateTimePickerProps {
@@ -26,7 +26,111 @@ const timeOptions = Array.from({ length: 48 }, (_, i) => {
   return `${String(h).padStart(2, "0")}:${m}`;
 });
 
-/* ─── Mobile-native picker (uses OS scroll wheels) ─── */
+/* ─── Drum Column (reusable 3D scroll wheel) ─── */
+const ITEM_H = 40;
+const VIS = 7;
+const DRUM_H = ITEM_H * VIS;
+const MID = Math.floor(VIS / 2);
+
+interface DrumColumnProps {
+  options: { value: string; label: string }[];
+  selectedIndex: number;
+  onSelect: (index: number) => void;
+}
+
+const DrumColumn = ({ options, selectedIndex, onSelect }: DrumColumnProps) => {
+  const ref = useRef<HTMLDivElement>(null);
+  const isUserScroll = useRef(true);
+
+  useEffect(() => {
+    if (ref.current) {
+      isUserScroll.current = false;
+      ref.current.scrollTop = selectedIndex * ITEM_H;
+      requestAnimationFrame(() => { isUserScroll.current = true; });
+    }
+  }, []);
+
+  const handleScroll = useCallback(() => {
+    if (!ref.current || !isUserScroll.current) return;
+    const idx = Math.round(ref.current.scrollTop / ITEM_H);
+    const clamped = Math.max(0, Math.min(idx, options.length - 1));
+    if (clamped !== selectedIndex) onSelect(clamped);
+  }, [options.length, selectedIndex, onSelect]);
+
+  const scrollToIndex = (idx: number) => {
+    if (ref.current) {
+      ref.current.scrollTo({ top: idx * ITEM_H, behavior: "smooth" });
+    }
+    onSelect(idx);
+  };
+
+  return (
+    <div
+      className="relative flex-1 overflow-hidden"
+      style={{
+        height: DRUM_H,
+        maskImage: "linear-gradient(to bottom, transparent 0%, black 28%, black 72%, transparent 100%)",
+        WebkitMaskImage: "linear-gradient(to bottom, transparent 0%, black 28%, black 72%, transparent 100%)",
+      }}
+    >
+      <div
+        ref={ref}
+        onScroll={handleScroll}
+        className="h-full overflow-y-auto scrollbar-none"
+        style={{ scrollSnapType: "y mandatory", WebkitOverflowScrolling: "touch" }}
+      >
+        <div style={{ height: MID * ITEM_H }} />
+        {options.map((opt, i) => {
+          const dist = Math.abs(i - selectedIndex);
+          const rotX = Math.min(dist, 3) * (i < selectedIndex ? 22 : -22);
+          const sc = dist === 0 ? 1 : Math.max(0.72, 1 - dist * 0.1);
+          const op = dist === 0 ? 1 : Math.max(0.2, 1 - dist * 0.25);
+          return (
+            <div
+              key={opt.value + i}
+              onClick={() => scrollToIndex(i)}
+              className="snap-center flex items-center justify-center cursor-pointer"
+              style={{ height: ITEM_H, perspective: "280px" }}
+            >
+              <span
+                className="transition-all duration-75 ease-out select-none whitespace-nowrap"
+                style={{
+                  transform: `rotateX(${rotX}deg) scale(${sc})`,
+                  opacity: op,
+                  fontSize: dist === 0 ? "16px" : "14px",
+                  fontWeight: dist === 0 ? 600 : 400,
+                  color: dist === 0 ? "hsl(var(--foreground))" : `hsl(var(--muted-foreground) / ${op})`,
+                }}
+              >
+                {opt.label}
+              </span>
+            </div>
+          );
+        })}
+        <div style={{ height: MID * ITEM_H }} />
+      </div>
+    </div>
+  );
+};
+
+/* ─── Generate date options: next 90 days ─── */
+const buildDateOptions = () => {
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  return Array.from({ length: 90 }, (_, i) => {
+    const d = addDays(today, i);
+    return {
+      value: format(d, "yyyy-MM-dd"),
+      label: i === 0 ? "Today" : i === 1 ? "Tomorrow" : format(d, "EEE, dd MMM"),
+      date: d,
+    };
+  });
+};
+
+const buildTimeOptions = () =>
+  timeOptions.map((t) => ({ value: t, label: t }));
+
+/* ─── Mobile drum picker for date + time ─── */
 const MobileDateTimePicker = ({
   label,
   icon: Icon,
@@ -35,56 +139,62 @@ const MobileDateTimePicker = ({
   disabled = false,
   placeholder = "Select",
 }: DateTimePickerProps) => {
-  const dateRef = useRef<HTMLInputElement>(null);
-  const timeRef = useRef<HTMLInputElement>(null);
+  const [open, setOpen] = useState(false);
+  const dateOpts = buildDateOptions();
+  const timeOpts = buildTimeOptions();
 
-  const dateStr = value ? format(value, "yyyy-MM-dd") : "";
-  const timeStr = value ? format(value, "HH:mm") : "";
+  const currentDateStr = value ? format(value, "yyyy-MM-dd") : dateOpts[0].value;
+  const currentTimeStr = value ? format(value, "HH:mm") : "12:00";
 
-  const handleDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const val = e.target.value;
-    if (!val) return;
-    const [y, mo, d] = val.split("-").map(Number);
-    const existing = value ? new Date(value) : new Date();
-    existing.setFullYear(y, mo - 1, d);
-    if (!value) existing.setHours(12, 0, 0, 0);
-    onChange(new Date(existing));
-  };
+  const [dateIdx, setDateIdx] = useState(() => {
+    const idx = dateOpts.findIndex((o) => o.value === currentDateStr);
+    return idx >= 0 ? idx : 0;
+  });
+  const [timeIdx, setTimeIdx] = useState(() => {
+    const idx = timeOpts.findIndex((o) => o.value === currentTimeStr);
+    return idx >= 0 ? idx : 24; // default 12:00
+  });
 
-  const handleTimeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const val = e.target.value;
-    if (!val) return;
-    const [h, m] = val.split(":").map(Number);
-    const existing = value ? new Date(value) : new Date();
-    existing.setHours(h, m, 0, 0);
-    onChange(new Date(existing));
+  // Sync when value changes
+  useEffect(() => {
+    if (value) {
+      const dStr = format(value, "yyyy-MM-dd");
+      const tStr = format(value, "HH:mm");
+      const di = dateOpts.findIndex((o) => o.value === dStr);
+      const ti = timeOpts.findIndex((o) => o.value === tStr);
+      if (di >= 0) setDateIdx(di);
+      if (ti >= 0) setTimeIdx(ti);
+    }
+  }, [value]);
+
+  const confirm = () => {
+    const dateEntry = dateOpts[dateIdx];
+    const timeEntry = timeOpts[timeIdx];
+    if (dateEntry && timeEntry) {
+      const d = new Date(dateEntry.date);
+      const [h, m] = timeEntry.value.split(":").map(Number);
+      d.setHours(h, m, 0, 0);
+      onChange(d);
+    }
+    setOpen(false);
   };
 
   const displayValue = value
     ? `${format(value, "dd MMM")} • ${format(value, "HH:mm")}`
     : null;
 
-  const today = format(new Date(), "yyyy-MM-dd");
-
   return (
-    <div className="search-field relative">
-      <label className="search-label">
-        <Icon size={10} strokeWidth={1.5} /> {label}
-      </label>
-      {disabled ? (
-        <p className="text-[14px] text-muted-foreground/40 font-normal">{placeholder}</p>
-      ) : (
-        <div className="relative">
-          {/* Visible display */}
+    <>
+      <div className="search-field relative">
+        <label className="search-label">
+          <Icon size={10} strokeWidth={1.5} /> {label}
+        </label>
+        {disabled ? (
+          <p className="text-[14px] text-muted-foreground/40 font-normal">{placeholder}</p>
+        ) : (
           <button
             type="button"
-            onClick={() => {
-              if (dateRef.current?.showPicker) {
-                dateRef.current.showPicker();
-              } else {
-                dateRef.current?.focus();
-              }
-            }}
+            onClick={() => setOpen(true)}
             className={cn(
               "w-full text-left bg-transparent text-[14px] font-normal focus:outline-none cursor-pointer transition-colors duration-200",
               value ? "text-foreground" : "text-muted-foreground/40"
@@ -92,39 +202,71 @@ const MobileDateTimePicker = ({
           >
             {displayValue || placeholder}
           </button>
+        )}
+      </div>
 
-          {/* Hidden native date input — triggers iOS scroll wheel */}
-          <input
-            ref={dateRef}
-            type="date"
-            value={dateStr}
-            min={today}
-            onChange={handleDateChange}
-            className="absolute inset-0 opacity-0 w-full h-full cursor-pointer"
-            style={{ WebkitAppearance: "none" }}
-          />
+      <AnimatePresence>
+        {open && (
+          <>
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.2 }}
+              onClick={() => setOpen(false)}
+              className="fixed inset-0 bg-black/50 backdrop-blur-[2px] z-50"
+            />
+            <motion.div
+              initial={{ y: "100%" }}
+              animate={{ y: 0 }}
+              exit={{ y: "100%" }}
+              transition={{ type: "spring", damping: 30, stiffness: 350 }}
+              className="fixed bottom-0 left-0 right-0 z-50 bg-background rounded-t-3xl shadow-[0_-20px_60px_-10px_hsla(0,0%,0%,0.25)]"
+            >
+              {/* Handle */}
+              <div className="flex justify-center pt-3 pb-1">
+                <div className="w-10 h-1 rounded-full bg-foreground/10" />
+              </div>
 
-          {/* Time picker — show after date is selected */}
-          {value && (
-            <div className="mt-2 flex items-center gap-2">
-              <Clock size={10} className="text-primary/60" strokeWidth={1.5} />
-              <input
-                ref={timeRef}
-                type="time"
-                value={timeStr}
-                onChange={handleTimeChange}
-                className="bg-transparent text-[13px] text-foreground/80 font-normal focus:outline-none border-b border-primary/20 pb-0.5 cursor-pointer"
-                style={{ WebkitAppearance: "none" }}
-              />
-            </div>
-          )}
-        </div>
-      )}
-    </div>
+              {/* Header */}
+              <div className="flex items-center justify-between px-6 py-3">
+                <button type="button" onClick={() => setOpen(false)}
+                  className="text-[14px] text-muted-foreground font-medium">Cancel</button>
+                <span className="text-[11px] tracking-[0.25em] uppercase text-foreground/50 font-semibold">{label}</span>
+                <button type="button" onClick={confirm}
+                  className="text-[14px] text-primary font-semibold">Done</button>
+              </div>
+
+              {/* Drums */}
+              <div className="relative mx-4 mb-6">
+                {/* Center band */}
+                <div
+                  className="absolute left-0 right-0 z-10 pointer-events-none border-y border-primary/15 bg-primary/[0.04] rounded-xl"
+                  style={{ top: MID * ITEM_H, height: ITEM_H }}
+                />
+
+                <div className="flex gap-0">
+                  {/* Date column (wider) */}
+                  <div className="flex-[2]">
+                    <DrumColumn options={dateOpts} selectedIndex={dateIdx} onSelect={setDateIdx} />
+                  </div>
+
+                  {/* Separator */}
+                  <div className="w-px bg-border/30 my-8" />
+
+                  {/* Time column */}
+                  <div className="flex-1">
+                    <DrumColumn options={timeOpts} selectedIndex={timeIdx} onSelect={setTimeIdx} />
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
+    </>
   );
 };
-
-/* ─── Desktop rich picker (calendar + time list) ─── */
 const DesktopDateTimePicker = ({
   label,
   icon: Icon,
