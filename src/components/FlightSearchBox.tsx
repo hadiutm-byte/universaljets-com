@@ -247,6 +247,7 @@ const FlightSearchBox = () => {
                     selectedAirport={primaryLeg.selectedFrom}
                     onSelect={(a) => updateLeg(0, { from: `${a.city} (${a.icao || a.iata})`, selectedFrom: a })}
                     onClearSelection={() => updateLeg(0, { selectedFrom: null })}
+                    error={showFromError}
                   />
                   <SwapButton onClick={() => swapRoute(0)} />
                   <AirportField
