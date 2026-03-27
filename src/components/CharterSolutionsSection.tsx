@@ -88,7 +88,7 @@ const charterCategories: CharterCategory[] = [
     title: "Cargo & Special Missions",
     tagline: "Hazmat-certified. Government-cleared.",
     slug: "cargo",
-    image: "https://d2xsxph8kpxj0f.cloudfront.net/310519663441238946/F94ypwks3ADk2wFrxZVnWB/cargo-charter-loading-UNLEgPt7hoTHe7qWvdfsRq.webp",
+    image: cargoImg,
     icon: Plane,
     justification:
       "Cargo operators specialize in standard freight. We handle what they won't — hazardous materials, oversized machinery, classified government shipments, and humanitarian aid into disaster zones. Full customs, permits, and compliance managed end-to-end.",
