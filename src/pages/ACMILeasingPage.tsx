@@ -149,12 +149,12 @@ const ACMILeasingPage = () => {
               <span className="text-[8px] tracking-[0.4em] uppercase text-primary/70 font-medium">Operations Active</span>
             </div>
 
-            <h1 className="text-3xl md:text-5xl lg:text-[3.5rem] font-display font-bold text-foreground mb-6 leading-[1.1] tracking-[-0.01em]">
+            <h1 className="text-3xl md:text-5xl lg:text-[3.5rem] font-display font-bold text-white mb-6 leading-[1.1] tracking-[-0.01em]" style={{ textShadow: "0 2px 20px hsla(0,0%,0%,0.7)" }}>
               Operational Reach.<br />
               <span className="text-gradient-gold italic font-semibold">Mission Ready.</span>
             </h1>
 
-            <p className="text-[14px] md:text-[16px] text-foreground/50 font-light leading-[1.9] max-w-2xl mx-auto mb-10">
+            <p className="text-[14px] md:text-[16px] text-white/65 font-light leading-[1.9] max-w-2xl mx-auto mb-10">
               ACMI, cargo, urgent deployment, and tailored aviation support for enterprise, government, and time-critical operations worldwide.
             </p>
 
