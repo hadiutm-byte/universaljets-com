@@ -333,7 +333,7 @@ const CTASection = () => {
               <h3 className="font-display text-xl md:text-2xl font-semibold text-foreground mb-3">
                 Need Immediate Assistance?
               </h3>
-              <p className="text-[12px] text-foreground/30 font-extralight leading-[2] mb-8">
+              <p className="text-[12px] text-muted-foreground font-extralight leading-[2] mb-8">
                 Skip the forms. Message us directly for immediate, personal assistance.
               </p>
               <a
