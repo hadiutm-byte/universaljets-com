@@ -7,6 +7,8 @@ import Footer from "@/components/Footer";
 import SEOHead from "@/components/SEOHead";
 import { useCrmApi } from "@/hooks/useCrmApi";
 import { toast } from "sonner";
+import useUserGeolocation from "@/hooks/useUserGeolocation";
+import PhoneWithCountryCode, { buildFullPhone, resolveCountryCode } from "@/components/forms/PhoneWithCountryCode";
 import {
   PremiumInput, PremiumSelect, PremiumTextarea,
   FormSection, LegalConsent, ConfidentialityNotice,
