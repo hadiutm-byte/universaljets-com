@@ -43,6 +43,26 @@ const HeroSection = () => {
         <GoldParticles />
       </div>
 
+      {/* Floating orb effect */}
+      <div className="absolute pointer-events-none z-[1] animate-hero-orb"
+        style={{
+          top: "20%",
+          left: "25%",
+          width: "300px",
+          height: "300px",
+          background: "linear-gradient(45deg, hsla(43, 85%, 58%, 0.25), hsla(210, 70%, 50%, 0.12))",
+          borderRadius: "50%",
+          filter: "blur(60px)",
+        }}
+      />
+
+      {/* Diagonal grid overlay */}
+      <div className="absolute inset-0 pointer-events-none z-[1] opacity-[0.04]"
+        style={{
+          backgroundImage: "repeating-linear-gradient(45deg, hsla(0,0%,100%,0.5) 1px, transparent 1px, transparent 60px)",
+        }}
+      />
+
       {/* Dark gradient overlay for text readability */}
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute inset-0 bg-gradient-to-b from-[hsla(0,0%,3%,0.72)] via-[hsla(0,0%,4%,0.45)] to-[hsla(0,0%,3%,0.82)]" />
