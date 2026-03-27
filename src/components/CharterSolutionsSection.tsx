@@ -25,7 +25,7 @@ const charterCategories: CharterCategory[] = [
     title: "Leisure Charter",
     tagline: "10,000+ destinations. Zero layovers.",
     slug: "leisure",
-    image: "https://d2xsxph8kpxj0f.cloudfront.net/310519663441238946/F94ypwks3ADk2wFrxZVnWB/leisure-travel-luxury-azcFavRQuX4DrgSwWAoAtx.webp",
+    image: leisureImg,
     icon: Globe,
     justification:
       "Operators sell their own fleet — we source from 7,000+ aircraft globally to find the right jet at the right price for your trip. That means better availability, better positioning, and no hidden fees from fleet-tied operators trying to fill their own planes.",
