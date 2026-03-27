@@ -130,9 +130,7 @@ const ContactPage = () => {
             <motion.div {...fadeUp} transition={{ delay: 0.1 }} className="space-y-5">
               <p className="text-[10px] tracking-[0.4em] uppercase text-primary/60 font-medium">Reach Us Directly</p>
               {[
-                { href: "mailto:sales@universaljets.com", icon: Mail, label: "sales@universaljets.com", sub: "Charter · Jet Card · Membership" },
-                { href: "mailto:info@universaljets.com", icon: Mail, label: "info@universaljets.com", sub: "General Inquiries" },
-                { href: "mailto:hr@universaljets.com", icon: Mail, label: "hr@universaljets.com", sub: "Careers & Applications" },
+                { href: "mailto:sales@universaljets.com", icon: Mail, label: "sales@universaljets.com", sub: "All Inquiries" },
                 { href: "https://wa.me/447888999944?text=Hello%2C%20I%20would%20like%20to%20request%20a%20private%20jet%20charter.", icon: MessageCircle, label: "+44 7888 999944", sub: "WhatsApp — Tap to chat", external: true },
               ].map((item) => (
                 <a key={item.label} href={item.href} target={(item as any).external ? "_blank" : undefined} rel={(item as any).external ? "noopener noreferrer" : undefined} className="flex items-center gap-4 group">

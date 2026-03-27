@@ -6,6 +6,8 @@ const corsHeaders = {
     "authorization, x-client-info, apikey, content-type, x-supabase-client-platform, x-supabase-client-platform-version, x-supabase-client-runtime, x-supabase-client-runtime-version",
 };
 
+const NOTIFICATION_EMAIL = "hadi@universaljets.com";
+
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") {
     return new Response(null, { headers: corsHeaders });
@@ -77,6 +79,31 @@ Deno.serve(async (req) => {
       .single();
 
     if (reqErr) throw reqErr;
+
+    // 4. Send notification email to hadi@universaljets.com
+    try {
+      await supabase.functions.invoke("send-transactional-email", {
+        body: {
+          templateName: "lead-notification",
+          recipientEmail: NOTIFICATION_EMAIL,
+          idempotencyKey: `lead-notify-${flightReq.id}`,
+          templateData: {
+            name,
+            email,
+            phone: phone || "Not provided",
+            departure,
+            destination,
+            date: date || "Flexible",
+            passengers: passengers || "1",
+            source: leadSource,
+            notes: body.notes || "",
+          },
+        },
+      });
+    } catch (emailErr) {
+      // Don't fail the capture if email notification fails
+      console.error("Notification email failed:", emailErr);
+    }
 
     return new Response(
       JSON.stringify({

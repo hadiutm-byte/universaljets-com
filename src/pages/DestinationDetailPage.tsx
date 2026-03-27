@@ -369,7 +369,7 @@ const DestinationDetailPage = () => {
                 Request a Quote
               </button>
               <a
-                href="https://wa.me/971585918498"
+                href="https://wa.me/447888999944"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center justify-center gap-2 px-10 py-3.5 text-[10px] tracking-[0.2em] uppercase text-muted-foreground hover:text-foreground transition-all duration-500 border border-border rounded-xl"

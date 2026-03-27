@@ -239,7 +239,7 @@ const FleetDetailPage = () => {
                   </button>
 
                   <a
-                    href="https://wa.me/971585918498"
+                    href="https://wa.me/447888999944"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="w-full flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl border border-border text-[10px] tracking-[0.2em] uppercase text-muted-foreground hover:border-primary/30 hover:text-foreground transition-all"

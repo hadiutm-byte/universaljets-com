@@ -67,7 +67,7 @@ const DashboardPage = () => {
     { icon: Plane, label: "Request a Flight", desc: "Get a quote in minutes", href: "/#cta", color: "text-primary" },
     { icon: Search, label: "Search Aircraft", desc: "Browse our fleet", href: "/fleet", color: "text-blue-400" },
     { icon: Tag, label: "Empty Leg Deals", desc: "Up to 75% savings", href: "/#empty-legs", color: "text-emerald-400" },
-    { icon: MessageCircle, label: "Speak to Advisor", desc: "Available 24/7", href: "https://wa.me/971585918498", external: true, color: "text-amber-400" },
+    { icon: MessageCircle, label: "Speak to Advisor", desc: "Available 24/7", href: "https://wa.me/447888999944", external: true, color: "text-amber-400" },
   ];
 
   return (
