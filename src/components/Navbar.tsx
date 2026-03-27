@@ -146,7 +146,7 @@ const Navbar = () => {
         }}
       >
         <div className="container mx-auto flex items-center justify-between px-6 lg:px-8">
-          {/* Logo — luxury micro-animation */}
+          {/* Logo — luxury micro-animation + particles */}
           <motion.div
             initial={{ opacity: 0, y: 6 }}
             animate={{ opacity: 1, y: 0 }}
@@ -154,7 +154,12 @@ const Navbar = () => {
             style={{ x: logoX, y: logoY }}
             onMouseMove={handleLogoMouseMove}
             onMouseLeave={handleLogoMouseLeave}
+            className="relative"
           >
+            {/* Particle glow behind logo */}
+            <div className="absolute inset-0 -inset-x-8 -inset-y-6 pointer-events-none z-[-1] overflow-visible">
+              <GoldParticles className="absolute inset-0" particleCount={18} maxSize={1.8} speed={0.15} />
+            </div>
             <Link
               ref={logoRef}
               to="/"
