@@ -87,7 +87,7 @@ const CTASection = () => {
             <h2 className="text-4xl md:text-6xl lg:text-7xl font-display font-semibold text-foreground mb-6 leading-[1.1]">
               Request Your <span className="text-gradient-gold italic font-medium">Flight</span>
             </h2>
-            <p className="text-[12px] md:text-[13px] tracking-[0.12em] text-foreground/30 font-extralight leading-[2] mb-10 max-w-lg mx-auto">
+            <p className="text-[12px] md:text-[13px] tracking-[0.12em] text-muted-foreground font-extralight leading-[2] mb-10 max-w-lg mx-auto">
               Speak directly with an aviation advisor.<br />We respond within minutes.
             </p>
             <motion.button
