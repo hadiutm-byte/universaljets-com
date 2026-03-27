@@ -89,19 +89,20 @@ serve(async (req) => {
         let floorPlanUrl: string | null = null;
 
         for (const img of (aircraft.images || [])) {
-          const imgType = (img.image_type || '').toLowerCase();
+          const imgType = (img.image_type || img.type || '').toLowerCase();
           // Skip images that might expose tail numbers
           if (imgType === 'tail' || imgType === 'registration') continue;
           
-          if (img.url) {
+          const imgUrl = img.url || (img.media && typeof img.media === 'object' ? img.media.path : null);
+          if (imgUrl) {
             allImages.push({
-              url: img.url,
+              url: imgUrl,
               type: imgType || 'exterior',
               position: img.position ?? 0,
             });
           }
           if (imgType === 'floor_plan' || imgType === 'floorplan' || imgType === 'layout') {
-            floorPlanUrl = img.url || null;
+            floorPlanUrl = imgUrl || null;
           }
         }
 
