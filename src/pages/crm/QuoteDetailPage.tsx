@@ -250,6 +250,30 @@ const QuoteDetailPage = () => {
         {quote.status === "accepted" && canManageOps && <ActionBtn icon={Plane} label="Generate Booking" onClick={handleGenerateBooking} loading={actionLoading === "booking"} />}
       </div>
 
+      {/* Pipeline Status Tracker */}
+      <div className="rounded-xl border border-border/20 bg-card/50 p-4">
+        <span className="text-[8px] tracking-[0.3em] uppercase text-muted-foreground/40 mb-3 block">Pipeline Status</span>
+        <div className="flex items-center gap-1 overflow-x-auto">
+          {[
+            { label: "Quote", status: quote.status, done: quote.status === "accepted" },
+            { label: "Contract", status: pipelineStatus.contract?.status || "—", done: pipelineStatus.contract?.status === "signed" },
+            { label: "Invoice", status: pipelineStatus.invoice?.status || "—", done: pipelineStatus.invoice?.status === "paid" },
+            { label: "Payment", status: pipelineStatus.payment?.status || "—", done: !!pipelineStatus.payment },
+            { label: "Trip", status: pipelineStatus.trip?.status || "—", done: pipelineStatus.trip?.status === "completed" },
+          ].map((step, i, arr) => (
+            <div key={step.label} className="flex items-center gap-1 flex-shrink-0">
+              <div className={`flex flex-col items-center px-3 py-2 rounded-lg ${step.done ? "bg-emerald-500/10" : step.status !== "—" ? "bg-primary/10" : "bg-secondary/30"}`}>
+                <span className="text-[9px] font-medium tracking-wider uppercase">{step.label}</span>
+                <span className={`text-[8px] mt-0.5 ${step.done ? "text-emerald-400" : step.status !== "—" ? "text-primary" : "text-muted-foreground/30"}`}>
+                  {step.status}
+                </span>
+              </div>
+              {i < arr.length - 1 && <ArrowRight size={10} className="text-muted-foreground/20 flex-shrink-0" />}
+            </div>
+          ))}
+        </div>
+      </div>
+
       {/* Details Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {/* Quote Info */}
