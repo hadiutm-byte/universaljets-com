@@ -260,6 +260,7 @@ const FlightSearchBox = () => {
                     selectedAirport={primaryLeg.selectedTo}
                     onSelect={(a) => updateLeg(0, { to: `${a.city} (${a.icao || a.iata})`, selectedTo: a })}
                     onClearSelection={() => updateLeg(0, { selectedTo: null })}
+                    error={showToError}
                   />
                 </div>
                 <DateTimePicker label="Departure" icon={Calendar} value={primaryLeg.date} onChange={(d) => updateLeg(0, { date: d })} placeholder="Select date" />
