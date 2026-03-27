@@ -114,7 +114,7 @@ const EmptyLegsMap = () => {
   const showLoading = isLoading || (isFetching && !data?.results?.length);
 
   return (
-    <section id="empty-legs" className="section-padding overflow-hidden section-alt">
+    <section ref={sectionRef} id="empty-legs" className="section-padding overflow-hidden section-alt">
       <div className="container mx-auto px-8 relative z-10">
         <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.8 }} className="text-center mb-8">
           <p className="text-[11px] tracking-[0.5em] uppercase text-primary mb-6 font-medium">Exclusive Opportunity</p>
