@@ -89,11 +89,11 @@ export function useEmptyLegs(region: string = "All") {
       const rawResults = Array.isArray(raw?.results) ? raw.results : [];
 
       // Normalize → filter nulls → deduplicate
-      const results = deduplicateById(
+      const results: EmptyLeg[] = deduplicateById(
         rawResults
           .map(normalizeEmptyLeg)
           .filter((l): l is EmptyLeg => l !== null && l.id > 0)
-      );
+      ) as EmptyLeg[];
 
       return {
         count: typeof raw?.count === "number" ? raw.count : results.length,
