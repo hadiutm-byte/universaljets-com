@@ -112,6 +112,8 @@ const FlightSearchBox = () => {
 
   const updateLeg = (index: number, updates: Partial<Leg>) => {
     setLegs((prev) => prev.map((l, i) => (i === index ? { ...l, ...updates } : l)));
+    // Clear validation errors when user makes a selection
+    if (updates.selectedFrom || updates.selectedTo) setAttempted(false);
   };
 
   const swapRoute = (index: number) => {
