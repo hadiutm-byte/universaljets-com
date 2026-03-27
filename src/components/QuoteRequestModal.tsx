@@ -1,13 +1,13 @@
-import { useState, useCallback, useMemo } from "react";
+import { useState, useCallback, useMemo, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { X, Plane, Calendar, Users, ArrowRight, CheckCircle, Phone, MessageCircle, MapPin, Clock, Shield, Navigation } from "lucide-react";
+import { X, Plane, Calendar, Users, ArrowRight, CheckCircle, MessageCircle, MapPin, Clock, Shield, Navigation, Loader2 } from "lucide-react";
 import MembershipUpsell from "@/components/MembershipUpsell";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { useCrmApi } from "@/hooks/useCrmApi";
 import QuoteRouteMap from "@/components/QuoteRouteMap";
-import type { Airport } from "@/hooks/useAviapages";
+import { useAirportSearch, type Airport } from "@/hooks/useAviapages";
 import AIRPORT_COORDS from "@/lib/airportCoords";
 import { greatCircleDistanceNm, estimateFlightTimeMin, getCharterPrice, formatDuration, formatDistance } from "@/lib/pricingEstimates";
 import { useDestinationFbos, type ApiFbo } from "@/hooks/useDestinationData";
@@ -30,30 +30,150 @@ interface QuoteRequestModalProps {
 
 type Step = 1 | 2 | 3 | 4;
 
+interface QuoteAirportFieldProps {
+  label: string;
+  value: string;
+  query: string;
+  onValueChange: (value: string) => void;
+  onQueryChange: (value: string) => void;
+  onSelect: (airport: Airport) => void;
+  onClearSelection: () => void;
+  placeholder: string;
+}
+
+const QuoteAirportField = ({
+  label,
+  value,
+  query,
+  onValueChange,
+  onQueryChange,
+  onSelect,
+  onClearSelection,
+  placeholder,
+}: QuoteAirportFieldProps) => {
+  const [open, setOpen] = useState(false);
+  const wrapperRef = useRef<HTMLDivElement>(null);
+  const { data: airports, isLoading } = useAirportSearch(query);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (wrapperRef.current && !wrapperRef.current.contains(event.target as Node)) {
+        setOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  return (
+    <div ref={wrapperRef} className="space-y-1.5 relative">
+      <Label className="text-[10px] tracking-[0.15em] uppercase text-muted-foreground font-medium">{label}</Label>
+      <div className="relative">
+        <MapPin size={12} className="absolute left-3 top-1/2 -translate-y-1/2 text-primary/60 pointer-events-none" />
+        <Input
+          value={value}
+          onChange={(e) => {
+            const nextValue = e.target.value;
+            onValueChange(nextValue);
+            onQueryChange(nextValue);
+            onClearSelection();
+            setOpen(nextValue.trim().length >= 2);
+          }}
+          onFocus={() => setOpen(query.trim().length >= 2)}
+          placeholder={placeholder}
+          className="h-10 pl-8 text-[12px] bg-muted/20 border-border/30 rounded-xl font-light"
+          maxLength={100}
+          autoComplete="off"
+        />
+
+        <AnimatePresence>
+          {open && query.trim().length >= 2 && (
+            <motion.div
+              initial={{ opacity: 0, y: -4 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -4 }}
+              transition={{ duration: 0.18 }}
+              className="absolute top-full left-0 right-0 mt-1.5 z-30 max-h-56 overflow-y-auto rounded-xl border border-border/60 bg-card shadow-[0_20px_60px_-15px_hsl(var(--foreground)/0.18)]"
+            >
+              {isLoading && (
+                <div className="px-4 py-3 flex items-center gap-2 text-[12px] text-muted-foreground font-light">
+                  <Loader2 size={13} className="animate-spin text-primary" /> Searching airports...
+                </div>
+              )}
+
+              {!isLoading && airports?.length === 0 && (
+                <div className="px-4 py-3 text-[12px] text-muted-foreground font-light">No airports found</div>
+              )}
+
+              {airports?.map((airport) => {
+                const code = airport.icao || airport.iata;
+                const title = airport.city || airport.name || airport.country;
+                const subtitle = [airport.name, airport.country].filter(Boolean).join(" · ");
+
+                return (
+                  <button
+                    key={`${airport.id}-${airport.icao}-${airport.iata}`}
+                    type="button"
+                    onClick={() => {
+                      onSelect(airport);
+                      setOpen(false);
+                    }}
+                    className="w-full px-4 py-3 text-left hover:bg-muted/40 transition-colors border-b border-border/40 last:border-0"
+                  >
+                    <div className="flex items-center gap-2.5">
+                      {code && (
+                        <span className="text-[10px] font-semibold text-primary bg-primary/10 px-2 py-0.5 rounded tracking-wider shrink-0">
+                          {code}
+                        </span>
+                      )}
+                      <span className="text-[13px] text-foreground font-medium truncate">{title}</span>
+                    </div>
+                    {subtitle && (
+                      <p className="text-[11px] text-muted-foreground mt-0.5 font-light truncate pl-[3rem]">{subtitle}</p>
+                    )}
+                  </button>
+                );
+              })}
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </div>
+    </div>
+  );
+};
+
+const buildFallbackAirport = (label: string, icao: string): Airport | null => {
+  if (!icao) return null;
+
+  return {
+    id: 0,
+    icao,
+    iata: "",
+    name: label,
+    city: "",
+    country: "",
+    lat: null as unknown as number,
+    lng: null as unknown as number,
+  };
+};
+
+const formatAirportDisplay = (airport: Airport) => {
+  const place = airport.city || airport.name || airport.country || airport.icao || airport.iata;
+  const codes = [airport.iata, airport.icao].filter(Boolean).join(" / ");
+  return codes ? `${place} (${codes})` : place;
+};
+
 const QuoteRequestModal = ({ open, onClose, flightData }: QuoteRequestModalProps) => {
   const [step, setStep] = useState<Step>(1);
   const [submitting, setSubmitting] = useState(false);
   const { capture } = useCrmApi();
-
-  // Fetch FBOs for the destination airport (if ICAO available)
-  const destIcaos = useMemo(() => flightData.toIcao ? [flightData.toIcao] : [], [flightData.toIcao]);
-  const { data: destFbos } = useDestinationFbos(destIcaos);
-  const vipTerminals = useMemo(() => {
-    if (!destFbos?.length) return [];
-    // Dedupe and pick top 3 with VIP lounges first
-    const unique = destFbos.reduce((acc: ApiFbo[], f) => {
-      if (!acc.find((x) => x.name === f.name)) acc.push(f);
-      return acc;
-    }, []);
-    return unique.sort((a, b) => (b.vip_lounge ? 1 : 0) - (a.vip_lounge ? 1 : 0)).slice(0, 3);
-  }, [destFbos]);
 
   const [form, setForm] = useState({
     name: "",
     email: "",
     phone: "",
     notes: "",
-    // Editable flight details
     departure: flightData.fromLabel,
     destination: flightData.toLabel,
     date: flightData.date || "",
@@ -61,9 +181,89 @@ const QuoteRequestModal = ({ open, onClose, flightData }: QuoteRequestModalProps
     aircraft: flightData.aircraft || "",
   });
 
+  const [fromQuery, setFromQuery] = useState(flightData.fromLabel);
+  const [toQuery, setToQuery] = useState(flightData.toLabel);
+  const [selectedFromAirport, setSelectedFromAirport] = useState<Airport | null>(() => buildFallbackAirport(flightData.fromLabel, flightData.fromIcao));
+  const [selectedToAirport, setSelectedToAirport] = useState<Airport | null>(() => buildFallbackAirport(flightData.toLabel, flightData.toIcao));
+
+  useEffect(() => {
+    if (!open) return;
+
+    setStep(1);
+    setSubmitting(false);
+    setForm({
+      name: "",
+      email: "",
+      phone: "",
+      notes: "",
+      departure: flightData.fromLabel,
+      destination: flightData.toLabel,
+      date: flightData.date || "",
+      passengers: flightData.passengers || "1",
+      aircraft: flightData.aircraft || "",
+    });
+    setFromQuery(flightData.fromLabel);
+    setToQuery(flightData.toLabel);
+    setSelectedFromAirport(buildFallbackAirport(flightData.fromLabel, flightData.fromIcao));
+    setSelectedToAirport(buildFallbackAirport(flightData.toLabel, flightData.toIcao));
+  }, [open, flightData]);
+
   const updateField = useCallback((field: string, value: string) => {
     setForm((prev) => ({ ...prev, [field]: value }));
   }, []);
+
+  const destinationLookupIcao = selectedToAirport?.icao || flightData.toIcao;
+  const destIcaos = useMemo(() => (destinationLookupIcao ? [destinationLookupIcao] : []), [destinationLookupIcao]);
+  const { data: destFbos } = useDestinationFbos(destIcaos);
+  const vipTerminals = useMemo(() => {
+    if (!destFbos?.length) return [];
+    const unique = destFbos.reduce((acc: ApiFbo[], f) => {
+      if (!acc.find((x) => x.name === f.name)) acc.push(f);
+      return acc;
+    }, []);
+    return unique.sort((a, b) => (b.vip_lounge ? 1 : 0) - (a.vip_lounge ? 1 : 0)).slice(0, 3);
+  }, [destFbos]);
+
+  const fromAirport = selectedFromAirport ?? buildFallbackAirport(flightData.fromLabel, flightData.fromIcao);
+  const toAirport = selectedToAirport ?? buildFallbackAirport(flightData.toLabel, flightData.toIcao);
+
+  if (fromAirport) {
+    const coords = getAirportCoords(fromAirport.icao);
+    if (coords) {
+      fromAirport.lat = fromAirport.lat ?? coords[0];
+      fromAirport.lng = fromAirport.lng ?? coords[1];
+    }
+  }
+
+  if (toAirport) {
+    const coords = getAirportCoords(toAirport.icao);
+    if (coords) {
+      toAirport.lat = toAirport.lat ?? coords[0];
+      toAirport.lng = toAirport.lng ?? coords[1];
+    }
+  }
+
+  const routeInfo = useMemo(() => {
+    if (fromAirport?.lat == null || toAirport?.lat == null) return null;
+
+    const distanceNm = greatCircleDistanceNm(fromAirport.lat, fromAirport.lng, toAirport.lat, toAirport.lng);
+    const flightTimeMin = estimateFlightTimeMin(distanceNm);
+    const aircraftName = (flightData.aircraft || "").toLowerCase();
+    let aircraftClass = "midsize";
+
+    if (/citation|phenom|lear\s*[234]|honda/i.test(aircraftName)) aircraftClass = "light";
+    else if (/hawker|citation\s*x|praetor\s*5|challenger\s*3/i.test(aircraftName)) aircraftClass = "super midsize";
+    else if (/global|gulfstream\s*[gv]|falcon\s*(7|8|9|2000)|challenger\s*(6|650)/i.test(aircraftName)) aircraftClass = "heavy";
+    else if (/a319|a320|bbj|lineage|acj/i.test(aircraftName)) aircraftClass = "vip airliner";
+
+    const pricing = getCharterPrice({
+      aircraftClass,
+      distanceNm,
+      flightTimeMin,
+    });
+
+    return { distanceNm, flightTimeMin, pricing };
+  }, [fromAirport, toAirport, flightData.aircraft]);
 
   const handleSubmit = async () => {
     setSubmitting(true);
@@ -83,7 +283,6 @@ const QuoteRequestModal = ({ open, onClose, flightData }: QuoteRequestModalProps
       });
       setStep(4);
     } catch {
-      // Still show success — CRM capture is best-effort
       setStep(4);
     } finally {
       setSubmitting(false);
@@ -95,54 +294,13 @@ const QuoteRequestModal = ({ open, onClose, flightData }: QuoteRequestModalProps
     onClose();
   };
 
-  // Build airport objects for the map
-  const fromAirport: Airport | null = flightData.fromIcao
-    ? { id: 0, icao: flightData.fromIcao, iata: "", name: flightData.fromLabel, city: "", country: "", lat: null as unknown as number, lng: null as unknown as number }
-    : null;
-  const toAirport: Airport | null = flightData.toIcao
-    ? { id: 0, icao: flightData.toIcao, iata: "", name: flightData.toLabel, city: "", country: "", lat: null as unknown as number, lng: null as unknown as number }
-    : null;
-
-  // Resolve coords from airportCoords
-  if (fromAirport) {
-    const coords = getAirportCoords(flightData.fromIcao);
-    if (coords) { fromAirport.lat = coords[0]; fromAirport.lng = coords[1]; }
-  }
-  if (toAirport) {
-    const coords = getAirportCoords(flightData.toIcao);
-    if (coords) { toAirport.lat = coords[0]; toAirport.lng = coords[1]; }
-  }
-
-  // Route calculations for pricing estimate
-  const routeInfo = useMemo(() => {
-    if (fromAirport?.lat == null || toAirport?.lat == null) return null;
-    const distanceNm = greatCircleDistanceNm(fromAirport.lat, fromAirport.lng, toAirport.lat, toAirport.lng);
-    const flightTimeMin = estimateFlightTimeMin(distanceNm);
-    // Determine class from aircraft name if available
-    const aircraftName = (flightData.aircraft || "").toLowerCase();
-    let aircraftClass = "midsize";
-    if (/citation|phenom|lear\s*[234]|honda/i.test(aircraftName)) aircraftClass = "light";
-    else if (/hawker|citation\s*x|praetor\s*5|challenger\s*3/i.test(aircraftName)) aircraftClass = "super midsize";
-    else if (/global|gulfstream\s*[gv]|falcon\s*(7|8|9|2000)|challenger\s*(6|650)/i.test(aircraftName)) aircraftClass = "heavy";
-    else if (/a319|a320|bbj|lineage|acj/i.test(aircraftName)) aircraftClass = "vip airliner";
-
-    const pricing = getCharterPrice({
-      aircraftClass,
-      distanceNm,
-      flightTimeMin,
-    });
-
-    return { distanceNm, flightTimeMin, pricing };
-  }, [fromAirport, toAirport, flightData.aircraft]);
-
-  const canProceedStep1 = form.departure && form.destination;
+  const canProceedStep1 = form.departure.trim().length > 1 && form.destination.trim().length > 1;
   const canProceedStep2 = form.name.trim().length > 1 && form.email.includes("@");
 
   if (!open) return null;
 
   return (
     <div className="fixed inset-0 z-[100] flex items-center justify-center">
-      {/* Backdrop */}
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
@@ -151,7 +309,6 @@ const QuoteRequestModal = ({ open, onClose, flightData }: QuoteRequestModalProps
         onClick={handleClose}
       />
 
-      {/* Modal */}
       <motion.div
         initial={{ opacity: 0, scale: 0.95, y: 20 }}
         animate={{ opacity: 1, scale: 1, y: 0 }}
@@ -159,7 +316,6 @@ const QuoteRequestModal = ({ open, onClose, flightData }: QuoteRequestModalProps
         transition={{ duration: 0.3, ease: "easeOut" }}
         className="relative z-10 w-full max-w-lg mx-4 max-h-[90vh] overflow-y-auto rounded-2xl border border-border/50 bg-card shadow-2xl"
       >
-        {/* Header */}
         <div className="sticky top-0 z-20 flex items-center justify-between px-6 py-4 border-b border-border/30 bg-card/95 backdrop-blur-md rounded-t-2xl">
           <div>
             <p className="text-[9px] tracking-[0.4em] uppercase text-primary font-medium">Request Quote</p>
@@ -170,7 +326,6 @@ const QuoteRequestModal = ({ open, onClose, flightData }: QuoteRequestModalProps
           </button>
         </div>
 
-        {/* Progress bar */}
         <div className="h-[2px] bg-muted/30">
           <motion.div
             className="h-full bg-primary"
@@ -180,7 +335,6 @@ const QuoteRequestModal = ({ open, onClose, flightData }: QuoteRequestModalProps
         </div>
 
         <AnimatePresence mode="wait">
-          {/* Step 1: Review Flight */}
           {step === 1 && (
             <motion.div
               key="step1"
@@ -192,15 +346,13 @@ const QuoteRequestModal = ({ open, onClose, flightData }: QuoteRequestModalProps
             >
               <div>
                 <h3 className="font-display text-xl font-semibold text-foreground">Review Your Flight</h3>
-                <p className="text-[12px] text-muted-foreground font-light mt-1">Confirm the details of your requested route.</p>
+                <p className="text-[12px] text-muted-foreground font-light mt-1">Search by city, country, IATA or ICAO code.</p>
               </div>
 
-              {/* Route map */}
               {fromAirport?.lat && toAirport?.lat && (
                 <QuoteRouteMap from={fromAirport} to={toAirport} className="mt-2" />
               )}
 
-              {/* Route summary — premium confidence strip */}
               {routeInfo && (
                 <div className="rounded-xl bg-gradient-to-r from-primary/[0.05] via-primary/[0.03] to-transparent border border-primary/10 p-5">
                   <div className="flex items-center justify-between">
@@ -226,28 +378,39 @@ const QuoteRequestModal = ({ open, onClose, flightData }: QuoteRequestModalProps
                 </div>
               )}
 
-              {/* Flight details grid */}
               <div className="grid grid-cols-2 gap-3">
-                <div className="space-y-1.5">
-                  <Label className="text-[10px] tracking-[0.15em] uppercase text-muted-foreground font-medium">From</Label>
-                  <Input
-                    value={form.departure}
-                    onChange={(e) => updateField("departure", e.target.value)}
-                    placeholder="e.g. DXB, OMDB, Dubai"
-                    className="h-10 text-[12px] bg-muted/20 border-border/30 rounded-xl font-light"
-                    maxLength={100}
-                  />
-                </div>
-                <div className="space-y-1.5">
-                  <Label className="text-[10px] tracking-[0.15em] uppercase text-muted-foreground font-medium">To</Label>
-                  <Input
-                    value={form.destination}
-                    onChange={(e) => updateField("destination", e.target.value)}
-                    placeholder="e.g. LHR, EGLL, London"
-                    className="h-10 text-[12px] bg-muted/20 border-border/30 rounded-xl font-light"
-                    maxLength={100}
-                  />
-                </div>
+                <QuoteAirportField
+                  label="From"
+                  value={form.departure}
+                  query={fromQuery}
+                  onValueChange={(value) => updateField("departure", value)}
+                  onQueryChange={setFromQuery}
+                  onClearSelection={() => setSelectedFromAirport(null)}
+                  onSelect={(airport) => {
+                    const display = formatAirportDisplay(airport);
+                    setSelectedFromAirport(airport);
+                    setFromQuery(display);
+                    updateField("departure", display);
+                  }}
+                  placeholder="e.g. DXB, OMDB, Dubai"
+                />
+
+                <QuoteAirportField
+                  label="To"
+                  value={form.destination}
+                  query={toQuery}
+                  onValueChange={(value) => updateField("destination", value)}
+                  onQueryChange={setToQuery}
+                  onClearSelection={() => setSelectedToAirport(null)}
+                  onSelect={(airport) => {
+                    const display = formatAirportDisplay(airport);
+                    setSelectedToAirport(airport);
+                    setToQuery(display);
+                    updateField("destination", display);
+                  }}
+                  placeholder="e.g. LHR, EGLL, London"
+                />
+
                 <div className="space-y-1.5">
                   <Label className="text-[10px] tracking-[0.15em] uppercase text-muted-foreground font-medium">Date</Label>
                   {form.date ? (
@@ -266,6 +429,7 @@ const QuoteRequestModal = ({ open, onClose, flightData }: QuoteRequestModalProps
                     />
                   )}
                 </div>
+
                 <div className="space-y-1.5">
                   <Label className="text-[10px] tracking-[0.15em] uppercase text-muted-foreground font-medium">Passengers</Label>
                   <Input
@@ -279,7 +443,6 @@ const QuoteRequestModal = ({ open, onClose, flightData }: QuoteRequestModalProps
                 </div>
               </div>
 
-              {/* Aircraft preference */}
               {flightData.aircraft && !flightData.aircraft.startsWith("Destination:") && (
                 <div className="flex items-center gap-3 p-3 rounded-xl bg-primary/5 border border-primary/10">
                   <Plane size={14} className="text-primary/60 shrink-0" />
@@ -290,7 +453,6 @@ const QuoteRequestModal = ({ open, onClose, flightData }: QuoteRequestModalProps
                 </div>
               )}
 
-              {/* Private terminal context */}
               {vipTerminals.length > 0 && (
                 <div className="rounded-xl bg-muted/20 border border-border/30 p-4">
                   <div className="flex items-center gap-2 mb-2.5">
@@ -322,7 +484,6 @@ const QuoteRequestModal = ({ open, onClose, flightData }: QuoteRequestModalProps
             </motion.div>
           )}
 
-          {/* Step 2: Contact Details */}
           {step === 2 && (
             <motion.div
               key="step2"
@@ -400,7 +561,6 @@ const QuoteRequestModal = ({ open, onClose, flightData }: QuoteRequestModalProps
             </motion.div>
           )}
 
-          {/* Step 3: Confirm */}
           {step === 3 && (
             <motion.div
               key="step3"
@@ -415,9 +575,7 @@ const QuoteRequestModal = ({ open, onClose, flightData }: QuoteRequestModalProps
                 <p className="text-[12px] text-muted-foreground font-light mt-1">Review everything before submitting.</p>
               </div>
 
-              {/* Summary card */}
               <div className="rounded-xl border border-border/30 bg-muted/10 overflow-hidden">
-                {/* Route */}
                 <div className="p-4 border-b border-border/20">
                   <p className="text-[9px] tracking-[0.3em] uppercase text-primary/70 font-medium mb-2">Route</p>
                   <div className="flex items-center gap-2 text-[13px] text-foreground font-light">
@@ -445,7 +603,6 @@ const QuoteRequestModal = ({ open, onClose, flightData }: QuoteRequestModalProps
                   </div>
                 </div>
 
-                {/* Contact */}
                 <div className="p-4">
                   <p className="text-[9px] tracking-[0.3em] uppercase text-primary/70 font-medium mb-2">Contact</p>
                   <p className="text-[13px] text-foreground font-light">{form.name}</p>
@@ -455,7 +612,6 @@ const QuoteRequestModal = ({ open, onClose, flightData }: QuoteRequestModalProps
                 </div>
               </div>
 
-              {/* Trust strip */}
               <div className="flex items-center gap-2 text-[10px] text-muted-foreground/60 font-light">
                 <Shield size={10} className="text-primary/40" />
                 <span>Your details are handled with strict confidentiality.</span>
@@ -486,7 +642,6 @@ const QuoteRequestModal = ({ open, onClose, flightData }: QuoteRequestModalProps
             </motion.div>
           )}
 
-          {/* Step 4: Success */}
           {step === 4 && (
             <motion.div
               key="step4"
@@ -510,13 +665,11 @@ const QuoteRequestModal = ({ open, onClose, flightData }: QuoteRequestModalProps
                 </p>
               </div>
 
-              {/* Route summary */}
               <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-muted/20 border border-border/30 text-[11px] text-muted-foreground font-light">
                 <Plane size={11} className="text-primary/50" />
                 {form.departure} → {form.destination}
               </div>
 
-              {/* Membership upsell */}
               <MembershipUpsell variant="inline" showReferral={true} className="text-left" />
 
               <div className="space-y-3 pt-2">
@@ -527,7 +680,6 @@ const QuoteRequestModal = ({ open, onClose, flightData }: QuoteRequestModalProps
                   Done
                 </button>
 
-                {/* WhatsApp secondary */}
                 <a
                   href={`https://wa.me/447888999944?text=${encodeURIComponent(`Hello, I just submitted a quote request for ${form.departure} → ${form.destination}. My name is ${form.name}.`)}`}
                   target="_blank"
@@ -538,7 +690,6 @@ const QuoteRequestModal = ({ open, onClose, flightData }: QuoteRequestModalProps
                 </a>
               </div>
 
-              {/* Response time */}
               <div className="flex items-center justify-center gap-1.5 text-[10px] text-muted-foreground/50 font-light">
                 <Clock size={9} />
                 <span>Typical response: under 60 minutes</span>
@@ -551,7 +702,6 @@ const QuoteRequestModal = ({ open, onClose, flightData }: QuoteRequestModalProps
   );
 };
 
-/** Resolve airport coords from the static lookup */
 function getAirportCoords(icao: string): [number, number] | null {
   const coords = AIRPORT_COORDS[icao];
   return coords ?? null;

@@ -42,12 +42,15 @@ const FleetDetailPage = () => {
 
   const rangeNm = aircraft.range_km ? Math.round(aircraft.range_km / 1.852) : null;
   const speedKts = aircraft.speed_kmh ? Math.round(aircraft.speed_kmh / 1.852) : null;
-  const imgSrc = aircraft.image_url || getAircraftImage(aircraft.name);
+  const fallbackImage = getAircraftImage(aircraft.name);
 
-  // Build gallery images
-  const galleryImages = aircraft.images?.length
-    ? aircraft.images.filter(i => i.type !== 'floor_plan' && i.type !== 'floorplan' && i.type !== 'layout')
-    : [{ url: imgSrc, type: "exterior", position: 0 }];
+  const sanitizedGalleryImages = aircraft.images?.filter(
+    (i) => i.url !== aircraft.image_url && i.type !== "floor_plan" && i.type !== "floorplan" && i.type !== "layout"
+  ) ?? [];
+
+  const galleryImages = sanitizedGalleryImages.length > 0
+    ? sanitizedGalleryImages
+    : [{ url: fallbackImage, type: "exterior", position: 0 }];
 
   // Build specs
   const specs: { label: string; value: string; icon?: React.ReactNode }[] = [];
