@@ -49,7 +49,7 @@ const EmptyLegPopup = ({ leg, onClose }: EmptyLegPopupProps) => {
   const category = leg.aircraft_class || getAircraftCategory(leg.aircraft_type || "midsize");
   const galleryImages = leg.aircraft_images?.length ? leg.aircraft_images : [{ url: image, type: "exterior" }];
 
-  const shareData = { fromCode, fromCity, toCode, toCity, date, price: priceLabel, aircraftType: leg.aircraft_type || "Private Jet", category };
+  const shareData = { fromCode, fromCity, toCode, toCity, date, price: priceLabel, aircraftType: leg.aircraft_type || "Private Jet", category, aircraftImage: image };
 
   // Build airport objects for the route map
   const fromAirport: Airport | null = (() => {
