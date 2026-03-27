@@ -44,7 +44,6 @@ export const localBusinessSchema = {
   "@type": "LocalBusiness",
   name: "Universal Jets Aviation Brokerage FZCO",
   url: "https://www.universaljets.com",
-  telephone: "+44-7888-999944",
   email: "sales@universaljets.com",
   priceRange: "$$$$$",
   address: {
