@@ -309,7 +309,7 @@ const CharterSolutionsSection = () => {
                         {/* Aircraft grid */}
                         <div className="mb-10">
                           <p className="text-[10px] tracking-[0.3em] uppercase text-primary/70 font-medium mb-4">
-                            Recommended Aircraft
+                            Preferred Aircraft
                           </p>
                           <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
                             {cat.aircraft.map((ac) => (
