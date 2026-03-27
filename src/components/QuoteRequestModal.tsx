@@ -265,6 +265,7 @@ const QuoteRequestModal = ({ open, onClose, flightData }: QuoteRequestModalProps
                       className="h-10 text-[12px] bg-muted/20 border-border/30 rounded-xl font-light"
                     />
                   )}
+                </div>
                 <div className="space-y-1.5">
                   <Label className="text-[10px] tracking-[0.15em] uppercase text-muted-foreground font-medium">Passengers</Label>
                   <Input
