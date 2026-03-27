@@ -164,7 +164,7 @@ const TierCard = forwardRef<HTMLDivElement, { tier: typeof tiers[0]; index: numb
                 }`}>
                   <Check className={`w-2.5 h-2.5 ${isMaverick ? "text-primary" : "text-primary/80"}`} strokeWidth={2.5} />
                 </div>
-                <span className={`text-[13px] leading-[1.6] font-light ${isMaverick ? "text-white/90" : "text-white/80"}`}>
+                <span className={`text-[13px] leading-[1.6] font-light ${isMaverick ? "text-white/90" : "text-white/85"}`}>
                   {h}
                 </span>
               </div>
