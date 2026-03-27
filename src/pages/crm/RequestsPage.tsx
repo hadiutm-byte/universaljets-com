@@ -17,18 +17,32 @@ const RequestsPage = () => {
   const [editing, setEditing] = useState<any>(null);
   const [clients, setClients] = useState<any[]>([]);
   const [form, setForm] = useState({ client_id: "", departure: "", destination: "", date: "", passengers: 1, notes: "", status: "pending" as RequestStatus });
+  const [filterStatus, setFilterStatus] = useState("all");
+  const [search, setSearch] = useState("");
 
   const load = useCallback(async () => {
     setLoading(true);
-    const { data: rows } = await supabase.from("flight_requests").select("*, clients(full_name)").order("created_at", { ascending: false });
+    let query = supabase.from("flight_requests").select("*, clients(full_name)").order("created_at", { ascending: false });
+    if (filterStatus !== "all") query = query.eq("status", filterStatus);
+    const { data: rows } = await query;
     setData(rows ?? []);
     setLoading(false);
-  }, []);
+  }, [filterStatus]);
 
   useEffect(() => {
     load();
     supabase.from("clients").select("id, full_name").then(({ data: c }) => setClients(c ?? []));
   }, [load]);
+
+  const filteredData = search
+    ? data.filter(r => {
+        const name = r.clients?.full_name?.toLowerCase() || "";
+        const dep = r.departure?.toLowerCase() || "";
+        const dest = r.destination?.toLowerCase() || "";
+        const q = search.toLowerCase();
+        return name.includes(q) || dep.includes(q) || dest.includes(q);
+      })
+    : data;
 
   const openForm = (row?: any) => {
     setEditing(row ?? null);
@@ -43,9 +57,7 @@ const RequestsPage = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const payload = { client_id: form.client_id || null, departure: form.departure, destination: form.destination, date: form.date || null, passengers: Number(form.passengers), notes: form.notes || null, status: form.status };
-    const op = editing?.id
-      ? supabase.from("flight_requests").update(payload).eq("id", editing.id)
-      : supabase.from("flight_requests").insert(payload);
+    const op = editing?.id ? supabase.from("flight_requests").update(payload).eq("id", editing.id) : supabase.from("flight_requests").insert(payload);
     const { error } = await op;
     if (error) toast.error(error.message); else { toast.success(editing?.id ? "Updated" : "Created"); load(); setFormOpen(false); }
   };
@@ -56,8 +68,20 @@ const RequestsPage = () => {
     if (error) toast.error(error.message); else { toast.success("Deleted"); load(); }
   };
 
+  const handleBulkAction = async (ids: string[], action: string) => {
+    if (action === "delete") {
+      if (!confirm(`Delete ${ids.length} requests?`)) return;
+      const { error } = await supabase.from("flight_requests").delete().in("id", ids);
+      if (error) toast.error(error.message); else { toast.success(`${ids.length} deleted`); load(); }
+    } else {
+      const { error } = await supabase.from("flight_requests").update({ status: action as RequestStatus }).in("id", ids);
+      if (error) toast.error(error.message); else { toast.success(`${ids.length} updated`); load(); }
+    }
+  };
+
   const inputClass = "w-full bg-secondary/50 rounded-lg px-3 py-2.5 text-[13px] text-foreground font-light focus:outline-none focus:ring-1 focus:ring-primary/20 transition-all border border-border/20";
   const labelClass = "text-[9px] tracking-[0.2em] uppercase text-muted-foreground/60 mb-1.5 block font-light";
+  const filterClass = "px-3 py-2 text-[11px] rounded-lg border border-border/20 bg-secondary/30 text-foreground/70 focus:outline-none focus:ring-1 focus:ring-primary/30";
 
   return (
     <div className="space-y-6">
@@ -65,15 +89,35 @@ const RequestsPage = () => {
         <p className="text-[10px] tracking-[0.3em] uppercase text-muted-foreground/50 font-medium mb-2">Templates</p>
         <TemplateDownloadCard template={flightRequestTemplate} />
       </div>
-      <CrmTable title="Flight Requests"
+      <CrmTable
+        title="Flight Requests"
         columns={[
           { key: "client", label: "Client", render: (r: any) => r.clients?.full_name ?? "—" },
-          { key: "departure", label: "From" }, { key: "destination", label: "To" },
+          { key: "departure", label: "From" },
+          { key: "destination", label: "To" },
           { key: "date", label: "Date", render: (r: any) => r.date ? new Date(r.date).toLocaleDateString() : "—" },
           { key: "passengers", label: "Pax" },
           { key: "status", label: "Status", render: (r: any) => <StatusBadge status={r.status} /> },
         ]}
-        data={data} loading={loading} onAdd={() => openForm()} onEdit={openForm} onDelete={handleDelete}
+        data={filteredData}
+        loading={loading}
+        onAdd={() => openForm()}
+        onEdit={openForm}
+        onDelete={handleDelete}
+        onBulkAction={handleBulkAction}
+        bulkActions={[
+          ...STATUSES.map(s => ({ label: `Set ${s}`, value: s })),
+          { label: "Delete", value: "delete" },
+        ]}
+        filterBar={
+          <div className="flex flex-wrap items-center gap-2">
+            <input value={search} onChange={e => setSearch(e.target.value)} placeholder="Search client, route..." className={`${filterClass} w-52`} />
+            <select value={filterStatus} onChange={e => setFilterStatus(e.target.value)} className={filterClass}>
+              <option value="all">All Status</option>
+              {STATUSES.map(s => <option key={s} value={s}>{s}</option>)}
+            </select>
+          </div>
+        }
       />
       <Dialog open={formOpen} onOpenChange={setFormOpen}>
         <DialogContent className="bg-card border-border/30 max-w-md">
