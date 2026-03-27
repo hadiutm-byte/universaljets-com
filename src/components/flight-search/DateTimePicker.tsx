@@ -257,10 +257,21 @@ const DesktopDateTimePicker = ({
   );
 };
 
-/* ─── Adaptive wrapper ─── */
+/* ─── Adaptive wrapper: use native pickers on touch/mobile devices ─── */
 const DateTimePicker = (props: DateTimePickerProps) => {
   const isMobile = useIsMobile();
-  return isMobile ? <MobileDateTimePicker {...props} /> : <DesktopDateTimePicker {...props} />;
+  const [isTouch, setIsTouch] = useState(false);
+
+  useEffect(() => {
+    setIsTouch(
+      "ontouchstart" in window ||
+      navigator.maxTouchPoints > 0 ||
+      window.matchMedia("(pointer: coarse)").matches
+    );
+  }, []);
+
+  const useMobile = isMobile || isTouch;
+  return useMobile ? <MobileDateTimePicker {...props} /> : <DesktopDateTimePicker {...props} />;
 };
 
 export default DateTimePicker;
