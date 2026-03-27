@@ -93,6 +93,19 @@ serve(async (req) => {
     // Flatten into individual aircraft offers, extracting ALL useful B2C data
     const results = [];
     for (const company of companies) {
+      // Log first aircraft's raw price fields for debugging
+      if (results.length === 0 && (company.aircraft || []).length > 0) {
+        const sample = (company.aircraft || [])[0];
+        console.log(`[charter-search] Sample price fields:`, JSON.stringify({
+          price: sample.price, charter_price: sample.charter_price,
+          price_total: sample.price_total, total_price: sample.total_price,
+          amount: sample.amount, price_unit: sample.price_unit,
+          pricing_type: sample.pricing_type,
+          currency_code: sample.currency_code, currency: sample.currency,
+          price_currency: sample.price_currency,
+          company_currency: company.currency,
+        }));
+      }
       for (const aircraft of (company.aircraft || [])) {
         // ── Images: collect all, filter out any with tail numbers ──
         const allImages: { url: string; type: string; position: number }[] = [];
