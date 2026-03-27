@@ -378,11 +378,11 @@ const MembersPage = () => (
         >
           <p className="text-center text-[9px] tracking-[0.4em] uppercase text-white/55 mb-6 font-light">Detailed Comparison</p>
           <div className="rounded-xl border border-[hsl(228,12%,20%)] overflow-hidden bg-[hsl(228,14%,10%)]">
-            <div className="overflow-x-auto">
+            <div className="overflow-x-auto max-h-[500px] overflow-y-auto">
               <table className="w-full text-[11px]">
-                <thead>
+                <thead className="sticky top-0 z-10 bg-[hsl(228,14%,10%)]">
                   <tr className="border-b border-[hsl(228,12%,20%)]">
-                    <th className="text-left py-4 px-5 text-[8px] tracking-[0.25em] uppercase text-white/50 font-medium w-[20%]" />
+                    <th className="text-left py-4 px-5 text-[8px] tracking-[0.25em] uppercase text-white/50 font-medium w-[20%]">Feature</th>
                     {tiers.map((t) => (
                       <th key={t.name} className={`text-center py-4 px-4 text-[10px] tracking-[0.15em] uppercase font-semibold ${
                         t.isMaverick ? "text-primary" : "text-white/85"
