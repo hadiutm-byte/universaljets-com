@@ -179,7 +179,7 @@ const ContactPage = () => {
                       <PremiumInput label="Email" required type="email" value={form.email} onChange={(e) => update("email", e.target.value)} placeholder="you@example.com" maxLength={255} />
                     </div>
                     <div className="grid sm:grid-cols-2 gap-5">
-                      <PremiumInput label="Phone / WhatsApp" type="tel" value={form.phone} onChange={(e) => update("phone", e.target.value)} placeholder="+971 50 000 0000" maxLength={20} />
+                      <PhoneWithCountryCode phone={form.phone} onPhoneChange={(v) => update("phone", v)} countryCode={form.countryCode} onCountryCodeChange={(v) => update("countryCode", v)} />
                       <PremiumSelect label="Inquiry Type" value={form.inquiry} onChange={(e) => update("inquiry", e.target.value)}>
                         <option value="">Select...</option>
                         {inquiryTypes.map((t) => <option key={t} value={t}>{t}</option>)}
