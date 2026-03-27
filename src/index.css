@@ -82,7 +82,7 @@ html {
   body {
     @apply text-foreground font-body antialiased;
     overflow-x: hidden;
-    background: hsl(0, 0%, 100%);
+    background: hsl(var(--charcoal-deep));
     min-height: 100vh;
     min-height: 100dvh;
     min-height: 100svh;                    /* small viewport height for iOS */
@@ -95,6 +95,12 @@ html {
     /* Prevent text selection on interactive surfaces */
     -webkit-user-select: none;
     user-select: none;
+  }
+
+  #root {
+    min-height: 100vh;
+    min-height: 100dvh;
+    background: hsl(var(--charcoal-deep));
   }
 
   /* Allow text selection in content areas */
@@ -173,6 +179,12 @@ html {
     transform: translateX(-50%);
     opacity: 1;
     pointer-events: auto;
+  }
+
+  body:has(.flight-search-shell :focus-within) .floating-search-aware {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
   }
 }
 
