@@ -157,7 +157,7 @@ const CharterSolutionsSection = () => {
           transition={{ duration: 0.8 }}
           className="text-center text-[10px] tracking-[0.5em] uppercase font-medium text-primary mb-5"
         >
-          What We Do
+          Charter Solutions
         </motion.p>
 
         <motion.h2
@@ -167,7 +167,7 @@ const CharterSolutionsSection = () => {
           transition={{ delay: 0.05, duration: 0.9 }}
           className="text-center font-display text-4xl md:text-5xl font-semibold text-foreground mb-5 tracking-[-0.01em]"
         >
-          Six Reasons They Call Us <em className="text-primary font-display">First</em>
+          Every Mission. <em className="text-primary font-display">One Standard.</em>
         </motion.h2>
 
         <motion.p
@@ -177,7 +177,7 @@ const CharterSolutionsSection = () => {
           transition={{ delay: 0.1 }}
           className="text-center text-muted-foreground text-base md:text-lg max-w-2xl mx-auto mb-16"
         >
-          Every mission is different. The broker shouldn't be.
+          Six disciplines. One promise. Wherever you need to be.
         </motion.p>
 
         {/* Cards */}
