@@ -55,9 +55,14 @@ async function loadAircraftTypeCache(apiKey: string) {
           }
         }
 
+        // If notail images exist, drop exterior images (they show painted registrations)
+        const hasNotail = allImages.some(i => i.type === 'notail');
+        const filteredImages = hasNotail ? allImages.filter(i => i.type !== 'exterior') : allImages;
+        const heroUrl = filteredImages.find(i => i.type === 'notail')?.url || filteredImages[0]?.url || null;
+
         aircraftTypeCache[name] = {
-          image_url: allImages[0]?.url || null,
-          all_images: allImages,
+          image_url: heroUrl,
+          all_images: filteredImages,
           floor_plan_url: floorPlanUrl,
           class_name: String(at.class_name || at.aircraft_class?.name || ''),
           max_pax: toFiniteNum(at.pax_maximum),
