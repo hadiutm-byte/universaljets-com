@@ -16,14 +16,10 @@ const FleetSection = () => {
   // Fetch all aircraft types to get real images
   const { data: aircraftData } = useAircraftTypes();
 
-  // Group API aircraft by class_id for image lookup
-  const imageByClass: Record<string, string> = {};
+  // Group API aircraft by class_id for example names only — images use curated local assets
   const examplesByClass: Record<string, string[]> = {};
   if (aircraftData?.results) {
     for (const at of aircraftData.results) {
-      if (at.class_id && at.image_url && !imageByClass[String(at.class_id)]) {
-        imageByClass[String(at.class_id)] = at.image_url;
-      }
       if (at.class_id) {
         const key = String(at.class_id);
         if (!examplesByClass[key]) examplesByClass[key] = [];
@@ -55,7 +51,6 @@ const FleetSection = () => {
 
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
           {fleetCategories.map((f, i) => {
-            const apiImage = imageByClass[f.classId];
             const examples = examplesByClass[f.classId]?.join("  ·  ") || "";
 
             return (
@@ -69,7 +64,7 @@ const FleetSection = () => {
               >
                 <div className="relative h-44 overflow-hidden">
                   <img
-                    src={apiImage || f.fallbackImage}
+                    src={f.fallbackImage}
                     alt={f.category}
                     loading="lazy"
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
