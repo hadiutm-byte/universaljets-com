@@ -43,12 +43,12 @@ const GoldParticles = ({ className = "", particleCount = 45, maxSize = 2.5, spee
     const w = () => canvas.offsetWidth;
     const h = () => canvas.offsetHeight;
 
-    particles.current = Array.from({ length: PARTICLE_COUNT }, () => ({
+    particles.current = Array.from({ length: particleCount }, () => ({
       x: Math.random() * w(),
       y: Math.random() * h(),
-      vx: (Math.random() - 0.5) * 0.3,
-      vy: -Math.random() * 0.25 - 0.05,
-      size: Math.random() * 2 + 0.5,
+      vx: (Math.random() - 0.5) * speed * 1.2,
+      vy: -Math.random() * speed - 0.05,
+      size: Math.random() * maxSize + 0.5,
       opacity: Math.random() * 0.5 + 0.1,
       fadeDir: Math.random() > 0.5 ? 1 : -1,
     }));
