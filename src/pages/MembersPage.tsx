@@ -139,7 +139,7 @@ const TierCard = forwardRef<HTMLDivElement, { tier: typeof tiers[0]; index: numb
           <h3 className={`font-display text-2xl font-semibold mb-1 ${isMaverick ? "text-primary" : "text-white"}`}>
             {tier.name}
           </h3>
-          <p className="text-[12px] text-white/65 font-light mb-5">{tier.tagline}</p>
+          <p className="text-[12px] text-white/80 font-light mb-5">{tier.tagline}</p>
 
           {/* PRICE — MAXIMUM VISIBILITY */}
           <div className="flex items-baseline gap-1.5 mb-2">
