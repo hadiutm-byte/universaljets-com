@@ -138,7 +138,6 @@ const charterCategories: CharterCategory[] = [
     aircraft: [
       { name: "Boeing BBJ VIP Airliner", link: "/fleet" },
       { name: "Airbus ACJ320neo", link: "/fleet" },
-      { name: "Embraer Lineage 1000E", link: "/fleet" },
       { name: "Boeing 767 VIP", link: "/fleet" },
     ],
   },
