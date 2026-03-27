@@ -82,6 +82,8 @@ html {
   }
   body {
     @apply text-foreground font-body antialiased;
+    font-size: clamp(18px, 1rem + 0.5vw, 20px);
+    line-height: 1.7;
     overflow-x: hidden;
     background: hsl(var(--charcoal-deep));
     min-height: 100vh;
