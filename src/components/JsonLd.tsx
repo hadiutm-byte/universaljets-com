@@ -43,7 +43,7 @@ export const localBusinessSchema = {
   "@context": "https://schema.org",
   "@type": "LocalBusiness",
   name: "Universal Jets Aviation Brokerage FZCO",
-  url: "https://www.universaljets.com",
+  url: "https://universaljets.com",
   email: "sales@universaljets.com",
   priceRange: "$$$$$",
   address: {
