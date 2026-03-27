@@ -3,6 +3,8 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/u
 import { useCrmApi } from "@/hooks/useCrmApi";
 import { toast } from "sonner";
 import { trackEmptyLegInquiry } from "@/lib/gtmEvents";
+import useUserGeolocation from "@/hooks/useUserGeolocation";
+import PhoneWithCountryCode, { buildFullPhone, resolveCountryCode } from "@/components/forms/PhoneWithCountryCode";
 import {
   PremiumInput, PremiumSelect, PremiumTextarea, PremiumCheckbox,
   LegalConsent, FormDisclaimer, PremiumSubmitButton, ConfidentialityNotice,
@@ -16,13 +18,19 @@ interface Props {
 
 export default function EmptyLegInquiryModal({ open, onOpenChange, emptyLeg }: Props) {
   const { capture } = useCrmApi();
+  const geo = useUserGeolocation();
   const [loading, setLoading] = useState(false);
   const [form, setForm] = useState({
-    name: "", email: "", phone: "", passengers: "1",
+    name: "", email: "", countryCode: "+971", phone: "", passengers: "1",
     flexible_timing: false, additional_destination: "", notes: "",
     confirmation_speed: "standard",
   });
   const [termsAccepted, setTermsAccepted] = useState(false);
+
+  const resolvedCode = resolveCountryCode(geo.countryCode);
+  if (form.countryCode === "+971" && resolvedCode !== "+971") {
+    setForm((p) => p.countryCode === "+971" ? { ...p, countryCode: resolvedCode } : p);
+  }
 
   const set = (k: string, v: any) => setForm((p) => ({ ...p, [k]: v }));
   const canSubmit = form.name && form.email && termsAccepted;
@@ -30,16 +38,13 @@ export default function EmptyLegInquiryModal({ open, onOpenChange, emptyLeg }: P
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!canSubmit) return;
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)) {
-      toast.error("Please enter a valid email address.");
-      return;
-    }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)) { toast.error("Please enter a valid email address."); return; }
     setLoading(true);
     try {
       const routeParts = emptyLeg?.route?.split(" → ") || ["TBD", "TBD"];
       await capture({
         name: form.name, email: form.email,
-        phone: form.phone || undefined,
+        phone: buildFullPhone(form.countryCode, form.phone),
         departure: routeParts[0] || "TBD",
         destination: routeParts[1] || "TBD",
         date: emptyLeg?.date, passengers: form.passengers,
@@ -55,9 +60,7 @@ export default function EmptyLegInquiryModal({ open, onOpenChange, emptyLeg }: P
       trackEmptyLegInquiry(emptyLeg?.route);
       toast.success("Your inquiry has been received. We will confirm availability shortly.");
       onOpenChange(false);
-    } catch {
-      toast.error("We were unable to submit your request. Please try again or contact our team directly.");
-    }
+    } catch { toast.error("We were unable to submit your request. Please try again or contact our team directly."); }
     setLoading(false);
   };
 
@@ -75,7 +78,7 @@ export default function EmptyLegInquiryModal({ open, onOpenChange, emptyLeg }: P
             <PremiumInput label="Email" required type="email" value={form.email} onChange={(e) => set("email", e.target.value)} placeholder="you@email.com" maxLength={255} />
           </div>
           <div className="grid grid-cols-2 gap-4">
-            <PremiumInput label="Phone / WhatsApp" type="tel" value={form.phone} onChange={(e) => set("phone", e.target.value)} placeholder="+971 50 000 0000" maxLength={20} />
+            <PhoneWithCountryCode phone={form.phone} onPhoneChange={(v) => set("phone", v)} countryCode={form.countryCode} onCountryCodeChange={(v) => set("countryCode", v)} />
             <PremiumSelect label="Passengers" value={form.passengers} onChange={(e) => set("passengers", e.target.value)}>
               {[...Array(19)].map((_, i) => <option key={i + 1} value={i + 1}>{i + 1}</option>)}
             </PremiumSelect>
@@ -88,13 +91,9 @@ export default function EmptyLegInquiryModal({ open, onOpenChange, emptyLeg }: P
           <PremiumCheckbox label="I'm flexible on timing" checked={form.flexible_timing} onChange={(v) => set("flexible_timing", v)} />
           <PremiumInput label="Alternative Destination" value={form.additional_destination} onChange={(e) => set("additional_destination", e.target.value)} placeholder="If the exact route doesn't work..." />
           <PremiumTextarea label="Notes" value={form.notes} onChange={(e) => set("notes", e.target.value)} rows={2} placeholder="Any additional information..." maxLength={1000} />
-
           <LegalConsent checked={termsAccepted} onChange={setTermsAccepted} />
           <FormDisclaimer />
-
-          <PremiumSubmitButton loading={loading} disabled={!canSubmit}>
-            Inquire About This Flight
-          </PremiumSubmitButton>
+          <PremiumSubmitButton loading={loading} disabled={!canSubmit}>Inquire About This Flight</PremiumSubmitButton>
           <ConfidentialityNotice />
         </form>
       </DialogContent>
