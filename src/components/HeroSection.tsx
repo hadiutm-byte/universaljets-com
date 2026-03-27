@@ -1,7 +1,7 @@
 import { useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
-import { ArrowRight } from "lucide-react";
 import heroJet from "@/assets/hero-jet.jpg";
+import GoldParticles from "@/components/GoldParticles";
 
 const HeroSection = () => {
   const ref = useRef<HTMLElement>(null);
@@ -36,6 +36,11 @@ const HeroSection = () => {
         <div className="hero-cloud hero-cloud-1" />
         <div className="hero-cloud hero-cloud-2" />
         <div className="hero-cloud hero-cloud-3" />
+      </div>
+
+      {/* Gold dust particles */}
+      <div className="absolute inset-0 pointer-events-none z-[2]">
+        <GoldParticles />
       </div>
 
       {/* Dark gradient overlay for text readability */}
