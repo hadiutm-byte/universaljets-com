@@ -330,7 +330,7 @@ const CharterSolutionsSection = () => {
                                 </div>
                                 <div className="p-3 text-center">
                                   <p className="font-display text-[12px] font-medium text-foreground tracking-tight">{ac.name}</p>
-                                  <p className="text-[9px] tracking-[0.1em] uppercase text-primary/60 mt-1">View in Fleet →</p>
+                                  <p className="text-[9px] tracking-[0.1em] uppercase text-primary/60 mt-1">Explore →</p>
                                 </div>
                               </Link>
                             ))}
