@@ -1,24 +1,36 @@
-import { useRef, useCallback } from "react";
+import { useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
-import { Link } from "react-router-dom";
 import heroJet from "@/assets/hero-jet.jpg";
-import GoldParticles from "@/components/GoldParticles";
+
+const SERVICE_LABELS = [
+  { label: "On-Demand Charter", position: "top" as const, delay: 1.2 },
+  { label: "Empty Legs", position: "right" as const, delay: 1.4 },
+  { label: "Aircraft Management", position: "bottom" as const, delay: 1.6 },
+  { label: "Concierge & Beyond", position: "left" as const, delay: 1.8 },
+];
+
+const LABEL_POSITIONS: Record<string, string> = {
+  top: "left-1/2 -translate-x-1/2 -top-10",
+  right: "top-1/2 -translate-y-1/2 -right-12 translate-x-full",
+  bottom: "left-1/2 -translate-x-1/2 -bottom-10",
+  left: "top-1/2 -translate-y-1/2 -left-12 -translate-x-full",
+};
 
 const HeroSection = () => {
   const ref = useRef<HTMLElement>(null);
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] });
   const contentOpacity = useTransform(scrollYProgress, [0, 0.35], [1, 0]);
-  const contentY = useTransform(scrollYProgress, [0, 0.35], [0, -50]);
-  const bgScale = useTransform(scrollYProgress, [0, 1], [1, 1.18]);
+  const contentY = useTransform(scrollYProgress, [0, 0.35], [0, -60]);
+  const bgScale = useTransform(scrollYProgress, [0, 1], [1, 1.15]);
   const bgOpacity = useTransform(scrollYProgress, [0.5, 1], [1, 0]);
-  const bgY = useTransform(scrollYProgress, [0, 1], [0, 100]);
+  const bgY = useTransform(scrollYProgress, [0, 1], [0, 80]);
 
   return (
     <section
       ref={ref}
-      className="relative min-h-screen min-h-[100dvh] w-full overflow-hidden flex flex-col items-center justify-start pt-[18vh] md:pt-[22vh]"
+      className="relative min-h-screen min-h-[100dvh] w-full overflow-hidden flex items-center justify-center"
     >
-      {/* Background image with parallax + Ken Burns */}
+      {/* Background image with parallax */}
       <motion.div
         className="absolute inset-0 pointer-events-none will-change-transform"
         style={{ scale: bgScale, opacity: bgOpacity, y: bgY }}
@@ -32,128 +44,140 @@ const HeroSection = () => {
         />
       </motion.div>
 
-      {/* Atmospheric cloud motion */}
-      <div className="absolute inset-0 pointer-events-none overflow-hidden">
-        <div className="hero-cloud hero-cloud-1" />
-        <div className="hero-cloud hero-cloud-2" />
-        <div className="hero-cloud hero-cloud-3" />
-      </div>
-
-      {/* Gold dust particles */}
-      <div className="absolute inset-0 pointer-events-none z-[2]">
-        <GoldParticles />
-      </div>
-
-      {/* Floating orb effect */}
-      <div className="absolute pointer-events-none z-[1] animate-hero-orb"
+      {/* Warm golden atmospheric gradient */}
+      <div
+        className="absolute inset-0 pointer-events-none"
         style={{
-          top: "20%",
-          left: "25%",
-          width: "300px",
-          height: "300px",
-          background: "linear-gradient(45deg, hsla(43, 85%, 58%, 0.25), hsla(210, 70%, 50%, 0.12))",
-          borderRadius: "50%",
-          filter: "blur(60px)",
+          background:
+            "radial-gradient(ellipse at 50% 35%, hsla(43, 60%, 30%, 0.15) 0%, transparent 60%), " +
+            "linear-gradient(180deg, hsla(0,0%,0%,0.55) 0%, hsla(0,0%,0%,0.25) 40%, hsla(0,0%,0%,0.65) 100%)",
         }}
       />
 
-      {/* Diagonal grid overlay */}
-      <div className="absolute inset-0 pointer-events-none z-[1] opacity-[0.04]"
+      {/* Vignette */}
+      <div
+        className="absolute inset-0 pointer-events-none"
         style={{
-          backgroundImage: "repeating-linear-gradient(45deg, hsla(0,0%,100%,0.5) 1px, transparent 1px, transparent 60px)",
+          background: "radial-gradient(ellipse at center, transparent 40%, hsla(0,0%,0%,0.5) 100%)",
         }}
       />
 
-      {/* Deep radial background + dark overlay */}
-      <div className="absolute inset-0 pointer-events-none"
-        style={{ background: "radial-gradient(circle at 50% 40%, hsla(0,0%,8%,0.6), hsla(0,0%,0%,0.95) 80%)" }}
-      />
-      <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute inset-0 bg-gradient-to-b from-[hsla(0,0%,3%,0.72)] via-[hsla(0,0%,4%,0.35)] to-[hsla(0,0%,3%,0.82)]" />
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_30%,hsla(0,0%,2%,0.55)_100%)]" />
-      </div>
-
-      {/* Upper Content — Private Aviation Redefined */}
+      {/* Central content */}
       <motion.div
-        className="relative z-10 container mx-auto px-6 text-center flex flex-col items-center pt-8"
+        className="relative z-10 flex flex-col items-center justify-center text-center px-6"
         style={{ opacity: contentOpacity, y: contentY }}
       >
-        {/* Gold accent line */}
+        {/* Orbital ring + floating labels (desktop) */}
+        <div className="absolute hidden md:flex items-center justify-center">
+          <motion.div
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 2, delay: 0.8, ease: [0.16, 1, 0.3, 1] }}
+            className="relative w-[420px] lg:w-[520px] h-[420px] lg:h-[520px] rounded-full border border-white/[0.06]"
+            style={{ boxShadow: "0 0 80px 10px hsla(43, 85%, 58%, 0.03)" }}
+          >
+            {/* Orbiting dot accent */}
+            <div
+              className="absolute w-2 h-2 rounded-full top-0 left-1/2 -translate-x-1/2 -translate-y-1/2"
+              style={{ background: "hsl(43, 85%, 58%)", boxShadow: "0 0 12px 3px hsla(43, 85%, 58%, 0.4)" }}
+            />
+
+            {/* Service labels positioned around the ring */}
+            {SERVICE_LABELS.map(({ label, position, delay }) => (
+              <motion.span
+                key={label}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 1.2, delay, ease: "easeOut" }}
+                className={`absolute text-[9px] lg:text-[10px] tracking-[0.25em] uppercase text-white/35 font-light pointer-events-none whitespace-nowrap ${LABEL_POSITIONS[position]}`}
+              >
+                {label}
+              </motion.span>
+            ))}
+          </motion.div>
+        </div>
+
+        {/* Gold accent dot */}
         <motion.div
-          initial={{ opacity: 0, scaleY: 0 }}
-          animate={{ opacity: 1, scaleY: 1 }}
-          transition={{ duration: 1.6, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
-          className="w-[2px] h-14 md:h-20 mb-6 md:mb-8 origin-top hero-gold-divider"
+          initial={{ opacity: 0, scale: 0 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 1.4, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
+          className="w-1.5 h-1.5 rounded-full mb-8 md:mb-10"
+          style={{ background: "hsl(43, 85%, 58%)", boxShadow: "0 0 20px 4px hsla(43, 85%, 58%, 0.4)" }}
         />
 
+        {/* Headline */}
+        <motion.h1
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1.4, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}
+          className="font-display font-semibold text-white/95 leading-[1.05] tracking-[0.08em] uppercase"
+          style={{
+            fontSize: "clamp(1.6rem, 5.5vw, 4.2rem)",
+            textShadow: "0 2px 30px hsla(0, 0%, 0%, 0.5)",
+          }}
+        >
+          Private Aviation
+          <br />
+          <span
+            className="font-light italic tracking-[0.12em]"
+            style={{ color: "hsl(43, 85%, 68%)" }}
+          >
+            Redefined
+          </span>
+        </motion.h1>
+
+        {/* Gold divider */}
+        <motion.div
+          initial={{ scaleX: 0 }}
+          animate={{ scaleX: 1 }}
+          transition={{ duration: 1.6, delay: 0.9, ease: [0.16, 1, 0.3, 1] }}
+          className="w-16 md:w-24 h-[1px] my-6 md:my-8 origin-center"
+          style={{
+            background: "linear-gradient(90deg, transparent, hsl(43, 85%, 58%), transparent)",
+          }}
+        />
+
+        {/* Subtext */}
         <motion.p
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1.2, delay: 0.5 }}
-          className="font-display tracking-[0.35em] md:tracking-[0.65em] uppercase text-white/95 font-semibold -mt-2 md:-mt-4 px-4"
-          style={{ fontSize: "clamp(1.4rem, 5vw, 4.5rem)", textShadow: "0 0 15px hsl(43, 85%, 42%)" }}
-        >
-          Private Aviation Redefined
-        </motion.p>
-      </motion.div>
-
-      {/* Lower Content — Global access (below aircraft, near bottom) */}
-      <motion.div
-        initial={{ opacity: 0, y: 18 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 1.2, delay: 0.95 }}
-        className="absolute bottom-[28vh] md:bottom-[38vh] left-0 right-0 z-10 text-center px-6"
-      >
-        <p
-          className="font-display text-[13px] md:text-[15px] text-white/80 font-semibold leading-[1.8] tracking-[0.18em] uppercase"
-          style={{ textShadow: "0 2px 20px hsla(0,0%,0%,0.8)" }}
+          transition={{ duration: 1.2, delay: 1.1 }}
+          className="font-display text-[11px] md:text-[13px] text-white/50 font-light leading-[2] tracking-[0.22em] uppercase max-w-md"
         >
           Global access · Instant quotes · Tailored journeys
-        </p>
+        </motion.p>
 
-        {/* CTA Buttons */}
+        {/* Mobile service labels */}
         <motion.div
-          initial={{ opacity: 0, y: 14 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1, delay: 1.3 }}
-          className="flex flex-wrap justify-center gap-3 md:gap-4 mt-5 md:mt-6"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 1, delay: 1.6 }}
+          className="flex flex-wrap justify-center gap-x-5 gap-y-2 mt-8 md:hidden"
         >
-          <Link
-            to="/#cta"
-            className="hero-cta-primary px-8 py-3 rounded-full text-[10px] md:text-[11px] tracking-[0.25em] uppercase font-medium transition-all duration-500 hover:scale-[1.08]"
-            onMouseMove={(e) => {
-              const rect = e.currentTarget.getBoundingClientRect();
-              const x = e.clientX - rect.left;
-              const y = e.clientY - rect.top;
-              e.currentTarget.style.background = `radial-gradient(circle at ${x}px ${y}px, hsl(43, 90%, 68%), hsl(43, 80%, 42%))`;
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.background = '';
-            }}
-          >
-            Request a Flight
-          </Link>
-          <Link
-            to="/fleet"
-            className="hero-cta-secondary px-8 py-3 rounded-full text-[10px] md:text-[11px] tracking-[0.25em] uppercase font-medium transition-all duration-500 hover:scale-[1.08]"
-          >
-            Explore Fleet
-          </Link>
+          {SERVICE_LABELS.map(({ label }) => (
+            <span
+              key={label}
+              className="text-[8px] tracking-[0.2em] uppercase text-white/25 font-light"
+            >
+              {label}
+            </span>
+          ))}
         </motion.div>
       </motion.div>
 
       {/* Scroll indicator */}
       <motion.div
         initial={{ opacity: 0 }}
-        animate={{ opacity: 0.35 }}
+        animate={{ opacity: 0.3 }}
         transition={{ delay: 3, duration: 1.2 }}
-        className="absolute bottom-12 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-3"
+        className="absolute bottom-10 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-3"
       >
-        <span className="text-[7px] tracking-[0.6em] uppercase text-white/25 font-light">Scroll</span>
+        <span className="text-[7px] tracking-[0.6em] uppercase text-white/20 font-light">Scroll</span>
         <motion.div
           animate={{ y: [0, 8, 0] }}
           transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
-          className="w-[1px] h-7 bg-gradient-to-b from-primary/20 to-transparent"
+          className="w-[1px] h-6 bg-gradient-to-b from-primary/20 to-transparent"
         />
       </motion.div>
     </section>
