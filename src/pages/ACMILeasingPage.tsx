@@ -124,7 +124,7 @@ const ACMILeasingPage = () => {
   const inputClass = "bg-[hsl(228,20%,8%)] border-[hsl(228,15%,18%)] text-foreground/80 text-[13px] placeholder:text-foreground/20 focus:border-primary/30";
 
   return (
-    <div className="min-h-screen bg-[hsl(228,28%,4%)]">
+    <div className="acmi-page min-h-screen bg-[hsl(228,28%,4%)]">
       <SEOHead
         title="ACMI & Operations — Mission-Ready Aviation Solutions"
         description="ACMI leasing, cargo, government missions, and urgent deployment. Enterprise-grade aviation operations with global reach and rapid positioning."
