@@ -199,15 +199,25 @@ const EmptyLegPopup = ({ leg, onClose }: EmptyLegPopupProps) => {
                     className="w-full px-3 py-2.5 rounded-lg bg-muted/30 border border-border/30 text-[12px] text-foreground font-light placeholder:text-muted-foreground/50 focus:outline-none focus:border-primary/30"
                     maxLength={255}
                   />
-                  <input
-                    type="tel"
-                    value={form.phone}
-                    onChange={(e) => setForm({ ...form, phone: e.target.value })}
-                    placeholder="Phone / WhatsApp"
-                    className="w-full px-3 py-2.5 rounded-lg bg-muted/30 border border-border/30 text-[12px] text-foreground font-light placeholder:text-muted-foreground/50 focus:outline-none focus:border-primary/30"
-                    maxLength={30}
-                  />
                   <div className="flex gap-2">
+                    <select
+                      value={form.countryCode}
+                      onChange={(e) => setForm({ ...form, countryCode: e.target.value })}
+                      className="w-[90px] px-2 py-2.5 rounded-lg bg-muted/30 border border-border/30 text-[11px] text-foreground font-light focus:outline-none focus:border-primary/30 appearance-none cursor-pointer"
+                    >
+                      {ccList.map((c) => (
+                        <option key={c.code} value={c.code}>{c.label}</option>
+                      ))}
+                    </select>
+                    <input
+                      type="tel"
+                      value={form.phone}
+                      onChange={(e) => setForm({ ...form, phone: e.target.value })}
+                      placeholder="50 000 0000"
+                      className="flex-1 px-3 py-2.5 rounded-lg bg-muted/30 border border-border/30 text-[12px] text-foreground font-light placeholder:text-muted-foreground/50 focus:outline-none focus:border-primary/30"
+                      maxLength={15}
+                    />
+                  </div>
                     <button
                       onClick={() => setShowRequestForm(false)}
                       className="px-4 py-2.5 border border-border/40 text-muted-foreground text-[9px] tracking-[0.15em] uppercase font-light rounded-xl transition-colors hover:text-foreground"
