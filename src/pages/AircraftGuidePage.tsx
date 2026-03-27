@@ -201,7 +201,7 @@ const AircraftGuidePage = () => {
                   <div className="flex gap-2">
                     <button
                       onClick={() => handleRequestAircraft(ac.name)}
-                      className="flex-1 py-2.5 bg-gradient-gold text-primary-foreground text-[9px] tracking-[0.2em] uppercase font-medium rounded-lg hover:shadow-[0_0_30px_-8px_hsla(43,74%,49%,0.4)] transition-all duration-500"
+                      className="flex-1 py-2.5 bg-gradient-gold text-primary-foreground text-[9px] tracking-[0.2em] uppercase font-medium rounded-lg hover:shadow-[0_0_30px_-8px_hsla(43,85%,58%,0.4)] transition-all duration-500"
                     >
                       Request This Aircraft
                     </button>
@@ -220,7 +220,7 @@ const AircraftGuidePage = () => {
             </p>
             <Link
               to="/#cta"
-              className="inline-flex items-center gap-2 px-8 py-3.5 bg-gradient-gold text-primary-foreground text-[10px] tracking-[0.25em] uppercase font-medium rounded-xl hover:shadow-[0_0_40px_-8px_hsla(43,74%,49%,0.5)] transition-all duration-500"
+              className="inline-flex items-center gap-2 px-8 py-3.5 bg-gradient-gold text-primary-foreground text-[10px] tracking-[0.25em] uppercase font-medium rounded-xl hover:shadow-[0_0_40px_-8px_hsla(43,85%,58%,0.5)] transition-all duration-500"
             >
               <Plane className="w-3.5 h-3.5" strokeWidth={1.3} />
               Speak to an Advisor

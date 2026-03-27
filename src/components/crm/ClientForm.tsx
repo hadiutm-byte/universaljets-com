@@ -214,7 +214,7 @@ export default function ClientForm({ open, onOpenChange, onSuccess, initial }: P
           </Tabs>
 
           <button type="submit" disabled={loading}
-            className="w-full mt-6 py-3 bg-gradient-gold text-primary-foreground text-[9px] tracking-[0.25em] uppercase font-medium rounded-lg hover:shadow-[0_0_30px_-8px_hsla(43,74%,49%,0.45)] transition-all duration-500 disabled:opacity-50">
+            className="w-full mt-6 py-3 bg-gradient-gold text-primary-foreground text-[9px] tracking-[0.25em] uppercase font-medium rounded-lg hover:shadow-[0_0_30px_-8px_hsla(43,85%,58%,0.45)] transition-all duration-500 disabled:opacity-50">
             {loading ? "Saving..." : "Save Client"}
           </button>
         </form>

@@ -139,7 +139,7 @@ const PartnerPage = () => {
 
         {/* ── Hero ── */}
         <section className="pt-40 pb-28 relative">
-          <div className="absolute inset-0 opacity-[0.03] pointer-events-none" style={{ backgroundImage: "radial-gradient(ellipse 50% 40% at 50% 30%, hsla(43,74%,49%,0.3) 0%, transparent 70%)" }} />
+          <div className="absolute inset-0 opacity-[0.03] pointer-events-none" style={{ backgroundImage: "radial-gradient(ellipse 50% 40% at 50% 30%, hsla(43,85%,58%,0.3) 0%, transparent 70%)" }} />
           <div className="container mx-auto px-8 relative z-10 text-center">
             <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }}>
               <div className="w-16 h-16 rounded-full luxury-border flex items-center justify-center mx-auto mb-8 glow-subtle">
@@ -193,7 +193,7 @@ const PartnerPage = () => {
                   onClick={() => setActiveCategory(cat.id)}
                   className={`flex items-center gap-2.5 px-6 py-3 rounded-full text-[10px] tracking-[0.2em] uppercase font-medium transition-all duration-500 border ${
                     activeCategory === cat.id
-                      ? "bg-primary/10 border-primary/25 text-primary shadow-[0_0_30px_-10px_hsla(43,74%,49%,0.2)]"
+                      ? "bg-primary/10 border-primary/25 text-primary shadow-[0_0_30px_-10px_hsla(43,85%,58%,0.2)]"
                       : "bg-card/20 border-border/15 text-foreground/40 hover:text-foreground/60 hover:border-border/25"
                   }`}
                 >
@@ -432,7 +432,7 @@ const PartnerPage = () => {
                   <button
                     type="submit"
                     disabled={loading}
-                    className="w-full py-4 bg-gradient-gold text-primary-foreground text-[10px] tracking-[0.3em] uppercase font-medium rounded-lg transition-all duration-500 hover:shadow-[0_0_40px_-10px_hsla(43,74%,49%,0.4)] hover:scale-[1.01] disabled:opacity-50"
+                    className="w-full py-4 bg-gradient-gold text-primary-foreground text-[10px] tracking-[0.3em] uppercase font-medium rounded-lg transition-all duration-500 hover:shadow-[0_0_40px_-10px_hsla(43,85%,58%,0.4)] hover:scale-[1.01] disabled:opacity-50"
                   >
                     {loading ? "Submitting..." : "Submit Partnership Inquiry"}
                   </button>

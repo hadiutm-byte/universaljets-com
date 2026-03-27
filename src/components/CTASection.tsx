@@ -156,7 +156,7 @@ const CTASection = () => {
   return (
     <section id="cta" className="relative">
       {/* Ambient glow */}
-      <div className="absolute inset-0 opacity-[0.02] pointer-events-none" style={{ backgroundImage: "radial-gradient(ellipse at 50% 30%, hsla(43,74%,49%,0.2) 0%, transparent 60%)" }} />
+      <div className="absolute inset-0 opacity-[0.02] pointer-events-none" style={{ backgroundImage: "radial-gradient(ellipse at 50% 30%, hsla(43,85%,58%,0.2) 0%, transparent 60%)" }} />
 
       {/* ═══════ SECTION 1 — HERO ═══════ */}
       <div className="py-28 md:py-40 relative">

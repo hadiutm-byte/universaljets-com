@@ -201,7 +201,7 @@ const Navbar = () => {
               href="/#cta"
               isHome={isHome}
               onNav={handleNavClick}
-              className="hidden xl:inline-block px-6 py-2.5 bg-gradient-gold text-white text-[10px] tracking-[0.28em] uppercase font-medium rounded-xl hover:shadow-[0_0_30px_-8px_hsla(43,74%,49%,0.45)] transition-all duration-500 hover:scale-[1.02]"
+              className="hidden xl:inline-block px-6 py-2.5 bg-gradient-gold text-white text-[10px] tracking-[0.28em] uppercase font-medium rounded-xl hover:shadow-[0_0_30px_-8px_hsla(43,85%,58%,0.45)] transition-all duration-500 hover:scale-[1.02]"
             >
               Request a Flight
             </NavLinkInner>
@@ -299,7 +299,7 @@ const Navbar = () => {
                   href="/#cta"
                   isHome={isHome}
                   onNav={handleNavClick}
-                  className="px-10 py-3.5 bg-gradient-gold text-white text-[10px] tracking-[0.28em] uppercase font-medium rounded-xl hover:shadow-[0_0_40px_-8px_hsla(43,74%,49%,0.5)] transition-all duration-500 hover:scale-[1.02] active:scale-[0.97] touch-manipulation min-h-[48px] flex items-center"
+                  className="px-10 py-3.5 bg-gradient-gold text-white text-[10px] tracking-[0.28em] uppercase font-medium rounded-xl hover:shadow-[0_0_40px_-8px_hsla(43,85%,58%,0.5)] transition-all duration-500 hover:scale-[1.02] active:scale-[0.97] touch-manipulation min-h-[48px] flex items-center"
                 >
                   Request a Flight
                 </NavLinkInner>

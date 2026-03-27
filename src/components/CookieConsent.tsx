@@ -46,7 +46,7 @@ const CookieConsent = () => {
           <div className="flex items-center gap-3">
             <button
               onClick={() => accept("all")}
-              className="flex-1 py-2.5 bg-gradient-gold text-primary-foreground text-[9px] tracking-[0.25em] uppercase font-medium rounded-sm transition-all duration-500 hover:shadow-[0_0_30px_-8px_hsla(43,74%,49%,0.4)]"
+              className="flex-1 py-2.5 bg-gradient-gold text-primary-foreground text-[9px] tracking-[0.25em] uppercase font-medium rounded-sm transition-all duration-500 hover:shadow-[0_0_30px_-8px_hsla(43,85%,58%,0.4)]"
             >
               Accept All
             </button>

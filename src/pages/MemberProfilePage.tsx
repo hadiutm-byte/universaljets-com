@@ -266,7 +266,7 @@ const MemberProfilePage = () => {
                   <Field label="Company" value={profile?.company} onChange={(v: string) => up("company", v)} />
                   <Field label="Title" value={profile?.title} onChange={(v: string) => up("title", v)} />
                 </div>
-                <button onClick={saveProfile} disabled={saving} className="mt-4 px-6 py-2.5 bg-gradient-gold text-primary-foreground text-[9px] tracking-[0.25em] uppercase font-medium rounded-lg hover:shadow-[0_0_30px_-8px_hsla(43,74%,49%,0.45)] transition-all duration-500 disabled:opacity-50 inline-flex items-center gap-2">
+                <button onClick={saveProfile} disabled={saving} className="mt-4 px-6 py-2.5 bg-gradient-gold text-primary-foreground text-[9px] tracking-[0.25em] uppercase font-medium rounded-lg hover:shadow-[0_0_30px_-8px_hsla(43,85%,58%,0.45)] transition-all duration-500 disabled:opacity-50 inline-flex items-center gap-2">
                   <Save size={12} /> {saving ? "Saving..." : "Save Changes"}
                 </button>
               </motion.div>
@@ -289,7 +289,7 @@ const MemberProfilePage = () => {
                   <Toggle label="Wi-Fi Required" checked={travel?.wifi_required} onChange={() => ut("wifi_required", !travel?.wifi_required)} />
                   <Toggle label="VIP Terminal" checked={travel?.vip_terminal} onChange={() => ut("vip_terminal", !travel?.vip_terminal)} />
                 </div>
-                <button onClick={saveTravel} disabled={saving} className="mt-4 px-6 py-2.5 bg-gradient-gold text-primary-foreground text-[9px] tracking-[0.25em] uppercase font-medium rounded-lg hover:shadow-[0_0_30px_-8px_hsla(43,74%,49%,0.45)] transition-all duration-500 disabled:opacity-50 inline-flex items-center gap-2">
+                <button onClick={saveTravel} disabled={saving} className="mt-4 px-6 py-2.5 bg-gradient-gold text-primary-foreground text-[9px] tracking-[0.25em] uppercase font-medium rounded-lg hover:shadow-[0_0_30px_-8px_hsla(43,85%,58%,0.45)] transition-all duration-500 disabled:opacity-50 inline-flex items-center gap-2">
                   <Save size={12} /> {saving ? "Saving..." : "Save Preferences"}
                 </button>
               </motion.div>
@@ -336,7 +336,7 @@ const MemberProfilePage = () => {
                   <SectionTitle>Billing Details</SectionTitle>
                   <Field label="Billing Address" value={profile?.billing_address} onChange={(v: string) => up("billing_address", v)} placeholder="Full billing address" />
                   <Field label="Payment Preference" value={profile?.payment_preference} onChange={(v: string) => up("payment_preference", v)} placeholder="Wire transfer, Credit card…" />
-                  <button onClick={saveProfile} disabled={saving} className="px-6 py-2.5 bg-gradient-gold text-primary-foreground text-[9px] tracking-[0.25em] uppercase font-medium rounded-lg hover:shadow-[0_0_30px_-8px_hsla(43,74%,49%,0.45)] transition-all disabled:opacity-50 inline-flex items-center gap-2">
+                  <button onClick={saveProfile} disabled={saving} className="px-6 py-2.5 bg-gradient-gold text-primary-foreground text-[9px] tracking-[0.25em] uppercase font-medium rounded-lg hover:shadow-[0_0_30px_-8px_hsla(43,85%,58%,0.45)] transition-all disabled:opacity-50 inline-flex items-center gap-2">
                     <Save size={12} /> Save
                   </button>
                 </div>
@@ -483,7 +483,7 @@ const MemberProfilePage = () => {
                     className="w-full bg-secondary/50 rounded-lg px-4 py-2.5 text-[13px] text-foreground placeholder:text-foreground/20 font-light focus:outline-none focus:ring-1 focus:ring-gold/20 transition-all luxury-border resize-none"
                   />
                 </div>
-                <button onClick={saveConcierge} disabled={saving} className="px-6 py-2.5 bg-gradient-gold text-primary-foreground text-[9px] tracking-[0.25em] uppercase font-medium rounded-lg hover:shadow-[0_0_30px_-8px_hsla(43,74%,49%,0.45)] transition-all disabled:opacity-50 inline-flex items-center gap-2">
+                <button onClick={saveConcierge} disabled={saving} className="px-6 py-2.5 bg-gradient-gold text-primary-foreground text-[9px] tracking-[0.25em] uppercase font-medium rounded-lg hover:shadow-[0_0_30px_-8px_hsla(43,85%,58%,0.45)] transition-all disabled:opacity-50 inline-flex items-center gap-2">
                   <Save size={12} /> {saving ? "Saving..." : "Save Preferences"}
                 </button>
               </motion.div>

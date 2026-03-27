@@ -244,7 +244,7 @@ const EmptyLegsMap = () => {
             href="https://wa.me/447888999944?text=Hello%2C%20I%20would%20like%20to%20inquire%20about%20available%20empty%20legs."
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 px-10 py-3.5 bg-gradient-gold text-primary-foreground text-[10px] tracking-[0.25em] uppercase font-medium rounded-xl hover:shadow-[0_0_30px_-8px_hsla(43,74%,49%,0.45)] transition-all duration-500"
+            className="inline-flex items-center gap-2 px-10 py-3.5 bg-gradient-gold text-primary-foreground text-[10px] tracking-[0.25em] uppercase font-medium rounded-xl hover:shadow-[0_0_30px_-8px_hsla(43,85%,58%,0.45)] transition-all duration-500"
           >
             Request Empty Leg <ArrowRight size={10} />
           </a>

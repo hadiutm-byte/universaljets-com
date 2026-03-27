@@ -34,7 +34,7 @@ const StickyFloatingCTA = () => {
     >
       <Link
         to="/request-flight"
-        className="flex items-center gap-2 px-6 py-3.5 rounded-full bg-primary text-primary-foreground text-[9px] tracking-[0.2em] uppercase font-semibold hover:bg-primary/90 transition-all duration-500 hover:shadow-[0_0_20px_-4px_hsla(43,74%,49%,0.3)] active:scale-95 min-h-[48px]"
+        className="flex items-center gap-2 px-6 py-3.5 rounded-full bg-primary text-primary-foreground text-[9px] tracking-[0.2em] uppercase font-semibold hover:bg-primary/90 transition-all duration-500 hover:shadow-[0_0_20px_-4px_hsla(43,85%,58%,0.3)] active:scale-95 min-h-[48px]"
       >
         <Plane size={13} strokeWidth={1.5} />
         Request a Flight

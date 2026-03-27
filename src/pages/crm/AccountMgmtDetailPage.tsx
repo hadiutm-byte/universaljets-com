@@ -372,7 +372,7 @@ const AccountMgmtDetailPage = () => {
             <textarea value={noteText} onChange={e => setNoteText(e.target.value)} rows={4} placeholder="Enter note…"
               className={inputClass} />
             <button onClick={addNote}
-              className="w-full py-3 bg-gradient-gold text-primary-foreground text-[9px] tracking-[0.25em] uppercase font-medium rounded-lg hover:shadow-[0_0_30px_-8px_hsla(43,74%,49%,0.45)] transition-all duration-500">
+              className="w-full py-3 bg-gradient-gold text-primary-foreground text-[9px] tracking-[0.25em] uppercase font-medium rounded-lg hover:shadow-[0_0_30px_-8px_hsla(43,85%,58%,0.45)] transition-all duration-500">
               Save Note
             </button>
           </div>

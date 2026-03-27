@@ -232,7 +232,7 @@ const FleetDetailPage = () => {
 
                   <button
                     onClick={() => setQuoteOpen(true)}
-                    className="w-full flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl bg-gradient-gold text-primary-foreground text-[10px] tracking-[0.2em] uppercase font-medium hover:shadow-[0_0_30px_-8px_hsla(43,74%,49%,0.45)] transition-all duration-500"
+                    className="w-full flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl bg-gradient-gold text-primary-foreground text-[10px] tracking-[0.2em] uppercase font-medium hover:shadow-[0_0_30px_-8px_hsla(43,85%,58%,0.45)] transition-all duration-500"
                   >
                     <Plane size={14} />
                     Request Quote

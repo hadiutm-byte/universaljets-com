@@ -52,7 +52,7 @@ const JetCardPage = () => (
     <section className="relative pt-32 pb-16 md:pt-44 md:pb-24 overflow-hidden">
       <div className="absolute inset-0 bg-gradient-to-b from-background via-background to-background" />
       <div className="absolute inset-0 opacity-[0.03] pointer-events-none" style={{ backgroundImage: "linear-gradient(hsla(0,0%,100%,0.06) 1px, transparent 1px), linear-gradient(90deg, hsla(0,0%,100%,0.06) 1px, transparent 1px)", backgroundSize: "80px 80px" }} />
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[700px] h-[400px] opacity-[0.08] pointer-events-none" style={{ background: "radial-gradient(ellipse at center, hsla(43,74%,49%,1) 0%, transparent 70%)" }} />
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[700px] h-[400px] opacity-[0.08] pointer-events-none" style={{ background: "radial-gradient(ellipse at center, hsla(43,85%,58%,1) 0%, transparent 70%)" }} />
 
       <div className="container mx-auto px-8 relative z-10">
         <motion.div initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1 }} className="max-w-5xl mx-auto">
@@ -79,7 +79,7 @@ const JetCardPage = () => (
               </p>
 
               <div className="flex flex-col sm:flex-row gap-3">
-                <Link to="/jet-card-inquiry" className="px-8 py-3.5 bg-gradient-gold text-primary-foreground text-[10px] tracking-[0.25em] uppercase font-medium rounded-sm hover:shadow-[0_0_35px_-8px_hsla(43,74%,49%,0.5)] transition-all duration-500 inline-flex items-center gap-2">
+                <Link to="/jet-card-inquiry" className="px-8 py-3.5 bg-gradient-gold text-primary-foreground text-[10px] tracking-[0.25em] uppercase font-medium rounded-sm hover:shadow-[0_0_35px_-8px_hsla(43,85%,58%,0.5)] transition-all duration-500 inline-flex items-center gap-2">
                   Apply for Your Jet Card <ArrowRight className="w-3.5 h-3.5" />
                 </Link>
                 <a href="#jet-card-features" className="px-6 py-3.5 border border-border text-muted-foreground text-[10px] tracking-[0.25em] uppercase font-medium rounded-sm hover:border-primary/30 hover:text-foreground transition-all duration-500 text-center">
@@ -219,7 +219,7 @@ const JetCardPage = () => (
 
     {/* ═══ CTA ═══ */}
     <section className="py-16 md:py-24 border-t border-border relative">
-      <div className="absolute inset-0 opacity-[0.04] pointer-events-none" style={{ background: "radial-gradient(ellipse at 50% 50%, hsla(43,74%,49%,0.3) 0%, transparent 60%)" }} />
+      <div className="absolute inset-0 opacity-[0.04] pointer-events-none" style={{ background: "radial-gradient(ellipse at 50% 50%, hsla(43,85%,58%,0.3) 0%, transparent 60%)" }} />
       <div className="container mx-auto px-8 text-center max-w-lg relative z-10">
         <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
           <p className="text-[9px] tracking-[0.5em] uppercase text-primary mb-5 font-light">Get Started</p>
@@ -228,7 +228,7 @@ const JetCardPage = () => (
             A tailored proposal prepared around your flying patterns, preferred aircraft category, and annual usage.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link to="/jet-card-inquiry" className="px-10 py-4 bg-gradient-gold text-primary-foreground text-[10px] tracking-[0.25em] uppercase font-medium rounded-sm hover:shadow-[0_0_35px_-8px_hsla(43,74%,49%,0.5)] transition-all duration-500 inline-flex items-center justify-center gap-2">
+            <Link to="/jet-card-inquiry" className="px-10 py-4 bg-gradient-gold text-primary-foreground text-[10px] tracking-[0.25em] uppercase font-medium rounded-sm hover:shadow-[0_0_35px_-8px_hsla(43,85%,58%,0.5)] transition-all duration-500 inline-flex items-center justify-center gap-2">
               Apply for Your Jet Card <ArrowRight className="w-3.5 h-3.5" />
             </Link>
             <Link to="/membership" className="inline-flex items-center justify-center gap-2 px-10 py-4 text-[10px] tracking-[0.2em] uppercase text-muted-foreground hover:text-foreground transition-all duration-500 border border-border rounded-sm">

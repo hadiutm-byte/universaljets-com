@@ -10,7 +10,7 @@ const MembershipBanner = ({ onRequestInvitation }: MembershipBannerProps) => (
     initial={{ opacity: 0, y: -20 }}
     animate={{ opacity: 1, y: 0 }}
     transition={{ duration: 0.8, delay: 0.1 }}
-    className="fixed top-0 left-0 right-0 z-[60] bg-[hsl(220,10%,8%)] h-9 flex items-center justify-center px-4 border-b border-[hsla(43,74%,49%,0.1)]"
+    className="fixed top-0 left-0 right-0 z-[60] bg-[hsl(220,10%,8%)] h-9 flex items-center justify-center px-4 border-b border-[hsla(43,85%,58%,0.1)]"
   >
     {/* Mobile: tappable */}
     <button onClick={onRequestInvitation} className="flex items-center gap-3 sm:hidden cursor-pointer">
@@ -26,7 +26,7 @@ const MembershipBanner = ({ onRequestInvitation }: MembershipBannerProps) => (
       </span>
       <button
         onClick={onRequestInvitation}
-        className="text-[9px] tracking-[0.2em] uppercase font-medium text-[hsl(43,74%,49%)] hover:text-[hsl(43,85%,60%)] transition-colors duration-300 cursor-pointer"
+        className="text-[9px] tracking-[0.2em] uppercase font-medium text-[hsl(43,85%,58%)] hover:text-[hsl(43,85%,60%)] transition-colors duration-300 cursor-pointer"
       >
         Request Invitation →
       </button>

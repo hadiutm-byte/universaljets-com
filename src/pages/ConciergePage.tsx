@@ -179,7 +179,7 @@ const ConciergePage = () => (
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link
               to="/contact"
-              className="px-10 py-3.5 bg-gradient-gold text-primary-foreground text-[10px] tracking-[0.2em] uppercase font-medium rounded-xl hover:shadow-[0_0_30px_-8px_hsla(43,74%,49%,0.4)] transition-all duration-500"
+              className="px-10 py-3.5 bg-gradient-gold text-primary-foreground text-[10px] tracking-[0.2em] uppercase font-medium rounded-xl hover:shadow-[0_0_30px_-8px_hsla(43,85%,58%,0.4)] transition-all duration-500"
             >
               Contact Concierge
             </Link>

@@ -14,7 +14,7 @@ interface StatCard {
   color: string;
 }
 
-const CHART_COLORS = ["hsl(43,74%,49%)", "hsl(217,91%,60%)", "hsl(160,60%,45%)", "hsl(280,65%,60%)", "hsl(340,75%,55%)", "hsl(45,93%,47%)"];
+const CHART_COLORS = ["hsl(43,85%,58%)", "hsl(217,91%,60%)", "hsl(160,60%,45%)", "hsl(280,65%,60%)", "hsl(340,75%,55%)", "hsl(45,93%,47%)"];
 
 const CrmDashboard = () => {
   const [stats, setStats] = useState<StatCard[]>([]);
