@@ -1,7 +1,7 @@
 /**
- * Premium Empty Leg share card — clean, modern, readable.
- * Light gray Mapbox map, black & gold text, aircraft photo,
- * city names prominent with airport codes below.
+ * Premium Empty Leg share card — dark charcoal with Mapbox map,
+ * gold route arc, city names on map, large readable details,
+ * seat count icon, and deep link.
  */
 
 import AIRPORT_COORDS from "@/lib/airportCoords";
@@ -22,11 +22,12 @@ export interface ShareCardData {
   aircraftType: string;
   category: string;
   aircraftImage?: string;
+  maxPax?: number | null;
 }
 
 const W = 1080;
 const H = 1920;
-const PAD = 56;
+const PAD = 60;
 
 function loadImage(url: string): Promise<HTMLImageElement> {
   return new Promise((resolve, reject) => {
@@ -46,8 +47,7 @@ function buildMapUrl(from: [number, number] | undefined, to: [number, number] | 
     const dist = Math.sqrt((from[0] - to[0]) ** 2 + (from[1] - to[1]) ** 2);
     zoom = dist > 60 ? 1.5 : dist > 30 ? 2.5 : dist > 15 ? 3.5 : dist > 5 ? 4.5 : 5.5;
   }
-  // Light style map
-  return `https://api.mapbox.com/styles/v1/mapbox/light-v11/static/${centerLon.toFixed(4)},${centerLat.toFixed(4)},${zoom},0/540x960@2x?access_token=${MAPBOX_TOKEN}&attribution=false&logo=false`;
+  return `https://api.mapbox.com/styles/v1/mapbox/dark-v11/static/${centerLon.toFixed(4)},${centerLat.toFixed(4)},${zoom},0/540x540@2x?access_token=${MAPBOX_TOKEN}&attribution=false&logo=false`;
 }
 
 function projectToCanvas(
@@ -80,30 +80,40 @@ function roundRect(ctx: CanvasRenderingContext2D, x: number, y: number, w: numbe
   ctx.arcTo(x, y, x + r, y, r); ctx.closePath();
 }
 
-/* ── Route arc with directional arrow on map ── */
+/* ── Route arc with directional arrow ── */
 function drawRouteArc(ctx: CanvasRenderingContext2D, from: [number, number], to: [number, number]) {
   const midX = (from[0] + to[0]) / 2;
   const dist = Math.sqrt((to[0] - from[0]) ** 2 + (to[1] - from[1]) ** 2);
   const arcHeight = Math.max(40, Math.min(dist * 0.35, 160));
   const midY = Math.min(from[1], to[1]) - arcHeight;
 
-  // Glow
+  // Wide atmospheric glow
   ctx.save();
-  ctx.shadowColor = "rgba(200, 160, 30, 0.6)";
-  ctx.shadowBlur = 30;
-  ctx.strokeStyle = "rgba(200, 160, 30, 0.15)";
-  ctx.lineWidth = 20;
+  ctx.shadowColor = "rgba(200, 165, 40, 0.5)";
+  ctx.shadowBlur = 50;
+  ctx.strokeStyle = "rgba(200, 165, 40, 0.06)";
+  ctx.lineWidth = 40;
   ctx.lineCap = "round";
   ctx.beginPath(); ctx.moveTo(from[0], from[1]); ctx.quadraticCurveTo(midX, midY, to[0], to[1]); ctx.stroke();
   ctx.restore();
 
-  // Core line — dark gold on light map
+  // Second glow
+  ctx.save();
+  ctx.shadowColor = "rgba(212, 175, 55, 0.4)";
+  ctx.shadowBlur = 25;
+  ctx.strokeStyle = "rgba(200, 165, 40, 0.15)";
+  ctx.lineWidth = 12;
+  ctx.lineCap = "round";
+  ctx.beginPath(); ctx.moveTo(from[0], from[1]); ctx.quadraticCurveTo(midX, midY, to[0], to[1]); ctx.stroke();
+  ctx.restore();
+
+  // Core gold line
   const lg = ctx.createLinearGradient(from[0], from[1], to[0], to[1]);
-  lg.addColorStop(0, "rgba(180, 140, 20, 0.5)");
-  lg.addColorStop(0.5, "rgba(200, 160, 30, 1)");
-  lg.addColorStop(1, "rgba(180, 140, 20, 0.5)");
+  lg.addColorStop(0, "rgba(200, 165, 40, 0.5)");
+  lg.addColorStop(0.5, "rgba(220, 185, 60, 1)");
+  lg.addColorStop(1, "rgba(200, 165, 40, 0.5)");
   ctx.strokeStyle = lg;
-  ctx.lineWidth = 3.5;
+  ctx.lineWidth = 3;
   ctx.lineCap = "round";
   ctx.beginPath(); ctx.moveTo(from[0], from[1]); ctx.quadraticCurveTo(midX, midY, to[0], to[1]); ctx.stroke();
 
@@ -114,24 +124,61 @@ function drawRouteArc(ctx: CanvasRenderingContext2D, from: [number, number], to:
   const pt2X = (1 - t2) * (1 - t2) * from[0] + 2 * (1 - t2) * t2 * midX + t2 * t2 * to[0];
   const pt2Y = (1 - t2) * (1 - t2) * from[1] + 2 * (1 - t2) * t2 * midY + t2 * t2 * to[1];
   const angle = Math.atan2(ptY - pt2Y, ptX - pt2X);
-  ctx.fillStyle = "rgba(200, 160, 30, 0.95)";
+  ctx.fillStyle = "rgba(220, 185, 60, 0.95)";
   ctx.beginPath();
   ctx.moveTo(ptX + 6 * Math.cos(angle), ptY + 6 * Math.sin(angle));
-  ctx.lineTo(ptX - 18 * Math.cos(angle - 0.45), ptY - 18 * Math.sin(angle - 0.45));
-  ctx.lineTo(ptX - 18 * Math.cos(angle + 0.45), ptY - 18 * Math.sin(angle + 0.45));
+  ctx.lineTo(ptX - 16 * Math.cos(angle - 0.4), ptY - 16 * Math.sin(angle - 0.4));
+  ctx.lineTo(ptX - 16 * Math.cos(angle + 0.4), ptY - 16 * Math.sin(angle + 0.4));
   ctx.closePath();
   ctx.fill();
 
   // Endpoint dots
   [from, to].forEach(([x, y]) => {
-    ctx.fillStyle = "rgba(200, 160, 30, 0.15)";
-    ctx.beginPath(); ctx.arc(x, y, 14, 0, Math.PI * 2); ctx.fill();
-    ctx.strokeStyle = "rgba(200, 160, 30, 0.5)";
-    ctx.lineWidth = 2;
-    ctx.beginPath(); ctx.arc(x, y, 8, 0, Math.PI * 2); ctx.stroke();
-    ctx.fillStyle = "rgba(200, 160, 30, 1)";
+    ctx.fillStyle = "rgba(200, 165, 40, 0.12)";
+    ctx.beginPath(); ctx.arc(x, y, 16, 0, Math.PI * 2); ctx.fill();
+    ctx.strokeStyle = "rgba(200, 165, 40, 0.35)";
+    ctx.lineWidth = 1.5;
+    ctx.beginPath(); ctx.arc(x, y, 9, 0, Math.PI * 2); ctx.stroke();
+    ctx.fillStyle = "rgba(220, 185, 60, 1)";
     ctx.beginPath(); ctx.arc(x, y, 4, 0, Math.PI * 2); ctx.fill();
   });
+}
+
+/* ── Draw city label on map near endpoint ── */
+function drawCityLabel(ctx: CanvasRenderingContext2D, city: string, pt: [number, number], align: "left" | "right") {
+  const offsetX = align === "left" ? -20 : 20;
+  const offsetY = -22;
+  ctx.save();
+  ctx.textAlign = align;
+  // Background pill for readability
+  ctx.font = "700 22px 'Inter', 'Helvetica Neue', sans-serif";
+  const m = ctx.measureText(city);
+  const pillW = m.width + 20;
+  const pillH = 32;
+  const pillX = align === "left" ? pt[0] + offsetX - pillW - 4 : pt[0] + offsetX - 6;
+  ctx.fillStyle = "rgba(20, 20, 25, 0.75)";
+  roundRect(ctx, pillX, pt[1] + offsetY - 22, pillW + 10, pillH, 6);
+  ctx.fill();
+  ctx.fillStyle = "rgba(255,255,255,0.9)";
+  ctx.fillText(city, pt[0] + offsetX, pt[1] + offsetY);
+  ctx.restore();
+}
+
+/* ── Seat icon (simple person silhouette) ── */
+function drawSeatIcon(ctx: CanvasRenderingContext2D, x: number, y: number, size: number) {
+  ctx.save();
+  ctx.fillStyle = "rgba(200, 165, 40, 0.7)";
+  // Head
+  ctx.beginPath(); ctx.arc(x, y - size * 0.55, size * 0.28, 0, Math.PI * 2); ctx.fill();
+  // Body
+  ctx.beginPath();
+  ctx.moveTo(x - size * 0.35, y + size * 0.4);
+  ctx.quadraticCurveTo(x, y - size * 0.15, x + size * 0.35, y + size * 0.4);
+  ctx.lineTo(x + size * 0.25, y + size * 0.4);
+  ctx.quadraticCurveTo(x, y + size * 0.05, x - size * 0.25, y + size * 0.4);
+  ctx.closePath();
+  ctx.fill();
+  ctx.restore();
 }
 
 export const SHARE_DEEP_LINK = "https://www.universaljets.com/#empty-legs";
@@ -146,96 +193,72 @@ export async function generateEmptyLegShareCard(data: ShareCardData): Promise<Bl
   const fromCoords = getAirportCoords(data.fromCode);
   const toCoords = getAirportCoords(data.toCode);
 
-  // ── White background ──
-  ctx.fillStyle = "#FFFFFF";
+  // ── 1. Charcoal background ──
+  const bg = ctx.createLinearGradient(0, 0, 0, H);
+  bg.addColorStop(0, "#1a1a20");
+  bg.addColorStop(0.5, "#1e1e24");
+  bg.addColorStop(1, "#16161b");
+  ctx.fillStyle = bg;
   ctx.fillRect(0, 0, W, H);
 
   // ═══════════════════════════════════════
-  //  TOP: Aircraft photo with overlay
+  //  HEADER — Brand + Badge
   // ═══════════════════════════════════════
-  const photoH = 480;
-  if (data.aircraftImage) {
-    try {
-      const acImg = await loadImage(data.aircraftImage);
-      ctx.save();
-      ctx.beginPath();
-      ctx.rect(0, 0, W, photoH);
-      ctx.clip();
-      const imgAspect = acImg.width / acImg.height;
-      const drawW = Math.max(W, photoH * imgAspect);
-      const drawH = Math.max(photoH, W / imgAspect);
-      ctx.drawImage(acImg, (W - drawW) / 2, (photoH - drawH) / 2, drawW, drawH);
-      ctx.restore();
-      // Gradient overlay at bottom of photo
-      const photoGrad = ctx.createLinearGradient(0, photoH - 120, 0, photoH);
-      photoGrad.addColorStop(0, "rgba(0,0,0,0)");
-      photoGrad.addColorStop(1, "rgba(0,0,0,0.6)");
-      ctx.fillStyle = photoGrad;
-      ctx.fillRect(0, photoH - 120, W, 120);
-      // Top overlay for brand
-      const topGrad = ctx.createLinearGradient(0, 0, 0, 100);
-      topGrad.addColorStop(0, "rgba(0,0,0,0.4)");
-      topGrad.addColorStop(1, "rgba(0,0,0,0)");
-      ctx.fillStyle = topGrad;
-      ctx.fillRect(0, 0, W, 100);
-    } catch {
-      ctx.fillStyle = "#1a1a1a";
-      ctx.fillRect(0, 0, W, photoH);
-    }
-  } else {
-    ctx.fillStyle = "#1a1a1a";
-    ctx.fillRect(0, 0, W, photoH);
-  }
-
-  // Brand on photo
   ctx.textAlign = "center";
-  ctx.fillStyle = "rgba(255,255,255,0.85)";
-  ctx.font = "500 15px 'Inter', 'Helvetica Neue', sans-serif";
-  ctx.fillText("U N I V E R S A L   J E T S", W / 2, 48);
 
-  // Aircraft type + category on photo
-  ctx.textAlign = "left";
-  ctx.fillStyle = "#FFFFFF";
-  ctx.font = "700 28px 'Inter', 'Helvetica Neue', sans-serif";
-  ctx.fillText(data.aircraftType, PAD, photoH - 48);
-  ctx.fillStyle = "rgba(255,255,255,0.5)";
-  ctx.font = "400 14px 'Inter', 'Helvetica Neue', sans-serif";
-  ctx.fillText(data.category.toUpperCase(), PAD, photoH - 22);
+  // Brand name — prominent
+  ctx.fillStyle = "rgba(200, 165, 40, 0.8)";
+  ctx.font = "600 20px 'Inter', 'Helvetica Neue', sans-serif";
+  ctx.fillText("U N I V E R S A L   J E T S", W / 2, 72);
 
-  // Badge on photo
-  ctx.textAlign = "right";
-  const badgeW = 240, badgeH = 34;
-  const badgeX = W - PAD - badgeW, badgeY = photoH - 58;
-  ctx.fillStyle = "rgba(200,160,30,0.9)";
-  roundRect(ctx, badgeX, badgeY, badgeW, badgeH, 17);
+  // Badge
+  ctx.fillStyle = "rgba(200, 165, 40, 0.08)";
+  roundRect(ctx, W / 2 - 150, 92, 300, 38, 19);
   ctx.fill();
-  ctx.fillStyle = "#000000";
-  ctx.font = "700 11px 'Inter', 'Helvetica Neue', sans-serif";
-  ctx.textAlign = "center";
-  ctx.fillText("✈  EMPTY LEG OPPORTUNITY", badgeX + badgeW / 2, badgeY + 22);
+  ctx.strokeStyle = "rgba(200, 165, 40, 0.25)";
+  ctx.lineWidth = 1;
+  roundRect(ctx, W / 2 - 150, 92, 300, 38, 19);
+  ctx.stroke();
+  ctx.fillStyle = "rgba(200, 165, 40, 0.9)";
+  ctx.font = "700 12px 'Inter', 'Helvetica Neue', sans-serif";
+  ctx.fillText("✈  EMPTY LEG OPPORTUNITY", W / 2, 116);
 
   // ═══════════════════════════════════════
-  //  MAP SECTION
+  //  MAP — covers upper portion
   // ═══════════════════════════════════════
-  const mapTop = photoH;
-  const mapH = 620;
+  const mapTop = 155;
+  const mapH = 700;
 
   try {
     const mapImg = await loadImage(buildMapUrl(fromCoords, toCoords));
+    // Slightly lighten the dark map
+    ctx.globalAlpha = 0.7;
     ctx.drawImage(mapImg, 0, mapTop, W, mapH);
+    ctx.globalAlpha = 1;
   } catch {
-    // Light gray fallback
-    ctx.fillStyle = "#f0f0f0";
-    ctx.fillRect(0, mapTop, W, mapH);
-    ctx.strokeStyle = "#e0e0e0";
+    // Subtle grid fallback
+    ctx.strokeStyle = "rgba(255,255,255,0.03)";
     ctx.lineWidth = 1;
     for (let x = 0; x < W; x += 60) { ctx.beginPath(); ctx.moveTo(x, mapTop); ctx.lineTo(x, mapTop + mapH); ctx.stroke(); }
     for (let y = mapTop; y < mapTop + mapH; y += 60) { ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(W, y); ctx.stroke(); }
   }
 
+  // Fade edges into background
+  const fadeTop = ctx.createLinearGradient(0, mapTop, 0, mapTop + 80);
+  fadeTop.addColorStop(0, "#1a1a20");
+  fadeTop.addColorStop(1, "rgba(26,26,32,0)");
+  ctx.fillStyle = fadeTop;
+  ctx.fillRect(0, mapTop, W, 80);
+
+  const fadeBot = ctx.createLinearGradient(0, mapTop + mapH - 100, 0, mapTop + mapH);
+  fadeBot.addColorStop(0, "rgba(26,26,32,0)");
+  fadeBot.addColorStop(1, "#1e1e24");
+  ctx.fillStyle = fadeBot;
+  ctx.fillRect(0, mapTop + mapH - 100, W, 100);
+
   // Route arc on map
-  let arcFrom: [number, number] = [W * 0.2, mapTop + mapH * 0.5];
-  let arcTo: [number, number] = [W * 0.8, mapTop + mapH * 0.5];
+  let arcFrom: [number, number] = [W * 0.25, mapTop + mapH * 0.35];
+  let arcTo: [number, number] = [W * 0.75, mapTop + mapH * 0.65];
   if (fromCoords && toCoords) {
     const p = projectToCanvas(fromCoords, toCoords, mapTop, mapH);
     arcFrom = p.from;
@@ -243,135 +266,166 @@ export async function generateEmptyLegShareCard(data: ShareCardData): Promise<Bl
   }
   drawRouteArc(ctx, arcFrom, arcTo);
 
+  // City labels on map near endpoints
+  const fromLabel = data.fromCity || data.fromCode;
+  const toLabel = data.toCity || data.toCode;
+  drawCityLabel(ctx, fromLabel, arcFrom, "left");
+  drawCityLabel(ctx, toLabel, arcTo, "right");
+
   // ═══════════════════════════════════════
-  //  BOTTOM: Dark content area
+  //  ROUTE — City names large + airport codes
   // ═══════════════════════════════════════
-  const contentTop = mapTop + mapH;
-  const contentH = H - contentTop;
-  ctx.fillStyle = "#111111";
-  ctx.fillRect(0, contentTop, W, contentH);
+  const routeY = mapTop + mapH + 40;
 
-  // Subtle gold line separator
-  const sepGrad = ctx.createLinearGradient(PAD, 0, W - PAD, 0);
-  sepGrad.addColorStop(0, "rgba(200,160,30,0)");
-  sepGrad.addColorStop(0.2, "rgba(200,160,30,0.6)");
-  sepGrad.addColorStop(0.8, "rgba(200,160,30,0.6)");
-  sepGrad.addColorStop(1, "rgba(200,160,30,0)");
-  ctx.strokeStyle = sepGrad;
-  ctx.lineWidth = 2;
-  ctx.beginPath(); ctx.moveTo(PAD, contentTop); ctx.lineTo(W - PAD, contentTop); ctx.stroke();
-
-  // ── Route: City names big, airport codes small ──
-  const routeY = contentTop + 70;
-
-  // FROM
-  const fromCity = data.fromCity || data.fromCode;
-  const toCity = data.toCity || data.toCode;
-
+  // FROM city
   ctx.textAlign = "left";
-  ctx.fillStyle = "#FFFFFF";
-  ctx.font = "800 56px 'Inter', 'Helvetica Neue', sans-serif";
-  ctx.fillText(fromCity, PAD, routeY);
-  ctx.fillStyle = "rgba(200,160,30,0.7)";
+  ctx.fillStyle = "rgba(255,255,255,0.95)";
+  ctx.font = "800 64px 'Inter', 'Helvetica Neue', sans-serif";
+  ctx.fillText(fromLabel, PAD, routeY);
+  ctx.fillStyle = "rgba(200,165,40,0.5)";
   ctx.font = "500 18px 'Inter', 'Helvetica Neue', sans-serif";
   ctx.fillText(data.fromCode, PAD, routeY + 30);
 
-  // Arrow
-  const arrowY = routeY + 55;
-  const lineGrad2 = ctx.createLinearGradient(PAD, 0, W - PAD, 0);
-  lineGrad2.addColorStop(0, "rgba(200,160,30,0)");
-  lineGrad2.addColorStop(0.05, "rgba(200,160,30,0.5)");
-  lineGrad2.addColorStop(0.95, "rgba(200,160,30,0.5)");
-  lineGrad2.addColorStop(1, "rgba(200,160,30,0)");
-  ctx.strokeStyle = lineGrad2;
-  ctx.lineWidth = 1;
-  ctx.beginPath(); ctx.moveTo(PAD, arrowY); ctx.lineTo(W - PAD, arrowY); ctx.stroke();
-  // Plane icon
-  ctx.fillStyle = "rgba(200,160,30,0.9)";
-  ctx.font = "400 20px 'Inter', 'Helvetica Neue', sans-serif";
+  // Separator line with plane
+  const sepY = routeY + 55;
+  const sepGrad = ctx.createLinearGradient(PAD, 0, W - PAD, 0);
+  sepGrad.addColorStop(0, "rgba(200,165,40,0)");
+  sepGrad.addColorStop(0.08, "rgba(200,165,40,0.4)");
+  sepGrad.addColorStop(0.92, "rgba(200,165,40,0.4)");
+  sepGrad.addColorStop(1, "rgba(200,165,40,0)");
+  ctx.strokeStyle = sepGrad;
+  ctx.lineWidth = 1.5;
+  ctx.beginPath(); ctx.moveTo(PAD, sepY); ctx.lineTo(W - PAD, sepY); ctx.stroke();
+  // Plane emoji on the line
   ctx.textAlign = "center";
-  ctx.fillText("✈ →", W / 2, arrowY + 7);
+  ctx.fillStyle = "rgba(200,165,40,0.8)";
+  ctx.font = "400 22px 'Inter', 'Helvetica Neue', sans-serif";
+  ctx.fillText("✈", W / 2, sepY + 7);
 
-  // TO
+  // TO city
   ctx.textAlign = "right";
-  ctx.fillStyle = "#FFFFFF";
-  ctx.font = "800 56px 'Inter', 'Helvetica Neue', sans-serif";
-  ctx.fillText(toCity, W - PAD, arrowY + 70);
-  ctx.fillStyle = "rgba(200,160,30,0.7)";
+  ctx.fillStyle = "rgba(255,255,255,0.95)";
+  ctx.font = "800 64px 'Inter', 'Helvetica Neue', sans-serif";
+  ctx.fillText(toLabel, W - PAD, sepY + 75);
+  ctx.fillStyle = "rgba(200,165,40,0.5)";
   ctx.font = "500 18px 'Inter', 'Helvetica Neue', sans-serif";
-  ctx.fillText(data.toCode, W - PAD, arrowY + 100);
+  ctx.fillText(data.toCode, W - PAD, sepY + 105);
 
-  // ── Details row: Date & Price ──
-  const detailY = arrowY + 145;
+  // ═══════════════════════════════════════
+  //  DETAILS — Glass card with date, aircraft, price, seats
+  // ═══════════════════════════════════════
+  const detailY = sepY + 145;
+  const cardW = W - PAD * 2;
+  const cardH = 130;
 
-  // Date card
-  const cardPad = 20;
-  const cardW2 = (W - PAD * 2 - cardPad) / 2;
-  const cardH2 = 100;
-
-  // Date
-  ctx.fillStyle = "rgba(255,255,255,0.05)";
-  roundRect(ctx, PAD, detailY, cardW2, cardH2, 14);
+  ctx.fillStyle = "rgba(255,255,255,0.03)";
+  roundRect(ctx, PAD, detailY, cardW, cardH, 16);
   ctx.fill();
-  ctx.strokeStyle = "rgba(255,255,255,0.08)";
+  ctx.strokeStyle = "rgba(255,255,255,0.06)";
   ctx.lineWidth = 1;
-  roundRect(ctx, PAD, detailY, cardW2, cardH2, 14);
+  roundRect(ctx, PAD, detailY, cardW, cardH, 16);
   ctx.stroke();
+
+  // 4 columns: Date | Aircraft | Seats | Price
+  const hasPax = data.maxPax != null && data.maxPax > 0;
+  const cols = hasPax ? 4 : 3;
+  const colW = cardW / cols;
 
   ctx.textAlign = "center";
-  ctx.fillStyle = "rgba(255,255,255,0.35)";
-  ctx.font = "500 11px 'Inter', 'Helvetica Neue', sans-serif";
-  ctx.fillText("DEPARTURE DATE", PAD + cardW2 / 2, detailY + 35);
-  ctx.fillStyle = "#FFFFFF";
-  ctx.font = "700 24px 'Inter', 'Helvetica Neue', sans-serif";
-  ctx.fillText(formatDate(data.date), PAD + cardW2 / 2, detailY + 68);
 
-  // Price
-  const priceX = PAD + cardW2 + cardPad;
-  ctx.fillStyle = "rgba(200,160,30,0.08)";
-  roundRect(ctx, priceX, detailY, cardW2, cardH2, 14);
-  ctx.fill();
-  ctx.strokeStyle = "rgba(200,160,30,0.2)";
+  // Col 1: Date
+  const c1x = PAD + colW * 0.5;
+  ctx.fillStyle = "rgba(255,255,255,0.3)";
+  ctx.font = "500 12px 'Inter', 'Helvetica Neue', sans-serif";
+  ctx.fillText("DATE", c1x, detailY + 38);
+  ctx.fillStyle = "rgba(255,255,255,0.9)";
+  ctx.font = "700 26px 'Inter', 'Helvetica Neue', sans-serif";
+  ctx.fillText(formatDate(data.date), c1x, detailY + 72);
+
+  // Divider
+  ctx.strokeStyle = "rgba(255,255,255,0.06)";
   ctx.lineWidth = 1;
-  roundRect(ctx, priceX, detailY, cardW2, cardH2, 14);
-  ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(PAD + colW, detailY + 22); ctx.lineTo(PAD + colW, detailY + cardH - 22); ctx.stroke();
 
-  ctx.fillStyle = "rgba(200,160,30,0.5)";
-  ctx.font = "500 11px 'Inter', 'Helvetica Neue', sans-serif";
-  ctx.fillText("PRICE", priceX + cardW2 / 2, detailY + 35);
-  const isPriceNumeric = /[\d]/.test(data.price);
-  if (isPriceNumeric) {
-    ctx.fillStyle = "rgba(220,180,40,1)";
-    ctx.font = "800 26px 'Inter', 'Helvetica Neue', sans-serif";
-    ctx.fillText(data.price, priceX + cardW2 / 2, detailY + 68);
+  // Col 2: Aircraft
+  const c2x = PAD + colW * 1.5;
+  ctx.fillStyle = "rgba(255,255,255,0.3)";
+  ctx.font = "500 12px 'Inter', 'Helvetica Neue', sans-serif";
+  ctx.fillText("AIRCRAFT", c2x, detailY + 38);
+  ctx.fillStyle = "rgba(255,255,255,0.9)";
+  const acName = data.aircraftType.length > 16 ? data.aircraftType.substring(0, 14) + "…" : data.aircraftType;
+  ctx.font = "700 24px 'Inter', 'Helvetica Neue', sans-serif";
+  ctx.fillText(acName, c2x, detailY + 70);
+  ctx.fillStyle = "rgba(255,255,255,0.2)";
+  ctx.font = "400 13px 'Inter', 'Helvetica Neue', sans-serif";
+  ctx.fillText(data.category.toUpperCase(), c2x, detailY + 94);
+
+  // Divider
+  ctx.strokeStyle = "rgba(255,255,255,0.06)";
+  ctx.beginPath(); ctx.moveTo(PAD + colW * 2, detailY + 22); ctx.lineTo(PAD + colW * 2, detailY + cardH - 22); ctx.stroke();
+
+  if (hasPax) {
+    // Col 3: Seats
+    const c3x = PAD + colW * 2.5;
+    ctx.fillStyle = "rgba(255,255,255,0.3)";
+    ctx.font = "500 12px 'Inter', 'Helvetica Neue', sans-serif";
+    ctx.fillText("SEATS", c3x, detailY + 38);
+    // Seat icon
+    drawSeatIcon(ctx, c3x - 22, detailY + 68, 18);
+    ctx.fillStyle = "rgba(255,255,255,0.9)";
+    ctx.font = "700 26px 'Inter', 'Helvetica Neue', sans-serif";
+    ctx.fillText(String(data.maxPax), c3x + 8, detailY + 72);
+
+    // Divider
+    ctx.strokeStyle = "rgba(255,255,255,0.06)";
+    ctx.beginPath(); ctx.moveTo(PAD + colW * 3, detailY + 22); ctx.lineTo(PAD + colW * 3, detailY + cardH - 22); ctx.stroke();
+
+    // Col 4: Price
+    const c4x = PAD + colW * 3.5;
+    ctx.fillStyle = "rgba(200,165,40,0.5)";
+    ctx.font = "500 12px 'Inter', 'Helvetica Neue', sans-serif";
+    ctx.fillText("PRICE", c4x, detailY + 38);
+    const isPriceNumeric = /[\d]/.test(data.price);
+    ctx.fillStyle = "rgba(220,185,60,1)";
+    ctx.font = isPriceNumeric ? "800 24px 'Inter', 'Helvetica Neue', sans-serif" : "600 22px 'Inter', 'Helvetica Neue', sans-serif";
+    ctx.fillText(isPriceNumeric ? data.price : "On request", c4x, detailY + 72);
   } else {
-    ctx.fillStyle = "rgba(220,180,40,0.8)";
-    ctx.font = "600 20px 'Inter', 'Helvetica Neue', sans-serif";
-    ctx.fillText("On Request", priceX + cardW2 / 2, detailY + 68);
+    // Col 3: Price (when no seats)
+    const c3x = PAD + colW * 2.5;
+    ctx.fillStyle = "rgba(200,165,40,0.5)";
+    ctx.font = "500 12px 'Inter', 'Helvetica Neue', sans-serif";
+    ctx.fillText("PRICE", c3x, detailY + 38);
+    const isPriceNumeric = /[\d]/.test(data.price);
+    ctx.fillStyle = "rgba(220,185,60,1)";
+    ctx.font = isPriceNumeric ? "800 26px 'Inter', 'Helvetica Neue', sans-serif" : "600 22px 'Inter', 'Helvetica Neue', sans-serif";
+    ctx.fillText(isPriceNumeric ? data.price : "On request", c3x, detailY + 72);
   }
 
-  // ── Savings badge ──
-  const savingsY = detailY + cardH2 + 30;
-  ctx.fillStyle = "rgba(200,160,30,0.1)";
-  roundRect(ctx, W / 2 - 200, savingsY, 400, 40, 20);
+  // ═══════════════════════════════════════
+  //  SAVINGS BADGE
+  // ═══════════════════════════════════════
+  const savingsY = detailY + cardH + 35;
+  ctx.fillStyle = "rgba(200,165,40,0.06)";
+  roundRect(ctx, W / 2 - 220, savingsY, 440, 44, 22);
   ctx.fill();
-  ctx.strokeStyle = "rgba(200,160,30,0.3)";
+  ctx.strokeStyle = "rgba(200,165,40,0.2)";
   ctx.lineWidth = 1;
-  roundRect(ctx, W / 2 - 200, savingsY, 400, 40, 20);
+  roundRect(ctx, W / 2 - 220, savingsY, 440, 44, 22);
   ctx.stroke();
-  ctx.fillStyle = "rgba(220,180,40,1)";
-  ctx.font = "700 12px 'Inter', 'Helvetica Neue', sans-serif";
-  ctx.fillText("SAVE UP TO 75% VS ON-DEMAND CHARTER", W / 2, savingsY + 26);
+  ctx.textAlign = "center";
+  ctx.fillStyle = "rgba(220,185,60,0.9)";
+  ctx.font = "700 13px 'Inter', 'Helvetica Neue', sans-serif";
+  ctx.fillText("SAVE UP TO 75% VS ON-DEMAND CHARTER", W / 2, savingsY + 28);
 
   // ═══════════════════════════════════════
-  //  FOOTER
+  //  FOOTER — website + tagline
   // ═══════════════════════════════════════
-  ctx.fillStyle = "rgba(255,255,255,0.4)";
-  ctx.font = "400 15px 'Inter', 'Helvetica Neue', sans-serif";
-  ctx.fillText("universaljets.com", W / 2, H - 60);
-  ctx.fillStyle = "rgba(255,255,255,0.15)";
-  ctx.font = "300 11px 'Inter', 'Helvetica Neue', sans-serif";
-  ctx.fillText("Private Aviation  ·  Since 2006  ·  Dubai  ·  London", W / 2, H - 38);
+  ctx.fillStyle = "rgba(255,255,255,0.35)";
+  ctx.font = "400 16px 'Inter', 'Helvetica Neue', sans-serif";
+  ctx.fillText("universaljets.com", W / 2, H - 70);
+  ctx.fillStyle = "rgba(255,255,255,0.12)";
+  ctx.font = "300 12px 'Inter', 'Helvetica Neue', sans-serif";
+  ctx.fillText("Private Aviation  ·  Since 2006  ·  Dubai  ·  London", W / 2, H - 45);
 
   return new Promise<Blob>((resolve, reject) => {
     canvas.toBlob(
@@ -386,7 +440,7 @@ function formatDate(dateStr: string): string {
     const d = new Date(dateStr);
     if (!isNaN(d.getTime())) {
       const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-      return `${d.getDate()} ${months[d.getMonth()]} ${d.getFullYear()}`;
+      return `${d.getDate()} ${months[d.getMonth()]}`;
     }
   } catch { /* fallback */ }
   return dateStr;
