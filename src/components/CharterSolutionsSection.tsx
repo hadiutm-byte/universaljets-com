@@ -56,7 +56,6 @@ const charterCategories: CharterCategory[] = [
       "Invoice consolidation and corporate billing",
     ],
     aircraft: [
-      { name: "Cessna Citation Latitude", link: "/fleet" },
       { name: "Embraer Praetor 600", link: "/fleet" },
       { name: "Bombardier Challenger 650", link: "/fleet" },
       { name: "Gulfstream G650ER", link: "/fleet" },
