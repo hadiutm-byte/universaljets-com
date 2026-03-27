@@ -114,7 +114,7 @@ const Index = () => {
 
         <div className="divider-shimmer" />
 
-        {/* 11. Partners */}
+        {/* 10. Partners */}
         <div className="section-white">
           <PartnersSection />
         </div>

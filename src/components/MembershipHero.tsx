@@ -99,14 +99,13 @@ const MembershipHero = ({ onRequestInvitation, onSpeakToAdvisor }: MembershipHer
           >
             Request Invitation
           </motion.button>
-          <motion.button
-            whileHover={{ scale: 1.02, borderColor: "hsla(0,0%,100%,0.25)" }}
-            whileTap={{ scale: 0.95 }}
-            onClick={onSpeakToAdvisor}
-            className="px-10 py-4 border border-white/15 text-white/55 hover:text-white/80 text-[10px] tracking-[0.3em] uppercase font-light rounded-xl transition-all duration-500 cursor-pointer min-h-[48px]"
+          <Link
+            to="/membership"
+            className="px-10 py-4 border border-white/15 text-white/55 hover:text-white/80 text-[10px] tracking-[0.3em] uppercase font-light rounded-xl transition-all duration-500 min-h-[48px] inline-flex items-center justify-center gap-2"
           >
-            Speak to Advisor
-          </motion.button>
+            <MessageCircle size={12} />
+            View Membership
+          </Link>
         </motion.div>
 
         <motion.div

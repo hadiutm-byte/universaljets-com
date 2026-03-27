@@ -19,7 +19,7 @@ const StickyFloatingCTA = () => {
         Request a Flight
       </Link>
       <a
-        href="https://wa.me/447888999944"
+        href="https://wa.me/971585918498"
         target="_blank"
         rel="noopener noreferrer"
         className="flex items-center gap-2 px-5 py-3.5 rounded-full border border-white/[0.08] text-white/50 text-[9px] tracking-[0.2em] uppercase font-medium hover:text-white hover:border-primary/30 transition-all duration-500 active:scale-95 min-h-[48px]"
