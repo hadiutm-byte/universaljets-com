@@ -10,10 +10,16 @@ interface Particle {
   fadeDir: number;
 }
 
-const PARTICLE_COUNT = 45;
 const GOLD_HSL = "43, 85%, 58%";
 
-const GoldParticles = ({ className = "" }: { className?: string }) => {
+interface Props {
+  className?: string;
+  particleCount?: number;
+  maxSize?: number;
+  speed?: number;
+}
+
+const GoldParticles = ({ className = "", particleCount = 45, maxSize = 2.5, speed = 0.25 }: Props) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const particles = useRef<Particle[]>([]);
   const animRef = useRef<number>(0);
