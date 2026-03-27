@@ -1,5 +1,6 @@
 import { useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
+import { Link } from "react-router-dom";
 import heroJet from "@/assets/hero-jet.jpg";
 import GoldParticles from "@/components/GoldParticles";
 
