@@ -176,7 +176,7 @@ const CTASection = () => {
                       <form onSubmit={handleSubmit}>
                         {/* Trip Details */}
                         <div className="mb-8">
-                          <p className="text-[10px] tracking-[0.3em] uppercase text-foreground/20 font-light mb-5">Trip Details</p>
+                          <p className="text-[10px] tracking-[0.3em] uppercase text-muted-foreground font-light mb-5">Trip Details</p>
                           <div className="grid md:grid-cols-2 gap-5 mb-5">
                             <div><label className={labelClass}>From *</label><input value={form.departure} onChange={set("departure")} placeholder="City or airport" required className={inputClass} /></div>
                             <div><label className={labelClass}>To *</label><input value={form.destination} onChange={set("destination")} placeholder="City or airport" required className={inputClass} /></div>
