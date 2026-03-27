@@ -354,19 +354,26 @@ function normalizeLeg(leg: Record<string, unknown>, typeData: AircraftTypeMeta |
 
   // Deduplicate by URL and filter blocked types
   const seenUrls = new Set<string>();
-  const images: { url: string; type: string }[] = [];
+  const rawImages: { url: string; type: string }[] = [];
   for (const img of allImageCandidates) {
     if (BLOCKED_IMAGE_TYPES.has(img.type)) continue;
     if (seenUrls.has(img.url)) continue;
     seenUrls.add(img.url);
-    images.push(img);
+    rawImages.push(img);
   }
+
+  // If notail images exist, drop exterior images (they show painted registrations)
+  const hasNotail = rawImages.some(i => i.type === 'notail');
+  const images = hasNotail ? rawImages.filter(i => i.type !== 'exterior') : rawImages;
+
+  // Prefer notail for hero image
+  const heroImage = images.find(i => i.type === 'notail')?.url || images[0]?.url || typeData?.image_url || null;
 
   return {
     id: typeof leg.id === 'number' ? leg.id : (typeof leg.availability_id === 'number' ? leg.availability_id : 0),
     aircraft_type: aircraftType,
     aircraft_class: typeData?.class_name || null,
-    aircraft_image: images[0]?.url || typeData?.image_url || null,
+    aircraft_image: heroImage,
     aircraft_images: images,
     aircraft_floor_plan: typeData?.floor_plan_url || null,
     aircraft_max_pax: typeData?.max_pax || null,
