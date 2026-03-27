@@ -41,13 +41,38 @@ const getAnonKey = () => import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY;
 
 // ─── Hooks ──────────────────────────────────────────────────────────────────
 
+// ─── Client-side region filtering (avoids API rate limits) ──────────────────
+
+const ICAO_REGION: Record<string, string[]> = {
+  americas: ['K','C','M','T','S','P'],
+  europe: ['EG','EI','LF','ED','LI','LE','LS','LO','EH','EB','LP','ES','EN','EK','EF','LK','EP','LG','LR','LH','LD','LC','LT','EL','LJ','LQ','LW','LY','LB','LZ','EY','EV','EE','BI','LM','EL','UU','UL'],
+  middle_east: ['OM','OE','OT','OB','OO','OK','OJ','OL','LL','OR','OI','OY','UG','HE'],
+  asia: ['WS','VH','RJ','RK','VI','VT','WM','WI','ZB','ZS','ZG','RP','RC','VV','VD','VG','YS','YM','YB','YP','NZ'],
+  africa: ['FA','DN','HK','HE','GM','HT','DG','GO','FV','HA','HR','HC','FL','FW','FQ','FN','FZ','FB','FY'],
+};
+
+function icaoMatchesRegion(icao: string, region: string): boolean {
+  const key = region.toLowerCase().replace(/\s+/g, '_');
+  if (key === 'all' || !icao) return true;
+  const prefixes = ICAO_REGION[key];
+  if (!prefixes) return true;
+  const upper = icao.toUpperCase();
+  return prefixes.some(p => upper.startsWith(p));
+}
+
+function legMatchesRegion(leg: NormalizedEmptyLeg, region: string): boolean {
+  if (!region || region === 'All') return true;
+  const depIcao = leg.departure?.icao || '';
+  const arrIcao = leg.arrival?.icao || '';
+  return icaoMatchesRegion(depIcao, region) || icaoMatchesRegion(arrIcao, region);
+}
+
 export function useEmptyLegs(region: string = "All") {
   return useQuery({
-    queryKey: ["empty-legs", region],
+    queryKey: ["empty-legs"],
     queryFn: async () => {
-      const params = new URLSearchParams({ region });
       const response = await fetch(
-        `${getSupabaseUrl()}/functions/v1/aviapages-empty-legs?${params.toString()}`,
+        `${getSupabaseUrl()}/functions/v1/aviapages-empty-legs?region=All`,
         {
           headers: {
             Authorization: `Bearer ${getAnonKey()}`,
@@ -77,6 +102,11 @@ export function useEmptyLegs(region: string = "All") {
     },
     staleTime: 5 * 60 * 1000,
     retry: 1,
+    select: (data) => {
+      if (!region || region === "All") return data;
+      const filtered = data.results.filter(leg => legMatchesRegion(leg, region));
+      return { count: filtered.length, results: filtered };
+    },
   });
 }
 
