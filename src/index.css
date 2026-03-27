@@ -303,7 +303,7 @@ html {
     color: hsl(var(--primary-foreground) / 0.24);
   }
 
-  /* Logo gold shimmer — subtle light sweep + breathing glow */
+  /* Logo gold shimmer — light sweep + breathing glow + hover amplify */
   .logo-gold-shimmer {
     @apply bg-clip-text text-transparent;
     background-image: linear-gradient(
@@ -315,7 +315,13 @@ html {
       hsla(43, 85%, 58%, 0.82) 100%
     );
     background-size: 300% 100%;
-    animation: logo-shimmer 4.5s ease-in-out infinite, logo-glow-breathe 6s ease-in-out infinite;
+    animation: logo-shimmer 4.5s ease-in-out infinite, logo-glow-breathe 3s ease-in-out infinite alternate;
+    transition: transform 0.5s ease, filter 0.3s ease;
+  }
+
+  .logo-gold-shimmer:hover {
+    filter: drop-shadow(0 0 20px hsla(43, 85%, 58%, 0.5))
+            drop-shadow(0 0 40px hsla(43, 85%, 58%, 0.3));
   }
 
   @keyframes logo-shimmer {
@@ -324,8 +330,14 @@ html {
   }
 
   @keyframes logo-glow-breathe {
-    0%, 100% { filter: drop-shadow(0 0 4px hsla(43, 85%, 58%, 0.08)) drop-shadow(0 0 16px hsla(43, 85%, 58%, 0.04)); }
-    50% { filter: drop-shadow(0 0 10px hsla(43, 85%, 58%, 0.22)) drop-shadow(0 0 30px hsla(43, 85%, 58%, 0.12)); }
+    0% {
+      filter: drop-shadow(0 0 10px hsla(43, 85%, 30%, 0.15))
+              drop-shadow(0 0 20px hsla(43, 85%, 40%, 0.1));
+    }
+    100% {
+      filter: drop-shadow(0 0 20px hsla(43, 85%, 58%, 0.35))
+              drop-shadow(0 0 40px hsla(43, 85%, 58%, 0.2));
+    }
   }
 
   .bg-gradient-gold {
