@@ -62,7 +62,7 @@ const HeroSection = () => {
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1.2, delay: 0.5 }}
-          className="font-display text-[11px] md:text-[13px] tracking-[0.65em] uppercase text-white/95 mb-6 font-semibold"
+          className="font-display text-[11px] md:text-[13px] tracking-[0.65em] uppercase text-white/95 mb-6 font-semibold -mt-4"
           style={{ textShadow: "0 0 30px hsla(0,0%,100%,0.15), 0 2px 12px hsla(0,0%,0%,0.8)" }}
         >
           Private Aviation Redefined
