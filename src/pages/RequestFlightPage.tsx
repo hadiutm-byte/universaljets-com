@@ -315,8 +315,8 @@ const RequestFlightPage = () => {
                   <PremiumInput label="Email" required type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="alex@example.com" maxLength={255} />
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                  <PremiumInput label="Phone" type="tel" value={phone} onChange={(e) => setPhone(e.target.value)} placeholder="+971 50 000 0000" maxLength={20} />
-                  <PremiumInput label="WhatsApp" type="tel" value={whatsapp} onChange={(e) => setWhatsapp(e.target.value)} placeholder="+971 50 000 0000" maxLength={20} />
+                  <PhoneWithCountryCode label="Phone" phone={phone} onPhoneChange={setPhone} countryCode={phoneCode} onCountryCodeChange={setPhoneCode} />
+                  <PhoneWithCountryCode label="WhatsApp" phone={whatsapp} onPhoneChange={setWhatsapp} countryCode={whatsappCode} onCountryCodeChange={setWhatsappCode} />
                   <PremiumInput label="Company" value={company} onChange={(e) => setCompany(e.target.value)} placeholder="Company name" maxLength={100} />
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
