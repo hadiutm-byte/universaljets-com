@@ -71,7 +71,7 @@ const Footer = () => (
             <span className="text-gradient-gold font-normal">Jets</span>
           </h2>
         </Link>
-        <p className="text-[14px] text-white/50 max-w-[300px] leading-[1.6] font-light mb-4">
+        <p className="text-[14px] text-white/65 max-w-[300px] leading-[1.6] font-light mb-4">
           Private aviation, redefined.<br />
           Seamless global charter solutions for those who expect more.
         </p>
