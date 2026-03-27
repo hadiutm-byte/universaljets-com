@@ -192,11 +192,11 @@ const RequestFlightPage = () => {
   }
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background overflow-x-hidden">
       <SEOHead title="Request a Private Flight — Instant Charter Quote" description="Request a private jet charter with Universal Jets. Get tailored aircraft options and pricing within minutes. One-way, round-trip, or multi-city." path="/request-flight" />
       <Navbar />
       <section className="pt-36 pb-16">
-        <div className="container mx-auto px-6">
+        <div className="container mx-auto px-4 sm:px-6">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="text-center max-w-xl mx-auto mb-14">
             <p className="text-[10px] tracking-[0.5em] uppercase text-primary/60 mb-5 font-medium">Charter Request</p>
             <div className="w-px h-8 bg-gradient-to-b from-transparent via-primary/25 to-transparent mx-auto mb-5" />
@@ -209,7 +209,7 @@ const RequestFlightPage = () => {
           </motion.div>
 
           <form onSubmit={handleSubmit} className="max-w-3xl mx-auto">
-            <div className="rounded-2xl border border-foreground/[0.06] bg-muted/20 p-8 md:p-10 space-y-8">
+            <div className="rounded-2xl border border-foreground/[0.06] bg-muted/20 p-5 sm:p-8 md:p-10 space-y-8">
 
               {/* Trip Type */}
               <FormSection title="Trip Type">

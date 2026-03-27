@@ -75,11 +75,11 @@ export default function EmptyLegInquiryModal({ open, onOpenChange, emptyLeg }: P
           {emptyLeg?.route && <p className="text-[12px] text-primary/70 font-light mt-1">{emptyLeg.route}</p>}
         </DialogHeader>
         <form onSubmit={handleSubmit} className="space-y-4 mt-3">
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <PremiumInput label="Full Name" required value={form.name} onChange={(e) => set("name", e.target.value)} placeholder="Full name" maxLength={100} />
             <PremiumInput label="Email" required type="email" value={form.email} onChange={(e) => set("email", e.target.value)} placeholder="you@email.com" maxLength={255} />
           </div>
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <PhoneWithCountryCode phone={form.phone} onPhoneChange={(v) => set("phone", v)} countryCode={form.countryCode} onCountryCodeChange={(v) => set("countryCode", v)} />
             <PremiumSelect label="Passengers" value={form.passengers} onChange={(e) => set("passengers", e.target.value)}>
               {[...Array(19)].map((_, i) => <option key={i + 1} value={i + 1}>{i + 1}</option>)}
