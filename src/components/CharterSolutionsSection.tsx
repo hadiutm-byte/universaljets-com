@@ -78,10 +78,10 @@ const charterCategories: CharterCategory[] = [
       "Response within 2 hours, departure within 6",
     ],
     aircraft: [
-      { name: "Learjet 35", link: "/fleet" },
-      { name: "Citation CJ3", link: "/fleet" },
-      { name: "Challenger 604", link: "/fleet" },
-      { name: "Gulfstream G550", link: "/fleet" },
+      { name: "Learjet 35A Air Ambulance", link: "/fleet" },
+      { name: "Learjet 60 Medevac", link: "/fleet" },
+      { name: "Challenger 604 ICU", link: "/fleet" },
+      { name: "Gulfstream G550 Medevac", link: "/fleet" },
     ],
   },
   {
