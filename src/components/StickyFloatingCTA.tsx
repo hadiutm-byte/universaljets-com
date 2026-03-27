@@ -1,10 +1,26 @@
 import { Plane, Phone } from "lucide-react";
 import { Link } from "react-router-dom";
 import { motion, useScroll, useTransform } from "framer-motion";
+import { useEffect, useState } from "react";
 
 const StickyFloatingCTA = () => {
   const { scrollYProgress } = useScroll();
   const opacity = useTransform(scrollYProgress, [0, 0.08], [0, 1]);
+  const [hidden, setHidden] = useState(false);
+
+  // Listen for picker open/close events to hide CTA
+  useEffect(() => {
+    const handlePickerOpen = () => setHidden(true);
+    const handlePickerClose = () => setHidden(false);
+    document.addEventListener("picker-open", handlePickerOpen);
+    document.addEventListener("picker-close", handlePickerClose);
+    return () => {
+      document.removeEventListener("picker-open", handlePickerOpen);
+      document.removeEventListener("picker-close", handlePickerClose);
+    };
+  }, []);
+
+  if (hidden) return null;
 
   return (
     <motion.div
