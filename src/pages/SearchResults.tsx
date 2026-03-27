@@ -30,25 +30,50 @@ const getAnonKey = () => import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY;
 function normalizeAircraftSize(value: string | null | undefined): string {
   const v = String(value || "").trim().toLowerCase();
   if (!v) return "";
-  if (v.includes("very light") || v.includes("vlj") || v === "very_light") return "light";
-  if (v.includes("light")) return "light";
-  if (v.includes("super mid") || v === "super_midsize") return "midsize";
-  if (v.includes("mid")) return "midsize";
-  if (v.includes("ultra long") || v === "ultra_long_range") return "heavy";
-  if (v.includes("heavy") || v.includes("long range")) return "heavy";
+
+  // Non-jet → exclude
+  if (v.includes("turbo") || v.includes("helicopter") || v.includes("rotor") || v.includes("vip air")) return "";
+
+  if (v.includes("very light") || v === "vlj") return "light";
+  if (v === "light" || v.includes("light jet") || v.includes("light_jet")) return "light";
+
+  if (v.includes("super midsize") || v.includes("super mid-size") || v.includes("super mid") || v === "super_midsize") return "super_midsize";
+  if (v === "midsize" || v === "mid size" || v === "mid-size" || v.includes("midsize jet") || v.includes("mid")) return "midsize";
+
+  if (v.includes("ultra long") || v.includes("ultra-long") || v === "ultra_long_range") return "ultra_long_range";
+  if (v.includes("heavy") || v.includes("heavy jet")) return "heavy";
+  if (v.includes("long range") || v.includes("long-range") || v === "long_range") return "long_range";
+
   return "";
 }
 
 function matchesSelectedSize(
-  aircraft: { category?: string | null; aircraftType?: string | null },
+  aircraft: { category?: string | null; aircraftType?: string | null; size?: string | null },
   selectedSize: string | null | undefined
 ): boolean {
   if (!selectedSize) return true;
+
   const wanted = normalizeAircraftSize(selectedSize);
   if (!wanted) return true;
+
   const actual =
     normalizeAircraftSize(aircraft.category) ||
-    normalizeAircraftSize(aircraft.aircraftType);
+    normalizeAircraftSize(aircraft.aircraftType) ||
+    normalizeAircraftSize(aircraft.size);
+
+  if (!actual) return false;
+
+  // Heavy bucket includes heavy, long_range, ultra_long_range
+  if (wanted === "heavy") {
+    return actual === "heavy" || actual === "long_range" || actual === "ultra_long_range";
+  }
+  if (wanted === "long_range") {
+    return actual === "long_range" || actual === "ultra_long_range" || actual === "heavy";
+  }
+  if (wanted === "ultra_long_range") {
+    return actual === "ultra_long_range" || actual === "long_range" || actual === "heavy";
+  }
+
   return actual === wanted;
 }
 
@@ -107,7 +132,11 @@ const SearchResults = () => {
 
     return normalized.filter((r) =>
       matchesSelectedSize(
-        { category: r.aircraft_class, aircraftType: r.aircraft_type },
+        {
+          category: r.aircraft_class,
+          aircraftType: r.aircraft_type,
+          size: getAircraftCategory(r.aircraft_type || ""),
+        },
         jetSize
       )
     );
