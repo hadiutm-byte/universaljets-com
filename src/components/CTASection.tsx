@@ -84,7 +84,7 @@ const CTASection = () => {
     setLoading(false);
   };
 
-  const openWhatsApp = () => window.open("https://wa.me/971585918498", "_blank");
+  const openWhatsApp = () => window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${WHATSAPP_MSG}`, "_blank");
 
   return (
     <section id="cta" className="relative">
