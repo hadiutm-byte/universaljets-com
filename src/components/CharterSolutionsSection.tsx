@@ -99,10 +99,10 @@ const charterCategories: CharterCategory[] = [
       "Global freight aircraft sourcing across all categories",
     ],
     aircraft: [
-      { name: "Boeing 737", link: "/fleet" },
-      { name: "Pilatus PC-12", link: "/fleet" },
-      { name: "Gulfstream G550", link: "/fleet" },
-      { name: "Challenger 604", link: "/fleet" },
+      { name: "Boeing 737-800 Freighter", link: "/fleet" },
+      { name: "Antonov AN-12 Cargo", link: "/fleet" },
+      { name: "Airbus A330 Freighter", link: "/fleet" },
+      { name: "Boeing 747 Cargo", link: "/fleet" },
     ],
   },
   {
