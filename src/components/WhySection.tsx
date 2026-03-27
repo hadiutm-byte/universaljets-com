@@ -53,7 +53,7 @@ const WhySection = () => (
             </div>
             <div>
               <h3 className="font-display text-lg mb-2 text-foreground">{p.title}</h3>
-              <p className="text-[13px] text-foreground/55 font-light leading-[2]">{p.desc}</p>
+              <p className="text-[13px] text-muted-foreground font-light leading-[2]">{p.desc}</p>
             </div>
           </motion.div>
         ))}

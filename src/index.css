@@ -29,7 +29,7 @@ html {
     --secondary-foreground: 0 0% 4%;
 
     --muted: 0 0% 95.3%;              /* #F3F3F3 */
-    --muted-foreground: 0 0% 43.5%;    /* #6F6F6F */
+    --muted-foreground: 0 0% 35%;     /* #595959 — boosted for WCAG AA */
 
     --accent: 43 74% 49%;
     --accent-foreground: 0 0% 100%;
