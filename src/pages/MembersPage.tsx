@@ -359,7 +359,7 @@ const MembersPage = () => (
           <h2 className="font-display text-2xl md:text-3xl lg:text-4xl font-semibold text-white">
             Choose Your <span className="text-gradient-gold italic">Level of Access</span>
           </h2>
-          <p className="text-[13px] text-white/65 font-light max-w-lg mx-auto mt-4 leading-relaxed">
+          <p className="text-[13px] text-white/75 font-light max-w-lg mx-auto mt-4 leading-relaxed">
             Each tier is designed around how you fly — from occasional regional trips to unlimited global coverage.
           </p>
         </motion.div>
