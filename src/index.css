@@ -8,6 +8,10 @@ html {
   scroll-behavior: smooth;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+  overscroll-behavior-y: none;            /* prevent pull-to-refresh / rubber-band */
+  -webkit-tap-highlight-color: transparent; /* remove blue flash on tap */
 }
 
 @layer base {
