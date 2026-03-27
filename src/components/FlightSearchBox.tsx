@@ -157,6 +157,7 @@ const FlightSearchBox = () => {
     try {
       localStorage.setItem(SEARCH_CACHE_KEY, JSON.stringify({ passengers, jetSize, tripType }));
     } catch {}
+    const fullPhone = phoneNumber ? `${phoneCode} ${phoneNumber}` : undefined;
     capture({
       name: "Website Visitor",
       email: "search@universaljets.com",
@@ -165,6 +166,7 @@ const FlightSearchBox = () => {
       date: primaryLeg.date ? format(primaryLeg.date, "yyyy-MM-dd'T'HH:mm") : undefined,
       passengers: passengers || "1",
       source: "homepage_widget",
+      ...(fullPhone ? { phone: fullPhone } : {}),
     }).catch(() => {}); // Silent — don't block search
 
     const params = new URLSearchParams({
