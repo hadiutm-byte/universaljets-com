@@ -103,7 +103,7 @@ const HeroSection = () => {
           initial={{ opacity: 0, y: 18 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1.2, delay: 0.95 }}
-          className="max-w-lg mx-auto mb-14"
+          className="max-w-lg mx-auto"
         >
           <p
             className="font-display text-[13px] md:text-[15px] text-white/80 font-semibold leading-[1.8] tracking-[0.18em] uppercase"
@@ -111,36 +111,6 @@ const HeroSection = () => {
           >
             Global access · Instant quotes · Tailored journeys
           </p>
-        </motion.div>
-
-        {/* CTAs */}
-        <motion.div
-          initial={{ opacity: 0, y: 16 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1, delay: 1.15, ease: [0.16, 1, 0.3, 1] }}
-          className="flex flex-col sm:flex-row items-center gap-5"
-        >
-          <motion.button
-            whileHover={{ scale: 1.03, y: -3 }}
-            whileTap={{ scale: 0.97 }}
-            transition={{ type: "spring", stiffness: 300, damping: 18 }}
-            onClick={() => document.dispatchEvent(new CustomEvent("open-ricky-booking"))}
-            className="group px-12 py-4.5 bg-gradient-gold text-white text-[10px] tracking-[0.35em] uppercase font-medium rounded-xl cursor-pointer flex items-center gap-3 shadow-[0_4px_24px_-4px_hsla(43,74%,49%,0.35)] hover:shadow-[0_12px_48px_-8px_hsla(43,74%,49%,0.5)] transition-shadow duration-700"
-            style={{ paddingTop: "1.125rem", paddingBottom: "1.125rem" }}
-          >
-            Request a Flight
-            <ArrowRight size={14} strokeWidth={1.5} className="transition-transform duration-500 group-hover:translate-x-0.5" />
-          </motion.button>
-          <motion.a
-            href="#empty-legs"
-            whileHover={{ scale: 1.02, y: -2 }}
-            whileTap={{ scale: 0.97 }}
-            transition={{ type: "spring", stiffness: 300, damping: 18 }}
-            className="px-9 py-4 border border-white/[0.12] bg-white/[0.04] hover:bg-white/[0.07] hover:border-white/[0.2] text-white/60 hover:text-white/90 text-[10px] tracking-[0.3em] uppercase font-medium rounded-xl transition-all duration-700"
-            style={{ paddingTop: "1.125rem", paddingBottom: "1.125rem" }}
-          >
-            View Empty Legs
-          </motion.a>
         </motion.div>
       </motion.div>
 
