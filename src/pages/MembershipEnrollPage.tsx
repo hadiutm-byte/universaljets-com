@@ -32,15 +32,26 @@ const MembershipEnrollPage = () => {
   const [loading, setLoading] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const { capture } = useCrmApi();
+  const geo = useUserGeolocation();
 
   // Step 1 — Identity
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
+  const [countryCode, setCountryCode] = useState("+971");
   const [phone, setPhone] = useState("");
+  const [whatsappCode, setWhatsappCode] = useState("+971");
   const [whatsapp, setWhatsapp] = useState("");
   const [country, setCountry] = useState("");
   const [city, setCity] = useState("");
 
+  // Auto-detect country code from geolocation
+  const resolvedCode = resolveCountryCode(geo.countryCode);
+  useEffect(() => {
+    if (countryCode === "+971" && resolvedCode !== "+971") {
+      setCountryCode(resolvedCode);
+      setWhatsappCode(resolvedCode);
+    }
+  }, [resolvedCode]);
   // Step 2 — Tier
   const [selectedTier, setSelectedTier] = useState("");
 
