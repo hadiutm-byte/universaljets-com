@@ -246,15 +246,15 @@ const Navbar = () => {
               className="absolute inset-0 bg-[hsl(220,10%,5%)]"
             />
 
-            <div className="relative z-10 w-full h-full flex flex-col items-center justify-center px-8">
+            <div className="relative z-10 w-full h-full flex flex-col pt-20 pb-10 px-8 overflow-y-auto overscroll-contain" style={{ WebkitOverflowScrolling: "touch" }}>
               <motion.div
                 initial={{ scaleX: 0 }}
                 animate={{ scaleX: 1 }}
                 transition={{ duration: 0.9, delay: 0.25, ease: [0.16, 1, 0.3, 1] }}
-                className="w-16 h-[1px] bg-gradient-to-r from-transparent via-primary/50 to-transparent mb-10 origin-center"
+                className="w-16 h-[1px] bg-gradient-to-r from-transparent via-primary/50 to-transparent mb-6 origin-center mx-auto flex-shrink-0"
               />
 
-              <nav className="flex flex-col items-center gap-1">
+              <nav className="flex flex-col items-center gap-0 flex-shrink-0">
                 {menuLinks.map((l, i) => (
                   <motion.div
                     key={l.label}
@@ -271,7 +271,7 @@ const Navbar = () => {
                       href={l.href}
                       isHome={isHome}
                       onNav={handleNavClick}
-                      className="block py-2.5 text-[15px] md:text-[18px] tracking-[0.3em] text-white/35 hover:text-white transition-all duration-500 uppercase font-extralight relative group"
+                      className="block py-[0.55rem] text-[13px] sm:text-[15px] md:text-[18px] tracking-[0.3em] text-white/35 hover:text-white active:text-white transition-all duration-500 uppercase font-extralight relative group touch-manipulation"
                     >
                       {l.label}
                       <span className="absolute -bottom-0.5 left-1/2 -translate-x-1/2 w-0 h-[1px] bg-primary/50 group-hover:w-full transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]" />
@@ -284,13 +284,13 @@ const Navbar = () => {
                 initial={{ opacity: 0, y: 16 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.75, duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-                className="flex flex-col items-center gap-5 mt-14"
+                className="flex flex-col items-center gap-4 mt-8 flex-shrink-0 pb-4"
               >
                 <div className="w-10 h-[1px] bg-gradient-to-r from-transparent via-primary/30 to-transparent" />
                 <Link
                   to="/auth"
                   onClick={() => setOverlayOpen(false)}
-                  className="text-[10px] tracking-[0.35em] text-white/30 hover:text-primary/70 uppercase font-extralight transition-colors duration-500"
+                  className="text-[10px] tracking-[0.35em] text-white/30 hover:text-primary/70 uppercase font-extralight transition-colors duration-500 touch-manipulation min-h-[44px] flex items-center"
                 >
                   Members Login
                 </Link>
@@ -298,7 +298,7 @@ const Navbar = () => {
                   href="/#cta"
                   isHome={isHome}
                   onNav={handleNavClick}
-                  className="px-10 py-3.5 bg-gradient-gold text-white text-[10px] tracking-[0.28em] uppercase font-medium rounded-xl hover:shadow-[0_0_40px_-8px_hsla(43,74%,49%,0.5)] transition-all duration-500 hover:scale-[1.02]"
+                  className="px-10 py-3.5 bg-gradient-gold text-white text-[10px] tracking-[0.28em] uppercase font-medium rounded-xl hover:shadow-[0_0_40px_-8px_hsla(43,74%,49%,0.5)] transition-all duration-500 hover:scale-[1.02] active:scale-[0.97] touch-manipulation min-h-[48px] flex items-center"
                 >
                   Request a Flight
                 </NavLinkInner>

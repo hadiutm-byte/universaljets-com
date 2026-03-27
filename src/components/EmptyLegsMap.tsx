@@ -228,7 +228,7 @@ const EmptyLegsMap = () => {
         )}
 
         {!showLoading && legs.length > 0 && viewMode === "cards" && (
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5 max-w-5xl mx-auto mb-14">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5 max-w-5xl mx-auto mb-14">
             {legs.slice(0, 12).map((leg, i) => (
               <EmptyLegCard key={leg.id} leg={leg} index={i} onClick={() => handleLegClick(leg)} />
             ))}
