@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import { Check, ArrowRight, Shield, Clock, Globe, HeartHandshake, Plane, Lock, Repeat, CreditCard, Zap, Star, Users } from "lucide-react";
+import { JetCard as JetCardVisual } from "@/components/PremiumCards";
 import { Link } from "react-router-dom";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
