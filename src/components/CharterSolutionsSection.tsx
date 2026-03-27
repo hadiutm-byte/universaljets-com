@@ -3,6 +3,11 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Plane, ArrowRight, ChevronDown, Shield, Clock, Globe, X } from "lucide-react";
 import { Link } from "react-router-dom";
 import { getAircraftImage } from "@/lib/aircraftImages";
+import leisureImg from "@/assets/charter/leisure-charter.jpg";
+import corporateImg from "@/assets/charter/corporate-charter.jpg";
+import medevacImg from "@/assets/charter/medevac-charter.jpg";
+import cargoImg from "@/assets/charter/cargo-charter.jpg";
+import groupImg from "@/assets/charter/group-charter.jpg";
 
 interface CharterCategory {
   title: string;
@@ -20,7 +25,7 @@ const charterCategories: CharterCategory[] = [
     title: "Leisure Charter",
     tagline: "10,000+ destinations. Zero layovers.",
     slug: "leisure",
-    image: "https://d2xsxph8kpxj0f.cloudfront.net/310519663441238946/F94ypwks3ADk2wFrxZVnWB/leisure-travel-luxury-azcFavRQuX4DrgSwWAoAtx.webp",
+    image: leisureImg,
     icon: Globe,
     justification:
       "Operators sell their own fleet — we source from 7,000+ aircraft globally to find the right jet at the right price for your trip. That means better availability, better positioning, and no hidden fees from fleet-tied operators trying to fill their own planes.",
@@ -41,7 +46,7 @@ const charterCategories: CharterCategory[] = [
     title: "Corporate Solutions",
     tagline: "Three cities. One day. Boardroom at 40,000 ft.",
     slug: "corporate",
-    image: "https://d2xsxph8kpxj0f.cloudfront.net/310519663441238946/F94ypwks3ADk2wFrxZVnWB/corporate-executive-jet-a3dWZJiLaShszow9sv8fuB.webp",
+    image: corporateImg,
     icon: Shield,
     justification:
       "Corporate operators lock you into their fleet and schedule. We match the right aircraft to each leg of your trip — light jet for a 90-minute hop, heavy jet for the transatlantic — saving you up to 40% versus booking everything on a single operator's largest plane.",
@@ -62,7 +67,7 @@ const charterCategories: CharterCategory[] = [
     title: "Medical Evacuations",
     tagline: "ICU-equipped. 24/7 response. Anywhere.",
     slug: "medevac",
-    image: "https://d2xsxph8kpxj0f.cloudfront.net/310519663441238946/F94ypwks3ADk2wFrxZVnWB/medical-jet-evacuation_c1c73ba0.png",
+    image: medevacImg,
     icon: Clock,
     justification:
       "In a medical emergency, operators quote from their own fleet — which may not be ICU-configured or in the right location. We source air ambulance aircraft globally with stretcher configurations, medical crews, and conflict-zone clearances that single operators simply cannot match.",
@@ -83,7 +88,7 @@ const charterCategories: CharterCategory[] = [
     title: "Cargo & Special Missions",
     tagline: "Hazmat-certified. Government-cleared.",
     slug: "cargo",
-    image: "https://d2xsxph8kpxj0f.cloudfront.net/310519663441238946/F94ypwks3ADk2wFrxZVnWB/cargo-charter-loading-UNLEgPt7hoTHe7qWvdfsRq.webp",
+    image: cargoImg,
     icon: Plane,
     justification:
       "Cargo operators specialize in standard freight. We handle what they won't — hazardous materials, oversized machinery, classified government shipments, and humanitarian aid into disaster zones. Full customs, permits, and compliance managed end-to-end.",
@@ -125,7 +130,7 @@ const charterCategories: CharterCategory[] = [
     title: "Group Charter",
     tagline: "12 to 200+ passengers. Six continents.",
     slug: "group",
-    image: "https://d2xsxph8kpxj0f.cloudfront.net/310519663441238946/F94ypwks3ADk2wFrxZVnWB/group-charter-boarding_c6a14ad9.jpg",
+    image: groupImg,
     icon: Shield,
     justification:
       "Airlines sell seats — we sell solutions. Sports teams, corporate delegations, concert tours, and pilgrimages require coordinated scheduling, ground handling, and catering that commercial carriers can't customize. We've moved 50,000+ passengers including FIFA World Cup 2022.",
