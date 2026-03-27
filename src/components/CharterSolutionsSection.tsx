@@ -77,9 +77,8 @@ const charterCategories: CharterCategory[] = [
     ],
     aircraft: [
       { name: "Learjet 35A Air Ambulance", link: "/fleet" },
-      { name: "Learjet 60 Medevac", link: "/fleet" },
       { name: "Challenger 604 ICU", link: "/fleet" },
-      { name: "Gulfstream G550 Medevac", link: "/fleet" },
+      { name: "King Air 350 Medevac", link: "/fleet" },
     ],
   },
   {
