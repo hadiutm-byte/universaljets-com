@@ -87,6 +87,23 @@ html {
     padding-right: env(safe-area-inset-right);
     touch-action: manipulation;            /* eliminate 300ms tap delay */
   }
+
+  /* GPU-accelerated images */
+  img, video {
+    content-visibility: auto;
+  }
+
+  /* Smooth button/link interactions */
+  button, a, [role="button"] {
+    touch-action: manipulation;
+  }
+  
+  /* Native-feel active press on interactive elements */
+  button:active, [role="button"]:active {
+    transform: scale(0.97);
+    transition: transform 0.08s ease;
+  }
+
   h1, h2, h3, h4, h5, h6 {
     @apply font-display;
   }
