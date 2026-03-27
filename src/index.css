@@ -483,6 +483,10 @@ html {
     @apply w-full bg-transparent text-[14px] text-foreground font-normal focus:outline-none appearance-none cursor-pointer;
   }
 
+  .search-input {
+    @apply bg-transparent text-[14px] text-foreground font-normal focus:outline-none placeholder:text-muted-foreground/40;
+  }
+
   /* === LAYOUT === */
   .section-padding {
     @apply py-32 md:py-40 lg:py-48;
