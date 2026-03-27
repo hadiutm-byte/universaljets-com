@@ -16,14 +16,10 @@ const FleetSection = () => {
   // Fetch all aircraft types to get real images
   const { data: aircraftData } = useAircraftTypes();
 
-  // Group API aircraft by class_id for image lookup
-  const imageByClass: Record<string, string> = {};
+  // Group API aircraft by class_id for example names only — images use curated local assets
   const examplesByClass: Record<string, string[]> = {};
   if (aircraftData?.results) {
     for (const at of aircraftData.results) {
-      if (at.class_id && at.image_url && !imageByClass[String(at.class_id)]) {
-        imageByClass[String(at.class_id)] = at.image_url;
-      }
       if (at.class_id) {
         const key = String(at.class_id);
         if (!examplesByClass[key]) examplesByClass[key] = [];
