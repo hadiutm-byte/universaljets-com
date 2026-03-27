@@ -76,6 +76,9 @@ const FlightSearchBox = () => {
   const [passengers, setPassengers] = useState("");
   const [jetSize, setJetSize] = useState("");
   const [attempted, setAttempted] = useState(false);
+  const [phoneCode, setPhoneCode] = useState("+971");
+  const [phoneNumber, setPhoneNumber] = useState("");
+  useEffect(() => { if (geo.countryCode) setPhoneCode(resolveCountryCode(geo.countryCode)); }, [geo.countryCode]);
 
   const showFromError = attempted && !legs[0]?.selectedFrom;
   const showToError = attempted && !legs[0]?.selectedTo;
