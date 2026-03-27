@@ -1,12 +1,37 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { useCrmApi } from "@/hooks/useCrmApi";
 import { toast } from "sonner";
+import usePhoneGeolocation from "@/hooks/usePhoneGeolocation";
 import {
   PremiumInput, PremiumSelect, PremiumTextarea, PremiumCheckbox,
   LegalConsent, FormDisclaimer, PremiumSubmitButton, ConfidentialityNotice,
   ValidationMessage,
 } from "@/components/forms/PremiumFormComponents";
+
+const countryCodes = [
+  { code: "+971", label: "🇦🇪 +971" },
+  { code: "+44", label: "🇬🇧 +44" },
+  { code: "+1", label: "🇺🇸 +1" },
+  { code: "+966", label: "🇸🇦 +966" },
+  { code: "+33", label: "🇫🇷 +33" },
+  { code: "+49", label: "🇩🇪 +49" },
+  { code: "+41", label: "🇨🇭 +41" },
+  { code: "+39", label: "🇮🇹 +39" },
+  { code: "+34", label: "🇪🇸 +34" },
+  { code: "+7", label: "🇷🇺 +7" },
+  { code: "+91", label: "🇮🇳 +91" },
+  { code: "+86", label: "🇨🇳 +86" },
+  { code: "+81", label: "🇯🇵 +81" },
+  { code: "+82", label: "🇰🇷 +82" },
+  { code: "+61", label: "🇦🇺 +61" },
+  { code: "+55", label: "🇧🇷 +55" },
+  { code: "+234", label: "🇳🇬 +234" },
+  { code: "+27", label: "🇿🇦 +27" },
+  { code: "+90", label: "🇹🇷 +90" },
+  { code: "+65", label: "🇸🇬 +65" },
+  { code: "+852", label: "🇭🇰 +852" },
+];
 
 interface Props {
   open: boolean;
@@ -23,6 +48,17 @@ export default function AircraftRequestModal({ open, onOpenChange, aircraftName 
     date: "", passengers: "1", special_requests: "", flexible_dates: false,
   });
   const [termsAccepted, setTermsAccepted] = useState(false);
+
+  const detectedCountryCode = usePhoneGeolocation();
+  const resolvedCountryCode = detectedCountryCode && countryCodes.some((c) => c.code === detectedCountryCode)
+    ? detectedCountryCode
+    : "+971";
+
+  useEffect(() => {
+    if (resolvedCountryCode !== "+971") {
+      setForm((prev) => ({ ...prev, countryCode: resolvedCountryCode }));
+    }
+  }, [resolvedCountryCode]);
 
   const set = (k: string, v: any) => setForm((p) => ({ ...p, [k]: v }));
 
@@ -54,37 +90,13 @@ export default function AircraftRequestModal({ open, onOpenChange, aircraftName 
       toast.success(`Your request for the ${aircraftName} has been received.`);
       onOpenChange(false);
       setAttempted(false);
-      setForm({ name: "", email: "", countryCode: "+971", phone: "", departure: "", destination: "", date: "", passengers: "1", special_requests: "", flexible_dates: false });
+      setForm({ name: "", email: "", countryCode: resolvedCountryCode, phone: "", departure: "", destination: "", date: "", passengers: "1", special_requests: "", flexible_dates: false });
       setTermsAccepted(false);
     } catch {
       toast.error("We were unable to submit your request. Please try again or contact our team directly.");
     }
     setLoading(false);
   };
-
-  const countryCodes = [
-    { code: "+971", label: "🇦🇪 +971" },
-    { code: "+44", label: "🇬🇧 +44" },
-    { code: "+1", label: "🇺🇸 +1" },
-    { code: "+966", label: "🇸🇦 +966" },
-    { code: "+33", label: "🇫🇷 +33" },
-    { code: "+49", label: "🇩🇪 +49" },
-    { code: "+41", label: "🇨🇭 +41" },
-    { code: "+39", label: "🇮🇹 +39" },
-    { code: "+34", label: "🇪🇸 +34" },
-    { code: "+7", label: "🇷🇺 +7" },
-    { code: "+91", label: "🇮🇳 +91" },
-    { code: "+86", label: "🇨🇳 +86" },
-    { code: "+81", label: "🇯🇵 +81" },
-    { code: "+82", label: "🇰🇷 +82" },
-    { code: "+61", label: "🇦🇺 +61" },
-    { code: "+55", label: "🇧🇷 +55" },
-    { code: "+234", label: "🇳🇬 +234" },
-    { code: "+27", label: "🇿🇦 +27" },
-    { code: "+90", label: "🇹🇷 +90" },
-    { code: "+65", label: "🇸🇬 +65" },
-    { code: "+852", label: "🇭🇰 +852" },
-  ];
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
