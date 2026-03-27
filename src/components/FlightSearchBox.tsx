@@ -221,7 +221,7 @@ const FlightSearchBox = () => {
               className={`relative px-7 py-2.5 text-[10px] tracking-[0.25em] uppercase font-semibold rounded-full transition-all duration-500 cursor-pointer ${
                 tripType === tab.value
                   ? "bg-primary text-primary-foreground shadow-[0_4px_20px_-4px_hsl(var(--primary)/0.4)]"
-                  : "text-foreground/40 hover:text-foreground/70"
+                  : "text-white/35 hover:text-white/60"
               }`}
             >
               {tab.label}
