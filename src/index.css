@@ -60,12 +60,12 @@ html {
 
     --sidebar-background: 0 0% 98%;
     --sidebar-foreground: 0 0% 7%;
-    --sidebar-primary: 43 74% 49%;
+    --sidebar-primary: 43 85% 58%;
     --sidebar-primary-foreground: 0 0% 100%;
     --sidebar-accent: 0 0% 95.3%;
     --sidebar-accent-foreground: 0 0% 7%;
     --sidebar-border: 0 0% 90%;
-    --sidebar-ring: 43 74% 49%;
+    --sidebar-ring: 43 85% 58%;
 
     /* Selection surfaces (tabs, toggles, segmented controls) */
     --selection: 0 0% 4%;                /* #0B0B0C — matte black */
