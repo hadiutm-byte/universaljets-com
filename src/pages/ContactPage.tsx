@@ -53,7 +53,7 @@ const ContactPage = () => {
         body: {
           name: form.name.trim(),
           email: form.email.trim(),
-          phone: form.phone.trim(),
+          phone: buildFullPhone(form.countryCode, form.phone.trim()) || form.phone.trim(),
           departure: form.inquiry || "General Inquiry",
           destination: "Contact Form",
           source: "contact_page",
