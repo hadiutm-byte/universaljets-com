@@ -4,7 +4,7 @@ import { trackWhatsAppClick } from "@/lib/gtmEvents";
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 
-const WHATSAPP_URL = "https://wa.me/971585918498?text=" + encodeURIComponent("Hello, I would like to request a private jet charter.");
+const WHATSAPP_URL = "https://wa.me/447888999944?text=" + encodeURIComponent("Hello, I would like to request a private jet charter.");
 
 /** Routes where the user is actively taking action — no floating CTA needed */
 const ACTION_ROUTES = ["/request-flight", "/search", "/jet-card-inquiry"];

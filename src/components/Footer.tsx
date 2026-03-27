@@ -77,7 +77,7 @@ const Footer = () => (
         </p>
         <div className="space-y-2">
           <a href="mailto:sales@universaljets.com" className="block text-[13px] text-white/70 hover:text-primary transition-colors" aria-label="Email Universal Jets sales team">sales@universaljets.com</a>
-          <a href="https://wa.me/971585918498" target="_blank" rel="noopener noreferrer" className="block text-[13px] text-white/70 hover:text-primary transition-colors" aria-label="Contact Universal Jets on WhatsApp">+971 58 591 8498</a>
+          <a href="https://wa.me/447888999944" target="_blank" rel="noopener noreferrer" className="block text-[13px] text-white/70 hover:text-primary transition-colors" aria-label="Contact Universal Jets on WhatsApp">WhatsApp</a>
         </div>
       </div>
 

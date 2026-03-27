@@ -285,7 +285,7 @@ const MembersPage = () => (
             Request Membership
           </Link>
           <a
-            href="https://wa.me/971585918498"
+            href="https://wa.me/447888999944"
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-2.5 px-10 py-4 border border-white/20 text-white/70 hover:text-white/90 hover:border-white/30 text-[10px] tracking-[0.3em] uppercase font-light rounded-xl transition-all duration-500 active:scale-[0.97] min-h-[48px]"

@@ -395,8 +395,8 @@ const CareersPage = () => {
                 </motion.div>
                 <p className="text-muted-foreground/40 text-xs font-light mt-8">
                   Or send your CV to{" "}
-                  <a href="mailto:hr@universaljets.com" className="text-primary/60 hover:text-primary transition-colors underline underline-offset-4 decoration-primary/20">
-                    hr@universaljets.com
+                  <a href="mailto:sales@universaljets.com" className="text-primary/60 hover:text-primary transition-colors underline underline-offset-4 decoration-primary/20">
+                    sales@universaljets.com
                   </a>
                 </p>
               </div>
