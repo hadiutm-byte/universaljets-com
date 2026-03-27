@@ -39,7 +39,7 @@ const MembershipHero = ({ onRequestInvitation, onSpeakToAdvisor }: MembershipHer
     <div
       className="absolute inset-0 opacity-30"
       style={{
-        background: "radial-gradient(ellipse 60% 40% at 50% 45%, hsla(43, 74%, 49%, 0.08) 0%, transparent 70%)",
+        background: "radial-gradient(ellipse 60% 40% at 50% 45%, hsla(43, 85%, 58%, 0.08) 0%, transparent 70%)",
       }}
     />
 

@@ -42,7 +42,7 @@ const tierStyles: Record<string, { bg: string; accent: string; border: string; t
   },
   maverick: {
     bg: "linear-gradient(135deg, hsl(35, 15%, 10%) 0%, hsl(40, 25%, 16%) 50%, hsl(43, 20%, 12%) 100%)",
-    accent: "hsl(43, 74%, 49%)",
+    accent: "hsl(43, 85%, 58%)",
     border: "hsl(43, 40%, 28%)",
     text: "text-primary",
   },
@@ -142,7 +142,7 @@ export const JetCard = ({
     whileInView={{ opacity: 1, y: 0, rotateY: 0 }}
     viewport={{ once: true }}
     transition={{ duration: 0.9, delay, ease: [0.16, 1, 0.3, 1] }}
-    whileHover={{ scale: 1.03, rotateY: 3, boxShadow: "0 30px 80px -15px hsla(43, 74%, 49%, 0.25)" }}
+    whileHover={{ scale: 1.03, rotateY: 3, boxShadow: "0 30px 80px -15px hsla(43, 85%, 58%, 0.25)" }}
     className="relative w-full max-w-[380px] aspect-[1.586/1] rounded-2xl overflow-hidden cursor-pointer"
     style={{
       background: "linear-gradient(145deg, hsl(35, 20%, 8%) 0%, hsl(40, 30%, 14%) 35%, hsl(43, 40%, 18%) 65%, hsl(38, 25%, 10%) 100%)",
@@ -151,7 +151,7 @@ export const JetCard = ({
   >
     {/* Gold foil texture */}
     <div className="absolute inset-0 opacity-[0.08]" style={{
-      background: "radial-gradient(ellipse 80% 60% at 70% 30%, hsl(43, 74%, 49%) 0%, transparent 60%)",
+      background: "radial-gradient(ellipse 80% 60% at 70% 30%, hsl(43, 85%, 58%) 0%, transparent 60%)",
     }} />
     <div className="absolute inset-0 opacity-[0.04]" style={{
       backgroundImage: "repeating-linear-gradient(135deg, transparent, transparent 2px, hsla(43,74%,49%,0.15) 2px, hsla(43,74%,49%,0.15) 3px)",
@@ -159,7 +159,7 @@ export const JetCard = ({
 
     {/* Diagonal gold accent */}
     <div className="absolute -top-10 -right-10 w-[200px] h-[200px] opacity-[0.06] rounded-full" style={{
-      background: "radial-gradient(circle, hsl(43, 74%, 49%) 0%, transparent 70%)",
+      background: "radial-gradient(circle, hsl(43, 85%, 58%) 0%, transparent 70%)",
     }} />
 
     <div className="relative z-10 flex flex-col justify-between h-full p-5 md:p-6">
