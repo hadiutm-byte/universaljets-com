@@ -245,9 +245,20 @@ const CTASection = () => {
                         <div className="mb-10">
                           <p className="text-[10px] tracking-[0.3em] uppercase text-muted-foreground font-light mb-5">Contact</p>
                           <div className="grid md:grid-cols-3 gap-5">
-                            <div><label className={labelClass}>Full Name *</label><input value={form.name} onChange={set("name")} placeholder="John Smith" required className={inputClass} /></div>
-                            <div><label className={labelClass}>Email *</label><input type="email" value={form.email} onChange={set("email")} placeholder="john@company.com" required className={inputClass} /></div>
-                            <div><label className={labelClass}>Phone / WhatsApp</label><input value={form.phone} onChange={set("phone")} placeholder="+44 20 1234 5678" className={inputClass} /></div>
+                            <div>
+                              <label className={labelClass}>Full Name *</label>
+                              <input value={form.name} onChange={set("name")} onBlur={() => markTouched("name")} placeholder="John Smith" required className={inputClass} aria-label="Full name" />
+                              {errors.name && <p className="text-[11px] text-destructive/80 mt-1 font-light">{errors.name}</p>}
+                            </div>
+                            <div>
+                              <label className={labelClass}>Email *</label>
+                              <input type="email" value={form.email} onChange={set("email")} onBlur={() => markTouched("email")} placeholder="john@company.com" required className={inputClass} aria-label="Email address" />
+                              {errors.email && <p className="text-[11px] text-destructive/80 mt-1 font-light">{errors.email}</p>}
+                            </div>
+                            <div>
+                              <label className={labelClass}>Phone / WhatsApp</label>
+                              <input value={form.phone} onChange={set("phone")} placeholder="+44 20 1234 5678" className={inputClass} aria-label="Phone or WhatsApp number" />
+                            </div>
                           </div>
                         </div>
 
