@@ -36,7 +36,26 @@ export function sanitizeAircraftName(name: string | null | undefined): string {
 /** Remove any standalone registration code from a generic text field. */
 export function stripRegistration(text: string | null | undefined): string {
   if (!text) return "";
-  return text.replace(REG_STANDALONE, "").replace(/\s{2,}/g, " ").trim();
+  return text
+    .replace(REG_IN_PARENS, " ")
+    .replace(REG_STANDALONE, "")
+    .replace(/\s{2,}/g, " ")
+    .trim();
+}
+
+/** Sanitize a description/paragraph, stripping embedded registrations. */
+export function sanitizeDescription(text: string | null | undefined): string {
+  if (!text) return "";
+  return text
+    .replace(REG_IN_PARENS, " ")
+    .replace(REG_STANDALONE, (match) => {
+      // Preserve common words/codes that look like registrations but aren't
+      const SAFE = new Set(["AT", "IN", "ON", "OR", "AN", "IS", "IT", "TO", "UP", "BY", "DO", "GO", "IF", "NO", "SO", "US", "WE", "OF", "AS", "BE", "HE", "ME", "MY", "OK", "AM", "D.C", "DC", "UK", "EU", "USA", "AND", "THE", "FOR", "NOT", "YOU", "ALL", "CAN", "HER", "WAS", "ONE", "OUR", "OUT", "DAY", "HAD", "HAS", "HIS", "HOW", "ITS", "LET", "MAY", "NEW", "NOW", "OLD", "SEE", "WAY", "WHO", "DID", "GET", "GOT", "HIM", "SAY", "SHE", "TOO", "USE"]);
+      if (SAFE.has(match.toUpperCase())) return match;
+      return "";
+    })
+    .replace(/\s{2,}/g, " ")
+    .trim();
 }
 
 /** Fields that must NEVER appear in public-facing data. */
@@ -163,6 +182,8 @@ export function sanitizeAircraftForPublic<T extends Record<string, unknown>>(raw
     // Clean aircraft name fields
     if (key === "aircraft_type" || key === "aircraft_name" || key === "aircraft" || key === "name") {
       cleaned[key] = sanitizeAircraftName(value as string);
+    } else if (key === "description" || key === "comment") {
+      cleaned[key] = sanitizeDescription(value as string);
     } else if (key === "images") {
       // Sanitise image arrays (handles both flat arrays and { all, exterior, … } shapes)
       if (Array.isArray(value)) {

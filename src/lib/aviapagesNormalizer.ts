@@ -14,7 +14,7 @@
  * Public components then additionally pipe through sanitize.ts helpers.
  */
 
-import { sanitizeAircraftName, sanitizeAircraftImages, sanitizeAircraftForPublic } from "./sanitize";
+import { sanitizeAircraftName, sanitizeAircraftImages, sanitizeAircraftForPublic, sanitizeDescription } from "./sanitize";
 import type { PublicAircraft } from "./sanitize";
 import { getAircraftImage, getAircraftCategory } from "./aircraftImages";
 
@@ -279,7 +279,7 @@ export function normalizeFleetAircraft(raw: unknown): NormalizedFleetAircraft {
     image_url: toStr(o.image_url) || null,
     floor_plan_url: toStr(o.floor_plan_url) || null,
     images: sanitizeAircraftImages(normalizeImages(o.images)).map((img, i) => ({ ...img, position: i })),
-    description: toStr(o.description) || null,
+    description: sanitizeDescription(toStr(o.description) || null),
     range_ferry_km: toNum(o.range_ferry_km),
     range_typical_km: toNum(o.range_typical_km),
   };
