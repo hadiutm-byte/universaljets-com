@@ -129,6 +129,7 @@ const Index = () => {
         <div className="section-dark">
           <FinalCTASection />
         </div>
+        </main>
 
         <Footer />
       </div>

@@ -21,7 +21,7 @@ const QuickOption = ({ icon: Icon, label, onClick }: { icon: any; label: string;
     className="flex items-center gap-2.5 px-5 py-3 rounded-lg glass-panel border border-border/10 hover:border-primary/20 transition-all duration-300 cursor-pointer group"
   >
     <Icon className="w-4 h-4 text-primary/50 group-hover:text-primary/80 transition-colors" strokeWidth={1.3} />
-    <span className="text-[11px] tracking-[0.15em] uppercase text-foreground/50 group-hover:text-foreground/80 font-light transition-colors">
+    <span className="text-[11px] tracking-[0.15em] uppercase text-foreground/65 group-hover:text-foreground/90 font-light transition-colors">
       {label}
     </span>
   </motion.button>
