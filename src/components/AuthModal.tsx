@@ -46,10 +46,9 @@ const AuthModal = ({ open, onClose }: AuthModalProps) => {
       if (error) {
         toast.error(error.message);
       } else {
-        toast.success("Your access has been granted.");
+      toast.success("Please check your email to verify your account.");
         trackAuth("signup");
         onClose();
-        navigate("/dashboard");
       }
     }
     setLoading(false);
