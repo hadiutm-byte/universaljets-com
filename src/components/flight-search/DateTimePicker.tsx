@@ -249,8 +249,8 @@ const DesktopDateTimePicker = ({
                 className={cn(
                   "w-full text-left bg-transparent text-[14px] font-normal focus:outline-none cursor-pointer transition-colors duration-200",
                   value
-                    ? "text-foreground"
-                    : "text-muted-foreground/40"
+                    ? "text-white"
+                    : "text-white/35"
                 )}
               >
                 {displayValue || placeholder}
