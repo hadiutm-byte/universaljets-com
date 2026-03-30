@@ -56,7 +56,7 @@ const SwapButton = ({ onClick }: { onClick: () => void }) => (
     whileHover={{ scale: 1.15, rotate: 180 }}
     whileTap={{ scale: 0.9 }}
     transition={{ type: "spring", stiffness: 400, damping: 15 }}
-    className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-10 w-10 h-10 rounded-full bg-background/80 backdrop-blur-xl border border-primary/20 flex items-center justify-center text-primary/60 hover:text-primary hover:border-primary/50 hover:shadow-[0_0_20px_-4px_hsl(var(--primary)/0.3)] transition-all duration-500 cursor-pointer hidden md:flex"
+    className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-10 w-10 h-10 rounded-full bg-background/80 backdrop-blur-xl border border-primary/20 flex items-center justify-center text-primary/60 hover:text-primary hover:border-primary/50 hover:shadow-[0_0_20px_-4px_hsl(var(--primary)/0.3)] transition-all duration-500 cursor-pointer hidden sm:flex"
   >
     <ArrowLeftRight size={14} strokeWidth={1.5} />
   </motion.button>
@@ -243,7 +243,7 @@ const FlightSearchBox = () => {
               <motion.div key="standard" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.2 }}>
                 {/* Row 1: Route + Dates */}
                 <div className="grid grid-cols-1 lg:grid-cols-[1fr_1fr_0.8fr_0.8fr] gap-3 mb-3">
-                  <div className="md:col-span-2 relative grid grid-cols-1 sm:grid-cols-2 gap-0">
+                  <div className="lg:col-span-2 relative grid grid-cols-1 sm:grid-cols-2 gap-0">
                     <AirportField
                       label="From" icon={MapPin}
                       value={primaryLeg.from}
