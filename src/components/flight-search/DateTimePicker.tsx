@@ -120,8 +120,8 @@ const MobileDateTimePicker = ({
             type="button"
             onClick={() => setOpen(true)}
             className={cn(
-              "w-full text-left bg-transparent text-[14px] font-normal focus:outline-none cursor-pointer transition-colors duration-200",
-              value ? "text-foreground" : "text-muted-foreground/40"
+              "w-full text-left bg-transparent text-[14px] font-normal focus:outline-none cursor-pointer transition-colors duration-200 active:scale-[0.97] active:opacity-80",
+              value ? "text-white" : "text-white/35"
             )}
           >
             {displayValue || placeholder}
