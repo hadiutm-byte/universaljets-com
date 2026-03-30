@@ -273,7 +273,7 @@ const FlightSearchBox = () => {
                 </div>
 
                 {/* Row 2: Options + CTA */}
-                <div className="grid grid-cols-2 md:grid-cols-[1fr_1fr_1.5fr_auto] gap-3">
+                <div className="grid grid-cols-2 lg:grid-cols-[1fr_1fr_1.5fr_auto] gap-3">
                   {isMobile ? (
                     <>
                       <MobileScrollPicker
