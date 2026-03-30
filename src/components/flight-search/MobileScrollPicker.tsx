@@ -95,10 +95,10 @@ const MobileScrollPicker = ({
 
               <div className="flex items-center justify-between px-6 py-3">
                 <button type="button" onClick={() => setOpen(false)}
-                  className="text-[14px] text-muted-foreground font-medium active:opacity-60 transition-opacity">
+                  className="text-[14px] text-white/50 font-medium active:opacity-60 transition-opacity">
                   Cancel
                 </button>
-                <span className="text-[11px] tracking-[0.25em] uppercase text-foreground/50 font-semibold">
+                <span className="text-[11px] tracking-[0.25em] uppercase text-white/40 font-semibold">
                   {label}
                 </span>
                 <button type="button" onClick={confirm}
