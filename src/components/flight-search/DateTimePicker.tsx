@@ -241,7 +241,7 @@ const DesktopDateTimePicker = ({
         </label>
 
         {disabled ? (
-          <p className="text-[14px] text-muted-foreground/40 font-normal">{placeholder}</p>
+          <p className="text-[14px] text-white/35 font-normal">{placeholder}</p>
         ) : (
           <Popover open={open} onOpenChange={setOpen}>
             <PopoverTrigger asChild>
