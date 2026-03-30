@@ -145,7 +145,7 @@ const MobileDateTimePicker = ({
               animate={{ y: 0 }}
               exit={{ y: "100%" }}
               transition={{ type: "spring", damping: 30, stiffness: 350 }}
-              className="fixed bottom-0 left-0 right-0 z-50 bg-background rounded-t-3xl shadow-[0_-20px_60px_-10px_hsla(0,0%,0%,0.25)]"
+              className="fixed bottom-0 left-0 right-0 z-50 bg-[hsl(0,0%,12%)] rounded-t-3xl shadow-[0_-20px_60px_-10px_hsla(0,0%,0%,0.5)]"
             >
               {/* Handle */}
               <div className="flex justify-center pt-3 pb-1">
