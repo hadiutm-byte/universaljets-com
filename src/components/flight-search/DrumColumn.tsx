@@ -84,8 +84,8 @@ const DrumColumn = ({ options, selectedIndex, onSelect }: DrumColumnProps) => {
                   fontWeight: dist === 0 ? 600 : 400,
                   color:
                     dist === 0
-                      ? "hsl(var(--foreground))"
-                      : `hsl(var(--muted-foreground) / ${op})`,
+                      ? "hsl(0, 0%, 100%)"
+                      : `hsl(0, 0%, 100%, ${op * 0.6})`,
                 }}
               >
                 {opt.label}
