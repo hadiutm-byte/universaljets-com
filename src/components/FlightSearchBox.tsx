@@ -242,7 +242,7 @@ const FlightSearchBox = () => {
             {tripType !== "multi-city" ? (
               <motion.div key="standard" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.2 }}>
                 {/* Row 1: Route + Dates */}
-                <div className="grid grid-cols-1 md:grid-cols-[1fr_1fr_0.8fr_0.8fr] gap-3 mb-3">
+                <div className="grid grid-cols-1 lg:grid-cols-[1fr_1fr_0.8fr_0.8fr] gap-3 mb-3">
                   <div className="md:col-span-2 relative grid grid-cols-1 sm:grid-cols-2 gap-0">
                     <AirportField
                       label="From" icon={MapPin}
