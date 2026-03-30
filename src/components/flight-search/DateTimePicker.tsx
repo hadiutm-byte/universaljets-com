@@ -149,7 +149,7 @@ const MobileDateTimePicker = ({
             >
               {/* Handle */}
               <div className="flex justify-center pt-3 pb-1">
-                <div className="w-10 h-1 rounded-full bg-foreground/10" />
+                <div className="w-10 h-1 rounded-full bg-white/15" />
               </div>
 
               {/* Header */}
