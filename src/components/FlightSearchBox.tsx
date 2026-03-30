@@ -400,14 +400,14 @@ const FlightSearchBox = () => {
                     <div className="search-field !py-2 !px-3">
                       <label className="search-label !mb-0 !text-[8px]"><Users size={8} strokeWidth={1.5} /> Guests</label>
                       <select value={passengers} onChange={(e) => setPassengers(e.target.value)} className="search-select !text-[12px]">
-                        <option value="" className="bg-background">—</option>
-                        {[...Array(16)].map((_, i) => (<option key={i + 1} value={i + 1} className="bg-background">{i + 1}</option>))}
+                        <option value="" className="bg-[hsl(0,0%,12%)]">—</option>
+                        {[...Array(16)].map((_, i) => (<option key={i + 1} value={i + 1} className="bg-[hsl(0,0%,12%)]">{i + 1}</option>))}
                       </select>
                     </div>
                     <div className="search-field !py-2 !px-3">
                       <label className="search-label !mb-0 !text-[8px]"><PlaneTakeoff size={8} strokeWidth={1.5} /> Jet</label>
                       <select value={jetSize} onChange={(e) => setJetSize(e.target.value)} className="search-select !text-[12px]">
-                        {jetSizes.map((s) => (<option key={s.value} value={s.value} className="bg-background">{s.label}</option>))}
+                        {jetSizes.map((s) => (<option key={s.value} value={s.value} className="bg-[hsl(0,0%,12%)]">{s.label}</option>))}
                       </select>
                     </div>
                   </div>
