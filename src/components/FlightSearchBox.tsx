@@ -315,9 +315,9 @@ const FlightSearchBox = () => {
                           <Users size={10} strokeWidth={1.5} /> Passengers
                         </label>
                         <select value={passengers} onChange={(e) => setPassengers(e.target.value)} className="search-select">
-                          <option value="" className="bg-background">Select</option>
+                          <option value="" className="bg-[hsl(0,0%,12%)]">Select</option>
                           {[...Array(16)].map((_, i) => (
-                            <option key={i + 1} value={i + 1} className="bg-background">{i + 1} {i === 0 ? "passenger" : "passengers"}</option>
+                            <option key={i + 1} value={i + 1} className="bg-[hsl(0,0%,12%)]">{i + 1} {i === 0 ? "passenger" : "passengers"}</option>
                           ))}
                         </select>
                       </div>
