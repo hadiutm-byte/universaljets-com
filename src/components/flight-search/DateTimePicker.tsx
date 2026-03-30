@@ -114,7 +114,7 @@ const MobileDateTimePicker = ({
           <Icon size={10} strokeWidth={1.5} /> {label}
         </label>
         {disabled ? (
-          <p className="text-[14px] text-muted-foreground/40 font-normal">{placeholder}</p>
+          <p className="text-[14px] text-white/35 font-normal">{placeholder}</p>
         ) : (
           <button
             type="button"
