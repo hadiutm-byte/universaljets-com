@@ -1,0 +1,27 @@
+{
+  "name": "Universal Jets — Private Jet Charter",
+  "short_name": "Universal Jets",
+  "description": "On-demand private jet charter, empty legs, and 24/7 concierge. Fly smarter. Fly private.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0A0A0A",
+  "theme_color": "#0A0A0A",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/favicon.png",
+      "sizes": "1024x1024",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["travel", "business", "lifestyle"],
+  "screenshots": [
+    {
+      "src": "/og-image.jpg",
+      "sizes": "1200x630",
+      "type": "image/jpeg",
+      "label": "Universal Jets — Private Jet Charter"
+    }
+  ]
+}

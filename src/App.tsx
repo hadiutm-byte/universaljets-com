@@ -76,6 +76,7 @@ const RequestFlightPage = lazy(() => import("./pages/RequestFlightPage.tsx"));
 const NotFound = lazy(() => import("./pages/NotFound.tsx"));
 const UnsubscribePage = lazy(() => import("./pages/UnsubscribePage.tsx"));
 const Ricky3D = lazy(() => import("./components/Ricky3D.tsx"));
+const B2BPortalPage = lazy(() => import("./pages/B2BPortalPage.tsx"));
 
 
 const queryClient = new QueryClient();
@@ -164,15 +165,16 @@ const App = () => (
             <Route path="/fleet/:slug" element={<FleetDetailPage />} />
             <Route path="/quote/:quoteId" element={<QuoteViewPage />} />
             <Route path="/unsubscribe" element={<UnsubscribePage />} />
+            <Route path="/b2b" element={<B2BPortalPage />} />
             
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>
         </Suspense>
-        {/* Ricky concierge temporarily disabled — re-enable after core platform stabilization */}
-        {/* <Suspense fallback={null}>
+        {/* Ricky — AI concierge assistant */}
+        <Suspense fallback={null}>
           <Ricky3D />
-        </Suspense> */}
+        </Suspense>
         <FloatingContactStack />
         <CookieConsent />
       </BrowserRouter>

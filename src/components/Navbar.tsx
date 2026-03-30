@@ -4,6 +4,7 @@ import { motion, AnimatePresence, useMotionValue, useTransform, useSpring } from
 import { Link, useLocation } from "react-router-dom";
 import { useAuth, type AppRole } from "@/hooks/useAuth";
 import GoldParticles from "@/components/GoldParticles";
+import ThemeToggle from "@/components/ThemeToggle";
 
 const centerLinks = [
   { label: "Charter", href: "/#services" },
@@ -22,6 +23,7 @@ const overlayLinks = [
   { label: "Membership", href: "/membership" },
   { label: "Jet Card", href: "/jet-card" },
   { label: "Concierge", href: "/concierge" },
+  { label: "B2B Corporate", href: "/b2b" },
   { label: "Partners", href: "/partners" },
   { label: "ACMI & Leasing", href: "/acmi-leasing" },
   { label: "Careers", href: "/careers" },
@@ -197,6 +199,7 @@ const Navbar = () => {
                 CRM
               </Link>
             )}
+            <ThemeToggle className="hidden xl:flex" />
             <Link
               to="/auth"
               className="hidden xl:inline-block text-[10px] tracking-[0.25em] text-white/30 hover:text-primary/70 transition-colors duration-500 uppercase font-light"

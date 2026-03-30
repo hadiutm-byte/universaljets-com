@@ -14,6 +14,7 @@ import { trackFlightSearch } from "@/lib/gtmEvents";
 import QuoteRouteMap from "@/components/QuoteRouteMap";
 import { setBodyUiState } from "@/lib/bodyUiState";
 import { getSortedCountryCodes, resolveCountryCode } from "@/lib/countryCodes";
+import VoiceSearch from "@/components/VoiceSearch";
 
 const sortedCodes = getSortedCountryCodes();
 
@@ -347,16 +348,29 @@ const FlightSearchBox = () => {
                     </>
                   )}
 
+                  <div className="flex gap-2 col-span-2 md:col-span-1">
+                    <VoiceSearch
+                      onResult={(transcript) => {
+                        // Populate the "from" query field with the voice result
+                        setLegs((prev) => {
+                          const updated = [...prev];
+                          updated[0] = { ...updated[0], fromQuery: transcript };
+                          return updated;
+                        });
+                      }}
+                      className="flex-shrink-0"
+                    />
                   <motion.button
                     onClick={handleSearch}
                     disabled={!canSearch}
                     whileHover={canSearch ? { scale: 1.02 } : {}}
                     whileTap={canSearch ? { scale: 0.97 } : {}}
-                    className="search-cta-btn h-full min-h-[56px] px-10 rounded-2xl flex items-center justify-center gap-3 transition-all duration-500 disabled:opacity-30 disabled:cursor-not-allowed disabled:shadow-none cursor-pointer active:scale-[0.95] col-span-2 md:col-span-1"
+                    className="search-cta-btn h-full min-h-[56px] px-10 rounded-2xl flex items-center justify-center gap-3 transition-all duration-500 disabled:opacity-30 disabled:cursor-not-allowed disabled:shadow-none cursor-pointer active:scale-[0.95] flex-1"
                   >
                     <Search size={16} className="text-white" strokeWidth={2} />
                     <span className="text-white text-[11px] tracking-[0.2em] uppercase font-semibold">Search</span>
                   </motion.button>
+                  </div>
                 </div>
               </motion.div>
             ) : (
