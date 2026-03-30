@@ -29,16 +29,7 @@ const ActivityLogPage = () => {
 
   useEffect(() => { load(); }, []);
 
-  // Subscribe to realtime
-  useEffect(() => {
-    const channel = supabase
-      .channel("activity-log-realtime")
-      .on("postgres_changes", { event: "INSERT", schema: "public", table: "activity_log" }, (payload) => {
-        setLogs((prev) => [payload.new as any, ...prev].slice(0, 100));
-      })
-      .subscribe();
-    return () => { supabase.removeChannel(channel); };
-  }, []);
+  // Realtime removed for security — use refresh button instead
 
   return (
     <div className="p-6">
