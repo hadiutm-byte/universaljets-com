@@ -242,7 +242,7 @@ const FlightSearchBox = () => {
             {tripType !== "multi-city" ? (
               <motion.div key="standard" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.2 }}>
                 {/* Row 1: Route + Dates */}
-                <div className="grid grid-cols-1 md:grid-cols-[1fr_1fr_0.8fr_0.8fr] gap-3 mb-3">
+                <div className="grid grid-cols-1 lg:grid-cols-[1fr_1fr_0.8fr_0.8fr] gap-3 mb-3">
                   <div className="md:col-span-2 relative grid grid-cols-1 sm:grid-cols-2 gap-0">
                     <AirportField
                       label="From" icon={MapPin}
@@ -273,7 +273,7 @@ const FlightSearchBox = () => {
                 </div>
 
                 {/* Row 2: Options + CTA */}
-                <div className="grid grid-cols-2 md:grid-cols-[1fr_1fr_1.5fr_auto] gap-3">
+                <div className="grid grid-cols-2 lg:grid-cols-[1fr_1fr_1.5fr_auto] gap-3">
                   {isMobile ? (
                     <>
                       <MobileScrollPicker
@@ -352,7 +352,7 @@ const FlightSearchBox = () => {
                     disabled={!canSearch}
                     whileHover={canSearch ? { scale: 1.02 } : {}}
                     whileTap={canSearch ? { scale: 0.97 } : {}}
-                    className="search-cta-btn h-full min-h-[56px] px-10 rounded-2xl flex items-center justify-center gap-3 transition-all duration-500 disabled:opacity-30 disabled:cursor-not-allowed disabled:shadow-none cursor-pointer active:scale-[0.95] col-span-2 md:col-span-1"
+                    className="search-cta-btn h-full min-h-[56px] px-10 rounded-2xl flex items-center justify-center gap-3 transition-all duration-500 disabled:opacity-30 disabled:cursor-not-allowed disabled:shadow-none cursor-pointer active:scale-[0.95] col-span-2 lg:col-span-1"
                   >
                     <Search size={16} className="text-white" strokeWidth={2} />
                     <span className="text-white text-[11px] tracking-[0.2em] uppercase font-semibold">Search</span>
