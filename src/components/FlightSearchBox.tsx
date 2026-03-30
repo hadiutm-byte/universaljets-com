@@ -352,7 +352,7 @@ const FlightSearchBox = () => {
                     disabled={!canSearch}
                     whileHover={canSearch ? { scale: 1.02 } : {}}
                     whileTap={canSearch ? { scale: 0.97 } : {}}
-                    className="search-cta-btn h-full min-h-[56px] px-10 rounded-2xl flex items-center justify-center gap-3 transition-all duration-500 disabled:opacity-30 disabled:cursor-not-allowed disabled:shadow-none cursor-pointer"
+                    className="search-cta-btn h-full min-h-[56px] px-10 rounded-2xl flex items-center justify-center gap-3 transition-all duration-500 disabled:opacity-30 disabled:cursor-not-allowed disabled:shadow-none cursor-pointer active:scale-[0.95] col-span-2 md:col-span-1"
                   >
                     <Search size={16} className="text-white" strokeWidth={2} />
                     <span className="text-white text-[11px] tracking-[0.2em] uppercase font-semibold">Search</span>

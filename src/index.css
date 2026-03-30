@@ -615,9 +615,15 @@ html {
 
   /* === SEARCH WIDGET FIELDS — Cinematic Luxury === */
   .search-field {
-    @apply px-4 py-4 rounded-2xl transition-all duration-500;
+    @apply px-4 py-4 rounded-2xl transition-all duration-300;
     border: none;
     background: hsl(0 0% 22% / 0.6);
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .search-field:active {
+    transform: scale(0.98);
+    background: hsl(0 0% 24% / 0.9);
   }
 
   .search-field:hover {
