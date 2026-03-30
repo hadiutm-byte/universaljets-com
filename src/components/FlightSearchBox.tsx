@@ -298,11 +298,11 @@ const FlightSearchBox = () => {
                       />
                       <div className="col-span-2 search-field">
                         <label className="search-label">
-                          <Phone size={10} strokeWidth={1.5} /> Phone <span className="text-muted-foreground/30 font-normal">(optional)</span>
+                          <Phone size={10} strokeWidth={1.5} /> Phone <span className="text-white/25 font-normal">(optional)</span>
                         </label>
                         <div className="flex gap-1.5">
                           <select value={phoneCode} onChange={(e) => setPhoneCode(e.target.value)} className="search-select !w-[85px] flex-shrink-0">
-                            {sortedCodes.map((c) => <option key={`${c.iso}-${c.code}`} value={c.code} className="bg-background">{c.flag} {c.code}</option>)}
+                            {sortedCodes.map((c) => <option key={`${c.iso}-${c.code}`} value={c.code} className="bg-[hsl(0,0%,12%)]">{c.flag} {c.code}</option>)}
                           </select>
                           <input type="tel" value={phoneNumber} onChange={(e) => setPhoneNumber(e.target.value)} placeholder="Phone / WhatsApp" maxLength={15} className="search-input flex-1 min-w-0" />
                         </div>
@@ -315,9 +315,9 @@ const FlightSearchBox = () => {
                           <Users size={10} strokeWidth={1.5} /> Passengers
                         </label>
                         <select value={passengers} onChange={(e) => setPassengers(e.target.value)} className="search-select">
-                          <option value="" className="bg-background">Select</option>
+                          <option value="" className="bg-[hsl(0,0%,12%)]">Select</option>
                           {[...Array(16)].map((_, i) => (
-                            <option key={i + 1} value={i + 1} className="bg-background">{i + 1} {i === 0 ? "passenger" : "passengers"}</option>
+                            <option key={i + 1} value={i + 1} className="bg-[hsl(0,0%,12%)]">{i + 1} {i === 0 ? "passenger" : "passengers"}</option>
                           ))}
                         </select>
                       </div>
@@ -328,18 +328,18 @@ const FlightSearchBox = () => {
                         </label>
                         <select value={jetSize} onChange={(e) => setJetSize(e.target.value)} className="search-select">
                           {jetSizes.map((s) => (
-                            <option key={s.value} value={s.value} className="bg-background">{s.label}</option>
+                            <option key={s.value} value={s.value} className="bg-[hsl(0,0%,12%)]">{s.label}</option>
                           ))}
                         </select>
                       </div>
 
                       <div className="search-field">
                         <label className="search-label">
-                          <Phone size={10} strokeWidth={1.5} /> Phone <span className="text-muted-foreground/30 font-normal">(optional)</span>
+                          <Phone size={10} strokeWidth={1.5} /> Phone <span className="text-white/25 font-normal">(optional)</span>
                         </label>
                         <div className="flex gap-1.5">
                           <select value={phoneCode} onChange={(e) => setPhoneCode(e.target.value)} className="search-select !w-[85px] flex-shrink-0">
-                            {sortedCodes.map((c) => <option key={`${c.iso}-${c.code}`} value={c.code} className="bg-background">{c.flag} {c.code}</option>)}
+                            {sortedCodes.map((c) => <option key={`${c.iso}-${c.code}`} value={c.code} className="bg-[hsl(0,0%,12%)]">{c.flag} {c.code}</option>)}
                           </select>
                           <input type="tel" value={phoneNumber} onChange={(e) => setPhoneNumber(e.target.value)} placeholder="Phone / WhatsApp" maxLength={15} className="search-input flex-1 min-w-0" />
                         </div>
@@ -352,7 +352,7 @@ const FlightSearchBox = () => {
                     disabled={!canSearch}
                     whileHover={canSearch ? { scale: 1.02 } : {}}
                     whileTap={canSearch ? { scale: 0.97 } : {}}
-                    className="search-cta-btn h-full min-h-[56px] px-10 rounded-2xl flex items-center justify-center gap-3 transition-all duration-500 disabled:opacity-30 disabled:cursor-not-allowed disabled:shadow-none cursor-pointer"
+                    className="search-cta-btn h-full min-h-[56px] px-10 rounded-2xl flex items-center justify-center gap-3 transition-all duration-500 disabled:opacity-30 disabled:cursor-not-allowed disabled:shadow-none cursor-pointer active:scale-[0.95] col-span-2 md:col-span-1"
                   >
                     <Search size={16} className="text-white" strokeWidth={2} />
                     <span className="text-white text-[11px] tracking-[0.2em] uppercase font-semibold">Search</span>
@@ -400,14 +400,14 @@ const FlightSearchBox = () => {
                     <div className="search-field !py-2 !px-3">
                       <label className="search-label !mb-0 !text-[8px]"><Users size={8} strokeWidth={1.5} /> Guests</label>
                       <select value={passengers} onChange={(e) => setPassengers(e.target.value)} className="search-select !text-[12px]">
-                        <option value="" className="bg-background">—</option>
-                        {[...Array(16)].map((_, i) => (<option key={i + 1} value={i + 1} className="bg-background">{i + 1}</option>))}
+                        <option value="" className="bg-[hsl(0,0%,12%)]">—</option>
+                        {[...Array(16)].map((_, i) => (<option key={i + 1} value={i + 1} className="bg-[hsl(0,0%,12%)]">{i + 1}</option>))}
                       </select>
                     </div>
                     <div className="search-field !py-2 !px-3">
                       <label className="search-label !mb-0 !text-[8px]"><PlaneTakeoff size={8} strokeWidth={1.5} /> Jet</label>
                       <select value={jetSize} onChange={(e) => setJetSize(e.target.value)} className="search-select !text-[12px]">
-                        {jetSizes.map((s) => (<option key={s.value} value={s.value} className="bg-background">{s.label}</option>))}
+                        {jetSizes.map((s) => (<option key={s.value} value={s.value} className="bg-[hsl(0,0%,12%)]">{s.label}</option>))}
                       </select>
                     </div>
                   </div>

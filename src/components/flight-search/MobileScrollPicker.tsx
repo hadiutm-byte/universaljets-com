@@ -63,8 +63,8 @@ const MobileScrollPicker = ({
         <button
           type="button"
           onClick={() => setOpen(true)}
-          className={`w-full text-left bg-transparent text-[14px] font-normal focus:outline-none cursor-pointer transition-colors duration-200 ${
-            value ? "text-foreground" : "text-muted-foreground/40"
+          className={`w-full text-left bg-transparent text-[14px] font-normal focus:outline-none cursor-pointer transition-all duration-200 active:scale-[0.97] active:opacity-80 ${
+            value ? "text-white" : "text-white/35"
           }`}
         >
           {selectedLabel}
@@ -87,18 +87,18 @@ const MobileScrollPicker = ({
               animate={{ y: 0 }}
               exit={{ y: "100%" }}
               transition={{ type: "spring", damping: 30, stiffness: 350 }}
-              className="fixed bottom-0 left-0 right-0 z-50 bg-background rounded-t-3xl shadow-[0_-20px_60px_-10px_hsla(0,0%,0%,0.25)]"
+              className="fixed bottom-0 left-0 right-0 z-50 bg-[hsl(0,0%,12%)] rounded-t-3xl shadow-[0_-20px_60px_-10px_hsla(0,0%,0%,0.5)]"
             >
               <div className="flex justify-center pt-3 pb-1">
-                <div className="w-10 h-1 rounded-full bg-foreground/10" />
+                <div className="w-10 h-1 rounded-full bg-white/15" />
               </div>
 
               <div className="flex items-center justify-between px-6 py-3">
                 <button type="button" onClick={() => setOpen(false)}
-                  className="text-[14px] text-muted-foreground font-medium active:opacity-60 transition-opacity">
+                  className="text-[14px] text-white/50 font-medium active:opacity-60 transition-opacity">
                   Cancel
                 </button>
-                <span className="text-[11px] tracking-[0.25em] uppercase text-foreground/50 font-semibold">
+                <span className="text-[11px] tracking-[0.25em] uppercase text-white/40 font-semibold">
                   {label}
                 </span>
                 <button type="button" onClick={confirm}
