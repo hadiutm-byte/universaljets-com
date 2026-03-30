@@ -328,7 +328,7 @@ const FlightSearchBox = () => {
                         </label>
                         <select value={jetSize} onChange={(e) => setJetSize(e.target.value)} className="search-select">
                           {jetSizes.map((s) => (
-                            <option key={s.value} value={s.value} className="bg-background">{s.label}</option>
+                            <option key={s.value} value={s.value} className="bg-[hsl(0,0%,12%)]">{s.label}</option>
                           ))}
                         </select>
                       </div>
