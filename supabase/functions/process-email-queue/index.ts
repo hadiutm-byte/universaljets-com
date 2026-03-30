@@ -53,9 +53,8 @@ function parseJwtClaims(token: string): Record<string, unknown> | null {
 }
 
 // Move a message to the dead letter queue and log the reason.
-// deno-lint-ignore no-explicit-any
 async function moveToDlq(
-  supabase: any,
+  supabase: ReturnType<typeof createClient>,
   queue: string,
   msg: { msg_id: number; message: Record<string, unknown> },
   reason: string
@@ -157,14 +156,12 @@ Deno.serve(async (req) => {
     const messageIds = Array.from(
       new Set(
         messages
-          // deno-lint-ignore no-explicit-any
-          .map((msg: any) =>
+          .map((msg) =>
             msg?.message?.message_id && typeof msg.message.message_id === 'string'
               ? msg.message.message_id
               : null
           )
-          // deno-lint-ignore no-explicit-any
-          .filter((id: any): id is string => Boolean(id))
+          .filter((id): id is string => Boolean(id))
       )
     )
     const failedAttemptsByMessageId = new Map<string, number>()
@@ -254,7 +251,6 @@ Deno.serve(async (req) => {
             run_id: payload.run_id,
             to: payload.to,
             from: payload.from,
-            reply_to: payload.reply_to,
             sender_domain: payload.sender_domain,
             subject: payload.subject,
             html: payload.html,
