@@ -298,11 +298,11 @@ const FlightSearchBox = () => {
                       />
                       <div className="col-span-2 search-field">
                         <label className="search-label">
-                          <Phone size={10} strokeWidth={1.5} /> Phone <span className="text-muted-foreground/30 font-normal">(optional)</span>
+                          <Phone size={10} strokeWidth={1.5} /> Phone <span className="text-white/25 font-normal">(optional)</span>
                         </label>
                         <div className="flex gap-1.5">
                           <select value={phoneCode} onChange={(e) => setPhoneCode(e.target.value)} className="search-select !w-[85px] flex-shrink-0">
-                            {sortedCodes.map((c) => <option key={`${c.iso}-${c.code}`} value={c.code} className="bg-background">{c.flag} {c.code}</option>)}
+                            {sortedCodes.map((c) => <option key={`${c.iso}-${c.code}`} value={c.code} className="bg-[hsl(0,0%,12%)]">{c.flag} {c.code}</option>)}
                           </select>
                           <input type="tel" value={phoneNumber} onChange={(e) => setPhoneNumber(e.target.value)} placeholder="Phone / WhatsApp" maxLength={15} className="search-input flex-1 min-w-0" />
                         </div>
