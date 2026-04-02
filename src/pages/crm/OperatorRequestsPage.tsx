@@ -241,7 +241,7 @@ const OperatorRequestsPage = () => {
             </div>
             <div>
               <label className={labelClass}>Status</label>
-              <select value={form.status} onChange={e => setForm(p => ({ ...p, status: e.target.value as OpReqStatus }))} className={inputClass}>
+              <select value={form.status} onChange={e => setForm(p => ({ ...p, status: e.target.value as OpReqStatus }))} className={selectClass}>
                 {STATUSES.map(s => <option key={s} value={s}>{s}</option>)}
               </select>
             </div>
