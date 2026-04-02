@@ -1,4 +1,5 @@
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.100.0";
+import { z } from "https://deno.land/x/zod@v3.23.8/mod.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -66,22 +67,18 @@ Deno.serve(async (req) => {
   // Lead scoring: rate lead quality 0-100 based on data richness and intent signals
   function calcLeadScore(data: Record<string, any>): number {
     let score = 0;
-    // Contact completeness (max 25)
     if (data.email) score += 10;
     if (data.phone || data.whatsapp) score += 10;
     if (data.company) score += 5;
-    // Intent signals (max 35)
     if (data.departure && data.departure !== "TBD") score += 10;
     if (data.destination && data.destination !== "TBD") score += 10;
     if (data.date) score += 5;
     if (data.passengers && data.passengers > 1) score += 5;
     if (data.budget_range) score += 5;
-    // Premium signals (max 25)
     if (data.is_urgent) score += 10;
     if (data.specific_aircraft || data.preferred_aircraft_category) score += 5;
     if (data.concierge_needed || data.vip_terminal || data.helicopter_transfer) score += 5;
     if (data.trip_type === "round_trip") score += 5;
-    // Source quality (max 15)
     const highValueSources = ["referral", "membership_enrollment", "jet_card", "founders_circle", "partner"];
     if (highValueSources.some(s => (data.source || "").toLowerCase().includes(s))) score += 15;
     else if (data.source && data.source !== "website") score += 5;
@@ -92,23 +89,87 @@ Deno.serve(async (req) => {
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
   }
 
+  // ── Zod schemas for server-side validation ─────────────────────────────
+  const trimmed = z.string().trim();
+  const optStr = trimmed.optional().or(z.literal("")).transform((v: string | undefined) => v || undefined);
+  const phoneZ = trimmed.max(30).regex(/^[+\d\s()-]*$/).optional().or(z.literal("")).transform((v: string | undefined) => v || undefined);
+
+  const CaptureSchema = z.object({
+    name: trimmed.min(1).max(100),
+    email: trimmed.email().max(255),
+    phone: phoneZ, whatsapp: phoneZ,
+    departure: optStr, destination: optStr, date: optStr,
+    passengers: z.union([z.string(), z.number()]).optional().transform((v: string | number | undefined) => {
+      if (v == null || v === "") return undefined;
+      const n = Number(v);
+      return Number.isFinite(n) && n >= 1 && n <= 50 ? n : undefined;
+    }),
+    source: trimmed.max(100).default("website"),
+    aircraft: optStr, notes: trimmed.max(2000).optional().or(z.literal("")),
+    trip_type: z.enum(["one_way", "round_trip", "multi_leg"]).optional(),
+    return_date: optStr, preferred_aircraft_category: optStr, specific_aircraft: optStr,
+    helicopter_transfer: z.boolean().optional(), concierge_needed: z.boolean().optional(),
+    vip_terminal: z.boolean().optional(), ground_transport: z.boolean().optional(),
+    pets: z.boolean().optional(), smoking: z.boolean().optional(),
+    catering_request: trimmed.max(500).optional().or(z.literal("")),
+    baggage_notes: trimmed.max(500).optional().or(z.literal("")),
+    special_assistance: trimmed.max(500).optional().or(z.literal("")),
+    special_requests: trimmed.max(1000).optional().or(z.literal("")),
+    company: trimmed.max(200).optional().or(z.literal("")),
+    budget_range: optStr, is_urgent: z.boolean().optional(),
+    preferred_contact_method: z.enum(["email", "phone", "whatsapp"]).optional(),
+    campaign: optStr,
+    city: optStr, country: optStr, nationality: optStr, title: optStr,
+    travel_frequency: optStr, typical_routes: z.array(z.string()).optional(),
+    passenger_count: optStr, reason: trimmed.max(1000).optional().or(z.literal("")),
+    invitation_code: optStr, referral_source: optStr, preferred_tier: optStr,
+    terms_accepted: z.boolean().optional(),
+  });
+
+  const CreateClientSchema = z.object({
+    full_name: trimmed.min(1).max(200),
+    email: trimmed.email().max(255).optional().or(z.literal("")),
+    phone: phoneZ, lead_source: trimmed.min(1).max(100),
+  }).passthrough().refine((d: any) => d.email || d.phone, { message: "Email or phone required", path: ["email"] });
+
+  const CreateQuoteSchema = z.object({
+    request_id: z.string().uuid(),
+    price: z.number().positive().max(50_000_000),
+    aircraft: optStr, operator: optStr,
+    valid_days: z.number().int().min(1).max(90).optional().default(7),
+  });
+
+  const UpdateStatusSchema = z.object({
+    table: z.enum(["leads", "flight_requests", "quotes", "contracts", "invoices", "trips", "membership_applications"]),
+    id: z.string().uuid(),
+    status: trimmed.min(1).max(50),
+    extra: z.record(z.unknown()).optional(),
+  });
+
+  const AddNoteSchema = z.object({
+    client_id: z.string().uuid(),
+    note: trimmed.min(1).max(5000),
+    note_type: trimmed.max(50).optional(),
+  });
+
   try {
     // ══════════════════════════════════════════════════════════
     // PUBLIC: POST /capture — Universal lead capture
     // ══════════════════════════════════════════════════════════
     if (endpoint === "capture" && httpMethod === "POST") {
+      const parsed = CaptureSchema.safeParse(body);
+      if (!parsed.success) {
+        const fieldErrors = parsed.error.flatten().fieldErrors;
+        return err(Object.values(fieldErrors).flat().join("; ") || "Validation failed");
+      }
       const { name, email, phone, whatsapp, departure, destination, date, passengers, source, aircraft, notes,
         trip_type, return_date, preferred_aircraft_category, specific_aircraft,
         helicopter_transfer, concierge_needed, vip_terminal, ground_transport,
         pets, smoking, catering_request, baggage_notes, special_assistance, special_requests,
         company, budget_range, is_urgent, preferred_contact_method, campaign,
-        // Membership application fields
         city, country, nationality, title: jobTitle, travel_frequency, typical_routes,
         passenger_count, reason, invitation_code, referral_source, preferred_tier, terms_accepted,
-      } = body;
-
-      if (!name || !email) return err("Name and email are required");
-      if (!isValidEmail(email)) return err("Invalid email format");
+      } = parsed.data;
 
       // Calculate lead score
       const leadScore = calcLeadScore(body);
@@ -425,10 +486,9 @@ Deno.serve(async (req) => {
     // POST /update-status — Universal status updater with automations
     if (endpoint === "update-status" && httpMethod === "POST") {
       if (!isStaff) return err("Forbidden", 403);
-      const { table, id, status: newStatus, extra } = body;
-      const allowed = ["leads", "flight_requests", "quotes", "contracts", "invoices", "trips", "membership_applications"];
-      if (!allowed.includes(table)) return err("Invalid table");
-      if (!id || !newStatus) return err("id and status required");
+      const statusParsed = UpdateStatusSchema.safeParse(body);
+      if (!statusParsed.success) return err(statusParsed.error.flatten().fieldErrors ? Object.values(statusParsed.error.flatten().fieldErrors).flat().join("; ") : "Validation failed");
+      const { table, id, status: newStatus, extra } = statusParsed.data;
 
       const { error } = await admin.from(table).update({ status: newStatus, updated_at: new Date().toISOString(), ...extra }).eq("id", id);
       if (error) throw error;
@@ -526,9 +586,10 @@ Deno.serve(async (req) => {
 
     if (endpoint === "create-quote" && httpMethod === "POST") {
       if (!userRoles.some((r) => ["admin", "sales", "finance"].includes(r))) return err("Forbidden", 403);
-      const { request_id, price, aircraft, operator, valid_days } = body;
-      if (!request_id || !price) return err("request_id and price required");
-      const validUntil = new Date(); validUntil.setDate(validUntil.getDate() + (valid_days || 7));
+      const quoteParsed = CreateQuoteSchema.safeParse(body);
+      if (!quoteParsed.success) return err(Object.values(quoteParsed.error.flatten().fieldErrors).flat().join("; ") || "Validation failed");
+      const { request_id, price, aircraft, operator, valid_days } = quoteParsed.data;
+      const validUntil = new Date(); validUntil.setDate(validUntil.getDate() + valid_days);
       const { data, error } = await admin.from("quotes").insert({
         request_id, price, aircraft: aircraft || null, operator: operator || null,
         valid_until: validUntil.toISOString(), status: "draft", created_by: userId,
@@ -538,13 +599,11 @@ Deno.serve(async (req) => {
       return json({ success: true, quote_id: data.id });
     }
 
-    // POST /create-client — Staff manual client creation with validation
+    // POST /create-client — Staff manual client creation with Zod validation
     if (endpoint === "create-client" && httpMethod === "POST") {
       if (!isStaff) return err("Forbidden", 403);
-      const { full_name, email, phone, client_type, country, city, preferred_contact_method, lead_source, assigned_to: owner } = body;
-      if (!full_name) return err("Full name is required");
-      if (!email && !phone) return err("Email or phone is required");
-      if (!lead_source) return err("Lead source is required");
+      const clientParsed = CreateClientSchema.safeParse(body);
+      if (!clientParsed.success) return err(Object.values(clientParsed.error.flatten().fieldErrors).flat().join("; ") || "Validation failed");
 
       // Duplicate check
       if (email) {
@@ -689,8 +748,9 @@ Deno.serve(async (req) => {
     // ══════════════════════════════════════════════════════════
     if (endpoint === "add-note" && httpMethod === "POST") {
       if (!isStaff) return err("Forbidden", 403);
-      const { client_id, note, note_type } = body;
-      if (!client_id || !note) return err("client_id and note required");
+      const noteParsed = AddNoteSchema.safeParse(body);
+      if (!noteParsed.success) return err(Object.values(noteParsed.error.flatten().fieldErrors).flat().join("; ") || "Validation failed");
+      const { client_id, note, note_type } = noteParsed.data;
 
       const { error } = await admin.from("activity_log").insert({
         entity_type: "client",
