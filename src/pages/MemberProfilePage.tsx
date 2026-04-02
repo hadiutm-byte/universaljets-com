@@ -163,17 +163,35 @@ const MemberProfilePage = () => {
   const ucl = (key: string, val: any) => setClientRecord((p: any) => p ? ({ ...p, [key]: val }) : p);
 
   const saveNotifications = async () => {
-    if (!clientRecord?.id) { toast.error("No client record found"); return; }
+    if (!clientRecord?.id || !uid) { toast.error("No client record found"); return; }
     setSaving(true);
-    const { error } = await supabase.from("clients").update({
+
+    const newValues = {
       email_allowed: clientRecord.email_allowed,
       whatsapp_allowed: clientRecord.whatsapp_allowed,
       phone_allowed: clientRecord.phone_allowed,
       preferred_contact_method: clientRecord.preferred_contact_method,
       preferred_contact_time: clientRecord.preferred_contact_time,
       marketing_optin: clientRecord.marketing_optin,
-    }).eq("id", clientRecord.id);
-    if (error) toast.error("Failed to save notification preferences"); else toast.success("Notification preferences saved");
+    };
+
+    const { error } = await supabase.from("clients").update(newValues).eq("id", clientRecord.id);
+
+    if (error) {
+      toast.error("Failed to save notification preferences");
+    } else {
+      // Log the change to activity_log for audit trail
+      await supabase.from("activity_log").insert({
+        entity_type: "client",
+        entity_id: clientRecord.id,
+        action: "notification_preferences_updated",
+        action_by: uid,
+        department: "client",
+        new_value: newValues as any,
+        notes: "Member updated notification preferences via profile hub",
+      });
+      toast.success("Notification preferences saved");
+    }
     setSaving(false);
   };
 
