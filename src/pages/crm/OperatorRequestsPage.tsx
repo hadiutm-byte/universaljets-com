@@ -230,7 +230,7 @@ const OperatorRequestsPage = () => {
               </div>
               <div>
                 <label className={labelClass}>Currency</label>
-                <select value={form.offered_currency} onChange={e => setForm(p => ({ ...p, offered_currency: e.target.value }))} className={inputClass}>
+                <select value={form.offered_currency} onChange={e => setForm(p => ({ ...p, offered_currency: e.target.value }))} className={selectClass}>
                   {["USD", "EUR", "GBP", "AED", "CHF"].map(c => <option key={c} value={c}>{c}</option>)}
                 </select>
               </div>
