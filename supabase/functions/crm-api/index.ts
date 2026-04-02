@@ -486,10 +486,9 @@ Deno.serve(async (req) => {
     // POST /update-status — Universal status updater with automations
     if (endpoint === "update-status" && httpMethod === "POST") {
       if (!isStaff) return err("Forbidden", 403);
-      const { table, id, status: newStatus, extra } = body;
-      const allowed = ["leads", "flight_requests", "quotes", "contracts", "invoices", "trips", "membership_applications"];
-      if (!allowed.includes(table)) return err("Invalid table");
-      if (!id || !newStatus) return err("id and status required");
+      const statusParsed = UpdateStatusSchema.safeParse(body);
+      if (!statusParsed.success) return err(statusParsed.error.flatten().fieldErrors ? Object.values(statusParsed.error.flatten().fieldErrors).flat().join("; ") : "Validation failed");
+      const { table, id, status: newStatus, extra } = statusParsed.data;
 
       const { error } = await admin.from(table).update({ status: newStatus, updated_at: new Date().toISOString(), ...extra }).eq("id", id);
       if (error) throw error;
