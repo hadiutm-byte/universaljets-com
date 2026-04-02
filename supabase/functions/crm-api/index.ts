@@ -483,7 +483,8 @@ Deno.serve(async (req) => {
     if (endpoint === "clients" && httpMethod === "GET") {
       if (!isStaff) return err("Forbidden", 403);
       const limit = parseInt(queryParams["limit"] || "50");
-      const search = queryParams["search"] || null;
+      const rawSearch = queryParams["search"] || null;
+      const search = rawSearch ? sanitizeSearch(rawSearch) : null;
       let query = admin.from("clients").select("*").order("created_at", { ascending: false }).limit(limit);
       if (search) query = query.or(`full_name.ilike.%${search}%,email.ilike.%${search}%,phone.ilike.%${search}%`);
       const { data, error } = await query;
