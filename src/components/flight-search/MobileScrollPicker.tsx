@@ -93,7 +93,7 @@ const MobileScrollPicker = ({
                 <div className="w-10 h-1 rounded-full bg-white/15" />
               </div>
 
-              <div className="flex items-center justify-between px-6 py-3">
+              <div className="flex items-center justify-between px-8 py-3">
                 <button type="button" onClick={() => setOpen(false)}
                   className="text-[14px] text-white/50 font-medium active:opacity-60 transition-opacity">
                   Cancel
