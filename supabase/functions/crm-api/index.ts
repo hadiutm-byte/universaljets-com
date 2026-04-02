@@ -759,7 +759,7 @@ Deno.serve(async (req) => {
       const totalPages = Math.ceil(deduped.length / perPage);
       const paginated = deduped.slice((page - 1) * perPage, page * perPage);
 
-      // Daily send volume for chart (last 30 days max)
+      // Daily send volume for chart
       const dailyMap = new Map<string, { sent: number; failed: number; total: number }>();
       for (const row of deduped) {
         const day = row.created_at?.slice(0, 10);
@@ -774,11 +774,42 @@ Deno.serve(async (req) => {
         .map(([date, v]) => ({ date, ...v }))
         .sort((a, b) => a.date.localeCompare(b.date));
 
+      // Template performance breakdown (unfiltered deduped data)
+      const allDeduped = Array.from(seen.values());
+      const templatePerfMap = new Map<string, { total: number; sent: number; failed: number; suppressed: number }>();
+      for (const row of allDeduped) {
+        const t = row.template_name || "unknown";
+        const entry = templatePerfMap.get(t) || { total: 0, sent: 0, failed: 0, suppressed: 0 };
+        entry.total++;
+        if (row.status === "sent") entry.sent++;
+        if (row.status === "dlq" || row.status === "failed") entry.failed++;
+        if (row.status === "suppressed") entry.suppressed++;
+        templatePerfMap.set(t, entry);
+      }
+      const templatePerformance = Array.from(templatePerfMap.entries())
+        .map(([name, v]) => ({
+          name,
+          ...v,
+          deliveryRate: v.total > 0 ? Math.round((v.sent / v.total) * 1000) / 10 : 0,
+        }))
+        .sort((a, b) => b.total - a.total);
+
+      // Delivery rate trend (daily delivery rate over time)
+      const deliveryTrend = Array.from(dailyMap.entries())
+        .map(([date, v]) => ({
+          date,
+          rate: v.total > 0 ? Math.round((v.sent / v.total) * 1000) / 10 : 0,
+          total: v.total,
+        }))
+        .sort((a, b) => a.date.localeCompare(b.date));
+
       return json({
         stats,
         logs: paginated,
         templateNames,
         dailyVolume,
+        templatePerformance,
+        deliveryTrend,
         pagination: { page, perPage, totalPages, totalItems: deduped.length },
       });
     }

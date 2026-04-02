@@ -1,7 +1,7 @@
 import { useEffect, useState, useCallback } from "react";
 import { supabase } from "@/integrations/supabase/client";
-import { Mail, CheckCircle, XCircle, AlertTriangle, Clock, ChevronLeft, ChevronRight } from "lucide-react";
-import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer } from "recharts";
+import { Mail, CheckCircle, XCircle, AlertTriangle, Clock, ChevronLeft, ChevronRight, Download, TrendingUp } from "lucide-react";
+import { BarChart, Bar, LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer } from "recharts";
 
 interface EmailStats {
   total: number;
@@ -21,6 +21,15 @@ interface EmailLog {
   status: string;
   error_message: string | null;
   created_at: string;
+}
+
+interface TemplatePerf {
+  name: string;
+  total: number;
+  sent: number;
+  failed: number;
+  suppressed: number;
+  deliveryRate: number;
 }
 
 interface Pagination {
@@ -54,6 +63,26 @@ const statusColor: Record<string, string> = {
   complained: "bg-red-500/20 text-red-400",
 };
 
+function exportCsv(logs: EmailLog[]) {
+  const header = "Template,Recipient,Status,Timestamp,Error\n";
+  const rows = logs.map((l) =>
+    [
+      l.template_name,
+      l.recipient_email,
+      l.status === "dlq" ? "failed" : l.status,
+      l.created_at,
+      (l.error_message || "").replace(/,/g, ";"),
+    ].join(",")
+  );
+  const blob = new Blob([header + rows.join("\n")], { type: "text/csv" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = `email-analytics-${new Date().toISOString().slice(0, 10)}.csv`;
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
 const EmailAnalyticsPage = () => {
   const call = useCallback(
     async (params: Record<string, string>) => {
@@ -66,14 +95,16 @@ const EmailAnalyticsPage = () => {
     },
     []
   );
+
   const [stats, setStats] = useState<EmailStats | null>(null);
   const [logs, setLogs] = useState<EmailLog[]>([]);
   const [dailyVolume, setDailyVolume] = useState<any[]>([]);
   const [templateNames, setTemplateNames] = useState<string[]>([]);
+  const [templatePerformance, setTemplatePerformance] = useState<TemplatePerf[]>([]);
+  const [deliveryTrend, setDeliveryTrend] = useState<any[]>([]);
   const [pagination, setPagination] = useState<Pagination | null>(null);
   const [loading, setLoading] = useState(true);
 
-  // Filters
   const [rangeDays, setRangeDays] = useState(7);
   const [templateFilter, setTemplateFilter] = useState("");
   const [statusFilter, setStatusFilter] = useState("");
@@ -93,6 +124,8 @@ const EmailAnalyticsPage = () => {
       setLogs(data.logs ?? []);
       setDailyVolume(data.dailyVolume ?? []);
       setTemplateNames(data.templateNames ?? []);
+      setTemplatePerformance(data.templatePerformance ?? []);
+      setDeliveryTrend(data.deliveryTrend ?? []);
       setPagination(data.pagination);
     }
     setLoading(false);
@@ -110,9 +143,20 @@ const EmailAnalyticsPage = () => {
 
   return (
     <div>
-      <div className="mb-6">
-        <h1 className="font-display text-xl md:text-2xl">Email Analytics</h1>
-        <p className="text-[11px] text-muted-foreground/60 mt-1">Monitor email delivery, performance and engagement</p>
+      <div className="flex items-center justify-between mb-6">
+        <div>
+          <h1 className="font-display text-xl md:text-2xl">Email Analytics</h1>
+          <p className="text-[11px] text-muted-foreground/60 mt-1">Monitor email delivery, performance and engagement</p>
+        </div>
+        {logs.length > 0 && (
+          <button
+            onClick={() => exportCsv(logs)}
+            className="flex items-center gap-2 px-3 py-2 text-[11px] bg-card/50 border border-border/20 rounded-lg hover:bg-secondary/50 transition-colors text-foreground/60 hover:text-foreground"
+          >
+            <Download className="w-3.5 h-3.5" />
+            Export CSV
+          </button>
+        )}
       </div>
 
       {/* Filters */}
@@ -128,7 +172,6 @@ const EmailAnalyticsPage = () => {
             </button>
           ))}
         </div>
-
         <select
           value={templateFilter}
           onChange={(e) => { setTemplateFilter(e.target.value); setPage(1); }}
@@ -139,7 +182,6 @@ const EmailAnalyticsPage = () => {
             <option key={t} value={t}>{t.replace(/_/g, " ")}</option>
           ))}
         </select>
-
         <select
           value={statusFilter}
           onChange={(e) => { setStatusFilter(e.target.value); setPage(1); }}
@@ -170,45 +212,113 @@ const EmailAnalyticsPage = () => {
             ))}
           </div>
 
-          {/* Daily Volume Chart */}
-          {dailyVolume.length > 0 && (
-            <div className="rounded-xl border border-border/20 bg-card/50 p-5">
-              <p className="text-[9px] tracking-[0.2em] uppercase text-muted-foreground/50 font-light mb-4">Daily Send Volume</p>
-              <div className="h-44">
-                <ResponsiveContainer width="100%" height="100%">
-                  <BarChart data={dailyVolume} barGap={2}>
-                    <XAxis
-                      dataKey="date"
-                      tick={{ fontSize: 9, fill: "hsl(var(--muted-foreground))" }}
-                      axisLine={false}
-                      tickLine={false}
-                      tickFormatter={(v) => v.slice(5)}
-                    />
-                    <YAxis
-                      tick={{ fontSize: 9, fill: "hsl(var(--muted-foreground))" }}
-                      axisLine={false}
-                      tickLine={false}
-                    />
-                    <Tooltip
-                      contentStyle={{
-                        background: "hsl(var(--card))",
-                        border: "1px solid hsl(var(--border))",
-                        borderRadius: 8,
-                        fontSize: 11,
-                      }}
-                    />
-                    <Bar dataKey="sent" fill="hsl(160, 60%, 45%)" radius={[4, 4, 0, 0]} name="Sent" />
-                    <Bar dataKey="failed" fill="hsl(var(--destructive))" radius={[4, 4, 0, 0]} name="Failed" />
-                  </BarChart>
-                </ResponsiveContainer>
+          {/* Charts Row */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {/* Daily Volume Chart */}
+            {dailyVolume.length > 0 && (
+              <div className="rounded-xl border border-border/20 bg-card/50 p-5">
+                <p className="text-[9px] tracking-[0.2em] uppercase text-muted-foreground/50 font-light mb-4">Daily Send Volume</p>
+                <div className="h-44">
+                  <ResponsiveContainer width="100%" height="100%">
+                    <BarChart data={dailyVolume} barGap={2}>
+                      <XAxis dataKey="date" tick={{ fontSize: 9, fill: "hsl(var(--muted-foreground))" }} axisLine={false} tickLine={false} tickFormatter={(v) => v.slice(5)} />
+                      <YAxis tick={{ fontSize: 9, fill: "hsl(var(--muted-foreground))" }} axisLine={false} tickLine={false} />
+                      <Tooltip contentStyle={{ background: "hsl(var(--card))", border: "1px solid hsl(var(--border))", borderRadius: 8, fontSize: 11 }} />
+                      <Bar dataKey="sent" fill="hsl(160, 60%, 45%)" radius={[4, 4, 0, 0]} name="Sent" />
+                      <Bar dataKey="failed" fill="hsl(var(--destructive))" radius={[4, 4, 0, 0]} name="Failed" />
+                    </BarChart>
+                  </ResponsiveContainer>
+                </div>
+              </div>
+            )}
+
+            {/* Delivery Rate Trend */}
+            {deliveryTrend.length > 1 && (
+              <div className="rounded-xl border border-border/20 bg-card/50 p-5">
+                <div className="flex items-center gap-2 mb-4">
+                  <TrendingUp className="w-4 h-4 text-primary/60" />
+                  <p className="text-[9px] tracking-[0.2em] uppercase text-muted-foreground/50 font-light">Delivery Rate Trend</p>
+                </div>
+                <div className="h-44">
+                  <ResponsiveContainer width="100%" height="100%">
+                    <LineChart data={deliveryTrend}>
+                      <XAxis dataKey="date" tick={{ fontSize: 9, fill: "hsl(var(--muted-foreground))" }} axisLine={false} tickLine={false} tickFormatter={(v) => v.slice(5)} />
+                      <YAxis tick={{ fontSize: 9, fill: "hsl(var(--muted-foreground))" }} axisLine={false} tickLine={false} domain={[0, 100]} tickFormatter={(v) => `${v}%`} />
+                      <Tooltip
+                        contentStyle={{ background: "hsl(var(--card))", border: "1px solid hsl(var(--border))", borderRadius: 8, fontSize: 11 }}
+                        formatter={(v: number) => [`${v}%`, "Delivery Rate"]}
+                      />
+                      <Line type="monotone" dataKey="rate" stroke="hsl(var(--primary))" strokeWidth={2} dot={{ r: 3, fill: "hsl(var(--primary))" }} name="Delivery Rate" />
+                    </LineChart>
+                  </ResponsiveContainer>
+                </div>
+              </div>
+            )}
+          </div>
+
+          {/* Template Performance Breakdown */}
+          {templatePerformance.length > 0 && (
+            <div className="rounded-xl border border-border/20 bg-card/50 overflow-hidden">
+              <div className="p-4 border-b border-border/10">
+                <p className="text-[9px] tracking-[0.2em] uppercase text-muted-foreground/50 font-light">Template Performance</p>
+              </div>
+              <div className="overflow-x-auto">
+                <table className="w-full text-[11px]">
+                  <thead>
+                    <tr className="border-b border-border/10 text-muted-foreground/40">
+                      <th className="text-left px-4 py-3 font-medium">Template</th>
+                      <th className="text-right px-4 py-3 font-medium">Total</th>
+                      <th className="text-right px-4 py-3 font-medium">Sent</th>
+                      <th className="text-right px-4 py-3 font-medium">Failed</th>
+                      <th className="text-right px-4 py-3 font-medium">Suppressed</th>
+                      <th className="text-right px-4 py-3 font-medium">Delivery Rate</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {templatePerformance.map((t) => (
+                      <tr key={t.name} className="border-b border-border/5 hover:bg-secondary/20 transition-colors">
+                        <td className="px-4 py-3 font-medium">{t.name.replace(/_/g, " ")}</td>
+                        <td className="px-4 py-3 text-right text-muted-foreground/60">{t.total}</td>
+                        <td className="px-4 py-3 text-right text-emerald-400">{t.sent}</td>
+                        <td className="px-4 py-3 text-right text-destructive">{t.failed}</td>
+                        <td className="px-4 py-3 text-right text-yellow-400">{t.suppressed}</td>
+                        <td className="px-4 py-3 text-right">
+                          <div className="flex items-center justify-end gap-2">
+                            <div className="w-16 h-1.5 bg-secondary/30 rounded-full overflow-hidden">
+                              <div
+                                className="h-full rounded-full transition-all"
+                                style={{
+                                  width: `${t.deliveryRate}%`,
+                                  background: t.deliveryRate >= 95 ? "hsl(160, 60%, 45%)" : t.deliveryRate >= 80 ? "hsl(43, 85%, 58%)" : "hsl(var(--destructive))",
+                                }}
+                              />
+                            </div>
+                            <span className={`font-medium ${t.deliveryRate >= 95 ? "text-emerald-400" : t.deliveryRate >= 80 ? "text-amber-400" : "text-destructive"}`}>
+                              {t.deliveryRate}%
+                            </span>
+                          </div>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
               </div>
             </div>
           )}
 
           {/* Email Log Table */}
           <div className="rounded-xl border border-border/20 bg-card/50 overflow-hidden">
-            <div className="p-4 border-b border-border/10">
+            <div className="flex items-center justify-between p-4 border-b border-border/10">
               <p className="text-[9px] tracking-[0.2em] uppercase text-muted-foreground/50 font-light">Email Log</p>
+              {logs.length > 0 && (
+                <button
+                  onClick={() => exportCsv(logs)}
+                  className="flex items-center gap-1.5 text-[10px] text-muted-foreground/40 hover:text-foreground/60 transition-colors"
+                >
+                  <Download className="w-3 h-3" />
+                  CSV
+                </button>
+              )}
             </div>
             <div className="overflow-x-auto">
               <table className="w-full text-[11px]">
@@ -251,25 +361,16 @@ const EmailAnalyticsPage = () => {
               </table>
             </div>
 
-            {/* Pagination */}
             {pagination && pagination.totalPages > 1 && (
               <div className="flex items-center justify-between px-4 py-3 border-t border-border/10">
                 <span className="text-[10px] text-muted-foreground/40">
                   {pagination.totalItems} emails · Page {pagination.page} of {pagination.totalPages}
                 </span>
                 <div className="flex gap-1">
-                  <button
-                    disabled={page <= 1}
-                    onClick={() => setPage(page - 1)}
-                    className="p-1.5 rounded hover:bg-secondary/50 disabled:opacity-30 transition-colors"
-                  >
+                  <button disabled={page <= 1} onClick={() => setPage(page - 1)} className="p-1.5 rounded hover:bg-secondary/50 disabled:opacity-30 transition-colors">
                     <ChevronLeft className="w-4 h-4" />
                   </button>
-                  <button
-                    disabled={page >= pagination.totalPages}
-                    onClick={() => setPage(page + 1)}
-                    className="p-1.5 rounded hover:bg-secondary/50 disabled:opacity-30 transition-colors"
-                  >
+                  <button disabled={page >= pagination.totalPages} onClick={() => setPage(page + 1)} className="p-1.5 rounded hover:bg-secondary/50 disabled:opacity-30 transition-colors">
                     <ChevronRight className="w-4 h-4" />
                   </button>
                 </div>
