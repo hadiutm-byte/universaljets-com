@@ -160,9 +160,9 @@ const RequestFlightPage = () => {
   };
 
   const expandToggle = (label: string, open: boolean, toggle: () => void) => (
-    <button type="button" onClick={toggle}
-      className="flex items-center gap-2 text-[10px] tracking-[0.2em] uppercase text-primary/60 font-medium hover:text-primary transition-colors cursor-pointer">
-      <ChevronDown size={12} className={`transition-transform duration-300 ${open ? "rotate-180" : ""}`} />
+    <button type="button" onClick={toggle} aria-expanded={open}
+      className="flex items-center gap-2 text-[10px] tracking-[0.2em] uppercase text-primary/60 font-medium hover:text-primary transition-colors cursor-pointer min-h-[44px] py-2">
+      <ChevronDown size={14} className={`transition-transform duration-300 ${open ? "rotate-180" : ""}`} />
       {label}
     </button>
   );
