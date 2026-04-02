@@ -160,6 +160,22 @@ const MemberProfilePage = () => {
   const up = (key: string, val: any) => setProfile((p: any) => ({ ...p, [key]: val }));
   const ut = (key: string, val: any) => setTravel((p: any) => ({ ...p, [key]: val }));
   const uc = (key: string, val: any) => setConcierge((p: any) => ({ ...p, [key]: val }));
+  const ucl = (key: string, val: any) => setClientRecord((p: any) => p ? ({ ...p, [key]: val }) : p);
+
+  const saveNotifications = async () => {
+    if (!clientRecord?.id) { toast.error("No client record found"); return; }
+    setSaving(true);
+    const { error } = await supabase.from("clients").update({
+      email_allowed: clientRecord.email_allowed,
+      whatsapp_allowed: clientRecord.whatsapp_allowed,
+      phone_allowed: clientRecord.phone_allowed,
+      preferred_contact_method: clientRecord.preferred_contact_method,
+      preferred_contact_time: clientRecord.preferred_contact_time,
+      marketing_optin: clientRecord.marketing_optin,
+    }).eq("id", clientRecord.id);
+    if (error) toast.error("Failed to save notification preferences"); else toast.success("Notification preferences saved");
+    setSaving(false);
+  };
 
   const memberSince = user?.created_at
     ? new Date(user.created_at).toLocaleDateString("en-US", { month: "long", year: "numeric" })
