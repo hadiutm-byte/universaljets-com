@@ -157,18 +157,19 @@ Deno.serve(async (req) => {
     // PUBLIC: POST /capture — Universal lead capture
     // ══════════════════════════════════════════════════════════
     if (endpoint === "capture" && httpMethod === "POST") {
+      const parsed = CaptureSchema.safeParse(body);
+      if (!parsed.success) {
+        const fieldErrors = parsed.error.flatten().fieldErrors;
+        return err(Object.values(fieldErrors).flat().join("; ") || "Validation failed");
+      }
       const { name, email, phone, whatsapp, departure, destination, date, passengers, source, aircraft, notes,
         trip_type, return_date, preferred_aircraft_category, specific_aircraft,
         helicopter_transfer, concierge_needed, vip_terminal, ground_transport,
         pets, smoking, catering_request, baggage_notes, special_assistance, special_requests,
         company, budget_range, is_urgent, preferred_contact_method, campaign,
-        // Membership application fields
         city, country, nationality, title: jobTitle, travel_frequency, typical_routes,
         passenger_count, reason, invitation_code, referral_source, preferred_tier, terms_accepted,
-      } = body;
-
-      if (!name || !email) return err("Name and email are required");
-      if (!isValidEmail(email)) return err("Invalid email format");
+      } = parsed.data;
 
       // Calculate lead score
       const leadScore = calcLeadScore(body);
