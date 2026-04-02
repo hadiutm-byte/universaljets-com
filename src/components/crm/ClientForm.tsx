@@ -19,9 +19,10 @@ const clientTypes = [
 
 const contactMethods = ["email", "phone", "whatsapp"];
 
-import { crmInputClass, crmLabelClass, crmCheckboxClass } from "@/components/crm/crmStyles";
+import { crmInputClass, crmLabelClass, crmCheckboxClass, crmSelectClass } from "@/components/crm/crmStyles";
 
 const inputClass = crmInputClass + " placeholder:text-foreground/20";
+const selectClass = crmSelectClass;
 const labelClass = crmLabelClass;
 
 export default function ClientForm({ open, onOpenChange, onSuccess, initial }: Props) {
