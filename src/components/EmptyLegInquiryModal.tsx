@@ -71,22 +71,7 @@ export default function EmptyLegInquiryModal({ open, onOpenChange, emptyLeg }: P
 
     setLoading(true);
     try {
-      const routeParts = emptyLeg?.route?.split(" → ") || ["TBD", "TBD"];
-      await capture({
-        name: form.name, email: form.email,
-        phone: buildFullPhone(form.countryCode, form.phone),
-        departure: routeParts[0] || "TBD",
-        destination: routeParts[1] || "TBD",
-        date: emptyLeg?.date, passengers: form.passengers,
-        source: "empty_leg_inquiry",
-        specific_aircraft: emptyLeg?.aircraft,
-        notes: [
-          `Confirmation speed: ${form.confirmation_speed}`,
-          form.flexible_timing ? "Flexible on timing" : null,
-          form.additional_destination ? `Alt destination: ${form.additional_destination}` : null,
-          form.notes || null,
-        ].filter(Boolean).join(" | "),
-      });
+      await capture(validated.data as any);
       trackEmptyLegInquiry(emptyLeg?.route);
       toast.success("Your inquiry has been received. We will confirm availability shortly.");
       onOpenChange(false);
