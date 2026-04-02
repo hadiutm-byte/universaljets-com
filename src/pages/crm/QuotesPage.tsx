@@ -64,6 +64,7 @@ const QuotesPage = () => {
 
   const inputClass = crmInputClass;
   const labelClass = crmLabelClass;
+  const selectClass = crmSelectClass;
 
   // Build columns based on role — Sales sees limited internal summary, not operator details
   const columns = [
