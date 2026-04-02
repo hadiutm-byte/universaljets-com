@@ -360,7 +360,7 @@ const FlightSearchBox = () => {
                         </div>
                         <div className="flex-1 min-w-0 relative grid grid-cols-2">
                           <AirportField label="From" icon={MapPin} value={leg.from} onChangeValue={(v) => updateLeg(idx, { from: v })} query={leg.fromQuery} onChangeQuery={(v) => updateLeg(idx, { fromQuery: v })} selectedAirport={leg.selectedFrom} onSelect={(a) => updateLeg(idx, { from: `${a.city} (${a.icao || a.iata})`, selectedFrom: a })} onClearSelection={() => updateLeg(idx, { selectedFrom: null })} compact />
-                          <SwapButton onClick={() => swapRoute(idx)} />
+                          {/* SwapButton removed */}
                           <AirportField label="To" icon={MapPin} value={leg.to} onChangeValue={(v) => updateLeg(idx, { to: v })} query={leg.toQuery} onChangeQuery={(v) => updateLeg(idx, { toQuery: v })} selectedAirport={leg.selectedTo} onSelect={(a) => updateLeg(idx, { to: `${a.city} (${a.icao || a.iata})`, selectedTo: a })} onClearSelection={() => updateLeg(idx, { selectedTo: null })} compact />
                         </div>
                         <div className="flex-shrink-0 w-px h-8 bg-border hidden md:block" />
