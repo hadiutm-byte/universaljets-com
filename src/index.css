@@ -80,6 +80,18 @@ html {
     /* Prevent layout shift on scroll */
     box-sizing: border-box;
   }
+
+  /* Dark theme for native form elements (selects, date pickers) */
+  select,
+  input[type="date"],
+  input[type="datetime-local"],
+  input[type="time"] {
+    color-scheme: dark;
+  }
+  select option {
+    background: hsl(var(--card));
+    color: hsl(var(--foreground));
+  }
   body {
     @apply text-foreground font-body antialiased;
     font-size: clamp(18px, 1rem + 0.5vw, 20px);
