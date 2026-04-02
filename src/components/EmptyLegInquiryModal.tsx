@@ -41,7 +41,34 @@ export default function EmptyLegInquiryModal({ open, onOpenChange, emptyLeg }: P
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!canSubmit) return;
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)) { toast.error("Please enter a valid email address."); return; }
+
+    // Client-side Zod validation
+    const routeParts = emptyLeg?.route?.split(" → ") || ["TBD", "TBD"];
+    const payload = {
+      name: form.name,
+      email: form.email,
+      phone: buildFullPhone(form.countryCode, form.phone),
+      departure: routeParts[0] || "TBD",
+      destination: routeParts[1] || "TBD",
+      date: emptyLeg?.date,
+      passengers: form.passengers,
+      source: "empty_leg_inquiry" as const,
+      specific_aircraft: emptyLeg?.aircraft,
+      notes: [
+        `Confirmation speed: ${form.confirmation_speed}`,
+        form.flexible_timing ? "Flexible on timing" : null,
+        form.additional_destination ? `Alt destination: ${form.additional_destination}` : null,
+        form.notes || null,
+      ].filter(Boolean).join(" | "),
+    };
+
+    const validated = CaptureSchema.safeParse(payload);
+    if (!validated.success) {
+      const errors = Object.values(validated.error.flatten().fieldErrors).flat();
+      toast.error(errors[0] || "Please check your input.");
+      return;
+    }
+
     setLoading(true);
     try {
       const routeParts = emptyLeg?.route?.split(" → ") || ["TBD", "TBD"];
