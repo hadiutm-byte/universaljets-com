@@ -19,9 +19,10 @@ const clientTypes = [
 
 const contactMethods = ["email", "phone", "whatsapp"];
 
-import { crmInputClass, crmLabelClass, crmCheckboxClass } from "@/components/crm/crmStyles";
+import { crmInputClass, crmLabelClass, crmCheckboxClass, crmSelectClass } from "@/components/crm/crmStyles";
 
 const inputClass = crmInputClass + " placeholder:text-foreground/20";
+const selectClass = crmSelectClass;
 const labelClass = crmLabelClass;
 
 export default function ClientForm({ open, onOpenChange, onSuccess, initial }: Props) {
@@ -101,7 +102,7 @@ export default function ClientForm({ open, onOpenChange, onSuccess, initial }: P
     <div>
       <label className={labelClass}>{label}</label>
       <select value={form[key] ?? ""} onChange={(e) => set(key, e.target.value)}
-        className={inputClass}>
+        className={selectClass}>
         <option value="">Select...</option>
         {options.map((o) => <option key={o.value} value={o.value}>{o.label}</option>)}
       </select>

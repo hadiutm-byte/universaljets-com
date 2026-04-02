@@ -1,5 +1,5 @@
 import { useEffect, useState, useCallback } from "react";
-import { crmInputClass, crmLabelClass } from "@/components/crm/crmStyles";
+import { crmInputClass, crmLabelClass, crmSelectClass } from "@/components/crm/crmStyles";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
@@ -64,6 +64,7 @@ const QuotesPage = () => {
 
   const inputClass = crmInputClass;
   const labelClass = crmLabelClass;
+  const selectClass = crmSelectClass;
 
   // Build columns based on role — Sales sees limited internal summary, not operator details
   const columns = [
@@ -93,7 +94,7 @@ const QuotesPage = () => {
           <DialogHeader><DialogTitle className="font-display text-lg">{editing?.id ? "Edit" : "New"} Quote</DialogTitle></DialogHeader>
           <form onSubmit={handleSubmit} className="space-y-4 mt-2">
             <div><label className={labelClass}>Flight Request</label>
-              <select value={form.request_id} onChange={e => setForm(p => ({ ...p, request_id: e.target.value }))} className={inputClass}>
+              <select value={form.request_id} onChange={e => setForm(p => ({ ...p, request_id: e.target.value }))} className={selectClass}>
                 <option value="">Select request...</option>
                 {requests.map(r => <option key={r.id} value={r.id}>{r.departure} → {r.destination}</option>)}
               </select>
@@ -111,7 +112,7 @@ const QuotesPage = () => {
               <div><label className={labelClass}>Valid Until</label><input type="date" value={form.valid_until} onChange={e => setForm(p => ({ ...p, valid_until: e.target.value }))} className={inputClass} /></div>
             </div>
             <div><label className={labelClass}>Status</label>
-              <select value={form.status} onChange={e => setForm(p => ({ ...p, status: e.target.value as QuoteStatus }))} className={inputClass}>
+              <select value={form.status} onChange={e => setForm(p => ({ ...p, status: e.target.value as QuoteStatus }))} className={selectClass}>
                 {STATUSES.map(s => <option key={s} value={s}>{s}</option>)}
               </select>
             </div>

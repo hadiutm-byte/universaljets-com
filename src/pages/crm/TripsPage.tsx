@@ -1,5 +1,5 @@
 import { useEffect, useState, useCallback } from "react";
-import { crmInputClass, crmLabelClass, crmFilterClass } from "@/components/crm/crmStyles";
+import { crmInputClass, crmLabelClass, crmFilterClass, crmSelectClass } from "@/components/crm/crmStyles";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
@@ -99,7 +99,7 @@ const TripsPage = () => {
           <DialogHeader><DialogTitle className="font-display text-lg">{editing?.id ? "Edit" : "New"} Trip</DialogTitle></DialogHeader>
           <form onSubmit={handleSubmit} className="space-y-4 mt-2">
             <div><label className={labelClass}>Client</label>
-              <select value={form.client_id} onChange={e => setForm(p => ({ ...p, client_id: e.target.value }))} className={inputClass}>
+              <select value={form.client_id} onChange={e => setForm(p => ({ ...p, client_id: e.target.value }))} className={crmSelectClass}>
                 <option value="">Select client...</option>
                 {clients.map(c => <option key={c.id} value={c.id}>{c.full_name}</option>)}
               </select>
@@ -112,7 +112,7 @@ const TripsPage = () => {
             <div className="grid grid-cols-2 gap-3">
               <div><label className={labelClass}>Date</label><input type="datetime-local" value={form.date} onChange={e => setForm(p => ({ ...p, date: e.target.value }))} className={inputClass} /></div>
               <div><label className={labelClass}>Status</label>
-                <select value={form.status} onChange={e => setForm(p => ({ ...p, status: e.target.value as TripStatus }))} className={inputClass}>
+                <select value={form.status} onChange={e => setForm(p => ({ ...p, status: e.target.value as TripStatus }))} className={crmSelectClass}>
                   {STATUSES.map(s => <option key={s} value={s}>{s.replace(/_/g, " ")}</option>)}
                 </select>
               </div>

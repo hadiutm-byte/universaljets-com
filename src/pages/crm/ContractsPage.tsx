@@ -1,5 +1,5 @@
 import { useEffect, useState, useCallback } from "react";
-import { crmInputClass, crmLabelClass, crmFilterClass } from "@/components/crm/crmStyles";
+import { crmInputClass, crmLabelClass, crmFilterClass, crmSelectClass } from "@/components/crm/crmStyles";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
 import CrmTable from "@/components/crm/CrmTable";
@@ -100,14 +100,14 @@ const ContractsPage = () => {
           <DialogHeader><DialogTitle className="font-display text-lg">{editing?.id ? "Edit" : "New"} Contract</DialogTitle></DialogHeader>
           <form onSubmit={handleSubmit} className="space-y-4 mt-2">
             <div><label className={labelClass}>Quote</label>
-              <select value={form.quote_id} onChange={e => setForm(p => ({ ...p, quote_id: e.target.value }))} className={inputClass}>
+              <select value={form.quote_id} onChange={e => setForm(p => ({ ...p, quote_id: e.target.value }))} className={crmSelectClass}>
                 <option value="">Select quote...</option>
                 {quotes.map(q => <option key={q.id} value={q.id}>{q.aircraft} — ${Number(q.price).toLocaleString()}</option>)}
               </select>
             </div>
             <div><label className={labelClass}>Document URL</label><input value={form.file_url} onChange={e => setForm(p => ({ ...p, file_url: e.target.value }))} className={inputClass} /></div>
             <div><label className={labelClass}>Status</label>
-              <select value={form.status} onChange={e => setForm(p => ({ ...p, status: e.target.value as ContractStatus }))} className={inputClass}>
+              <select value={form.status} onChange={e => setForm(p => ({ ...p, status: e.target.value as ContractStatus }))} className={crmSelectClass}>
                 {STATUSES.map(s => <option key={s} value={s}>{s}</option>)}
               </select>
             </div>

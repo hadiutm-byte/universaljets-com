@@ -1,5 +1,5 @@
 import { useEffect, useState, useCallback } from "react";
-import { crmInputClass, crmLabelClass, crmFilterClass } from "@/components/crm/crmStyles";
+import { crmInputClass, crmLabelClass, crmFilterClass, crmSelectClass } from "@/components/crm/crmStyles";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
 import CrmTable from "@/components/crm/CrmTable";
@@ -164,6 +164,7 @@ const OperatorRequestsPage = () => {
 
   const inputClass = crmInputClass;
   const labelClass = crmLabelClass;
+  const selectClass = crmSelectClass;
 
   const columns = [
     { key: "route", label: "Route", render: (r: any) => r.flight_requests ? `${r.flight_requests.departure} → ${r.flight_requests.destination}` : "—" },
@@ -203,7 +204,7 @@ const OperatorRequestsPage = () => {
           <form onSubmit={handleSubmit} className="space-y-4 mt-2">
             <div>
               <label className={labelClass}>Flight Request</label>
-              <select value={form.request_id} onChange={e => setForm(p => ({ ...p, request_id: e.target.value }))} className={inputClass}>
+              <select value={form.request_id} onChange={e => setForm(p => ({ ...p, request_id: e.target.value }))} className={selectClass}>
                 <option value="">Select request...</option>
                 {requests.map(r => <option key={r.id} value={r.id}>{r.departure} → {r.destination}</option>)}
               </select>
@@ -229,7 +230,7 @@ const OperatorRequestsPage = () => {
               </div>
               <div>
                 <label className={labelClass}>Currency</label>
-                <select value={form.offered_currency} onChange={e => setForm(p => ({ ...p, offered_currency: e.target.value }))} className={inputClass}>
+                <select value={form.offered_currency} onChange={e => setForm(p => ({ ...p, offered_currency: e.target.value }))} className={selectClass}>
                   {["USD", "EUR", "GBP", "AED", "CHF"].map(c => <option key={c} value={c}>{c}</option>)}
                 </select>
               </div>
@@ -240,7 +241,7 @@ const OperatorRequestsPage = () => {
             </div>
             <div>
               <label className={labelClass}>Status</label>
-              <select value={form.status} onChange={e => setForm(p => ({ ...p, status: e.target.value as OpReqStatus }))} className={inputClass}>
+              <select value={form.status} onChange={e => setForm(p => ({ ...p, status: e.target.value as OpReqStatus }))} className={selectClass}>
                 {STATUSES.map(s => <option key={s} value={s}>{s}</option>)}
               </select>
             </div>
