@@ -135,9 +135,15 @@ const EmptyLegsMapView = ({ legs, selectedLeg, onLegClick, onClose, isLiveData }
 
   // Fit bounds when legs change
   useEffect(() => {
-    if (!map.current || !bounds || !mapLoaded) return;
-    map.current.fitBounds(bounds, { padding: 80, maxZoom: 6, duration: 1200 });
-  }, [bounds, mapLoaded]);
+    const mb = mbRef.current;
+    if (!map.current || !mb || !mapLoaded || projectedLegs.length === 0) return;
+    const b = new mb.LngLatBounds();
+    projectedLegs.forEach((leg: EmptyLeg) => {
+      b.extend([leg.departure!.lng!, leg.departure!.lat!]);
+      b.extend([leg.arrival!.lng!, leg.arrival!.lat!]);
+    });
+    map.current.fitBounds(b, { padding: 80, maxZoom: 6, duration: 1200 });
+  }, [projectedLegs, mapLoaded]);
 
    // Draw routes + markers
   useEffect(() => {
