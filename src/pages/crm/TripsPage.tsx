@@ -99,7 +99,7 @@ const TripsPage = () => {
           <DialogHeader><DialogTitle className="font-display text-lg">{editing?.id ? "Edit" : "New"} Trip</DialogTitle></DialogHeader>
           <form onSubmit={handleSubmit} className="space-y-4 mt-2">
             <div><label className={labelClass}>Client</label>
-              <select value={form.client_id} onChange={e => setForm(p => ({ ...p, client_id: e.target.value }))} className={inputClass}>
+              <select value={form.client_id} onChange={e => setForm(p => ({ ...p, client_id: e.target.value }))} className={crmSelectClass}>
                 <option value="">Select client...</option>
                 {clients.map(c => <option key={c.id} value={c.id}>{c.full_name}</option>)}
               </select>
