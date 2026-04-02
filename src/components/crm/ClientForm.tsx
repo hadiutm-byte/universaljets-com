@@ -19,10 +19,10 @@ const clientTypes = [
 
 const contactMethods = ["email", "phone", "whatsapp"];
 
-const inputClass =
-  "w-full bg-secondary/50 rounded-lg px-3 py-2.5 text-[13px] text-foreground placeholder:text-foreground/20 font-light focus:outline-none focus:ring-1 focus:ring-primary/20 transition-all border border-border/20";
+import { crmInputClass, crmLabelClass, crmCheckboxClass } from "@/components/crm/crmStyles";
 
-const labelClass = "text-[9px] tracking-[0.2em] uppercase text-muted-foreground/60 mb-1.5 block font-light";
+const inputClass = crmInputClass + " placeholder:text-foreground/20";
+const labelClass = crmLabelClass;
 
 export default function ClientForm({ open, onOpenChange, onSuccess, initial }: Props) {
   const [loading, setLoading] = useState(false);
