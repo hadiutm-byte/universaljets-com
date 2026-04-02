@@ -7,6 +7,10 @@ const corsHeaders = {
 
 const AVIAPAGES_BASE = 'https://dir.aviapages.com';
 
+// ─── Response-level cache (10 min TTL) ──────────────────────────────────────
+let cachedResponse: { json: string; timestamp: number } | null = null;
+const CACHE_TTL_MS = 10 * 60 * 1000; // 10 minutes
+
 // ─── Aircraft type cache (populated on cold start) ──────────────────────────
 interface AircraftTypeMeta {
   image_url: string | null;
@@ -406,6 +410,14 @@ serve(async (req) => {
   }
 
   try {
+    // Return cached response if fresh
+    if (cachedResponse && (Date.now() - cachedResponse.timestamp) < CACHE_TTL_MS) {
+      console.log('[empty-legs] Serving from cache');
+      return new Response(cachedResponse.json, {
+        headers: { ...corsHeaders, 'Content-Type': 'application/json', 'X-Cache': 'HIT' },
+      });
+    }
+
     const apiKey = Deno.env.get('AVIAPAGES_API_KEY');
     if (!apiKey) {
       throw new Error('AVIAPAGES_API_KEY not configured');
@@ -479,11 +491,22 @@ serve(async (req) => {
 
     console.log(`[empty-legs] Fetched ${page - 1} pages, ${allResults.length} unique results`);
 
-    return new Response(JSON.stringify({ count: allResults.length, results: allResults }), {
-      headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+    const responseJson = JSON.stringify({ count: allResults.length, results: allResults });
+
+    // Cache the response
+    cachedResponse = { json: responseJson, timestamp: Date.now() };
+
+    return new Response(responseJson, {
+      headers: { ...corsHeaders, 'Content-Type': 'application/json', 'X-Cache': 'MISS' },
     });
   } catch (error) {
     console.error('[empty-legs] Error:', error);
+    // Return stale cache on error if available
+    if (cachedResponse) {
+      return new Response(cachedResponse.json, {
+        headers: { ...corsHeaders, 'Content-Type': 'application/json', 'X-Cache': 'STALE' },
+      });
+    }
     return new Response(JSON.stringify({ count: 0, results: [] }), {
       headers: { ...corsHeaders, 'Content-Type': 'application/json' },
     });
