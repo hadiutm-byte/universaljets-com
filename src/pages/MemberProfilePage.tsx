@@ -52,6 +52,7 @@ const MemberProfilePage = () => {
   const [invoices, setInvoices] = useState<any[]>([]);
   const [trips, setTrips] = useState<any[]>([]);
   const [requests, setRequests] = useState<any[]>([]);
+  const [clientRecord, setClientRecord] = useState<any>(null);
   const [loading, setLoading] = useState(true);
 
   /* route form */
