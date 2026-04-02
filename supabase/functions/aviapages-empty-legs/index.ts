@@ -7,6 +7,10 @@ const corsHeaders = {
 
 const AVIAPAGES_BASE = 'https://dir.aviapages.com';
 
+// ─── Response-level cache (10 min TTL) ──────────────────────────────────────
+let cachedResponse: { json: string; timestamp: number } | null = null;
+const CACHE_TTL_MS = 10 * 60 * 1000; // 10 minutes
+
 // ─── Aircraft type cache (populated on cold start) ──────────────────────────
 interface AircraftTypeMeta {
   image_url: string | null;
