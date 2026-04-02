@@ -45,12 +45,15 @@ const Index = () => {
   return (
     <div className="min-h-screen bg-background relative overflow-x-hidden">
       <SEOHead
-        title="Private Jet Charter — Fly Smarter. Fly Private"
-        description="Access the global private jet market with Universal Jets. On-demand charter, empty legs, and 24/7 concierge. 18+ years of private aviation excellence."
+        title="Private Jet Charter Dubai — On-Demand Flights"
+        description="Charter a private jet from Dubai worldwide. On-demand flights, empty legs up to 75% off, jet cards with fixed rates. 18+ years, 7,000+ aircraft. Get an instant quote."
         path="/"
       />
       <JsonLd data={organizationSchema} />
       <JsonLd data={localBusinessSchema} />
+      <JsonLd data={websiteSchema} />
+      <JsonLd data={serviceSchema} />
+      <JsonLd data={faqSchema} />
 
       <div className="relative">
         <MembershipBanner onRequestInvitation={() => setAuthOpen(true)} />
