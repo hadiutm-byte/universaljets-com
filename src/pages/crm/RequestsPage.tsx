@@ -140,7 +140,7 @@ const RequestsPage = () => {
               <div><label className={labelClass}>Passengers</label><input type="number" min={1} value={form.passengers} onChange={e => setForm(p => ({ ...p, passengers: parseInt(e.target.value) || 1 }))} className={inputClass} /></div>
             </div>
             <div><label className={labelClass}>Status</label>
-              <select value={form.status} onChange={e => setForm(p => ({ ...p, status: e.target.value as RequestStatus }))} className={inputClass}>
+              <select value={form.status} onChange={e => setForm(p => ({ ...p, status: e.target.value as RequestStatus }))} className={selectClass}>
                 {STATUSES.map(s => <option key={s} value={s}>{s}</option>)}
               </select>
             </div>
