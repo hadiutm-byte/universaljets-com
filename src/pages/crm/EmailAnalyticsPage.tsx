@@ -1,5 +1,5 @@
 import { useEffect, useState, useCallback } from "react";
-import { useCrmApi } from "@/hooks/useCrmApi";
+import { supabase } from "@/integrations/supabase/client";
 import { Mail, CheckCircle, XCircle, AlertTriangle, Clock, ChevronLeft, ChevronRight } from "lucide-react";
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer } from "recharts";
 
