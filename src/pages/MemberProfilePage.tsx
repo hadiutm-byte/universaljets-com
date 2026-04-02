@@ -79,8 +79,9 @@ const MemberProfilePage = () => {
     setDocuments(dRes.data ?? []);
 
     // Fetch client-linked data (invoices, trips, requests)
-    const { data: clientData } = await supabase.from("clients").select("id").eq("user_id", uid).maybeSingle();
+    const { data: clientData } = await supabase.from("clients").select("*").eq("user_id", uid).maybeSingle();
     if (clientData) {
+      setClientRecord(clientData);
       const [iRes, trRes, frRes] = await Promise.all([
         supabase.from("invoices").select("*").order("created_at", { ascending: false }).limit(20),
         supabase.from("trips").select("*").eq("client_id", clientData.id).order("created_at", { ascending: false }),
