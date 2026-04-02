@@ -4,6 +4,7 @@ import { BookOpen, Check } from "lucide-react";
 import { Link } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
+import { NewsletterSchema } from "@/lib/websiteValidation";
 
 const insights = [
   "Private aviation insights",
