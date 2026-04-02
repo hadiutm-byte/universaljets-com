@@ -179,6 +179,4 @@ const detail = { fontSize: '14px', color: '#333333', lineHeight: '1.6', margin: 
 const summaryBox = { backgroundColor: '#FAFAF7', padding: '16px 20px', borderRadius: '8px', borderLeft: '3px solid #A8850F', margin: '16px 0' }
 const divider = { borderColor: '#A8850F', borderWidth: '1px', margin: '20px 0' }
 const footer = { fontSize: '11px', color: '#999999', margin: '16px 0 4px', textAlign: 'center' as const }
-const button = { backgroundColor: '#A8850F', color: '#ffffff', padding: '12px 28px', borderRadius: '6px', fontSize: '14px', fontWeight: '600', textDecoration: 'none' }
-const footer = { fontSize: '11px', color: '#999999', margin: '16px 0 4px', textAlign: 'center' as const }
 const footerNote = { fontSize: '11px', color: '#BBBBBB', margin: '0', textAlign: 'center' as const }
