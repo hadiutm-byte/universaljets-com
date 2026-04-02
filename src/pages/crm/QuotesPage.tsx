@@ -1,4 +1,5 @@
 import { useEffect, useState, useCallback } from "react";
+import { crmInputClass, crmLabelClass } from "@/components/crm/crmStyles";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";

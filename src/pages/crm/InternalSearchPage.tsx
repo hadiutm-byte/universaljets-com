@@ -1,4 +1,5 @@
 import { useState, useMemo } from "react";
+import { crmInputClass, crmLabelClass } from "@/components/crm/crmStyles";
 import { useSearchParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
