@@ -77,7 +77,6 @@ const RequestFlightPage = lazy(() => import("./pages/RequestFlightPage.tsx"));
 const NotFound = lazy(() => import("./pages/NotFound.tsx"));
 const UnsubscribePage = lazy(() => import("./pages/UnsubscribePage.tsx"));
 const ResetPasswordPage = lazy(() => import("./pages/ResetPasswordPage.tsx"));
-const Ricky3D = lazy(() => import("./components/Ricky3D.tsx"));
 
 
 const queryClient = new QueryClient();
@@ -174,9 +173,6 @@ const App = () => (
           </Routes>
         </Suspense>
         {/* Ricky concierge temporarily disabled — re-enable after core platform stabilization */}
-        {/* <Suspense fallback={null}>
-          <Ricky3D />
-        </Suspense> */}
         <FloatingContactStack />
         <CookieConsent />
       </BrowserRouter>

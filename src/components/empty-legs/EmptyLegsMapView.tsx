@@ -1,12 +1,22 @@
 import { useState, useRef, useCallback, useEffect, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Plane, X, Users, ArrowRight, Share2, Ruler } from "lucide-react";
+import { Plane, X, Users, ArrowRight, Share2, Ruler, Loader2 } from "lucide-react";
 import AircraftGallery from "@/components/AircraftGallery";
-import mapboxgl from "mapbox-gl";
-import "mapbox-gl/dist/mapbox-gl.css";
 import type { EmptyLeg } from "@/hooks/useAviapages";
 import { getAircraftImage, getAircraftCategory } from "@/lib/aircraftImages";
 import { useShareCard } from "@/hooks/useShareCard";
+
+/** Lazily load mapbox-gl + its CSS only when the map is rendered. */
+let _mapboxgl: any = null;
+async function getMapboxGL() {
+  if (_mapboxgl) return _mapboxgl;
+  const [mod] = await Promise.all([
+    import("mapbox-gl"),
+    import("mapbox-gl/dist/mapbox-gl.css"),
+  ]);
+  _mapboxgl = mod.default ?? mod;
+  return _mapboxgl;
+}
 
 const MAPBOX_TOKEN = "pk.eyJ1IjoiaGFkaWFiZHVsaGFkaSIsImEiOiJjbW43MDV3NDQwYWZvMnhzYmF6cG05a3ZsIn0.fKSSW2NTnStIWXZyXDk_KA";
 
@@ -38,11 +48,13 @@ function generateArc(from: [number, number], to: [number, number], steps = 64): 
 
 const EmptyLegsMapView = ({ legs, selectedLeg, onLegClick, onClose, isLiveData }: EmptyLegsMapViewProps) => {
   const mapContainer = useRef<HTMLDivElement>(null);
-  const map = useRef<mapboxgl.Map | null>(null);
-  const markersRef = useRef<mapboxgl.Marker[]>([]);
-  const popupRef = useRef<mapboxgl.Popup | null>(null);
+  const map = useRef<any>(null);
+  const mbRef = useRef<any>(null); // stores loaded mapboxgl module
+  const markersRef = useRef<any[]>([]);
+  const popupRef = useRef<any>(null);
   const [hoveredLeg, setHoveredLeg] = useState<EmptyLeg | null>(null);
   const [mapLoaded, setMapLoaded] = useState(false);
+  const [mapReady, setMapReady] = useState(false);
 
   const projectedLegs = useMemo(() => {
     return legs.filter((leg) => {
@@ -52,81 +64,86 @@ const EmptyLegsMapView = ({ legs, selectedLeg, onLegClick, onClose, isLiveData }
     });
   }, [legs]);
 
-  // Compute bounds
-  const bounds = useMemo(() => {
-    if (projectedLegs.length === 0) return null;
-    const b = new mapboxgl.LngLatBounds();
-    projectedLegs.forEach((leg) => {
-      b.extend([leg.departure!.lng!, leg.departure!.lat!]);
-      b.extend([leg.arrival!.lng!, leg.arrival!.lat!]);
-    });
-    return b;
-  }, [projectedLegs]);
-
-  // Initialize map
+  // Initialize map with dynamic import
   useEffect(() => {
     if (!mapContainer.current || map.current) return;
+    let cancelled = false;
 
-    mapboxgl.accessToken = MAPBOX_TOKEN;
+    getMapboxGL().then((mb) => {
+      if (cancelled || !mapContainer.current) return;
+      mbRef.current = mb;
+      mb.accessToken = MAPBOX_TOKEN;
 
-    const m = new mapboxgl.Map({
-      container: mapContainer.current,
-      style: {
-        version: 8,
-        name: "UJ Dark",
-        sources: {
-          "carto-dark": {
-            type: "raster",
-            tiles: [
-              "https://a.basemaps.cartocdn.com/dark_nolabels/{z}/{x}/{y}@2x.png",
-              "https://b.basemaps.cartocdn.com/dark_nolabels/{z}/{x}/{y}@2x.png",
-              "https://c.basemaps.cartocdn.com/dark_nolabels/{z}/{x}/{y}@2x.png",
-            ],
-            tileSize: 256,
-          },
-        },
-        layers: [
-          {
-            id: "carto-dark-layer",
-            type: "raster",
-            source: "carto-dark",
-            paint: {
-              "raster-opacity": 0.85,
-              "raster-brightness-max": 0.45,
-              "raster-contrast": 0.2,
-              "raster-saturation": -0.6,
+      const m = new mb.Map({
+        container: mapContainer.current,
+        style: {
+          version: 8,
+          name: "UJ Dark",
+          sources: {
+            "carto-dark": {
+              type: "raster",
+              tiles: [
+                "https://a.basemaps.cartocdn.com/dark_nolabels/{z}/{x}/{y}@2x.png",
+                "https://b.basemaps.cartocdn.com/dark_nolabels/{z}/{x}/{y}@2x.png",
+                "https://c.basemaps.cartocdn.com/dark_nolabels/{z}/{x}/{y}@2x.png",
+              ],
+              tileSize: 256,
             },
           },
-        ],
-      },
-      center: [20, 30],
-      zoom: 2,
-      minZoom: 1.5,
-      maxZoom: 12,
-      attributionControl: false,
-      fadeDuration: 0,
+          layers: [
+            {
+              id: "carto-dark-layer",
+              type: "raster",
+              source: "carto-dark",
+              paint: {
+                "raster-opacity": 0.85,
+                "raster-brightness-max": 0.45,
+                "raster-contrast": 0.2,
+                "raster-saturation": -0.6,
+              },
+            },
+          ],
+        },
+        center: [20, 30],
+        zoom: 2,
+        minZoom: 1.5,
+        maxZoom: 12,
+        attributionControl: false,
+        fadeDuration: 0,
+      });
+
+      m.addControl(new mb.NavigationControl({ showCompass: false }), "top-right");
+
+      m.on("load", () => {
+        setMapLoaded(true);
+      });
+
+      map.current = m;
+      setMapReady(true);
     });
-
-    m.addControl(new mapboxgl.NavigationControl({ showCompass: false }), "top-right");
-
-    m.on("load", () => {
-      setMapLoaded(true);
-    });
-
-    map.current = m;
 
     return () => {
-      m.remove();
-      map.current = null;
+      cancelled = true;
+      if (map.current) {
+        map.current.remove();
+        map.current = null;
+      }
       setMapLoaded(false);
+      setMapReady(false);
     };
   }, []);
 
   // Fit bounds when legs change
   useEffect(() => {
-    if (!map.current || !bounds || !mapLoaded) return;
-    map.current.fitBounds(bounds, { padding: 80, maxZoom: 6, duration: 1200 });
-  }, [bounds, mapLoaded]);
+    const mb = mbRef.current;
+    if (!map.current || !mb || !mapLoaded || projectedLegs.length === 0) return;
+    const b = new mb.LngLatBounds();
+    projectedLegs.forEach((leg: EmptyLeg) => {
+      b.extend([leg.departure!.lng!, leg.departure!.lat!]);
+      b.extend([leg.arrival!.lng!, leg.arrival!.lat!]);
+    });
+    map.current.fitBounds(b, { padding: 80, maxZoom: 6, duration: 1200 });
+  }, [projectedLegs, mapLoaded]);
 
    // Draw routes + markers
   useEffect(() => {
@@ -220,30 +237,32 @@ const EmptyLegsMapView = ({ legs, selectedLeg, onLegClick, onClose, isLiveData }
       });
 
       // Departure marker
+      const mb = mbRef.current;
       const depEl = createMarkerEl(isActive);
-      const depMarker = new mapboxgl.Marker({ element: depEl })
+      const depMarker = new mb.Marker({ element: depEl })
         .setLngLat(from)
         .addTo(m);
-      depEl.addEventListener("click", (e) => { e.stopPropagation(); onLegClick(leg); });
+      depEl.addEventListener("click", (e: Event) => { e.stopPropagation(); onLegClick(leg); });
       markersRef.current.push(depMarker);
 
       // Arrival marker
       const arrEl = createMarkerEl(isActive);
-      const arrMarker = new mapboxgl.Marker({ element: arrEl })
+      const arrMarker = new mb.Marker({ element: arrEl })
         .setLngLat(to)
         .addTo(m);
-      arrEl.addEventListener("click", (e) => { e.stopPropagation(); onLegClick(leg); });
+      arrEl.addEventListener("click", (e: Event) => { e.stopPropagation(); onLegClick(leg); });
       markersRef.current.push(arrMarker);
     });
   }, [projectedLegs, selectedLeg, mapLoaded, onLegClick]);
 
   // Pan to selected leg
   useEffect(() => {
-    if (!map.current || !selectedLeg || !mapLoaded) return;
+    const mb = mbRef.current;
+    if (!map.current || !mb || !selectedLeg || !mapLoaded) return;
     const dep = selectedLeg.departure;
     const arr = selectedLeg.arrival;
     if (!dep?.lng || !dep?.lat || !arr?.lng || !arr?.lat) return;
-    const b = new mapboxgl.LngLatBounds();
+    const b = new mb.LngLatBounds();
     b.extend([dep.lng, dep.lat]);
     b.extend([arr.lng, arr.lat]);
     map.current.fitBounds(b, { padding: { top: 80, bottom: 80, left: 80, right: 420 }, maxZoom: 7, duration: 800 });
@@ -273,6 +292,12 @@ const EmptyLegsMapView = ({ legs, selectedLeg, onLegClick, onClose, isLiveData }
         className="w-full"
         style={{ height: "560px" }}
       />
+      {/* Loading overlay while mapbox loads */}
+      {!mapReady && (
+        <div className="absolute inset-0 flex items-center justify-center bg-card">
+          <Loader2 className="w-6 h-6 text-primary animate-spin" />
+        </div>
+      )}
 
       {/* Custom CSS for Mapbox controls */}
       <style>{`
