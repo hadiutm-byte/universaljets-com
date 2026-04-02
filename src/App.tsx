@@ -77,7 +77,6 @@ const RequestFlightPage = lazy(() => import("./pages/RequestFlightPage.tsx"));
 const NotFound = lazy(() => import("./pages/NotFound.tsx"));
 const UnsubscribePage = lazy(() => import("./pages/UnsubscribePage.tsx"));
 const ResetPasswordPage = lazy(() => import("./pages/ResetPasswordPage.tsx"));
-const Ricky3D = lazy(() => import("./components/Ricky3D.tsx"));
 
 
 const queryClient = new QueryClient();
