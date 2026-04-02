@@ -244,7 +244,7 @@ const FlightSearchBox = () => {
                       onClearSelection={() => updateLeg(0, { selectedFrom: null })}
                       error={showFromError}
                     />
-                    <SwapButton onClick={() => swapRoute(0)} />
+                    {/* SwapButton removed */}
                     <AirportField
                       label="To" icon={MapPin}
                       value={primaryLeg.to}
