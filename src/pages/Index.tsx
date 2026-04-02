@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, lazy, Suspense } from "react";
 import SEOHead from "@/components/SEOHead";
 import JsonLd, { organizationSchema, localBusinessSchema } from "@/components/JsonLd";
 import Navbar from "@/components/Navbar";
@@ -8,18 +8,21 @@ import HeroSection from "@/components/HeroSection";
 import SearchSection from "@/components/SearchSection";
 import TrustStrip from "@/components/TrustStrip";
 import CharterSolutionsSection from "@/components/CharterSolutionsSection";
-import BeyondTheFlightSection from "@/components/BeyondTheFlightSection";
 import HowItWorksSection from "@/components/HowItWorksSection";
-import EmptyLegsMap from "@/components/EmptyLegsMap";
-import MembershipHero from "@/components/MembershipHero";
-import JetCardSection from "@/components/JetCardSection";
-import PartnersSection from "@/components/PartnersSection";
-import FinalCTASection from "@/components/FinalCTASection";
-import SEOContentSection from "@/components/SEOContentSection";
 import Footer from "@/components/Footer";
 import StickyFloatingCTA from "@/components/StickyFloatingCTA";
-import EventsSection from "@/components/EventsSection";
 import ErrorBoundary from "@/components/ErrorBoundary";
+import LazySection from "@/components/LazySection";
+
+// Lazy-load heavy below-fold sections
+const EmptyLegsMap = lazy(() => import("@/components/EmptyLegsMap"));
+const MembershipHero = lazy(() => import("@/components/MembershipHero"));
+const JetCardSection = lazy(() => import("@/components/JetCardSection"));
+const BeyondTheFlightSection = lazy(() => import("@/components/BeyondTheFlightSection"));
+const EventsSection = lazy(() => import("@/components/EventsSection"));
+const PartnersSection = lazy(() => import("@/components/PartnersSection"));
+const FinalCTASection = lazy(() => import("@/components/FinalCTASection"));
+const SEOContentSection = lazy(() => import("@/components/SEOContentSection"));
 
 /** Wrap a section so if it crashes, only that section shows a fallback — not the whole page. */
 const SectionGuard = ({ children, name }: { children: React.ReactNode; name: string }) => (
