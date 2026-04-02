@@ -6,12 +6,13 @@
  *
  * DataLayer events pushed here are picked up by GTM triggers and
  * mapped to GA4 events and Google Ads conversion tags inside GTM.
+ */
+
 declare global {
   interface Window {
     dataLayer: Record<string, unknown>[];
   }
 }
-
 
 
 const push = (event: string, params?: Record<string, unknown>) => {
