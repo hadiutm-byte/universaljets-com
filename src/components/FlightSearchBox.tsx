@@ -53,12 +53,13 @@ const SwapButton = ({ onClick }: { onClick: () => void }) => (
   <motion.button
     onClick={onClick}
     aria-label="Swap departure and destination"
-    whileHover={{ scale: 1.15, rotate: 180 }}
+    whileHover={{ scale: 1.1 }}
     whileTap={{ scale: 0.9 }}
     transition={{ type: "spring", stiffness: 400, damping: 15 }}
-    className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-10 w-10 h-10 rounded-full bg-background/80 backdrop-blur-xl border border-primary/20 flex items-center justify-center text-primary/60 hover:text-primary hover:border-primary/50 hover:shadow-[0_0_20px_-4px_hsl(var(--primary)/0.3)] transition-all duration-500 cursor-pointer hidden sm:flex"
+    className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-10 w-9 h-9 rounded-full bg-background/80 backdrop-blur-xl border border-primary/20 flex flex-col items-center justify-center gap-0 text-primary/60 hover:text-primary hover:border-primary/50 hover:shadow-[0_0_20px_-4px_hsl(var(--primary)/0.3)] transition-all duration-500 cursor-pointer hidden sm:flex"
   >
-    <ArrowLeftRight size={14} strokeWidth={1.5} />
+    <ArrowRight size={10} strokeWidth={2} className="-mb-[3px]" />
+    <ArrowLeft size={10} strokeWidth={2} className="-mt-[3px]" />
   </motion.button>
 );
 
