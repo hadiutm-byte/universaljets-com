@@ -55,7 +55,17 @@ const statusColor: Record<string, string> = {
 };
 
 const EmailAnalyticsPage = () => {
-  const { call } = useCrmApi();
+  const call = useCallback(
+    async (params: Record<string, string>) => {
+      const { data, error } = await supabase.functions.invoke("crm-api", {
+        method: "POST",
+        body: { _endpoint: "email-analytics", _method: "GET", _params: params },
+      });
+      if (error) return null;
+      return data;
+    },
+    []
+  );
   const [stats, setStats] = useState<EmailStats | null>(null);
   const [logs, setLogs] = useState<EmailLog[]>([]);
   const [dailyVolume, setDailyVolume] = useState<any[]>([]);
