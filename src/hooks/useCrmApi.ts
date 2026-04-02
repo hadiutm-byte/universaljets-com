@@ -3,6 +3,29 @@ import { supabase } from "@/integrations/supabase/client";
 
 const CRM_FUNCTION = "crm-api";
 
+/**
+ * Hook providing typed access to the unified CRM edge function (`crm-api`).
+ *
+ * All calls are routed through a single Supabase edge function with a
+ * virtual endpoint dispatch (`_endpoint`) to keep the API surface minimal
+ * while supporting the full CRM workflow:
+ *
+ * - **`capture`** — Universal lead/request intake from any public form.
+ * - **`getMyProfile`** — Fetch authenticated member's full profile.
+ * - **`updateProfile`** — Update profile, travel prefs, or concierge prefs.
+ * - **`getDashboardStats`** — Aggregate counts for CRM dashboard cards.
+ * - **`getLeads / getClients / getRequests / getQuotes / getInvoices / getTrips`** — Staff CRUD.
+ * - **`getMembershipApplications`** — Membership pipeline management.
+ * - **`getClient`** — Full client 360° view with related records.
+ * - **`updateStatus`** — Universal status updater with pipeline automations.
+ * - **`createQuote`** — Generate a draft quote from a flight request.
+ * - **`createClient`** — Manual staff client creation with duplicate checks.
+ *
+ * Each method includes a 30-second hard timeout via AbortController to
+ * prevent indefinite UI hangs.
+ *
+ * @returns Object with all CRM API methods
+ */
 export function useCrmApi() {
   const call = useCallback(
     async <T = any>(

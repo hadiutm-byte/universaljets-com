@@ -2,15 +2,34 @@ import { useState, useEffect, useCallback } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import type { User, Session } from "@supabase/supabase-js";
 
+/** All assignable roles in the Universal Jets platform. */
 export type AppRole = "admin" | "sales" | "operations" | "finance" | "account_management" | "hr" | "client" | "business_development";
 
 interface AuthState {
+  /** Currently authenticated user, or null if signed out. */
   user: User | null;
+  /** Active Supabase session, or null. */
   session: Session | null;
+  /** Roles assigned to the user via the `user_roles` table. */
   roles: AppRole[];
+  /** True while the initial auth state is being resolved. */
   loading: boolean;
 }
 
+/**
+ * Central authentication hook for the Universal Jets platform.
+ *
+ * Responsibilities:
+ * - Subscribes to auth state changes (login, logout, token refresh).
+ * - Fetches the user's roles from the `user_roles` table.
+ * - Exposes `hasRole()` for role-based UI gating and `signOut()`.
+ *
+ * @example
+ * ```tsx
+ * const { user, roles, hasRole, signOut, loading } = useAuth();
+ * if (hasRole("admin")) { ... }
+ * ```
+ */
 export function useAuth() {
   const [state, setState] = useState<AuthState>({
     user: null,
