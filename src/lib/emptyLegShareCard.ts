@@ -222,33 +222,74 @@ export async function generateEmptyLegShareCard(data: ShareCardData): Promise<Bl
   ctx.fillRect(0, 0, W, H * 0.3);
 
   // ═══════════════════════════════════════
-  //  HEADER — Brand + Badge
+  //  HEADER — Brand Logo (matching website)
   // ═══════════════════════════════════════
   ctx.textAlign = "center";
 
-  // Brand name
-  ctx.fillStyle = "rgba(212, 175, 55, 0.85)";
-  ctx.font = "600 22px 'Inter', 'Helvetica Neue', sans-serif";
-  ctx.letterSpacing = "6px";
-  ctx.fillText("U N I V E R S A L   J E T S", W / 2, 75);
+  // Logo — "Universal" in white, "Jets" in gold, Montserrat font
+  const logoFont = "'Montserrat', 'Inter', 'Helvetica Neue', sans-serif";
+  const logoY = 72;
+  const logoSize = 28;
+  const logoSpacing = 12; // letter-spacing in px
+
+  // Measure "Universal" and "Jets" to center them together
+  ctx.font = `300 ${logoSize}px ${logoFont}`;
+  const uText = "Universal";
+  const jText = "Jets";
+  // Simulate tracking by drawing with spacing
+  const measureTracked = (text: string) => {
+    let w = 0;
+    for (let i = 0; i < text.length; i++) {
+      w += ctx.measureText(text[i]).width + (i < text.length - 1 ? logoSpacing : 0);
+    }
+    return w;
+  };
+  const uWidth = measureTracked(uText.toUpperCase());
+  ctx.font = `400 ${logoSize}px ${logoFont}`;
+  const jWidth = measureTracked(jText.toUpperCase());
+  const gap = 16;
+  const totalLogoW = uWidth + gap + jWidth;
+  const logoStartX = (W - totalLogoW) / 2;
+
+  // Draw "UNIVERSAL" with tracking
+  ctx.font = `300 ${logoSize}px ${logoFont}`;
+  ctx.fillStyle = "rgba(255, 255, 255, 0.90)";
+  let cx = logoStartX;
+  for (let i = 0; i < uText.length; i++) {
+    const ch = uText[i].toUpperCase();
+    ctx.fillText(ch, cx, logoY);
+    cx += ctx.measureText(ch).width + logoSpacing;
+  }
+
+  // Draw "JETS" with tracking in gold
+  ctx.font = `400 ${logoSize}px ${logoFont}`;
+  ctx.fillStyle = "rgba(212, 175, 55, 0.92)";
+  cx = logoStartX + uWidth + gap;
+  for (let i = 0; i < jText.length; i++) {
+    const ch = jText[i].toUpperCase();
+    ctx.fillText(ch, cx, logoY);
+    cx += ctx.measureText(ch).width + logoSpacing;
+  }
 
   // Badge pill
+  const badgeY = 98;
+  ctx.textAlign = "center";
   ctx.fillStyle = "rgba(212, 175, 55, 0.07)";
-  roundRect(ctx, W / 2 - 160, 95, 320, 42, 21);
+  roundRect(ctx, W / 2 - 175, badgeY, 350, 44, 22);
   ctx.fill();
   ctx.strokeStyle = "rgba(212, 175, 55, 0.3)";
   ctx.lineWidth = 1;
-  roundRect(ctx, W / 2 - 160, 95, 320, 42, 21);
+  roundRect(ctx, W / 2 - 175, badgeY, 350, 44, 22);
   ctx.stroke();
   ctx.fillStyle = "rgba(212, 175, 55, 0.9)";
   ctx.font = "700 13px 'Inter', 'Helvetica Neue', sans-serif";
-  ctx.fillText("✈  EMPTY LEG OPPORTUNITY", W / 2, 121);
+  ctx.fillText("✈  EMPTY LEG OPPORTUNITY", W / 2, badgeY + 29);
 
   // ═══════════════════════════════════════
   //  MAP — clean and polished
   // ═══════════════════════════════════════
-  const mapTop = 160;
-  const mapH = 680;
+  const mapTop = 180;
+  const mapH = 660;
 
   try {
     const mapImg = await loadImage(buildMapUrl(fromCoords, toCoords));
