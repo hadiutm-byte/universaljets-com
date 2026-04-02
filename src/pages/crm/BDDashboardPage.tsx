@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { crmInputClass, crmLabelClass, crmFilterClass } from "@/components/crm/crmStyles";
 import { supabase } from "@/integrations/supabase/client";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
@@ -104,8 +105,8 @@ const BDDashboardPage = () => {
   const pipeline = opportunities.filter(o => !["won", "lost", "on_hold"].includes(o.status)).reduce((s, o) => s + Number(o.estimated_value || 0), 0);
   const handedOff = opportunities.filter(o => o.status === "handed_to_sales").length;
 
-  const inputClass = "w-full bg-secondary/50 rounded-lg px-3 py-2.5 text-[13px] text-foreground font-light focus:outline-none focus:ring-1 focus:ring-primary/20 transition-all border border-border/20";
-  const labelClass = "text-[9px] tracking-[0.2em] uppercase text-muted-foreground/60 mb-1.5 block font-light";
+  const inputClass = crmInputClass;
+  const labelClass = crmLabelClass;
 
   return (
     <div>
