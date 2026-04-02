@@ -19,10 +19,10 @@ const clientTypes = [
 
 const contactMethods = ["email", "phone", "whatsapp"];
 
-const inputClass =
-  "w-full bg-secondary/50 rounded-lg px-3 py-2.5 text-[13px] text-foreground placeholder:text-foreground/20 font-light focus:outline-none focus:ring-1 focus:ring-primary/20 transition-all border border-border/20";
+import { crmInputClass, crmLabelClass, crmCheckboxClass } from "@/components/crm/crmStyles";
 
-const labelClass = "text-[9px] tracking-[0.2em] uppercase text-muted-foreground/60 mb-1.5 block font-light";
+const inputClass = crmInputClass + " placeholder:text-foreground/20";
+const labelClass = crmLabelClass;
 
 export default function ClientForm({ open, onOpenChange, onSuccess, initial }: Props) {
   const [loading, setLoading] = useState(false);
@@ -111,7 +111,7 @@ export default function ClientForm({ open, onOpenChange, onSuccess, initial }: P
   const checkbox = (label: string, key: string) => (
     <label className="flex items-center gap-2 cursor-pointer">
       <input type="checkbox" checked={form[key] ?? false} onChange={(e) => set(key, e.target.checked)}
-        className="w-3.5 h-3.5 rounded border-border/40 accent-primary" />
+        className={crmCheckboxClass} />
       <span className="text-[11px] text-foreground/60 font-light">{label}</span>
     </label>
   );

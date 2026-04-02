@@ -1,4 +1,5 @@
 import { useEffect, useState, useCallback } from "react";
+import { crmInputClass, crmLabelClass, crmFilterClass } from "@/components/crm/crmStyles";
 import { supabase } from "@/integrations/supabase/client";
 import CrmTable from "@/components/crm/CrmTable";
 import { StatusBadge } from "@/components/crm/StatusBadge";
@@ -64,8 +65,8 @@ const InvoicesPage = () => {
   const totalPaid = data.filter(r => r.status === "paid").reduce((s, r) => s + Number(r.amount || 0), 0);
   const overdueCount = data.filter(isOverdue).length;
 
-  const inputClass = "w-full bg-secondary/50 rounded-lg px-3 py-2.5 text-[13px] text-foreground font-light focus:outline-none focus:ring-1 focus:ring-primary/20 transition-all border border-border/20";
-  const labelClass = "text-[9px] tracking-[0.2em] uppercase text-muted-foreground/60 mb-1.5 block font-light";
+  const inputClass = crmInputClass;
+  const labelClass = crmLabelClass;
 
   return (
     <div className="space-y-6">

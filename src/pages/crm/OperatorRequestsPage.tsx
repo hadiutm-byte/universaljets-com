@@ -1,4 +1,5 @@
 import { useEffect, useState, useCallback } from "react";
+import { crmInputClass, crmLabelClass, crmFilterClass } from "@/components/crm/crmStyles";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
 import CrmTable from "@/components/crm/CrmTable";
@@ -161,8 +162,8 @@ const OperatorRequestsPage = () => {
     load();
   };
 
-  const inputClass = "w-full bg-secondary/50 rounded-lg px-3 py-2.5 text-[13px] text-foreground font-light focus:outline-none focus:ring-1 focus:ring-primary/20 transition-all border border-border/20";
-  const labelClass = "text-[9px] tracking-[0.2em] uppercase text-muted-foreground/60 mb-1.5 block font-light";
+  const inputClass = crmInputClass;
+  const labelClass = crmLabelClass;
 
   const columns = [
     { key: "route", label: "Route", render: (r: any) => r.flight_requests ? `${r.flight_requests.departure} → ${r.flight_requests.destination}` : "—" },

@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { crmInputClass, crmLabelClass, crmFilterClass } from "@/components/crm/crmStyles";
 import { useParams, Link } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { motion } from "framer-motion";
@@ -98,7 +99,7 @@ const AccountMgmtDetailPage = () => {
     return m[s] || "bg-secondary text-muted-foreground";
   };
 
-  const inputClass = "w-full bg-secondary/50 rounded-lg px-3 py-2.5 text-[13px] text-foreground font-light focus:outline-none focus:ring-1 focus:ring-primary/20 transition-all border border-border/20";
+  const inputClass = crmInputClass;
 
   return (
     <div>

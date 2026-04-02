@@ -1,4 +1,5 @@
 import { useState, useMemo } from "react";
+import { crmInputClass, crmLabelClass } from "@/components/crm/crmStyles";
 import { useSearchParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
@@ -125,8 +126,8 @@ const InternalSearchPage = () => {
     setSubmitting(false);
   };
 
-  const inputClass = "w-full bg-secondary/50 rounded-lg px-3 py-2.5 text-[13px] text-foreground font-light focus:outline-none focus:ring-1 focus:ring-primary/20 transition-all border border-border/20";
-  const labelClass = "text-[9px] tracking-[0.2em] uppercase text-muted-foreground/60 mb-1.5 block font-light";
+  const inputClass = crmInputClass;
+  const labelClass = crmLabelClass;
 
   return (
     <div className="space-y-6">

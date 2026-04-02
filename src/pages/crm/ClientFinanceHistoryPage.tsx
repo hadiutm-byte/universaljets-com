@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { crmInputClass, crmLabelClass, crmFilterClass } from "@/components/crm/crmStyles";
 import { supabase } from "@/integrations/supabase/client";
 import { motion } from "framer-motion";
 import { Users, Search } from "lucide-react";
@@ -32,7 +33,7 @@ const ClientFinanceHistoryPage = () => {
   const filtered = clients.filter(c => c.full_name?.toLowerCase().includes(search.toLowerCase()) || c.email?.toLowerCase().includes(search.toLowerCase()));
   const selectedClient = clients.find(c => c.id === selected);
 
-  const inputClass = "w-full bg-secondary/50 rounded-lg px-3 py-2.5 text-[13px] text-foreground font-light focus:outline-none focus:ring-1 focus:ring-primary/20 transition-all border border-border/20";
+  const inputClass = crmInputClass;
 
   return (
     <div>

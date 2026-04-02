@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { crmInputClass, crmLabelClass, crmFilterClass } from "@/components/crm/crmStyles";
 import { supabase } from "@/integrations/supabase/client";
 import { motion } from "framer-motion";
 import { ArrowUpRight, Plus } from "lucide-react";
@@ -39,8 +40,8 @@ const PayablesPage = () => {
   };
 
   const total = payables.filter(p => p.status === "pending").reduce((s, p) => s + Number(p.amount), 0);
-  const inputClass = "w-full bg-secondary/50 rounded-lg px-3 py-2.5 text-[13px] text-foreground font-light focus:outline-none focus:ring-1 focus:ring-primary/20 transition-all border border-border/20";
-  const labelClass = "text-[9px] tracking-[0.2em] uppercase text-muted-foreground/60 mb-1.5 block font-light";
+  const inputClass = crmInputClass;
+  const labelClass = crmLabelClass;
 
   const statusColor = (s: string) => {
     if (s === "completed") return "bg-emerald-500/20 text-emerald-400";

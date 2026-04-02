@@ -1,4 +1,5 @@
 import { useEffect, useState, useCallback } from "react";
+import { crmInputClass, crmLabelClass, crmFilterClass } from "@/components/crm/crmStyles";
 import { supabase } from "@/integrations/supabase/client";
 import CrmTable from "@/components/crm/CrmTable";
 import { StatusBadge } from "@/components/crm/StatusBadge";
@@ -79,9 +80,9 @@ const RequestsPage = () => {
     }
   };
 
-  const inputClass = "w-full bg-secondary/50 rounded-lg px-3 py-2.5 text-[13px] text-foreground font-light focus:outline-none focus:ring-1 focus:ring-primary/20 transition-all border border-border/20";
-  const labelClass = "text-[9px] tracking-[0.2em] uppercase text-muted-foreground/60 mb-1.5 block font-light";
-  const filterClass = "px-3 py-2 text-[11px] rounded-lg border border-border/20 bg-secondary/30 text-foreground/70 focus:outline-none focus:ring-1 focus:ring-primary/30";
+  const inputClass = crmInputClass;
+  const labelClass = crmLabelClass;
+  const filterClass = crmFilterClass;
 
   return (
     <div className="space-y-6">
