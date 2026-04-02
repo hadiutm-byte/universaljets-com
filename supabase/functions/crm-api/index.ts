@@ -748,8 +748,9 @@ Deno.serve(async (req) => {
     // ══════════════════════════════════════════════════════════
     if (endpoint === "add-note" && httpMethod === "POST") {
       if (!isStaff) return err("Forbidden", 403);
-      const { client_id, note, note_type } = body;
-      if (!client_id || !note) return err("client_id and note required");
+      const noteParsed = AddNoteSchema.safeParse(body);
+      if (!noteParsed.success) return err(Object.values(noteParsed.error.flatten().fieldErrors).flat().join("; ") || "Validation failed");
+      const { client_id, note, note_type } = noteParsed.data;
 
       const { error } = await admin.from("activity_log").insert({
         entity_type: "client",
