@@ -91,6 +91,7 @@ const sections: { label: string; items: NavItem[] }[] = [
     label: "Admin",
     items: [
       { title: "User Management", url: "/crm/admin/users", icon: Shield, roles: ["admin"] },
+      { title: "Email Analytics", url: "/crm/admin/email-analytics", icon: Mail, roles: ["admin"] },
       { title: "Activity Log", url: "/crm/activity", icon: Activity, roles: ["admin"] },
       { title: "Settings", url: "/crm/admin/settings", icon: Settings, roles: ["admin"] },
     ],
