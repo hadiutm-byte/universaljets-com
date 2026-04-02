@@ -704,6 +704,85 @@ Deno.serve(async (req) => {
       return json({ success: true });
     }
 
+    // ══════════════════════════════════════════════════════════
+    // ADMIN: GET /email-analytics — Email delivery analytics
+    // ══════════════════════════════════════════════════════════
+    if (endpoint === "email-analytics" && httpMethod === "GET") {
+      if (!isAdmin) return err("Forbidden", 403);
+
+      const startDate = queryParams["start"] || new Date(Date.now() - 7 * 86400000).toISOString();
+      const endDate = queryParams["end"] || new Date().toISOString();
+      const templateFilter = queryParams["template"] || null;
+      const statusFilter = queryParams["status"] || null;
+      const page = parseInt(queryParams["page"] || "1");
+      const perPage = 50;
+
+      // Get all distinct template names
+      const { data: templateRows } = await admin.from("email_send_log").select("template_name");
+      const templateNames = [...new Set((templateRows ?? []).map((r: any) => r.template_name))].sort();
+
+      // Deduplicated stats query — get latest status per message_id
+      // We fetch all rows in range and deduplicate in JS since Supabase JS client doesn't support DISTINCT ON
+      let logQuery = admin.from("email_send_log")
+        .select("*")
+        .gte("created_at", startDate)
+        .lte("created_at", endDate)
+        .order("created_at", { ascending: false });
+
+      const { data: allRows } = await logQuery;
+      const rows = allRows ?? [];
+
+      // Deduplicate by message_id (keep latest)
+      const seen = new Map<string, any>();
+      for (const row of rows) {
+        const key = row.message_id || row.id;
+        if (!seen.has(key)) seen.set(key, row);
+      }
+      let deduped = Array.from(seen.values());
+
+      // Apply filters
+      if (templateFilter) deduped = deduped.filter(r => r.template_name === templateFilter);
+      if (statusFilter) deduped = deduped.filter(r => r.status === statusFilter);
+
+      // Summary stats
+      const stats = {
+        total: deduped.length,
+        sent: deduped.filter(r => r.status === "sent").length,
+        failed: deduped.filter(r => r.status === "dlq" || r.status === "failed").length,
+        suppressed: deduped.filter(r => r.status === "suppressed").length,
+        pending: deduped.filter(r => r.status === "pending").length,
+        bounced: deduped.filter(r => r.status === "bounced").length,
+        complained: deduped.filter(r => r.status === "complained").length,
+      };
+
+      // Paginate
+      const totalPages = Math.ceil(deduped.length / perPage);
+      const paginated = deduped.slice((page - 1) * perPage, page * perPage);
+
+      // Daily send volume for chart (last 30 days max)
+      const dailyMap = new Map<string, { sent: number; failed: number; total: number }>();
+      for (const row of deduped) {
+        const day = row.created_at?.slice(0, 10);
+        if (!day) continue;
+        const entry = dailyMap.get(day) || { sent: 0, failed: 0, total: 0 };
+        entry.total++;
+        if (row.status === "sent") entry.sent++;
+        if (row.status === "dlq" || row.status === "failed") entry.failed++;
+        dailyMap.set(day, entry);
+      }
+      const dailyVolume = Array.from(dailyMap.entries())
+        .map(([date, v]) => ({ date, ...v }))
+        .sort((a, b) => a.date.localeCompare(b.date));
+
+      return json({
+        stats,
+        logs: paginated,
+        templateNames,
+        dailyVolume,
+        pagination: { page, perPage, totalPages, totalItems: deduped.length },
+      });
+    }
+
     return err("Unknown endpoint: " + endpoint, 404);
   } catch (e: any) {
     return err(e.message || "Internal error", 500);

@@ -154,6 +154,7 @@ const App = () => (
               <Route path="finance/supplier-history" element={<SupplierHistoryPage />} />
               <Route path="resources" element={<CrmResourcesPage />} />
               <Route path="admin/users" element={<AdminUsersPage />} />
+              <Route path="admin/email-analytics" element={<EmailAnalyticsPage />} />
               <Route path="admin/settings" element={<AdminSettingsPage />} />
             </Route>
             <Route path="/careers" element={<CareersPage />} />
