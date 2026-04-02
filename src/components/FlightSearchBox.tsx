@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import { MapPin, Calendar, Users, Search, ArrowRight, ArrowLeft, RotateCcw, Plus, X, PlaneTakeoff, Phone } from "lucide-react";
+import { MapPin, Calendar, Users, Search, RotateCcw, Plus, X, PlaneTakeoff, Phone } from "lucide-react";
 import { format } from "date-fns";
 import { useAirportSearch, type Airport } from "@/hooks/useAviapages";
 import { useCrmApi } from "@/hooks/useCrmApi";
