@@ -237,19 +237,20 @@ const EmptyLegsMapView = ({ legs, selectedLeg, onLegClick, onClose, isLiveData }
       });
 
       // Departure marker
+      const mb = mbRef.current;
       const depEl = createMarkerEl(isActive);
-      const depMarker = new mapboxgl.Marker({ element: depEl })
+      const depMarker = new mb.Marker({ element: depEl })
         .setLngLat(from)
         .addTo(m);
-      depEl.addEventListener("click", (e) => { e.stopPropagation(); onLegClick(leg); });
+      depEl.addEventListener("click", (e: Event) => { e.stopPropagation(); onLegClick(leg); });
       markersRef.current.push(depMarker);
 
       // Arrival marker
       const arrEl = createMarkerEl(isActive);
-      const arrMarker = new mapboxgl.Marker({ element: arrEl })
+      const arrMarker = new mb.Marker({ element: arrEl })
         .setLngLat(to)
         .addTo(m);
-      arrEl.addEventListener("click", (e) => { e.stopPropagation(); onLegClick(leg); });
+      arrEl.addEventListener("click", (e: Event) => { e.stopPropagation(); onLegClick(leg); });
       markersRef.current.push(arrMarker);
     });
   }, [projectedLegs, selectedLeg, mapLoaded, onLegClick]);
