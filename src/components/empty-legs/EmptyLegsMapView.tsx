@@ -292,6 +292,12 @@ const EmptyLegsMapView = ({ legs, selectedLeg, onLegClick, onClose, isLiveData }
         className="w-full"
         style={{ height: "560px" }}
       />
+      {/* Loading overlay while mapbox loads */}
+      {!mapReady && (
+        <div className="absolute inset-0 flex items-center justify-center bg-card">
+          <Loader2 className="w-6 h-6 text-primary animate-spin" />
+        </div>
+      )}
 
       {/* Custom CSS for Mapbox controls */}
       <style>{`
