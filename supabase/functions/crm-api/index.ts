@@ -663,7 +663,8 @@ Deno.serve(async (req) => {
         if (dup && dup.length > 0) return err("A client with this email already exists");
       }
 
-      const clientPayload = { ...body, assigned_to: owner || userId };
+      const validatedClient = clientParsed.data;
+      const clientPayload: Record<string, any> = { ...validatedClient, assigned_to: userId };
       clientPayload.profile_completeness = calcCompleteness(clientPayload);
       const { data, error } = await admin.from("clients").insert(clientPayload).select("id").single();
       if (error) throw error;
