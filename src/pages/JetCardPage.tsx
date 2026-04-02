@@ -45,7 +45,7 @@ const faqs = [
 
 const JetCardPage = () => (
   <div className="min-h-screen bg-background">
-    <SEOHead title="Altus Jet Card Global — Fixed Rates, Zero Fees | Universal Jets" description="Purchase flight hours at locked-in rates. No membership fees, no hidden costs. Guaranteed availability with hours that carry forward." path="/jet-card" />
+    <SEOHead title="Altus Jet Card — Fixed Rates, Zero Fees" description="Purchase private jet flight hours at locked-in rates. No membership fees, no hidden costs. Guaranteed availability with hours that carry forward." path="/jet-card" breadcrumbs={[{ name: "Home", path: "/" }, { name: "Jet Card", path: "/jet-card" }]} />
     <Navbar />
 
     {/* ═══ HERO ═══ */}
