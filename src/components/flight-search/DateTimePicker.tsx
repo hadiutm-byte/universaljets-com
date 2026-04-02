@@ -326,18 +326,9 @@ const DesktopDateTimePicker = ({
 /* ─── Adaptive wrapper: use native pickers on touch/mobile devices ─── */
 const DateTimePicker = (props: DateTimePickerProps) => {
   const isMobile = useIsMobile();
-  const [isTouch, setIsTouch] = useState(false);
-
-  useEffect(() => {
-    setIsTouch(
-      "ontouchstart" in window ||
-      navigator.maxTouchPoints > 0 ||
-      window.matchMedia("(pointer: coarse)").matches
-    );
-  }, []);
-
-  const useMobile = isMobile || isTouch;
-  return useMobile ? <MobileDateTimePicker {...props} /> : <DesktopDateTimePicker {...props} />;
+  // Only use the mobile drum picker on phones (narrow viewports).
+  // Tablets and touch laptops get the desktop popover for better UX.
+  return isMobile ? <MobileDateTimePicker {...props} /> : <DesktopDateTimePicker {...props} />;
 };
 
 export default DateTimePicker;
