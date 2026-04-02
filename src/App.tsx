@@ -173,9 +173,6 @@ const App = () => (
           </Routes>
         </Suspense>
         {/* Ricky concierge temporarily disabled — re-enable after core platform stabilization */}
-        {/* <Suspense fallback={null}>
-          <Ricky3D />
-        </Suspense> */}
         <FloatingContactStack />
         <CookieConsent />
       </BrowserRouter>
