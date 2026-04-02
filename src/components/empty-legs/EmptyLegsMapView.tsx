@@ -1,23 +1,21 @@
 import { useState, useRef, useCallback, useEffect, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Plane, X, Users, ArrowRight, Share2, Ruler } from "lucide-react";
+import { Plane, X, Users, ArrowRight, Share2, Ruler, Loader2 } from "lucide-react";
 import AircraftGallery from "@/components/AircraftGallery";
 import type { EmptyLeg } from "@/hooks/useAviapages";
 import { getAircraftImage, getAircraftCategory } from "@/lib/aircraftImages";
 import { useShareCard } from "@/hooks/useShareCard";
 
-type MapboxGL = typeof import("mapbox-gl");
-let mapboxPromise: Promise<MapboxGL> | null = null;
-
-/** Lazily load mapbox-gl + its CSS only when the map view is actually rendered. */
-function loadMapbox(): Promise<MapboxGL> {
-  if (!mapboxPromise) {
-    mapboxPromise = Promise.all([
-      import("mapbox-gl"),
-      import("mapbox-gl/dist/mapbox-gl.css"),
-    ]).then(([mod]) => mod.default ?? mod);
-  }
-  return mapboxPromise;
+/** Lazily load mapbox-gl + its CSS only when the map is rendered. */
+let _mapboxgl: any = null;
+async function getMapboxGL() {
+  if (_mapboxgl) return _mapboxgl;
+  const [mod] = await Promise.all([
+    import("mapbox-gl"),
+    import("mapbox-gl/dist/mapbox-gl.css"),
+  ]);
+  _mapboxgl = mod.default ?? mod;
+  return _mapboxgl;
 }
 
 const MAPBOX_TOKEN = "pk.eyJ1IjoiaGFkaWFiZHVsaGFkaSIsImEiOiJjbW43MDV3NDQwYWZvMnhzYmF6cG05a3ZsIn0.fKSSW2NTnStIWXZyXDk_KA";
