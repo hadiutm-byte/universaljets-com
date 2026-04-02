@@ -107,7 +107,7 @@ const ContractsPage = () => {
             </div>
             <div><label className={labelClass}>Document URL</label><input value={form.file_url} onChange={e => setForm(p => ({ ...p, file_url: e.target.value }))} className={inputClass} /></div>
             <div><label className={labelClass}>Status</label>
-              <select value={form.status} onChange={e => setForm(p => ({ ...p, status: e.target.value as ContractStatus }))} className={inputClass}>
+              <select value={form.status} onChange={e => setForm(p => ({ ...p, status: e.target.value as ContractStatus }))} className={crmSelectClass}>
                 {STATUSES.map(s => <option key={s} value={s}>{s}</option>)}
               </select>
             </div>

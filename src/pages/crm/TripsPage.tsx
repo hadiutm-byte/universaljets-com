@@ -112,7 +112,7 @@ const TripsPage = () => {
             <div className="grid grid-cols-2 gap-3">
               <div><label className={labelClass}>Date</label><input type="datetime-local" value={form.date} onChange={e => setForm(p => ({ ...p, date: e.target.value }))} className={inputClass} /></div>
               <div><label className={labelClass}>Status</label>
-                <select value={form.status} onChange={e => setForm(p => ({ ...p, status: e.target.value as TripStatus }))} className={inputClass}>
+                <select value={form.status} onChange={e => setForm(p => ({ ...p, status: e.target.value as TripStatus }))} className={crmSelectClass}>
                   {STATUSES.map(s => <option key={s} value={s}>{s.replace(/_/g, " ")}</option>)}
                 </select>
               </div>
