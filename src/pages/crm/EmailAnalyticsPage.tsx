@@ -87,7 +87,7 @@ const EmailAnalyticsPage = () => {
     if (templateFilter) params.template = templateFilter;
     if (statusFilter) params.status = statusFilter;
 
-    const { data } = await call("email-analytics", { method: "GET", params });
+    const data = await call(params);
     if (data) {
       setStats(data.stats);
       setLogs(data.logs ?? []);
