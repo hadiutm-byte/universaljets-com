@@ -286,8 +286,25 @@ const QuoteRequestModal = ({ open, onClose, flightData }: QuoteRequestModalProps
   }, [fromAirport, toAirport, flightData.aircraft]);
 
   const handleSubmit = async () => {
+    const parsed = QuoteRequestSchema.safeParse({
+      name: form.name,
+      email: form.email,
+      phone: buildFullPhone(phoneCode, phoneNumber),
+      departure: form.departure,
+      destination: form.destination,
+      date: form.date || undefined,
+      passengers: form.passengers,
+      aircraft: form.aircraft || undefined,
+      notes: form.notes || undefined,
+    });
+    if (!parsed.success) {
+      const errs = parsed.error.flatten().fieldErrors;
+      const firstMsg = Object.values(errs).flat()[0] || "Please check your input.";
+      const { toast: sonnerToast } = await import("sonner");
+      sonnerToast.error(firstMsg);
+      return;
+    }
     setSubmitting(true);
-    try {
       const result = await capture({
         name: form.name,
         email: form.email,

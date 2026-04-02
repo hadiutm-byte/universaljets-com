@@ -20,9 +20,10 @@ const NewsletterSection = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!email || !consent) return;
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-      toast.error("Please enter a valid email address.");
+    const parsed = NewsletterSchema.safeParse({ email, consent });
+    if (!parsed.success) {
+      const errors = parsed.error.flatten().fieldErrors;
+      toast.error(errors.email?.[0] || errors.consent?.[0] || "Please check your input.");
       return;
     }
     setLoading(true);

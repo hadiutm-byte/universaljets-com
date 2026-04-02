@@ -66,7 +66,19 @@ const MembershipEnrollment = () => {
 
   const handleSubmit = async () => {
     if (!canSubmit) return;
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { toast.error("Please enter a valid email address."); return; }
+    const parsed = MembershipEnrollSchema.safeParse({
+      name, email, phone: buildFullPhone(countryCode, phone),
+      whatsapp: buildFullPhone(whatsappCode, whatsapp),
+      city, country, nationality, company, title,
+      flights, typicalRoutes, passengerCount, aircraftPref,
+      reason, invitationCode, termsAccepted,
+    });
+    if (!parsed.success) {
+      const errs = parsed.error.flatten().fieldErrors;
+      const firstMsg = Object.values(errs).flat()[0] || "Please check your input.";
+      toast.error(firstMsg);
+      return;
+    }
     setLoading(true);
     try {
       await capture({
