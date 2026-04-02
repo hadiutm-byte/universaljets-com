@@ -83,6 +83,7 @@ const RequestsPage = () => {
   const inputClass = crmInputClass;
   const labelClass = crmLabelClass;
   const filterClass = crmFilterClass;
+  const selectClass = crmSelectClass;
 
   return (
     <div className="space-y-6">
