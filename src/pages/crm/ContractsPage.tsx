@@ -100,7 +100,7 @@ const ContractsPage = () => {
           <DialogHeader><DialogTitle className="font-display text-lg">{editing?.id ? "Edit" : "New"} Contract</DialogTitle></DialogHeader>
           <form onSubmit={handleSubmit} className="space-y-4 mt-2">
             <div><label className={labelClass}>Quote</label>
-              <select value={form.quote_id} onChange={e => setForm(p => ({ ...p, quote_id: e.target.value }))} className={inputClass}>
+              <select value={form.quote_id} onChange={e => setForm(p => ({ ...p, quote_id: e.target.value }))} className={crmSelectClass}>
                 <option value="">Select quote...</option>
                 {quotes.map(q => <option key={q.id} value={q.id}>{q.aircraft} — ${Number(q.price).toLocaleString()}</option>)}
               </select>
