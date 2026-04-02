@@ -1,5 +1,6 @@
 import { useState, useCallback, useMemo, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { QuoteRequestSchema } from "@/lib/websiteValidation";
 import { X, Plane, Calendar, Users, ArrowRight, CheckCircle, MessageCircle, MapPin, Clock, Shield, Navigation, Loader2 } from "lucide-react";
 import useUserGeolocation from "@/hooks/useUserGeolocation";
 import PhoneWithCountryCode, { buildFullPhone, resolveCountryCode } from "@/components/forms/PhoneWithCountryCode";
