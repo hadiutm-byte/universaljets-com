@@ -1,6 +1,6 @@
 import { useState, lazy, Suspense } from "react";
 import SEOHead from "@/components/SEOHead";
-import JsonLd, { organizationSchema, localBusinessSchema } from "@/components/JsonLd";
+import JsonLd, { organizationSchema, localBusinessSchema, websiteSchema, serviceSchema, faqSchema } from "@/components/JsonLd";
 import Navbar from "@/components/Navbar";
 import MembershipBanner from "@/components/MembershipBanner";
 import AuthModal from "@/components/AuthModal";
