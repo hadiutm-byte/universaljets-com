@@ -67,22 +67,18 @@ Deno.serve(async (req) => {
   // Lead scoring: rate lead quality 0-100 based on data richness and intent signals
   function calcLeadScore(data: Record<string, any>): number {
     let score = 0;
-    // Contact completeness (max 25)
     if (data.email) score += 10;
     if (data.phone || data.whatsapp) score += 10;
     if (data.company) score += 5;
-    // Intent signals (max 35)
     if (data.departure && data.departure !== "TBD") score += 10;
     if (data.destination && data.destination !== "TBD") score += 10;
     if (data.date) score += 5;
     if (data.passengers && data.passengers > 1) score += 5;
     if (data.budget_range) score += 5;
-    // Premium signals (max 25)
     if (data.is_urgent) score += 10;
     if (data.specific_aircraft || data.preferred_aircraft_category) score += 5;
     if (data.concierge_needed || data.vip_terminal || data.helicopter_transfer) score += 5;
     if (data.trip_type === "round_trip") score += 5;
-    // Source quality (max 15)
     const highValueSources = ["referral", "membership_enrollment", "jet_card", "founders_circle", "partner"];
     if (highValueSources.some(s => (data.source || "").toLowerCase().includes(s))) score += 15;
     else if (data.source && data.source !== "website") score += 5;
@@ -92,6 +88,69 @@ Deno.serve(async (req) => {
   function isValidEmail(email: string): boolean {
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
   }
+
+  // ── Zod schemas for server-side validation ─────────────────────────────
+  const trimmed = z.string().trim();
+  const optStr = trimmed.optional().or(z.literal("")).transform((v: string | undefined) => v || undefined);
+  const phoneZ = trimmed.max(30).regex(/^[+\d\s()-]*$/).optional().or(z.literal("")).transform((v: string | undefined) => v || undefined);
+
+  const CaptureSchema = z.object({
+    name: trimmed.min(1).max(100),
+    email: trimmed.email().max(255),
+    phone: phoneZ, whatsapp: phoneZ,
+    departure: optStr, destination: optStr, date: optStr,
+    passengers: z.union([z.string(), z.number()]).optional().transform((v: string | number | undefined) => {
+      if (v == null || v === "") return undefined;
+      const n = Number(v);
+      return Number.isFinite(n) && n >= 1 && n <= 50 ? n : undefined;
+    }),
+    source: trimmed.max(100).default("website"),
+    aircraft: optStr, notes: trimmed.max(2000).optional().or(z.literal("")),
+    trip_type: z.enum(["one_way", "round_trip", "multi_leg"]).optional(),
+    return_date: optStr, preferred_aircraft_category: optStr, specific_aircraft: optStr,
+    helicopter_transfer: z.boolean().optional(), concierge_needed: z.boolean().optional(),
+    vip_terminal: z.boolean().optional(), ground_transport: z.boolean().optional(),
+    pets: z.boolean().optional(), smoking: z.boolean().optional(),
+    catering_request: trimmed.max(500).optional().or(z.literal("")),
+    baggage_notes: trimmed.max(500).optional().or(z.literal("")),
+    special_assistance: trimmed.max(500).optional().or(z.literal("")),
+    special_requests: trimmed.max(1000).optional().or(z.literal("")),
+    company: trimmed.max(200).optional().or(z.literal("")),
+    budget_range: optStr, is_urgent: z.boolean().optional(),
+    preferred_contact_method: z.enum(["email", "phone", "whatsapp"]).optional(),
+    campaign: optStr,
+    city: optStr, country: optStr, nationality: optStr, title: optStr,
+    travel_frequency: optStr, typical_routes: z.array(z.string()).optional(),
+    passenger_count: optStr, reason: trimmed.max(1000).optional().or(z.literal("")),
+    invitation_code: optStr, referral_source: optStr, preferred_tier: optStr,
+    terms_accepted: z.boolean().optional(),
+  });
+
+  const CreateClientSchema = z.object({
+    full_name: trimmed.min(1).max(200),
+    email: trimmed.email().max(255).optional().or(z.literal("")),
+    phone: phoneZ, lead_source: trimmed.min(1).max(100),
+  }).passthrough().refine((d: any) => d.email || d.phone, { message: "Email or phone required", path: ["email"] });
+
+  const CreateQuoteSchema = z.object({
+    request_id: z.string().uuid(),
+    price: z.number().positive().max(50_000_000),
+    aircraft: optStr, operator: optStr,
+    valid_days: z.number().int().min(1).max(90).optional().default(7),
+  });
+
+  const UpdateStatusSchema = z.object({
+    table: z.enum(["leads", "flight_requests", "quotes", "contracts", "invoices", "trips", "membership_applications"]),
+    id: z.string().uuid(),
+    status: trimmed.min(1).max(50),
+    extra: z.record(z.unknown()).optional(),
+  });
+
+  const AddNoteSchema = z.object({
+    client_id: z.string().uuid(),
+    note: trimmed.min(1).max(5000),
+    note_type: trimmed.max(50).optional(),
+  });
 
   try {
     // ══════════════════════════════════════════════════════════
