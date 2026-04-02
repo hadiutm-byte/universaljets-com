@@ -3,6 +3,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/u
 import { useCrmApi } from "@/hooks/useCrmApi";
 import { toast } from "sonner";
 import { trackEmptyLegInquiry } from "@/lib/gtmEvents";
+import { CaptureSchema } from "@/lib/validation";
 import useUserGeolocation from "@/hooks/useUserGeolocation";
 import PhoneWithCountryCode, { buildFullPhone, resolveCountryCode } from "@/components/forms/PhoneWithCountryCode";
 import {
