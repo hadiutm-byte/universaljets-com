@@ -1,6 +1,6 @@
 import * as React from 'npm:react@18.3.1'
 import {
-  Body, Container, Head, Heading, Html, Preview, Text, Section, Hr, Button,
+  Body, Container, Head, Heading, Html, Preview, Text, Section, Hr,
 } from 'npm:@react-email/components@0.0.22'
 import type { TemplateEntry } from './registry.ts'
 
@@ -136,12 +136,6 @@ const RequestConfirmationEmail = (props: RequestConfirmationProps) => {
             For immediate assistance, our team is available 24/7 via WhatsApp or by phone at <strong>+971 58 263 5338</strong>.
           </Text>
 
-          <Section style={ctaSection}>
-            <Button style={button} href="https://wa.me/971582635338">
-              Chat on WhatsApp
-            </Button>
-          </Section>
-
           <Hr style={divider} />
 
           <Text style={footer}>
@@ -184,7 +178,5 @@ const text = { fontSize: '14px', color: '#333333', lineHeight: '1.7', margin: '0
 const detail = { fontSize: '14px', color: '#333333', lineHeight: '1.6', margin: '0 0 6px' }
 const summaryBox = { backgroundColor: '#FAFAF7', padding: '16px 20px', borderRadius: '8px', borderLeft: '3px solid #A8850F', margin: '16px 0' }
 const divider = { borderColor: '#A8850F', borderWidth: '1px', margin: '20px 0' }
-const ctaSection = { textAlign: 'center' as const, margin: '20px 0' }
-const button = { backgroundColor: '#A8850F', color: '#ffffff', padding: '12px 28px', borderRadius: '6px', fontSize: '14px', fontWeight: '600', textDecoration: 'none' }
 const footer = { fontSize: '11px', color: '#999999', margin: '16px 0 4px', textAlign: 'center' as const }
 const footerNote = { fontSize: '11px', color: '#BBBBBB', margin: '0', textAlign: 'center' as const }
