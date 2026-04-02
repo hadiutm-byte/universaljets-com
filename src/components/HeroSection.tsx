@@ -16,7 +16,7 @@ const HeroSection = () => {
   return (
     <section
       ref={ref}
-      className="relative min-h-screen min-h-[100dvh] w-full overflow-hidden flex flex-col items-center justify-start pt-[18vh] md:pt-[22vh]"
+      className="relative min-h-screen min-h-[100dvh] w-full overflow-hidden flex flex-col items-center justify-center"
     >
       {/* Background image with parallax + Ken Burns */}
       <motion.div
@@ -75,9 +75,9 @@ const HeroSection = () => {
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_30%,hsla(0,0%,2%,0.55)_100%)]" />
       </div>
 
-      {/* Upper Content — Private Aviation Redefined */}
+      {/* Content — all in flow */}
       <motion.div
-        className="relative z-10 container mx-auto px-6 text-center flex flex-col items-center pt-8"
+        className="relative z-10 container mx-auto px-6 text-center flex flex-col items-center"
         style={{ opacity: contentOpacity, y: contentY }}
       >
         {/* Gold accent line */}
@@ -92,55 +92,53 @@ const HeroSection = () => {
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1.2, delay: 0.5 }}
-          className="font-display tracking-[0.35em] md:tracking-[0.65em] uppercase text-white/95 font-semibold -mt-2 md:-mt-4 px-4"
+          className="font-display tracking-[0.35em] md:tracking-[0.65em] uppercase text-white/95 font-semibold px-4"
           style={{ fontSize: "clamp(1.4rem, 5vw, 4.5rem)", textShadow: "0 0 15px hsl(43, 85%, 42%)" }}
         >
           Private Aviation Redefined
         </motion.p>
-      </motion.div>
 
-      {/* Lower Content — Global access (below aircraft, near bottom) */}
-      <motion.div
-        initial={{ opacity: 0, y: 18 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 1.2, delay: 0.95 }}
-        className="absolute bottom-[28vh] md:bottom-[38vh] left-0 right-0 z-10 text-center px-6"
-      >
-        <p
-          className="font-display text-[13px] md:text-[15px] text-white/80 font-semibold leading-[1.8] tracking-[0.18em] uppercase"
-          style={{ textShadow: "0 2px 20px hsla(0,0%,0%,0.8)" }}
-        >
-          Global access · Instant quotes · Tailored journeys
-        </p>
-
-        {/* CTA Buttons */}
         <motion.div
-          initial={{ opacity: 0, y: 14 }}
+          initial={{ opacity: 0, y: 18 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1, delay: 1.3 }}
-          className="flex flex-wrap justify-center gap-3 md:gap-4 mt-5 md:mt-6"
+          transition={{ duration: 1.2, delay: 0.95 }}
+          className="mt-8 md:mt-12"
         >
-          <Link
-            to="/#cta"
-            className="hero-cta-primary px-8 py-3 rounded-full text-[10px] md:text-[11px] tracking-[0.25em] uppercase font-medium transition-all duration-500 hover:scale-[1.08]"
-            onMouseMove={(e) => {
-              const rect = e.currentTarget.getBoundingClientRect();
-              const x = e.clientX - rect.left;
-              const y = e.clientY - rect.top;
-              e.currentTarget.style.background = `radial-gradient(circle at ${x}px ${y}px, hsl(43, 90%, 68%), hsl(43, 80%, 42%))`;
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.background = '';
-            }}
+          <p
+            className="font-display text-[13px] md:text-[15px] text-white/80 font-semibold leading-[1.8] tracking-[0.18em] uppercase"
+            style={{ textShadow: "0 2px 20px hsla(0,0%,0%,0.8)" }}
           >
-            Request a Flight
-          </Link>
-          <Link
-            to="/fleet"
-            className="hero-cta-secondary px-8 py-3 rounded-full text-[10px] md:text-[11px] tracking-[0.25em] uppercase font-medium transition-all duration-500 hover:scale-[1.08]"
+            Global access · Instant quotes · Tailored journeys
+          </p>
+
+          <motion.div
+            initial={{ opacity: 0, y: 14 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1, delay: 1.3 }}
+            className="flex flex-wrap justify-center gap-3 md:gap-4 mt-5 md:mt-6"
           >
-            Explore Fleet
-          </Link>
+            <Link
+              to="/#cta"
+              className="hero-cta-primary px-8 py-3 rounded-full text-[10px] md:text-[11px] tracking-[0.25em] uppercase font-medium transition-all duration-500 hover:scale-[1.08]"
+              onMouseMove={(e) => {
+                const rect = e.currentTarget.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                e.currentTarget.style.background = `radial-gradient(circle at ${x}px ${y}px, hsl(43, 90%, 68%), hsl(43, 80%, 42%))`;
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.background = '';
+              }}
+            >
+              Request a Flight
+            </Link>
+            <Link
+              to="/fleet"
+              className="hero-cta-secondary px-8 py-3 rounded-full text-[10px] md:text-[11px] tracking-[0.25em] uppercase font-medium transition-all duration-500 hover:scale-[1.08]"
+            >
+              Explore Fleet
+            </Link>
+          </motion.div>
         </motion.div>
       </motion.div>
 
