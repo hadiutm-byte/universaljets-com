@@ -224,7 +224,7 @@ export async function generateEmptyLegShareCard(data: ShareCardData): Promise<Bl
   // ═══════════════════════════════════════
   //  HEADER — Brand Logo (matching website)
   // ═══════════════════════════════════════
-  ctx.textAlign = "center";
+  ctx.textAlign = "left";
 
   // Logo — "Universal" in white, "Jets" in gold, Montserrat font
   const logoFont = "'Montserrat', 'Inter', 'Helvetica Neue', sans-serif";
