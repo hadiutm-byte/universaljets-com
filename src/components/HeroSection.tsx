@@ -28,6 +28,8 @@ const HeroSection = () => {
           alt="Private jet flying above clouds at golden hour"
           width={1920}
           height={1080}
+          fetchPriority="high"
+          decoding="async"
           className="h-full w-full object-cover animate-hero-ken-burns"
         />
       </motion.div>
