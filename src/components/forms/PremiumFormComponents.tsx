@@ -8,17 +8,26 @@ import { Shield, Check } from "lucide-react";
    Consistent luxury form components across the entire site.
    ═══════════════════════════════════════════════════════════ */
 
+let _uid = 0;
+function useFormId(prefix = "pf") {
+  const [id] = React.useState(() => `${prefix}-${++_uid}`);
+  return id;
+}
+
 // ── Premium Label ──
 export const PremiumLabel = ({
   children,
   required,
   className,
+  htmlFor,
 }: {
   children: React.ReactNode;
   required?: boolean;
   className?: string;
+  htmlFor?: string;
 }) => (
   <label
+    htmlFor={htmlFor}
     className={cn(
       "block text-[10px] tracking-[0.25em] uppercase font-medium mb-2.5",
       "text-foreground/55",
@@ -36,46 +45,59 @@ const premiumInputBase =
   "bg-muted/50 border border-foreground/[0.06] " +
   "placeholder:text-muted-foreground/40 " +
   "focus:outline-none focus:border-primary/30 focus:bg-background focus:shadow-[0_0_0_3px_hsla(43,85%,58%,0.06)] " +
-  "disabled:opacity-50 disabled:cursor-not-allowed";
+  "disabled:opacity-50 disabled:cursor-not-allowed " +
+  "min-h-[44px]"; // Minimum touch target for mobile
 
 export const PremiumInput = React.forwardRef<
   HTMLInputElement,
   React.InputHTMLAttributes<HTMLInputElement> & { label?: string; required?: boolean; error?: string }
->(({ label, required, error, className, ...props }, ref) => (
-  <div>
-    {label && <PremiumLabel required={required}>{label}</PremiumLabel>}
-    <input ref={ref} className={cn(premiumInputBase, error && "border-destructive/40 focus:border-destructive/60", className)} {...props} />
-    {error && <p className="mt-1.5 text-[11px] text-destructive/80 font-light">{error}</p>}
-  </div>
-));
+>(({ label, required, error, className, id: externalId, ...props }, ref) => {
+  const autoId = useFormId("input");
+  const id = externalId || autoId;
+  return (
+    <div>
+      {label && <PremiumLabel required={required} htmlFor={id}>{label}</PremiumLabel>}
+      <input ref={ref} id={id} className={cn(premiumInputBase, error && "border-destructive/40 focus:border-destructive/60", className)} {...props} />
+      {error && <p className="mt-1.5 text-[11px] text-destructive/80 font-light" role="alert">{error}</p>}
+    </div>
+  );
+});
 PremiumInput.displayName = "PremiumInput";
 
 // ── Premium Select ──
 export const PremiumSelect = React.forwardRef<
   HTMLSelectElement,
   React.SelectHTMLAttributes<HTMLSelectElement> & { label?: string; required?: boolean; error?: string }
->(({ label, required, error, className, children, ...props }, ref) => (
-  <div>
-    {label && <PremiumLabel required={required}>{label}</PremiumLabel>}
-    <select ref={ref} className={cn(premiumInputBase, "appearance-none cursor-pointer", error && "border-destructive/40", className)} {...props}>
-      {children}
-    </select>
-    {error && <p className="mt-1.5 text-[11px] text-destructive/80 font-light">{error}</p>}
-  </div>
-));
+>(({ label, required, error, className, children, id: externalId, ...props }, ref) => {
+  const autoId = useFormId("select");
+  const id = externalId || autoId;
+  return (
+    <div>
+      {label && <PremiumLabel required={required} htmlFor={id}>{label}</PremiumLabel>}
+      <select ref={ref} id={id} className={cn(premiumInputBase, "appearance-none cursor-pointer", error && "border-destructive/40", className)} {...props}>
+        {children}
+      </select>
+      {error && <p className="mt-1.5 text-[11px] text-destructive/80 font-light" role="alert">{error}</p>}
+    </div>
+  );
+});
 PremiumSelect.displayName = "PremiumSelect";
 
 // ── Premium Textarea ──
 export const PremiumTextarea = React.forwardRef<
   HTMLTextAreaElement,
   React.TextareaHTMLAttributes<HTMLTextAreaElement> & { label?: string; required?: boolean; error?: string }
->(({ label, required, error, className, ...props }, ref) => (
-  <div>
-    {label && <PremiumLabel required={required}>{label}</PremiumLabel>}
-    <textarea ref={ref} className={cn(premiumInputBase, "resize-none min-h-[80px]", error && "border-destructive/40", className)} {...props} />
-    {error && <p className="mt-1.5 text-[11px] text-destructive/80 font-light">{error}</p>}
-  </div>
-));
+>(({ label, required, error, className, id: externalId, ...props }, ref) => {
+  const autoId = useFormId("textarea");
+  const id = externalId || autoId;
+  return (
+    <div>
+      {label && <PremiumLabel required={required} htmlFor={id}>{label}</PremiumLabel>}
+      <textarea ref={ref} id={id} className={cn(premiumInputBase, "resize-none min-h-[80px]", error && "border-destructive/40", className)} {...props} />
+      {error && <p className="mt-1.5 text-[11px] text-destructive/80 font-light" role="alert">{error}</p>}
+    </div>
+  );
+});
 PremiumTextarea.displayName = "PremiumTextarea";
 
 // ── Premium Checkbox ──
@@ -89,27 +111,32 @@ export const PremiumCheckbox = ({
   checked: boolean;
   onChange: (checked: boolean) => void;
   className?: string;
-}) => (
-  <label className={cn("flex items-start gap-3 cursor-pointer group", className)}>
-    <div className={cn(
-      "mt-0.5 w-[18px] h-[18px] rounded border-[1.5px] flex items-center justify-center flex-shrink-0 transition-all duration-300",
-      checked
-        ? "bg-primary border-primary"
-        : "border-foreground/15 bg-muted/40 group-hover:border-primary/30"
-    )}>
-      {checked && <Check className="w-3 h-3 text-primary-foreground" strokeWidth={2.5} />}
-    </div>
-    <input
-      type="checkbox"
-      checked={checked}
-      onChange={(e) => onChange(e.target.checked)}
-      className="sr-only"
-    />
-    <span className="text-[12px] text-foreground/55 font-light leading-[1.7] group-hover:text-foreground/70 transition-colors">
-      {label}
-    </span>
-  </label>
-);
+}) => {
+  const id = useFormId("check");
+  return (
+    <label htmlFor={id} className={cn("flex items-start gap-3 cursor-pointer group min-h-[44px] py-2", className)}>
+      <div className={cn(
+        "mt-0.5 w-5 h-5 rounded border-[1.5px] flex items-center justify-center flex-shrink-0 transition-all duration-300",
+        checked
+          ? "bg-primary border-primary"
+          : "border-foreground/15 bg-muted/40 group-hover:border-primary/30"
+      )}>
+        {checked && <Check className="w-3 h-3 text-primary-foreground" strokeWidth={2.5} />}
+      </div>
+      <input
+        id={id}
+        type="checkbox"
+        checked={checked}
+        onChange={(e) => onChange(e.target.checked)}
+        className="sr-only"
+        aria-checked={checked}
+      />
+      <span className="text-[12px] text-foreground/55 font-light leading-[1.7] group-hover:text-foreground/70 transition-colors">
+        {label}
+      </span>
+    </label>
+  );
+};
 
 // ── Form Section Divider ──
 export const FormSection = ({
@@ -121,15 +148,15 @@ export const FormSection = ({
   children: React.ReactNode;
   className?: string;
 }) => (
-  <div className={cn("space-y-4", className)}>
-    <div className="flex items-center gap-4">
-      <p className="text-[10px] tracking-[0.35em] uppercase text-primary/60 font-medium whitespace-nowrap">
+  <fieldset className={cn("space-y-4", className)}>
+    <legend className="flex items-center gap-4 w-full">
+      <span className="text-[10px] tracking-[0.35em] uppercase text-primary/60 font-medium whitespace-nowrap">
         {title}
-      </p>
-      <div className="flex-1 h-px bg-foreground/[0.04]" />
-    </div>
+      </span>
+      <span className="flex-1 h-px bg-foreground/[0.04]" aria-hidden="true" />
+    </legend>
     {children}
-  </div>
+  </fieldset>
 );
 
 // ── Legal Consent ──
@@ -147,7 +174,7 @@ export const LegalConsent = ({
   onMarketingChange?: (checked: boolean) => void;
 }) => (
   <div className="space-y-3 pt-2">
-    <div className="h-px bg-foreground/[0.04]" />
+    <div className="h-px bg-foreground/[0.04]" aria-hidden="true" />
     <PremiumCheckbox
       checked={checked}
       onChange={onChange}
@@ -178,7 +205,7 @@ export const LegalConsent = ({
 // ── Quote / Request Disclaimer ──
 export const FormDisclaimer = ({ className }: { className?: string }) => (
   <div className={cn("flex items-start gap-3 pt-3", className)}>
-    <Shield className="w-3.5 h-3.5 text-primary/40 flex-shrink-0 mt-0.5" strokeWidth={1.3} />
+    <Shield className="w-3.5 h-3.5 text-primary/40 flex-shrink-0 mt-0.5" strokeWidth={1.3} aria-hidden="true" />
     <p className="text-[11px] text-muted-foreground/50 font-light leading-[1.8]">
       All pricing is subject to aircraft availability, routing, permits, and operational confirmation.
       Charter offers are not final until confirmed in writing by Universal Jets.
@@ -202,8 +229,9 @@ export const PremiumSubmitButton = ({
   <button
     type="submit"
     disabled={disabled || loading}
+    aria-busy={loading}
     className={cn(
-      "w-full py-4 text-[10px] tracking-[0.25em] uppercase font-medium rounded-lg transition-all duration-500",
+      "w-full py-4 min-h-[48px] text-[10px] tracking-[0.25em] uppercase font-medium rounded-lg transition-all duration-500",
       "bg-gradient-gold text-primary-foreground",
       "hover:shadow-[0_0_40px_-8px_hsla(43,85%,58%,0.45)]",
       "disabled:opacity-40 disabled:cursor-not-allowed disabled:shadow-none",
@@ -227,9 +255,9 @@ export const FormSuccess = ({
   message: string;
   children?: React.ReactNode;
 }) => (
-  <div className="text-center py-8">
+  <div className="text-center py-8" role="status" aria-live="polite">
     <div className="w-16 h-16 rounded-full border border-primary/15 flex items-center justify-center mx-auto mb-6 bg-primary/[0.04]">
-      <Icon className="w-7 h-7 text-primary" strokeWidth={1.2} />
+      <Icon className="w-7 h-7 text-primary" strokeWidth={1.2} aria-hidden="true" />
     </div>
     <h3 className="text-2xl font-display font-semibold mb-3">{title}</h3>
     <p className="text-[14px] text-muted-foreground font-light leading-[1.9] max-w-md mx-auto mb-6">
@@ -255,8 +283,8 @@ export const ValidationMessage = ({
   message?: string;
 }) =>
   show ? (
-    <p className="flex items-center gap-2 text-[11px] text-destructive/70 font-light py-2">
-      <span className="w-1 h-1 rounded-full bg-destructive/60 flex-shrink-0" />
+    <p className="flex items-center gap-2 text-[11px] text-destructive/70 font-light py-2" role="alert">
+      <span className="w-1 h-1 rounded-full bg-destructive/60 flex-shrink-0" aria-hidden="true" />
       {message}
     </p>
   ) : null;

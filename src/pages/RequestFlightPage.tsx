@@ -160,9 +160,9 @@ const RequestFlightPage = () => {
   };
 
   const expandToggle = (label: string, open: boolean, toggle: () => void) => (
-    <button type="button" onClick={toggle}
-      className="flex items-center gap-2 text-[10px] tracking-[0.2em] uppercase text-primary/60 font-medium hover:text-primary transition-colors cursor-pointer">
-      <ChevronDown size={12} className={`transition-transform duration-300 ${open ? "rotate-180" : ""}`} />
+    <button type="button" onClick={toggle} aria-expanded={open}
+      className="flex items-center gap-2 text-[10px] tracking-[0.2em] uppercase text-primary/60 font-medium hover:text-primary transition-colors cursor-pointer min-h-[44px] py-2">
+      <ChevronDown size={14} className={`transition-transform duration-300 ${open ? "rotate-180" : ""}`} />
       {label}
     </button>
   );
@@ -213,10 +213,11 @@ const RequestFlightPage = () => {
 
               {/* Trip Type */}
               <FormSection title="Trip Type">
-                <div className="flex gap-2">
+                <div className="flex flex-wrap gap-2">
                   {([["one_way", "One Way"], ["round_trip", "Round Trip"], ["multi_city", "Multi-City"]] as const).map(([val, label]) => (
                     <button key={val} type="button" onClick={() => setTripType(val as TripType)}
-                      className={`px-5 py-2.5 rounded-lg text-[11px] tracking-[0.15em] uppercase font-medium border transition-all duration-300 ${
+                      aria-pressed={tripType === val}
+                      className={`px-5 py-3 min-h-[44px] rounded-lg text-[11px] tracking-[0.15em] uppercase font-medium border transition-all duration-300 ${
                         tripType === val ? "border-primary bg-primary/10 text-primary" : "border-foreground/[0.06] bg-muted/40 text-foreground/40 hover:border-primary/20"
                       }`}>
                       {label}
