@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Plane, UserCheck, Tag, Sparkles, CreditCard, Download, MessageCircle } from "lucide-react";
 import { useCrmApi } from "@/hooks/useCrmApi";
+import { MembershipEnrollSchema } from "@/lib/websiteValidation";
 import { toast } from "sonner";
 import useUserGeolocation from "@/hooks/useUserGeolocation";
 import PhoneWithCountryCode, { buildFullPhone, resolveCountryCode } from "@/components/forms/PhoneWithCountryCode";
