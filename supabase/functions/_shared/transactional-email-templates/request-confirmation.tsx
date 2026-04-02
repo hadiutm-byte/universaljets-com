@@ -136,12 +136,6 @@ const RequestConfirmationEmail = (props: RequestConfirmationProps) => {
             For immediate assistance, our team is available 24/7 via WhatsApp or by phone at <strong>+971 58 263 5338</strong>.
           </Text>
 
-          <Section style={ctaSection}>
-            <Button style={button} href="https://wa.me/971582635338">
-              Chat on WhatsApp
-            </Button>
-          </Section>
-
           <Hr style={divider} />
 
           <Text style={footer}>

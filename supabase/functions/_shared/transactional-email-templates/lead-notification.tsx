@@ -106,7 +106,7 @@ const LeadNotificationEmail = (props: LeadNotificationProps) => {
             Submitted at {new Date(submittedAt).toLocaleString('en-GB', { timeZone: 'Asia/Dubai' })} (Dubai time)
           </Text>
           <Text style={footerNote}>
-            This is an automated notification from {SITE_NAME}. Log in to the CRM to manage this lead.
+            This is an automated notification from {SITE_NAME}.
           </Text>
         </Container>
       </Body>
