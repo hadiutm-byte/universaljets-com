@@ -89,11 +89,58 @@ Deno.serve(async (req) => {
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
   }
 
+  /** Escape special PostgREST filter characters to prevent filter injection. */
+  function sanitizeSearch(input: string): string {
+    return input.replace(/[%_\\(),.]/g, "").trim().slice(0, 100);
+  }
+
   // ── Zod schemas for server-side validation ─────────────────────────────
   const trimmed = z.string().trim();
   const optStr = trimmed.optional().or(z.literal("")).transform((v: string | undefined) => v || undefined);
   const phoneZ = trimmed.max(30).regex(/^[+\d\s()-]*$/).optional().or(z.literal("")).transform((v: string | undefined) => v || undefined);
 
+  // Profile update validation schemas
+  const ProfileUpdateSchema = z.object({
+    full_name: trimmed.max(200).optional(),
+    phone: phoneZ,
+    whatsapp: phoneZ,
+    company: trimmed.max(200).optional(),
+    title: trimmed.max(100).optional(),
+    city: trimmed.max(100).optional(),
+    country: trimmed.max(100).optional(),
+    nationality: trimmed.max(100).optional(),
+    billing_address: trimmed.max(500).optional(),
+    payment_preference: trimmed.max(50).optional(),
+    avatar_url: trimmed.url().max(2048).optional().or(z.literal("")),
+  }).strict();
+
+  const TravelUpdateSchema = z.object({
+    preferred_aircraft_category: optStr,
+    preferred_aircraft_models: z.array(z.string().max(100)).max(20).optional(),
+    preferred_departure_cities: z.array(z.string().max(100)).max(20).optional(),
+    typical_routes: z.array(z.string().max(200)).max(20).optional(),
+    default_passengers: z.number().int().min(1).max(50).optional(),
+    trip_type_preference: optStr,
+    travel_pattern: optStr,
+    catering_preference: trimmed.max(500).optional(),
+    ground_transport_preference: trimmed.max(200).optional(),
+    baggage_profile: trimmed.max(500).optional(),
+    medical_assistance: trimmed.max(500).optional(),
+    security_requirements: trimmed.max(500).optional(),
+    smoking: z.boolean().optional(),
+    pets: z.boolean().optional(),
+    wifi_required: z.boolean().optional(),
+    vip_terminal: z.boolean().optional(),
+    urgent_traveler: z.boolean().optional(),
+  }).strict();
+
+  const ConciergeUpdateSchema = z.object({
+    chauffeur: z.boolean().optional(),
+    security_escort: z.boolean().optional(),
+    hotel_preferences: trimmed.max(500).optional(),
+    special_assistance: trimmed.max(500).optional(),
+    notes: trimmed.max(2000).optional(),
+  }).strict();
   const CaptureSchema = z.object({
     name: trimmed.min(1).max(100),
     email: trimmed.email().max(255),
@@ -396,16 +443,20 @@ Deno.serve(async (req) => {
       const { section, data } = body;
 
       if (section === "profile") {
-        const { error } = await admin.from("profiles").update(data).eq("id", userId);
+        const parsed = ProfileUpdateSchema.safeParse(data);
+        if (!parsed.success) return err(Object.values(parsed.error.flatten().fieldErrors).flat().join("; ") || "Validation failed");
+        const { error } = await admin.from("profiles").update(parsed.data).eq("id", userId);
         if (error) throw error;
       } else if (section === "travel") {
-        const payload = { ...data, user_id: userId };
-        delete payload.id; delete payload.created_at; delete payload.updated_at;
+        const parsed = TravelUpdateSchema.safeParse(data);
+        if (!parsed.success) return err(Object.values(parsed.error.flatten().fieldErrors).flat().join("; ") || "Validation failed");
+        const payload = { ...parsed.data, user_id: userId };
         const { error } = await admin.from("travel_preferences").upsert(payload, { onConflict: "user_id" });
         if (error) throw error;
       } else if (section === "concierge") {
-        const payload = { ...data, user_id: userId };
-        delete payload.id; delete payload.created_at; delete payload.updated_at;
+        const parsed = ConciergeUpdateSchema.safeParse(data);
+        if (!parsed.success) return err(Object.values(parsed.error.flatten().fieldErrors).flat().join("; ") || "Validation failed");
+        const payload = { ...parsed.data, user_id: userId };
         const { error } = await admin.from("concierge_preferences").upsert(payload, { onConflict: "user_id" });
         if (error) throw error;
       } else {
@@ -432,7 +483,8 @@ Deno.serve(async (req) => {
     if (endpoint === "clients" && httpMethod === "GET") {
       if (!isStaff) return err("Forbidden", 403);
       const limit = parseInt(queryParams["limit"] || "50");
-      const search = queryParams["search"] || null;
+      const rawSearch = queryParams["search"] || null;
+      const search = rawSearch ? sanitizeSearch(rawSearch) : null;
       let query = admin.from("clients").select("*").order("created_at", { ascending: false }).limit(limit);
       if (search) query = query.or(`full_name.ilike.%${search}%,email.ilike.%${search}%,phone.ilike.%${search}%`);
       const { data, error } = await query;
@@ -611,7 +663,8 @@ Deno.serve(async (req) => {
         if (dup && dup.length > 0) return err("A client with this email already exists");
       }
 
-      const clientPayload = { ...body, assigned_to: owner || userId };
+      const validatedClient = clientParsed.data;
+      const clientPayload: Record<string, any> = { ...validatedClient, assigned_to: userId };
       clientPayload.profile_completeness = calcCompleteness(clientPayload);
       const { data, error } = await admin.from("clients").insert(clientPayload).select("id").single();
       if (error) throw error;

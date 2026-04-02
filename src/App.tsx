@@ -76,6 +76,7 @@ const FleetDetailPage = lazy(() => import("./pages/FleetDetailPage.tsx"));
 const RequestFlightPage = lazy(() => import("./pages/RequestFlightPage.tsx"));
 const NotFound = lazy(() => import("./pages/NotFound.tsx"));
 const UnsubscribePage = lazy(() => import("./pages/UnsubscribePage.tsx"));
+const ResetPasswordPage = lazy(() => import("./pages/ResetPasswordPage.tsx"));
 const Ricky3D = lazy(() => import("./components/Ricky3D.tsx"));
 
 
@@ -166,6 +167,7 @@ const App = () => (
             <Route path="/fleet/:slug" element={<FleetDetailPage />} />
             <Route path="/quote/:quoteId" element={<QuoteViewPage />} />
             <Route path="/unsubscribe" element={<UnsubscribePage />} />
+            <Route path="/reset-password" element={<ResetPasswordPage />} />
             
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
