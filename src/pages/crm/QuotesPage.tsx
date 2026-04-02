@@ -112,7 +112,7 @@ const QuotesPage = () => {
               <div><label className={labelClass}>Valid Until</label><input type="date" value={form.valid_until} onChange={e => setForm(p => ({ ...p, valid_until: e.target.value }))} className={inputClass} /></div>
             </div>
             <div><label className={labelClass}>Status</label>
-              <select value={form.status} onChange={e => setForm(p => ({ ...p, status: e.target.value as QuoteStatus }))} className={inputClass}>
+              <select value={form.status} onChange={e => setForm(p => ({ ...p, status: e.target.value as QuoteStatus }))} className={selectClass}>
                 {STATUSES.map(s => <option key={s} value={s}>{s}</option>)}
               </select>
             </div>
