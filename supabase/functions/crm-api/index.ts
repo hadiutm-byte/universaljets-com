@@ -443,16 +443,20 @@ Deno.serve(async (req) => {
       const { section, data } = body;
 
       if (section === "profile") {
-        const { error } = await admin.from("profiles").update(data).eq("id", userId);
+        const parsed = ProfileUpdateSchema.safeParse(data);
+        if (!parsed.success) return err(Object.values(parsed.error.flatten().fieldErrors).flat().join("; ") || "Validation failed");
+        const { error } = await admin.from("profiles").update(parsed.data).eq("id", userId);
         if (error) throw error;
       } else if (section === "travel") {
-        const payload = { ...data, user_id: userId };
-        delete payload.id; delete payload.created_at; delete payload.updated_at;
+        const parsed = TravelUpdateSchema.safeParse(data);
+        if (!parsed.success) return err(Object.values(parsed.error.flatten().fieldErrors).flat().join("; ") || "Validation failed");
+        const payload = { ...parsed.data, user_id: userId };
         const { error } = await admin.from("travel_preferences").upsert(payload, { onConflict: "user_id" });
         if (error) throw error;
       } else if (section === "concierge") {
-        const payload = { ...data, user_id: userId };
-        delete payload.id; delete payload.created_at; delete payload.updated_at;
+        const parsed = ConciergeUpdateSchema.safeParse(data);
+        if (!parsed.success) return err(Object.values(parsed.error.flatten().fieldErrors).flat().join("; ") || "Validation failed");
+        const payload = { ...parsed.data, user_id: userId };
         const { error } = await admin.from("concierge_preferences").upsert(payload, { onConflict: "user_id" });
         if (error) throw error;
       } else {
