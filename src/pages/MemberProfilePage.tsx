@@ -195,6 +195,7 @@ const MemberProfilePage = () => {
     { value: "billing", label: "Billing", icon: CreditCard },
     { value: "documents", label: "Documents", icon: FileText },
     { value: "routes", label: "Routes", icon: MapPin },
+    { value: "notifications", label: "Notifications", icon: Bell },
     { value: "concierge", label: "Concierge", icon: Heart },
   ];
 
