@@ -7,7 +7,7 @@ import Navbar from "@/components/Navbar";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import {
   User, CreditCard, Plane, Shield, FileText, MapPin, Heart, Settings,
-  Save, Upload, Trash2, Plus, LogOut, ChevronLeft
+  Save, Upload, Trash2, Plus, LogOut, ChevronLeft, Bell
 } from "lucide-react";
 import { Link } from "react-router-dom";
 
