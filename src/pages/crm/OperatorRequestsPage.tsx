@@ -164,6 +164,7 @@ const OperatorRequestsPage = () => {
 
   const inputClass = crmInputClass;
   const labelClass = crmLabelClass;
+  const selectClass = crmSelectClass;
 
   const columns = [
     { key: "route", label: "Route", render: (r: any) => r.flight_requests ? `${r.flight_requests.departure} → ${r.flight_requests.destination}` : "—" },
