@@ -167,6 +167,7 @@ const App = () => (
             <Route path="/fleet/:slug" element={<FleetDetailPage />} />
             <Route path="/quote/:quoteId" element={<QuoteViewPage />} />
             <Route path="/unsubscribe" element={<UnsubscribePage />} />
+            <Route path="/reset-password" element={<ResetPasswordPage />} />
             
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
