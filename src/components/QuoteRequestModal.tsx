@@ -305,6 +305,7 @@ const QuoteRequestModal = ({ open, onClose, flightData }: QuoteRequestModalProps
       return;
     }
     setSubmitting(true);
+    try {
       const result = await capture({
         name: form.name,
         email: form.email,
