@@ -586,9 +586,10 @@ Deno.serve(async (req) => {
 
     if (endpoint === "create-quote" && httpMethod === "POST") {
       if (!userRoles.some((r) => ["admin", "sales", "finance"].includes(r))) return err("Forbidden", 403);
-      const { request_id, price, aircraft, operator, valid_days } = body;
-      if (!request_id || !price) return err("request_id and price required");
-      const validUntil = new Date(); validUntil.setDate(validUntil.getDate() + (valid_days || 7));
+      const quoteParsed = CreateQuoteSchema.safeParse(body);
+      if (!quoteParsed.success) return err(Object.values(quoteParsed.error.flatten().fieldErrors).flat().join("; ") || "Validation failed");
+      const { request_id, price, aircraft, operator, valid_days } = quoteParsed.data;
+      const validUntil = new Date(); validUntil.setDate(validUntil.getDate() + valid_days);
       const { data, error } = await admin.from("quotes").insert({
         request_id, price, aircraft: aircraft || null, operator: operator || null,
         valid_until: validUntil.toISOString(), status: "draft", created_by: userId,
@@ -598,13 +599,11 @@ Deno.serve(async (req) => {
       return json({ success: true, quote_id: data.id });
     }
 
-    // POST /create-client — Staff manual client creation with validation
+    // POST /create-client — Staff manual client creation with Zod validation
     if (endpoint === "create-client" && httpMethod === "POST") {
       if (!isStaff) return err("Forbidden", 403);
-      const { full_name, email, phone, client_type, country, city, preferred_contact_method, lead_source, assigned_to: owner } = body;
-      if (!full_name) return err("Full name is required");
-      if (!email && !phone) return err("Email or phone is required");
-      if (!lead_source) return err("Lead source is required");
+      const clientParsed = CreateClientSchema.safeParse(body);
+      if (!clientParsed.success) return err(Object.values(clientParsed.error.flatten().fieldErrors).flat().join("; ") || "Validation failed");
 
       // Duplicate check
       if (email) {
