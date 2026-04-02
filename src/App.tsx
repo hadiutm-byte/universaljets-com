@@ -65,6 +65,7 @@ const CareersPage = lazy(() => import("./pages/CareersPage.tsx"));
 const OperatorRequestsPage = lazy(() => import("./pages/crm/OperatorRequestsPage.tsx"));
 const QuoteDetailPage = lazy(() => import("./pages/crm/QuoteDetailPage.tsx"));
 const OpsDetailPage = lazy(() => import("./pages/crm/OpsDetailPage.tsx"));
+const EmailAnalyticsPage = lazy(() => import("./pages/crm/EmailAnalyticsPage.tsx"));
 const QuoteViewPage = lazy(() => import("./pages/QuoteViewPage.tsx"));
 const ContactPage = lazy(() => import("./pages/ContactPage.tsx"));
 const ConciergePage = lazy(() => import("./pages/ConciergePage.tsx"));
@@ -153,6 +154,7 @@ const App = () => (
               <Route path="finance/supplier-history" element={<SupplierHistoryPage />} />
               <Route path="resources" element={<CrmResourcesPage />} />
               <Route path="admin/users" element={<AdminUsersPage />} />
+              <Route path="admin/email-analytics" element={<EmailAnalyticsPage />} />
               <Route path="admin/settings" element={<AdminSettingsPage />} />
             </Route>
             <Route path="/careers" element={<CareersPage />} />

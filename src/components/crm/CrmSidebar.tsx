@@ -3,7 +3,7 @@ import {
   Map, LogOut, ChevronLeft, MessageSquare, Kanban, Shield, Settings,
   UserCheck, DollarSign, Briefcase, Gift, Activity, FolderOpen,
   ArrowDownLeft, ArrowUpRight, CreditCard, Landmark, TrendingUp, Building2, Handshake, Search,
-  Radio,
+  Radio, Mail,
 } from "lucide-react";
 import { NavLink } from "@/components/NavLink";
 import { useAuth, type AppRole } from "@/hooks/useAuth";
@@ -91,6 +91,7 @@ const sections: { label: string; items: NavItem[] }[] = [
     label: "Admin",
     items: [
       { title: "User Management", url: "/crm/admin/users", icon: Shield, roles: ["admin"] },
+      { title: "Email Analytics", url: "/crm/admin/email-analytics", icon: Mail, roles: ["admin"] },
       { title: "Activity Log", url: "/crm/activity", icon: Activity, roles: ["admin"] },
       { title: "Settings", url: "/crm/admin/settings", icon: Settings, roles: ["admin"] },
     ],
