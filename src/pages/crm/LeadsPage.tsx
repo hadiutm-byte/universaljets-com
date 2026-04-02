@@ -1,5 +1,5 @@
 import { useEffect, useState, useCallback } from "react";
-import { crmInputClass, crmLabelClass, crmFilterClass } from "@/components/crm/crmStyles";
+import { crmInputClass, crmLabelClass, crmSelectClass, crmFilterClass } from "@/components/crm/crmStyles";
 import { supabase } from "@/integrations/supabase/client";
 import CrmTable from "@/components/crm/CrmTable";
 import { StatusBadge } from "@/components/crm/StatusBadge";

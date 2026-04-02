@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { crmInputClass, crmLabelClass, crmFilterClass } from "@/components/crm/crmStyles";
+import { crmInputClass, crmLabelClass, crmSelectClass, crmFilterClass } from "@/components/crm/crmStyles";
 import { useParams, Link } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { motion } from "framer-motion";
