@@ -48,11 +48,13 @@ function generateArc(from: [number, number], to: [number, number], steps = 64): 
 
 const EmptyLegsMapView = ({ legs, selectedLeg, onLegClick, onClose, isLiveData }: EmptyLegsMapViewProps) => {
   const mapContainer = useRef<HTMLDivElement>(null);
-  const map = useRef<mapboxgl.Map | null>(null);
-  const markersRef = useRef<mapboxgl.Marker[]>([]);
-  const popupRef = useRef<mapboxgl.Popup | null>(null);
+  const map = useRef<any>(null);
+  const mbRef = useRef<any>(null); // stores loaded mapboxgl module
+  const markersRef = useRef<any[]>([]);
+  const popupRef = useRef<any>(null);
   const [hoveredLeg, setHoveredLeg] = useState<EmptyLeg | null>(null);
   const [mapLoaded, setMapLoaded] = useState(false);
+  const [mapReady, setMapReady] = useState(false);
 
   const projectedLegs = useMemo(() => {
     return legs.filter((leg) => {
@@ -62,73 +64,72 @@ const EmptyLegsMapView = ({ legs, selectedLeg, onLegClick, onClose, isLiveData }
     });
   }, [legs]);
 
-  // Compute bounds
-  const bounds = useMemo(() => {
-    if (projectedLegs.length === 0) return null;
-    const b = new mapboxgl.LngLatBounds();
-    projectedLegs.forEach((leg) => {
-      b.extend([leg.departure!.lng!, leg.departure!.lat!]);
-      b.extend([leg.arrival!.lng!, leg.arrival!.lat!]);
-    });
-    return b;
-  }, [projectedLegs]);
-
-  // Initialize map
+  // Initialize map with dynamic import
   useEffect(() => {
     if (!mapContainer.current || map.current) return;
+    let cancelled = false;
 
-    mapboxgl.accessToken = MAPBOX_TOKEN;
+    getMapboxGL().then((mb) => {
+      if (cancelled || !mapContainer.current) return;
+      mbRef.current = mb;
+      mb.accessToken = MAPBOX_TOKEN;
 
-    const m = new mapboxgl.Map({
-      container: mapContainer.current,
-      style: {
-        version: 8,
-        name: "UJ Dark",
-        sources: {
-          "carto-dark": {
-            type: "raster",
-            tiles: [
-              "https://a.basemaps.cartocdn.com/dark_nolabels/{z}/{x}/{y}@2x.png",
-              "https://b.basemaps.cartocdn.com/dark_nolabels/{z}/{x}/{y}@2x.png",
-              "https://c.basemaps.cartocdn.com/dark_nolabels/{z}/{x}/{y}@2x.png",
-            ],
-            tileSize: 256,
-          },
-        },
-        layers: [
-          {
-            id: "carto-dark-layer",
-            type: "raster",
-            source: "carto-dark",
-            paint: {
-              "raster-opacity": 0.85,
-              "raster-brightness-max": 0.45,
-              "raster-contrast": 0.2,
-              "raster-saturation": -0.6,
+      const m = new mb.Map({
+        container: mapContainer.current,
+        style: {
+          version: 8,
+          name: "UJ Dark",
+          sources: {
+            "carto-dark": {
+              type: "raster",
+              tiles: [
+                "https://a.basemaps.cartocdn.com/dark_nolabels/{z}/{x}/{y}@2x.png",
+                "https://b.basemaps.cartocdn.com/dark_nolabels/{z}/{x}/{y}@2x.png",
+                "https://c.basemaps.cartocdn.com/dark_nolabels/{z}/{x}/{y}@2x.png",
+              ],
+              tileSize: 256,
             },
           },
-        ],
-      },
-      center: [20, 30],
-      zoom: 2,
-      minZoom: 1.5,
-      maxZoom: 12,
-      attributionControl: false,
-      fadeDuration: 0,
+          layers: [
+            {
+              id: "carto-dark-layer",
+              type: "raster",
+              source: "carto-dark",
+              paint: {
+                "raster-opacity": 0.85,
+                "raster-brightness-max": 0.45,
+                "raster-contrast": 0.2,
+                "raster-saturation": -0.6,
+              },
+            },
+          ],
+        },
+        center: [20, 30],
+        zoom: 2,
+        minZoom: 1.5,
+        maxZoom: 12,
+        attributionControl: false,
+        fadeDuration: 0,
+      });
+
+      m.addControl(new mb.NavigationControl({ showCompass: false }), "top-right");
+
+      m.on("load", () => {
+        setMapLoaded(true);
+      });
+
+      map.current = m;
+      setMapReady(true);
     });
-
-    m.addControl(new mapboxgl.NavigationControl({ showCompass: false }), "top-right");
-
-    m.on("load", () => {
-      setMapLoaded(true);
-    });
-
-    map.current = m;
 
     return () => {
-      m.remove();
-      map.current = null;
+      cancelled = true;
+      if (map.current) {
+        map.current.remove();
+        map.current = null;
+      }
       setMapLoaded(false);
+      setMapReady(false);
     };
   }, []);
 
