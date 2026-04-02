@@ -16,7 +16,7 @@ const HeroSection = () => {
   return (
     <section
       ref={ref}
-      className="relative min-h-screen min-h-[100dvh] w-full overflow-hidden flex flex-col items-center justify-start pt-[18vh] md:pt-[22vh]"
+      className="relative min-h-screen min-h-[100dvh] w-full overflow-hidden flex flex-col items-center justify-center"
     >
       {/* Background image with parallax + Ken Burns */}
       <motion.div
