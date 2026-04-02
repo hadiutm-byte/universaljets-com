@@ -204,7 +204,7 @@ const OperatorRequestsPage = () => {
           <form onSubmit={handleSubmit} className="space-y-4 mt-2">
             <div>
               <label className={labelClass}>Flight Request</label>
-              <select value={form.request_id} onChange={e => setForm(p => ({ ...p, request_id: e.target.value }))} className={inputClass}>
+              <select value={form.request_id} onChange={e => setForm(p => ({ ...p, request_id: e.target.value }))} className={selectClass}>
                 <option value="">Select request...</option>
                 {requests.map(r => <option key={r.id} value={r.id}>{r.departure} → {r.destination}</option>)}
               </select>
