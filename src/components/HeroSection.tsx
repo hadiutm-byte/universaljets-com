@@ -88,7 +88,7 @@ const HeroSection = () => {
           className="w-[2px] h-14 md:h-20 mb-6 md:mb-8 origin-top hero-gold-divider"
         />
 
-        <motion.p
+        <motion.h1
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1.2, delay: 0.5 }}
@@ -96,7 +96,7 @@ const HeroSection = () => {
           style={{ fontSize: "clamp(1.4rem, 5vw, 4.5rem)", textShadow: "0 0 15px hsl(43, 85%, 42%)" }}
         >
           Private Aviation Redefined
-        </motion.p>
+        </motion.h1>
 
         <motion.div
           initial={{ opacity: 0, y: 18 }}
