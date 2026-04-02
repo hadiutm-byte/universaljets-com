@@ -114,7 +114,7 @@ const RequestsPage = () => {
         filterBar={
           <div className="flex flex-wrap items-center gap-2">
             <input value={search} onChange={e => setSearch(e.target.value)} placeholder="Search client, route..." className={`${filterClass} w-52`} />
-            <select value={filterStatus} onChange={e => setFilterStatus(e.target.value)} className={filterClass}>
+            <select value={filterStatus} onChange={e => setFilterStatus(e.target.value)} className={`${filterClass} appearance-none pr-10 bg-[length:16px_16px] bg-[position:right_12px_center] bg-no-repeat bg-[url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='rgba(255,255,255,0.4)' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E")] cursor-pointer`}>
               <option value="all">All Status</option>
               {STATUSES.map(s => <option key={s} value={s}>{s}</option>)}
             </select>
