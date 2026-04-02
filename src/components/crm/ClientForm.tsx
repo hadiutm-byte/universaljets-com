@@ -102,7 +102,7 @@ export default function ClientForm({ open, onOpenChange, onSuccess, initial }: P
     <div>
       <label className={labelClass}>{label}</label>
       <select value={form[key] ?? ""} onChange={(e) => set(key, e.target.value)}
-        className={inputClass}>
+        className={selectClass}>
         <option value="">Select...</option>
         {options.map((o) => <option key={o.value} value={o.value}>{o.label}</option>)}
       </select>
