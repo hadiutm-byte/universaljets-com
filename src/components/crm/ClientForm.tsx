@@ -111,7 +111,7 @@ export default function ClientForm({ open, onOpenChange, onSuccess, initial }: P
   const checkbox = (label: string, key: string) => (
     <label className="flex items-center gap-2 cursor-pointer">
       <input type="checkbox" checked={form[key] ?? false} onChange={(e) => set(key, e.target.checked)}
-        className="w-3.5 h-3.5 rounded border-border/40 accent-primary" />
+        className={crmCheckboxClass} />
       <span className="text-[11px] text-foreground/60 font-light">{label}</span>
     </label>
   );
