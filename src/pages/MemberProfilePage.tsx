@@ -7,7 +7,7 @@ import Navbar from "@/components/Navbar";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import {
   User, CreditCard, Plane, Shield, FileText, MapPin, Heart, Settings,
-  Save, Upload, Trash2, Plus, LogOut, ChevronLeft
+  Save, Upload, Trash2, Plus, LogOut, ChevronLeft, Bell
 } from "lucide-react";
 import { Link } from "react-router-dom";
 
@@ -52,6 +52,7 @@ const MemberProfilePage = () => {
   const [invoices, setInvoices] = useState<any[]>([]);
   const [trips, setTrips] = useState<any[]>([]);
   const [requests, setRequests] = useState<any[]>([]);
+  const [clientRecord, setClientRecord] = useState<any>(null);
   const [loading, setLoading] = useState(true);
 
   /* route form */
@@ -78,8 +79,9 @@ const MemberProfilePage = () => {
     setDocuments(dRes.data ?? []);
 
     // Fetch client-linked data (invoices, trips, requests)
-    const { data: clientData } = await supabase.from("clients").select("id").eq("user_id", uid).maybeSingle();
+    const { data: clientData } = await supabase.from("clients").select("*").eq("user_id", uid).maybeSingle();
     if (clientData) {
+      setClientRecord(clientData);
       const [iRes, trRes, frRes] = await Promise.all([
         supabase.from("invoices").select("*").order("created_at", { ascending: false }).limit(20),
         supabase.from("trips").select("*").eq("client_id", clientData.id).order("created_at", { ascending: false }),
@@ -158,6 +160,22 @@ const MemberProfilePage = () => {
   const up = (key: string, val: any) => setProfile((p: any) => ({ ...p, [key]: val }));
   const ut = (key: string, val: any) => setTravel((p: any) => ({ ...p, [key]: val }));
   const uc = (key: string, val: any) => setConcierge((p: any) => ({ ...p, [key]: val }));
+  const ucl = (key: string, val: any) => setClientRecord((p: any) => p ? ({ ...p, [key]: val }) : p);
+
+  const saveNotifications = async () => {
+    if (!clientRecord?.id) { toast.error("No client record found"); return; }
+    setSaving(true);
+    const { error } = await supabase.from("clients").update({
+      email_allowed: clientRecord.email_allowed,
+      whatsapp_allowed: clientRecord.whatsapp_allowed,
+      phone_allowed: clientRecord.phone_allowed,
+      preferred_contact_method: clientRecord.preferred_contact_method,
+      preferred_contact_time: clientRecord.preferred_contact_time,
+      marketing_optin: clientRecord.marketing_optin,
+    }).eq("id", clientRecord.id);
+    if (error) toast.error("Failed to save notification preferences"); else toast.success("Notification preferences saved");
+    setSaving(false);
+  };
 
   const memberSince = user?.created_at
     ? new Date(user.created_at).toLocaleDateString("en-US", { month: "long", year: "numeric" })
@@ -177,6 +195,7 @@ const MemberProfilePage = () => {
     { value: "billing", label: "Billing", icon: CreditCard },
     { value: "documents", label: "Documents", icon: FileText },
     { value: "routes", label: "Routes", icon: MapPin },
+    { value: "notifications", label: "Notifications", icon: Bell },
     { value: "concierge", label: "Concierge", icon: Heart },
   ];
 
@@ -460,6 +479,58 @@ const MemberProfilePage = () => {
                     </div>
                   )}
                 </div>
+              </motion.div>
+            </TabsContent>
+
+            {/* ── NOTIFICATIONS ── */}
+            <TabsContent value="notifications">
+              <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-4">
+                <div className="glass rounded-xl p-6 space-y-4">
+                  <SectionTitle>Communication Channels</SectionTitle>
+                  <p className="text-[11px] text-foreground/40 font-extralight leading-relaxed -mt-2 mb-2">
+                    Choose how you'd like us to reach you for flight confirmations, updates, and service communications.
+                  </p>
+                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                    <Toggle label="Email Notifications" checked={clientRecord?.email_allowed ?? true} onChange={() => ucl("email_allowed", !(clientRecord?.email_allowed ?? true))} />
+                    <Toggle label="WhatsApp Messages" checked={clientRecord?.whatsapp_allowed ?? true} onChange={() => ucl("whatsapp_allowed", !(clientRecord?.whatsapp_allowed ?? true))} />
+                    <Toggle label="Phone Calls" checked={clientRecord?.phone_allowed ?? true} onChange={() => ucl("phone_allowed", !(clientRecord?.phone_allowed ?? true))} />
+                  </div>
+                </div>
+
+                <div className="glass rounded-xl p-6 space-y-4">
+                  <SectionTitle>Contact Preferences</SectionTitle>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                      <label className="text-[9px] tracking-[0.25em] uppercase text-gold/50 mb-1.5 block font-light">Preferred Method</label>
+                      <select
+                        value={clientRecord?.preferred_contact_method ?? "email"}
+                        onChange={(e) => ucl("preferred_contact_method", e.target.value)}
+                        className="w-full bg-secondary/50 rounded-lg px-4 py-2.5 text-[13px] text-foreground font-light focus:outline-none focus:ring-1 focus:ring-gold/20 transition-all luxury-border"
+                      >
+                        <option value="email">Email</option>
+                        <option value="whatsapp">WhatsApp</option>
+                        <option value="phone">Phone Call</option>
+                        <option value="sms">SMS</option>
+                      </select>
+                    </div>
+                    <Field label="Preferred Contact Time" value={clientRecord?.preferred_contact_time} onChange={(v: string) => ucl("preferred_contact_time", v)} placeholder="e.g. Mornings, After 6 PM GST…" />
+                  </div>
+                </div>
+
+                <div className="glass rounded-xl p-6 space-y-4">
+                  <SectionTitle>Marketing</SectionTitle>
+                  <Toggle label="Receive exclusive offers, empty leg alerts & destination insights" checked={clientRecord?.marketing_optin ?? false} onChange={() => ucl("marketing_optin", !(clientRecord?.marketing_optin ?? false))} />
+                </div>
+
+                {!clientRecord && (
+                  <p className="text-[11px] text-foreground/30 font-extralight text-center">Notification preferences will be available after your first flight request or membership application.</p>
+                )}
+
+                {clientRecord && (
+                  <button onClick={saveNotifications} disabled={saving} className="px-6 py-2.5 bg-gradient-gold text-primary-foreground text-[9px] tracking-[0.25em] uppercase font-medium rounded-lg hover:shadow-[0_0_30px_-8px_hsla(43,85%,58%,0.45)] transition-all duration-500 disabled:opacity-50 inline-flex items-center gap-2">
+                    <Save size={12} /> {saving ? "Saving..." : "Save Preferences"}
+                  </button>
+                )}
               </motion.div>
             </TabsContent>
 
