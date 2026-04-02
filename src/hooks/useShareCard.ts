@@ -68,11 +68,14 @@ export function useShareCard() {
       const a = document.createElement("a");
       a.href = url;
       a.download = fileName;
+      document.body.appendChild(a);
       a.click();
+      document.body.removeChild(a);
       URL.revokeObjectURL(url);
-      await navigator.clipboard.writeText(shareText);
+      try { await navigator.clipboard.writeText(shareText); } catch { /* clipboard may be blocked */ }
       toast.success("Share card downloaded & details copied");
-    } catch {
+    } catch (err) {
+      console.error("[ShareCard] generation/share failed:", err);
       try {
         await navigator.clipboard.writeText(shareText);
         toast.success("Details copied to clipboard");
