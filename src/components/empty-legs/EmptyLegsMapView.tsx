@@ -257,11 +257,12 @@ const EmptyLegsMapView = ({ legs, selectedLeg, onLegClick, onClose, isLiveData }
 
   // Pan to selected leg
   useEffect(() => {
-    if (!map.current || !selectedLeg || !mapLoaded) return;
+    const mb = mbRef.current;
+    if (!map.current || !mb || !selectedLeg || !mapLoaded) return;
     const dep = selectedLeg.departure;
     const arr = selectedLeg.arrival;
     if (!dep?.lng || !dep?.lat || !arr?.lng || !arr?.lat) return;
-    const b = new mapboxgl.LngLatBounds();
+    const b = new mb.LngLatBounds();
     b.extend([dep.lng, dep.lat]);
     b.extend([arr.lng, arr.lat]);
     map.current.fitBounds(b, { padding: { top: 80, bottom: 80, left: 80, right: 420 }, maxZoom: 7, duration: 800 });
