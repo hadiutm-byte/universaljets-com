@@ -33,9 +33,36 @@ Universal Jets is a robust and scalable jet management system designed to stream
 - **End-to-End Tests:** Run `playwright test` from the command line.
 
 ## Deployment
-1. Prepare the `.env` with production configurations.
-2. Optionally use **Docker** if deploying with containers.
-3. Deploy to hosting platforms like AWS, Vercel, or Netlify.
+
+### Hostinger (Shared Hosting / Static Hosting)
+
+1. **Build the project:**
+   ```bash
+   npm install
+   npm run build
+   ```
+   This generates a `dist/` folder with all the static files.
+
+2. **Upload to Hostinger:**
+   - Log in to your Hostinger control panel (hPanel).
+   - Go to **File Manager** (or use FTP/SFTP with FileZilla).
+   - Navigate to the `public_html` directory (or your domain's root folder).
+   - Upload **all contents** of the `dist/` folder (not the folder itself) to `public_html`.
+   - Make sure the `.htaccess` file is included — it enables client-side routing for React Router.
+
+3. **Set environment variables:**
+   - If your Hostinger plan supports Node.js, set the environment variables from `.env.example` in your hosting panel.
+   - For static hosting, the `VITE_*` variables must be set **before** building (they are baked in at build time).
+
+4. **Verify the `.htaccess` is present:**
+   After uploading, confirm that `public_html/.htaccess` exists. This file redirects all requests to `index.html` so that React Router can handle page navigation correctly. Without it, refreshing or directly visiting a URL (e.g., `/about`) will return a 404 error.
+
+5. **Access the site:**
+   Open your domain in a browser. If you see a blank page, check the browser console for missing environment variables (e.g., `VITE_SUPABASE_URL`).
+
+### Other Platforms
+- **Vercel / Netlify**: Import the repository and set the build command to `npm run build` and publish directory to `dist`.
+- **Docker / AWS**: Build the image and serve the `dist/` folder using Nginx or Apache.
 
 ## Contributing Guidelines
 We welcome contributions from the community! To contribute:
