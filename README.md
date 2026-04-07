@@ -34,7 +34,40 @@ Universal Jets is a robust and scalable jet management system designed to stream
 
 ## Deployment
 
-### Hostinger (Shared Hosting / Static Hosting)
+### Automated Deployment to Hostinger (GitHub Actions)
+
+This repository includes a GitHub Actions workflow (`.github/workflows/deploy.yml`) that automatically builds the project and deploys it to Hostinger via FTP every time you push to the `main` branch.
+
+#### One-time Setup
+
+1. **Add GitHub Secrets:**
+   Go to your repository on GitHub → **Settings** → **Secrets and variables** → **Actions** → **New repository secret**, and add the following secrets:
+
+   | Secret Name           | Description                                                      |
+   |-----------------------|------------------------------------------------------------------|
+   | `FTP_SERVER`          | Your Hostinger FTP hostname (e.g. `ftp.yourdomain.com`)         |
+   | `FTP_USERNAME`        | Your Hostinger FTP username (found in hPanel → FTP Accounts)    |
+   | `FTP_PASSWORD`        | Your Hostinger FTP password                                      |
+   | `VITE_SUPABASE_URL`   | Your Supabase project URL                                        |
+   | `VITE_SUPABASE_ANON_KEY` | Your Supabase anonymous/public key                           |
+   | `VITE_GTM_ID`         | Google Tag Manager ID (optional)                                 |
+   | `VITE_GA_ID`          | Google Analytics ID (optional)                                   |
+
+   > **Tip:** Your Hostinger FTP details can be found in hPanel under **Files → FTP Accounts**.
+
+2. **Trigger a deployment:**
+   Push any commit to the `main` branch:
+   ```bash
+   git push origin main
+   ```
+   The workflow will automatically install dependencies, build the project, and upload the `dist/` folder to `public_html/` on Hostinger.
+
+3. **Monitor the workflow:**
+   Go to your repository → **Actions** tab to watch the progress and see logs.
+
+---
+
+### Manual Deployment to Hostinger (Shared Hosting / Static Hosting)
 
 1. **Build the project:**
    ```bash
