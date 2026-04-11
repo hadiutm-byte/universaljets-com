@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import SEOHead from "@/components/SEOHead";
+import JsonLd from "@/components/JsonLd";
 import AirportExperienceSection from "@/components/AirportExperienceSection";
 
 const services = [
@@ -48,6 +49,15 @@ const services = [
 const ConciergePage = () => (
   <div className="min-h-screen bg-background">
     <SEOHead title="Concierge — Beyond Aviation | Universal Jets" description="Universal Jets concierge: luxury ground transport, VIP airport handling, hotel coordination, event access, and bespoke travel services for private aviation clients." path="/concierge" breadcrumbs={[{ name: "Home", path: "/" }, { name: "Concierge", path: "/concierge" }]} />
+    <JsonLd data={{
+      "@context": "https://schema.org",
+      "@type": "Service",
+      name: "VIP Concierge Services",
+      provider: { "@type": "Organization", name: "Universal Jets", url: "https://universaljets.com" },
+      serviceType: "Luxury Concierge & Ground Handling",
+      areaServed: { "@type": "Place", name: "Worldwide" },
+      description: "Full-service concierge: luxury ground transport, VIP airport handling, hotel & dining coordination, event access, and bespoke travel support.",
+    }} />
     <Navbar />
 
     {/* ═══ HERO ═══ */}
