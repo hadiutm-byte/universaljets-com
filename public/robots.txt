@@ -19,4 +19,4 @@ Allow: /
 User-agent: facebookexternalhit
 Allow: /
 
-Sitemap: https://universaljets.com/sitemap.xml
+Sitemap: https://universaljets.com/sitemap-uj.xml
