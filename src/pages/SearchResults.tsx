@@ -157,8 +157,8 @@ const SearchResults = () => {
   return (
     <div className="min-h-screen bg-background">
       <SEOHead
-        title={from && to ? `${from} → ${to} — Private Jet Search` : "Search Results"}
-        description={`Private jet charter search results${from && to ? ` from ${from} to ${to}` : ""}. Compare aircraft, pricing, and availability.`}
+        title={fromLabel && toLabel ? `${fromLabel} → ${toLabel} — Private Jet Search` : "Search Results"}
+        description={`Private jet charter search results${fromLabel && toLabel ? ` from ${fromLabel} to ${toLabel}` : ""}. Compare aircraft, pricing, and availability.`}
         path="/search"
         noindex
       />
