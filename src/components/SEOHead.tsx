@@ -8,6 +8,8 @@ interface SEOHeadProps {
   path: string;
   type?: string;
   image?: string;
+  /** Set true to add noindex,nofollow — use for auth, dashboard, utility pages */
+  noindex?: boolean;
   /** Breadcrumb trail — auto-generates BreadcrumbList JSON-LD */
   breadcrumbs?: { name: string; path: string }[];
 }
@@ -15,7 +17,7 @@ interface SEOHeadProps {
 const SITE = "https://universaljets.com";
 const DEFAULT_IMAGE = "https://universaljets.com/og-image.jpg";
 
-const SEOHead = ({ title, description, path, type = "website", image, breadcrumbs }: SEOHeadProps) => {
+const SEOHead = ({ title, description, path, type = "website", image, breadcrumbs, noindex }: SEOHeadProps) => {
   const fullTitle = `${title} | Universal Jets`;
   const url = `${SITE}${path}`;
   const img = image || DEFAULT_IMAGE;
@@ -44,6 +46,11 @@ const SEOHead = ({ title, description, path, type = "website", image, breadcrumb
     setMeta("name", "twitter:description", description);
     setMeta("name", "twitter:image", img);
     setMeta("name", "twitter:card", "summary_large_image");
+
+    // Robots — noindex for private/utility pages
+    if (noindex) {
+      setMeta("name", "robots", "noindex, nofollow");
+    }
 
     // Canonical
     let canonical = document.querySelector('link[rel="canonical"]') as HTMLLinkElement | null;
