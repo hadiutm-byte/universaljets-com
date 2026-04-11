@@ -47,7 +47,7 @@ const services = [
 
 const ConciergePage = () => (
   <div className="min-h-screen bg-background">
-    <SEOHead title="Concierge — Beyond Aviation | Universal Jets" description="Universal Jets concierge: luxury ground transport, VIP airport handling, hotel coordination, event access, and bespoke travel services for private aviation clients." path="/concierge" />
+    <SEOHead title="Concierge — Beyond Aviation | Universal Jets" description="Universal Jets concierge: luxury ground transport, VIP airport handling, hotel coordination, event access, and bespoke travel services for private aviation clients." path="/concierge" breadcrumbs={[{ name: "Home", path: "/" }, { name: "Concierge", path: "/concierge" }]} />
     <Navbar />
 
     {/* ═══ HERO ═══ */}

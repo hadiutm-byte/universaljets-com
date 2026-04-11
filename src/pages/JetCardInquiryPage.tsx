@@ -87,7 +87,7 @@ const JetCardInquiryPage = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      <SEOHead title="Apply for Altus Jet Card Global | Universal Jets" description="Request your tailored Altus Jet Card proposal. Locked-in rates, zero fees, hours that carry forward." path="/jet-card-inquiry" />
+      <SEOHead title="Apply for Altus Jet Card Global | Universal Jets" description="Request your tailored Altus Jet Card proposal. Locked-in rates, zero fees, hours that carry forward." path="/jet-card-inquiry" breadcrumbs={[{ name: "Home", path: "/" }, { name: "Jet Card", path: "/jet-card" }, { name: "Apply", path: "/jet-card-inquiry" }]} />
       <Navbar />
 
       <section className="pt-32 pb-20 md:pt-44 md:pb-28">

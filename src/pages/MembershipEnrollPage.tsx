@@ -112,7 +112,7 @@ const MembershipEnrollPage = () => {
 
   return (
     <div className="min-h-screen bg-background overflow-x-hidden">
-      <SEOHead title="Membership Enrollment | Universal Jets" description="Enroll in Universal Jets membership. Choose your tier and complete your application online." path="/membership/enroll" />
+      <SEOHead title="Membership Enrollment | Universal Jets" description="Enroll in Universal Jets membership. Choose your tier and complete your application online." path="/membership/enroll" breadcrumbs={[{ name: "Home", path: "/" }, { name: "Membership", path: "/members" }, { name: "Enroll", path: "/membership/enroll" }]} />
       <Navbar />
 
       <section className="pt-32 pb-20 md:pt-44 md:pb-28">

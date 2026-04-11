@@ -112,7 +112,7 @@ const AircraftGuidePage = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      <SEOHead title="Aircraft Guide — Private Jet Fleet Overview" description="Browse the Universal Jets aircraft guide. Compare light jets, midsize, heavy, and ultra-long-range private jets with specs, range, and passenger capacity." path="/aircraft" />
+      <SEOHead title="Aircraft Guide — Private Jet Fleet Overview" description="Browse the Universal Jets aircraft guide. Compare light jets, midsize, heavy, and ultra-long-range private jets with specs, range, and passenger capacity." path="/aircraft" breadcrumbs={[{ name: "Home", path: "/" }, { name: "Aircraft Guide", path: "/aircraft" }]} />
       <Navbar />
 
       {/* Hero */}

@@ -35,7 +35,7 @@ const popularRoutes = [
 
 const DestinationsPage = () => (
   <div className="min-h-screen bg-background">
-    <SEOHead title="Destinations & Events — Private Jet Travel" description="Fly private to Dubai, London, Monaco, Maldives, Mykonos and more. Airports, routes, aircraft, and concierge services for every destination." path="/destinations" />
+    <SEOHead title="Destinations & Events — Private Jet Travel" description="Fly private to Dubai, London, Monaco, Maldives, Mykonos and more. Airports, routes, aircraft, and concierge services for every destination." path="/destinations" breadcrumbs={[{ name: "Home", path: "/" }, { name: "Destinations", path: "/destinations" }]} />
     <Navbar />
 
     {/* Hero */}
