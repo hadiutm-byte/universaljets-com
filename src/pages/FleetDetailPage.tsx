@@ -100,6 +100,7 @@ const FleetDetailPage = () => {
         title={`${aircraft.name} — Private Jet Charter | Universal Jets`}
         description={`Charter the ${aircraft.name}. ${aircraft.max_pax ? `Up to ${aircraft.max_pax} passengers.` : ""} ${rangeNm ? `Range: ${rangeNm.toLocaleString()} nm.` : ""} Request a quote today.`}
         path={`/fleet/${aircraft.slug}`}
+        breadcrumbs={[{ name: "Home", path: "/" }, { name: "Fleet", path: "/fleet" }, { name: aircraft.name, path: `/fleet/${aircraft.slug}` }]}
       />
       <Navbar />
 

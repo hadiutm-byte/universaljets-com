@@ -43,6 +43,7 @@ const FleetPage = () => {
         title="Fleet — Private Jet Aircraft | Universal Jets"
         description="Explore our global fleet of private jet aircraft. Light jets to ultra long-range — full specs, cabin details, and instant quote requests."
         path="/fleet"
+        breadcrumbs={[{ name: "Home", path: "/" }, { name: "Fleet", path: "/fleet" }]}
       />
       <Navbar />
 
