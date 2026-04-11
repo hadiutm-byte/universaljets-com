@@ -129,6 +129,7 @@ const ACMILeasingPage = () => {
         title="ACMI & Operations — Mission-Ready Aviation Solutions"
         description="ACMI leasing, cargo, government missions, and urgent deployment. Enterprise-grade aviation operations with global reach and rapid positioning."
         path="/acmi-leasing"
+        breadcrumbs={[{ name: "Home", path: "/" }, { name: "ACMI & Operations", path: "/acmi-leasing" }]}
       />
       <Navbar />
 

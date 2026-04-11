@@ -5,6 +5,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import SEOHead from "@/components/SEOHead";
 
 /**
  * Password reset page — handles the recovery link from email.
@@ -86,6 +87,7 @@ const ResetPasswordPage = () => {
 
   return (
     <div className="min-h-screen bg-background">
+      <SEOHead title="Reset Password" description="Set a new password for your Universal Jets account." path="/reset-password" noindex />
       <Navbar />
       <section className="pt-40 pb-20 md:pt-48 md:pb-28">
         <div className="container mx-auto px-8 max-w-sm">

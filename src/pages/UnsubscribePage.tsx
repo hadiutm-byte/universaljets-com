@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
+import SEOHead from "@/components/SEOHead";
 
 const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL;
 const SUPABASE_KEY = import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY;
@@ -38,6 +39,7 @@ export default function UnsubscribePage() {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-background px-4">
+      <SEOHead title="Unsubscribe" description="Manage your email preferences." path="/unsubscribe" noindex />
       <div className="max-w-md w-full text-center space-y-6">
         <p className="text-[10px] tracking-[0.35em] uppercase text-primary/60 font-medium">Universal Jets</p>
         <h1 className="font-display text-2xl font-semibold text-foreground">Email Preferences</h1>

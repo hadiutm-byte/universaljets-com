@@ -222,6 +222,7 @@ const MembersPage = () => (
       title="Membership — Universal Jets"
       description="Priority access, exclusive rates, concierge support, and a more seamless way to charter privately. Four tiers designed around how you fly."
       path="/membership"
+      breadcrumbs={[{ name: "Home", path: "/" }, { name: "Membership", path: "/members" }]}
     />
     <Navbar />
 

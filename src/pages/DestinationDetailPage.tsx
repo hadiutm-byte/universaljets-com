@@ -43,6 +43,7 @@ const DestinationDetailPage = () => {
         title={`${dest.name} — Private Jet Charter | Universal Jets`}
         description={`Fly private to ${dest.name}. ${dest.tagline}. Airports, FBOs, routes, and concierge services.`}
         path={`/destinations/${dest.slug}`}
+        breadcrumbs={[{ name: "Home", path: "/" }, { name: "Destinations", path: "/destinations" }, { name: dest.name, path: `/destinations/${dest.slug}` }]}
       />
       <Navbar />
 

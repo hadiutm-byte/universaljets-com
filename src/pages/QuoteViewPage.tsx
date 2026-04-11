@@ -5,6 +5,7 @@ import { Plane, Users, Ruler, Clock, Briefcase, CheckCircle, XCircle, Calendar, 
 import { sanitizeAircraftName } from "@/lib/sanitize";
 import { getAircraftImage, getAircraftCategory } from "@/lib/aircraftImages";
 import { toast } from "sonner";
+import SEOHead from "@/components/SEOHead";
 
 const QuoteViewPage = () => {
   const { quoteId } = useParams();
@@ -78,6 +79,7 @@ const QuoteViewPage = () => {
 
   return (
     <div className="min-h-screen bg-[#faf9f6]">
+      <SEOHead title="Your Flight Quote" description="Review your private jet charter quote from Universal Jets." path={`/quote/${quoteId || ""}`} noindex />
       {/* Header */}
       <div className="bg-[#0a0a0a] text-white">
         <div className="max-w-4xl mx-auto px-6 py-8">

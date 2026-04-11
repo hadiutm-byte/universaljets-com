@@ -6,6 +6,7 @@ import { lovable } from "@/integrations/lovable/index";
 import { toast } from "sonner";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import SEOHead from "@/components/SEOHead";
 
 const STAFF_ROLES = ["admin", "sales", "operations", "finance", "account_management"];
 
@@ -82,6 +83,7 @@ const AuthPage = () => {
 
   return (
     <div className="min-h-screen bg-background">
+      <SEOHead title="Sign In" description="Sign in or create your Universal Jets account." path="/auth" noindex />
       <Navbar />
 
       <section className="pt-40 pb-20 md:pt-48 md:pb-28">

@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import SEOHead from "@/components/SEOHead";
+import JsonLd from "@/components/JsonLd";
 import { useFleetAircraft, type FleetAircraft } from "@/hooks/useFleetData";
 import { getAircraftImage } from "@/lib/aircraftImages";
 import { Loader2, Users, Ruler, Gauge, Share2, ArrowRight, Images } from "lucide-react";
@@ -43,7 +44,22 @@ const FleetPage = () => {
         title="Fleet — Private Jet Aircraft | Universal Jets"
         description="Explore our global fleet of private jet aircraft. Light jets to ultra long-range — full specs, cabin details, and instant quote requests."
         path="/fleet"
+        breadcrumbs={[{ name: "Home", path: "/" }, { name: "Fleet", path: "/fleet" }]}
       />
+      <JsonLd data={{
+        "@context": "https://schema.org",
+        "@type": "ItemList",
+        name: "Private Jet Fleet",
+        description: "Browse Universal Jets' global fleet of charter aircraft — light jets to ultra-long-range.",
+        url: "https://universaljets.com/fleet",
+        numberOfItems: aircraft?.length || 0,
+        itemListElement: (aircraft || []).slice(0, 20).map((a, i) => ({
+          "@type": "ListItem",
+          position: i + 1,
+          name: a.name,
+          url: `https://universaljets.com/fleet/${a.slug}`,
+        })),
+      }} />
       <Navbar />
 
       <main className="min-h-screen bg-background pt-24 pb-20">

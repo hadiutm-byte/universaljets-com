@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import SEOHead from "@/components/SEOHead";
+import JsonLd from "@/components/JsonLd";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 
 const keyFeatures = [
@@ -46,6 +47,15 @@ const faqs = [
 const JetCardPage = () => (
   <div className="min-h-screen bg-background">
     <SEOHead title="Altus Jet Card — Fixed Rates, Zero Fees" description="Purchase private jet flight hours at locked-in rates. No membership fees, no hidden costs. Guaranteed availability with hours that carry forward." path="/jet-card" breadcrumbs={[{ name: "Home", path: "/" }, { name: "Jet Card", path: "/jet-card" }]} />
+    <JsonLd data={{
+      "@context": "https://schema.org",
+      "@type": "Product",
+      name: "Altus Jet Card",
+      description: "Prepaid private jet flight hours at locked-in rates. Zero membership fees, guaranteed availability, hours carry forward.",
+      brand: { "@type": "Organization", name: "Universal Jets" },
+      url: "https://universaljets.com/jet-card",
+      category: "Private Aviation",
+    }} />
     <Navbar />
 
     {/* ═══ HERO ═══ */}

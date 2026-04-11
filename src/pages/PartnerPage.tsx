@@ -133,6 +133,7 @@ const PartnerPage = () => {
         title="Partner With Universal Jets — Luxury & Financial Collaborations"
         description="Join the Universal Jets partner ecosystem. Luxury hotels, financial institutions, lifestyle brands, and enterprise clients — elevate your offering through private aviation."
         path="/partners"
+        breadcrumbs={[{ name: "Home", path: "/" }, { name: "Partners", path: "/partners" }]}
       />
       <div className="relative">
         <Navbar />
