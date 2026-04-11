@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import { FileText, Download } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import SEOHead from "@/components/SEOHead";
 
 const clientTemplates = [
   { title: "Quote Request Form", description: "Submit your flight requirements for a detailed quote.", file: "/templates/quote-form.docx" },
@@ -54,6 +55,7 @@ const TemplateGroup = ({ title, subtitle, templates, offset = 0 }: { title: stri
 
 const ResourcesPage = () => (
   <div className="min-h-screen bg-background text-foreground">
+    <SEOHead title="Resources & Templates" description="Download charter contracts, invoice templates, and membership documents." path="/resources" noindex />
     <Navbar />
     <section className="pt-36 pb-24">
       <div className="container mx-auto px-8">

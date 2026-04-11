@@ -21,6 +21,7 @@ import {
   formatDuration,
   formatDistance,
 } from "@/lib/pricingEstimates";
+import SEOHead from "@/components/SEOHead";
 
 const getSupabaseUrl = () => import.meta.env.VITE_SUPABASE_URL;
 const getAnonKey = () => import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY;
@@ -155,6 +156,12 @@ const SearchResults = () => {
 
   return (
     <div className="min-h-screen bg-background">
+      <SEOHead
+        title={from && to ? `${from} → ${to} — Private Jet Search` : "Search Results"}
+        description={`Private jet charter search results${from && to ? ` from ${from} to ${to}` : ""}. Compare aircraft, pricing, and availability.`}
+        path="/search"
+        noindex
+      />
       <Navbar />
 
       <section className="pt-32 pb-20 px-6">

@@ -4,6 +4,7 @@ import { useAuth } from "@/hooks/useAuth";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import Navbar from "@/components/Navbar";
+import SEOHead from "@/components/SEOHead";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import {
   User, CreditCard, Plane, Shield, FileText, MapPin, Heart, Settings,
@@ -219,6 +220,7 @@ const MemberProfilePage = () => {
 
   return (
     <div className="min-h-screen bg-background">
+      <SEOHead title="Member Profile" description="Manage your Universal Jets member profile, preferences, and documents." path="/profile" noindex />
       <Navbar />
       <section className="pt-36 pb-16 md:pt-44">
         <div className="container mx-auto px-6 max-w-3xl">

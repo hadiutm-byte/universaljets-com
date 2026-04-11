@@ -9,6 +9,7 @@ import {
 import { Link, Navigate } from "react-router-dom";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import SEOHead from "@/components/SEOHead";
 
 const STAFF_ROLES = ["admin", "sales", "operations", "finance", "account_management"];
 
@@ -72,6 +73,7 @@ const DashboardPage = () => {
 
   return (
     <div className="min-h-screen bg-background">
+      <SEOHead title="Dashboard" description="Your private aviation dashboard — flights, routes, and account overview." path="/dashboard" noindex />
       <Navbar />
 
       <section className="pt-36 pb-16 md:pt-44">
