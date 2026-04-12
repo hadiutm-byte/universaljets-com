@@ -167,35 +167,74 @@ const useUserGeolocation = (): UserGeoData => {
     } catch {}
 
     const fetchGeo = async () => {
-      try {
-        const response = await fetch("https://ipapi.co/json/");
-        const data = await response.json();
-        const cityLower = (data.city || "").toLowerCase();
-        const countryCodeIso = (data.country_code || "AE").toUpperCase();
+      const apis = [
+        {
+          url: "https://ipapi.co/json/",
+          parse: (d: any) => ({
+            city: d.city, country_code: d.country_code,
+            country_calling_code: d.country_calling_code,
+            country_name: d.country_name,
+            latitude: d.latitude, longitude: d.longitude,
+          }),
+        },
+        {
+          url: "https://ip-api.com/json/?fields=city,countryCode,country,lat,lon",
+          parse: (d: any) => ({
+            city: d.city, country_code: d.countryCode,
+            country_calling_code: null, // resolved from countryCodes
+            country_name: d.country,
+            latitude: d.lat, longitude: d.lon,
+          }),
+        },
+      ];
 
-        // Resolve airport: city first, then country fallback
-        const airportInfo =
-          CITY_AIRPORT_MAP[cityLower] ||
-          COUNTRY_AIRPORT_MAP[countryCodeIso] ||
-          { iata: "DXB", icao: "OMDB", label: "Dubai (OMDB)" };
+      for (const api of apis) {
+        try {
+          const controller = new AbortController();
+          const timeout = setTimeout(() => controller.abort(), 4000);
+          const response = await fetch(api.url, { signal: controller.signal });
+          clearTimeout(timeout);
+          if (!response.ok) continue;
+          const raw = await response.json();
+          const data = api.parse(raw);
 
-        const result: UserGeoData = {
-          countryCode: data.country_calling_code || "+971",
-          city: data.city || "Dubai",
-          country: countryCodeIso,
-          countryName: data.country_name || "United Arab Emirates",
-          airportIata: airportInfo.iata,
-          airportIcao: airportInfo.icao,
-          airportLabel: airportInfo.label,
-          latitude: data.latitude ?? null,
-          longitude: data.longitude ?? null,
-        };
+          const cityLower = (data.city || "").toLowerCase();
+          const countryCodeIso = (data.country_code || "AE").toUpperCase();
 
-        setGeo(result);
-        localStorage.setItem(CACHE_KEY, JSON.stringify({ data: result, ts: Date.now() }));
-      } catch (error) {
-        console.error("Geolocation fetch error:", error);
+          const airportInfo =
+            CITY_AIRPORT_MAP[cityLower] ||
+            COUNTRY_AIRPORT_MAP[countryCodeIso] ||
+            { iata: "DXB", icao: "OMDB", label: "Dubai (OMDB)" };
+
+          // Resolve calling code from countryCodes lib if API didn't provide it
+          let callingCode = data.country_calling_code;
+          if (!callingCode) {
+            const { resolveCountryCode: resolve } = await import("@/lib/countryCodes");
+            const ALL = (await import("@/lib/countryCodes")).default;
+            const entry = ALL.find(c => c.iso === countryCodeIso);
+            callingCode = entry?.code || "+971";
+          }
+
+          const result: UserGeoData = {
+            countryCode: callingCode || "+971",
+            city: data.city || "Dubai",
+            country: countryCodeIso,
+            countryName: data.country_name || "United Arab Emirates",
+            airportIata: airportInfo.iata,
+            airportIcao: airportInfo.icao,
+            airportLabel: airportInfo.label,
+            latitude: data.latitude ?? null,
+            longitude: data.longitude ?? null,
+          };
+
+          setGeo(result);
+          localStorage.setItem(CACHE_KEY, JSON.stringify({ data: result, ts: Date.now() }));
+          return; // success, stop trying
+        } catch {
+          continue; // try next API
+        }
       }
+      // All APIs failed — keep default
     };
 
     fetchGeo();
