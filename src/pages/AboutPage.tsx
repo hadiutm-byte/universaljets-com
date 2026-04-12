@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import SEOHead from "@/components/SEOHead";
+import JsonLd, { aboutPageSchema } from "@/components/JsonLd";
 import { FadeReveal } from "@/components/ui/ScrollEffects";
 import ceoPhoto from "@/assets/hadi-ceo.png";
 import RickyAvatar from "@/components/ricky/RickyAvatar";
@@ -31,6 +32,7 @@ const regions = [
 const AboutPage = () => (
   <div className="min-h-screen bg-background relative">
     <SEOHead title="About Universal Jets — 18+ Years in Private Aviation" description="Discover Universal Jets: a Dubai-based private jet brokerage with 18+ years of experience, ARGUS and WYVERN certified, serving UHNW clients worldwide." path="/about" breadcrumbs={[{ name: "Home", path: "/" }, { name: "About", path: "/about" }]} />
+    <JsonLd data={aboutPageSchema} />
     <div className="relative">
       <Navbar />
 
