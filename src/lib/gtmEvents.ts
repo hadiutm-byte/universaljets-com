@@ -71,3 +71,37 @@ export const trackAircraftGuideView = () =>
 /** Page view (for SPA navigation — GTM picks this up for GA4) */
 export const trackPageView = (path: string, title: string) =>
   push("virtual_page_view", { page_path: path, page_title: title });
+
+/**
+ * Google Ads Enhanced Conversion — generate_lead
+ * Pushes user-provided data for server-side matching.
+ * GTM should map this to Google Ads conversion tag AW-18041798508.
+ */
+export const trackGenerateLead = (data: {
+  email?: string;
+  phone?: string;
+  name?: string;
+  value?: number;
+  currency?: string;
+  source?: string;
+}) =>
+  push("generate_lead", {
+    event_category: "conversion",
+    value: data.value || 0,
+    currency: data.currency || "USD",
+    lead_source: data.source || "website",
+    // Enhanced Conversions user data — GTM maps these to Google Ads
+    user_data: {
+      email: data.email?.toLowerCase().trim(),
+      phone_number: data.phone,
+      address: { first_name: data.name?.split(" ")[0], last_name: data.name?.split(" ").slice(1).join(" ") },
+    },
+  });
+
+/** User views a specific destination page (remarketing audience) */
+export const trackDestinationView = (destination: string) =>
+  push("destination_view", { destination_name: destination });
+
+/** User views fleet/aircraft page (remarketing audience) */
+export const trackFleetView = (aircraft?: string) =>
+  push("fleet_view", { aircraft_name: aircraft || "all" });

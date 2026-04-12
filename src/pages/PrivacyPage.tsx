@@ -44,7 +44,7 @@ const sections = [
 
 const PrivacyPage = () => (
   <div className="min-h-screen bg-background text-foreground">
-    <SEOHead title="Privacy Policy — Universal Jets" description="Universal Jets privacy policy covering data collection, processing, and your rights regarding personal information." path="/privacy" />
+    <SEOHead title="Privacy Policy — Universal Jets" description="Universal Jets privacy policy covering data collection, processing, and your rights regarding personal information." path="/privacy" breadcrumbs={[{ name: "Home", path: "/" }, { name: "Privacy Policy", path: "/privacy" }]} />
     <Navbar />
     <section className="pt-36 pb-24">
       <div className="container mx-auto px-8 max-w-3xl">

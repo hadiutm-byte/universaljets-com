@@ -36,7 +36,7 @@ const sections = [
 
 const CookiesPage = () => (
   <div className="min-h-screen bg-background text-foreground">
-    <SEOHead title="Cookies Policy — Universal Jets" description="Learn about how Universal Jets uses cookies to enhance your browsing experience on our private aviation platform." path="/cookies" />
+    <SEOHead title="Cookies Policy — Universal Jets" description="Learn about how Universal Jets uses cookies to enhance your browsing experience on our private aviation platform." path="/cookies" breadcrumbs={[{ name: "Home", path: "/" }, { name: "Cookies Policy", path: "/cookies" }]} />
     <Navbar />
     <section className="pt-36 pb-24">
       <div className="container mx-auto px-8 max-w-3xl">

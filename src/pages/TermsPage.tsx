@@ -44,7 +44,7 @@ const sections = [
 
 const TermsPage = () => (
   <div className="min-h-screen bg-background text-foreground">
-    <SEOHead title="Terms & Conditions — Universal Jets" description="Universal Jets terms and conditions for private aviation brokerage services, charter bookings, jet card programs, and membership." path="/terms" />
+    <SEOHead title="Terms & Conditions — Universal Jets" description="Universal Jets terms and conditions for private aviation brokerage services, charter bookings, jet card programs, and membership." path="/terms" breadcrumbs={[{ name: "Home", path: "/" }, { name: "Terms & Conditions", path: "/terms" }]} />
     <Navbar />
     <section className="pt-36 pb-24">
       <div className="container mx-auto px-8 max-w-3xl">
