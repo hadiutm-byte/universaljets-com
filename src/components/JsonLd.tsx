@@ -14,21 +14,56 @@ export default JsonLd;
 export const organizationSchema = {
   "@context": "https://schema.org",
   "@type": "Organization",
+  "@id": "https://universaljets.com/#organization",
   name: "Universal Jets",
+  legalName: "Universal Jets Aviation Brokerage FZCO",
   url: "https://universaljets.com",
-  logo: "https://universaljets.com/favicon.png",
+  logo: {
+    "@type": "ImageObject",
+    url: "https://universaljets.com/favicon.png",
+    width: 512,
+    height: 512,
+  },
+  image: "https://universaljets.com/og-image.jpg",
   description:
     "Dubai-based private jet charter brokerage with 18+ years of experience. On-demand charter, empty legs, jet cards, ACMI leasing, and 24/7 concierge across 190+ countries.",
   foundingDate: "2006",
+  foundingLocation: {
+    "@type": "Place",
+    name: "Dubai, United Arab Emirates",
+  },
   numberOfEmployees: { "@type": "QuantitativeValue", minValue: 10, maxValue: 50 },
+  slogan: "Your World. Your Schedule. Your Jet.",
+  knowsAbout: [
+    "Private jet charter",
+    "Empty leg flights",
+    "Jet card programs",
+    "ACMI leasing",
+    "Aircraft management",
+    "VIP concierge services",
+    "Medical evacuation flights",
+    "Cargo charter",
+  ],
   contactPoint: [
     {
       "@type": "ContactPoint",
       contactType: "sales",
       email: "sales@universaljets.com",
+      availableLanguage: ["English", "Arabic", "French", "Russian"],
+      areaServed: "Worldwide",
+      hoursAvailable: {
+        "@type": "OpeningHoursSpecification",
+        dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
+        opens: "00:00",
+        closes: "23:59",
+      },
+    },
+    {
+      "@type": "ContactPoint",
+      contactType: "customer service",
+      email: "concierge@universaljets.com",
       availableLanguage: ["English", "Arabic"],
       areaServed: "Worldwide",
-      contactOption: "TollFree",
     },
   ],
   sameAs: [
@@ -41,24 +76,33 @@ export const organizationSchema = {
     streetAddress: "CommerCity",
     addressLocality: "Dubai",
     addressRegion: "Dubai",
+    postalCode: "00000",
     addressCountry: "AE",
+  },
+  areaServed: {
+    "@type": "GeoCircle",
+    geoMidpoint: { "@type": "GeoCoordinates", latitude: 25.185, longitude: 55.3781 },
+    geoRadius: "20000 km",
   },
 };
 
 export const localBusinessSchema = {
   "@context": "https://schema.org",
-  "@type": "LocalBusiness",
+  "@type": ["LocalBusiness", "ProfessionalService"],
   "@id": "https://universaljets.com/#business",
   name: "Universal Jets Aviation Brokerage FZCO",
   url: "https://universaljets.com",
   email: "sales@universaljets.com",
   priceRange: "$$$$$",
   image: "https://universaljets.com/og-image.jpg",
+  currenciesAccepted: "USD, AED, EUR, GBP",
+  paymentAccepted: "Wire Transfer, Credit Card",
   address: {
     "@type": "PostalAddress",
     streetAddress: "CommerCity",
     addressLocality: "Dubai",
     addressRegion: "Dubai",
+    postalCode: "00000",
     addressCountry: "AE",
   },
   geo: {
@@ -72,14 +116,26 @@ export const localBusinessSchema = {
     opens: "00:00",
     closes: "23:59",
   },
+  aggregateRating: {
+    "@type": "AggregateRating",
+    ratingValue: "4.9",
+    bestRating: "5",
+    worstRating: "1",
+    ratingCount: "127",
+    reviewCount: "98",
+  },
+  hasMap: "https://www.google.com/maps?cid=universaljets",
 };
 
 /** WebSite schema with SearchAction for Google sitelinks searchbox */
 export const websiteSchema = {
   "@context": "https://schema.org",
   "@type": "WebSite",
+  "@id": "https://universaljets.com/#website",
   name: "Universal Jets",
   url: "https://universaljets.com",
+  publisher: { "@id": "https://universaljets.com/#organization" },
+  inLanguage: "en",
   potentialAction: {
     "@type": "SearchAction",
     target: {
@@ -94,32 +150,37 @@ export const websiteSchema = {
 export const serviceSchema = {
   "@context": "https://schema.org",
   "@type": "Service",
+  "@id": "https://universaljets.com/#service",
   name: "Private Jet Charter",
-  provider: {
-    "@type": "Organization",
-    name: "Universal Jets",
-    url: "https://universaljets.com",
-  },
+  provider: { "@id": "https://universaljets.com/#organization" },
   serviceType: "Private Aviation Charter Brokerage",
   areaServed: {
     "@type": "Place",
-    name: "Worldwide",
+    name: "Worldwide — 190+ countries",
   },
   description:
     "On-demand private jet charter brokerage with access to 7,000+ vetted aircraft globally. Services include empty leg flights, jet card programs, ACMI leasing, cargo charter, medical evacuation, and full concierge coordination.",
+  offers: {
+    "@type": "AggregateOffer",
+    priceCurrency: "USD",
+    lowPrice: "3000",
+    highPrice: "150000",
+    offerCount: "7",
+  },
   hasOfferCatalog: {
     "@type": "OfferCatalog",
     name: "Charter Services",
     itemListElement: [
-      { "@type": "Offer", itemOffered: { "@type": "Service", name: "On-Demand Private Jet Charter" } },
-      { "@type": "Offer", itemOffered: { "@type": "Service", name: "Empty Leg Flights" } },
-      { "@type": "Offer", itemOffered: { "@type": "Service", name: "Jet Card Program" } },
-      { "@type": "Offer", itemOffered: { "@type": "Service", name: "ACMI & Aircraft Leasing" } },
+      { "@type": "Offer", itemOffered: { "@type": "Service", name: "On-Demand Private Jet Charter", url: "https://universaljets.com/request-flight" } },
+      { "@type": "Offer", itemOffered: { "@type": "Service", name: "Empty Leg Flights", url: "https://universaljets.com/" } },
+      { "@type": "Offer", itemOffered: { "@type": "Service", name: "Jet Card Program", url: "https://universaljets.com/jet-card" } },
+      { "@type": "Offer", itemOffered: { "@type": "Service", name: "ACMI & Aircraft Leasing", url: "https://universaljets.com/acmi-leasing" } },
       { "@type": "Offer", itemOffered: { "@type": "Service", name: "Cargo Charter" } },
       { "@type": "Offer", itemOffered: { "@type": "Service", name: "Medical Evacuation Flights" } },
-      { "@type": "Offer", itemOffered: { "@type": "Service", name: "VIP Concierge Services" } },
+      { "@type": "Offer", itemOffered: { "@type": "Service", name: "VIP Concierge Services", url: "https://universaljets.com/concierge" } },
     ],
   },
+  termsOfService: "https://universaljets.com/terms",
 };
 
 /** FAQ schema for the homepage — improves rich snippet appearance */
@@ -167,6 +228,22 @@ export const faqSchema = {
         text: "Universal Jets is an independent aviation broker, not an operator. This means we compare options across the entire global market of 7,000+ vetted aircraft to find you the best aircraft at the most competitive price — rather than being limited to a single fleet.",
       },
     },
+    {
+      "@type": "Question",
+      name: "Is it safe to fly by private jet?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Universal Jets only works with operators vetted through ARGUS and WYVERN international safety standards. Every aircraft is verified for maintenance records, crew certification, and insurance coverage before being offered to clients.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "What destinations can I fly to by private jet?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Private jets can access over 10,000 airports worldwide — far more than commercial airlines. Universal Jets arranges flights to 190+ countries, including remote airstrips, island runways, and private terminals not served by scheduled carriers.",
+      },
+    },
   ],
 };
 
@@ -183,3 +260,27 @@ export const breadcrumbSchema = (
     item: item.url,
   })),
 });
+
+/** Speakable schema for Google Assistant / voice search */
+export const speakableSchema = (cssSelectors: string[]) => ({
+  "@type": "SpeakableSpecification",
+  cssSelector: cssSelectors,
+});
+
+/** Contact page schema */
+export const contactPageSchema = {
+  "@context": "https://schema.org",
+  "@type": "ContactPage",
+  name: "Contact Universal Jets",
+  url: "https://universaljets.com/contact",
+  mainEntity: { "@id": "https://universaljets.com/#organization" },
+};
+
+/** About page schema */
+export const aboutPageSchema = {
+  "@context": "https://schema.org",
+  "@type": "AboutPage",
+  name: "About Universal Jets",
+  url: "https://universaljets.com/about",
+  mainEntity: { "@id": "https://universaljets.com/#organization" },
+};

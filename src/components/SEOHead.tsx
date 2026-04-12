@@ -12,15 +12,22 @@ interface SEOHeadProps {
   noindex?: boolean;
   /** Breadcrumb trail — auto-generates BreadcrumbList JSON-LD */
   breadcrumbs?: { name: string; path: string }[];
+  /** Optional article published date for article pages */
+  publishedTime?: string;
+  /** Optional article modified date */
+  modifiedTime?: string;
 }
 
 const SITE = "https://universaljets.com";
 const DEFAULT_IMAGE = "https://universaljets.com/og-image.jpg";
+const BRAND = "Universal Jets";
 
-const SEOHead = ({ title, description, path, type = "website", image, breadcrumbs, noindex }: SEOHeadProps) => {
-  const fullTitle = `${title} | Universal Jets`;
+const SEOHead = ({ title, description, path, type = "website", image, breadcrumbs, noindex, publishedTime, modifiedTime }: SEOHeadProps) => {
+  const fullTitle = title.includes(BRAND) ? title : `${title} | ${BRAND}`;
   const url = `${SITE}${path}`;
   const img = image || DEFAULT_IMAGE;
+  // Truncate description to 160 chars for optimal SEO
+  const desc = description.length > 160 ? description.slice(0, 157) + "..." : description;
 
   useEffect(() => {
     document.title = fullTitle;
@@ -35,21 +42,36 @@ const SEOHead = ({ title, description, path, type = "website", image, breadcrumb
       el.setAttribute("content", content);
     };
 
-    setMeta("name", "description", description);
+    // Core meta
+    setMeta("name", "description", desc);
+
+    // Open Graph
     setMeta("property", "og:title", fullTitle);
-    setMeta("property", "og:description", description);
+    setMeta("property", "og:description", desc);
     setMeta("property", "og:url", url);
     setMeta("property", "og:type", type);
     setMeta("property", "og:image", img);
-    setMeta("property", "og:site_name", "Universal Jets");
-    setMeta("name", "twitter:title", fullTitle);
-    setMeta("name", "twitter:description", description);
-    setMeta("name", "twitter:image", img);
-    setMeta("name", "twitter:card", "summary_large_image");
+    setMeta("property", "og:image:alt", `${title} — ${BRAND}`);
+    setMeta("property", "og:site_name", BRAND);
+    setMeta("property", "og:locale", "en_US");
 
-    // Robots — noindex for private/utility pages
+    // Twitter Card
+    setMeta("name", "twitter:title", fullTitle);
+    setMeta("name", "twitter:description", desc);
+    setMeta("name", "twitter:image", img);
+    setMeta("name", "twitter:image:alt", `${title} — ${BRAND}`);
+    setMeta("name", "twitter:card", "summary_large_image");
+    setMeta("name", "twitter:site", "@UniversalJets");
+
+    // Article dates (for blog/editorial content)
+    if (publishedTime) setMeta("property", "article:published_time", publishedTime);
+    if (modifiedTime) setMeta("property", "article:modified_time", modifiedTime);
+
+    // Robots
     if (noindex) {
       setMeta("name", "robots", "noindex, nofollow");
+    } else {
+      setMeta("name", "robots", "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1");
     }
 
     // Canonical
@@ -83,7 +105,7 @@ const SEOHead = ({ title, description, path, type = "website", image, breadcrumb
     return () => {
       // cleanup handled by next mount
     };
-  }, [fullTitle, description, url, img, type, path, breadcrumbs]);
+  }, [fullTitle, desc, url, img, type, path, breadcrumbs, noindex, publishedTime, modifiedTime]);
 
   return null;
 };
