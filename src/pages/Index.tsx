@@ -13,6 +13,7 @@ import Footer from "@/components/Footer";
 import StickyFloatingCTA from "@/components/StickyFloatingCTA";
 import ErrorBoundary from "@/components/ErrorBoundary";
 import LazySection from "@/components/LazySection";
+import useScrollDepthTracking from "@/hooks/useScrollDepthTracking";
 
 // Lazy-load heavy below-fold sections
 const EmptyLegsMap = lazy(() => import("@/components/EmptyLegsMap"));
@@ -23,6 +24,10 @@ const EventsSection = lazy(() => import("@/components/EventsSection"));
 const PartnersSection = lazy(() => import("@/components/PartnersSection"));
 const FinalCTASection = lazy(() => import("@/components/FinalCTASection"));
 const SEOContentSection = lazy(() => import("@/components/SEOContentSection"));
+const TestimonialsSection = lazy(() => import("@/components/TestimonialsSection"));
+const CertificationBadges = lazy(() => import("@/components/CertificationBadges"));
+const PressStrip = lazy(() => import("@/components/PressStrip"));
+const ExitIntentPopup = lazy(() => import("@/components/ExitIntentPopup"));
 
 /** Wrap a section so if it crashes, only that section shows a fallback — not the whole page. */
 const SectionGuard = ({ children, name }: { children: React.ReactNode; name: string }) => (
