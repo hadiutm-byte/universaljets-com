@@ -77,7 +77,7 @@ const RequestFlightPage = lazy(() => import("./pages/RequestFlightPage.tsx"));
 const NotFound = lazy(() => import("./pages/NotFound.tsx"));
 const UnsubscribePage = lazy(() => import("./pages/UnsubscribePage.tsx"));
 const ResetPasswordPage = lazy(() => import("./pages/ResetPasswordPage.tsx"));
-
+const GccPage = lazy(() => import("./pages/GccPage.tsx"));
 
 const queryClient = new QueryClient();
 
@@ -167,6 +167,7 @@ const App = () => (
             <Route path="/quote/:quoteId" element={<QuoteViewPage />} />
             <Route path="/unsubscribe" element={<UnsubscribePage />} />
             <Route path="/reset-password" element={<ResetPasswordPage />} />
+            <Route path="/gcc" element={<GccPage />} />
             
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
