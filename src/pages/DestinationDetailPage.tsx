@@ -19,6 +19,10 @@ const DestinationDetailPage = () => {
   const icaos = dest ? getDestinationIcaos(dest) : [];
   const { data: fbos, isLoading: fbosLoading } = useDestinationFbos(icaos);
 
+  useEffect(() => {
+    if (dest) trackDestinationView(dest.name);
+  }, [dest]);
+
   if (!dest) {
     return (
       <div className="min-h-screen bg-background">
