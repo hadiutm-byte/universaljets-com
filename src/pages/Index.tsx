@@ -13,6 +13,7 @@ import Footer from "@/components/Footer";
 import StickyFloatingCTA from "@/components/StickyFloatingCTA";
 import ErrorBoundary from "@/components/ErrorBoundary";
 import LazySection from "@/components/LazySection";
+import useScrollDepthTracking from "@/hooks/useScrollDepthTracking";
 
 // Lazy-load heavy below-fold sections
 const EmptyLegsMap = lazy(() => import("@/components/EmptyLegsMap"));
@@ -23,6 +24,10 @@ const EventsSection = lazy(() => import("@/components/EventsSection"));
 const PartnersSection = lazy(() => import("@/components/PartnersSection"));
 const FinalCTASection = lazy(() => import("@/components/FinalCTASection"));
 const SEOContentSection = lazy(() => import("@/components/SEOContentSection"));
+const TestimonialsSection = lazy(() => import("@/components/TestimonialsSection"));
+const CertificationBadges = lazy(() => import("@/components/CertificationBadges"));
+const PressStrip = lazy(() => import("@/components/PressStrip"));
+const ExitIntentPopup = lazy(() => import("@/components/ExitIntentPopup"));
 
 /** Wrap a section so if it crashes, only that section shows a fallback — not the whole page. */
 const SectionGuard = ({ children, name }: { children: React.ReactNode; name: string }) => (
@@ -41,6 +46,7 @@ const SectionGuard = ({ children, name }: { children: React.ReactNode; name: str
 
 const Index = () => {
   const [authOpen, setAuthOpen] = useState(false);
+  useScrollDepthTracking();
 
   return (
     <div className="min-h-screen bg-background relative overflow-x-hidden">
@@ -138,7 +144,23 @@ const Index = () => {
 
         <div className="divider-shimmer" />
 
-        {/* 11. Partners */}
+        {/* 11. Testimonials */}
+        <LazySection minHeight="300px">
+          <Suspense fallback={null}>
+            <div className="section-white">
+              <TestimonialsSection />
+            </div>
+          </Suspense>
+        </LazySection>
+
+        {/* 12. Certification Badges */}
+        <Suspense fallback={null}>
+          <div className="section-white">
+            <CertificationBadges />
+          </div>
+        </Suspense>
+
+        {/* 13. Partners */}
         <LazySection minHeight="300px">
           <Suspense fallback={null}>
             <div className="section-white">
@@ -147,12 +169,19 @@ const Index = () => {
           </Suspense>
         </LazySection>
 
-        {/* 12. SEO Content */}
+        {/* 14. Press Strip */}
+        <Suspense fallback={null}>
+          <div className="section-white">
+            <PressStrip />
+          </div>
+        </Suspense>
+
+        {/* 15. SEO Content */}
         <Suspense fallback={null}>
           <SEOContentSection />
         </Suspense>
 
-        {/* 13. Final CTA — DARK */}
+        {/* 16. Final CTA — DARK */}
         <Suspense fallback={null}>
           <div className="section-dark">
             <FinalCTASection />
@@ -164,6 +193,9 @@ const Index = () => {
       </div>
 
       <StickyFloatingCTA />
+      <Suspense fallback={null}>
+        <ExitIntentPopup />
+      </Suspense>
       <AuthModal open={authOpen} onClose={() => setAuthOpen(false)} />
     </div>
   );
