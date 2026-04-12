@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import { MapPin, Mail, Clock, Send, MessageCircle, Phone, ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
+import { trackGenerateLead } from "@/lib/gtmEvents";
 import { toast } from "sonner";
 import mapboxgl from "mapbox-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
@@ -96,6 +97,7 @@ const ContactPage = () => {
         },
       });
       setSubmitted(true);
+      trackGenerateLead({ email: form.email.trim(), phone: form.phone.trim(), name: form.name.trim(), source: "contact_page" });
       toast.success("Your request has been received.");
     } catch {
       toast.error("Unable to submit. Please try again or contact us directly.");

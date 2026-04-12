@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { ArrowLeft, ArrowRight, Plane, MapPin, Calendar, Shield, MessageCircle, Globe, Users, Clock, Building2, Loader2 } from "lucide-react";
@@ -8,6 +8,7 @@ import SEOHead from "@/components/SEOHead";
 import QuoteRequestModal from "@/components/QuoteRequestModal";
 import { getDestinationBySlug, getDestinationIcaos, destinations as allDestinations } from "@/lib/destinationsData";
 import { useDestinationFbos, type ApiFbo } from "@/hooks/useDestinationData";
+import { trackDestinationView } from "@/lib/gtmEvents";
 
 const DestinationDetailPage = () => {
   const { slug } = useParams<{ slug: string }>();
@@ -17,6 +18,10 @@ const DestinationDetailPage = () => {
 
   const icaos = dest ? getDestinationIcaos(dest) : [];
   const { data: fbos, isLoading: fbosLoading } = useDestinationFbos(icaos);
+
+  useEffect(() => {
+    if (dest) trackDestinationView(dest.name);
+  }, [dest]);
 
   if (!dest) {
     return (
