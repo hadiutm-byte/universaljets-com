@@ -10,6 +10,7 @@ import "mapbox-gl/dist/mapbox-gl.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import SEOHead from "@/components/SEOHead";
+import JsonLd, { contactPageSchema } from "@/components/JsonLd";
 import useUserGeolocation from "@/hooks/useUserGeolocation";
 import PhoneWithCountryCode, { buildFullPhone, resolveCountryCode } from "@/components/forms/PhoneWithCountryCode";
 
