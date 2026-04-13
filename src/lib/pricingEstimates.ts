@@ -86,7 +86,15 @@ export function getCharterPrice(opts: {
   flightTimeMin?: number | null;
   speedKmh?: number | null;
 }): PriceEstimate {
-  const { price, priceCurrency = "USD", priceUnit, aircraftClass, distanceNm, flightTimeMin, speedKmh } = opts;
+  const { price, priceUnit, aircraftClass, distanceNm, flightTimeMin, speedKmh } = opts;
+
+  // Validate currency code — Intl.NumberFormat throws on unknown codes, fall back to USD
+  let priceCurrency = opts.priceCurrency || "USD";
+  try {
+    new Intl.NumberFormat("en-US", { style: "currency", currency: priceCurrency }).format(0);
+  } catch {
+    priceCurrency = "USD";
+  }
 
   // 1. Exact price from API
   if (price != null && price > 0) {
