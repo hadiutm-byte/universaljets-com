@@ -170,6 +170,7 @@ const App = () => (
             <Route path="/quote/:quoteId" element={<QuoteViewPage />} />
             <Route path="/unsubscribe" element={<UnsubscribePage />} />
             <Route path="/email-unsubscribe" element={<EmailUnsubscribePage />} />
+            <Route path="/emails/unsubscribe" element={<EmailUnsubscribePage />} />
             <Route path="/reset-password" element={<ResetPasswordPage />} />
             
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
