@@ -20,19 +20,18 @@ interface MagicLinkEmailProps {
 }
 
 export const MagicLinkEmail = ({
-  siteName,
   confirmationUrl,
 }: MagicLinkEmailProps) => (
   <Html lang="en" dir="ltr">
     <Head />
-    <Preview>Your Universal Jets login link</Preview>
+    <Preview>Your Universal Jets secure login link</Preview>
     <Body style={main}>
       <Container style={container}>
         <Text style={brand}>UNIVERSAL JETS</Text>
         <Hr style={divider} />
-        <Heading style={h1}>Your Login Link</Heading>
+        <Heading style={h1}>Secure Login</Heading>
         <Text style={text}>
-          Click the button below to securely sign in to your Universal Jets account. This link will expire shortly.
+          Click below to sign in to your Universal Jets account. This link will expire shortly.
         </Text>
         <Button style={button} href={confirmationUrl}>
           Sign In
@@ -57,6 +56,6 @@ const brand = { fontSize: '11px', letterSpacing: '0.4em', color: '#A8850F', font
 const divider = { borderColor: '#f0f0f0', margin: '20px 0' }
 const h1 = { fontSize: '24px', fontWeight: '600' as const, color: '#121212', margin: '0 0 20px', fontFamily: "'Playfair Display', Georgia, serif" }
 const text = { fontSize: '14px', color: '#6F6F6F', lineHeight: '1.7', margin: '0 0 20px' }
-const button = { backgroundColor: '#A8850F', color: '#ffffff', fontSize: '13px', letterSpacing: '0.15em', borderRadius: '12px', padding: '14px 28px', textDecoration: 'none', fontWeight: '500' as const, textTransform: 'uppercase' as const }
+const button = { backgroundColor: '#A8850F', color: '#ffffff', fontSize: '13px', letterSpacing: '0.1em', borderRadius: '6px', padding: '14px 28px', textDecoration: 'none', fontWeight: '600' as const, textTransform: 'uppercase' as const }
 const footer = { fontSize: '12px', color: '#999999', margin: '28px 0 0', lineHeight: '1.6' }
 const legal = { fontSize: '10px', color: '#cccccc', textAlign: 'center' as const, margin: '0' }

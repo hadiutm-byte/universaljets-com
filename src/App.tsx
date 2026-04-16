@@ -76,6 +76,7 @@ const FleetDetailPage = lazy(() => import("./pages/FleetDetailPage.tsx"));
 const RequestFlightPage = lazy(() => import("./pages/RequestFlightPage.tsx"));
 const NotFound = lazy(() => import("./pages/NotFound.tsx"));
 const UnsubscribePage = lazy(() => import("./pages/UnsubscribePage.tsx"));
+const EmailUnsubscribePage = lazy(() => import("./pages/EmailUnsubscribePage.tsx"));
 const EvacuationPage = lazy(() => import("./pages/EvacuationPage.tsx"));
 const ResetPasswordPage = lazy(() => import("./pages/ResetPasswordPage.tsx"));
 
@@ -168,6 +169,7 @@ const App = () => (
             <Route path="/fleet/:slug" element={<FleetDetailPage />} />
             <Route path="/quote/:quoteId" element={<QuoteViewPage />} />
             <Route path="/unsubscribe" element={<UnsubscribePage />} />
+            <Route path="/email-unsubscribe" element={<EmailUnsubscribePage />} />
             <Route path="/reset-password" element={<ResetPasswordPage />} />
             
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}

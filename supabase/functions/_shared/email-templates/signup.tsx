@@ -9,7 +9,6 @@ import {
   Head,
   Heading,
   Html,
-  Link,
   Preview,
   Text,
   Hr,
@@ -23,38 +22,25 @@ interface SignupEmailProps {
 }
 
 export const SignupEmail = ({
-  siteName,
-  siteUrl,
   recipient,
   confirmationUrl,
 }: SignupEmailProps) => (
   <Html lang="en" dir="ltr">
     <Head />
-    <Preview>Welcome to Universal Jets — Confirm your email</Preview>
+    <Preview>Verify your email — Universal Jets Private Access</Preview>
     <Body style={main}>
       <Container style={container}>
         <Text style={brand}>UNIVERSAL JETS</Text>
         <Hr style={divider} />
         <Heading style={h1}>Welcome Aboard</Heading>
         <Text style={text}>
-          Thank you for joining{' '}
-          <Link href={siteUrl} style={link}>
-            <strong>Universal Jets</strong>
-          </Link>
-          .
-        </Text>
-        <Text style={text}>
-          Please confirm your email address (
-          <Link href={`mailto:${recipient}`} style={link}>
-            {recipient}
-          </Link>
-          ) to activate your private aviation account:
+          Thank you for applying to the Universal Jets Private Access Network. Please confirm your email address to complete your registration.
         </Text>
         <Button style={button} href={confirmationUrl}>
-          Confirm My Email
+          Verify Email
         </Button>
         <Text style={footer}>
-          If you didn't create an account with Universal Jets, you can safely ignore this email.
+          If you didn't create an account, you can safely ignore this email.
         </Text>
         <Hr style={divider} />
         <Text style={legal}>
@@ -73,7 +59,6 @@ const brand = { fontSize: '11px', letterSpacing: '0.4em', color: '#A8850F', font
 const divider = { borderColor: '#f0f0f0', margin: '20px 0' }
 const h1 = { fontSize: '24px', fontWeight: '600' as const, color: '#121212', margin: '0 0 20px', fontFamily: "'Playfair Display', Georgia, serif" }
 const text = { fontSize: '14px', color: '#6F6F6F', lineHeight: '1.7', margin: '0 0 20px' }
-const link = { color: '#A8850F', textDecoration: 'underline' }
-const button = { backgroundColor: '#A8850F', color: '#ffffff', fontSize: '13px', letterSpacing: '0.15em', borderRadius: '12px', padding: '14px 28px', textDecoration: 'none', fontWeight: '500' as const, textTransform: 'uppercase' as const }
+const button = { backgroundColor: '#A8850F', color: '#ffffff', fontSize: '13px', letterSpacing: '0.1em', borderRadius: '6px', padding: '14px 28px', textDecoration: 'none', fontWeight: '600' as const, textTransform: 'uppercase' as const }
 const footer = { fontSize: '12px', color: '#999999', margin: '28px 0 0', lineHeight: '1.6' }
 const legal = { fontSize: '10px', color: '#cccccc', textAlign: 'center' as const, margin: '0' }

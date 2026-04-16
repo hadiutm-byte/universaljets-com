@@ -23,7 +23,6 @@ interface EmailChangeEmailProps {
 }
 
 export const EmailChangeEmail = ({
-  siteName,
   email,
   newEmail,
   confirmationUrl,
@@ -35,15 +34,12 @@ export const EmailChangeEmail = ({
       <Container style={container}>
         <Text style={brand}>UNIVERSAL JETS</Text>
         <Hr style={divider} />
-        <Heading style={h1}>Confirm Your Email Change</Heading>
+        <Heading style={h1}>Confirm Email Change</Heading>
         <Text style={text}>
-          You requested to change your Universal Jets email from{' '}
+          You requested to change your email from{' '}
           <Link href={`mailto:${email}`} style={link}>{email}</Link>{' '}
           to{' '}
           <Link href={`mailto:${newEmail}`} style={link}>{newEmail}</Link>.
-        </Text>
-        <Text style={text}>
-          Click the button below to confirm this change:
         </Text>
         <Button style={button} href={confirmationUrl}>
           Confirm Email Change
@@ -69,6 +65,6 @@ const divider = { borderColor: '#f0f0f0', margin: '20px 0' }
 const h1 = { fontSize: '24px', fontWeight: '600' as const, color: '#121212', margin: '0 0 20px', fontFamily: "'Playfair Display', Georgia, serif" }
 const text = { fontSize: '14px', color: '#6F6F6F', lineHeight: '1.7', margin: '0 0 20px' }
 const link = { color: '#A8850F', textDecoration: 'underline' }
-const button = { backgroundColor: '#A8850F', color: '#ffffff', fontSize: '13px', letterSpacing: '0.15em', borderRadius: '12px', padding: '14px 28px', textDecoration: 'none', fontWeight: '500' as const, textTransform: 'uppercase' as const }
+const button = { backgroundColor: '#A8850F', color: '#ffffff', fontSize: '13px', letterSpacing: '0.1em', borderRadius: '6px', padding: '14px 28px', textDecoration: 'none', fontWeight: '600' as const, textTransform: 'uppercase' as const }
 const footer = { fontSize: '12px', color: '#999999', margin: '28px 0 0', lineHeight: '1.6' }
 const legal = { fontSize: '10px', color: '#cccccc', textAlign: 'center' as const, margin: '0' }
