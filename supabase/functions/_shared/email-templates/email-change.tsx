@@ -9,8 +9,10 @@ import {
   Head,
   Heading,
   Html,
+  Img,
   Link,
   Preview,
+  Section,
   Text,
 } from 'npm:@react-email/components@0.0.22'
 
@@ -21,39 +23,30 @@ interface EmailChangeEmailProps {
   confirmationUrl: string
 }
 
-export const EmailChangeEmail = ({
-  siteName,
-  email,
-  newEmail,
-  confirmationUrl,
-}: EmailChangeEmailProps) => (
+const LOGO_URL = 'https://zfuiwvvtjgcpwmhpqoaz.supabase.co/storage/v1/object/public/email-assets/logo.png'
+
+export const EmailChangeEmail = ({ siteName, email, newEmail, confirmationUrl }: EmailChangeEmailProps) => (
   <Html lang="en" dir="ltr">
     <Head />
-    <Preview>Confirm your email change for {siteName}</Preview>
+    <Preview>Confirm your email change for Universal Jets</Preview>
     <Body style={main}>
       <Container style={container}>
-        <Heading style={h1}>Confirm your email change</Heading>
+        <Section style={logoSection}>
+          <Img src={LOGO_URL} width="48" height="48" alt="Universal Jets" style={logo} />
+        </Section>
+        <Section style={divider} />
+        <Heading style={h1}>Confirm Email Change</Heading>
         <Text style={text}>
-          You requested to change your email address for {siteName} from{' '}
-          <Link href={`mailto:${email}`} style={link}>
-            {email}
-          </Link>{' '}
-          to{' '}
-          <Link href={`mailto:${newEmail}`} style={link}>
-            {newEmail}
-          </Link>
-          .
+          You requested to change your email address from{' '}
+          <Link href={`mailto:${email}`} style={link}>{email}</Link>{' '}to{' '}
+          <Link href={`mailto:${newEmail}`} style={link}>{newEmail}</Link>.
         </Text>
-        <Text style={text}>
-          Click the button below to confirm this change:
-        </Text>
-        <Button style={button} href={confirmationUrl}>
-          Confirm Email Change
-        </Button>
-        <Text style={footer}>
-          If you didn't request this change, please secure your account
-          immediately.
-        </Text>
+        <Section style={buttonSection}>
+          <Button style={button} href={confirmationUrl}>Confirm Email Change</Button>
+        </Section>
+        <Text style={footer}>If you didn't request this change, please secure your account immediately.</Text>
+        <Section style={divider} />
+        <Text style={brand}>Universal Jets — Private Aviation, Perfected.</Text>
       </Container>
     </Body>
   </Html>
@@ -61,27 +54,15 @@ export const EmailChangeEmail = ({
 
 export default EmailChangeEmail
 
-const main = { backgroundColor: '#ffffff', fontFamily: 'Arial, sans-serif' }
-const container = { padding: '20px 25px' }
-const h1 = {
-  fontSize: '22px',
-  fontWeight: 'bold' as const,
-  color: '#000000',
-  margin: '0 0 20px',
-}
-const text = {
-  fontSize: '14px',
-  color: '#55575d',
-  lineHeight: '1.5',
-  margin: '0 0 25px',
-}
-const link = { color: 'inherit', textDecoration: 'underline' }
-const button = {
-  backgroundColor: '#000000',
-  color: '#ffffff',
-  fontSize: '14px',
-  borderRadius: '8px',
-  padding: '12px 20px',
-  textDecoration: 'none',
-}
-const footer = { fontSize: '12px', color: '#999999', margin: '30px 0 0' }
+const main = { backgroundColor: '#ffffff', fontFamily: "'Poppins', 'Montserrat', Arial, sans-serif" }
+const container = { padding: '40px 32px', maxWidth: '480px', margin: '0 auto' }
+const logoSection = { textAlign: 'center' as const, marginBottom: '24px' }
+const logo = { display: 'inline-block' }
+const divider = { borderTop: '1px solid #D4A843', margin: '24px 0', opacity: 0.4 }
+const h1 = { fontSize: '24px', fontWeight: '600' as const, fontFamily: "'Montserrat', Arial, sans-serif", color: '#0A0A0A', margin: '0 0 16px', letterSpacing: '-0.01em' }
+const text = { fontSize: '14px', color: '#3a3a3a', lineHeight: '1.6', margin: '0 0 20px' }
+const link = { color: '#B8902E', textDecoration: 'underline' }
+const buttonSection = { textAlign: 'center' as const, margin: '28px 0' }
+const button = { backgroundColor: '#D4A843', color: '#0A0A0A', fontSize: '13px', fontWeight: '600' as const, fontFamily: "'Montserrat', Arial, sans-serif", borderRadius: '8px', padding: '14px 28px', textDecoration: 'none', letterSpacing: '0.04em', textTransform: 'uppercase' as const }
+const footer = { fontSize: '12px', color: '#999999', margin: '24px 0 0' }
+const brand = { fontSize: '11px', color: '#b8b8b8', textAlign: 'center' as const, fontFamily: "'Montserrat', Arial, sans-serif", letterSpacing: '0.08em', textTransform: 'uppercase' as const }
