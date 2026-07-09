@@ -47,8 +47,17 @@ const getAnonKey = () => import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY;
 const ICAO_REGION: Record<string, string[]> = {
   americas: ['K','C','M','T','S','P'],
   europe: ['EG','EI','LF','ED','LI','LE','LS','LO','EH','EB','LP','ES','EN','EK','EF','LK','EP','LG','LR','LH','LD','LC','LT','EL','LJ','LQ','LW','LY','LB','LZ','EY','EV','EE','BI','LM','EL','UU','UL'],
-  middle_east: ['OM','OE','OT','OB','OO','OK','OJ','OL','LL','OR','OI','OY','UG','HE'],
-  asia: ['WS','VH','RJ','RK','VI','VT','WM','WI','ZB','ZS','ZG','RP','RC','VV','VD','VG','YS','YM','YB','YP','NZ'],
+  // ICAO O-block = Middle East; includes Pakistan (OP), Syria (OS), Afghanistan (OA)
+  middle_east: ['OM','OE','OT','OB','OO','OK','OJ','OL','LL','OR','OI','OY','OA','OP','OS','UG','HE'],
+  // Asia-Pacific: India (VA/VE/VI/VO), Nepal (VN), Sri Lanka (VC), Thailand (VT),
+  // Vietnam (VV), Cambodia (VD), Laos (VL), Bangladesh (VG), Myanmar (VY),
+  // Singapore (WS), Malaysia (WM/WB), Indonesia (WA/WI/WR), Philippines (RP),
+  // Japan (RJ), Korea (RK), China (ZB/ZG/ZH/ZJ/ZL/ZP/ZS/ZU/ZW/ZY),
+  // Hong Kong/Macau (VH), Taiwan (RC), Australia (YA/YB/YM/YP/YS), New Zealand (NZ)
+  asia: ['VA','VE','VI','VO','VN','VC','VT','VV','VD','VG','VL','VY','VH',
+         'WS','WM','WB','WA','WI','WR','RP','RJ','RK',
+         'ZB','ZG','ZH','ZJ','ZL','ZP','ZS','ZU','ZW','ZY','RC',
+         'YA','YB','YM','YP','YS','NZ'],
   africa: ['FA','DN','HK','HE','GM','HT','DG','GO','FV','HA','HR','HC','FL','FW','FQ','FN','FZ','FB','FY'],
 };
 
