@@ -20,9 +20,12 @@ const EmptyLegsPage = () => {
   const { data, isLoading, isError, refetch } = useEmptyLegs(region);
 
   const legs = useMemo(() => {
-    const now = Date.now();
+    const startOfToday = new Date().setHours(0, 0, 0, 0);
     return (data?.results ?? [])
-      .filter((l) => !l.to_date || new Date(l.to_date).getTime() >= now - 86400000)
+      .filter((l) => {
+        const last = new Date(l.to_date || l.from_date).getTime();
+        return Number.isNaN(last) || last >= startOfToday;
+      })
       .sort((a, b) => new Date(a.from_date).getTime() - new Date(b.from_date).getTime())
       .slice(0, 60);
   }, [data]);
