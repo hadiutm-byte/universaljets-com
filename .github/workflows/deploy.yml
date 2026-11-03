@@ -26,8 +26,6 @@ jobs:
 
       - name: Build project
         env:
-          VITE_SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL }}
-          VITE_SUPABASE_ANON_KEY: ${{ secrets.VITE_SUPABASE_ANON_KEY }}
           VITE_GTM_ID: ${{ secrets.VITE_GTM_ID }}
           VITE_GA_ID: ${{ secrets.VITE_GA_ID }}
         run: npm run build
