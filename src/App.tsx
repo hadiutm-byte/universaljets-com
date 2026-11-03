@@ -74,6 +74,12 @@ const AircraftGuidePage = lazy(() => import("./pages/AircraftGuidePage.tsx"));
 const FleetPage = lazy(() => import("./pages/FleetPage.tsx"));
 const FleetDetailPage = lazy(() => import("./pages/FleetDetailPage.tsx"));
 const RequestFlightPage = lazy(() => import("./pages/RequestFlightPage.tsx"));
+const ServicesPage = lazy(() => import("./pages/ServicesPage.tsx"));
+const ServiceDetailPage = lazy(() => import("./pages/ServiceDetailPage.tsx"));
+const DubaiCharterPage = lazy(() => import("./pages/DubaiCharterPage.tsx"));
+const EmptyLegsPage = lazy(() => import("./pages/EmptyLegsPage.tsx"));
+const PricingPage = lazy(() => import("./pages/PricingPage.tsx"));
+const FaqPage = lazy(() => import("./pages/FaqPage.tsx"));
 const NotFound = lazy(() => import("./pages/NotFound.tsx"));
 const UnsubscribePage = lazy(() => import("./pages/UnsubscribePage.tsx"));
 const EmailUnsubscribePage = lazy(() => import("./pages/EmailUnsubscribePage.tsx"));
@@ -163,6 +169,12 @@ const App = () => (
             <Route path="/careers" element={<CareersPage />} />
             <Route path="/contact" element={<ContactPage />} />
             <Route path="/charter/:slug" element={<CharterPage />} />
+            <Route path="/services" element={<ServicesPage />} />
+            <Route path="/services/:slug" element={<ServiceDetailPage />} />
+            <Route path="/private-jet-charter-dubai" element={<DubaiCharterPage />} />
+            <Route path="/empty-legs" element={<EmptyLegsPage />} />
+            <Route path="/pricing" element={<PricingPage />} />
+            <Route path="/faq" element={<FaqPage />} />
             <Route path="/concierge" element={<ConciergePage />} />
             <Route path="/aircraft" element={<AircraftGuidePage />} />
             <Route path="/fleet" element={<FleetPage />} />
