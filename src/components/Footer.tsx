@@ -9,14 +9,17 @@ const companyLinks = [
 ];
 
 const serviceLinks = [
-  { label: "Private Charter", href: "/#cta" },
+  { label: "All Services", href: "/services" },
+  { label: "Private Jet Charter Dubai", href: "/private-jet-charter-dubai" },
+  { label: "Pricing", href: "/pricing" },
   { label: "Fleet", href: "/fleet" },
   { label: "Jet Card", href: "/jet-card" },
   { label: "ACMI Leasing", href: "/acmi-leasing" },
 ];
 
 const exploreLinks = [
-  { label: "Empty Legs", href: "/#empty-legs" },
+  { label: "Empty Legs", href: "/empty-legs" },
+  { label: "FAQ", href: "/faq" },
   { label: "Membership", href: "/members" },
   { label: "Concierge", href: "/concierge" },
   { label: "Destinations", href: "/destinations" },

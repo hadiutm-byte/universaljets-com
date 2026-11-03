@@ -6,8 +6,8 @@ import { useAuth, type AppRole } from "@/hooks/useAuth";
 import GoldParticles from "@/components/GoldParticles";
 
 const centerLinks = [
-  { label: "Charter", href: "/#services" },
-  { label: "Empty Legs", href: "/#empty-legs" },
+  { label: "Services", href: "/services" },
+  { label: "Empty Legs", href: "/empty-legs" },
   { label: "Fleet", href: "/fleet" },
   { label: "Membership", href: "/membership" },
   { label: "About", href: "/about" },
@@ -15,8 +15,11 @@ const centerLinks = [
 
 const overlayLinks = [
   { label: "Home", href: "/" },
-  { label: "Charter Flights", href: "/#services" },
-  { label: "Empty Legs", href: "/#empty-legs" },
+  { label: "Services", href: "/services" },
+  { label: "Private Jet Charter Dubai", href: "/private-jet-charter-dubai" },
+  { label: "Empty Legs", href: "/empty-legs" },
+  { label: "Pricing", href: "/pricing" },
+  { label: "FAQ", href: "/faq" },
   { label: "Fleet", href: "/fleet" },
   { label: "Destinations", href: "/destinations" },
   { label: "Membership", href: "/membership" },

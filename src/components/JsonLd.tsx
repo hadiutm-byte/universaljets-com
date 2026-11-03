@@ -1,3 +1,5 @@
+import { FAQS } from "@/lib/siteContent";
+
 interface JsonLdProps {
   data: Record<string, unknown>;
 }
@@ -32,7 +34,6 @@ export const organizationSchema = {
     "@type": "Place",
     name: "Dubai, United Arab Emirates",
   },
-  numberOfEmployees: { "@type": "QuantitativeValue", minValue: 10, maxValue: 50 },
   slogan: "Your World. Your Schedule. Your Jet.",
   knowsAbout: [
     "Private jet charter",
@@ -76,7 +77,6 @@ export const organizationSchema = {
     streetAddress: "CommerCity",
     addressLocality: "Dubai",
     addressRegion: "Dubai",
-    postalCode: "00000",
     addressCountry: "AE",
   },
   areaServed: {
@@ -93,7 +93,6 @@ export const localBusinessSchema = {
   name: "Universal Jets Aviation Brokerage FZCO",
   url: "https://universaljets.com",
   email: "sales@universaljets.com",
-  priceRange: "$$$$$",
   image: "https://universaljets.com/og-image.jpg",
   currenciesAccepted: "USD, AED, EUR, GBP",
   paymentAccepted: "Wire Transfer, Credit Card",
@@ -102,7 +101,6 @@ export const localBusinessSchema = {
     streetAddress: "CommerCity",
     addressLocality: "Dubai",
     addressRegion: "Dubai",
-    postalCode: "00000",
     addressCountry: "AE",
   },
   geo: {
@@ -116,15 +114,6 @@ export const localBusinessSchema = {
     opens: "00:00",
     closes: "23:59",
   },
-  aggregateRating: {
-    "@type": "AggregateRating",
-    ratingValue: "4.9",
-    bestRating: "5",
-    worstRating: "1",
-    ratingCount: "127",
-    reviewCount: "98",
-  },
-  hasMap: "https://www.google.com/maps?cid=universaljets",
 };
 
 /** WebSite schema with SearchAction for Google sitelinks searchbox */
@@ -160,13 +149,6 @@ export const serviceSchema = {
   },
   description:
     "On-demand private jet charter brokerage with access to 7,000+ vetted aircraft globally. Services include empty leg flights, jet card programs, ACMI leasing, cargo charter, medical evacuation, and full concierge coordination.",
-  offers: {
-    "@type": "AggregateOffer",
-    priceCurrency: "USD",
-    lowPrice: "3000",
-    highPrice: "150000",
-    offerCount: "7",
-  },
   hasOfferCatalog: {
     "@type": "OfferCatalog",
     name: "Charter Services",
@@ -183,69 +165,18 @@ export const serviceSchema = {
   termsOfService: "https://universaljets.com/terms",
 };
 
-/** FAQ schema for the homepage — improves rich snippet appearance */
-export const faqSchema = {
+/** Builds FAQPage JSON-LD from the same copy rendered on the page. */
+export const buildFaqSchema = (items: { q: string; a: string }[]) => ({
   "@context": "https://schema.org",
   "@type": "FAQPage",
-  mainEntity: [
-    {
-      "@type": "Question",
-      name: "How much does it cost to charter a private jet?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "Private jet charter costs vary based on aircraft type, distance, and availability. Light jets typically start from $3,000–$5,000 per flight hour, while heavy jets range from $8,000–$15,000+ per hour. Universal Jets compares pricing across 7,000+ aircraft to find the best rate for every trip.",
-      },
-    },
-    {
-      "@type": "Question",
-      name: "What are empty leg flights?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "Empty leg flights are one-way repositioning flights that occur when a private jet needs to return to base or reposition for its next booking. These flights can be booked at significantly reduced rates — up to 75% less than standard charter pricing.",
-      },
-    },
-    {
-      "@type": "Question",
-      name: "How far in advance do I need to book a private jet?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "Private jets can be arranged with as little as 4–6 hours notice for domestic flights. International flights typically require 24–48 hours for permits and handling. Universal Jets operates 24/7 to accommodate urgent travel needs.",
-      },
-    },
-    {
-      "@type": "Question",
-      name: "What is a jet card and how does it work?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "A jet card is a prepaid program that locks in fixed hourly rates for private jet travel. Universal Jets' Altus Jet Card offers guaranteed availability, no membership fees, and flight hours that carry forward — giving you the flexibility of charter with the predictability of ownership.",
-      },
-    },
-    {
-      "@type": "Question",
-      name: "Does Universal Jets own the aircraft?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "Universal Jets is an independent aviation broker, not an operator. This means we compare options across the entire global market of 7,000+ vetted aircraft to find you the best aircraft at the most competitive price — rather than being limited to a single fleet.",
-      },
-    },
-    {
-      "@type": "Question",
-      name: "Is it safe to fly by private jet?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "Universal Jets only works with operators vetted through ARGUS and WYVERN international safety standards. Every aircraft is verified for maintenance records, crew certification, and insurance coverage before being offered to clients.",
-      },
-    },
-    {
-      "@type": "Question",
-      name: "What destinations can I fly to by private jet?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "Private jets can access over 10,000 airports worldwide — far more than commercial airlines. Universal Jets arranges flights to 190+ countries, including remote airstrips, island runways, and private terminals not served by scheduled carriers.",
-      },
-    },
-  ],
-};
+  mainEntity: items.map((f) => ({
+    "@type": "Question",
+    name: f.q,
+    acceptedAnswer: { "@type": "Answer", text: f.a },
+  })),
+});
+
+export const faqSchema = buildFaqSchema(FAQS);
 
 /** Helper to generate BreadcrumbList schema */
 export const breadcrumbSchema = (
