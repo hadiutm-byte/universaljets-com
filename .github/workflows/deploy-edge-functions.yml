@@ -48,7 +48,7 @@ jobs:
         run: |
           FN="${{ github.event.inputs.function }}"
           if [ -n "$FN" ]; then
-            supabase functions deploy "$FN" --project-ref "${{ steps.ref.outputs.ref }}"
+            supabase functions deploy "$FN" --project-ref "${{ steps.ref.outputs.ref }}" --yes
           else
-            supabase functions deploy --project-ref "${{ steps.ref.outputs.ref }}"
+            supabase functions deploy --project-ref "${{ steps.ref.outputs.ref }}" --yes
           fi
