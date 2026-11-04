@@ -29,7 +29,7 @@ const charterData: Record<string, {
   medevac: {
     title: "Medical Evacuations",
     headline: "When Minutes Decide Outcomes, We Don't Wait for Morning.",
-    description: "ICU-equipped jets, trained medical crews, and clearance through conflict zones — we've brought people home from places others won't fly into. Air ambulance coordination with full medical crew, stretcher configuration, ICU equipment, and bed-to-bed transfers. We operate globally with 24/7 availability for urgent medical repatriation and evacuation missions.",
+    description: "ICU-equipped jets, trained medical crews, and clearance through conflict zones — we've brought people home from places others won't fly into. Air ambulance coordination with full medical crew, stretcher configuration, ICU equipment, and bed-to-bed transfers. We operate globally with rapid response for urgent medical repatriation and evacuation missions.",
     image: "https://d2xsxph8kpxj0f.cloudfront.net/310519663441238946/F94ypwks3ADk2wFrxZVnWB/medical-jet-evacuation_c1c73ba0.png",
     aircraft: ["Learjet 35A", "Citation CJ3", "Challenger 604", "Gulfstream G550"],
   },
