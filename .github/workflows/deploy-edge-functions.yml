@@ -1,0 +1,47 @@
+name: Deploy Supabase Edge Functions
+
+# Manual only. Never runs on push. Requires repository secret SUPABASE_ACCESS_TOKEN
+# (Supabase Dashboard → Account → Access Tokens). Project ref comes from
+# supabase/config.toml and can be overridden via the input below.
+on:
+  workflow_dispatch:
+    inputs:
+      function:
+        description: "Function name to deploy (leave empty to deploy all)"
+        required: false
+        default: "aviapages-charter-search"
+      project_ref:
+        description: "Supabase project ref (defaults to supabase/config.toml)"
+        required: false
+        default: ""
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    env:
+      SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: supabase/setup-cli@v1
+        with:
+          version: latest
+      - name: Resolve project ref
+        id: ref
+        run: |
+          REF="${{ github.event.inputs.project_ref }}"
+          if [ -z "$REF" ]; then
+            REF=$(sed -n 's/^project_id *= *"\(.*\)"/\1/p' supabase/config.toml)
+          fi
+          [ -n "$REF" ] || { echo "No project ref found"; exit 1; }
+          echo "ref=$REF" >> "$GITHUB_OUTPUT"
+      - name: Check token
+        run: |
+          [ -n "$SUPABASE_ACCESS_TOKEN" ] || { echo "SUPABASE_ACCESS_TOKEN secret is not set"; exit 1; }
+      - name: Deploy
+        run: |
+          FN="${{ github.event.inputs.function }}"
+          if [ -n "$FN" ]; then
+            supabase functions deploy "$FN" --project-ref "${{ steps.ref.outputs.ref }}"
+          else
+            supabase functions deploy --project-ref "${{ steps.ref.outputs.ref }}"
+          fi
