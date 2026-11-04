@@ -8,14 +8,51 @@ const corsHeaders = {
 
 const NOTIFICATION_EMAIL = "hadi@universaljets.com";
 
+// Best-effort per-instance rate limit: 10 submissions per IP per 10 minutes.
+const hits = new Map<string, number[]>();
+function rateLimited(ip: string): boolean {
+  const now = Date.now();
+  const recent = (hits.get(ip) ?? []).filter((t) => now - t < 600_000);
+  recent.push(now);
+  hits.set(ip, recent);
+  if (hits.size > 5000) hits.clear();
+  return recent.length > 10;
+}
+
+const clip = (v: unknown, max: number) =>
+  typeof v === "string" ? v.slice(0, max) : v == null ? undefined : String(v).slice(0, max);
+
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") {
     return new Response(null, { headers: corsHeaders });
   }
 
   try {
+    const ip = req.headers.get("x-forwarded-for")?.split(",")[0].trim() ?? "unknown";
+    if (rateLimited(ip)) {
+      return new Response(JSON.stringify({ error: "Too many requests. Please try again later." }), {
+        status: 429,
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
+    }
+
     const body = await req.json();
-    const { name, email, phone, departure, destination, date, passengers, source, serviceType, message } = body;
+    // Honeypot: real visitors never fill this field. Pretend success so bots don't retry.
+    if (body.website) {
+      return new Response(JSON.stringify({ success: true }), {
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
+    }
+    const name = clip(body.name, 120);
+    const email = clip(body.email, 254);
+    const phone = clip(body.phone, 40);
+    const departure = clip(body.departure, 120);
+    const destination = clip(body.destination, 120);
+    const date = clip(body.date, 40);
+    const passengers = clip(body.passengers, 4);
+    const source = clip(body.source, 80);
+    const serviceType = clip(body.serviceType, 80);
+    const message = clip(body.message, 2000);
 
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!name || !email) {
@@ -84,7 +121,7 @@ Deno.serve(async (req) => {
         departure: departure || "TBD",
         destination: destination || "TBD",
         date: date || null,
-        passengers: passengers ? parseInt(passengers) : 1,
+        passengers: passengers ? Math.min(Math.max(parseInt(passengers) || 1, 1), 500) : 1,
         status: "pending",
         notes: notesArr.join("\n") || null,
       })
@@ -113,7 +150,7 @@ Deno.serve(async (req) => {
             date: date || "Flexible",
             passengers: passengers || "1",
             source: leadSource,
-            notes: message || body.notes || "",
+            notes: message || clip(body.notes, 2000) || "",
             serviceType: serviceType || "",
             subjectPrefix,
           },

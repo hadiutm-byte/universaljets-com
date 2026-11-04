@@ -12,7 +12,9 @@ const usePhoneGeolocation = () => {
                     setCountryCode(data.country_calling_code || '');
                     return;
                 }
-            } catch {}
+            } catch {
+                // Ignore provider errors and fall back to the next provider.
+            }
             try {
                 const response = await fetch('https://ip-api.com/json/?fields=countryCode', { signal: AbortSignal.timeout(4000) });
                 if (response.ok) {
@@ -21,7 +23,9 @@ const usePhoneGeolocation = () => {
                     const entry = ALL.find(c => c.iso === data.countryCode);
                     setCountryCode(entry?.code || '');
                 }
-            } catch {}
+            } catch {
+                // Ignore provider errors and keep the default empty code.
+            }
         };
         fetchCountryCode();
     }, []);

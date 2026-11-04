@@ -109,10 +109,10 @@ const ALLOWED_TABLES = [
 ] as const;
 
 export const UpdateStatusSchema = z.object({
-  table: z.enum(ALLOWED_TABLES, { errorMap: () => ({ message: "Invalid table" }) }),
+  table: z.enum(ALLOWED_TABLES, { error: "Invalid table" }),
   id: z.string().uuid("Invalid ID"),
   status: trimmedString.min(1, "Status is required").max(50),
-  extra: z.record(z.unknown()).optional(),
+  extra: z.record(z.string(), z.unknown()).optional(),
 });
 
 export type UpdateStatusInput = z.infer<typeof UpdateStatusSchema>;

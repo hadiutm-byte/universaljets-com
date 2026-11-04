@@ -152,7 +152,9 @@ const useUserGeolocation = (): UserGeoData => {
         const { data, ts } = JSON.parse(cached);
         if (Date.now() - ts < CACHE_TTL) return data;
       }
-    } catch {}
+    } catch {
+      // Ignore cache parsing/storage errors and use defaults.
+    }
     return defaultGeo;
   });
 
@@ -164,7 +166,9 @@ const useUserGeolocation = (): UserGeoData => {
         const { ts } = JSON.parse(cached);
         if (Date.now() - ts < CACHE_TTL) return;
       }
-    } catch {}
+    } catch {
+      // Ignore cache parsing/storage errors and continue fetching.
+    }
 
     const fetchGeo = async () => {
       const apis = [

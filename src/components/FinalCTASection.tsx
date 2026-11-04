@@ -1,8 +1,11 @@
 import { motion } from "framer-motion";
+import { useNavigate } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
 import { FadeReveal } from "./ui/ScrollEffects";
 
-const FinalCTASection = () => (
+const FinalCTASection = () => {
+  const navigate = useNavigate();
+  return (
   <section id="cta" className="py-32 md:py-44 relative">
     <div className="container mx-auto px-8 relative z-10">
       <FadeReveal className="text-center max-w-2xl mx-auto">
@@ -27,7 +30,7 @@ const FinalCTASection = () => (
             whileHover={{ scale: 1.03, y: -3 }}
             whileTap={{ scale: 0.97 }}
             transition={{ type: "spring", stiffness: 300, damping: 18 }}
-            onClick={() => document.dispatchEvent(new CustomEvent("open-ricky-booking"))}
+            onClick={() => navigate("/request-flight")}
             className="group btn-luxury inline-flex items-center gap-3 px-12 py-[1.125rem] bg-gradient-gold text-white text-[11px] tracking-[0.3em] uppercase font-medium rounded-xl cursor-pointer"
           >
             Start with Ricky
@@ -48,6 +51,7 @@ const FinalCTASection = () => (
       </FadeReveal>
     </div>
   </section>
-);
+  );
+};
 
 export default FinalCTASection;

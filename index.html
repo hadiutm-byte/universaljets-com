@@ -65,15 +65,22 @@
     <meta name="twitter:title" content="Private Jet Charter Dubai — On-Demand Flights Worldwide | Universal Jets">
     <meta name="twitter:description" content="Charter a private jet from Dubai worldwide. On-demand flights, empty legs up to 75% off, jet cards with fixed rates. 18+ years of private aviation excellence.">
 
-    <!-- Keywords (supplementary signal) -->
-    <meta name="keywords" content="private jet charter Dubai, private jet hire, empty leg flights, jet card program, private aviation broker, charter flights UAE, luxury jet charter, on-demand private jet, ACMI leasing, private jet concierge, Universal Jets, helicopter charter, VIP aviation, corporate jet charter, Dubai private jet, private jet rental, jet charter cost, private plane hire, business jet charter">
     <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
-    <link rel="sitemap" type="application/xml" href="/sitemap-uj.xml">
+    <link rel="sitemap" type="application/xml" href="/sitemap.xml">
 
     <!-- Security headers via meta tags -->
-    <meta http-equiv="X-Frame-Options" content="SAMEORIGIN" />
     <meta http-equiv="Permissions-Policy" content="camera=(), microphone=(), geolocation=(self), payment=()" />
-    <meta http-equiv="Content-Security-Policy" content="frame-ancestors 'self'; upgrade-insecure-requests;" />
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests;" />
+
+  <!-- Consent Mode v2: default denied until the visitor accepts (see CookieConsent.tsx) -->
+  <script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  window.gtag = window.gtag || gtag;
+  var __uj = 'denied';
+  try { if (localStorage.getItem('uj_cookie_consent') === 'all') __uj = 'granted'; } catch (e) {}
+  gtag('consent', 'default', { ad_storage: __uj, ad_user_data: __uj, ad_personalization: __uj, analytics_storage: __uj, wait_for_update: 500 });
+  </script>
 
   <!-- Google Tag Manager (Universal Jets) -->
   <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
@@ -83,21 +90,7 @@
   })(window,document,'script','dataLayer','GTM-KG956KGV');</script>
   <!-- End Google Tag Manager (Universal Jets) -->
 
-  <!-- Google Tag Manager (GTM-MRXWR482) -->
-  <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-  new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-  j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-  'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-  })(window,document,'script','dataLayer','GTM-MRXWR482');</script>
-  <!-- End Google Tag Manager (GTM-MRXWR482) -->
 
-  <!-- Google Tag Manager (GTM-NV5XB5FM) -->
-  <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-  new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-  j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-  'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-  })(window,document,'script','dataLayer','GTM-NV5XB5FM');</script>
-  <!-- End Google Tag Manager (GTM-NV5XB5FM) -->
 
   <!-- Google Ads managed via GTM — no hardcoded gtag.js -->
 
@@ -107,12 +100,6 @@
     <!-- Google Tag Manager (noscript) -->
     <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KG956KGV" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <!-- End Google Tag Manager (noscript) -->
-    <!-- Google Tag Manager (noscript - GTM-MRXWR482) -->
-    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-MRXWR482" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-    <!-- End Google Tag Manager (noscript - GTM-MRXWR482) -->
-    <!-- Google Tag Manager (noscript - GTM-NV5XB5FM) -->
-    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NV5XB5FM" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-    <!-- End Google Tag Manager (noscript - GTM-NV5XB5FM) -->
     <a href="#main-content" class="skip-to-content">Skip to main content</a>
     <div id="root" style="min-height:100vh;min-height:100dvh;background:#0A0A0A"></div>
     <script type="module" src="/src/main.tsx"></script>
