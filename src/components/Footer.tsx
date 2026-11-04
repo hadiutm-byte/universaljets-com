@@ -49,7 +49,7 @@ const partnerNames = [
 ];
 
 const LinkItem = ({ label, href }: { label: string; href: string }) => {
-  const cls = "block text-[13px] mb-2 text-white/65 hover:text-white hover:translate-x-[5px] transition-all duration-300 focus-visible:text-white";
+  const cls = "block text-[13px] py-3 text-white/65 hover:text-white hover:translate-x-[5px] transition-all duration-300 focus-visible:text-white";
   return href.startsWith("/") && !href.startsWith("/#") ? (
     <Link to={href} className={cls}>{label}</Link>
   ) : (
@@ -79,8 +79,8 @@ const Footer = () => (
           Seamless global charter solutions for those who expect more.
         </p>
         <div className="space-y-2">
-          <a href="mailto:sales@universaljets.com" className="block text-[13px] text-white/70 hover:text-primary transition-colors" aria-label="Email Universal Jets sales team">sales@universaljets.com</a>
-          <a href="https://wa.me/447888999944" target="_blank" rel="noopener noreferrer" className="block text-[13px] text-white/70 hover:text-primary transition-colors" aria-label="Contact Universal Jets on WhatsApp">WhatsApp</a>
+          <a href="mailto:sales@universaljets.com" className="block text-[13px] py-3 text-white/70 hover:text-primary transition-colors" aria-label="Email Universal Jets sales team">sales@universaljets.com</a>
+          <a href="https://wa.me/447888999944" target="_blank" rel="noopener noreferrer" className="block text-[13px] py-3 text-white/70 hover:text-primary transition-colors" aria-label="Contact Universal Jets on WhatsApp">WhatsApp</a>
         </div>
       </div>
 
@@ -164,7 +164,7 @@ const Footer = () => (
         ].map((l, i) => (
           <span key={l.label} className="flex items-center gap-6">
             {i > 0 && <span className="text-white/10">·</span>}
-            <Link to={l.href} className="text-[10px] tracking-[0.2em] text-white/30 hover:text-white/60 transition-colors uppercase">
+            <Link to={l.href} className="inline-block py-3 text-[10px] tracking-[0.2em] text-white/30 hover:text-white/60 transition-colors uppercase">
               {l.label}
             </Link>
           </span>
