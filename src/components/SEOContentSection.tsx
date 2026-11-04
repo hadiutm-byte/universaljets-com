@@ -40,7 +40,7 @@ const SEOContentSection = () => (
             { stat: "18+", label: "Years in Private Aviation" },
             { stat: "7,000+", label: "Vetted Aircraft Worldwide" },
             { stat: "190+", label: "Countries Served" },
-            { stat: "24/7", label: "Global Concierge Support" },
+            { stat: "Global", label: "Concierge Support" },
           ].map((item) => (
             <div key={item.label} className="py-6">
               <p className="text-2xl md:text-3xl font-display font-semibold text-foreground">{item.stat}</p>
