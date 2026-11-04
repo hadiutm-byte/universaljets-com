@@ -349,6 +349,7 @@ const SearchResults = () => {
                   distanceNm: routeInfo?.distanceNm,
                   flightTimeMin,
                   speedKmh: result.speed_kmh,
+                  allowClientEstimate: false,
                 });
 
                 // Availability: exact API price = confirmed availability; estimate = indicative
@@ -418,7 +419,11 @@ const SearchResults = () => {
                               {pricing.display}
                             </span>
                             {pricing.variant === "estimate" && (
-                              <p className="text-[9px] text-muted-foreground/50 mt-1 font-light">Indicative market estimate · Final quote on confirmation</p>
+                              <p className="text-[9px] text-muted-foreground/50 mt-1 font-light">
+                                {pricing.source === "api_estimate"
+                                  ? "API route estimate · Final quote on confirmation"
+                                  : "Indicative estimate · Final quote on confirmation"}
+                              </p>
                             )}
                             {pricing.variant === "request" && (
                               <p className="text-[9px] text-muted-foreground/40 mt-1 font-light">Speak to our team for a tailored quote</p>

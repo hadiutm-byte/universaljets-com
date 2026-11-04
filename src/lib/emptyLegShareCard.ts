@@ -1,12 +1,10 @@
 /**
- * Premium Empty Leg share card — polished lighter charcoal with glossy Mapbox map,
+ * Premium Empty Leg share card — polished lighter charcoal with a rendered route map,
  * gold route arc, city names on map, large readable details,
  * seat count icon, and deep link. Instagram Story ratio (1080×1920).
  */
 
 import AIRPORT_COORDS from "@/lib/airportCoords";
-
-const MAPBOX_TOKEN = "pk.eyJ1IjoiaGFkaWFiZHVsaGFkaSIsImEiOiJjbW43MDV3NDQwYWZvMnhzYmF6cG05a3ZsIn0.fKSSW2NTnStIWXZyXDk_KA";
 
 function getAirportCoords(icao: string): [number, number] | undefined {
   return AIRPORT_COORDS[icao];
@@ -28,27 +26,6 @@ export interface ShareCardData {
 const W = 1080;
 const H = 1920;
 const PAD = 64;
-
-function loadImage(url: string): Promise<HTMLImageElement> {
-  return new Promise((resolve, reject) => {
-    const img = new Image();
-    img.crossOrigin = "anonymous";
-    img.onload = () => resolve(img);
-    img.onerror = () => reject(new Error("Image load failed"));
-    img.src = url;
-  });
-}
-
-function buildMapUrl(from: [number, number] | undefined, to: [number, number] | undefined): string {
-  let centerLat = 30, centerLon = 25, zoom = 2;
-  if (from && to) {
-    centerLat = (from[0] + to[0]) / 2;
-    centerLon = (from[1] + to[1]) / 2;
-    const dist = Math.sqrt((from[0] - to[0]) ** 2 + (from[1] - to[1]) ** 2);
-    zoom = dist > 60 ? 1.5 : dist > 30 ? 2.5 : dist > 15 ? 3.5 : dist > 5 ? 4.5 : 5.5;
-  }
-  return `https://api.mapbox.com/styles/v1/mapbox/dark-v11/static/${centerLon.toFixed(4)},${centerLat.toFixed(4)},${zoom},0/540x540@2x?access_token=${MAPBOX_TOKEN}&attribution=false&logo=false`;
-}
 
 function projectToCanvas(
   fromCoord: [number, number],
@@ -286,24 +263,28 @@ export async function generateEmptyLegShareCard(data: ShareCardData): Promise<Bl
   ctx.fillText("✈  EMPTY LEG OPPORTUNITY", W / 2, badgeY + 29);
 
   // ═══════════════════════════════════════
-  //  MAP — clean and polished
+  //  MAP — rendered locally (no external tile dependency)
   // ═══════════════════════════════════════
   const mapTop = 180;
   const mapH = 660;
 
-  try {
-    const mapImg = await loadImage(buildMapUrl(fromCoords, toCoords));
-    // Brighter map for cleaner look
-    ctx.globalAlpha = 0.8;
-    ctx.drawImage(mapImg, 0, mapTop, W, mapH);
-    ctx.globalAlpha = 1;
-  } catch {
-    // Grid fallback
-    ctx.strokeStyle = "rgba(255,255,255,0.04)";
-    ctx.lineWidth = 1;
-    for (let x = 0; x < W; x += 60) { ctx.beginPath(); ctx.moveTo(x, mapTop); ctx.lineTo(x, mapTop + mapH); ctx.stroke(); }
-    for (let y = mapTop; y < mapTop + mapH; y += 60) { ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(W, y); ctx.stroke(); }
-  }
+  const mapBg = ctx.createLinearGradient(0, mapTop, 0, mapTop + mapH);
+  mapBg.addColorStop(0, "#1f2430");
+  mapBg.addColorStop(0.5, "#202635");
+  mapBg.addColorStop(1, "#1b212c");
+  ctx.fillStyle = mapBg;
+  ctx.fillRect(0, mapTop, W, mapH);
+
+  const mapGlow = ctx.createRadialGradient(W * 0.58, mapTop + mapH * 0.55, 10, W * 0.58, mapTop + mapH * 0.55, W * 0.6);
+  mapGlow.addColorStop(0, "rgba(96, 126, 180, 0.16)");
+  mapGlow.addColorStop(1, "rgba(0, 0, 0, 0)");
+  ctx.fillStyle = mapGlow;
+  ctx.fillRect(0, mapTop, W, mapH);
+
+  ctx.strokeStyle = "rgba(255,255,255,0.045)";
+  ctx.lineWidth = 1;
+  for (let x = 0; x < W; x += 60) { ctx.beginPath(); ctx.moveTo(x, mapTop); ctx.lineTo(x, mapTop + mapH); ctx.stroke(); }
+  for (let y = mapTop; y < mapTop + mapH; y += 60) { ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(W, y); ctx.stroke(); }
 
   // Clean fade edges
   const fadeTop = ctx.createLinearGradient(0, mapTop, 0, mapTop + 90);

@@ -96,7 +96,7 @@ function lookupAircraftType(typeName: string): AircraftTypeMeta | null {
   return null;
 }
 
-// ─── Hourly rate estimates by class (USD) ────────────────────────────────────
+// ─── API-first private-jet calculator fallback (USD) ─────────────────────────
 const CLASS_HOURLY_RATES: Record<string, { low: number; high: number }> = {
   "very light": { low: 2800, high: 4500 },
   "light": { low: 4000, high: 6500 },
@@ -107,34 +107,110 @@ const CLASS_HOURLY_RATES: Record<string, { low: number; high: number }> = {
   "vip airliner": { low: 16000, high: 28000 },
 };
 
-const CLASS_SPEEDS: Record<string, number> = {
-  "very light": 600, "light": 720, "midsize": 790,
-  "super midsize": 830, "heavy": 870, "ultra long range": 900, "vip airliner": 850,
+const CLASS_LABELS: Record<string, string> = {
+  "very light": "Very Light Jet",
+  "light": "Light Jet",
+  "midsize": "Midsize Jet",
+  "super midsize": "Super Midsize Jet",
+  "heavy": "Heavy Jet",
+  "ultra long range": "Ultra Long Range Jet",
+  "vip airliner": "VIP Airliner",
 };
 
-/** Estimate price from aircraft class and route distance */
-function estimatePrice(
-  classKey: string,
-  depIcao: string, arrIcao: string,
-  speedKmh: number | null
-): { price: number | null; currency: string; unit: string } {
-  const rates = CLASS_HOURLY_RATES[classKey];
-  if (!rates) return { price: null, currency: 'USD', unit: 'estimate' };
+const CLASS_ALIASES: Record<string, string> = {
+  "vlj": "very light",
+  "very light jet": "very light",
+  "light jet": "light",
+  "mid size": "midsize",
+  "mid-size": "midsize",
+  "midsize jet": "midsize",
+  "super mid": "super midsize",
+  "super mid size": "super midsize",
+  "super midsize jet": "super midsize",
+  "long range": "heavy",
+  "long range jet": "heavy",
+  "ultra long": "ultra long range",
+  "ultra long range jet": "ultra long range",
+  "airliner": "vip airliner",
+  "vip airliner jet": "vip airliner",
+};
 
-  // Use great circle distance for estimation
-  const depCoords = AIRPORT_COORDS[depIcao];
-  const arrCoords = AIRPORT_COORDS[arrIcao];
-  if (!depCoords || !arrCoords) return { price: null, currency: 'USD', unit: 'estimate' };
+const CLASS_SPEEDS: Record<string, number> = {
+  "very light": 600,
+  "light": 720,
+  "midsize": 790,
+  "super midsize": 830,
+  "heavy": 870,
+  "ultra long range": 900,
+  "vip airliner": 850,
+};
+
+function normalizeClassKey(value: string | null | undefined): string | null {
+  if (!value) return null;
+  const normalized = value.toLowerCase().replace(/\s*jet$/i, "").replace(/\s+/g, " ").trim();
+  if (CLASS_HOURLY_RATES[normalized]) return normalized;
+  return CLASS_ALIASES[normalized] || null;
+}
+
+function inferClassKey(input: {
+  className: string | null;
+  typeName: string;
+  maxPax: number | null;
+  rangeKm: number | null;
+}): string | null {
+  const byClass = normalizeClassKey(input.className);
+  if (byClass) return byClass;
+
+  const type = input.typeName.toLowerCase();
+  if (/(bbj|acj|lineage|airliner|a319|a320|a330|a340|b737|b757)/.test(type)) return "vip airliner";
+  if (/(global|gulfstream g650|gulfstream g700|falcon 7x|falcon 8x|falcon 900|ultra long|long range)/.test(type)) return "ultra long range";
+  if (/(gulfstream|falcon|challenger 6|heavy)/.test(type)) return "heavy";
+  if (/(praetor 600|citation x|legacy 500|legacy 600|super mid|challenger 3)/.test(type)) return "super midsize";
+  if (/(hawker|citation sovereign|midsize|mid size)/.test(type)) return "midsize";
+  if (/(citation|phenom|learjet|honda jet|light)/.test(type)) return "light";
+
+  const rangeKm = input.rangeKm ?? 0;
+  const maxPax = input.maxPax ?? 0;
+  if (rangeKm >= 9500 || maxPax >= 18) return "ultra long range";
+  if (rangeKm >= 6500 || maxPax >= 13) return "heavy";
+  if (rangeKm >= 4800 || maxPax >= 10) return "super midsize";
+  if (rangeKm >= 3200 || maxPax >= 8) return "midsize";
+  if (rangeKm >= 2200 || maxPax >= 6) return "light";
+  if (rangeKm > 0 || maxPax > 0) return "very light";
+  return null;
+}
+
+/** Route-based estimate when operator API does not provide a direct price. */
+function estimatePrice(input: {
+  classKey: string;
+  depIcao: string;
+  arrIcao: string;
+  speedKmh: number | null;
+  maxPax: number | null;
+}): { price: number | null; currency: string; unit: string; flightTimeMin: number | null } {
+  const rates = CLASS_HOURLY_RATES[input.classKey];
+  if (!rates) return { price: null, currency: 'USD', unit: 'estimate', flightTimeMin: null };
+
+  const depCoords = AIRPORT_COORDS[input.depIcao];
+  const arrCoords = AIRPORT_COORDS[input.arrIcao];
+  if (!depCoords || !arrCoords) return { price: null, currency: 'USD', unit: 'estimate', flightTimeMin: null };
 
   const distNm = greatCircleNm(depCoords[0], depCoords[1], arrCoords[0], arrCoords[1]);
-  const speed = speedKmh || CLASS_SPEEDS[classKey] || 790;
+  const speed = input.speedKmh || CLASS_SPEEDS[input.classKey] || 790;
   const distKm = distNm * 1.852;
-  const flightHours = Math.max(distKm / speed, 1);
+  const airborneHours = distKm / speed;
+  const taxiAndOpsHours = distNm > 2500 ? 0.7 : distNm > 1200 ? 0.55 : 0.45;
+  const billableHours = Math.max(1.2, airborneHours + taxiAndOpsHours);
 
-  // Use low-end estimate as "from" price
-  const lowEst = Math.round(rates.low * flightHours / 500) * 500;
+  const repositionFactor = distNm > 3500 ? 1.16 : distNm > 2000 ? 1.13 : distNm > 1000 ? 1.1 : 1.07;
+  const passengerFactor = (input.maxPax ?? 0) >= 14 ? 1.05 : (input.maxPax ?? 0) >= 10 ? 1.03 : 1;
+  const airportFees = distNm > 3500 ? 3800 : distNm > 1800 ? 2400 : distNm > 600 ? 1400 : 900;
 
-  return { price: lowEst, currency: 'USD', unit: 'estimate' };
+  const estimated = rates.low * billableHours * repositionFactor * passengerFactor + airportFees;
+  const rounded = Math.max(3500, Math.round(estimated / 500) * 500);
+  const flightTimeMin = Math.max(35, Math.round(airborneHours * 60 + 20));
+
+  return { price: rounded, currency: 'USD', unit: 'estimate', flightTimeMin };
 }
 
 function greatCircleNm(lat1: number, lng1: number, lat2: number, lng2: number): number {
@@ -373,22 +449,40 @@ serve(async (req) => {
 
         const rawPriceUnit = aircraft.price_unit || aircraft.pricing_type || null;
 
-        // If no API price, generate server-side estimate from class + route
+        const inferredClassKey = inferClassKey({
+          className: aircraftClass,
+          typeName: acTypeName,
+          maxPax: toFiniteNum(maxPax),
+          rangeKm: toFiniteNum(rangeKm),
+        });
+        const displayClass = aircraftClass || (inferredClassKey ? CLASS_LABELS[inferredClassKey] : null);
+
+        // If no API price, generate server-side API estimate from route + class + ops factors
         let finalPrice = rawPrice;
         let finalCurrency = rawCurrency;
         let finalPriceUnit = rawPriceUnit;
 
-        if (finalPrice == null && aircraftClass) {
-          const classKey = aircraftClass.toLowerCase().replace(/\s*jet$/i, '').trim();
-          const est = estimatePrice(classKey, from_icao, to_icao, speedKmh);
+        let estFlightTimeMin: number | null = null;
+        if (finalPrice == null && inferredClassKey) {
+          const est = estimatePrice({
+            classKey: inferredClassKey,
+            depIcao: from_icao,
+            arrIcao: to_icao,
+            speedKmh: toFiniteNum(speedKmh),
+            maxPax: toFiniteNum(maxPax),
+          });
           if (est.price) {
             finalPrice = est.price;
             finalCurrency = est.currency;
             finalPriceUnit = 'estimate';
+            estFlightTimeMin = est.flightTimeMin;
           }
         }
 
-        const flightTime = toFiniteNum(aircraft.flight_time) ?? toFiniteNum(aircraft.estimated_flight_time) ?? null;
+        const flightTime =
+          toFiniteNum(aircraft.flight_time) ??
+          toFiniteNum(aircraft.estimated_flight_time) ??
+          estFlightTimeMin;
 
         results.push({
           id: aircraft.id,
@@ -418,7 +512,7 @@ serve(async (req) => {
             certified: company.aviapages_certified || false,
             avg_response_time: null, avg_response_rate: null,
           },
-          aircraft_class: aircraftClass,
+          aircraft_class: displayClass,
           manufacturer,
           engine_type: engineType,
           engine_count: engineCount,

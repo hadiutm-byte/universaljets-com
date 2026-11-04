@@ -33,7 +33,6 @@ export default defineConfig(({ mode }) => ({
           'vendor-query': ['@tanstack/react-query'],
           'vendor-supabase': ['@supabase/supabase-js'],
           'vendor-recharts': ['recharts'],
-          'vendor-maps': ['mapbox-gl'],
           'vendor-date': ['date-fns', 'react-day-picker'],
         },
       },

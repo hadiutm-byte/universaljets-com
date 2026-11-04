@@ -280,6 +280,7 @@ const QuoteRequestModal = ({ open, onClose, flightData }: QuoteRequestModalProps
       aircraftClass,
       distanceNm,
       flightTimeMin,
+      allowClientEstimate: true,
     });
 
     return { distanceNm, flightTimeMin, pricing };

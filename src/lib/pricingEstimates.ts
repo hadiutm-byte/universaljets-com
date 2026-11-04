@@ -1,12 +1,11 @@
 /**
  * Smart pricing estimation engine for private jet charter.
  *
- * When the API doesn't return a price, we estimate based on:
+ * Primary behavior is API-first pricing. When enabled explicitly, fallback estimates use:
  * - Aircraft class (cost per flight hour varies by class)
  * - Flight distance (converted to estimated flight hours)
  *
- * These are market-range estimates, NOT quotes.
- * Displayed as "From $XX,XXX est." to set expectations.
+ * Fallback values are market-range estimates, NOT quotes.
  */
 
 /** Hourly rate ranges by aircraft class (USD) — industry market data */
@@ -67,6 +66,8 @@ export interface PriceEstimate {
   isEstimate: boolean;
   /** CSS class hint */
   variant: "exact" | "estimate" | "request";
+  /** Pricing provenance for UI messaging */
+  source: "api_exact" | "api_estimate" | "client_estimate" | "request";
 }
 
 /**
@@ -74,8 +75,9 @@ export interface PriceEstimate {
  *
  * Priority:
  * 1. Exact API price → show as-is
- * 2. Estimate from class + flight time → "From $XX,XXX est."
- * 3. Fallback → "Price on request"
+ * 2. API estimate → "From $XX,XXX estimate"
+ * 3. Optional client fallback estimate (explicitly enabled)
+ * 4. Fallback → "Price on request"
  */
 export function getCharterPrice(opts: {
   price?: number | null;
@@ -85,8 +87,9 @@ export function getCharterPrice(opts: {
   distanceNm?: number | null;
   flightTimeMin?: number | null;
   speedKmh?: number | null;
+  allowClientEstimate?: boolean;
 }): PriceEstimate {
-  const { price, priceUnit, aircraftClass, distanceNm, flightTimeMin, speedKmh } = opts;
+  const { price, priceUnit, aircraftClass, distanceNm, flightTimeMin, speedKmh, allowClientEstimate = false } = opts;
 
   // Validate currency code — Intl.NumberFormat throws on unknown codes, fall back to USD
   let priceCurrency = opts.priceCurrency || "USD";
@@ -111,6 +114,7 @@ export function getCharterPrice(opts: {
         high: price,
         isEstimate: true,
         variant: "estimate",
+        source: "api_estimate",
       };
     }
 
@@ -130,6 +134,7 @@ export function getCharterPrice(opts: {
           high: totalPrice,
           isEstimate: false,
           variant: "exact",
+          source: "api_exact",
         };
       }
       const formatted = new Intl.NumberFormat("en-US", {
@@ -137,7 +142,7 @@ export function getCharterPrice(opts: {
         currency: priceCurrency,
         maximumFractionDigits: 0,
       }).format(price);
-      return { display: `${formatted}/hr`, low: price, high: price, isEstimate: false, variant: "exact" };
+      return { display: `${formatted}/hr`, low: price, high: price, isEstimate: false, variant: "exact", source: "api_exact" };
     }
 
     // Total price from API
@@ -146,14 +151,14 @@ export function getCharterPrice(opts: {
       currency: priceCurrency,
       maximumFractionDigits: 0,
     }).format(price);
-    return { display: formatted, low: price, high: price, isEstimate: false, variant: "exact" };
+    return { display: formatted, low: price, high: price, isEstimate: false, variant: "exact", source: "api_exact" };
   }
 
-  // 2. Client-side estimate from class + distance
+  // 2. Optional client-side fallback estimate from class + distance
   const classKey = (aircraftClass || "").toLowerCase().replace(/\s*jet$/i, "").trim();
   const rates = CLASS_HOURLY_RATES[classKey];
 
-  if (rates && (distanceNm || flightTimeMin)) {
+  if (allowClientEstimate && rates && (distanceNm || flightTimeMin)) {
     const minutes = flightTimeMin || (distanceNm ? estimateFlightTimeMin(distanceNm, aircraftClass, speedKmh) : null);
     if (minutes && minutes > 0) {
       const flightHours = Math.max(minutes / 60, 1);
@@ -172,6 +177,7 @@ export function getCharterPrice(opts: {
         high: highEst,
         isEstimate: true,
         variant: "estimate",
+        source: "client_estimate",
       };
     }
   }
@@ -183,6 +189,7 @@ export function getCharterPrice(opts: {
     high: 0,
     isEstimate: true,
     variant: "request",
+    source: "request",
   };
 }
 

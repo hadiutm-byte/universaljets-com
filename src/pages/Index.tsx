@@ -91,7 +91,7 @@ const Index = () => {
 
         <div className="divider-shimmer" />
 
-        {/* 6. Empty Legs — lazy-loaded (Mapbox 456KB) */}
+        {/* 6. Empty Legs — lazy-loaded route map */}
         <LazySection minHeight="600px" rootMargin="400px">
           <SectionGuard name="empty-legs">
             <Suspense fallback={<div className="py-16 text-center"><div className="w-6 h-6 border-2 border-primary/30 border-t-primary rounded-full animate-spin mx-auto" /></div>}>

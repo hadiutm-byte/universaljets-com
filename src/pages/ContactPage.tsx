@@ -1,20 +1,16 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { MapPin, Mail, Clock, Send, MessageCircle, Phone, ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { trackGenerateLead } from "@/lib/gtmEvents";
 import { toast } from "sonner";
-import mapboxgl from "mapbox-gl";
-import "mapbox-gl/dist/mapbox-gl.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import SEOHead from "@/components/SEOHead";
 import JsonLd, { contactPageSchema } from "@/components/JsonLd";
 import useUserGeolocation from "@/hooks/useUserGeolocation";
 import PhoneWithCountryCode, { buildFullPhone, resolveCountryCode } from "@/components/forms/PhoneWithCountryCode";
-
-const MAPBOX_TOKEN = "pk.eyJ1IjoidW5pdmVyc2Fsam V0cyIsImEiOiJjbTRkOHBveHkwMXF5MmlzZG90bmV0dGVwIn0.bMMAJlmUVjT5gfMVRJaJMA".replace(" ", "");
 
 const inquiryTypes = ["Charter Request", "Jet Card Consultation", "Membership Inquiry", "Corporate Charter", "Partnership", "General Inquiry"];
 
@@ -35,8 +31,6 @@ const ContactPage = () => {
   const [loading, setLoading] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [termsAccepted, setTermsAccepted] = useState(false);
-  const mapContainer = useRef<HTMLDivElement>(null);
-  const mapRef = useRef<mapboxgl.Map | null>(null);
 
   const resolvedCode = resolveCountryCode(geo.countryCode);
   useEffect(() => {
@@ -44,35 +38,6 @@ const ContactPage = () => {
       setForm((p) => p.countryCode === "+971" ? { ...p, countryCode: resolvedCode } : p);
     }
   }, [resolvedCode]);
-
-  /* Mapbox */
-  useEffect(() => {
-    if (!mapContainer.current || mapRef.current) return;
-    mapboxgl.accessToken = MAPBOX_TOKEN;
-    const map = new mapboxgl.Map({
-      container: mapContainer.current,
-      style: "mapbox://styles/mapbox/dark-v11",
-      center: [OFFICE_LNG, OFFICE_LAT],
-      zoom: 14,
-      attributionControl: false,
-      interactive: true,
-    });
-
-    map.on("load", () => {
-      /* Gold pin marker */
-      const el = document.createElement("div");
-      el.innerHTML = `<div style="width:40px;height:40px;border-radius:50%;background:hsl(43,85%,58%);display:flex;align-items:center;justify-content:center;box-shadow:0 0 30px hsla(43,85%,58%,0.4)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="hsl(220,10%,8%)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></div>`;
-      new mapboxgl.Marker({ element: el })
-        .setLngLat([OFFICE_LNG, OFFICE_LAT])
-        .setPopup(new mapboxgl.Popup({ offset: 25, closeButton: false }).setHTML(
-          `<div style="padding:12px 16px;font-family:Montserrat,sans-serif"><p style="font-weight:600;font-size:13px;margin:0 0 4px">Universal Jets</p><p style="font-size:11px;color:#888;margin:0">Dubai CommerCity, UAE</p></div>`
-        ))
-        .addTo(map);
-    });
-
-    mapRef.current = map;
-    return () => { map.remove(); mapRef.current = null; };
-  }, []);
 
   const update = (field: string, value: string) => setForm((p) => ({ ...p, [field]: value }));
   const canSubmit = form.name.trim() && form.email.trim() && form.message.trim() && termsAccepted;
@@ -250,7 +215,7 @@ const ContactPage = () => {
         </div>
       </section>
 
-      {/* ═══ Map — full-width, immersive ═══ */}
+      {/* ═══ Location — full-width, reliable embed + direct link ═══ */}
       <section className="relative">
         <div className="px-6 pb-6 max-w-6xl mx-auto">
           <motion.div {...fade} className="text-center mb-10">
@@ -259,7 +224,15 @@ const ContactPage = () => {
             <p className="text-muted-foreground text-[13px] font-light">Dubai Integrated Economic Zones Authority (DIEZ)</p>
           </motion.div>
         </div>
-        <div ref={mapContainer} className="w-full h-[450px] md:h-[550px]" />
+        <div className="w-full h-[450px] md:h-[550px] rounded-2xl overflow-hidden border border-border/30 bg-card">
+          <iframe
+            title="Universal Jets office location"
+            src={`https://www.google.com/maps?q=${OFFICE_LAT},${OFFICE_LNG}&z=15&output=embed`}
+            className="w-full h-full border-0"
+            loading="lazy"
+            referrerPolicy="no-referrer-when-downgrade"
+          />
+        </div>
 
         {/* Office info overlay */}
         <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10">
@@ -271,6 +244,14 @@ const ContactPage = () => {
               <p className="text-[13px] text-foreground font-medium">Universal Jets Aviation Brokerage FZCO</p>
               <p className="text-[11px] text-muted-foreground font-light">DIEZ License No. 50370 · DCAA License No. 3342665</p>
             </div>
+            <a
+              href={`https://www.google.com/maps/search/?api=1&query=${OFFICE_LAT},${OFFICE_LNG}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-[10px] tracking-[0.12em] uppercase text-primary hover:text-primary/80 underline underline-offset-2 whitespace-nowrap"
+            >
+              Open in Maps
+            </a>
           </div>
         </div>
       </section>

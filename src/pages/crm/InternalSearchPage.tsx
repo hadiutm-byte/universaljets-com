@@ -257,7 +257,7 @@ const InternalSearchPage = () => {
               const flightTimeMin = r.estimated_flight_time_min || (routeInfo ? estimateFlightTimeMin(routeInfo.distanceNm, category, r.speed_kmh) : null);
               const pricing = getCharterPrice({
                 price: r.price, priceCurrency: r.price_currency, priceUnit: r.price_unit,
-                aircraftClass: category, distanceNm: routeInfo?.distanceNm, flightTimeMin, speedKmh: r.speed_kmh,
+                aircraftClass: category, distanceNm: routeInfo?.distanceNm, flightTimeMin, speedKmh: r.speed_kmh, allowClientEstimate: false,
               });
 
               return (
@@ -295,7 +295,11 @@ const InternalSearchPage = () => {
                       <p className={`font-display text-[15px] font-semibold ${pricing.variant === "exact" ? "text-primary" : pricing.variant === "estimate" ? "text-foreground" : "text-muted-foreground"}`}>
                         {pricing.display}
                       </p>
-                      {pricing.variant === "estimate" && <p className="text-[8px] text-muted-foreground/40">estimate</p>}
+                      {pricing.variant === "estimate" && (
+                        <p className="text-[8px] text-muted-foreground/40">
+                          {pricing.source === "api_estimate" ? "API estimate" : "estimate"}
+                        </p>
+                      )}
                     </div>
                     <button
                       onClick={() => {
