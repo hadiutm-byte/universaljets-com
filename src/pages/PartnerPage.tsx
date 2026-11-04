@@ -73,7 +73,7 @@ const coBrandedCards = [
   {
     type: "Mastercard World Elite",
     gradient: "linear-gradient(135deg, hsl(222,20%,14%) 0%, hsl(222,18%,10%) 50%, hsl(222,22%,12%) 100%)",
-    features: ["Integrated jet card balance", "Travel insurance & protection", "Luxury hotel partner rates", "Emergency assistance"],
+    features: ["Integrated jet card balance", "Travel insurance & protection", "Luxury hotel partner rates", "24/7 emergency assistance"],
   },
 ];
 

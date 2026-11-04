@@ -182,7 +182,7 @@ const AboutPage = () => (
                   We don't just book flights. We execute missions. From evacuating critically ill patients in conflict zones, to transporting dangerous goods with full regulatory compliance, to coordinating multi-leg government cargo operations, to delivering humanitarian aid where others cannot reach, we operate at the highest level every single day.
                 </p>
                 <p>
-                  Alongside these critical operations, we deliver the refined leisure and corporate charter experiences our clients expect, with identical precision, care, and excellence. With access to 60,000+ aircraft, operations across 160 countries, and operational control from Dubai and London, we've set a global standard for private aviation brokerage.
+                  Alongside these critical operations, we deliver the refined leisure and corporate charter experiences our clients expect, with identical precision, care, and excellence. With access to 60,000+ aircraft, operations across 160 countries, and 24/7 control from Dubai and London, we've set a global standard for private aviation brokerage.
                 </p>
                 <p className="text-white/70">
                   The Universal Jets difference is simple: we compete at the highest level and we win. We don't compromise. We don't cut corners. We don't settle for "good enough." Excellence is our standard, never the exception.

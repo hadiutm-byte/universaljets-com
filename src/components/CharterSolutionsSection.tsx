@@ -30,7 +30,7 @@ const charterCategories: CharterCategory[] = [
     differentiators: [
       "Access every aircraft on the market, not just one fleet",
       "Competitive pricing through multi-operator sourcing",
-      "Concierge for dining, hotels, and ground transport",
+      "24/7 concierge for dining, hotels, and ground transport",
       "18+ years arranging leisure charters worldwide",
     ],
     aircraft: [
@@ -60,7 +60,7 @@ const charterCategories: CharterCategory[] = [
   },
   {
     title: "Medevac",
-    tagline: "ICU-equipped. Rapid response. Anywhere.",
+    tagline: "ICU-equipped. 24/7 response. Anywhere.",
     slug: "medevac",
     image: medevacImg,
     justification:
