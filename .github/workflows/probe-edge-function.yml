@@ -1,0 +1,51 @@
+name: Probe Edge Function (no token)
+
+on:
+  workflow_dispatch:
+    inputs:
+      function:
+        description: Edge function name to probe
+        required: true
+        default: aviapages-charter-search
+      project_ref:
+        description: Supabase project ref (defaults to config.toml)
+        required: false
+        default: ""
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Resolve project ref
+        id: ref
+        run: |
+          REF="${{ github.event.inputs.project_ref }}"
+          if [ -z "$REF" ]; then
+            REF=$(grep -E '^project_id' supabase/config.toml | head -1 | sed -E 's/.*"(.*)".*/\1/')
+          fi
+          echo "ref=$REF" >> "$GITHUB_OUTPUT"
+          echo "Project ref: $REF"
+
+      - name: Probe function endpoint
+        env:
+          FN: ${{ github.event.inputs.function }}
+          REF: ${{ steps.ref.outputs.ref }}
+        run: |
+          URL="https://$REF.supabase.co/functions/v1/$FN"
+          echo "Probing: $URL"
+          CODE=$(curl -s -o /tmp/body.txt -w "%{http_code}" -X POST "$URL" \
+            -H "Content-Type: application/json" -d '{}' || echo "000")
+          echo "HTTP status: $CODE"
+          echo "--- response body (first 500 chars) ---"
+          head -c 500 /tmp/body.txt || true
+          echo ""
+          echo "----------------------------------------"
+          case "$CODE" in
+            404) echo "RESULT: NOT DEPLOYED (function does not exist on $REF)";;
+            401) echo "RESULT: DEPLOYED (exists; returned 401 = JWT required, which is expected without auth)";;
+            200|400|422|500) echo "RESULT: DEPLOYED (exists; returned $CODE from function code)";;
+            000) echo "RESULT: UNREACHABLE (network/DNS)";;
+            *)   echo "RESULT: UNCERTAIN (status $CODE)";;
+          esac
