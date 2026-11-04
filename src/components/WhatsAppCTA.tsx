@@ -40,7 +40,7 @@ const WhatsAppCTA = () => (
           </a>
 
           <p className="text-[9px] text-foreground/20 font-extralight mt-5 tracking-wide">
-            Fast response from our team
+            Available 24/7 · Typical response under 5 minutes
           </p>
         </GlassCard>
       </FadeReveal>

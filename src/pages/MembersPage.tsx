@@ -74,7 +74,7 @@ const howItWorks = [
 const benefits = [
   { icon: Plane, title: "Priority Aircraft Access", desc: "Members receive first-priority positioning on aircraft availability and scheduling." },
   { icon: Star, title: "Exclusive Member Rates", desc: "Preferential pricing across charter bookings — locked in for the duration of your membership." },
-  { icon: HeartHandshake, title: "Concierge Support", desc: "From hotel suites to ground transport, your concierge handles every detail beyond the flight." },
+  { icon: HeartHandshake, title: "24/7 Concierge", desc: "From hotel suites to ground transport, your concierge handles every detail beyond the flight." },
   { icon: Calendar, title: "Flexible Cancellation", desc: "Plans change. Cancel or reschedule with minimal notice — terms vary by tier." },
   { icon: Users, title: "Family & Associate Coverage", desc: "Extend your membership benefits to immediate family and designated associates." },
   { icon: Award, title: "Referral Programme", desc: "Refer 3 members, earn $1,000 in flight credit toward your next charter booking." },
