@@ -19,7 +19,7 @@ const benefits = [
   { icon: Repeat, text: "Unused hours carry forward" },
   { icon: Globe, text: "Access any aircraft class" },
   { icon: Plane, text: "Priority over on-demand bookings" },
-  { icon: Shield, text: "No hidden costs — ever" },
+  { icon: Shield, text: "Zero hidden fees — ever" },
 ];
 
 const plans = ["25 Hours", "50 Hours", "100 Hours", "Custom"];
