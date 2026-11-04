@@ -10,13 +10,12 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/
 
 const keyFeatures = [
   "Rates locked at purchase",
-  "No hidden costs",
+  "Zero hidden fees",
   "Guaranteed aircraft availability",
   "Unused hours carry forward",
   "Access any aircraft class",
   "Priority over on-demand bookings",
   "No positioning costs",
-  "No hidden costs",
   "No fine print",
 ];
 
@@ -51,7 +50,7 @@ const JetCardPage = () => (
       "@context": "https://schema.org",
       "@type": "Product",
       name: "Altus Jet Card",
-      description: "Prepaid private jet flight hours at locked-in rates. No hidden costs, guaranteed availability, hours carry forward.",
+      description: "Prepaid private jet flight hours at locked-in rates. Zero hidden fees, guaranteed availability, hours carry forward.",
       brand: { "@type": "Organization", name: "Universal Jets" },
       url: "https://universaljets.com/jet-card",
       category: "Private Aviation",
@@ -111,7 +110,7 @@ const JetCardPage = () => (
     <section className="py-5 border-y border-border bg-muted/30">
       <div className="container mx-auto px-8">
         <div className="flex flex-wrap justify-center items-center gap-x-8 gap-y-2">
-          {["Fixed rates", "Transparent pricing", "Hours carry forward", "Any aircraft class", "Global coverage", "160+ countries"].map((s, i) => (
+          {["Fixed rates", "Zero hidden fees", "Hours carry forward", "Any aircraft class", "Global coverage", "160+ countries"].map((s, i) => (
             <div key={i} className="flex items-center gap-1.5">
               <Check className="w-3 h-3 text-primary" strokeWidth={2} />
               <span className="text-[8px] tracking-[0.15em] uppercase text-muted-foreground font-light whitespace-nowrap">{s}</span>
