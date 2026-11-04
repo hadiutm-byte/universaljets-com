@@ -44,6 +44,13 @@ jobs:
             sbp_*) echo "Token prefix OK (length ${#TOKEN})";;
             *) echo "Token does not start with sbp_ after trimming (length ${#TOKEN})"; exit 1;;
           esac
+      - name: Diagnose token access
+        continue-on-error: true
+        run: |
+          echo "=== Projects this token can see ==="
+          supabase projects list || echo "(projects list failed)"
+          echo "=== Looking for target ref ${{ steps.ref.outputs.ref }} ==="
+          supabase projects list 2>/dev/null | grep -F "${{ steps.ref.outputs.ref }}" && echo "TARGET PROJECT IS VISIBLE" || echo "TARGET PROJECT NOT VISIBLE TO THIS TOKEN"
       - name: Deploy
         run: |
           FN="${{ github.event.inputs.function }}"
