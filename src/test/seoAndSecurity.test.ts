@@ -65,3 +65,10 @@ describe("dead buttons", () => {
     expect(read("src/components/FinalCTASection.tsx")).not.toContain("open-ricky-booking");
   });
 });
+
+describe("analytics", () => {
+  it("loads exactly one GTM container (GTM-KG956KGV)", () => {
+    const ids = new Set(read("index.html").match(/GTM-[A-Z0-9]+/g));
+    expect([...ids]).toEqual(["GTM-KG956KGV"]);
+  });
+});
