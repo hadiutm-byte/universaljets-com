@@ -58,7 +58,7 @@ const capabilities = [
 
 const operationalStrengths = [
   { icon: Zap, title: "Rapid Mobilization", stat: "4–12h", desc: "Aircraft positioned and crew briefed within hours of activation. Pre-planned contingency routes for high-risk regions." },
-  { icon: Radio, title: "Crisis Desk", stat: "Rapid Response", desc: "Dedicated crisis operations team with direct lines to security firms, embassies, and ground handlers in conflict zones." },
+  { icon: Radio, title: "24/7 Crisis Desk", stat: "Always On", desc: "Dedicated crisis operations team with direct lines to security firms, embassies, and ground handlers in conflict zones." },
   { icon: Navigation, title: "Complex Routing", stat: "Global", desc: "NOTAM monitoring, restricted airspace navigation, alternate airport planning, and fuel contingency for denied diversion zones." },
   { icon: ShieldCheck, title: "Security Coordination", stat: "End-to-End", desc: "Integration with private security contractors, armored ground transport, secure assembly points, and protected embarkation." },
   { icon: MapPin, title: "Regional Expertise", stat: "190+", desc: "Deep operational knowledge across Middle East, Africa, Central Asia, and Eastern Europe. Established handler networks in austere locations." },
@@ -78,7 +78,7 @@ const trustSignals = [
   "ARGUS Registered Broker",
   "Conflict Zone Experience",
   "Global Security Network",
-  "Crisis Operations",
+  "24/7 Crisis Operations",
   "190+ Country Reach",
   "DCAA License No. 3342665",
 ];
@@ -139,7 +139,7 @@ const EvacuationPage = () => {
     <div className="min-h-screen bg-[hsl(228,28%,4%)]">
       <SEOHead
         title="War Zone Evacuation — Crisis Extraction & Repatriation"
-        description="Rapid evacuation from conflict zones and war-affected regions. Personnel extraction, mass evacuation, asset recovery, and cross-border repatriation. Crisis operations desk."
+        description="Rapid evacuation from conflict zones and war-affected regions. Personnel extraction, mass evacuation, asset recovery, and cross-border repatriation. 24/7 crisis operations desk."
         path="/evacuation"
         breadcrumbs={[{ name: "Home", path: "/" }, { name: "Evacuation", path: "/evacuation" }]}
       />
@@ -312,7 +312,7 @@ const EvacuationPage = () => {
               Request Evacuation Support
             </h2>
             <p className="text-[13px] text-white/55 font-extralight leading-[1.9]">
-              All inquiries are treated with the highest level of confidentiality. For immediate assistance, contact our crisis desk directly.
+              All inquiries are treated with the highest level of confidentiality. For immediate assistance, contact our 24/7 crisis desk directly.
             </p>
           </motion.div>
 
@@ -323,7 +323,7 @@ const EvacuationPage = () => {
               </div>
               <h3 className="text-xl font-display font-semibold text-white mb-3">Inquiry Received</h3>
               <p className="text-[13px] text-white/55 font-light leading-[1.8] max-w-md mx-auto">
-                Our crisis operations team has been alerted and will contact you as soon as possible. For urgent matters, please call our operations desk directly.
+                Our crisis operations team has been alerted and will contact you as soon as possible. For urgent matters, please call our 24/7 operations desk directly.
               </p>
             </motion.div>
           ) : (
