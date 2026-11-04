@@ -20,7 +20,7 @@ const phoneField = trimmedString.max(30, "Phone number too long").regex(/^[+\d\s
  */
 export const NewsletterSchema = z.object({
   email: emailField,
-  consent: z.literal(true, { errorMap: () => ({ message: "You must agree to receive emails" }) }),
+  consent: z.literal(true, { error: "You must agree to receive emails" }),
 });
 
 export type NewsletterInput = z.infer<typeof NewsletterSchema>;
@@ -53,7 +53,7 @@ export const MembershipEnrollSchema = z.object({
   aircraftPref: optionalTrimmed,
   reason: trimmedString.max(1000, "Reason too long").optional().or(z.literal("")),
   invitationCode: trimmedString.max(50, "Invitation code too long").optional().or(z.literal("")),
-  termsAccepted: z.literal(true, { errorMap: () => ({ message: "You must accept the terms" }) }),
+  termsAccepted: z.literal(true, { error: "You must accept the terms" }),
 });
 
 export type MembershipEnrollInput = z.infer<typeof MembershipEnrollSchema>;
