@@ -61,7 +61,7 @@ const operationalStrengths = [
   { icon: Target, title: "Aircraft Flexibility", stat: "All Types", desc: "From turboprops to B777s. VIP configuration, cargo, combi, and special mission aircraft available." },
   { icon: ShieldCheck, title: "Regulatory Compliance", stat: "100%", desc: "AOC structuring, overflight permits, slot coordination, and full regulatory awareness across jurisdictions." },
   { icon: Navigation, title: "Complex Routing", stat: "Global", desc: "Multi-sector missions, positioning flights, technical stops, and ETOPS routing planned and executed." },
-  { icon: Radio, title: "Mission Planning", stat: "24/7", desc: "Dedicated operations desk for flight planning, crew scheduling, ground handling, and real-time mission support." },
+  { icon: Radio, title: "Mission Planning", stat: "Ops Desk", desc: "Dedicated operations desk for flight planning, crew scheduling, ground handling, and real-time mission support." },
 ];
 
 const useCases = [
@@ -80,7 +80,7 @@ const trustSignals = [
   "WYVERN Certified Network",
   "ICAO Compliant Operations",
   "Global AOC Structuring",
-  "24/7 Operations Desk",
+  "Operations Desk",
   "DCAA License No. 3342665",
 ];
 

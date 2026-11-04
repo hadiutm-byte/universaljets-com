@@ -60,7 +60,7 @@ const charterCategories: CharterCategory[] = [
   },
   {
     title: "Medevac",
-    tagline: "ICU-equipped. 24/7 response. Anywhere.",
+    tagline: "ICU-equipped. Rapid response. Anywhere.",
     slug: "medevac",
     image: medevacImg,
     justification:
