@@ -32,6 +32,9 @@ describe("index.html", () => {
   const html = read("index.html");
   it("has no meta keywords, keeps the Search Console tag, and one canonical", () => {
     expect(html).not.toMatch(/<meta name="keywords"/);
+    expect(html).not.toMatch(/http-equiv="X-Frame-Options"/i);
+    expect(html).not.toMatch(/frame-ancestors/i);
+    expect(html).toContain('rel="sitemap" type="application/xml" href="/sitemap.xml"');
     expect(html).toContain('name="google-site-verification"');
     expect(html.match(/rel="canonical"/g)?.length ?? 0).toBeLessThanOrEqual(1);
   });
