@@ -43,7 +43,7 @@ const QuickOption = ({ icon: Icon, label, onClick }: { icon: any; label: string;
 const authorityItems = [
   { icon: Clock, text: "18+ Years Experience" },
   { icon: Globe, text: "Global Aircraft Network" },
-  { icon: Headphones, text: "24/7 Availability" },
+  { icon: Headphones, text: "Responsive Support" },
   { icon: Users, text: "Trusted by UHNW Clients" },
 ];
 
@@ -429,7 +429,7 @@ const CTASection = () => {
                 <MessageCircle className="w-4 h-4" strokeWidth={1.5} />
                 Chat on WhatsApp
               </a>
-              <p className="text-[9px] text-muted-foreground/70 font-extralight mt-5 tracking-wide">Available 24/7 · Typical response under 5 minutes</p>
+              <p className="text-[9px] text-muted-foreground/70 font-extralight mt-5 tracking-wide">Fast response from our team</p>
             </GlassCard>
           </FadeReveal>
         </div>
@@ -445,7 +445,7 @@ const CTASection = () => {
               Your Aircraft Is One <span className="text-gradient-gold italic font-medium">Message</span> Away
             </h2>
             <p className="text-[11px] text-foreground/25 font-extralight tracking-[0.15em] mb-10">
-              6,000+ aircraft • 40,000 airports • 24/7 global coverage
+              6,000+ aircraft • 40,000 airports • Global coverage
             </p>
             <motion.button
               whileHover={{ scale: 1.03 }}

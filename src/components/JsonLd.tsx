@@ -28,7 +28,7 @@ export const organizationSchema = {
   },
   image: "https://universaljets.com/og-image.jpg",
   description:
-    "Dubai-based private jet charter brokerage with 18+ years of experience. On-demand charter, empty legs, jet cards, ACMI leasing, and 24/7 concierge across 190+ countries.",
+    "Dubai-based private jet charter brokerage with 18+ years of experience. On-demand charter, empty legs, jet cards, ACMI leasing, and concierge support across 190+ countries.",
   foundingDate: "2006",
   foundingLocation: {
     "@type": "Place",

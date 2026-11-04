@@ -108,7 +108,7 @@ const ContactPage = () => {
 
   return (
     <div className="min-h-screen bg-background text-foreground">
-      <SEOHead title="Contact Universal Jets — 24/7 Private Aviation" description="Contact Universal Jets for private jet charter, jet cards, membership inquiries. Available 24/7 via phone, email, and WhatsApp." path="/contact" breadcrumbs={[{ name: "Home", path: "/" }, { name: "Contact", path: "/contact" }]} />
+      <SEOHead title="Contact Universal Jets — Private Aviation" description="Contact Universal Jets for private jet charter, jet cards, membership inquiries. Available via phone, email, and WhatsApp." path="/contact" breadcrumbs={[{ name: "Home", path: "/" }, { name: "Contact", path: "/contact" }]} />
       <JsonLd data={contactPageSchema} />
       <Navbar />
 
@@ -129,7 +129,7 @@ const ContactPage = () => {
             transition={{ delay: 0.2, duration: 0.7 }}
             className="text-muted-foreground text-lg md:text-xl font-light leading-relaxed max-w-lg mx-auto"
           >
-            Our aviation advisors are available 24/7. Tell us what you need and we'll take it from there.
+            Our aviation advisors are ready to help. Tell us what you need and we'll take it from there.
           </motion.p>
         </div>
       </section>
