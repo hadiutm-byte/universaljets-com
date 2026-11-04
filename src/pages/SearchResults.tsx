@@ -2,7 +2,7 @@ import { useState, useMemo } from "react";
 import { useSearchParams, useNavigate } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { motion } from "framer-motion";
-import { ArrowLeft, Plane, Calendar, Users, Clock, Loader2, MessageCircle, Phone, Shield, Wifi, BedDouble, Briefcase, MapPin, Navigation, Share2, X } from "lucide-react";
+import { ArrowLeft, Plane, Calendar, Users, Clock, Loader2, MessageCircle, Phone, Shield, Wifi, BedDouble, Briefcase, MapPin, Navigation, Share2, X, ArrowUpDown, SlidersHorizontal } from "lucide-react";
 import { Gauge, Ruler } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -93,6 +93,7 @@ const SearchResults = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const navigate = useNavigate();
   const [quoteModal, setQuoteModal] = useState<{ open: boolean; aircraft?: string }>({ open: false });
+  const [sortBy, setSortBy] = useState<"price_asc" | "price_desc" | "pax_desc" | "default">("default");
 
   const from_icao = searchParams.get("from_icao") || "";
   const to_icao = searchParams.get("to_icao") || "";
@@ -132,25 +133,44 @@ const SearchResults = () => {
     enabled: !!from_icao && !!to_icao,
   });
 
-  // Normalize then filter by selected jet size
+  // Normalize, filter by selected jet size, then sort
   const results: NormalizedCharterResult[] = useMemo(() => {
     const normalized = (data?.results || [])
       .map((r: unknown) => normalizeCharterResult(r))
       .filter((r): r is NormalizedCharterResult => r !== null);
 
-    if (!jetSize) return normalized;
+    const filtered = jetSize
+      ? normalized.filter((r) =>
+          matchesSelectedSize(
+            {
+              category: r.aircraft_class,
+              aircraftType: r.aircraft_type,
+              size: getAircraftCategory(r.aircraft_type || ""),
+            },
+            jetSize
+          )
+        )
+      : normalized;
 
-    return normalized.filter((r) =>
-      matchesSelectedSize(
-        {
-          category: r.aircraft_class,
-          aircraftType: r.aircraft_type,
-          size: getAircraftCategory(r.aircraft_type || ""),
-        },
-        jetSize
-      )
-    );
-  }, [data, jetSize]);
+    if (sortBy === "price_asc") {
+      return [...filtered].sort((a, b) => {
+        const ap = a.price ?? Infinity;
+        const bp = b.price ?? Infinity;
+        return ap - bp;
+      });
+    }
+    if (sortBy === "price_desc") {
+      return [...filtered].sort((a, b) => {
+        const ap = a.price ?? -Infinity;
+        const bp = b.price ?? -Infinity;
+        return bp - ap;
+      });
+    }
+    if (sortBy === "pax_desc") {
+      return [...filtered].sort((a, b) => (b.max_passengers ?? 0) - (a.max_passengers ?? 0));
+    }
+    return filtered;
+  }, [data, jetSize, sortBy]);
 
   const hasResults = results.length > 0;
 
@@ -268,11 +288,38 @@ const SearchResults = () => {
             </motion.div>
           )}
 
-          {/* Results count */}
+          {/* Results count + sort controls */}
           {!isLoading && hasResults && (
-            <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="text-[12px] text-muted-foreground font-light mb-8">
-              {results.length} aircraft available for this route
-            </motion.p>
+            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="flex flex-wrap items-center justify-between gap-3 mb-8">
+              <p className="text-[12px] text-muted-foreground font-light">
+                {results.length} aircraft available for this route
+              </p>
+              <div className="flex items-center gap-2">
+                <SlidersHorizontal size={11} className="text-muted-foreground/50" />
+                <span className="text-[10px] tracking-[0.12em] uppercase text-muted-foreground/60 font-light">Sort by:</span>
+                {(["default", "price_asc", "price_desc", "pax_desc"] as const).map((opt) => {
+                  const labels: Record<typeof opt, string> = {
+                    default: "Relevance",
+                    price_asc: "Price ↑",
+                    price_desc: "Price ↓",
+                    pax_desc: "Capacity",
+                  };
+                  return (
+                    <button
+                      key={opt}
+                      onClick={() => setSortBy(opt)}
+                      className={`px-3 py-1 rounded-full text-[10px] tracking-[0.1em] uppercase font-light transition-colors border ${
+                        sortBy === opt
+                          ? "bg-primary text-primary-foreground border-primary"
+                          : "border-border text-muted-foreground hover:text-foreground hover:border-foreground/20"
+                      }`}
+                    >
+                      {labels[opt]}
+                    </button>
+                  );
+                })}
+              </div>
+            </motion.div>
           )}
 
           {/* Results grid */}
@@ -304,6 +351,9 @@ const SearchResults = () => {
                   speedKmh: result.speed_kmh,
                 });
 
+                // Availability: exact API price = confirmed availability; estimate = indicative
+                const isConfirmed = result.price_unit !== "estimate" && result.price != null && result.price > 0;
+
                 return (
                   <motion.div
                     key={`${result.id}-${i}`}
@@ -330,14 +380,23 @@ const SearchResults = () => {
                         </span>
                       </div>
 
-                      {/* Certified badge */}
-                      {(result as any).certified && (
-                        <div className="absolute top-4 right-4 z-10">
+                      {/* Availability + Certified badges */}
+                      <div className="absolute top-4 right-4 z-10 flex flex-col items-end gap-1.5">
+                        {isConfirmed ? (
+                          <span className="px-2.5 py-1 rounded-full text-[8px] tracking-[0.1em] uppercase font-medium bg-emerald-500/90 text-white flex items-center gap-1">
+                            ● Available
+                          </span>
+                        ) : (
+                          <span className="px-2.5 py-1 rounded-full text-[8px] tracking-[0.1em] uppercase font-medium bg-amber-500/80 text-white flex items-center gap-1">
+                            ◌ On Request
+                          </span>
+                        )}
+                        {(result as any).certified && (
                           <span className="px-2.5 py-1 rounded-full text-[8px] tracking-[0.1em] uppercase font-medium bg-primary/90 text-primary-foreground flex items-center gap-1">
                             <Shield size={8} /> Verified
                           </span>
-                        </div>
-                      )}
+                        )}
+                      </div>
 
                       {/* Aircraft name overlay */}
                       <div className="absolute bottom-4 left-4 right-4 z-10">
@@ -376,24 +435,24 @@ const SearchResults = () => {
                         </div>
                       </div>
 
-                      {/* Specs row */}
+                      {/* Specs row — display each spec when the value is available */}
                       <div className="flex flex-wrap gap-3 mb-4 text-[11px] text-muted-foreground font-light">
-                        {result.max_passengers && (
+                        {result.max_passengers != null && (
                           <span className="flex items-center gap-1.5">
                             <Users size={11} className="text-primary/60" /> {result.max_passengers} pax
                           </span>
                         )}
-                        {result.year_of_production && (
+                        {result.year_of_production != null && (
                           <span className="flex items-center gap-1.5">
                             <Calendar size={11} className="text-primary/60" /> {result.year_of_production}
                           </span>
                         )}
-                        {result.range_km && (
+                        {result.range_km != null && (
                           <span className="flex items-center gap-1.5">
                             <Ruler size={11} className="text-primary/60" /> {result.range_km.toLocaleString()} km
                           </span>
                         )}
-                        {result.speed_kmh && (
+                        {result.speed_kmh != null && (
                           <span className="flex items-center gap-1.5">
                             <Gauge size={11} className="text-primary/60" /> {result.speed_kmh.toLocaleString()} km/h
                           </span>
