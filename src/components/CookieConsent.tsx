@@ -15,8 +15,21 @@ const CookieConsent = () => {
     }
   }, []);
 
+  useEffect(() => {
+    const reopen = () => setVisible(true);
+    window.addEventListener("open-cookie-preferences", reopen);
+    return () => window.removeEventListener("open-cookie-preferences", reopen);
+  }, []);
+
   const accept = (value: string) => {
     localStorage.setItem(COOKIE_KEY, value);
+    const state = value === "all" ? "granted" : "denied";
+    (window as any).gtag?.("consent", "update", {
+      ad_storage: state,
+      ad_user_data: state,
+      ad_personalization: state,
+      analytics_storage: state,
+    });
     setVisible(false);
   };
 

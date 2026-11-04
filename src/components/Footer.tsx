@@ -169,6 +169,14 @@ const Footer = () => (
             </Link>
           </span>
         ))}
+        <span className="text-white/10">·</span>
+        <button
+          type="button"
+          onClick={() => window.dispatchEvent(new Event("open-cookie-preferences"))}
+          className="inline-block py-3 text-[10px] tracking-[0.2em] text-white/30 hover:text-white/60 transition-colors uppercase"
+        >
+          Cookie Preferences
+        </button>
       </div>
 
       <div className="w-16 h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />

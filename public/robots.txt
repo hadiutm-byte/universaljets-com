@@ -61,4 +61,4 @@ Disallow: /
 User-agent: Bytespider
 Disallow: /
 
-Sitemap: https://universaljets.com/sitemap-uj.xml
+Sitemap: https://universaljets.com/sitemap.xml
