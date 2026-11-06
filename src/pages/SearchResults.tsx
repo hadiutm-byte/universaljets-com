@@ -193,7 +193,7 @@ const SearchResults = () => {
             </button>
 
             <div className="mb-12">
-              <p className="text-[11px] tracking-[0.5em] uppercase text-primary mb-4 font-medium">Available Aircraft</p>
+              <p className="text-[11px] tracking-[0.5em] uppercase text-primary mb-4 font-medium">Aircraft Options</p>
               <h1 className="font-display text-2xl sm:text-3xl md:text-5xl font-semibold text-foreground leading-tight break-words">
                 {fromLabel} <span className="text-primary mx-1 sm:mx-3">→</span> {toLabel}
               </h1>
@@ -352,8 +352,9 @@ const SearchResults = () => {
                   allowClientEstimate: false,
                 });
 
-                // Availability: exact API price = confirmed availability; estimate = indicative
-                const isConfirmed = result.price_unit !== "estimate" && result.price != null && result.price > 0;
+                // A price in the feed is not a confirmation. Only an operator can confirm
+                // availability, and that happens after the client sends a request.
+                const hasOperatorPrice = result.price_unit !== "estimate" && result.price != null && result.price > 0;
 
                 return (
                   <motion.div
@@ -381,11 +382,11 @@ const SearchResults = () => {
                         </span>
                       </div>
 
-                      {/* Availability + Certified badges */}
+                      {/* Price status + Certified badges */}
                       <div className="absolute top-4 right-4 z-10 flex flex-col items-end gap-1.5">
-                        {isConfirmed ? (
-                          <span className="px-2.5 py-1 rounded-full text-[8px] tracking-[0.1em] uppercase font-medium bg-emerald-500/90 text-white flex items-center gap-1">
-                            ● Available
+                        {hasOperatorPrice ? (
+                          <span className="px-2.5 py-1 rounded-full text-[8px] tracking-[0.1em] uppercase font-medium bg-white/90 text-foreground flex items-center gap-1">
+                            Operator price on file
                           </span>
                         ) : (
                           <span className="px-2.5 py-1 rounded-full text-[8px] tracking-[0.1em] uppercase font-medium bg-amber-500/80 text-white flex items-center gap-1">
@@ -423,6 +424,11 @@ const SearchResults = () => {
                                 {pricing.source === "api_estimate"
                                   ? "API route estimate · Final quote on confirmation"
                                   : "Indicative estimate · Final quote on confirmation"}
+                              </p>
+                            )}
+                            {pricing.variant === "exact" && (
+                              <p className="text-[9px] text-muted-foreground/50 mt-1 font-light">
+                                Operator price on file · Availability confirmed on request
                               </p>
                             )}
                             {pricing.variant === "request" && (

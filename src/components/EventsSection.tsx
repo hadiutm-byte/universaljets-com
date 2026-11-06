@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import { Calendar, ArrowRight } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 import { FadeReveal, StaggerContainer, StaggerItem } from "./ui/ScrollEffects";
 
 import monacoGpImg from "@/assets/events/monaco-gp.jpg";
@@ -39,7 +40,9 @@ const events = [
 ];
 
 const EventsSection = () => {
-  const openRicky = () => document.dispatchEvent(new CustomEvent("open-ricky"));
+  // Ricky is switched off, so event cards lead to the flight request form.
+  const navigate = useNavigate();
+  const openRequest = () => navigate("/request-flight");
 
   return (
     <section className="section-padding relative">
@@ -61,7 +64,7 @@ const EventsSection = () => {
                 whileHover={{ scale: 1.03, y: -4 }}
                 transition={{ type: "spring", stiffness: 300, damping: 20 }}
                 className="relative rounded-2xl overflow-hidden aspect-[3/4] cursor-pointer group"
-                onClick={openRicky}
+                onClick={openRequest}
               >
                 {/* Background photo */}
                 <img

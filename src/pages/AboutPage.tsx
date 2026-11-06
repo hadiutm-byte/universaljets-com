@@ -29,6 +29,10 @@ const regions = [
   { name: "Africa", sub: "Cargo & Special Ops", primary: false },
 ];
 
+// Ricky is switched off in App.tsx. Keep the "Meet Ricky" section hidden until it is back,
+// so the page never promises a concierge that cannot open.
+const RICKY_ENABLED: boolean = false;
+
 const AboutPage = () => (
   <div className="min-h-screen bg-background relative">
     <SEOHead title="About Universal Jets — 18+ Years in Private Aviation" description="Discover Universal Jets: a Dubai-based private jet brokerage with 18+ years of experience, ARGUS and WYVERN certified, serving UHNW clients worldwide." path="/about" breadcrumbs={[{ name: "Home", path: "/" }, { name: "About", path: "/about" }]} />
@@ -75,18 +79,18 @@ const AboutPage = () => (
               transition={{ delay: 0.8 }}
               className="flex flex-wrap gap-4"
             >
-              <button
-                onClick={() => document.dispatchEvent(new CustomEvent("open-ricky"))}
+              <Link
+                to="/request-flight"
                 className="inline-flex items-center gap-3 px-10 py-4 bg-gradient-gold text-white text-[11px] tracking-[0.25em] uppercase font-medium rounded-xl hover:shadow-[0_0_40px_-10px_hsla(43,85%,58%,0.4)] transition-all duration-500"
               >
-                Start With Ricky <ArrowRight className="w-4 h-4" strokeWidth={1.5} />
-              </button>
-              <button
-                onClick={() => document.dispatchEvent(new CustomEvent("open-ricky-booking"))}
+                Request a Flight <ArrowRight className="w-4 h-4" strokeWidth={1.5} />
+              </Link>
+              <Link
+                to="/contact"
                 className="inline-flex items-center gap-3 px-10 py-4 border border-white/15 text-white/70 hover:text-white text-[11px] tracking-[0.25em] uppercase font-light rounded-xl transition-all duration-300"
               >
-                Request a Flight
-              </button>
+                Speak to an Advisor
+              </Link>
             </motion.div>
           </div>
         </div>
@@ -233,7 +237,8 @@ const AboutPage = () => (
         </div>
       </section>
 
-      {/* ===== RICKY SECTION ===== */}
+      {/* ===== RICKY SECTION — hidden while Ricky is disabled in App.tsx ===== */}
+      {RICKY_ENABLED && (
       <section className="section-white">
         <div className="container mx-auto px-6 py-24 md:py-32">
           <div className="max-w-5xl mx-auto grid lg:grid-cols-2 gap-16 items-center">
@@ -254,12 +259,12 @@ const AboutPage = () => (
                   </div>
                 ))}
               </div>
-              <button
-                onClick={() => document.dispatchEvent(new CustomEvent("open-ricky"))}
+              <Link
+                to="/request-flight"
                 className="inline-flex items-center gap-3 px-10 py-4 bg-gradient-gold text-white text-[11px] tracking-[0.25em] uppercase font-medium rounded-xl hover:shadow-[0_0_40px_-10px_hsla(43,85%,58%,0.4)] transition-all duration-500"
               >
-                Start With Ricky <ArrowRight className="w-4 h-4" strokeWidth={1.5} />
-              </button>
+                Request a Flight <ArrowRight className="w-4 h-4" strokeWidth={1.5} />
+              </Link>
             </FadeReveal>
             <FadeReveal delay={0.2} className="flex justify-center">
               <motion.div
@@ -273,6 +278,7 @@ const AboutPage = () => (
           </div>
         </div>
       </section>
+      )}
 
       {/* ===== GLOBAL PRESENCE ===== */}
       <section className="section-light">
@@ -313,14 +319,12 @@ const AboutPage = () => (
             </h2>
             <p className="text-[16px] text-white/50 font-light mb-12">Your journey deserves more.</p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-              <motion.button
-                whileHover={{ scale: 1.03 }}
-                whileTap={{ scale: 0.98 }}
-                onClick={() => document.dispatchEvent(new CustomEvent("open-ricky-booking"))}
-                className="inline-flex items-center gap-3 px-12 py-4 bg-gradient-gold text-white text-[12px] tracking-[0.25em] uppercase font-medium rounded-xl"
+              <Link
+                to="/request-flight"
+                className="inline-flex items-center gap-3 px-12 py-4 bg-gradient-gold text-white text-[12px] tracking-[0.25em] uppercase font-medium rounded-xl transition-transform duration-200 hover:scale-[1.03] active:scale-[0.98]"
               >
                 Request a Flight <ArrowRight className="w-4 h-4" strokeWidth={1.5} />
-              </motion.button>
+              </Link>
               <Link
                 to="/contact"
                 className="inline-flex items-center gap-3 px-10 py-4 border border-white/15 text-white/60 hover:text-white text-[12px] tracking-[0.25em] uppercase font-light rounded-xl transition-all duration-300"

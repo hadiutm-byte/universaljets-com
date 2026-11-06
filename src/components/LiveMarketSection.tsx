@@ -1,49 +1,43 @@
 import { motion } from "framer-motion";
-import { Plane, ArrowRight, Radio, AlertTriangle, Loader2 } from "lucide-react";
+import { Plane, ArrowRight, Loader2 } from "lucide-react";
 import { useEmptyLegs, type EmptyLeg } from "@/hooks/useAviapages";
 import { useMemo } from "react";
 import { FadeReveal, StaggerContainer, StaggerItem } from "./ui/ScrollEffects";
 
-const fallbackRoutes = [
-  { from: "Dubai", to: "London", status: "Available now", statusColor: "text-emerald-600", urgency: null },
-  { from: "Nice", to: "Ibiza", status: "Available now", statusColor: "text-emerald-600", urgency: "Limited availability" },
-  { from: "Riyadh", to: "Geneva", status: "Available now", statusColor: "text-emerald-600", urgency: null },
-  { from: "Paris", to: "Mykonos", status: "Available now", statusColor: "text-emerald-600", urgency: null },
-];
+// A listing in the feed is not a confirmation. Availability is confirmed by the
+// operator after a request, so every card carries the same honest status.
+const LISTED_STATUS = { status: "Listed · on request", statusColor: "text-muted-foreground" };
 
-function formatLegStatus(leg: EmptyLeg) {
-  const now = new Date();
-  const fromDate = new Date(leg.from_date);
-  const hoursUntil = (fromDate.getTime() - now.getTime()) / (1000 * 60 * 60);
+const DAY_MS = 24 * 60 * 60 * 1000;
 
-  if (hoursUntil < 0) return { status: "Available now", statusColor: "text-emerald-600", urgency: null };
-  if (hoursUntil < 24) return { status: "Departing today", statusColor: "text-primary", urgency: "Limited availability" };
-  if (hoursUntil < 72) return { status: "Available now", statusColor: "text-emerald-600", urgency: null };
-  return { status: "Available now", statusColor: "text-emerald-600", urgency: null };
+/** True when the leg's date is more than a day behind us. */
+function isPastLeg(leg: EmptyLeg) {
+  const time = new Date(leg.from_date).getTime();
+  return Number.isFinite(time) && time < Date.now() - DAY_MS;
 }
 
 const LiveMarketSection = () => {
   const { data, isLoading } = useEmptyLegs("All");
 
+  // No invented routes: when the feed is empty the section shows an empty state.
   const routes = useMemo(() => {
-    if (!data?.results?.length) return fallbackRoutes;
-    return data.results
-      .filter((leg: EmptyLeg) => leg.departure && leg.arrival)
+    const legs: EmptyLeg[] = data?.results ?? [];
+    return legs
+      .filter((leg: EmptyLeg) => leg.departure && leg.arrival && !isPastLeg(leg))
       .slice(0, 6)
       .map((leg: EmptyLeg) => {
-        const { status, statusColor, urgency } = formatLegStatus(leg);
         const from = leg.departure!.city || leg.departure!.name;
         const to = leg.arrival!.city || leg.arrival!.name;
         const aircraft = leg.aircraft_type;
         const price = leg.price;
         const currency = leg.currency || "USD";
         const pax = leg.aircraft_max_pax;
-        return { from, to, status, statusColor, urgency, aircraft, price, currency, pax };
+        return { from, to, ...LISTED_STATUS, aircraft, price, currency, pax };
       });
   }, [data]);
 
   const liveCount = data?.count || 0;
-  const availableNow = data?.results?.length || 0;
+  const shownCount = routes.length;
 
   return (
     <section className="relative py-20 md:py-28 overflow-hidden">
@@ -57,7 +51,7 @@ const LiveMarketSection = () => {
               className="w-2 h-2 rounded-full bg-emerald-500"
             />
             <p className="text-[9px] tracking-[0.5em] uppercase text-primary/60 font-light">
-              Live Market Intelligence
+              Empty Leg Listings
             </p>
           </div>
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-display font-semibold text-foreground mb-5 leading-tight">
@@ -65,12 +59,12 @@ const LiveMarketSection = () => {
             <span className="text-gradient-gold italic">Opportunities</span>
           </h2>
           <p className="text-[13px] md:text-[14px] text-muted-foreground font-light leading-[2] max-w-md mx-auto mb-2">
-            Real-time positioning flights and demand alerts — updated continuously.
+            Positioning flights listed by operators. Price and availability are confirmed on request.
           </p>
           <p className="text-[10px] text-muted-foreground/60 font-extralight tracking-wide">
             {liveCount > 0
-              ? `Live global availability: ${liveCount} empty legs · ${availableNow} shown`
-              : "Live global availability: updated continuously"}
+              ? `${liveCount} empty legs listed · ${shownCount} shown`
+              : "Listings update as operators publish them"}
           </p>
         </FadeReveal>
 
@@ -121,18 +115,6 @@ const LiveMarketSection = () => {
                         {String((route as any).aircraft)}{(route as any).pax ? ` · ${(route as any).pax} pax` : ""}
                       </p>
                     )}
-                    {route.urgency && (
-                      <div className="flex items-center gap-2">
-                        <AlertTriangle className="w-3 h-3 text-primary/50" strokeWidth={1.3} />
-                        <motion.p
-                          animate={{ opacity: [0.5, 1, 0.5] }}
-                          transition={{ duration: 3, repeat: Infinity }}
-                          className="text-[9px] tracking-[0.2em] uppercase text-primary/60 font-light"
-                        >
-                          {route.urgency}
-                        </motion.p>
-                      </div>
-                    )}
                   </div>
                 </motion.div>
               </StaggerItem>
@@ -140,29 +122,19 @@ const LiveMarketSection = () => {
           </StaggerContainer>
         )}
 
-        {/* Market alert */}
-        <FadeReveal delay={0.3}>
-          <div className="max-w-2xl mx-auto mt-5 rounded-xl glass-panel p-5 md:p-6 flex items-start gap-4">
-            <motion.div
-              animate={{ scale: [1, 1.15, 1] }}
-              transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
-              className="w-8 h-8 rounded-full border border-primary/15 bg-primary/5 flex items-center justify-center flex-shrink-0 mt-0.5"
-            >
-              <Radio className="w-3.5 h-3.5 text-primary/50" strokeWidth={1.3} />
-            </motion.div>
-            <div className="flex-1">
-              <p className="text-[9px] tracking-[0.3em] uppercase text-primary/50 font-light mb-2">
-                Market Alert
-              </p>
+        {/* Empty state — shown instead of placeholder routes */}
+        {!isLoading && routes.length === 0 && (
+          <FadeReveal delay={0.3}>
+            <div className="max-w-2xl mx-auto rounded-xl glass-panel p-5 md:p-6 text-center">
               <p className="text-[12px] text-foreground/60 font-light mb-1">
-                Monaco Grand Prix — high demand, limited availability.
+                No empty legs are listed right now.
               </p>
               <p className="text-[11px] text-muted-foreground font-extralight leading-[1.8]">
-                Early booking recommended to secure preferred aircraft.
+                Send us your route and we will tell you when a matching flight is published.
               </p>
             </div>
-          </div>
-        </FadeReveal>
+          </FadeReveal>
+        )}
 
         {/* CTA */}
         <FadeReveal delay={0.4} className="text-center pt-10">
