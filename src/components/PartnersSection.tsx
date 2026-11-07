@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { CreditCard, Crown, Globe, Star, Gift, ArrowRight, Gem, ShieldCheck, Layers, Handshake } from "lucide-react";
 import { FadeReveal } from "./ui/ScrollEffects";
+import { isVerified, availabilityPromise } from "@/lib/claims";
 
 const partnerLogos = [
   "Rolls-Royce", "Bombardier", "Gulfstream", "Embraer",
@@ -47,8 +48,8 @@ const partnerCards = [
     icon: Layers,
     tag: "Members",
     title: "Jet Card & Membership",
-    subtitle: "Guaranteed Access. Fixed Rates.",
-    desc: "Pre-purchased flight hours with guaranteed availability, fixed pricing, and priority positioning. The ultimate commitment to seamless private aviation.",
+    subtitle: isVerified("guaranteedAvailability") ? "Guaranteed Access. Fixed Rates." : "Priority Access. Fixed Rates.",
+    desc: `Pre-purchased flight hours with ${availabilityPromise().toLowerCase()}, fixed pricing, and priority positioning. The ultimate commitment to seamless private aviation.`,
     badges: [],
     featured: false,
     cta: "View Plans",

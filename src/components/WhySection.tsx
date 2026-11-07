@@ -1,8 +1,9 @@
 import { motion } from "framer-motion";
 import { XCircle, Globe, TrendingDown, Unlock } from "lucide-react";
+import { isVerified, FIGURES } from "@/lib/claims";
 
 const points = [
-  { icon: Globe, title: "Access the Entire Global Market", desc: "6,000+ aircraft across every category. We find the right jet for every mission, anywhere in the world." },
+  { icon: Globe, title: "Access the Entire Global Market", desc: `${isVerified("aircraftCount") ? `${FIGURES.aircraftCount} aircraft` : "Aircraft"} across every category. We find the right jet for every mission, anywhere in the world.` },
   { icon: TrendingDown, title: "Better Aircraft Positioning", desc: "We analyze repositioning routes and operator schedules to place the ideal aircraft closer to you — reducing cost and wait times." },
   { icon: Unlock, title: "Better Pricing Flexibility", desc: "By sourcing across multiple operators, we unlock competitive pricing, empty legs, and off-market deals others can't access." },
   { icon: XCircle, title: "No Fleet Limitations", desc: "Unlike operators tied to their own fleet, we source independently — matching the best aircraft to your mission, every time." },

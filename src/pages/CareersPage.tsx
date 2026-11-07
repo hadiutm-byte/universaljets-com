@@ -10,6 +10,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import SEOHead from "@/components/SEOHead";
 import careersHero from "@/assets/careers-hero.jpg";
+import { isVerified, countryReach, aircraftReach } from "@/lib/claims";
 
 /* ─── Types ─── */
 type Msg = { role: "user" | "assistant"; content: string };
@@ -34,9 +35,9 @@ const sectionFade = {
 /* ─── Content from live site ─── */
 const WHY_VALUES = [
   { icon: Heart, title: "Family First", desc: "We treat every team member like family. Your growth is our growth, your success is our success." },
-  { icon: Globe, title: "Global Reach", desc: "Work with clients and partners across 190+ countries. Your office is the world." },
+  { icon: Globe, title: "Global Reach", desc: `Work with clients and partners ${isVerified("countryCount") ? `across ${countryReach()}` : "around the world"}. Your office is the world.` },
   { icon: TrendingUp, title: "Unlimited Growth", desc: "No ceilings, no limits. We promote from within and invest in your professional development." },
-  { icon: Award, title: "Industry Leaders", desc: "ARGUS Registered, Wyvern Certified, DCAA Licensed. Join a company that sets the standard." },
+  { icon: Award, title: "Licensed and Accountable", desc: `${isVerified("argus") && isVerified("wyvern") ? "ARGUS Registered, Wyvern Certified, " : ""}DCAA Licensed. Join a company that holds itself to a high standard.` },
   { icon: Briefcase, title: "Rewarding Culture", desc: "Competitive compensation, performance bonuses, and the satisfaction of working in the world's most exciting industry." },
   { icon: Plane, title: "Aviation Passion", desc: "If you love aviation, you'll love working here. Every day brings new challenges and extraordinary experiences." },
 ];
@@ -44,7 +45,7 @@ const WHY_VALUES = [
 const PRINCIPLES = [
   { icon: Scale, title: "Anti-Corruption", desc: "Zero-tolerance policy towards bribery and corruption. We comply fully with UAE, UK, and US anti-corruption laws." },
   { icon: Leaf, title: "Environmental Responsibility", desc: "Carbon offset programmes, sustainable aviation fuel partnerships, and paperless operations for a greener future." },
-  { icon: HardHat, title: "Health & Safety", desc: "Non-negotiable safety standards — ARGUS Platinum, Wyvern Wingman, IS-BAO certified operators only." },
+  { icon: HardHat, title: "Health & Safety", desc: `Non-negotiable safety standards — ${isVerified("argus") && isVerified("wyvern") && isVerified("isbao") ? "ARGUS Platinum, Wyvern Wingman, IS-BAO certified operators only" : "every operator checked for an air operator certificate and insurance"}.` },
   { icon: BookOpen, title: "Ethical Business Practices", desc: "Fair pricing, transparent dealings, and client confidentiality upheld in every interaction." },
   { icon: FileCheck, title: "Regulatory Compliance", desc: "DCAA License #3342665, DIEZ License #50370, with full GCAA, GACA, EASA, and FAA compliance." },
   { icon: Shield, title: "Code of Ethics", desc: "Human rights, diversity, data privacy, whistleblower protections — our compass for every decision." },
@@ -213,7 +214,7 @@ const CareersPage = () => {
                     More Than a Workplace — <span className="text-primary italic">A Family</span>
                   </h2>
                   <p className="text-muted-foreground text-sm font-light max-w-2xl mx-auto leading-relaxed">
-                    Universal Jets Aviation Brokerage is Dubai's premier private aviation broker with access to over 50,000 aircraft worldwide. We serve high-net-worth individuals, corporations, governments, and NGOs across leisure, corporate, medical evacuation, cargo, ACMI leasing, and humanitarian missions. We're growing fast — and we want the right people beside us.
+                    Universal Jets Aviation Brokerage is a Dubai-based private aviation broker with access to {aircraftReach()}. We serve high-net-worth individuals, corporations, governments, and NGOs across leisure, corporate, medical evacuation, cargo, ACMI leasing, and humanitarian missions. We're growing fast — and we want the right people beside us.
                   </p>
                 </motion.div>
 

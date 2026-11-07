@@ -4,6 +4,7 @@ import { Plane, ArrowLeft } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import SEOHead from "@/components/SEOHead";
+import { isVerified, FIGURES } from "@/lib/claims";
 
 const charterData: Record<string, {
   title: string;
@@ -49,8 +50,8 @@ const charterData: Record<string, {
   },
   group: {
     title: "Group Charter",
-    headline: "50,000+ Passengers Across Six Continents.",
-    description: "Corporate delegations, sports teams, concert tours, religious pilgrimages. We've moved 50,000+ passengers across six continents — including FIFA World Cup 2022. We handle group logistics for 12 to 200+ passengers with coordinated scheduling, ground handling, and catering.",
+    headline: isVerified("groupPassengers") ? `${FIGURES.groupPassengers} Passengers Across Six Continents.` : "12 to 200+ Passengers. Six Continents.",
+    description: "Corporate delegations, sports teams, concert tours, religious pilgrimages." + (isVerified("groupPassengers") ? ` We've moved ${FIGURES.groupPassengers} passengers across six continents${isVerified("worldCup2022") ? " — including FIFA World Cup 2022" : ""}.` : "") + " We handle group logistics for 12 to 200+ passengers with coordinated scheduling, ground handling, and catering.",
     image: "https://d2xsxph8kpxj0f.cloudfront.net/310519663441238946/F94ypwks3ADk2wFrxZVnWB/group-charter-boarding_c6a14ad9.jpg",
     aircraft: ["Embraer Lineage 1000", "Boeing BBJ", "Airbus ACJ319", "Challenger 850"],
   },

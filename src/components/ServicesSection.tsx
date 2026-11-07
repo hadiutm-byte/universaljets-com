@@ -1,10 +1,11 @@
 import { Plane, CreditCard, Tag, Settings } from "lucide-react";
 import { Link } from "react-router-dom";
 import { FadeReveal, StaggerContainer, StaggerItem, GlassCard, FloatingElement } from "./ui/ScrollEffects";
+import { availabilityPromise } from "@/lib/claims";
 
 const services = [
   { icon: Plane, title: "Charter Flights", desc: "Any aircraft, anywhere, anytime. On-demand access to the global fleet.", link: "#cta" },
-  { icon: CreditCard, title: "Jet Card", desc: "Prepaid hours with fixed rates and guaranteed availability.", link: "/jet-card" },
+  { icon: CreditCard, title: "Jet Card", desc: `Prepaid hours with fixed rates and ${availabilityPromise().toLowerCase()}.`, link: "/jet-card" },
   { icon: Tag, title: "Empty Legs", desc: "Repositioning flights at up to 75% below standard charter rates.", link: "#cta" },
   { icon: Settings, title: "ACMI & Leasing", desc: "Wet leases, fleet replacement, and capacity solutions for airlines and governments.", link: "/acmi-leasing" },
 ];

@@ -13,6 +13,7 @@ import Footer from "@/components/Footer";
 import SEOHead from "@/components/SEOHead";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
+import { isVerified, FIGURES, aircraftReach } from "@/lib/claims";
 
 /* ─── Data ─── */
 
@@ -57,7 +58,7 @@ const coreCapabilities = [
 
 const operationalStrengths = [
   { icon: Zap, title: "Rapid Deployment", stat: "48h", desc: "Aircraft on station within 48–72 hours for urgent requirements. AOG replacement and emergency mobilization." },
-  { icon: Radar, title: "Global Sourcing Network", stat: "7,000+", desc: "Access to 7,000+ vetted aircraft worldwide through our operator network — narrow-body to wide-body." },
+  { icon: Radar, title: "Global Sourcing Network", stat: isVerified("aircraftCount") ? FIGURES.aircraftCount : "Worldwide", desc: `Access to ${aircraftReach()} through our operator network — narrow-body to wide-body.` },
   { icon: Target, title: "Aircraft Flexibility", stat: "All Types", desc: "From turboprops to B777s. VIP configuration, cargo, combi, and special mission aircraft available." },
   { icon: ShieldCheck, title: "Regulatory Compliance", stat: "100%", desc: "AOC structuring, overflight permits, slot coordination, and full regulatory awareness across jurisdictions." },
   { icon: Navigation, title: "Complex Routing", stat: "Global", desc: "Multi-sector missions, positioning flights, technical stops, and ETOPS routing planned and executed." },
@@ -76,8 +77,8 @@ const useCases = [
 ];
 
 const trustSignals = [
-  "ARGUS Registered Broker",
-  "WYVERN Certified Network",
+  ...(isVerified("argus") ? ["ARGUS Registered Broker"] : []),
+  ...(isVerified("wyvern") ? ["WYVERN Certified Network"] : []),
   "ICAO Compliant Operations",
   "Global AOC Structuring",
   "24/7 Operations Desk",

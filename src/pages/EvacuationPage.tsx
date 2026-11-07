@@ -14,6 +14,7 @@ import SEOHead from "@/components/SEOHead";
 import JsonLd, { breadcrumbSchema } from "@/components/JsonLd";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
+import { isVerified, FIGURES } from "@/lib/claims";
 
 /* ─── Data ─── */
 
@@ -61,7 +62,7 @@ const operationalStrengths = [
   { icon: Radio, title: "24/7 Crisis Desk", stat: "Always On", desc: "Dedicated crisis operations team with direct lines to security firms, embassies, and ground handlers in conflict zones." },
   { icon: Navigation, title: "Complex Routing", stat: "Global", desc: "NOTAM monitoring, restricted airspace navigation, alternate airport planning, and fuel contingency for denied diversion zones." },
   { icon: ShieldCheck, title: "Security Coordination", stat: "End-to-End", desc: "Integration with private security contractors, armored ground transport, secure assembly points, and protected embarkation." },
-  { icon: MapPin, title: "Regional Expertise", stat: "190+", desc: "Deep operational knowledge across Middle East, Africa, Central Asia, and Eastern Europe. Established handler networks in austere locations." },
+  { icon: MapPin, title: "Regional Expertise", stat: isVerified("countryCount") ? FIGURES.countryCount : "Global", desc: "Deep operational knowledge across Middle East, Africa, Central Asia, and Eastern Europe. Established handler networks in austere locations." },
   { icon: Plane, title: "Aircraft Flexibility", stat: "All Types", desc: "From light jets for small-team extractions to wide-body aircraft for mass evacuations. Cargo-configured options for asset recovery." },
 ];
 
@@ -75,11 +76,11 @@ const scenarios = [
 ];
 
 const trustSignals = [
-  "ARGUS Registered Broker",
+  ...(isVerified("argus") ? ["ARGUS Registered Broker"] : []),
   "Conflict Zone Experience",
   "Global Security Network",
   "24/7 Crisis Operations",
-  "190+ Country Reach",
+  ...(isVerified("countryCount") ? [`${FIGURES.countryCount} Country Reach`] : []),
   "DCAA License No. 3342665",
 ];
 

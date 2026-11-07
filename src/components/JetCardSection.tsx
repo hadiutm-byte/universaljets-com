@@ -3,10 +3,11 @@ import { CreditCard, Clock, Lock, Repeat, Globe, Shield, ArrowRight } from "luci
 import { FadeReveal, GlassCard } from "./ui/ScrollEffects";
 import { Link } from "react-router-dom";
 import { Button } from "./ui/button";
+import { availabilityPromise } from "@/lib/claims";
 
 const pillars = [
   { icon: Lock, title: "Rates Locked at Purchase" },
-  { icon: Clock, title: "Guaranteed Availability" },
+  { icon: Clock, title: availabilityPromise() },
   { icon: Repeat, title: "Hours Carry Forward" },
   { icon: Globe, title: "Any Aircraft Class" },
 ];

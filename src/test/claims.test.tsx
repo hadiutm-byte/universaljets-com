@@ -1,0 +1,111 @@
+import { describe, it, expect } from "vitest";
+import { render } from "@testing-library/react";
+import { MemoryRouter } from "react-router-dom";
+import fs from "fs";
+import path from "path";
+import {
+  CLAIMS,
+  FIGURES,
+  aircraftReach,
+  availabilityPromise,
+  countryReach,
+  isVerified,
+  onlyVerified,
+  vettingPhrase,
+  yearsPhrase,
+} from "@/lib/claims";
+import PressStrip from "@/components/PressStrip";
+import TestimonialsSection from "@/components/TestimonialsSection";
+import CertificationBadges from "@/components/CertificationBadges";
+
+const SRC = path.resolve(__dirname, "..");
+
+function publicSourceFiles(dir: string): string[] {
+  return fs.readdirSync(dir, { withFileTypes: true }).flatMap((entry) => {
+    const full = path.join(dir, entry.name);
+    if (entry.isDirectory()) {
+      // Staff screens and tests may name accreditations freely.
+      if (["test", "crm", "integrations"].includes(entry.name)) return [];
+      return publicSourceFiles(full);
+    }
+    return /\.(ts|tsx)$/.test(entry.name) ? [full] : [];
+  });
+}
+
+describe("proof switch", () => {
+  it("ships with every unproven claim switched off", () => {
+    // Flip a claim to true only with proof in hand; this test then needs updating on purpose.
+    for (const [key, claim] of Object.entries(CLAIMS)) {
+      expect(claim.verified, `${key} switched on without updating this test`).toBe(false);
+      expect(claim.proof.length).toBeGreaterThan(0);
+    }
+  });
+
+  it("falls back to figure-free wording while unverified", () => {
+    expect(aircraftReach()).toBe("a worldwide network of vetted aircraft");
+    expect(countryReach()).toBe("worldwide");
+    expect(yearsPhrase()).toBeNull();
+    expect(vettingPhrase()).not.toMatch(/ARGUS|WYVERN/);
+    expect(availabilityPromise()).not.toMatch(/guarantee/i);
+  });
+
+  it("keeps items without a claim and drops unverified ones", () => {
+    const items = onlyVerified([
+      { label: "DCAA" },
+      { label: "ARGUS", claim: "argus" as const },
+      { label: "Countries", claim: "countryCount" as const },
+    ]);
+    expect(items.map((i) => i.label)).toEqual(["DCAA"]);
+    expect(isVerified("argus")).toBe(false);
+  });
+
+  it("holds each figure in exactly one place", () => {
+    const figures = Object.values(FIGURES);
+    const literal = /(?<![\d,$])(?:[56]0,000\+|[67],000\+|1[69]0\+|18\+ ?[Yy]ears)(?!\d)/;
+    const offenders: string[] = [];
+    for (const file of publicSourceFiles(SRC)) {
+      if (file.endsWith(path.join("lib", "claims.ts"))) continue;
+      fs.readFileSync(file, "utf8")
+        .split("\n")
+        .forEach((line, i) => {
+          if (literal.test(line)) offenders.push(`${path.relative(SRC, file)}:${i + 1}`);
+        });
+    }
+    expect(figures.length).toBeGreaterThan(0);
+    expect(offenders, "use FIGURES / helpers from @/lib/claims instead").toEqual([]);
+  });
+
+  it("never names an accreditation, press outlet or guarantee outside a proof check", () => {
+    const named = /\b(ARGUS|WYVERN|Wyvern|IS-BAO|Since 2006|FIFA World Cup|[Gg]uaranteed [Aa]vailability|[Gg]uaranteed [Aa]ccess)\b/;
+    const offenders: string[] = [];
+    for (const file of publicSourceFiles(SRC)) {
+      if (file.endsWith(path.join("lib", "claims.ts"))) continue;
+      fs.readFileSync(file, "utf8")
+        .split("\n")
+        .forEach((line, i) => {
+          if (named.test(line) && !/isVerified\(|claim: "/.test(line)) {
+            offenders.push(`${path.relative(SRC, file)}:${i + 1}`);
+          }
+        });
+    }
+    expect(offenders).toEqual([]);
+  });
+});
+
+describe("gated sections render nothing until proven", () => {
+  it("hides the press strip and named testimonials", () => {
+    expect(render(<PressStrip />).container.innerHTML).toBe("");
+    expect(render(<TestimonialsSection />).container.innerHTML).toBe("");
+  });
+
+  it("shows licences, not unproven accreditations, in the compliance badges", () => {
+    const { container } = render(
+      <MemoryRouter>
+        <CertificationBadges />
+      </MemoryRouter>,
+    );
+    const text = container.textContent ?? "";
+    expect(text).toContain("DCAA Licensed");
+    expect(text).not.toMatch(/ARGUS|WYVERN|IS-BAO|190\+/);
+  });
+});

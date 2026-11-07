@@ -8,6 +8,7 @@ import corporateImg from "@/assets/charter/corporate-charter.jpg";
 import medevacImg from "@/assets/charter/medevac-charter.jpg";
 import cargoImg from "@/assets/charter/cargo-charter.jpg";
 import groupImg from "@/assets/charter/group-charter.jpg";
+import { aircraftReach, yearsPhrase, isVerified, FIGURES, vettingPhrase } from "@/lib/claims";
 
 interface CharterCategory {
   title: string;
@@ -26,12 +27,12 @@ const charterCategories: CharterCategory[] = [
     slug: "leisure",
     image: leisureImg,
     justification:
-      "Operators sell their own fleet — we source from 7,000+ aircraft globally to find the right jet at the right price for your trip. That means better availability, better positioning, and no hidden fees from fleet-tied operators trying to fill their own planes.",
+      `Operators sell their own fleet — we source from ${aircraftReach()} to find the right jet at the right price for your trip. That means better availability, better positioning, and no hidden fees from fleet-tied operators trying to fill their own planes.`,
     differentiators: [
       "Access every aircraft on the market, not just one fleet",
       "Competitive pricing through multi-operator sourcing",
       "24/7 concierge for dining, hotels, and ground transport",
-      "18+ years arranging leisure charters worldwide",
+      ...(yearsPhrase() ? [`${yearsPhrase()} arranging leisure charters worldwide`] : []),
     ],
     aircraft: [
       { name: "Bombardier Challenger 350", link: "/fleet" },
@@ -121,10 +122,10 @@ const charterCategories: CharterCategory[] = [
     slug: "group",
     image: groupImg,
     justification:
-      "Airlines sell seats — we sell solutions. Sports teams, corporate delegations, concert tours, and pilgrimages require coordinated scheduling, ground handling, and catering that commercial carriers can't customize. We've moved 50,000+ passengers including FIFA World Cup 2022.",
+      "Airlines sell seats — we sell solutions. Sports teams, corporate delegations, concert tours, and pilgrimages require coordinated scheduling, ground handling, and catering that commercial carriers can't customize." + (isVerified("groupPassengers") ? ` We've moved ${FIGURES.groupPassengers} passengers${isVerified("worldCup2022") ? " including FIFA World Cup 2022" : ""}.` : ""),
     differentiators: [
-      "50,000+ group passengers moved globally",
-      "FIFA World Cup 2022 logistics partner",
+      ...(isVerified("groupPassengers") ? [`${FIGURES.groupPassengers} group passengers moved globally`] : []),
+      ...(isVerified("worldCup2022") ? ["FIFA World Cup 2022 logistics partner"] : []),
       "Full ground handling and catering coordination",
       "VIP airliners configured for team and group travel",
     ],
@@ -394,8 +395,8 @@ const CharterSolutionsSection = () => {
             Global Access. Uncompromised.
           </h3>
           <p className="text-muted-foreground text-base md:text-lg leading-relaxed mb-8">
-            Universal Jets sources from 7,000+ vetted aircraft across six continents — every operator
-            verified through ARGUS and Wyvern before they reach your itinerary.
+            Universal Jets sources from {aircraftReach()} across six continents — every operator
+            {vettingPhrase()} before they reach your itinerary.
           </p>
           <Link
             to="/request-flight"

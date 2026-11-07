@@ -22,6 +22,7 @@ import {
   formatDistance,
 } from "@/lib/pricingEstimates";
 import SEOHead from "@/components/SEOHead";
+import { isVerified } from "@/lib/claims";
 
 const getSupabaseUrl = () => import.meta.env.VITE_SUPABASE_URL;
 const getAnonKey = () => import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY;
@@ -511,7 +512,7 @@ const SearchResults = () => {
                           </div>
                           <div>
                             <p className="text-[11px] text-foreground font-medium">Verified Operator</p>
-                            <p className="text-[9px] text-muted-foreground font-light">ARGUS / WYVERN certified</p>
+                            <p className="text-[9px] text-muted-foreground font-light">{isVerified("argus") && isVerified("wyvern") ? "ARGUS / WYVERN certified" : "AOC and insurance checked"}</p>
                           </div>
                         </div>
                       )}

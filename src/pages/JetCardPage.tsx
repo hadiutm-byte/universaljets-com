@@ -7,6 +7,7 @@ import Footer from "@/components/Footer";
 import SEOHead from "@/components/SEOHead";
 import JsonLd from "@/components/JsonLd";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+import { isVerified, FIGURES, countryReach, vettingPhrase, availabilityPromise } from "@/lib/claims";
 
 const keyFeatures = [
   "Rates locked at purchase",
@@ -21,7 +22,7 @@ const keyFeatures = [
 
 const advantages = [
   { icon: Lock, title: "Rates Locked at Purchase", desc: "Your hourly rate is fixed the moment you purchase — no market fluctuations, no surprises." },
-  { icon: Clock, title: "Guaranteed Availability", desc: "Aircraft confirmed even on short notice. Your schedule is never compromised." },
+  { icon: Clock, title: availabilityPromise(), desc: isVerified("guaranteedAvailability") ? "Aircraft confirmed even on short notice. Your schedule is never compromised." : "Your requests go to the front of our sourcing queue, including at short notice." },
   { icon: Repeat, title: "Hours Carry Forward", desc: "Unused hours roll over. Your investment is protected and never wasted." },
   { icon: Globe, title: "Any Aircraft Class", desc: "From very light jets to ultra long range — your card works across the entire global fleet." },
   { icon: HeartHandshake, title: "Full Concierge Included", desc: "Ground transport, catering, hotels, and lifestyle services included with every flight." },
@@ -29,7 +30,7 @@ const advantages = [
 ];
 
 const whyChoose = [
-  { icon: Shield, title: "Safety Certified", desc: "Every operator vetted through ARGUS and WYVERN standards." },
+  { icon: Shield, title: "Vetted Operators", desc: `Every operator ${vettingPhrase()}.` },
   { icon: Zap, title: "Rapid Response", desc: "Aircraft confirmed within hours, not days. Priority positioning." },
   { icon: Star, title: "Transparent Pricing", desc: "No hidden fees, no surprises. What you see is what you pay." },
   { icon: Users, title: "Dedicated Team", desc: "Personal aviation advisor for all your jet card needs." },
@@ -39,18 +40,18 @@ const faqs = [
   { q: "How do I purchase a Jet Card?", a: "Complete the inquiry form and our team will prepare a tailored proposal based on your flying patterns, preferred aircraft category, and estimated annual usage. Cards are activated upon payment." },
   { q: "What aircraft can I access?", a: "Your Altus Jet Card provides access to the full range of aircraft classes — from very light jets to ultra long range. There are no fleet restrictions." },
   { q: "Do unused hours expire?", a: "No. Unused hours carry forward and never expire. Your investment is fully protected." },
-  { q: "Can I use the card for international flights?", a: "Yes. The Altus Jet Card Global provides worldwide coverage across 160+ countries. All positioning, permits, and handling are managed end-to-end." },
+  { q: "Can I use the card for international flights?", a: `Yes. The Altus Jet Card Global provides worldwide coverage${isVerified("countryCount") ? ` across ${countryReach()}` : ""}. All positioning, permits, and handling are managed end-to-end.` },
   { q: "How is the Jet Card different from Membership?", a: "The Jet Card is a prepaid hour balance with locked-in rates and no recurring fees. Membership is a monthly subscription that provides priority access, exclusive rates, and concierge support. Both include full concierge services." },
 ];
 
 const JetCardPage = () => (
   <div className="min-h-screen bg-background">
-    <SEOHead title="Altus Jet Card — Fixed Rates" description="Purchase private jet flight hours at locked-in rates. No membership fees, no hidden costs. Guaranteed availability with hours that carry forward." path="/jet-card" breadcrumbs={[{ name: "Home", path: "/" }, { name: "Jet Card", path: "/jet-card" }]} />
+    <SEOHead title="Altus Jet Card — Fixed Rates" description={`Purchase private jet flight hours at locked-in rates. No membership fees, no hidden costs. ${availabilityPromise()} with hours that carry forward.`} path="/jet-card" breadcrumbs={[{ name: "Home", path: "/" }, { name: "Jet Card", path: "/jet-card" }]} />
     <JsonLd data={{
       "@context": "https://schema.org",
       "@type": "Product",
       name: "Altus Jet Card",
-      description: "Prepaid private jet flight hours at locked-in rates. Zero hidden fees, guaranteed availability, hours carry forward.",
+      description: `Prepaid private jet flight hours at locked-in rates. Zero hidden fees, ${availabilityPromise().toLowerCase()}, hours carry forward.`,
       brand: { "@type": "Organization", name: "Universal Jets" },
       url: "https://universaljets.com/jet-card",
       category: "Private Aviation",
@@ -110,7 +111,7 @@ const JetCardPage = () => (
     <section className="py-5 border-y border-border bg-muted/30">
       <div className="container mx-auto px-8">
         <div className="flex flex-wrap justify-center items-center gap-x-8 gap-y-2">
-          {["Fixed rates", "Zero hidden fees", "Hours carry forward", "Any aircraft class", "Global coverage", "160+ countries"].map((s, i) => (
+          {["Fixed rates", "Zero hidden fees", "Hours carry forward", "Any aircraft class", "Global coverage", ...(isVerified("countryCount") ? [countryReach()] : [])].map((s, i) => (
             <div key={i} className="flex items-center gap-1.5">
               <Check className="w-3 h-3 text-primary" strokeWidth={2} />
               <span className="text-[8px] tracking-[0.15em] uppercase text-muted-foreground font-light whitespace-nowrap">{s}</span>
@@ -197,7 +198,11 @@ const JetCardPage = () => (
             We source the best aircraft globally for every mission.
           </p>
           <p className="text-[10px] tracking-[0.15em] text-muted-foreground font-light">
-            7,000+ vetted aircraft • ARGUS/WYVERN certified • 160+ countries
+            {[
+              isVerified("aircraftCount") ? `${FIGURES.aircraftCount} vetted aircraft` : "Vetted operators",
+              isVerified("argus") && isVerified("wyvern") ? "ARGUS/WYVERN certified" : null,
+              isVerified("countryCount") ? countryReach() : "Worldwide",
+            ].filter(Boolean).join(" • ")}
           </p>
         </motion.div>
       </div>

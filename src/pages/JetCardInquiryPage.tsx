@@ -13,6 +13,7 @@ import {
   PremiumInput, PremiumSelect, PremiumTextarea,
   FormSection, LegalConsent, ConfidentialityNotice,
 } from "@/components/forms/PremiumFormComponents";
+import { isVerified, FIGURES, countryReach } from "@/lib/claims";
 
 const benefits = [
   { icon: Lock, text: "Rates locked at purchase" },
@@ -119,7 +120,11 @@ const JetCardInquiryPage = () => {
 
                     <div className="pt-6 border-t border-border">
                       <p className="text-[11px] text-muted-foreground/60 font-light leading-[1.8]">
-                        7,000+ vetted aircraft • ARGUS/WYVERN certified • 160+ countries
+                        {[
+                          isVerified("aircraftCount") ? `${FIGURES.aircraftCount} vetted aircraft` : "Vetted operators",
+                          isVerified("argus") && isVerified("wyvern") ? "ARGUS/WYVERN certified" : null,
+                          isVerified("countryCount") ? countryReach() : "Worldwide",
+                        ].filter(Boolean).join(" • ")}
                       </p>
                     </div>
                   </motion.div>

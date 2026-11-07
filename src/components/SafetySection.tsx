@@ -1,12 +1,13 @@
 import { motion } from "framer-motion";
 import { ShieldCheck } from "lucide-react";
 import { FadeReveal, StaggerContainer, StaggerItem, GlassCard, FloatingElement } from "./ui/ScrollEffects";
+import { onlyVerified } from "@/lib/claims";
 
-const certifications = [
-  { name: "WYVERN", sub: "Wingman Certified" },
-  { name: "ARGUS", sub: "Platinum / Gold Rated" },
+const certifications = onlyVerified([
+  { name: "WYVERN", sub: "Wingman Certified", claim: "wyvern" as const },
+  { name: "ARGUS", sub: "Platinum / Gold Rated", claim: "argus" as const },
   { name: "ICAO", sub: "Compliant Operators" },
-];
+]);
 
 const SafetySection = () => (
   <section id="safety" className="section-padding relative overflow-hidden">
@@ -23,7 +24,7 @@ const SafetySection = () => (
         </h2>
       </FadeReveal>
 
-      <StaggerContainer className="max-w-lg mx-auto grid grid-cols-3 gap-4 mb-14">
+      <StaggerContainer className="max-w-lg mx-auto grid grid-cols-[repeat(auto-fit,minmax(0,1fr))] gap-4 mb-14">
         {certifications.map((cert, i) => (
           <StaggerItem key={cert.name}>
             <GlassCard breathe className="py-8 px-4 text-center h-full">
