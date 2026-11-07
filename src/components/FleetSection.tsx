@@ -45,7 +45,7 @@ const FleetSection = () => {
             The Right Aircraft, <span className="text-gradient-gold italic">Worldwide</span>
           </h2>
           <p className="text-[14px] md:text-[15px] text-muted-foreground font-light leading-[1.9] max-w-xl mx-auto">
-            From light jets to ultra long-range aircraft, we work with vetted operators across Europe, the Middle East, the United States, and beyond.
+            From light jets to ultra long-range aircraft, we work with licensed operators across Europe, the Middle East, the United States, and beyond.
           </p>
         </motion.div>
 
