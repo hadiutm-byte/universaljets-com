@@ -44,9 +44,9 @@ const QuickOption = ({ icon: Icon, label, onClick }: { icon: any; label: string;
 const authorityItems = onlyVerified([
   { icon: Clock, text: `${FIGURES.yearsInBusiness} Years Experience`, claim: "yearsInBusiness" as const },
   { icon: MapPin, text: "Dubai-Based Advisory Team" },
-  { icon: Globe, text: "Global Aircraft Network" },
+  { icon: Globe, text: "Global Aircraft Network", claim: "aircraftCount" as const },
   { icon: Headphones, text: "24/7 Availability" },
-  { icon: Users, text: "Trusted by UHNW Clients" },
+  { icon: Users, text: "Trusted by UHNW Clients", claim: "testimonials" as const },
 ]).slice(0, 4);
 
 /* ─── What Happens Next steps ─── */

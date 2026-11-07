@@ -12,7 +12,7 @@ const services = [
     icon: Car,
     title: "Luxury Ground Transport",
     desc: "Chauffeured vehicles, supercars, and armoured transfers arranged at every destination. Seamless tarmac-to-destination connectivity.",
-    details: ["Rolls-Royce & Maybach chauffeurs", "Helicopter transfers", "Armoured security vehicles", "Multi-city logistics"],
+    details: ["Chauffeured luxury car service", "Helicopter transfers", "Armoured security vehicles", "Multi-city logistics"],
   },
   {
     icon: Briefcase,
@@ -23,14 +23,14 @@ const services = [
   {
     icon: Hotel,
     title: "Hotels & Residences",
-    desc: "Preferred access to the world's finest properties. Suite upgrades, late checkouts, and exclusive rates through our network.",
+    desc: "Hotel and property arrangements coordinated for each stay, including suites and late checkouts on request.",
     details: ["Palace-level properties", "Private villa arrangements", "Yacht & estate coordination", "Extended stay management"],
   },
   {
     icon: Wine,
     title: "Lifestyle & Events",
-    desc: "From Monaco Grand Prix to Art Basel — exclusive event access, private dining, and curated experiences at every destination.",
-    details: ["Exclusive event access", "Private dining reservations", "Cultural & art experiences", "Bespoke itinerary design"],
+    desc: "From Monaco Grand Prix to Art Basel — event access, private dining, and curated experiences arranged on request.",
+    details: ["Event access on request", "Private dining reservations", "Cultural & art experiences", "Bespoke itinerary design"],
   },
   {
     icon: Heart,

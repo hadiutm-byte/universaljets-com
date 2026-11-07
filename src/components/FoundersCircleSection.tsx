@@ -8,7 +8,7 @@ import { LegalConsent, PremiumSubmitButton, ConfidentialityNotice } from "@/comp
 import { availabilityPromise } from "@/lib/claims";
 
 const benefits = [
-  { icon: Plane, text: "Priority aircraft access worldwide" },
+  { icon: Plane, text: "Access to our aircraft network" },
   { icon: UserCheck, text: "Dedicated aviation advisor" },
   { icon: TrendingDown, text: "Preferential pricing across global operators" },
   { icon: Tag, text: "Access to exclusive empty legs and off-market flights" },
@@ -30,7 +30,7 @@ const membershipTiers = [
   {
     name: "Private Access",
     tagline: "Digital Membership",
-    desc: "Priority access, preferential rates, and a dedicated aviation advisor.",
+    desc: "Membership terms set out in writing, and a dedicated aviation advisor.",
     features: ["Dedicated advisor", "Preferential pricing", "Priority booking", "Exclusive empty legs", "Member privileges"],
     accent: true,
   },

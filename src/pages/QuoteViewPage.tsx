@@ -133,7 +133,7 @@ const QuoteViewPage = () => {
           <div className="p-8">
             <div className="flex items-center gap-2 mb-4">
               <Shield size={12} className="text-[#A8850F]" />
-              <span className="text-[9px] tracking-[0.3em] uppercase text-[#A8850F] font-medium">Verified Aircraft</span>
+              <span className="text-[9px] tracking-[0.3em] uppercase text-[#A8850F] font-medium">Aircraft for your trip</span>
             </div>
             <h2 className="text-2xl font-serif text-[#1a1a1a] mb-4">{aircraftName}</h2>
             {category && (

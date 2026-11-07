@@ -13,7 +13,7 @@ import {
 } from "@/components/forms/PremiumFormComponents";
 
 const benefits = [
-  { icon: Plane, text: "Priority aircraft access worldwide" },
+  { icon: Plane, text: "Access to our aircraft network" },
   { icon: UserCheck, text: "Dedicated aviation advisor" },
   { icon: Tag, text: "Exclusive empty leg opportunities" },
   { icon: Sparkles, text: "Preferential market pricing" },

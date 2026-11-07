@@ -27,7 +27,8 @@ export type ClaimKey =
   | "worldCup2022"
   | "guaranteedAvailability"
   | "partnerBrands"
-  | "cobrandCards";
+  | "cobrandCards"
+  | "membershipTerms";
 
 interface Claim {
   verified: boolean;
@@ -48,6 +49,7 @@ export const CLAIMS: Record<ClaimKey, Claim> = {
   worldCup2022: { verified: false, proof: "Contract or reference for FIFA World Cup 2022 movements" },
   guaranteedAvailability: { verified: false, proof: "Approved Jet Card terms that guarantee availability" },
   partnerBrands: { verified: false, proof: "A signed partner agreement or written permission for every brand, hotel, dealer or benefit named on any page (footer, homepage, /partners, member benefit lists)" },
+  membershipTerms: { verified: false, proof: "Owner-approved membership terms: notice periods, request limits, coverage, support levels, overage fees, cancellation and rate locks" },
   cobrandCards: { verified: false, proof: "A signed card-issuer agreement for each network named (Visa, Mastercard, Amex)" },
 };
 
@@ -85,8 +87,8 @@ export const yearsPhrase = (): string | null =>
 export const vettingSentence = (): string =>
   isVerified("argus") && isVerified("wyvern")
     ? "Every operator is verified through ARGUS and WYVERN before it reaches your itinerary."
-    : "Flights are flown only by operators holding a valid Air Operator Certificate.";
+    : "We arrange every flight with a third-party operator.";
 
 /** Jet Card availability wording. */
 export const availabilityPromise = (): string =>
-  isVerified("guaranteedAvailability") ? "Guaranteed availability" : "Priority aircraft sourcing";
+  isVerified("guaranteedAvailability") ? "Guaranteed availability" : "Aircraft sourced for each trip";

@@ -184,7 +184,7 @@ const AboutPage = () => (
                   Today, the aviation industry stands at a pivotal moment. Global commerce is accelerating. High-net-worth individuals demand unprecedented flexibility. Governments and humanitarian organizations require rapid-response capabilities. Dubai, at the crossroads of East and West, is the epicenter of this transformation. Universal Jets was built precisely for this moment.
                 </p>
                 <p>
-                  We don't just book flights. We execute missions. From evacuating critically ill patients in conflict zones, to transporting dangerous goods with full regulatory compliance, to coordinating multi-leg government cargo operations, to delivering humanitarian aid where others cannot reach, we operate at the highest level every single day.
+                  We don't just book flights. We execute missions. From evacuating critically ill patients in conflict zones, to transporting dangerous goods, to coordinating multi-leg government cargo operations, to delivering humanitarian aid where others cannot reach, we operate at the highest level every single day.
                 </p>
                 <p>
                   Alongside these critical operations, we deliver the refined leisure and corporate charter experiences our clients expect, with identical precision, care, and excellence. With access to {aircraftReach()}, operations {isVerified("countryCount") ? `across ${countryReach()}` : "worldwide"}, and 24/7 control from Dubai and London, we hold ourselves to a global standard for private aviation brokerage.

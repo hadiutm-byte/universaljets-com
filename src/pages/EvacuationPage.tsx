@@ -58,11 +58,11 @@ const capabilities = [
 ];
 
 const operationalStrengths = [
-  { icon: Zap, title: "Rapid Mobilization", stat: "4–12h", desc: "Aircraft positioned and crew briefed within hours of activation. Pre-planned contingency routes for high-risk regions." },
+  { icon: Zap, title: "Rapid Mobilization", stat: "On activation", desc: "Aircraft and crews planned for each activation. Pre-planned contingency routes for high-risk regions." },
   { icon: Radio, title: "24/7 Crisis Desk", stat: "Always On", desc: "Dedicated crisis operations team with direct lines to security firms, embassies, and ground handlers in conflict zones." },
   { icon: Navigation, title: "Complex Routing", stat: "Global", desc: "NOTAM monitoring, restricted airspace navigation, alternate airport planning, and fuel contingency for denied diversion zones." },
   { icon: ShieldCheck, title: "Security Coordination", stat: "End-to-End", desc: "Integration with private security contractors, armored ground transport, secure assembly points, and protected embarkation." },
-  { icon: MapPin, title: "Regional Expertise", stat: isVerified("countryCount") ? FIGURES.countryCount : "Global", desc: "Deep operational knowledge across Middle East, Africa, Central Asia, and Eastern Europe. Established handler networks in austere locations." },
+  { icon: MapPin, title: "Regional Expertise", stat: isVerified("countryCount") ? FIGURES.countryCount : "Regional", desc: "Operational planning across the Middle East, Africa, Central Asia, and Eastern Europe." },
   { icon: Plane, title: "Aircraft Flexibility", stat: "All Types", desc: "From light jets for small-team extractions to wide-body aircraft for mass evacuations. Cargo-configured options for asset recovery." },
 ];
 
@@ -358,7 +358,7 @@ const EvacuationPage = () => {
                     <SelectTrigger className={inputClass}><SelectValue placeholder="Select" /></SelectTrigger>
                     <SelectContent>
                       <SelectItem value="immediate">Immediate (24h)</SelectItem>
-                      <SelectItem value="urgent">Urgent (48–72h)</SelectItem>
+                      <SelectItem value="urgent">Urgent</SelectItem>
                       <SelectItem value="contingency">Contingency Planning</SelectItem>
                       <SelectItem value="standby">Standby Contract</SelectItem>
                     </SelectContent>

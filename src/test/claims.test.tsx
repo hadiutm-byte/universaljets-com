@@ -47,7 +47,7 @@ describe("proof switch", () => {
     expect(yearsPhrase()).toBeNull();
     expect(vettingSentence()).not.toMatch(/ARGUS|WYVERN|verified through/);
     expect(availabilityPromise()).not.toMatch(/guarantee/i);
-    expect(vettingSentence()).toMatch(/Air Operator Certificate/);
+    expect(vettingSentence()).toMatch(/third-party operator/);
   });
 
   it("keeps items without a claim and drops unverified ones", () => {
@@ -74,6 +74,20 @@ describe("proof switch", () => {
     }
     expect(figures.length).toBeGreaterThan(0);
     expect(offenders, "use FIGURES / helpers from @/lib/claims instead").toEqual([]);
+  });
+
+  it("never reintroduces the copy the pre-merge review removed", () => {
+    // Phrases the re-review confirmed as unproven: regulator approvals, timed delivery,
+    // priority promises, certification and track-record labels. Claim-gated lines are exempt.
+    const banned = /GCAA|GACA|EASA|\bFAA\b|ICAO Compliant|48–72|30-Minute|within hours, not days|Priority aircraft|priority positioning|six continents|Verified Aircraft|Hazmat-[Cc]ertified|Trusted by UHNW|Rolls-Royce & Maybach|Certified [Oo]perators?|Certified operator|first-priority|Whole Market|selected for safety/;
+    const offenders: string[] = [];
+    for (const file of publicSourceFiles(SRC)) {
+      if (file.endsWith(path.join("lib", "claims.ts"))) continue;
+      fs.readFileSync(file, "utf8").split("\n").forEach((line, i) => {
+        if (banned.test(line) && !/isVerified\(|claim: "/.test(line)) offenders.push(`${path.relative(SRC, file)}:${i + 1}`);
+      });
+    }
+    expect(offenders).toEqual([]);
   });
 
   it("keeps the static index.html free of figures and unproven claims", () => {

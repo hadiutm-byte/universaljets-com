@@ -19,7 +19,7 @@ const benefits = [
   { icon: Lock, text: "Rates locked at purchase" },
   { icon: Repeat, text: "Unused hours carry forward" },
   { icon: Globe, text: "Access any aircraft class" },
-  { icon: Plane, text: "Priority over on-demand bookings" },
+  { icon: Plane, text: "Booked through your advisor" },
   { icon: Shield, text: "Zero hidden fees — ever" },
 ];
 
@@ -121,7 +121,7 @@ const JetCardInquiryPage = () => {
                     <div className="pt-6 border-t border-border">
                       <p className="text-[11px] text-muted-foreground/60 font-light leading-[1.8]">
                         {[
-                          isVerified("aircraftCount") ? `${FIGURES.aircraftCount} vetted aircraft` : "Certified operators",
+                          isVerified("aircraftCount") ? `${FIGURES.aircraftCount} vetted aircraft` : "Third-party operators",
                           isVerified("argus") && isVerified("wyvern") ? "ARGUS/WYVERN certified" : null,
                           isVerified("countryCount") ? countryReach() : "Worldwide",
                         ].filter(Boolean).join(" • ")}

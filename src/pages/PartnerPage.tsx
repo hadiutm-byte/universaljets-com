@@ -40,8 +40,8 @@ const partnerCategories = [
     icon: Landmark,
     label: "Financial & Banking",
     title: "Financial Partnerships",
-    subtitle: "Co-Branded Cards · Wealth Management · Family Offices",
-    desc: "Partner with Universal Jets to offer your HNW clients exclusive aviation benefits. Co-branded card programs, integrated flight credits, and wealth-management synergies.",
+    subtitle: "Wealth Management · Family Offices",
+    desc: "Offer your clients aviation services, arranged around each relationship.",
     partners: [
       { name: "Co-Branded Cards", claim: "cobrandCards" as const, detail: "Visa Infinite and Mastercard World Elite programs with flight credit accumulation and lounge access." },
       { name: "Family Offices", detail: "Structured aviation solutions for family offices — dedicated account management and consolidated billing." },
@@ -69,7 +69,7 @@ const coBrandedCards = [
   {
     type: "Visa Infinite",
     gradient: "linear-gradient(135deg, hsl(222,22%,12%) 0%, hsl(222,25%,8%) 50%, hsl(222,20%,14%) 100%)",
-    features: ["Flight hour credits on every purchase", "Global airport lounge access", "Priority aircraft booking", "Dedicated concierge line"],
+    features: ["Flight hour credits on every purchase", "Global airport lounge access", "Aircraft booking support", "Dedicated concierge line"],
   },
   {
     type: "Mastercard World Elite",
@@ -152,7 +152,7 @@ const PartnerPage = () => {
                 A Network of <span className="text-gradient-gold italic">Excellence</span>
               </h1>
               <p className="text-[13px] md:text-[15px] text-foreground/50 font-extralight leading-[2] max-w-xl mx-auto">
-                Universal Jets connects luxury brands, financial institutions, and enterprise partners with our global UHNW clientele through private aviation.
+                Universal Jets arranges private aviation for luxury brands, financial institutions and enterprise clients.
               </p>
             </motion.div>
           </div>
@@ -311,7 +311,7 @@ const PartnerPage = () => {
         </section>}
 
         {/* ── Member Privileges Through Partners ── */}
-        <section className="pb-28">
+        {isVerified("partnerBrands") && <section className="pb-28">
           <div className="container mx-auto px-8">
             <div className="text-center mb-14">
               <p className="text-[9px] tracking-[0.5em] uppercase text-primary/60 mb-6 font-light">Member Privileges</p>
@@ -339,7 +339,7 @@ const PartnerPage = () => {
               ))}
             </div>
           </div>
-        </section>
+        </section>}
 
         {/* ── White Label Block ── */}
         <section className="pb-28">

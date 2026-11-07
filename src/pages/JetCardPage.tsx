@@ -15,14 +15,14 @@ const keyFeatures = [
   availabilityPromise(),
   "Unused hours carry forward",
   "Access any aircraft class",
-  "Priority over on-demand bookings",
+  "Booked through your advisor",
   "No positioning costs",
   "No fine print",
 ];
 
 const advantages = [
   { icon: Lock, title: "Rates Locked at Purchase", desc: "Your hourly rate is fixed the moment you purchase — no market fluctuations, no surprises." },
-  { icon: Clock, title: availabilityPromise(), desc: isVerified("guaranteedAvailability") ? "Aircraft confirmed even on short notice. Your schedule is never compromised." : "Your requests go to the front of our sourcing queue, including at short notice." },
+  { icon: Clock, title: availabilityPromise(), desc: isVerified("guaranteedAvailability") ? "Aircraft confirmed even on short notice. Your schedule is never compromised." : "Your advisor confirms what is available for your dates." },
   { icon: Repeat, title: "Hours Carry Forward", desc: "Unused hours roll over. Your investment is protected and never wasted." },
   { icon: Globe, title: "Any Aircraft Class", desc: "From very light jets to ultra long range — your card works across the entire global fleet." },
   { icon: HeartHandshake, title: "Full Concierge Included", desc: "Ground transport, catering, hotels, and lifestyle services included with every flight." },
@@ -30,8 +30,8 @@ const advantages = [
 ];
 
 const whyChoose = [
-  { icon: Shield, title: "Certified Operators", desc: vettingSentence() },
-  { icon: Zap, title: "Rapid Response", desc: "Aircraft confirmed within hours, not days. Priority positioning." },
+  { icon: Shield, title: "Third-Party Operators", desc: vettingSentence() },
+  { icon: Zap, title: "Direct Advisors", desc: "Each request is handled by an advisor who responds to you directly." },
   { icon: Star, title: "Transparent Pricing", desc: "No hidden fees, no surprises. What you see is what you pay." },
   { icon: Users, title: "Dedicated Team", desc: "Personal aviation advisor for all your jet card needs." },
 ];
@@ -41,7 +41,7 @@ const faqs = [
   { q: "What aircraft can I access?", a: "Your Altus Jet Card provides access to the full range of aircraft classes — from very light jets to ultra long range. There are no fleet restrictions." },
   { q: "Do unused hours expire?", a: "No. Unused hours carry forward and never expire. Your investment is fully protected." },
   { q: "Can I use the card for international flights?", a: `Yes. The Altus Jet Card Global provides worldwide coverage${isVerified("countryCount") ? ` across ${countryReach()}` : ""}. All positioning, permits, and handling are managed end-to-end.` },
-  { q: "How is the Jet Card different from Membership?", a: "The Jet Card is a prepaid hour balance with locked-in rates and no recurring fees. Membership is a monthly subscription that provides priority access, exclusive rates, and concierge support. Both include full concierge services." },
+  { q: "How is the Jet Card different from Membership?", a: "The Jet Card is a prepaid hour balance with locked-in rates and no recurring fees. Membership is a monthly subscription with concierge support, with terms set out in writing. Both include concierge services." },
 ];
 
 const JetCardPage = () => (
@@ -199,7 +199,7 @@ const JetCardPage = () => (
           </p>
           <p className="text-[10px] tracking-[0.15em] text-muted-foreground font-light">
             {[
-              isVerified("aircraftCount") ? `${FIGURES.aircraftCount} vetted aircraft` : "Certified operators",
+              isVerified("aircraftCount") ? `${FIGURES.aircraftCount} vetted aircraft` : "Third-party operators",
               isVerified("argus") && isVerified("wyvern") ? "ARGUS/WYVERN certified" : null,
               isVerified("countryCount") ? countryReach() : "Worldwide",
             ].filter(Boolean).join(" • ")}

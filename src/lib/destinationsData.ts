@@ -54,7 +54,7 @@ export const destinations: Destination[] = [
     },
     concierge: [
       "VIP terminal access at Al Maktoum (DWC)",
-      "Rolls-Royce & Maybach chauffeured transfers",
+      "Chauffeured luxury car transfers",
       "Helicopter transfers to Abu Dhabi & RAK",
       "Yacht charter coordination",
       "Private dining & event access",
@@ -395,7 +395,7 @@ export const destinations: Destination[] = [
       "Royal terminal access coordination",
       "Armoured vehicle & security escort",
       "Government protocol & delegation support",
-      "Hotel coordination (Ritz-Carlton, Four Seasons)",
+      "Hotel coordination with five-star properties",
       "Business meeting & conference logistics",
     ],
     lifestyle: [

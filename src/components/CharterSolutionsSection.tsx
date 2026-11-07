@@ -23,7 +23,7 @@ interface CharterCategory {
 const charterCategories: CharterCategory[] = [
   {
     title: "Leisure",
-    tagline: "10,000+ destinations. Zero layovers.",
+    tagline: "Destinations worldwide. Zero layovers.",
     slug: "leisure",
     image: leisureImg,
     justification:
@@ -80,14 +80,14 @@ const charterCategories: CharterCategory[] = [
   },
   {
     title: "Cargo",
-    tagline: "Hazmat-certified. Government-cleared.",
+    tagline: "Hazmat and government cargo, planned end to end.",
     slug: "cargo",
     image: cargoImg,
     justification:
       "Cargo operators specialize in standard freight. We handle what they won't — hazardous materials, oversized machinery, classified government shipments, and humanitarian aid into disaster zones. Full customs, permits, and compliance managed end-to-end.",
     differentiators: [
       "Hazmat and oversized freight specialists",
-      "Customs and compliance handled before departure",
+      "Customs paperwork coordinated before departure",
       "Government and NGO mission experience",
       "Global freight aircraft sourcing across all categories",
     ],
@@ -395,7 +395,7 @@ const CharterSolutionsSection = () => {
             Global Access. Uncompromised.
           </h3>
           <p className="text-muted-foreground text-base md:text-lg leading-relaxed mb-8">
-            Universal Jets sources from {aircraftReach()} across six continents. {vettingSentence()}
+            Universal Jets sources from {aircraftReach()} for your trip. {vettingSentence()}
           </p>
           <Link
             to="/request-flight"

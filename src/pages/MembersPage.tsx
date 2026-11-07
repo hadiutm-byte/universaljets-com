@@ -7,7 +7,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import SEOHead from "@/components/SEOHead";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { isVerified, FIGURES, vettingSentence } from "@/lib/claims";
+import { isVerified, FIGURES, vettingSentence, onlyVerified, type ClaimKey } from "@/lib/claims";
 
 /* ═══ TIER DATA ═══ */
 const tiers = [
@@ -41,7 +41,7 @@ const tiers = [
     tagline: "The ultimate private aviation experience",
     bestFor: "Unlimited access",
     monthlyPrice: "$5,000",
-    highlights: ["Unrestricted worldwide access", "Unlimited charter requests", "Priority request handling", "Personal manager + private desk", "No overage fees — ever"],
+    highlights: ["Unrestricted worldwide access", "Unlimited charter requests", "Personal request handling", "Personal manager + private desk", "No overage fees — ever"],
     isMaverick: true,
     cta: "Apply for Maverick",
   },
@@ -58,25 +58,25 @@ const comparisonRows = [
 ];
 
 const trustPillars = [
-  { icon: Clock, title: "Under 30-Minute Response", desc: "Every inquiry answered by a real advisor — not a chatbot." },
-  { icon: Globe, title: isVerified("aircraftCount") ? `${FIGURES.aircraftCount} Aircraft` : "The Whole Market", desc: "Access to the entire global private jet market, not a single fleet." },
-  { icon: Shield, title: isVerified("argus") && isVerified("wyvern") && isVerified("isbao") ? "Vetted Operators" : "Certified Operators", desc: isVerified("argus") && isVerified("wyvern") && isVerified("isbao") ? "ARGUS, WYVERN, and IS-BAO vetted operators exclusively." : vettingSentence() },
-  { icon: Lock, title: "No Lock-In", desc: "Monthly membership with no long-term contracts required." },
-  { icon: Headphones, title: "Dedicated Advisors", desc: "Your own aviation specialist — available when you need them." },
-  { icon: CreditCard, title: "All-Inclusive Pricing", desc: "Transparent quotes. No hidden fees, surcharges, or surprises." },
+  { icon: Clock, title: "Personal Advisors", desc: "Every inquiry is answered by a real advisor, not a chatbot." },
+  { icon: Globe, title: isVerified("aircraftCount") ? `${FIGURES.aircraftCount} Aircraft` : "Many Operators", desc: "Access to aircraft from many operators, not a single fleet." },
+  { icon: Shield, title: isVerified("argus") && isVerified("wyvern") && isVerified("isbao") ? "Vetted Operators" : "Third-Party Operators", desc: isVerified("argus") && isVerified("wyvern") && isVerified("isbao") ? "ARGUS, WYVERN, and IS-BAO vetted operators exclusively." : vettingSentence() },
+  { icon: Lock, title: "No Lock-In", desc: "Monthly membership with no long-term contracts required.", claim: "membershipTerms" as const },
+  { icon: Headphones, title: "Dedicated Advisors", desc: "Your own aviation specialist for each trip." },
+  { icon: CreditCard, title: "Transparent Pricing", desc: "Transparent quotes, with the terms set out in writing before you fly." },
 ];
 
 const howItWorks = [
   { step: "01", title: "Choose Your Tier", desc: "Select the membership level that matches your travel frequency and coverage needs." },
-  { step: "02", title: "Meet Your Advisor", desc: "Within 24 hours, your dedicated aviation advisor reaches out to tailor your experience." },
-  { step: "03", title: "Fly with Priority", desc: "Request flights, enjoy exclusive rates, and access concierge services — all from your membership." },
+  { step: "02", title: "Meet Your Advisor", desc: "Your dedicated aviation advisor reaches out to tailor your experience." },
+  { step: "03", title: "Fly with Your Advisor", desc: "Request flights and access concierge services — all from your membership." },
 ];
 
 const benefits = [
-  { icon: Plane, title: "Priority Aircraft Access", desc: "Members receive first-priority positioning on aircraft availability and scheduling." },
-  { icon: Star, title: "Exclusive Member Rates", desc: "Preferential pricing across charter bookings — locked in for the duration of your membership." },
+  { icon: Plane, title: "Member Requests", desc: "Each member request is handled by a named advisor from first contact." },
+  { icon: Star, title: "Member Rates", desc: "Preferential pricing across charter bookings, as set out in your membership terms.", claim: "membershipTerms" as const },
   { icon: HeartHandshake, title: "24/7 Concierge", desc: "From hotel suites to ground transport, your concierge handles every detail beyond the flight." },
-  { icon: Calendar, title: "Flexible Cancellation", desc: "Plans change. Cancel or reschedule with minimal notice — terms vary by tier." },
+  { icon: Calendar, title: "Flexible Cancellation", desc: "Plans change. Cancellation terms are set out in your membership terms.", claim: "membershipTerms" as const },
   { icon: Users, title: "Family & Associate Coverage", desc: "Extend your membership benefits to immediate family and designated associates." },
   { icon: Award, title: "Referral Programme", desc: "Refer 3 members, earn $1,000 in flight credit toward your next charter booking." },
 ];
@@ -86,7 +86,7 @@ const faqs = [
   { q: "What happens if I exceed my annual charter request allowance?", a: "Additional requests beyond your tier allowance are handled at the applicable overage fee. Maverick members enjoy unlimited requests with no overage fees." },
   { q: "Is there a commitment period?", a: "Membership is on a rolling monthly basis with no long-term contract required. You may cancel at any time with 30 days' notice." },
   { q: "Can family members or associates use my membership?", a: "Yes. Benefits extend to immediate family and designated associates traveling under your account." },
-  { q: "What's the difference between Membership, Jet Card, and On-Demand?", a: "Membership provides priority access and concierge support on a monthly subscription. The Altus Jet Card lets you purchase flight hours at locked-in rates. On-Demand charter offers maximum flexibility with no commitment." },
+  { q: "What's the difference between Membership, Jet Card, and On-Demand?", a: "Membership is a monthly subscription that includes concierge support, with terms set out in writing. The Altus Jet Card lets you purchase flight hours at locked-in rates. On-Demand charter offers maximum flexibility with no commitment." },
 ];
 
 /* ═══ ANIMATION HELPERS ═══ */
@@ -159,7 +159,7 @@ const TierCard = forwardRef<HTMLDivElement, { tier: typeof tiers[0]; index: numb
 
         <div className="p-6 pt-5 flex flex-col flex-1">
           <div className="space-y-3.5 mb-8 flex-1">
-            {tier.highlights.map((h, i) => (
+            {(isVerified("membershipTerms") ? tier.highlights : []).map((h, i) => (
               <div key={i} className="flex items-start gap-3">
                 <div className={`w-4.5 h-4.5 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5 ${
                   isMaverick ? "bg-primary/20" : "bg-white/[0.12]"
@@ -221,7 +221,7 @@ const MembersPage = () => (
   <div className="min-h-screen bg-[hsl(228,20%,4%)]">
     <SEOHead
       title="Membership — Universal Jets"
-      description="Priority access, exclusive rates, concierge support, and a more seamless way to charter privately. Four tiers designed around how you fly."
+      description="Dedicated advisors, concierge support, and a more seamless way to charter privately. Four tiers designed around how you fly."
       path="/membership"
       breadcrumbs={[{ name: "Home", path: "/" }, { name: "Membership", path: "/members" }]}
     />
@@ -271,7 +271,7 @@ const MembersPage = () => (
           transition={{ duration: 0.8, delay: 0.45 }}
           className="text-[14px] md:text-[15px] text-white/70 font-light leading-[2] max-w-lg mx-auto mb-12"
         >
-          Priority access. Dedicated advisors. Exclusive rates and concierge services —
+          Dedicated advisors and concierge services —
           reserved for members of the Universal Jets network.
         </motion.p>
 
@@ -347,7 +347,7 @@ const MembersPage = () => (
     </section>
 
     {/* 3. MEMBERSHIP TIERS */}
-    <section className="py-20 md:py-28 relative">
+    {isVerified("membershipTerms") && (    <section className="py-20 md:py-28 relative">
       <div className="absolute inset-0" style={{ background: "linear-gradient(180deg, hsl(228,16%,5.5%) 0%, hsl(228,18%,4.5%) 100%)" }} />
       <div className="container mx-auto px-6 md:px-8 relative z-10">
         <motion.div
@@ -426,7 +426,7 @@ const MembersPage = () => (
           {tiers.map((tier, i) => <MobileComparisonCard key={tier.name} tier={tier} index={i} />)}
         </div>
       </div>
-    </section>
+    </section>)}
 
     {/* 4. HOW IT WORKS */}
     <section className="py-20 md:py-28 relative border-y border-[hsl(228,12%,18%)]">
@@ -443,7 +443,7 @@ const MembersPage = () => (
           <p className="text-[9px] tracking-[0.5em] uppercase text-primary/70 mb-4 font-light">How It Works</p>
           <h2 className="font-display text-2xl md:text-3xl lg:text-4xl font-semibold text-white">
             Three Steps to{" "}
-            <span className="text-gradient-gold italic">Priority Access</span>
+            <span className="text-gradient-gold italic">Membership</span>
           </h2>
         </motion.div>
 
@@ -499,7 +499,7 @@ const MembersPage = () => (
           variants={stagger}
           className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5"
         >
-          {benefits.map((b, i) => (
+          {onlyVerified(benefits as { icon: typeof Plane; title: string; desc: string; claim?: ClaimKey }[]).map((b, i) => (
             <motion.div
               key={i}
               variants={fadeUp}
