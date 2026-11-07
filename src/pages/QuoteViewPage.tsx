@@ -20,6 +20,18 @@ const QuoteViewPage = () => {
   useEffect(() => {
     if (!quoteId) return;
     const loadQuote = async () => {
+      // A client opens the link from an email with no account, so the quote is
+      // read through its link token (get_quote_by_token). Staff signed in to the
+      // CRM, or a link without a token, fall back to the row-level-secured table.
+      if (token) {
+        const { data, error } = await supabase.rpc("get_quote_by_token", { p_token: token });
+        if (!error) {
+          setQuote(data && (data as any).id === quoteId ? data : null);
+          setLoading(false);
+          return;
+        }
+        console.error("get_quote_by_token failed, falling back to direct read:", error.message);
+      }
       const { data } = await supabase
         .from("quotes")
         .select("*, flight_requests(departure, destination, date, passengers, trip_type, preferred_aircraft_category, contact_name)")
@@ -29,25 +41,47 @@ const QuoteViewPage = () => {
       setLoading(false);
     };
     loadQuote();
-  }, [quoteId]);
+  }, [quoteId, token]);
+
+  const respond = async (decision: "accepted" | "rejected") => {
+    if (!quote) return false;
+    if (token) {
+      const { data, error } = await supabase.rpc("respond_to_quote", { p_token: token, p_decision: decision });
+      const result = data as { ok?: boolean; reason?: string } | null;
+      if (error || !result?.ok) {
+        const reason = result?.reason;
+        toast.error(
+          reason === "already_answered" ? "This quote has already been answered."
+          : reason === "expired" ? "This quote has expired. Please ask your advisor for a new one."
+          : `Failed to ${decision === "accepted" ? "accept" : "decline"} quote`,
+        );
+        return false;
+      }
+      return true;
+    }
+    const { error } = await supabase.from("quotes").update({ status: decision }).eq("id", quote.id);
+    if (error) {
+      toast.error(`Failed to ${decision === "accepted" ? "accept" : "decline"} quote`);
+      return false;
+    }
+    return true;
+  };
 
   const handleAccept = async () => {
-    if (!quote) return;
     setAccepting(true);
-    const { error } = await supabase.from("quotes").update({ status: "accepted" }).eq("id", quote.id);
-    if (error) { toast.error("Failed to accept quote"); setAccepting(false); return; }
-    setResponded(true);
+    const ok = await respond("accepted");
     setAccepting(false);
+    if (!ok) return;
+    setResponded(true);
     toast.success("Quote accepted! Our team will contact you shortly.");
   };
 
   const handleDecline = async () => {
-    if (!quote) return;
     setDeclining(true);
-    const { error } = await supabase.from("quotes").update({ status: "rejected" }).eq("id", quote.id);
-    if (error) { toast.error("Failed to decline quote"); setDeclining(false); return; }
-    setResponded(true);
+    const ok = await respond("rejected");
     setDeclining(false);
+    if (!ok) return;
+    setResponded(true);
   };
 
   if (loading) {
