@@ -12,7 +12,7 @@ jobs:
   review:
     runs-on: ubuntu-latest
     env:
-      ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+      CLAUDE_CODE_OAUTH_TOKEN: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
     permissions:
       contents: read
       pull-requests: write
@@ -24,10 +24,10 @@ jobs:
           fetch-depth: 1
 
       - name: Automatic PR Review
-        if: ${{ env.ANTHROPIC_API_KEY != '' }}
+        if: ${{ env.CLAUDE_CODE_OAUTH_TOKEN != '' }}
         uses: anthropics/claude-code-action@v1
         with:
-          anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
+          claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
           track_progress: true
           prompt: |
             REPO: ${{ github.repository }}
