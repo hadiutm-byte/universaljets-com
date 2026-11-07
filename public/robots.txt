@@ -9,6 +9,7 @@ Disallow: /auth
 Disallow: /reset-password
 Disallow: /unsubscribe
 Disallow: /quote/
+Disallow: /preview/
 
 # Crawl-delay for polite bots
 Crawl-delay: 1
