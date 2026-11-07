@@ -1,4 +1,6 @@
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.100.0";
+import { enforceRateLimit, requireHuman } from "../_shared/guard.ts";
+import { email as validEmail, str } from "../_shared/validate.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -8,19 +10,7 @@ const corsHeaders = {
 
 const NOTIFICATION_EMAIL = "hadi@universaljets.com";
 
-// Best-effort per-instance rate limit: 10 submissions per IP per 10 minutes.
-const hits = new Map<string, number[]>();
-function rateLimited(ip: string): boolean {
-  const now = Date.now();
-  const recent = (hits.get(ip) ?? []).filter((t) => now - t < 600_000);
-  recent.push(now);
-  hits.set(ip, recent);
-  if (hits.size > 5000) hits.clear();
-  return recent.length > 10;
-}
-
-const clip = (v: unknown, max: number) =>
-  typeof v === "string" ? v.slice(0, max) : v == null ? undefined : String(v).slice(0, max);
+const clip = str;
 
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") {
@@ -28,21 +18,21 @@ Deno.serve(async (req) => {
   }
 
   try {
-    const ip = req.headers.get("x-forwarded-for")?.split(",")[0].trim() ?? "unknown";
-    if (rateLimited(ip)) {
-      return new Response(JSON.stringify({ error: "Too many requests. Please try again later." }), {
-        status: 429,
-        headers: { ...corsHeaders, "Content-Type": "application/json" },
-      });
-    }
+    // 10 submissions per caller per 10 minutes, counted in the database and
+    // shared by every instance of this function.
+    const limited = await enforceRateLimit(req, { scope: "crm-capture", limit: 10, windowSeconds: 600, cors: corsHeaders });
+    if (limited) return limited;
 
-    const body = await req.json();
+    const body = await req.json().catch(() => ({}));
     // Honeypot: real visitors never fill this field. Pretend success so bots don't retry.
     if (body.website) {
       return new Response(JSON.stringify({ success: true }), {
         headers: { ...corsHeaders, "Content-Type": "application/json" },
       });
     }
+    // Cloudflare Turnstile, verified server-side (skipped until the secret is configured).
+    const notHuman = await requireHuman(req, body.turnstileToken, corsHeaders);
+    if (notHuman) return notHuman;
     const name = clip(body.name, 120);
     const email = clip(body.email, 254);
     const phone = clip(body.phone, 40);
@@ -54,14 +44,13 @@ Deno.serve(async (req) => {
     const serviceType = clip(body.serviceType, 80);
     const message = clip(body.message, 2000);
 
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!name || !email) {
       return new Response(JSON.stringify({ error: "Name and email are required" }), {
         status: 400,
         headers: { ...corsHeaders, "Content-Type": "application/json" },
       });
     }
-    if (!emailRegex.test(email)) {
+    if (!validEmail(email)) {
       return new Response(JSON.stringify({ error: "Invalid email format" }), {
         status: 400,
         headers: { ...corsHeaders, "Content-Type": "application/json" },

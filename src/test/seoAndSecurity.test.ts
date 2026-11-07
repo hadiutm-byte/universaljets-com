@@ -57,11 +57,50 @@ describe("backend hardening", () => {
     expect(src).toContain("isServiceRole(req)");
     expect(src).toContain("service_role");
   });
-  it("crm-capture has a honeypot, rate limit and input clipping", () => {
+  it("crm-capture has a honeypot, a shared rate limit, a bot check and input clipping", () => {
     const src = read("supabase/functions/crm-capture/index.ts");
     expect(src).toContain("body.website");
-    expect(src).toContain("rateLimited(ip)");
+    expect(src).toContain("enforceRateLimit(req");
+    expect(src).toContain("requireHuman(req");
     expect(src).toContain("clip(body.message");
+  });
+
+  // Every function the browser can call without a user session shares one
+  // database-backed rate limit, so no instance can be flooded on its own.
+  const PUBLIC_FUNCTIONS = [
+    "crm-capture",
+    "career-apply",
+    "ricky-chat",
+    "interview-chat",
+    "aviapages-airports",
+    "aviapages-cities",
+    "aviapages-aircraft-types",
+    "aviapages-fbos",
+    "aviapages-charter-search",
+    "aviapages-empty-legs",
+  ];
+  it.each(PUBLIC_FUNCTIONS)("%s enforces the shared rate limit", (fn) => {
+    const src = read(`supabase/functions/${fn}/index.ts`);
+    expect(src).toContain("../_shared/guard.ts");
+    expect(src).toMatch(new RegExp(`enforceRateLimit\\(req, \\{ scope: ["']${fn}["']`));
+  });
+  it("the rate-limit counter lives in the database and is service-role only", () => {
+    const sql = read("supabase/migrations/20261107043000_rate_limit_buckets.sql");
+    expect(sql).toContain("CREATE TABLE IF NOT EXISTS public.rate_limit_buckets");
+    expect(sql).toContain("ENABLE ROW LEVEL SECURITY");
+    expect(sql).toMatch(/REVOKE ALL ON FUNCTION public\.consume_rate_limit[^;]*FROM PUBLIC, anon, authenticated/);
+  });
+  it("ricky-chat stays off until RICKY_ENABLED is set, and both chat functions validate the conversation", () => {
+    expect(read("supabase/functions/ricky-chat/index.ts")).toContain('featureEnabled("RICKY_ENABLED")');
+    for (const fn of ["ricky-chat", "interview-chat"]) {
+      expect(read(`supabase/functions/${fn}/index.ts`)).toContain("chatMessages(body?.messages)");
+    }
+  });
+  it("career-apply validates and clips every field", () => {
+    const src = read("supabase/functions/career-apply/index.ts");
+    expect(src).toContain("validEmail(body.email)");
+    expect(src).toContain("answers(body.interview_answers)");
+    expect(src).toContain("requireHuman(req");
   });
   it("browser code never references the service-role key", () => {
     const files = ["src/integrations/supabase/client.ts", ".env", ".env.example"].filter(existsSync);

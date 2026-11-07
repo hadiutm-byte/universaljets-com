@@ -1,4 +1,5 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
+import { enforceRateLimit } from '../_shared/guard.ts';
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
@@ -45,6 +46,8 @@ let cacheLoaded = false;
 async function loadAircraftTypeCache(apiKey: string) {
   if (cacheLoaded) return;
   try {
+    const limited = await enforceRateLimit(req, { scope: 'aviapages-charter-search', limit: 20, windowSeconds: 60, cors: corsHeaders });
+    if (limited) return limited;
     for (let pg = 1; pg <= 2; pg++) {
       const response = await fetch(`${AVIAPAGES_BASE}/api/aircraft_types/?page_size=500&page=${pg}`, {
         headers: { 'Authorization': `Token ${apiKey}`, 'Accept': 'application/json' },

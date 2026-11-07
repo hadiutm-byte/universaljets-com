@@ -1,4 +1,6 @@
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.100.0";
+import { enforceRateLimit, requireHuman } from "../_shared/guard.ts";
+import { answers, email as validEmail, str } from "../_shared/validate.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -12,10 +14,21 @@ Deno.serve(async (req) => {
   }
 
   try {
-    const { full_name, email, phone, interview_answers } = await req.json();
+    // 5 applications per caller per 10 minutes, counted in the database.
+    const limited = await enforceRateLimit(req, { scope: "career-apply", limit: 5, windowSeconds: 600, cors: corsHeaders });
+    if (limited) return limited;
+
+    const body = await req.json().catch(() => ({}));
+    const notHuman = await requireHuman(req, body.turnstileToken, corsHeaders);
+    if (notHuman) return notHuman;
+
+    const full_name = str(body.full_name, 120);
+    const email = validEmail(body.email);
+    const phone = str(body.phone, 40);
+    const interview_answers = answers(body.interview_answers);
 
     if (!full_name || !email) {
-      return new Response(JSON.stringify({ error: "Name and email are required" }), {
+      return new Response(JSON.stringify({ error: "A name and a valid email are required" }), {
         status: 400,
         headers: { ...corsHeaders, "Content-Type": "application/json" },
       });
@@ -30,7 +43,7 @@ Deno.serve(async (req) => {
       full_name,
       email,
       phone: phone || null,
-      interview_answers: interview_answers || [],
+      interview_answers,
     }).select("id").single();
 
     if (error) throw error;
@@ -40,7 +53,7 @@ Deno.serve(async (req) => {
     });
   } catch (err) {
     console.error("Career apply error:", err);
-    return new Response(JSON.stringify({ error: err.message || "Internal server error" }), {
+    return new Response(JSON.stringify({ error: (err instanceof Error ? err.message : null) || "Internal server error" }), {
       status: 500,
       headers: { ...corsHeaders, "Content-Type": "application/json" },
     });

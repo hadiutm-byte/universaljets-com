@@ -1,5 +1,7 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.100.0";
+import { enforceRateLimit } from "../_shared/guard.ts";
+import { chatMessages, str } from "../_shared/validate.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -101,10 +103,19 @@ serve(async (req) => {
   }
 
   try {
+    const limited = await enforceRateLimit(req, { scope: "interview-chat", limit: 30, windowSeconds: 600, cors: corsHeaders });
+    if (limited) return limited;
     const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY");
     if (!LOVABLE_API_KEY) throw new Error("LOVABLE_API_KEY not configured");
 
-    const { messages, candidateId } = await req.json();
+    const body = await req.json().catch(() => ({}));
+    const messages = chatMessages(body?.messages);
+    const candidateId = str(body?.candidateId, 64);
+    if (!messages) {
+      return new Response(JSON.stringify({ error: "A conversation with user and assistant turns is required." }), {
+        status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
+    }
 
     const aiMessages = [
       { role: "system", content: SYSTEM_PROMPT },

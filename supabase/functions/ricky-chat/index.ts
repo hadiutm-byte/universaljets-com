@@ -1,5 +1,7 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.100.0";
+import { enforceRateLimit, featureEnabled, jsonResponse } from "../_shared/guard.ts";
+import { chatMessages } from "../_shared/validate.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -131,10 +133,19 @@ serve(async (req) => {
   }
 
   try {
+    if (!featureEnabled("RICKY_ENABLED")) {
+      return jsonResponse({ error: "Ricky is offline. Please use the flight request form." }, 503, corsHeaders);
+    }
+    const limited = await enforceRateLimit(req, { scope: "ricky-chat", limit: 20, windowSeconds: 600, cors: corsHeaders });
+    if (limited) return limited;
     const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY");
     if (!LOVABLE_API_KEY) throw new Error("LOVABLE_API_KEY not configured");
 
-    const { messages } = await req.json();
+    const body = await req.json().catch(() => ({}));
+    const messages = chatMessages(body?.messages);
+    if (!messages) {
+      return jsonResponse({ error: "A conversation with user and assistant turns is required." }, 400, corsHeaders);
+    }
 
     const aiMessages = [
       { role: "system", content: SYSTEM_PROMPT },
