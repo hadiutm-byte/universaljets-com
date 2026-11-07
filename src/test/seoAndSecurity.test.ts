@@ -69,6 +69,37 @@ describe("backend hardening", () => {
   });
 });
 
+describe("legacy redirects", () => {
+  const rules = read("public/_redirects")
+    .split("\n")
+    .map((l) => l.trim())
+    .filter((l) => l && !l.startsWith("#"))
+    .map((l) => l.split(/\s+/));
+
+  it("every rule is a permanent redirect to a route the app defines", () => {
+    const app = read("src/App.tsx");
+    for (const [source, destination, code] of rules) {
+      expect(source, `source ${source}`).toMatch(/^\/ww/);
+      expect(code, `code for ${source}`).toBe("301");
+      const route = destination.replace(/\/[^/]+$/, (m) => (app.includes(`path="${destination}"`) ? m : "/:slug"));
+      expect(app, `${source} -> ${destination}`).toContain(`path="${route}"`);
+    }
+  });
+
+  it("maps the indexed legacy pages and catches everything else", () => {
+    const map = Object.fromEntries(rules.map(([s, d]) => [s, d]));
+    expect(map["/ww/en"]).toBe("/");
+    expect(map["/ww/en/about-us"]).toBe("/about");
+    expect(map["/ww/en/contact"]).toBe("/contact");
+    expect(map["/ww/en/private-jet/*"]).toBe("/fleet");
+    expect(rules[rules.length - 1][0]).toBe("/ww");
+    expect(map["/ww/en/*"]).toBe("/");
+    // static rules before wildcard rules, as the Workers parser requires
+    const firstWildcard = rules.findIndex(([s]) => s.includes("*"));
+    expect(rules.slice(firstWildcard).every(([s]) => s.includes("*") || s === "/ww")).toBe(true);
+  });
+});
+
 describe("dead buttons", () => {
   it("no CTA dispatches the unhandled open-ricky-booking event", () => {
     expect(read("src/components/FinalCTASection.tsx")).not.toContain("open-ricky-booking");

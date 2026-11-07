@@ -1,0 +1,26 @@
+name: Site health
+
+# Read-only checks against the live site: key pages load, sitemaps are valid,
+# legacy URLs redirect. Runs every six hours and on demand. A failed run is
+# the signal that a deploy broke something.
+on:
+  schedule:
+    - cron: "17 */6 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Smoke test universaljets.com
+        run: node scripts/smoke-test.mjs https://universaljets.com
+      - name: Smoke test www.universaljets.com
+        if: always()
+        run: node scripts/smoke-test.mjs https://www.universaljets.com

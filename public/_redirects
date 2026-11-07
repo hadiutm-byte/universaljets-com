@@ -1,0 +1,35 @@
+# Redirects for the legacy site (the "/ww/en/..." URLs that Google still indexes).
+# Parsed by Cloudflare Workers static assets; this file is not served.
+# Static rules first, then wildcards. One rule per line: source destination code.
+
+/ww/en                          /                                301
+/ww/en/                         /                                301
+/ww/en/home                     /                                301
+/ww/en/about-us                 /about                           301
+/ww/en/about                    /about                           301
+/ww/en/contact                  /contact                         301
+/ww/en/contact-us               /contact                         301
+/ww/en/private-jet              /fleet                           301
+/ww/en/fleet                    /fleet                           301
+/ww/en/empty-leg                /empty-legs                      301
+/ww/en/empty-legs               /empty-legs                      301
+/ww/en/altus-jet-card           /jet-card                        301
+/ww/en/jet-card                 /jet-card                        301
+/ww/en/travel-concierge         /concierge                       301
+/ww/en/concierge                /concierge                       301
+/ww/en/cargo                    /charter/cargo                   301
+/ww/en/cargo-charter            /charter/cargo                   301
+/ww/en/helicopter               /charter/helicopter              301
+/ww/en/corporate                /charter/corporate               301
+/ww/en/services                 /services                        301
+/ww/en/news                     /                                301
+/ww/en/blog                     /                                301
+
+# Legacy aircraft pages used numeric ids; the catalogue is the closest page.
+/ww/en/private-jet/*            /fleet                           301
+/ww/en/fleet/*                  /fleet                           301
+
+# Anything else from the old site goes home rather than to a 404.
+/ww/en/*                        /                                301
+/ww/*                           /                                301
+/ww                             /                                301
