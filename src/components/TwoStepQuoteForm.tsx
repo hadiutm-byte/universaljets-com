@@ -89,7 +89,7 @@ const TwoStepQuoteForm = ({ source = "two_step_quote", defaultDeparture = "" }: 
         source,
       });
       if (result?.error) throw new Error(result.error);
-      trackGenerateLead({ source, name: parsed.data.name });
+      void trackGenerateLead({ source, name: parsed.data.name });
       setSubmitted(true);
     } catch (err) {
       console.error("Quote request failed:", err);

@@ -157,7 +157,7 @@ const RequestFlightPage = () => {
         preferred_contact_method: contactMethod,
       });
       setSubmitted(true);
-      trackGenerateLead({ email: email.trim(), phone: phone.trim(), name: name.trim(), source: "request_flight_page" });
+      void trackGenerateLead({ email: email.trim(), phone: phone.trim(), name: name.trim(), source: "request_flight_page" });
       toast.success("Your request has been received. An advisor will contact you shortly.");
     } catch {
       toast.error("We were unable to submit your request. Please try again or contact our team directly.");
