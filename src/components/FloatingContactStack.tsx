@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import { Phone, MessageCircle, Sparkles } from "lucide-react";
+import { Phone, MessageCircle } from "lucide-react";
 import { motion, AnimatePresence, useDragControls } from "framer-motion";
 import { useLocation } from "react-router-dom";
 import { trackWhatsAppClick } from "@/lib/gtmEvents";
@@ -46,17 +46,7 @@ const FloatingContactStack = () => {
       onClick: () => trackWhatsAppClick("floating_stack"),
       external: true,
     },
-    {
-      key: "ricky",
-      href: "#",
-      icon: Sparkles,
-      label: "Ask Ricky",
-      onClick: (e: React.MouseEvent) => {
-        e.preventDefault();
-        window.dispatchEvent(new CustomEvent("openRickyChat"));
-      },
-      external: false,
-    },
+    // "Ask Ricky" is removed while Ricky is switched off in App.tsx.
   ];
 
   return (

@@ -1,7 +1,13 @@
 import { describe, it, expect } from "vitest";
-import { readFileSync, existsSync } from "node:fs";
+import { readFileSync, existsSync, readdirSync, statSync } from "node:fs";
+import { join } from "node:path";
 
 const read = (p: string) => readFileSync(p, "utf8");
+const walk = (dir: string): string[] =>
+  readdirSync(dir).flatMap((name) => {
+    const p = join(dir, name);
+    return statSync(p).isDirectory() ? walk(p) : [p];
+  });
 const locs = (xml: string) => [...xml.matchAll(/<loc>([^<]+)<\/loc>/g)].map((m) => m[1]);
 
 describe("sitemap", () => {
@@ -66,6 +72,32 @@ describe("backend hardening", () => {
 describe("dead buttons", () => {
   it("no CTA dispatches the unhandled open-ricky-booking event", () => {
     expect(read("src/components/FinalCTASection.tsx")).not.toContain("open-ricky-booking");
+  });
+
+  // While Ricky is not mounted in App.tsx nothing listens for its events, so a
+  // button that fires one does nothing when tapped.
+  it("nothing fires a Ricky event while Ricky is not mounted", () => {
+    const rickyMounted = /<Ricky(Chatbot|3D)\b/.test(read("src/App.tsx"));
+    if (rickyMounted) return;
+    const offenders = walk("src")
+      .filter((f) => /\.tsx?$/.test(f))
+      .filter((f) => !/[\\/]test[\\/]/.test(f) && !/ricky/i.test(f))
+      .filter((f) => /CustomEvent\(\s*["'](open-ricky|open-ricky-booking|openRickyChat)["']/.test(read(f)));
+    expect(offenders).toEqual([]);
+  });
+});
+
+describe("availability wording", () => {
+  it("search results never call an aircraft available on the strength of a price", () => {
+    const src = read("src/pages/SearchResults.tsx");
+    expect(src).not.toMatch(/●\s*Available/);
+    expect(src).not.toContain("Available Aircraft");
+    expect(src).toContain("Availability confirmed on request");
+  });
+  it("the market strip ships no invented routes or 'Available now' labels", () => {
+    const src = read("src/components/LiveMarketSection.tsx");
+    expect(src).not.toContain("Available now");
+    expect(src).not.toContain("fallbackRoutes");
   });
 });
 

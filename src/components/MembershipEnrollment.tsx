@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { Link } from "react-router-dom";
 import { Plane, UserCheck, Tag, Sparkles, CreditCard, Download, MessageCircle } from "lucide-react";
 import { useCrmApi } from "@/hooks/useCrmApi";
 import { MembershipEnrollSchema } from "@/lib/websiteValidation";
@@ -282,9 +283,9 @@ const MembershipEnrollment = () => {
                     <button onClick={() => toast.success("Card saved to your device.")} className="flex items-center gap-2 px-8 py-3.5 border border-foreground/[0.06] text-foreground/60 hover:text-foreground text-[10px] tracking-[0.25em] uppercase font-medium rounded-lg transition-all duration-500">
                       <Download className="w-3.5 h-3.5" strokeWidth={1.3} /> Save Card
                     </button>
-                    <button onClick={() => document.dispatchEvent(new CustomEvent("open-ricky"))} className="flex items-center gap-2 px-8 py-3.5 bg-gradient-gold text-primary-foreground text-[10px] tracking-[0.25em] uppercase font-medium rounded-lg transition-all duration-500 hover:shadow-[0_0_40px_-8px_hsla(43,85%,58%,0.5)] btn-luxury">
+                    <Link to="/contact" className="flex items-center gap-2 px-8 py-3.5 bg-gradient-gold text-primary-foreground text-[10px] tracking-[0.25em] uppercase font-medium rounded-lg transition-all duration-500 hover:shadow-[0_0_40px_-8px_hsla(43,85%,58%,0.5)] btn-luxury">
                       <MessageCircle className="w-3.5 h-3.5" strokeWidth={1.3} /> Contact Advisor
-                    </button>
+                    </Link>
                   </div>
                 </motion.div>
               </motion.div>
