@@ -2,10 +2,8 @@ import { describe, it, expect, vi, beforeEach } from "vitest";
 import { readFileSync, readdirSync, statSync } from "node:fs";
 import { join } from "node:path";
 
-const invoke = vi.fn();
+const { invoke, getTurnstileToken } = vi.hoisted(() => ({ invoke: vi.fn(), getTurnstileToken: vi.fn() }));
 vi.mock("@/integrations/supabase/client", () => ({ supabase: { functions: { invoke } } }));
-
-const getTurnstileToken = vi.fn();
 vi.mock("@/lib/turnstile", () => ({ getTurnstileToken }));
 
 import { applyForJob, captureLead } from "@/lib/leadCapture";
