@@ -511,8 +511,8 @@ const SearchResults = () => {
                             <Shield size={14} className="text-primary/60" />
                           </div>
                           <div>
-                            <p className="text-[11px] text-foreground font-medium">Verified Operator</p>
-                            <p className="text-[9px] text-muted-foreground font-light">{isVerified("argus") && isVerified("wyvern") ? "ARGUS / WYVERN certified" : "AOC and insurance checked"}</p>
+                            <p className="text-[11px] text-foreground font-medium">{isVerified("argus") && isVerified("wyvern") ? "Verified Operator" : "Certified Operator"}</p>
+                            <p className="text-[9px] text-muted-foreground font-light">{isVerified("argus") && isVerified("wyvern") ? "ARGUS / WYVERN certified" : "Flights arranged only with operators holding a valid AOC"}</p>
                           </div>
                         </div>
                       )}

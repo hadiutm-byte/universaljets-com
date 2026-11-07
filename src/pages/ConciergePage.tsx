@@ -149,7 +149,7 @@ const ConciergePage = () => (
         <div className="grid md:grid-cols-3 gap-8 text-center">
           {[
             { n: "01", t: "Brief Your Advisor", d: "Share your full trip requirements — transport, accommodation, events, and preferences." },
-            { n: "02", t: "We Coordinate", d: "Your advisor arranges every detail through our vetted partner network worldwide." },
+            { n: "02", t: "We Coordinate", d: "Your advisor arranges every detail through our partner network." },
             { n: "03", t: "Travel Seamlessly", d: "Everything is confirmed and briefed before departure. One contact for any changes." },
           ].map((s, i) => (
             <motion.div

@@ -10,6 +10,7 @@ import { toast } from "sonner";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import SEOHead from "@/components/SEOHead";
+import { isVerified, onlyVerified, type ClaimKey } from "@/lib/claims";
 
 /* ─── Data ─── */
 
@@ -28,10 +29,10 @@ const partnerCategories = [
     subtitle: "Hotels · Fashion · Automotive · Experiences",
     desc: "Position your luxury brand within an ultra-premium aviation ecosystem. Our UHNW clientele expects the finest — and they discover it through Universal Jets.",
     partners: [
-      { name: "Five-Star Hotels", detail: "Complimentary suite upgrades, late checkout, and curated arrival experiences for Universal Jets members." },
-      { name: "Premium Automotive", detail: "Luxury ground transport integration — chauffeur services, supercar access, and branded airport transfers." },
+      { name: "Five-Star Hotels", claim: "partnerBrands" as const, detail: "Complimentary suite upgrades, late checkout, and curated arrival experiences for Universal Jets members." },
+      { name: "Premium Automotive", claim: "partnerBrands" as const, detail: "Luxury ground transport integration — chauffeur services, supercar access, and branded airport transfers." },
       { name: "Fashion & Jewellery", detail: "In-flight trunk shows, private shopping experiences, and VIP access to collections and events." },
-      { name: "Wellness & Spa", detail: "Priority access to world-class wellness retreats, spa treatments, and holistic travel wellness programs." },
+      { name: "Wellness & Spa", claim: "partnerBrands" as const, detail: "Priority access to world-class wellness retreats, spa treatments, and holistic travel wellness programs." },
     ],
   },
   {
@@ -42,7 +43,7 @@ const partnerCategories = [
     subtitle: "Co-Branded Cards · Wealth Management · Family Offices",
     desc: "Partner with Universal Jets to offer your HNW clients exclusive aviation benefits. Co-branded card programs, integrated flight credits, and wealth-management synergies.",
     partners: [
-      { name: "Co-Branded Cards", detail: "Visa Infinite and Mastercard World Elite programs with flight credit accumulation and lounge access." },
+      { name: "Co-Branded Cards", claim: "cobrandCards" as const, detail: "Visa Infinite and Mastercard World Elite programs with flight credit accumulation and lounge access." },
       { name: "Family Offices", detail: "Structured aviation solutions for family offices — dedicated account management and consolidated billing." },
       { name: "Private Banks", detail: "Exclusive aviation privileges for private banking clients — seamless integration into wealth management platforms." },
       { name: "Insurance Partners", detail: "Comprehensive travel and aviation insurance solutions tailored for UHNW clients and corporate travelers." },
@@ -158,7 +159,7 @@ const PartnerPage = () => {
         </section>
 
         {/* ── Scrolling Partner Logos ── */}
-        <section className="pb-20">
+        {isVerified("partnerBrands") && <section className="pb-20">
           <div className="container mx-auto px-8">
             <div className="relative overflow-hidden py-6">
               <div className="absolute left-0 top-0 bottom-0 w-24 bg-gradient-to-r from-background to-transparent z-10" />
@@ -174,7 +175,7 @@ const PartnerPage = () => {
               </div>
             </div>
           </div>
-        </section>
+        </section>}
 
         {/* ── Partnership Categories (Tabbed) ── */}
         <section className="pb-28">
@@ -225,7 +226,7 @@ const PartnerPage = () => {
                 <p className="text-[13px] text-foreground/50 font-extralight leading-[2] mb-10 max-w-2xl">{activeCat.desc}</p>
 
                 <div className="grid md:grid-cols-2 gap-6">
-                  {activeCat.partners.map((p, i) => (
+                  {onlyVerified(activeCat.partners as { name: string; detail: string; claim?: ClaimKey }[]).map((p, i) => (
                     <motion.div
                       key={p.name}
                       initial={{ opacity: 0, y: 12 }}
@@ -247,7 +248,7 @@ const PartnerPage = () => {
         </section>
 
         {/* ── Co-Branded Card Programs ── */}
-        <section className="pb-28">
+        {isVerified("cobrandCards") && <section className="pb-28">
           <div className="container mx-auto px-8">
             <div className="text-center mb-14">
               <p className="text-[9px] tracking-[0.5em] uppercase text-primary/60 mb-6 font-light">Featured Program</p>
@@ -307,7 +308,7 @@ const PartnerPage = () => {
               </div>
             </div>
           </div>
-        </section>
+        </section>}
 
         {/* ── Member Privileges Through Partners ── */}
         <section className="pb-28">

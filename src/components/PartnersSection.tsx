@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import { CreditCard, Crown, Globe, Star, Gift, ArrowRight, Gem, ShieldCheck, Layers, Handshake } from "lucide-react";
 import { FadeReveal } from "./ui/ScrollEffects";
-import { isVerified, availabilityPromise } from "@/lib/claims";
+import { isVerified, availabilityPromise, onlyVerified } from "@/lib/claims";
 
 const partnerLogos = [
   "Rolls-Royce", "Bombardier", "Gulfstream", "Embraer",
@@ -15,6 +15,7 @@ const partnerCards = [
     icon: CreditCard,
     tag: "Featured",
     title: "Co-Branded Card Program",
+    claim: "cobrandCards" as const,
     subtitle: "Visa Infinite · Mastercard World Elite",
     desc: "Integrated flight credits, priority booking, and exclusive lifestyle rewards linked directly to card activity. Built with leading financial institutions.",
     badges: ["Visa Infinite", "Mastercard World Elite", "Amex"],
@@ -58,9 +59,9 @@ const partnerCards = [
 ];
 
 const memberBenefits = [
-  { icon: Crown, title: "Hotel Upgrades", desc: "Complimentary suite upgrades at partner luxury hotels worldwide" },
-  { icon: Gem, title: "Spa & Wellness", desc: "Priority access and exclusive rates at premium spas and retreats" },
-  { icon: Star, title: "Premium Transport", desc: "Luxury ground transport and yacht charters at preferential rates" },
+  { icon: Crown, title: "Hotel Upgrades", desc: "Complimentary suite upgrades at partner luxury hotels worldwide", claim: "partnerBrands" as const },
+  { icon: Gem, title: "Spa & Wellness", desc: "Priority access and exclusive rates at premium spas and retreats", claim: "partnerBrands" as const },
+  { icon: Star, title: "Premium Transport", desc: "Luxury ground transport and yacht charters at preferential rates", claim: "partnerBrands" as const },
   { icon: Gift, title: "Travel Privileges", desc: "VIP lounge access, fast-track, and curated travel experiences" },
 ];
 
@@ -79,7 +80,7 @@ const PartnersSection = () => (
       </FadeReveal>
 
       {/* Scrolling logo strip */}
-      <div className="relative overflow-hidden py-6 mb-20">
+      {isVerified("partnerBrands") && <div className="relative overflow-hidden py-6 mb-20">
         <div className="absolute left-0 top-0 bottom-0 w-24 bg-gradient-to-r from-background to-transparent z-10" />
         <div className="absolute right-0 top-0 bottom-0 w-24 bg-gradient-to-l from-background to-transparent z-10" />
         <div className="animate-scroll-logos flex gap-16 items-center whitespace-nowrap">
@@ -92,11 +93,11 @@ const PartnersSection = () => (
             </span>
           ))}
         </div>
-      </div>
+      </div>}
 
       {/* Partner Cards — Co-Branded is dominant */}
       <div className="grid lg:grid-cols-2 gap-6 max-w-5xl mx-auto mb-24">
-        {partnerCards.map((card, i) => (
+        {onlyVerified(partnerCards).map((card, i) => (
           <FadeReveal key={card.title} delay={i * 0.1}>
             <motion.div
               whileHover={{ y: -6, boxShadow: card.featured
@@ -176,7 +177,7 @@ const PartnersSection = () => (
       </FadeReveal>
 
       <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5 max-w-4xl mx-auto mb-16">
-        {memberBenefits.map((b, i) => (
+        {onlyVerified(memberBenefits).map((b, i) => (
           <FadeReveal key={i} delay={i * 0.1}>
             <motion.div
               whileHover={{ y: -4, boxShadow: "0 16px 40px -12px hsla(0, 0%, 0%, 0.1)" }}

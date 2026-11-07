@@ -33,7 +33,7 @@ const coreCapabilities = [
   {
     icon: Landmark,
     title: "Government & Diplomatic",
-    desc: "Secure transport for heads of state, ministerial delegations, and sovereign operations. Full protocol compliance, crew vetting, and operational security.",
+    desc: "Secure transport for heads of state, ministerial delegations, and sovereign operations. Protocol-aware planning, crew selection, and operational security.",
     tags: ["Sovereign", "Protocol", "Secure"],
   },
   {
@@ -51,7 +51,7 @@ const coreCapabilities = [
   {
     icon: Building2,
     title: "Corporate & Charter Programs",
-    desc: "Large-scale workforce transport, executive shuttle services, and corporate charter programmes with fixed schedules and guaranteed capacity.",
+    desc: "Large-scale workforce transport, executive shuttle services, and corporate charter programmes with fixed schedules and capacity planned to your requirements.",
     tags: ["Corporate", "Shuttle", "Programme"],
   },
 ];
@@ -60,7 +60,7 @@ const operationalStrengths = [
   { icon: Zap, title: "Rapid Deployment", stat: "48h", desc: "Aircraft on station within 48–72 hours for urgent requirements. AOG replacement and emergency mobilization." },
   { icon: Radar, title: "Global Sourcing Network", stat: isVerified("aircraftCount") ? FIGURES.aircraftCount : "Worldwide", desc: `Access to ${aircraftReach()} through our operator network — narrow-body to wide-body.` },
   { icon: Target, title: "Aircraft Flexibility", stat: "All Types", desc: "From turboprops to B777s. VIP configuration, cargo, combi, and special mission aircraft available." },
-  { icon: ShieldCheck, title: "Regulatory Compliance", stat: "100%", desc: "AOC structuring, overflight permits, slot coordination, and full regulatory awareness across jurisdictions." },
+  { icon: ShieldCheck, title: "Regulatory Compliance", stat: "AOC", desc: "AOC structuring, overflight permits, slot coordination, and full regulatory awareness across jurisdictions." },
   { icon: Navigation, title: "Complex Routing", stat: "Global", desc: "Multi-sector missions, positioning flights, technical stops, and ETOPS routing planned and executed." },
   { icon: Radio, title: "Mission Planning", stat: "24/7", desc: "Dedicated operations desk for flight planning, crew scheduling, ground handling, and real-time mission support." },
 ];

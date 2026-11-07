@@ -72,7 +72,7 @@ const charterData: Record<string, {
   security: {
     title: "Security & Protection",
     headline: "Discrete Movements. Absolute Confidentiality.",
-    description: "High-net-worth individual protection flights, witness relocation, secure asset transport, and confidential executive travel. Aircraft vetted for security specifications, crews cleared for sensitive operations, and full coordination with private security details.",
+    description: "High-net-worth individual protection flights, witness relocation, secure asset transport, and confidential executive travel. Aircraft selected for security requirements, crews experienced in sensitive operations, and full coordination with private security details.",
     image: "https://d2xsxph8kpxj0f.cloudfront.net/310519663441238946/F94ypwks3ADk2wFrxZVnWB/cargo-charter-loading-UNLEgPt7hoTHe7qWvdfsRq.webp",
     aircraft: ["Gulfstream G550", "Challenger 650", "Global 6000", "Falcon 7X"],
   },

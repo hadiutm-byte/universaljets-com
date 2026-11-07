@@ -11,7 +11,7 @@ import {
   countryReach,
   isVerified,
   onlyVerified,
-  vettingPhrase,
+  vettingSentence,
   yearsPhrase,
 } from "@/lib/claims";
 import PressStrip from "@/components/PressStrip";
@@ -42,11 +42,12 @@ describe("proof switch", () => {
   });
 
   it("falls back to figure-free wording while unverified", () => {
-    expect(aircraftReach()).toBe("a worldwide network of vetted aircraft");
+    expect(aircraftReach()).toBe("a broad range of aircraft");
     expect(countryReach()).toBe("worldwide");
     expect(yearsPhrase()).toBeNull();
-    expect(vettingPhrase()).not.toMatch(/ARGUS|WYVERN/);
+    expect(vettingSentence()).not.toMatch(/ARGUS|WYVERN|verified through/);
     expect(availabilityPromise()).not.toMatch(/guarantee/i);
+    expect(vettingSentence()).toMatch(/Air Operator Certificate/);
   });
 
   it("keeps items without a claim and drops unverified ones", () => {
@@ -75,8 +76,14 @@ describe("proof switch", () => {
     expect(offenders, "use FIGURES / helpers from @/lib/claims instead").toEqual([]);
   });
 
+  it("keeps the static index.html free of figures and unproven claims", () => {
+    const html = fs.readFileSync(path.resolve(SRC, "..", "index.html"), "utf8");
+    expect(html).not.toMatch(/(?<![\d,$])(?:[56]0,000\+|[67],000\+|1[69]0\+|18\+ ?[Yy]ears)(?!\d)/);
+    expect(html).not.toMatch(/ARGUS|WYVERN|IS-BAO|[Gg]uarantee|[Vv]etted/);
+  });
+
   it("never names an accreditation, press outlet or guarantee outside a proof check", () => {
-    const named = /\b(ARGUS|WYVERN|Wyvern|IS-BAO|Since 2006|FIFA World Cup|[Gg]uaranteed [Aa]vailability|[Gg]uaranteed [Aa]ccess)\b/;
+    const named = /\b(ARGUS|WYVERN|Wyvern|IS-BAO|Since 2006|FIFA World Cup|[Gg]uarantee[ds]?|[Vv]etted|[Vv]etting|Verified Operator)\b/;
     const offenders: string[] = [];
     for (const file of publicSourceFiles(SRC)) {
       if (file.endsWith(path.join("lib", "claims.ts"))) continue;

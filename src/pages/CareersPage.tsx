@@ -45,7 +45,7 @@ const WHY_VALUES = [
 const PRINCIPLES = [
   { icon: Scale, title: "Anti-Corruption", desc: "Zero-tolerance policy towards bribery and corruption. We comply fully with UAE, UK, and US anti-corruption laws." },
   { icon: Leaf, title: "Environmental Responsibility", desc: "Carbon offset programmes, sustainable aviation fuel partnerships, and paperless operations for a greener future." },
-  { icon: HardHat, title: "Health & Safety", desc: `Non-negotiable safety standards — ${isVerified("argus") && isVerified("wyvern") && isVerified("isbao") ? "ARGUS Platinum, Wyvern Wingman, IS-BAO certified operators only" : "every operator checked for an air operator certificate and insurance"}.` },
+  { icon: HardHat, title: "Health & Safety", desc: `Non-negotiable safety standards — ${isVerified("argus") && isVerified("wyvern") && isVerified("isbao") ? "ARGUS Platinum, Wyvern Wingman, IS-BAO certified operators only" : "flights flown only by operators holding a valid Air Operator Certificate"}.` },
   { icon: BookOpen, title: "Ethical Business Practices", desc: "Fair pricing, transparent dealings, and client confidentiality upheld in every interaction." },
   { icon: FileCheck, title: "Regulatory Compliance", desc: "DCAA License #3342665, DIEZ License #50370, with full GCAA, GACA, EASA, and FAA compliance." },
   { icon: Shield, title: "Code of Ethics", desc: "Human rights, diversity, data privacy, whistleblower protections — our compass for every decision." },

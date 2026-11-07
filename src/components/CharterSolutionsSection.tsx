@@ -8,7 +8,7 @@ import corporateImg from "@/assets/charter/corporate-charter.jpg";
 import medevacImg from "@/assets/charter/medevac-charter.jpg";
 import cargoImg from "@/assets/charter/cargo-charter.jpg";
 import groupImg from "@/assets/charter/group-charter.jpg";
-import { aircraftReach, yearsPhrase, isVerified, FIGURES, vettingPhrase } from "@/lib/claims";
+import { aircraftReach, yearsPhrase, isVerified, FIGURES, vettingSentence } from "@/lib/claims";
 
 interface CharterCategory {
   title: string;
@@ -395,8 +395,7 @@ const CharterSolutionsSection = () => {
             Global Access. Uncompromised.
           </h3>
           <p className="text-muted-foreground text-base md:text-lg leading-relaxed mb-8">
-            Universal Jets sources from {aircraftReach()} across six continents — every operator
-            {vettingPhrase()} before they reach your itinerary.
+            Universal Jets sources from {aircraftReach()} across six continents. {vettingSentence()}
           </p>
           <Link
             to="/request-flight"

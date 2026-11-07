@@ -121,7 +121,7 @@ const JetCardInquiryPage = () => {
                     <div className="pt-6 border-t border-border">
                       <p className="text-[11px] text-muted-foreground/60 font-light leading-[1.8]">
                         {[
-                          isVerified("aircraftCount") ? `${FIGURES.aircraftCount} vetted aircraft` : "Vetted operators",
+                          isVerified("aircraftCount") ? `${FIGURES.aircraftCount} vetted aircraft` : "Certified operators",
                           isVerified("argus") && isVerified("wyvern") ? "ARGUS/WYVERN certified" : null,
                           isVerified("countryCount") ? countryReach() : "Worldwide",
                         ].filter(Boolean).join(" • ")}

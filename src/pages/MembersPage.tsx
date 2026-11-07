@@ -7,7 +7,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import SEOHead from "@/components/SEOHead";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { isVerified, FIGURES, vettingPhrase } from "@/lib/claims";
+import { isVerified, FIGURES, vettingSentence } from "@/lib/claims";
 
 /* ═══ TIER DATA ═══ */
 const tiers = [
@@ -41,7 +41,7 @@ const tiers = [
     tagline: "The ultimate private aviation experience",
     bestFor: "Unlimited access",
     monthlyPrice: "$5,000",
-    highlights: ["Unrestricted worldwide access", "Unlimited charter requests", "12-hour notice guarantee", "Personal manager + private desk", "No overage fees — ever"],
+    highlights: ["Unrestricted worldwide access", "Unlimited charter requests", "Priority request handling", "Personal manager + private desk", "No overage fees — ever"],
     isMaverick: true,
     cta: "Apply for Maverick",
   },
@@ -60,7 +60,7 @@ const comparisonRows = [
 const trustPillars = [
   { icon: Clock, title: "Under 30-Minute Response", desc: "Every inquiry answered by a real advisor — not a chatbot." },
   { icon: Globe, title: isVerified("aircraftCount") ? `${FIGURES.aircraftCount} Aircraft` : "The Whole Market", desc: "Access to the entire global private jet market, not a single fleet." },
-  { icon: Shield, title: "Vetted Operators", desc: isVerified("argus") && isVerified("wyvern") && isVerified("isbao") ? "ARGUS, WYVERN, and IS-BAO vetted operators exclusively." : `Every operator ${vettingPhrase()}.` },
+  { icon: Shield, title: isVerified("argus") && isVerified("wyvern") && isVerified("isbao") ? "Vetted Operators" : "Certified Operators", desc: isVerified("argus") && isVerified("wyvern") && isVerified("isbao") ? "ARGUS, WYVERN, and IS-BAO vetted operators exclusively." : vettingSentence() },
   { icon: Lock, title: "No Lock-In", desc: "Monthly membership with no long-term contracts required." },
   { icon: Headphones, title: "Dedicated Advisors", desc: "Your own aviation specialist — available when you need them." },
   { icon: CreditCard, title: "All-Inclusive Pricing", desc: "Transparent quotes. No hidden fees, surcharges, or surprises." },

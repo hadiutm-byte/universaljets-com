@@ -105,7 +105,7 @@ export const destinations: Destination[] = [
       "Cotswolds & country estate weekends",
       "Wimbledon & Royal Ascot hospitality",
     ],
-    bookingTip: "London has exceptional FBO infrastructure but peak summer and December demand requires early positioning. We recommend 2–3 weeks lead time for guaranteed slot access.",
+    bookingTip: "London has exceptional FBO infrastructure but peak summer and December demand requires early positioning. We recommend 2–3 weeks lead time for slot access.",
   },
   {
     slug: "monaco",

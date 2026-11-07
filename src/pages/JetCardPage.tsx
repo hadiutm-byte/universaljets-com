@@ -7,12 +7,12 @@ import Footer from "@/components/Footer";
 import SEOHead from "@/components/SEOHead";
 import JsonLd from "@/components/JsonLd";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { isVerified, FIGURES, countryReach, vettingPhrase, availabilityPromise } from "@/lib/claims";
+import { isVerified, FIGURES, countryReach, vettingSentence, availabilityPromise } from "@/lib/claims";
 
 const keyFeatures = [
   "Rates locked at purchase",
   "Zero hidden fees",
-  "Guaranteed aircraft availability",
+  availabilityPromise(),
   "Unused hours carry forward",
   "Access any aircraft class",
   "Priority over on-demand bookings",
@@ -30,7 +30,7 @@ const advantages = [
 ];
 
 const whyChoose = [
-  { icon: Shield, title: "Vetted Operators", desc: `Every operator ${vettingPhrase()}.` },
+  { icon: Shield, title: "Certified Operators", desc: vettingSentence() },
   { icon: Zap, title: "Rapid Response", desc: "Aircraft confirmed within hours, not days. Priority positioning." },
   { icon: Star, title: "Transparent Pricing", desc: "No hidden fees, no surprises. What you see is what you pay." },
   { icon: Users, title: "Dedicated Team", desc: "Personal aviation advisor for all your jet card needs." },
@@ -199,7 +199,7 @@ const JetCardPage = () => (
           </p>
           <p className="text-[10px] tracking-[0.15em] text-muted-foreground font-light">
             {[
-              isVerified("aircraftCount") ? `${FIGURES.aircraftCount} vetted aircraft` : "Vetted operators",
+              isVerified("aircraftCount") ? `${FIGURES.aircraftCount} vetted aircraft` : "Certified operators",
               isVerified("argus") && isVerified("wyvern") ? "ARGUS/WYVERN certified" : null,
               isVerified("countryCount") ? countryReach() : "Worldwide",
             ].filter(Boolean).join(" • ")}

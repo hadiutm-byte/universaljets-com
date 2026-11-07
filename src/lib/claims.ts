@@ -26,7 +26,8 @@ export type ClaimKey =
   | "groupPassengers"
   | "worldCup2022"
   | "guaranteedAvailability"
-  | "partnerBrands";
+  | "partnerBrands"
+  | "cobrandCards";
 
 interface Claim {
   verified: boolean;
@@ -46,7 +47,8 @@ export const CLAIMS: Record<ClaimKey, Claim> = {
   groupPassengers: { verified: false, proof: "Passenger totals from trip records" },
   worldCup2022: { verified: false, proof: "Contract or reference for FIFA World Cup 2022 movements" },
   guaranteedAvailability: { verified: false, proof: "Approved Jet Card terms that guarantee availability" },
-  partnerBrands: { verified: false, proof: "A partner agreement or written permission from each brand named in the footer" },
+  partnerBrands: { verified: false, proof: "A signed partner agreement or written permission for every brand, hotel, dealer or benefit named on any page (footer, homepage, /partners, member benefit lists)" },
+  cobrandCards: { verified: false, proof: "A signed card-issuer agreement for each network named (Visa, Mastercard, Amex)" },
 };
 
 /** The single figure for each number, used only once the claim is verified. */
@@ -64,11 +66,11 @@ export function onlyVerified<T extends { claim?: ClaimKey }>(items: T[]): T[] {
   return items.filter((item) => !item.claim || isVerified(item.claim));
 }
 
-/** "7,000+ vetted aircraft" when verified, otherwise a figure-free phrase. */
+/** "7,000+ vetted aircraft" when verified, otherwise a figure-free phrase with no vetting claim. */
 export const aircraftReach = (): string =>
   isVerified("aircraftCount")
     ? `${FIGURES.aircraftCount} vetted aircraft`
-    : "a worldwide network of vetted aircraft";
+    : "a broad range of aircraft";
 
 /** "190+ countries" when verified, otherwise "worldwide". */
 export const countryReach = (): string =>
@@ -79,10 +81,11 @@ export const yearsPhrase = (): string | null =>
   isVerified("yearsInBusiness") ? `${FIGURES.yearsInBusiness} years` : null;
 
 /** Operator vetting line: names the audits only when both are verified. */
-export const vettingPhrase = (): string =>
+/** One full sentence. The fallback restates Terms §1 (operators hold valid AOCs), not a vetting process we cannot yet evidence. */
+export const vettingSentence = (): string =>
   isVerified("argus") && isVerified("wyvern")
-    ? "verified through ARGUS and WYVERN"
-    : "checked for an air operator certificate and insurance";
+    ? "Every operator is verified through ARGUS and WYVERN before it reaches your itinerary."
+    : "Flights are flown only by operators holding a valid Air Operator Certificate.";
 
 /** Jet Card availability wording. */
 export const availabilityPromise = (): string =>

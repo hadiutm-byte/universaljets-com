@@ -1,5 +1,5 @@
 import { FadeReveal } from "./ui/ScrollEffects";
-import { onlyVerified, FIGURES, yearsPhrase, aircraftReach, vettingPhrase } from "@/lib/claims";
+import { onlyVerified, FIGURES, yearsPhrase, aircraftReach, vettingSentence } from "@/lib/claims";
 
 const SEOContentSection = () => (
   <section className="section-padding section-white">
@@ -20,7 +20,7 @@ const SEOContentSection = () => (
             Private jet charter gives you complete control over your schedule, route, and cabin experience. Unlike commercial aviation, a charter flight operates on your timetable — depart from any of 5,000+ airports worldwide, skip security queues, and arrive closer to your final destination. Universal Jets arranges on-demand charter flights, empty leg deals, and jet card programs for leisure travelers, executives, and corporate teams.
           </p>
           <p>
-            Whether you need a light jet for a short European hop, a super-midsize aircraft for transatlantic travel, or a VIP airliner for group movements, we source the right aircraft at competitive rates from {aircraftReach()}, every operator {vettingPhrase()}.
+            Whether you need a light jet for a short European hop, a super-midsize aircraft for transatlantic travel, or a VIP airliner for group movements, we source the right aircraft at competitive rates from {aircraftReach()}. {vettingSentence()}
           </p>
         </FadeReveal>
 
