@@ -2,7 +2,7 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { BookOpen, Check } from "lucide-react";
 import { Link } from "react-router-dom";
-import { supabase } from "@/integrations/supabase/client";
+import { captureLead } from "@/lib/leadCapture";
 import { toast } from "sonner";
 import { NewsletterSchema } from "@/lib/websiteValidation";
 
@@ -27,9 +27,7 @@ const NewsletterSection = () => {
       return;
     }
     setLoading(true);
-    const { error } = await supabase.functions.invoke("crm-capture", {
-      body: { email, name: "", departure: "Newsletter", destination: "Jet Charter Secrets", source: "newsletter" },
-    });
+    const { error } = await captureLead({ email, name: "", departure: "Newsletter", destination: "Jet Charter Secrets", source: "newsletter" });
     if (error) {
       toast.error("We were unable to subscribe you. Please try again.");
     } else {

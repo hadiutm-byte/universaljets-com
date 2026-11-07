@@ -2,7 +2,7 @@ import { useState, useEffect, useCallback } from "react";
 import { X, Plane } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { supabase } from "@/integrations/supabase/client";
+import { captureLead } from "@/lib/leadCapture";
 import { toast } from "sonner";
 
 const STORAGE_KEY = "uj_exit_popup_dismissed";
@@ -44,14 +44,13 @@ const ExitIntentPopup = () => {
 
     setLoading(true);
     try {
-      await supabase.functions.invoke("crm-capture", {
-        body: {
-          type: "newsletter",
-          email: email.trim(),
-          source: "exit_intent_popup",
-          notes: "Signed up for empty leg alerts via exit-intent popup",
-        },
+      const { error } = await captureLead({
+        type: "newsletter",
+        email: email.trim(),
+        source: "exit_intent_popup",
+        notes: "Signed up for empty leg alerts via exit-intent popup",
       });
+      if (error) throw error;
       toast.success("You're in! We'll send you the best empty leg deals.");
       dismiss();
     } catch {
