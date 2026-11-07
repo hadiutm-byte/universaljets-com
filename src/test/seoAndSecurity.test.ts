@@ -84,6 +84,11 @@ describe("backend hardening", () => {
     expect(src).toContain("../_shared/guard.ts");
     expect(src).toMatch(new RegExp(`enforceRateLimit\\(req, \\{ scope: ["']${fn}["']`));
   });
+  it("crm-api's public capture endpoint is rate limited and bot checked", () => {
+    const src = read("supabase/functions/crm-api/index.ts");
+    expect(src).toMatch(/enforceRateLimit\(req, \{ scope: "crm-api:capture"/);
+    expect(src).toContain("requireHuman(req, turnstileToken");
+  });
   it("the rate-limit counter lives in the database and is service-role only", () => {
     const sql = read("supabase/migrations/20261107043000_rate_limit_buckets.sql");
     expect(sql).toContain("CREATE TABLE IF NOT EXISTS public.rate_limit_buckets");
