@@ -5,6 +5,7 @@ import {
   Heart, TrendingUp, Shield, Award, Plane, Scale, Leaf, HardHat, BookOpen, FileCheck, ArrowLeft,
 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
+import { applyForJob } from "@/lib/leadCapture";
 import { toast } from "sonner";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -147,13 +148,11 @@ const CareersPage = () => {
     e.preventDefault();
     if (!applyForm.name.trim() || !applyForm.email.trim() || !applyForm.position) return;
     try {
-      const { data, error } = await supabase.functions.invoke("career-apply", {
-        body: {
-          full_name: applyForm.name.trim(),
-          email: applyForm.email.trim(),
-          phone: applyForm.phone.trim() || null,
-          interview_answers: [{ position: applyForm.position, cover_letter: applyForm.cover }],
-        },
+      const { data, error } = await applyForJob({
+        full_name: applyForm.name.trim(),
+        email: applyForm.email.trim(),
+        phone: applyForm.phone.trim() || null,
+        interview_answers: [{ position: applyForm.position, cover_letter: applyForm.cover }],
       });
       if (error) throw error;
       setApplySubmitted(true);

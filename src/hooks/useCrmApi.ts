@@ -1,5 +1,6 @@
 import { useCallback } from "react";
 import { supabase } from "@/integrations/supabase/client";
+import { getTurnstileToken } from "@/lib/turnstile";
 
 const CRM_FUNCTION = "crm-api";
 
@@ -113,7 +114,11 @@ export function useCrmApi() {
       referral_source?: string;
       preferred_tier?: string;
       terms_accepted?: boolean;
-    }) => call("capture", { method: "POST", body: payload as any }),
+    }) =>
+      // Public intake: attach a bot-check token when a Turnstile site key is configured.
+      getTurnstileToken().then((turnstileToken) =>
+        call("capture", { method: "POST", body: { ...(payload as any), turnstileToken } }),
+      ),
     [call]
   );
 

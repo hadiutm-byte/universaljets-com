@@ -5,7 +5,7 @@ import {
   ArrowRight, Crown, Landmark, Heart, Wine, Briefcase, Star, Users, Sparkles
 } from "lucide-react";
 import { CoBrandedCard, WhiteLabelCard } from "@/components/PremiumCards";
-import { supabase } from "@/integrations/supabase/client";
+import { captureLead } from "@/lib/leadCapture";
 import { toast } from "sonner";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -105,18 +105,17 @@ const PartnerPage = () => {
     if (!form.name || !form.email || !form.company) return;
     setLoading(true);
     try {
-      await supabase.functions.invoke("crm-capture", {
-        body: {
-          name: form.name,
-          email: form.email,
-          phone: form.phone,
-          company: form.company,
-          departure: "N/A",
-          destination: `Partnership: ${form.partnerType || "General"}`,
-          source: "partner_inquiry",
-          notes: form.message,
-        },
+      const { error } = await captureLead({
+        name: form.name,
+        email: form.email,
+        phone: form.phone,
+        company: form.company,
+        departure: "N/A",
+        destination: `Partnership: ${form.partnerType || "General"}`,
+        source: "partner_inquiry",
+        notes: form.message,
       });
+      if (error) throw error;
       setSubmitted(true);
       toast.success("Partnership inquiry received.");
     } catch {

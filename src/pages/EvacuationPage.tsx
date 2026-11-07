@@ -12,7 +12,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import SEOHead from "@/components/SEOHead";
 import JsonLd, { breadcrumbSchema } from "@/components/JsonLd";
-import { supabase } from "@/integrations/supabase/client";
+import { captureLead } from "@/lib/leadCapture";
 import { toast } from "sonner";
 
 /* ─── Data ─── */
@@ -112,17 +112,16 @@ const EvacuationPage = () => {
     }
     setLoading(true);
     try {
-      await supabase.functions.invoke("crm-capture", {
-        body: {
-          name: form.name,
-          email: form.email,
-          phone: form.phone,
-          departure: `EVACUATION — ${form.region || "Undisclosed"}`,
-          destination: form.organization || "N/A",
-          source: "evacuation_crisis",
-          notes: `Urgency: ${form.urgency || "TBD"}\nPeople: ${form.people_count || "TBD"}\nRegion: ${form.region || "TBD"}\n\n${form.details}`,
-        },
+      const { error } = await captureLead({
+        name: form.name,
+        email: form.email,
+        phone: form.phone,
+        departure: `EVACUATION — ${form.region || "Undisclosed"}`,
+        destination: form.organization || "N/A",
+        source: "evacuation_crisis",
+        notes: `Urgency: ${form.urgency || "TBD"}\nPeople: ${form.people_count || "TBD"}\nRegion: ${form.region || "TBD"}\n\n${form.details}`,
       });
+      if (error) throw error;
       setSubmitted(true);
       toast.success("Crisis inquiry received. Our operations desk will contact you immediately.");
     } catch {

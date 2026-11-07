@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { MapPin, Mail, Clock, Send, MessageCircle, Phone, ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
-import { supabase } from "@/integrations/supabase/client";
+import { captureLead } from "@/lib/leadCapture";
 import { trackGenerateLead } from "@/lib/gtmEvents";
 import { toast } from "sonner";
 import Navbar from "@/components/Navbar";
@@ -51,17 +51,16 @@ const ContactPage = () => {
     }
     setLoading(true);
     try {
-      await supabase.functions.invoke("crm-capture", {
-        body: {
-          name: form.name.trim(),
-          email: form.email.trim(),
-          phone: buildFullPhone(form.countryCode, form.phone.trim()) || form.phone.trim(),
-          departure: form.inquiry || "General Inquiry",
-          destination: "Contact Form",
-          source: "contact_page",
-          notes: form.message.trim(),
-        },
+      const { error } = await captureLead({
+        name: form.name.trim(),
+        email: form.email.trim(),
+        phone: buildFullPhone(form.countryCode, form.phone.trim()) || form.phone.trim(),
+        departure: form.inquiry || "General Inquiry",
+        destination: "Contact Form",
+        source: "contact_page",
+        notes: form.message.trim(),
       });
+      if (error) throw error;
       setSubmitted(true);
       trackGenerateLead({ email: form.email.trim(), phone: form.phone.trim(), name: form.name.trim(), source: "contact_page" });
       toast.success("Your request has been received.");

@@ -11,7 +11,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import SEOHead from "@/components/SEOHead";
-import { supabase } from "@/integrations/supabase/client";
+import { captureLead } from "@/lib/leadCapture";
 import { toast } from "sonner";
 
 /* ─── Data ─── */
@@ -102,15 +102,14 @@ const ACMILeasingPage = () => {
     }
     setLoading(true);
     try {
-      await supabase.functions.invoke("crm-capture", {
-        body: {
-          name: form.name, email: form.email, phone: form.phone,
-          departure: `ACMI — ${form.lease_type || "General"}`,
-          destination: form.company,
-          source: "acmi_operations",
-          notes: `Aircraft: ${form.aircraft_type || "Any"}\nDuration: ${form.duration || "TBD"}\n\n${form.details}`,
-        },
+      const { error } = await captureLead({
+        name: form.name, email: form.email, phone: form.phone,
+        departure: `ACMI — ${form.lease_type || "General"}`,
+        destination: form.company,
+        source: "acmi_operations",
+        notes: `Aircraft: ${form.aircraft_type || "Any"}\nDuration: ${form.duration || "TBD"}\n\n${form.details}`,
       });
+      if (error) throw error;
       setSubmitted(true);
       toast.success("Operational inquiry received. Our team will respond within 24 hours.");
     } catch {

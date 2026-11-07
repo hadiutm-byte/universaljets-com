@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { Crown, Plane, UserCheck, TrendingDown, Tag, Gift, Star, Check } from "lucide-react";
-import { supabase } from "@/integrations/supabase/client";
+import { captureLead } from "@/lib/leadCapture";
 import { toast } from "sonner";
 import { Link } from "react-router-dom";
 import { LegalConsent, PremiumSubmitButton, ConfidentialityNotice } from "@/components/forms/PremiumFormComponents";
@@ -59,9 +59,7 @@ const FoundersCircleSection = () => {
       return;
     }
     setLoading(true);
-    const { error } = await supabase.functions.invoke("crm-capture", {
-      body: { email, name, source: "founders_circle" },
-    });
+    const { error } = await captureLead({ email, name, source: "founders_circle" });
     if (error) {
       toast.error("We were unable to submit your request. Please try again.");
     } else {

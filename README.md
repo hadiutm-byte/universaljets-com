@@ -29,7 +29,10 @@ npm test           # unit tests
 
 Environment variables are listed in `.env.example`. Only publishable (public) keys
 belong in `VITE_*` variables. Service keys live in Supabase function secrets and
-must never be added to this repository.
+must never be added to this repository. `VITE_TURNSTILE_SITE_KEY` switches on the
+Cloudflare Turnstile bot check on the public forms (`src/lib/turnstile.ts`); the
+matching `TURNSTILE_SECRET_KEY` lives in Supabase function secrets and must be
+set only after a build with the site key is live, or every submission is rejected.
 
 ## Deployment
 
