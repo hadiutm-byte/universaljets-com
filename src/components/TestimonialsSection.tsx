@@ -1,49 +1,22 @@
 import { useState, useEffect } from "react";
 import { Star, Quote } from "lucide-react";
+import { verifiedTestimonials } from "@/lib/claims";
 
-const testimonials = [
-  {
-    name: "H.E. Sheikh Khalid",
-    title: "Royal Family Office, Abu Dhabi",
-    text: "Universal Jets has been our trusted aviation partner for over a decade. Their discretion, speed, and ability to source the perfect aircraft every time is unmatched in the region.",
-    rating: 5,
-  },
-  {
-    name: "Sarah M.",
-    title: "CEO, London-based Investment Firm",
-    text: "From a last-minute medevac to seamless multi-leg trips across Africa — they handle the impossible with grace. I wouldn't fly with anyone else.",
-    rating: 5,
-  },
-  {
-    name: "Alexei V.",
-    title: "Private Client, Moscow → Dubai",
-    text: "What sets Universal Jets apart is their concierge-level service. Catering, ground transport, VIP terminal — everything arranged before I even ask.",
-    rating: 5,
-  },
-  {
-    name: "Fatima Al-R.",
-    title: "Family Office, Riyadh",
-    text: "We needed a heavy jet for Hajj season with 24 hours notice. Universal Jets delivered — competitive pricing, immaculate aircraft, zero stress.",
-    rating: 5,
-  },
-  {
-    name: "James T.",
-    title: "Sports Management Agency, New York",
-    text: "Our athletes demand privacy and punctuality. Universal Jets consistently delivers both, with pricing transparency that's rare in this industry.",
-    rating: 5,
-  },
-];
+// Quotes are shown only with the client's written consent on file (src/lib/claims.ts).
+const testimonials = verifiedTestimonials();
 
 const TestimonialsSection = () => {
   const [active, setActive] = useState(0);
 
   useEffect(() => {
+    if (testimonials.length < 2) return;
     const timer = setInterval(() => {
       setActive((p) => (p + 1) % testimonials.length);
     }, 6000);
     return () => clearInterval(timer);
   }, []);
 
+  if (testimonials.length === 0) return null;
   const t = testimonials[active];
 
   return (

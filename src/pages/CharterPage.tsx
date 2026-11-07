@@ -49,8 +49,8 @@ const charterData: Record<string, {
   },
   group: {
     title: "Group Charter",
-    headline: "50,000+ Passengers Across Six Continents.",
-    description: "Corporate delegations, sports teams, concert tours, religious pilgrimages. We've moved 50,000+ passengers across six continents — including FIFA World Cup 2022. We handle group logistics for 12 to 200+ passengers with coordinated scheduling, ground handling, and catering.",
+    headline: "Group Charter Across Six Continents.",
+    description: "Corporate delegations, sports teams, concert tours, religious pilgrimages. We handle group logistics for 12 to 200+ passengers with coordinated scheduling, ground handling, and catering.",
     image: "https://d2xsxph8kpxj0f.cloudfront.net/310519663441238946/F94ypwks3ADk2wFrxZVnWB/group-charter-boarding_c6a14ad9.jpg",
     aircraft: ["Embraer Lineage 1000", "Boeing BBJ", "Airbus ACJ319", "Challenger 850"],
   },

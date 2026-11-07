@@ -124,7 +124,7 @@ const AircraftGuidePage = () => {
               Find Your <span className="text-gradient-gold italic">Perfect Aircraft</span>
             </h1>
             <p className="text-[14px] text-muted-foreground font-light leading-[1.8]">
-              Access 7,000+ aircraft worldwide. From light jets for quick hops to VIP airliners for global delegations.
+              Every aircraft category, worldwide. From light jets for quick hops to VIP airliners for global delegations.
             </p>
           </motion.div>
 
@@ -216,7 +216,7 @@ const AircraftGuidePage = () => {
             className="text-center mt-16"
           >
             <p className="text-[13px] text-muted-foreground/50 font-light mb-4">
-              Can't find what you're looking for? We have access to 7,000+ aircraft.
+              Can't find what you're looking for? We source across the whole market.
             </p>
             <Link
               to="/#cta"

@@ -41,7 +41,7 @@ const QuickOption = ({ icon: Icon, label, onClick }: { icon: any; label: string;
 
 /* ─── Authority items ─── */
 const authorityItems = [
-  { icon: Clock, text: "18+ Years Experience" },
+  { icon: Clock, text: "Independent Broker" },
   { icon: Globe, text: "Global Aircraft Network" },
   { icon: Headphones, text: "24/7 Availability" },
   { icon: Users, text: "Trusted by UHNW Clients" },
@@ -445,7 +445,7 @@ const CTASection = () => {
               Your Aircraft Is One <span className="text-gradient-gold italic font-medium">Message</span> Away
             </h2>
             <p className="text-[11px] text-foreground/25 font-extralight tracking-[0.15em] mb-10">
-              6,000+ aircraft • 40,000 airports • 24/7 global coverage
+              Independent broker • Every aircraft category • 24/7 global coverage
             </p>
             <motion.button
               whileHover={{ scale: 1.03 }}

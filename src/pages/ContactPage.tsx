@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { verified } from "@/lib/claims";
 import { motion } from "framer-motion";
 import { MapPin, Mail, Clock, Send, MessageCircle, Phone, ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
@@ -242,7 +243,7 @@ const ContactPage = () => {
             </div>
             <div>
               <p className="text-[13px] text-foreground font-medium">Universal Jets Aviation Brokerage FZCO</p>
-              <p className="text-[11px] text-muted-foreground font-light">DIEZ License No. 50370 · DCAA License No. 3342665</p>
+              <p className="text-[11px] text-muted-foreground font-light">{verified(["diezLicence", "dcaaLicence"]).map((c) => c.label).join(" · ")}</p>
             </div>
             <a
               href={`https://www.google.com/maps/search/?api=1&query=${OFFICE_LAT},${OFFICE_LNG}`}

@@ -119,7 +119,7 @@ const JetCardInquiryPage = () => {
 
                     <div className="pt-6 border-t border-border">
                       <p className="text-[11px] text-muted-foreground/60 font-light leading-[1.8]">
-                        7,000+ vetted aircraft • ARGUS/WYVERN certified • 160+ countries
+                        Independent broker • Fixed hourly rates • Worldwide
                       </p>
                     </div>
                   </motion.div>

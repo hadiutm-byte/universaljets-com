@@ -1,13 +1,10 @@
 import { motion } from "framer-motion";
 import { CreditCard, Crown, Globe, Star, Gift, ArrowRight, Gem, ShieldCheck, Layers, Handshake } from "lucide-react";
 import { FadeReveal } from "./ui/ScrollEffects";
+import { verifiedPartners } from "@/lib/claims";
 
-const partnerLogos = [
-  "Rolls-Royce", "Bombardier", "Gulfstream", "Embraer",
-  "Dassault Aviation", "Textron Aviation", "VistaJet",
-  "Jetex", "Universal Aviation", "ExcelAire",
-  "Four Seasons", "Bentley", "Aman Hotels",
-];
+// Brands are shown only with an agreement on file (src/lib/claims.ts).
+const partnerLogos = verifiedPartners().map((p) => p.name);
 
 const partnerCards = [
   {
@@ -78,6 +75,7 @@ const PartnersSection = () => (
       </FadeReveal>
 
       {/* Scrolling logo strip */}
+      {partnerLogos.length > 0 && (
       <div className="relative overflow-hidden py-6 mb-20">
         <div className="absolute left-0 top-0 bottom-0 w-24 bg-gradient-to-r from-background to-transparent z-10" />
         <div className="absolute right-0 top-0 bottom-0 w-24 bg-gradient-to-l from-background to-transparent z-10" />
@@ -92,6 +90,7 @@ const PartnersSection = () => (
           ))}
         </div>
       </div>
+      )}
 
       {/* Partner Cards — Co-Branded is dominant */}
       <div className="grid lg:grid-cols-2 gap-6 max-w-5xl mx-auto mb-24">

@@ -484,7 +484,7 @@ export async function generateEmptyLegShareCard(data: ShareCardData): Promise<Bl
   ctx.fillText("universaljets.com", W / 2, H - 72);
   ctx.fillStyle = "rgba(255,255,255,0.15)";
   ctx.font = "300 13px 'Inter', 'Helvetica Neue', sans-serif";
-  ctx.fillText("Private Aviation  ·  Since 2006  ·  Dubai  ·  London", W / 2, H - 46);
+  ctx.fillText("Private Aviation  ·  Independent Broker  ·  Dubai", W / 2, H - 46);
 
   return new Promise<Blob>((resolve, reject) => {
     canvas.toBlob(

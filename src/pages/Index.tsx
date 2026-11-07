@@ -52,7 +52,7 @@ const Index = () => {
     <div className="min-h-screen bg-background relative overflow-x-hidden">
       <SEOHead
         title="Private Jet Charter Dubai — On-Demand Flights"
-        description="Charter a private jet from Dubai worldwide. On-demand flights, empty legs up to 75% off, jet cards with fixed rates. 18+ years, 7,000+ aircraft. Get an instant quote."
+        description="Charter a private jet from Dubai worldwide. On-demand flights, empty legs, jet cards and membership from an independent broker. Get a quote."
         path="/"
       />
       <JsonLd data={organizationSchema} />
