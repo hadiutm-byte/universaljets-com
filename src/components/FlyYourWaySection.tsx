@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { ArrowRight, Check } from "lucide-react";
 import { Link } from "react-router-dom";
+import { availabilityPromise } from "@/lib/claims";
 
 const tiers = [
   {
@@ -30,7 +31,7 @@ const tiers = [
     tagline: "Best for high-frequency clients",
     features: [
       "Fixed hourly rates",
-      "Guaranteed availability",
+      availabilityPromise(),
       "Dedicated account management",
     ],
     cta: { text: "Learn More", href: "/jet-card" },

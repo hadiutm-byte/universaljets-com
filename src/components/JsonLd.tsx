@@ -1,4 +1,5 @@
 import { FAQS } from "@/lib/siteContent";
+import { aircraftReach, countryReach, isVerified, yearsPhrase } from "@/lib/claims";
 
 interface JsonLdProps {
   data: Record<string, unknown>;
@@ -28,8 +29,8 @@ export const organizationSchema = {
   },
   image: "https://universaljets.com/og-image.jpg",
   description:
-    "Dubai-based private jet charter brokerage with 18+ years of experience. On-demand charter, empty legs, jet cards, ACMI leasing, and 24/7 concierge across 190+ countries.",
-  foundingDate: "2006",
+    `Dubai-based private jet charter brokerage${yearsPhrase() ? ` with ${yearsPhrase()} of experience` : ""}. On-demand charter, empty legs, jet cards, ACMI leasing, and 24/7 concierge ${isVerified("countryCount") ? `across ${countryReach()}` : "worldwide"}.`,
+  ...(isVerified("yearsInBusiness") ? { foundingDate: "2006" } : {}),
   foundingLocation: {
     "@type": "Place",
     name: "Dubai, United Arab Emirates",
@@ -145,10 +146,10 @@ export const serviceSchema = {
   serviceType: "Private Aviation Charter Brokerage",
   areaServed: {
     "@type": "Place",
-    name: "Worldwide — 190+ countries",
+    name: isVerified("countryCount") ? `Worldwide — ${countryReach()}` : "Worldwide",
   },
   description:
-    "On-demand private jet charter brokerage with access to 7,000+ vetted aircraft globally. Services include empty leg flights, jet card programs, ACMI leasing, cargo charter, medical evacuation, and full concierge coordination.",
+    `On-demand private jet charter brokerage with access to ${aircraftReach()}. Services include empty leg flights, jet card programs, ACMI leasing, cargo charter, medical evacuation, and full concierge coordination.`,
   hasOfferCatalog: {
     "@type": "OfferCatalog",
     name: "Charter Services",

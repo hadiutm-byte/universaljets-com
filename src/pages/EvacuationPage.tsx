@@ -14,6 +14,7 @@ import SEOHead from "@/components/SEOHead";
 import JsonLd, { breadcrumbSchema } from "@/components/JsonLd";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
+import { isVerified, FIGURES } from "@/lib/claims";
 
 /* ─── Data ─── */
 
@@ -57,11 +58,11 @@ const capabilities = [
 ];
 
 const operationalStrengths = [
-  { icon: Zap, title: "Rapid Mobilization", stat: "4–12h", desc: "Aircraft positioned and crew briefed within hours of activation. Pre-planned contingency routes for high-risk regions." },
+  { icon: Zap, title: "Rapid Mobilization", stat: "On activation", desc: "Aircraft and crews planned for each activation. Pre-planned contingency routes for high-risk regions." },
   { icon: Radio, title: "24/7 Crisis Desk", stat: "Always On", desc: "Dedicated crisis operations team with direct lines to security firms, embassies, and ground handlers in conflict zones." },
   { icon: Navigation, title: "Complex Routing", stat: "Global", desc: "NOTAM monitoring, restricted airspace navigation, alternate airport planning, and fuel contingency for denied diversion zones." },
   { icon: ShieldCheck, title: "Security Coordination", stat: "End-to-End", desc: "Integration with private security contractors, armored ground transport, secure assembly points, and protected embarkation." },
-  { icon: MapPin, title: "Regional Expertise", stat: "190+", desc: "Deep operational knowledge across Middle East, Africa, Central Asia, and Eastern Europe. Established handler networks in austere locations." },
+  { icon: MapPin, title: "Regional Expertise", stat: isVerified("countryCount") ? FIGURES.countryCount : "Regional", desc: "Operational planning across the Middle East, Africa, Central Asia, and Eastern Europe." },
   { icon: Plane, title: "Aircraft Flexibility", stat: "All Types", desc: "From light jets for small-team extractions to wide-body aircraft for mass evacuations. Cargo-configured options for asset recovery." },
 ];
 
@@ -75,11 +76,9 @@ const scenarios = [
 ];
 
 const trustSignals = [
-  "ARGUS Registered Broker",
-  "Conflict Zone Experience",
-  "Global Security Network",
+  ...(isVerified("argus") ? ["ARGUS Registered Broker"] : []),
   "24/7 Crisis Operations",
-  "190+ Country Reach",
+  ...(isVerified("countryCount") ? [`${FIGURES.countryCount} Country Reach`] : []),
   "DCAA License No. 3342665",
 ];
 
@@ -356,8 +355,8 @@ const EvacuationPage = () => {
                   <Select onValueChange={v => set("urgency", v)}>
                     <SelectTrigger className={inputClass}><SelectValue placeholder="Select" /></SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="immediate">Immediate (24h)</SelectItem>
-                      <SelectItem value="urgent">Urgent (48–72h)</SelectItem>
+                      <SelectItem value="immediate">Immediate</SelectItem>
+                      <SelectItem value="urgent">Urgent</SelectItem>
                       <SelectItem value="contingency">Contingency Planning</SelectItem>
                       <SelectItem value="standby">Standby Contract</SelectItem>
                     </SelectContent>

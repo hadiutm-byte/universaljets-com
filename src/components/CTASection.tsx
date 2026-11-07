@@ -20,6 +20,7 @@ import {
   ConfidentialityNotice, ValidationMessage,
 } from "@/components/forms/PremiumFormComponents";
 import { format } from "date-fns";
+import { onlyVerified, isVerified, FIGURES } from "@/lib/claims";
 
 const WHATSAPP_NUMBER = "447888999944";
 const WHATSAPP_MSG = encodeURIComponent("Hi, I'd like to speak with an aviation advisor at Universal Jets.");
@@ -40,18 +41,19 @@ const QuickOption = ({ icon: Icon, label, onClick }: { icon: any; label: string;
 );
 
 /* ─── Authority items ─── */
-const authorityItems = [
-  { icon: Clock, text: "18+ Years Experience" },
-  { icon: Globe, text: "Global Aircraft Network" },
+const authorityItems = onlyVerified([
+  { icon: Clock, text: `${FIGURES.yearsInBusiness} Years Experience`, claim: "yearsInBusiness" as const },
+  { icon: MapPin, text: "Dubai-Based Advisory Team" },
+  { icon: Globe, text: "Global Aircraft Network", claim: "aircraftCount" as const },
   { icon: Headphones, text: "24/7 Availability" },
-  { icon: Users, text: "Trusted by UHNW Clients" },
-];
+  { icon: Users, text: "Trusted by UHNW Clients", claim: "testimonials" as const },
+]).slice(0, 4);
 
 /* ─── What Happens Next steps ─── */
 const nextSteps = [
   { num: "01", text: "We analyze availability across global operators" },
   { num: "02", text: "We optimize aircraft, routing, and pricing" },
-  { num: "03", text: "You receive tailored options within minutes" },
+  { num: "03", text: "You receive tailored options" },
 ];
 
 const aircraftCategories = [
@@ -167,7 +169,7 @@ const CTASection = () => {
               Request Your <span className="text-gradient-gold italic font-medium">Flight</span>
             </h2>
             <p className="text-[12px] md:text-[13px] tracking-[0.12em] text-muted-foreground font-extralight leading-[2] mb-10 max-w-lg mx-auto">
-              Speak directly with an aviation advisor.<br />We respond within minutes.
+              Speak directly with an aviation advisor.<br />Our advisors will be in touch.
             </p>
             <motion.button
               whileHover={{ scale: 1.03 }}
@@ -249,7 +251,7 @@ const CTASection = () => {
                           <Check className="w-7 h-7 text-primary" strokeWidth={1.5} />
                         </div>
                         <h3 className="font-display text-xl mb-3 text-foreground">Request Received</h3>
-                        <p className="text-[12px] text-muted-foreground font-extralight">Your dedicated aviation advisor will contact you within the hour with tailored aircraft options and pricing.</p>
+                        <p className="text-[12px] text-muted-foreground font-extralight">Your dedicated aviation advisor will contact you with tailored aircraft options and pricing.</p>
                       </motion.div>
                     </GlassCard>
                   ) : (
@@ -445,7 +447,7 @@ const CTASection = () => {
               Your Aircraft Is One <span className="text-gradient-gold italic font-medium">Message</span> Away
             </h2>
             <p className="text-[11px] text-foreground/25 font-extralight tracking-[0.15em] mb-10">
-              6,000+ aircraft • 40,000 airports • 24/7 global coverage
+              {isVerified("aircraftCount") ? `${FIGURES.aircraftCount} aircraft • ` : ""}Independent broker • 24/7 global coverage
             </p>
             <motion.button
               whileHover={{ scale: 1.03 }}

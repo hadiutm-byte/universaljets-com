@@ -99,8 +99,8 @@ export default function EmptyLegInquiryModal({ open, onOpenChange, emptyLeg }: P
             </PremiumSelect>
           </div>
           <PremiumSelect label="Confirmation Speed" value={form.confirmation_speed} onChange={(e) => set("confirmation_speed", e.target.value)}>
-            <option value="asap">ASAP — within the hour</option>
-            <option value="standard">Standard — within 24 hours</option>
+            <option value="asap">As soon as possible</option>
+            <option value="standard">Standard</option>
             <option value="flexible">Flexible — no rush</option>
           </PremiumSelect>
           <PremiumCheckbox label="I'm flexible on timing" checked={form.flexible_timing} onChange={(v) => set("flexible_timing", v)} />

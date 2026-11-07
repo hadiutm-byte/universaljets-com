@@ -1,4 +1,5 @@
 import { FadeReveal } from "./ui/ScrollEffects";
+import { onlyVerified, FIGURES, yearsPhrase, aircraftReach, vettingSentence } from "@/lib/claims";
 
 const SEOContentSection = () => (
   <section className="section-padding section-white">
@@ -16,17 +17,17 @@ const SEOContentSection = () => (
         <FadeReveal>
           <h3 className="text-[10px] tracking-[0.4em] uppercase text-primary/60 font-medium mb-4">Why Private Jet Charter?</h3>
           <p className="mb-4">
-            Private jet charter gives you complete control over your schedule, route, and cabin experience. Unlike commercial aviation, a charter flight operates on your timetable — depart from any of 5,000+ airports worldwide, skip security queues, and arrive closer to your final destination. Universal Jets arranges on-demand charter flights, empty leg deals, and jet card programs for leisure travelers, executives, and corporate teams.
+            Private jet charter gives you complete control over your schedule, route, and cabin experience. Unlike commercial aviation, a charter flight operates on your timetable — depart from a wide range of airports, skip security queues, and arrive closer to your final destination. Universal Jets arranges on-demand charter flights, empty leg deals, and jet card programs for leisure travelers, executives, and corporate teams.
           </p>
           <p>
-            Whether you need a light jet for a short European hop, a super-midsize aircraft for transatlantic travel, or a VIP airliner for group movements, we source the right aircraft at competitive rates from a network of 7,000+ vetted aircraft operated by ARGUS- and WYVERN-certified operators.
+            Whether you need a light jet for a short European hop, a super-midsize aircraft for transatlantic travel, or a VIP airliner for group movements, we source the right aircraft at competitive rates from {aircraftReach()}. {vettingSentence()}
           </p>
         </FadeReveal>
 
         <FadeReveal>
           <h3 className="text-[10px] tracking-[0.4em] uppercase text-primary/60 font-medium mb-4">How We Work</h3>
           <p className="mb-4">
-            Universal Jets is a Dubai-based private aviation brokerage with 18+ years of experience arranging charter flights across the Middle East, Europe, Africa, Asia, and the Americas. As an independent broker — not an operator — we compare pricing across the entire market to find you the best aircraft at the best price, every time.
+            Universal Jets is a Dubai-based private aviation brokerage{yearsPhrase() ? ` with ${yearsPhrase()} of experience` : ""} arranging charter flights across the Middle East, Europe, Africa, Asia, and the Americas. As an independent broker — not an operator — we compare pricing across the entire market to find you the best aircraft at the best price, every time.
           </p>
           <p>
             Our services include on-demand private jet charter, empty leg flights at reduced rates, prepaid jet card programs with fixed hourly rates, ACMI and aircraft leasing, cargo charter, medical evacuation flights, helicopter transfers, and full concierge coordination including ground transport, catering, hotels, and security.
@@ -36,12 +37,15 @@ const SEOContentSection = () => (
 
       <FadeReveal className="mt-12">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
-          {[
-            { stat: "18+", label: "Years in Private Aviation" },
-            { stat: "7,000+", label: "Vetted Aircraft Worldwide" },
-            { stat: "190+", label: "Countries Served" },
+          {onlyVerified([
+            { stat: FIGURES.yearsInBusiness, label: "Years in Private Aviation", claim: "yearsInBusiness" as const },
+            { stat: FIGURES.aircraftCount, label: "Vetted Aircraft Worldwide", claim: "aircraftCount" as const },
+            { stat: FIGURES.countryCount, label: "Countries Served", claim: "countryCount" as const },
             { stat: "24/7", label: "Global Concierge Support" },
-          ].map((item) => (
+            { stat: "Dubai", label: "Headquarters" },
+            { stat: "DCAA", label: "Licence No. 3342665" },
+            { stat: "Independent", label: "Broker, not tied to one fleet" },
+          ]).slice(0, 4).map((item) => (
             <div key={item.label} className="py-6">
               <p className="text-2xl md:text-3xl font-display font-semibold text-foreground">{item.stat}</p>
               <p className="text-[11px] text-muted-foreground font-light mt-1">{item.label}</p>

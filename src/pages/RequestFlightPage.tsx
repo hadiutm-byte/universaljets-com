@@ -183,7 +183,7 @@ const RequestFlightPage = () => {
               <FormSuccess
                 icon={PlaneTakeoff}
                 title="Request Received"
-                message="Your dedicated aviation advisor will review your request and contact you within the hour with tailored aircraft options and pricing."
+                message="Your dedicated aviation advisor will review your request and contact you with tailored aircraft options and pricing."
               >
                 <a href="/" className="inline-flex items-center gap-2 px-8 py-3.5 bg-gradient-gold text-primary-foreground text-[10px] tracking-[0.25em] uppercase font-medium rounded-lg btn-luxury">
                   Return Home
@@ -199,7 +199,7 @@ const RequestFlightPage = () => {
 
   return (
     <div className="min-h-screen bg-background overflow-x-hidden">
-      <SEOHead title="Request a Private Flight — Instant Charter Quote" description="Request a private jet charter with Universal Jets. Get tailored aircraft options and pricing within minutes. One-way, round-trip, or multi-city." path="/request-flight" breadcrumbs={[{ name: "Home", path: "/" }, { name: "Request a Flight", path: "/request-flight" }]} />
+      <SEOHead title="Request a Private Flight — Instant Charter Quote" description="Request a private jet charter with Universal Jets. Get tailored aircraft options and pricing promptly. One-way, round-trip, or multi-city." path="/request-flight" breadcrumbs={[{ name: "Home", path: "/" }, { name: "Request a Flight", path: "/request-flight" }]} />
       <Navbar />
       <section className="pt-36 pb-16">
         <div className="container mx-auto px-4 sm:px-6">

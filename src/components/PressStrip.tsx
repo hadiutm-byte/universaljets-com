@@ -1,3 +1,5 @@
+import { isVerified } from "@/lib/claims";
+
 const publications = [
   "Arabian Business",
   "Gulf News",
@@ -7,7 +9,7 @@ const publications = [
   "Aviation Week",
 ];
 
-const PressStrip = () => (
+const PressStrip = () => !isVerified("press") ? null : (
   <section className="py-10 px-4 border-t border-foreground/5" aria-label="Press mentions">
     <div className="max-w-6xl mx-auto text-center">
       <p className="text-muted-foreground text-[11px] tracking-[0.2em] uppercase mb-6 font-medium">

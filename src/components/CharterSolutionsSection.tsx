@@ -8,6 +8,7 @@ import corporateImg from "@/assets/charter/corporate-charter.jpg";
 import medevacImg from "@/assets/charter/medevac-charter.jpg";
 import cargoImg from "@/assets/charter/cargo-charter.jpg";
 import groupImg from "@/assets/charter/group-charter.jpg";
+import { aircraftReach, yearsPhrase, isVerified, FIGURES, vettingSentence } from "@/lib/claims";
 
 interface CharterCategory {
   title: string;
@@ -22,16 +23,16 @@ interface CharterCategory {
 const charterCategories: CharterCategory[] = [
   {
     title: "Leisure",
-    tagline: "10,000+ destinations. Zero layovers.",
+    tagline: "Destinations worldwide. Zero layovers.",
     slug: "leisure",
     image: leisureImg,
     justification:
-      "Operators sell their own fleet — we source from 7,000+ aircraft globally to find the right jet at the right price for your trip. That means better availability, better positioning, and no hidden fees from fleet-tied operators trying to fill their own planes.",
+      `Operators sell their own fleet — we source from ${aircraftReach()} to find the right jet at the right price for your trip. That means better availability, better positioning, and no hidden fees from fleet-tied operators trying to fill their own planes.`,
     differentiators: [
       "Access every aircraft on the market, not just one fleet",
       "Competitive pricing through multi-operator sourcing",
       "24/7 concierge for dining, hotels, and ground transport",
-      "18+ years arranging leisure charters worldwide",
+      ...(yearsPhrase() ? [`${yearsPhrase()} arranging leisure charters worldwide`] : []),
     ],
     aircraft: [
       { name: "Bombardier Challenger 350", link: "/fleet" },
@@ -69,7 +70,7 @@ const charterCategories: CharterCategory[] = [
       "Bed-to-bed transfer coordination worldwide",
       "ICU stretcher and medical crew sourcing",
       "Overflight and conflict-zone permit handling",
-      "Response within 2 hours, departure within 6",
+      "Prompt response and planning for each trip",
     ],
     aircraft: [
       { name: "Learjet 35A Air Ambulance", link: "/fleet" },
@@ -79,14 +80,14 @@ const charterCategories: CharterCategory[] = [
   },
   {
     title: "Cargo",
-    tagline: "Hazmat-certified. Government-cleared.",
+    tagline: "Hazmat and government cargo, planned end to end.",
     slug: "cargo",
     image: cargoImg,
     justification:
       "Cargo operators specialize in standard freight. We handle what they won't — hazardous materials, oversized machinery, classified government shipments, and humanitarian aid into disaster zones. Full customs, permits, and compliance managed end-to-end.",
     differentiators: [
       "Hazmat and oversized freight specialists",
-      "Customs and compliance handled before departure",
+      "Customs paperwork coordinated before departure",
       "Government and NGO mission experience",
       "Global freight aircraft sourcing across all categories",
     ],
@@ -117,14 +118,14 @@ const charterCategories: CharterCategory[] = [
   },
   {
     title: "Group",
-    tagline: "12 to 200+ passengers. Six continents.",
+    tagline: "12 to 200+ passengers.",
     slug: "group",
     image: groupImg,
     justification:
-      "Airlines sell seats — we sell solutions. Sports teams, corporate delegations, concert tours, and pilgrimages require coordinated scheduling, ground handling, and catering that commercial carriers can't customize. We've moved 50,000+ passengers including FIFA World Cup 2022.",
+      "Airlines sell seats — we sell solutions. Sports teams, corporate delegations, concert tours, and pilgrimages require coordinated scheduling, ground handling, and catering that commercial carriers can't customize." + (isVerified("groupPassengers") ? ` We've moved ${FIGURES.groupPassengers} passengers${isVerified("worldCup2022") ? " including FIFA World Cup 2022" : ""}.` : ""),
     differentiators: [
-      "50,000+ group passengers moved globally",
-      "FIFA World Cup 2022 logistics partner",
+      ...(isVerified("groupPassengers") ? [`${FIGURES.groupPassengers} group passengers moved globally`] : []),
+      ...(isVerified("worldCup2022") ? ["FIFA World Cup 2022 logistics partner"] : []),
       "Full ground handling and catering coordination",
       "VIP airliners configured for team and group travel",
     ],
@@ -394,8 +395,7 @@ const CharterSolutionsSection = () => {
             Global Access. Uncompromised.
           </h3>
           <p className="text-muted-foreground text-base md:text-lg leading-relaxed mb-8">
-            Universal Jets sources from 7,000+ vetted aircraft across six continents — every operator
-            verified through ARGUS and Wyvern before they reach your itinerary.
+            Universal Jets sources from {aircraftReach()} for your trip. {vettingSentence()}
           </p>
           <Link
             to="/request-flight"

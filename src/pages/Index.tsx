@@ -14,6 +14,7 @@ import StickyFloatingCTA from "@/components/StickyFloatingCTA";
 import ErrorBoundary from "@/components/ErrorBoundary";
 import LazySection from "@/components/LazySection";
 import useScrollDepthTracking from "@/hooks/useScrollDepthTracking";
+import { isVerified, FIGURES } from "@/lib/claims";
 
 // Lazy-load heavy below-fold sections
 const EmptyLegsMap = lazy(() => import("@/components/EmptyLegsMap"));
@@ -52,7 +53,7 @@ const Index = () => {
     <div className="min-h-screen bg-background relative overflow-x-hidden">
       <SEOHead
         title="Private Jet Charter Dubai — On-Demand Flights"
-        description="Charter a private jet from Dubai worldwide. On-demand flights, empty legs up to 75% off, jet cards with fixed rates. 18+ years, 7,000+ aircraft. Get an instant quote."
+        description={`Charter a private jet from Dubai worldwide. On-demand flights, empty legs up to 75% off, jet cards with fixed rates.${isVerified("yearsInBusiness") && isVerified("aircraftCount") ? ` ${FIGURES.yearsInBusiness} years, ${FIGURES.aircraftCount} aircraft.` : ""} Get an instant quote.`}
         path="/"
       />
       <JsonLd data={organizationSchema} />

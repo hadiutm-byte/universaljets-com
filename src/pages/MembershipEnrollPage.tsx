@@ -7,6 +7,7 @@ import Footer from "@/components/Footer";
 import SEOHead from "@/components/SEOHead";
 import { useCrmApi } from "@/hooks/useCrmApi";
 import { toast } from "sonner";
+import { isVerified } from "@/lib/claims";
 import {
   PremiumInput, PremiumSelect, PremiumTextarea, PremiumCheckbox,
   FormSection, LegalConsent, ConfidentialityNotice,
@@ -170,7 +171,7 @@ const MembershipEnrollPage = () => {
                               }`}>
                               <p className={`font-display text-lg font-semibold mb-1 ${selectedTier === t.key ? "text-primary" : "text-foreground"}`}>{t.name}</p>
                               <p className="text-[11px] text-foreground/60 font-medium mb-1">{t.price}</p>
-                              <p className="text-[11px] text-muted-foreground font-light">{t.desc}</p>
+                              <p className="text-[11px] text-muted-foreground font-light">{isVerified("membershipTerms") && t.desc}</p>
                             </button>
                           ))}
                         </div>
@@ -268,7 +269,7 @@ const MembershipEnrollPage = () => {
                           <div className="flex items-start gap-3">
                             <Shield className="w-4 h-4 text-primary mt-0.5 flex-shrink-0" strokeWidth={1.3} />
                             <p className="text-[12px] text-foreground/60 font-light leading-[1.8]">
-                              Your dedicated advisor will contact you within 24 hours.
+                              Your dedicated advisor will contact you.
                             </p>
                           </div>
                         </div>

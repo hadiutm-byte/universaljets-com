@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { Star, Quote } from "lucide-react";
+import { isVerified } from "@/lib/claims";
 
 const testimonials = [
   {
@@ -34,7 +35,7 @@ const testimonials = [
   },
 ];
 
-const TestimonialsSection = () => {
+const TestimonialsCarousel = () => {
   const [active, setActive] = useState(0);
 
   useEffect(() => {
@@ -100,5 +101,8 @@ const TestimonialsSection = () => {
     </section>
   );
 };
+
+/** Named testimonials stay hidden until each client has consented in writing. */
+const TestimonialsSection = () => (isVerified("testimonials") ? <TestimonialsCarousel /> : null);
 
 export default TestimonialsSection;

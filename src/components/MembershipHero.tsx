@@ -4,7 +4,7 @@ import { trackMembershipRequest } from "@/lib/gtmEvents";
 import { Link } from "react-router-dom";
 
 const privileges = [
-  { icon: Shield, text: "Priority aircraft access" },
+  { icon: Shield, text: "Access to our aircraft network" },
   { icon: Plane, text: "Exclusive empty leg alerts" },
   { icon: UserCheck, text: "Dedicated aviation advisor" },
   { icon: Sparkles, text: "Preferential member pricing" },
@@ -84,7 +84,7 @@ const MembershipHero = ({ onRequestInvitation, onSpeakToAdvisor }: MembershipHer
           className="text-[14px] md:text-[15px] text-white/65 font-light leading-[2] max-w-lg mx-auto mb-12"
         >
           An exclusive network for those who expect more from private aviation.
-          Priority access, dedicated advisors, and privileges reserved for members only.
+          Member access, dedicated advisors, and privileges for members.
         </motion.p>
 
         <motion.div

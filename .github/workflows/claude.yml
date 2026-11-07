@@ -25,12 +25,26 @@ jobs:
       id-token: write
       actions: read
     steps:
+      - name: Check for Claude credentials
+        id: auth
+        env:
+          TOKEN: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+        run: |
+          if [ -z "$TOKEN" ]; then
+            echo "::notice::CLAUDE_CODE_OAUTH_TOKEN is not set, so the Claude step is skipped. Create one with 'claude setup-token' and add it under Settings > Secrets and variables > Actions."
+            echo "ready=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "ready=true" >> "$GITHUB_OUTPUT"
+          fi
+
       - name: Checkout repository
+        if: steps.auth.outputs.ready == 'true'
         uses: actions/checkout@v6
         with:
           fetch-depth: 1
 
       - name: Run Claude Code
+        if: steps.auth.outputs.ready == 'true'
         id: claude
         uses: anthropics/claude-code-action@v1
         with:

@@ -8,18 +8,19 @@ import JsonLd, { aboutPageSchema } from "@/components/JsonLd";
 import { FadeReveal } from "@/components/ui/ScrollEffects";
 import ceoPhoto from "@/assets/hadi-ceo.png";
 import RickyAvatar from "@/components/ricky/RickyAvatar";
+import { onlyVerified, aircraftReach, countryReach, isVerified, yearsPhrase, FIGURES } from "@/lib/claims";
 
-const certifications = [
-  { icon: Shield, text: "ARGUS Registered Broker" },
-  { icon: Award, text: "WYVERN Certified" },
+const certifications = onlyVerified([
+  { icon: Shield, text: "ARGUS Registered Broker", claim: "argus" as const },
+  { icon: Award, text: "WYVERN Certified", claim: "wyvern" as const },
   { icon: FileCheck, text: "DCAA License No. 3342665" },
   { icon: Globe, text: "DIEZ Registered No. 50370" },
-];
+]);
 
 const howCards = [
   { num: "01", title: "Access", desc: "We analyze the entire global market — not just one fleet.", icon: Compass },
   { num: "02", title: "Precision", desc: "We match aircraft, routing, and pricing intelligently.", icon: Target },
-  { num: "03", title: "Execution", desc: "You receive tailored options within minutes.", icon: Zap },
+  { num: "03", title: "Execution", desc: "You receive tailored options.", icon: Zap },
 ];
 
 const regions = [
@@ -35,7 +36,7 @@ const RICKY_ENABLED: boolean = false;
 
 const AboutPage = () => (
   <div className="min-h-screen bg-background relative">
-    <SEOHead title="About Universal Jets — 18+ Years in Private Aviation" description="Discover Universal Jets: a Dubai-based private jet brokerage with 18+ years of experience, ARGUS and WYVERN certified, serving UHNW clients worldwide." path="/about" breadcrumbs={[{ name: "Home", path: "/" }, { name: "About", path: "/about" }]} />
+    <SEOHead title={isVerified("yearsInBusiness") ? `About Universal Jets — ${FIGURES.yearsInBusiness} Years in Private Aviation` : "About Universal Jets — Dubai Private Aviation Broker"} description={`Discover Universal Jets: a Dubai-based private jet brokerage${yearsPhrase() ? ` with ${yearsPhrase()} of experience` : ""}${isVerified("argus") && isVerified("wyvern") ? ", ARGUS and WYVERN certified" : ""}, serving UHNW clients worldwide.`} path="/about" breadcrumbs={[{ name: "Home", path: "/" }, { name: "About", path: "/about" }]} />
     <JsonLd data={aboutPageSchema} />
     <div className="relative">
       <Navbar />
@@ -174,19 +175,19 @@ const AboutPage = () => (
               <div className="w-10 h-[1px] bg-primary/40 mb-8" />
               <div className="space-y-5 text-[14px] md:text-[15px] text-white/60 font-light leading-[2]">
                 <p>
-                  Private aviation is no longer a luxury reserved for the privileged few. It is essential for those who refuse to compromise on time, privacy, and precision. When I founded Universal Jets in 2018, my singular commitment was clear: to build the world's most capable aviation brokerage, one that serves every client with the same level of excellence, transparency, and unwavering integrity.
+                  Private aviation is no longer a luxury reserved for the privileged few. It is essential for those who refuse to compromise on time, privacy, and precision. When I founded Universal Jets, my singular commitment was clear: to build the world's most capable aviation brokerage, one that serves every client with the same level of excellence, transparency, and unwavering integrity.
                 </p>
                 <p>
-                  My experience spans nearly two decades, serving the most discerning clients, from managing VIP accounts at Michelin-starred hotels in France and Abu Dhabi, to commanding luxury yacht operations across the Mediterranean, to building travel management enterprises catering to high-net-worth individuals. Every role taught me one lesson: excellence is non-negotiable. Our clients don't just book flights. They expect seamless experiences where every detail is anticipated, every concern resolved before it arises, and every journey unforgettable.
+                  My experience spans nearly two decades, serving the most discerning clients, from managing VIP accounts at commanding luxury yacht operations across the Mediterranean, to building travel management enterprises catering to high-net-worth individuals. Every role taught me one lesson: excellence is non-negotiable. Our clients don't just book flights. They expect seamless experiences where every detail is anticipated, every concern resolved before it arises, and every journey unforgettable.
                 </p>
                 <p>
                   Today, the aviation industry stands at a pivotal moment. Global commerce is accelerating. High-net-worth individuals demand unprecedented flexibility. Governments and humanitarian organizations require rapid-response capabilities. Dubai, at the crossroads of East and West, is the epicenter of this transformation. Universal Jets was built precisely for this moment.
                 </p>
                 <p>
-                  We don't just book flights. We execute missions. From evacuating critically ill patients in conflict zones, to transporting dangerous goods with full regulatory compliance, to coordinating multi-leg government cargo operations, to delivering humanitarian aid where others cannot reach, we operate at the highest level every single day.
+                  We don't just book flights. We execute missions. From evacuating critically ill patients in conflict zones, to transporting dangerous goods, to coordinating multi-leg government cargo operations, to delivering humanitarian aid where others cannot reach, we operate at the highest level every single day.
                 </p>
                 <p>
-                  Alongside these critical operations, we deliver the refined leisure and corporate charter experiences our clients expect, with identical precision, care, and excellence. With access to 60,000+ aircraft, operations across 160 countries, and 24/7 control from Dubai and London, we've set a global standard for private aviation brokerage.
+                  Alongside these critical operations, we deliver the refined leisure and corporate charter experiences our clients expect, with identical precision, care, and excellence. With access to {aircraftReach()}, operations {isVerified("countryCount") ? `across ${countryReach()}` : "worldwide"}, and 24/7 control from Dubai and London, we hold ourselves to a global standard for private aviation brokerage.
                 </p>
                 <p className="text-white/70">
                   The Universal Jets difference is simple: we compete at the highest level and we win. We don't compromise. We don't cut corners. We don't settle for "good enough." Excellence is our standard, never the exception.

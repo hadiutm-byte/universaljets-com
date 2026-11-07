@@ -22,6 +22,7 @@ import {
   formatDistance,
 } from "@/lib/pricingEstimates";
 import SEOHead from "@/components/SEOHead";
+import { isVerified } from "@/lib/claims";
 
 const getSupabaseUrl = () => import.meta.env.VITE_SUPABASE_URL;
 const getAnonKey = () => import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY;
@@ -267,7 +268,7 @@ const SearchResults = () => {
                 No operators have instant availability for this route right now.
               </p>
               <p className="text-[12px] text-muted-foreground/60 font-light mb-8 max-w-md mx-auto">
-                Our concierge team can source aircraft from our global network within minutes.
+                Our concierge team can source aircraft from our network promptly.
               </p>
               <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
                 <button
@@ -395,7 +396,7 @@ const SearchResults = () => {
                         )}
                         {(result as any).certified && (
                           <span className="px-2.5 py-1 rounded-full text-[8px] tracking-[0.1em] uppercase font-medium bg-primary/90 text-primary-foreground flex items-center gap-1">
-                            <Shield size={8} /> Verified
+                            <Shield size={8} /> {isVerified("argus") && isVerified("wyvern") ? "Verified" : "Supplier-listed"}
                           </span>
                         )}
                       </div>
@@ -510,8 +511,8 @@ const SearchResults = () => {
                             <Shield size={14} className="text-primary/60" />
                           </div>
                           <div>
-                            <p className="text-[11px] text-foreground font-medium">Verified Operator</p>
-                            <p className="text-[9px] text-muted-foreground font-light">ARGUS / WYVERN certified</p>
+                            <p className="text-[11px] text-foreground font-medium">{isVerified("argus") && isVerified("wyvern") ? "Verified Operator" : "Third-party operator"}</p>
+                            <p className="text-[9px] text-muted-foreground font-light">{isVerified("argus") && isVerified("wyvern") ? "ARGUS / WYVERN certified" : "Arranged by Universal Jets as a broker"}</p>
                           </div>
                         </div>
                       )}

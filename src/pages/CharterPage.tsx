@@ -4,6 +4,7 @@ import { Plane, ArrowLeft } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import SEOHead from "@/components/SEOHead";
+import { isVerified, FIGURES } from "@/lib/claims";
 
 const charterData: Record<string, {
   title: string;
@@ -15,7 +16,7 @@ const charterData: Record<string, {
   leisure: {
     title: "Leisure Charter",
     headline: "Your Island Doesn't Have a Runway? We'll Find One Nearby.",
-    description: "Ski trips, honeymoons, family escapes — 10,000+ destinations with zero layovers and zero strangers on board. Whether it's a Mediterranean villa, a Caribbean island, or a lodge in the Alps — your leisure charter is built around your schedule, your preferences, and your privacy.",
+    description: "Ski trips, honeymoons, family escapes — destinations worldwide with zero layovers and zero strangers on board. Whether it's a Mediterranean villa, a Caribbean island, or a lodge in the Alps — your leisure charter is built around your schedule, your preferences, and your privacy.",
     image: "https://d2xsxph8kpxj0f.cloudfront.net/310519663441238946/F94ypwks3ADk2wFrxZVnWB/leisure-travel-luxury-azcFavRQuX4DrgSwWAoAtx.webp",
     aircraft: ["Citation CJ3", "Phenom 300", "Challenger 350", "Global 7500"],
   },
@@ -35,8 +36,8 @@ const charterData: Record<string, {
   },
   cargo: {
     title: "Cargo & Special Missions",
-    headline: "Hazmat-Certified. Government-Cleared.",
-    description: "From humanitarian aid drops to classified freight, we move what others can't — or won't. Permits, customs, and compliance handled before you finish your coffee. Oversized freight, hazardous materials, sensitive government shipments, humanitarian aid, and NGO operations — we arrange cargo charters with specialist operators and full customs/logistic coordination.",
+    headline: "Hazmat and Government Cargo. Planned End to End.",
+    description: "From humanitarian aid drops to classified freight, we move what others can't — or won't. Permits and customs coordinated in advance. Oversized freight, hazardous materials, sensitive government shipments, humanitarian aid, and NGO operations — we arrange cargo charters with specialist operators and full customs/logistic coordination.",
     image: "https://d2xsxph8kpxj0f.cloudfront.net/310519663441238946/F94ypwks3ADk2wFrxZVnWB/cargo-charter-loading-UNLEgPt7hoTHe7qWvdfsRq.webp",
     aircraft: ["Boeing 737F", "Antonov AN-12", "Pilatus PC-12", "Beechcraft 1900D"],
   },
@@ -49,8 +50,8 @@ const charterData: Record<string, {
   },
   group: {
     title: "Group Charter",
-    headline: "50,000+ Passengers Across Six Continents.",
-    description: "Corporate delegations, sports teams, concert tours, religious pilgrimages. We've moved 50,000+ passengers across six continents — including FIFA World Cup 2022. We handle group logistics for 12 to 200+ passengers with coordinated scheduling, ground handling, and catering.",
+    headline: isVerified("groupPassengers") ? `${FIGURES.groupPassengers} Passengers Across Six Continents.` : "Group Travel for 12 to 200+ Passengers.",
+    description: "Corporate delegations, sports teams, concert tours, religious pilgrimages." + (isVerified("groupPassengers") ? ` We've moved ${FIGURES.groupPassengers} passengers across six continents${isVerified("worldCup2022") ? " — including FIFA World Cup 2022" : ""}.` : "") + " We handle group logistics for 12 to 200+ passengers with coordinated scheduling, ground handling, and catering.",
     image: "https://d2xsxph8kpxj0f.cloudfront.net/310519663441238946/F94ypwks3ADk2wFrxZVnWB/group-charter-boarding_c6a14ad9.jpg",
     aircraft: ["Embraer Lineage 1000", "Boeing BBJ", "Airbus ACJ319", "Challenger 850"],
   },
@@ -63,15 +64,15 @@ const charterData: Record<string, {
   },
   government: {
     title: "Government & Diplomatic",
-    headline: "State-Level Logistics. Classified Clearance.",
-    description: "Diplomatic missions, VIP head-of-state transport, classified cargo movements, and official delegations. We handle government-grade security protocols, sovereign overflight permissions, and full compliance with international aviation regulations for sensitive state operations.",
+    headline: "State-Level Logistics, Planned for Each Mission.",
+    description: "Diplomatic missions, VIP head-of-state transport, classified cargo movements, and official delegations. We coordinate security protocols and overflight permissions for each mission, and coordination with the applicable aviation authorities for sensitive state operations.",
     image: "https://d2xsxph8kpxj0f.cloudfront.net/310519663441238946/F94ypwks3ADk2wFrxZVnWB/corporate-executive-jet-a3dWZJiLaShszow9sv8fuB.webp",
     aircraft: ["Boeing BBJ", "Airbus ACJ319", "Gulfstream G650ER", "Global 7500"],
   },
   security: {
     title: "Security & Protection",
     headline: "Discrete Movements. Absolute Confidentiality.",
-    description: "High-net-worth individual protection flights, witness relocation, secure asset transport, and confidential executive travel. Aircraft vetted for security specifications, crews cleared for sensitive operations, and full coordination with private security details.",
+    description: "High-net-worth individual protection flights, witness relocation, secure asset transport, and confidential executive travel. Aircraft selected for security requirements, crews experienced in sensitive operations, and full coordination with private security details.",
     image: "https://d2xsxph8kpxj0f.cloudfront.net/310519663441238946/F94ypwks3ADk2wFrxZVnWB/cargo-charter-loading-UNLEgPt7hoTHe7qWvdfsRq.webp",
     aircraft: ["Gulfstream G550", "Challenger 650", "Global 6000", "Falcon 7X"],
   },
@@ -92,7 +93,7 @@ const charterData: Record<string, {
   diplomatic: {
     title: "Diplomatic Flights",
     headline: "Sovereign Airspace. Sovereign Service.",
-    description: "Embassy evacuations, diplomatic courier flights, UN missions, and international organization transport. We navigate the most complex regulatory environments with full diplomatic clearance coordination, secure communication capabilities, and protocol-compliant cabin configurations.",
+    description: "Embassy evacuations, diplomatic courier flights, UN missions, and international organization transport. We coordinate diplomatic clearances for each mission, secure communication capabilities, and protocol-compliant cabin configurations.",
     image: "https://d2xsxph8kpxj0f.cloudfront.net/310519663441238946/F94ypwks3ADk2wFrxZVnWB/corporate-executive-jet-a3dWZJiLaShszow9sv8fuB.webp",
     aircraft: ["Gulfstream G650ER", "Global 7500", "Airbus ACJ320", "Boeing BBJ"],
   },

@@ -137,7 +137,7 @@ const ContactPage = () => {
         <div className="max-w-2xl mx-auto">
           <motion.div {...fade} className="text-center mb-14">
             <h2 className="font-display text-3xl md:text-4xl font-semibold mb-4">Send a request.</h2>
-            <p className="text-muted-foreground text-[15px] font-light">We'll respond within the hour.</p>
+            <p className="text-muted-foreground text-[15px] font-light">We'll respond shortly.</p>
           </motion.div>
 
           {!submitted ? (

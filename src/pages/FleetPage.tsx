@@ -10,6 +10,7 @@ import { getAircraftImage } from "@/lib/aircraftImages";
 import { Loader2, Users, Ruler, Gauge, Share2, ArrowRight, Images } from "lucide-react";
 import { toast } from "sonner";
 import AircraftGallery from "@/components/AircraftGallery";
+import { aircraftReach } from "@/lib/claims";
 
 const JET_CATEGORIES = [
   { label: "All Jets", filter: "" },
@@ -76,7 +77,7 @@ const FleetPage = () => {
               Aircraft <span className="text-gradient-gold italic">Collection</span>
             </h1>
             <p className="text-[14px] md:text-[15px] text-muted-foreground font-light leading-[1.9] max-w-xl mx-auto">
-              Access 7,000+ vetted aircraft worldwide. Every jet in our network is selected for safety, comfort, and performance.
+              Access {aircraftReach()}. Compare aircraft by size, range and comfort for your trip.
             </p>
           </motion.div>
         </section>

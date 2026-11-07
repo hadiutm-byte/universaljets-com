@@ -13,6 +13,7 @@ import Footer from "@/components/Footer";
 import SEOHead from "@/components/SEOHead";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
+import { isVerified, FIGURES, aircraftReach } from "@/lib/claims";
 
 /* ─── Data ─── */
 
@@ -26,19 +27,19 @@ const coreCapabilities = [
   {
     icon: Truck,
     title: "Cargo & Freight",
-    desc: "Dedicated freighter aircraft for time-critical cargo, oversized loads, dangerous goods, and humanitarian logistics. Global positioning within 48 hours.",
+    desc: "Dedicated freighter aircraft for time-critical cargo, oversized loads, dangerous goods, and humanitarian logistics.",
     tags: ["Freighter", "DG Cargo", "Oversize"],
   },
   {
     icon: Landmark,
     title: "Government & Diplomatic",
-    desc: "Secure transport for heads of state, ministerial delegations, and sovereign operations. Full protocol compliance, crew vetting, and operational security.",
+    desc: "Secure transport for heads of state, ministerial delegations, and sovereign operations. Protocol-aware planning, crew selection, and operational security.",
     tags: ["Sovereign", "Protocol", "Secure"],
   },
   {
     icon: AlertTriangle,
     title: "Humanitarian & Urgent Deployment",
-    desc: "Rapid aircraft mobilization for disaster response, medical evacuation, emergency repatriation, and crisis logistics. Operational within hours, not days.",
+    desc: "Rapid aircraft mobilization for disaster response, medical evacuation, emergency repatriation, and crisis logistics.",
     tags: ["Emergency", "MedEvac", "Crisis"],
   },
   {
@@ -50,36 +51,35 @@ const coreCapabilities = [
   {
     icon: Building2,
     title: "Corporate & Charter Programs",
-    desc: "Large-scale workforce transport, executive shuttle services, and corporate charter programmes with fixed schedules and guaranteed capacity.",
+    desc: "Large-scale workforce transport, executive shuttle services, and corporate charter programmes with fixed schedules and capacity planned to your requirements.",
     tags: ["Corporate", "Shuttle", "Programme"],
   },
 ];
 
 const operationalStrengths = [
-  { icon: Zap, title: "Rapid Deployment", stat: "48h", desc: "Aircraft on station within 48–72 hours for urgent requirements. AOG replacement and emergency mobilization." },
-  { icon: Radar, title: "Global Sourcing Network", stat: "7,000+", desc: "Access to 7,000+ vetted aircraft worldwide through our operator network — narrow-body to wide-body." },
+  { icon: Zap, title: "Rapid Deployment", stat: "On request", desc: "Aircraft mobilised for urgent requirements, including AOG replacement and emergency movements." },
+  { icon: Radar, title: "Global Sourcing Network", stat: isVerified("aircraftCount") ? FIGURES.aircraftCount : "Worldwide", desc: `Access to ${aircraftReach()} through our operator network — narrow-body to wide-body.` },
   { icon: Target, title: "Aircraft Flexibility", stat: "All Types", desc: "From turboprops to B777s. VIP configuration, cargo, combi, and special mission aircraft available." },
-  { icon: ShieldCheck, title: "Regulatory Compliance", stat: "100%", desc: "AOC structuring, overflight permits, slot coordination, and full regulatory awareness across jurisdictions." },
+  { icon: ShieldCheck, title: "Regulatory Support", stat: "Planning", desc: "Operational structuring, overflight permits, and slot coordination across jurisdictions." },
   { icon: Navigation, title: "Complex Routing", stat: "Global", desc: "Multi-sector missions, positioning flights, technical stops, and ETOPS routing planned and executed." },
   { icon: Radio, title: "Mission Planning", stat: "24/7", desc: "Dedicated operations desk for flight planning, crew scheduling, ground handling, and real-time mission support." },
 ];
 
 const useCases = [
-  { title: "Short-Term ACMI", desc: "Immediate capacity for planned or unplanned fleet gaps. Aircraft on station within 48–72 hours.", priority: "high" },
+  { title: "Short-Term ACMI", desc: "Capacity for planned or unplanned fleet gaps, planned to your schedule.", priority: "high" },
   { title: "Seasonal Capacity", desc: "Peak-period aircraft for summer schedules, holiday surges, Hajj/Umrah operations, or route launches.", priority: "high" },
   { title: "AOG Replacement", desc: "Emergency aircraft substitution when your fleet is grounded — minimum downtime, maximum reliability.", priority: "critical" },
   { title: "Cargo & Special Missions", desc: "Freighter ACMI, dangerous goods, oversized cargo, and time-critical logistics worldwide.", priority: "medium" },
-  { title: "Government & Diplomatic", desc: "Secure transport for heads of state, delegations, and sensitive operations with full protocol compliance.", priority: "high" },
+  { title: "Government & Diplomatic", desc: "Secure transport for heads of state, delegations, and sensitive operations with protocol-aware planning.", priority: "high" },
   { title: "Humanitarian Response", desc: "Crisis logistics, disaster relief flights, medical evacuation, and emergency repatriation operations.", priority: "critical" },
   { title: "Hajj & Umrah Operations", desc: "Dedicated wide-body aircraft with crew rotations for large-scale pilgrimage operations.", priority: "medium" },
   { title: "Corporate Shuttle", desc: "Scheduled workforce transport between production sites, HQs, and remote locations.", priority: "medium" },
 ];
 
 const trustSignals = [
-  "ARGUS Registered Broker",
-  "WYVERN Certified Network",
-  "ICAO Compliant Operations",
-  "Global AOC Structuring",
+  ...(isVerified("argus") ? ["ARGUS Registered Broker"] : []),
+  ...(isVerified("wyvern") ? ["WYVERN Certified Network"] : []),
+  "Global Operational Planning",
   "24/7 Operations Desk",
   "DCAA License No. 3342665",
 ];
@@ -112,7 +112,7 @@ const ACMILeasingPage = () => {
         },
       });
       setSubmitted(true);
-      toast.success("Operational inquiry received. Our team will respond within 24 hours.");
+      toast.success("Operational inquiry received. Our team will respond shortly.");
     } catch {
       toast.error("Something went wrong. Please try again.");
     } finally {
@@ -335,7 +335,7 @@ const ACMILeasingPage = () => {
               Discuss an ACMI / <span className="text-gradient-gold italic">Mission Requirement</span>
             </h2>
             <p className="text-[13px] text-white/60 font-extralight leading-[2] max-w-md mx-auto">
-              Tell us your operational requirements — our team will structure a proposal within 24 hours.
+              Tell us your operational requirements — our team will structure a proposal.
             </p>
           </motion.div>
 
@@ -353,7 +353,7 @@ const ACMILeasingPage = () => {
                 </div>
                 <h3 className="font-display text-lg text-white mb-3">Operational Inquiry Received</h3>
                 <p className="text-[12px] text-white/60 font-extralight leading-[2] max-w-sm mx-auto">
-                  Our operations team will review your requirements and respond within 24 hours with a structured proposal.
+                  Our operations team will review your requirements and respond with a structured proposal.
                 </p>
               </div>
             ) : (
@@ -442,7 +442,7 @@ const ACMILeasingPage = () => {
               Mission-Critical Aviation. <span className="text-gradient-gold italic">On Demand.</span>
             </h2>
             <p className="text-[13px] text-white/60 font-extralight leading-[2] max-w-md mx-auto mb-10">
-              Whether you need an aircraft in 48 hours or a long-term ACMI contract, we're ready.
+              Whether you need an aircraft at short notice or a long-term ACMI contract, we're ready.
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
               <a href="#acmi-form" className="px-10 py-4 bg-gradient-gold text-primary-foreground text-[10px] tracking-[0.3em] uppercase font-medium rounded-sm hover:shadow-[0_0_40px_-8px_hsla(43,85%,58%,0.5)] transition-all duration-500 inline-flex items-center gap-2">

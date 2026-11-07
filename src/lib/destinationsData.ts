@@ -54,7 +54,7 @@ export const destinations: Destination[] = [
     },
     concierge: [
       "VIP terminal access at Al Maktoum (DWC)",
-      "Rolls-Royce & Maybach chauffeured transfers",
+      "Chauffeured luxury car transfers",
       "Helicopter transfers to Abu Dhabi & RAK",
       "Yacht charter coordination",
       "Private dining & event access",
@@ -101,11 +101,11 @@ export const destinations: Destination[] = [
     ],
     lifestyle: [
       "Mayfair & Knightsbridge luxury shopping",
-      "Michelin-starred private dining",
+      "Private dining arranged on request",
       "Cotswolds & country estate weekends",
       "Wimbledon & Royal Ascot hospitality",
     ],
-    bookingTip: "London has exceptional FBO infrastructure but peak summer and December demand requires early positioning. We recommend 2–3 weeks lead time for guaranteed slot access.",
+    bookingTip: "London has exceptional FBO infrastructure but peak summer and December demand requires early positioning. We recommend 2–3 weeks lead time for slot access.",
   },
   {
     slug: "monaco",
@@ -357,7 +357,7 @@ export const destinations: Destination[] = [
     concierge: [
       "Le Bourget VIP lounge & fast-track customs",
       "Chauffeur service to Place Vendôme, Champs-Élysées, or Versailles",
-      "Michelin-star restaurant reservations",
+      "Restaurant reservations arranged on request",
       "Fashion Week show access & front-row coordination",
       "Private museum & gallery tours",
     ],
@@ -395,7 +395,7 @@ export const destinations: Destination[] = [
       "Royal terminal access coordination",
       "Armoured vehicle & security escort",
       "Government protocol & delegation support",
-      "Hotel coordination (Ritz-Carlton, Four Seasons)",
+      "Hotel coordination with five-star properties",
       "Business meeting & conference logistics",
     ],
     lifestyle: [

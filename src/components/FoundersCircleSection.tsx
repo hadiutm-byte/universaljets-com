@@ -5,9 +5,10 @@ import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { Link } from "react-router-dom";
 import { LegalConsent, PremiumSubmitButton, ConfidentialityNotice } from "@/components/forms/PremiumFormComponents";
+import { availabilityPromise } from "@/lib/claims";
 
 const benefits = [
-  { icon: Plane, text: "Priority aircraft access worldwide" },
+  { icon: Plane, text: "Access to our aircraft network" },
   { icon: UserCheck, text: "Dedicated aviation advisor" },
   { icon: TrendingDown, text: "Preferential pricing across global operators" },
   { icon: Tag, text: "Access to exclusive empty legs and off-market flights" },
@@ -29,15 +30,15 @@ const membershipTiers = [
   {
     name: "Private Access",
     tagline: "Digital Membership",
-    desc: "Priority access, preferential rates, and a dedicated aviation advisor.",
+    desc: "Membership terms set out in writing, and a dedicated aviation advisor.",
     features: ["Dedicated advisor", "Preferential pricing", "Priority booking", "Exclusive empty legs", "Member privileges"],
     accent: true,
   },
   {
     name: "Jet Card",
     tagline: "Fixed-Rate Program",
-    desc: "Guaranteed availability and locked hourly rates for frequent flyers.",
-    features: ["Fixed hourly rates", "Guaranteed availability", "Senior aviation manager", "Full concierge", "Route optimization"],
+    desc: `${availabilityPromise()} and locked hourly rates for frequent flyers.`,
+    features: ["Fixed hourly rates", availabilityPromise(), "Senior aviation manager", "Full concierge", "Route optimization"],
     accent: false,
   },
 ];
