@@ -15,7 +15,7 @@ describe("dusk homepage preview", () => {
 
   it("makes no claim the claims file has not proven", () => {
     const page = read("src/pages/preview/DuskHomePage.tsx");
-    expect(page).toContain('verified(["dcaaLicence", "diezLicence"])');
+    expect(page).not.toMatch(/3342665|50370|ARGUS|WYVERN|7,000|18\+/);
     expect(page).toMatch(/independent broker/i);
     expect(page).toContain("does not own or operate aircraft");
     expect(page).toContain("On request");

@@ -11,7 +11,6 @@ import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import SEOHead from "@/components/SEOHead";
-import { verified } from "@/lib/claims";
 import "./dusk.css";
 
 import heroImg from "@/assets/hero-jet-v3.jpg";
@@ -108,7 +107,9 @@ const DuskHomePage = () => {
   const [catId, setCatId] = useState("supermid");
   const [heroFrame, setHeroFrame] = useState(0);
   const cat = CATEGORIES.find((c) => c.id === catId) ?? CATEGORIES[0];
-  const licences = verified(["dcaaLicence", "diezLicence"]);
+  // Licence numbers come from src/lib/claims.ts once that file lands (PR #39); until then the
+  // pillar and footer stay generic rather than restate numbers nobody has checked.
+  const licences: { label: string }[] = [];
 
   // A slow cross-fade between two frames stands in for the hero film.
   useEffect(() => {
