@@ -54,3 +54,5 @@ must never be added to this repository.
   verified. A price in a supplier feed is not confirmed availability.
 - Operator names, tail numbers and registrations are never sent to public pages.
   See `src/lib/architecture.md`.
+
+<!-- ci verify 1794024751 -->
