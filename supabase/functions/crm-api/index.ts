@@ -1,5 +1,6 @@
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.100.0";
 import { z } from "https://deno.land/x/zod@v3.23.8/mod.ts";
+import { enforceRateLimit, requireHuman } from "../_shared/guard.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -204,6 +205,15 @@ Deno.serve(async (req) => {
     // PUBLIC: POST /capture — Universal lead capture
     // ══════════════════════════════════════════════════════════
     if (endpoint === "capture" && httpMethod === "POST") {
+      // Public intake: 10 submissions per caller per 10 minutes, counted in the
+      // database, and a Turnstile check once the secret is configured.
+      const limited = await enforceRateLimit(req, { scope: "crm-api:capture", limit: 10, windowSeconds: 600, cors: corsHeaders });
+      if (limited) return limited;
+      const turnstileToken = body.turnstileToken;
+      delete body.turnstileToken;
+      const notHuman = await requireHuman(req, turnstileToken, corsHeaders);
+      if (notHuman) return notHuman;
+
       const parsed = CaptureSchema.safeParse(body);
       if (!parsed.success) {
         const fieldErrors = parsed.error.flatten().fieldErrors;

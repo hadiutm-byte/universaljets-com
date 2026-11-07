@@ -1,4 +1,5 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
+import { enforceRateLimit } from '../_shared/guard.ts';
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
@@ -13,6 +14,8 @@ serve(async (req) => {
   }
 
   try {
+    const limited = await enforceRateLimit(req, { scope: 'aviapages-cities', limit: 120, windowSeconds: 60, cors: corsHeaders });
+    if (limited) return limited;
     const apiKey = Deno.env.get('AVIAPAGES_API_KEY');
     if (!apiKey) throw new Error('AVIAPAGES_API_KEY not configured');
 
