@@ -181,9 +181,12 @@ const QuoteDetailPage = () => {
   };
 
   const copyQuoteLink = () => {
-    const url = `${window.location.origin}/quote/${quoteId}`;
+    // The token lets a client with no account open and answer the quote.
+    const url = quote?.public_token
+      ? `${window.location.origin}/quote/${quoteId}?token=${quote.public_token}`
+      : `${window.location.origin}/quote/${quoteId}`;
     navigator.clipboard.writeText(url);
-    toast.success("Quote link copied");
+    toast.success(quote?.public_token ? "Quote link copied" : "Quote link copied (no client token yet: apply the quote_public_tokens migration)");
   };
 
   if (loading) {

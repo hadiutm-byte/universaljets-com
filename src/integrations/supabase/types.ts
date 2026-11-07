@@ -1125,7 +1125,9 @@ export type Database = {
           id: string
           operator: string | null
           price: number | null
+          public_token: string
           request_id: string | null
+          responded_at: string | null
           status: Database["public"]["Enums"]["quote_status"]
           valid_until: string | null
         }
@@ -1136,7 +1138,9 @@ export type Database = {
           id?: string
           operator?: string | null
           price?: number | null
+          public_token?: string
           request_id?: string | null
+          responded_at?: string | null
           status?: Database["public"]["Enums"]["quote_status"]
           valid_until?: string | null
         }
@@ -1147,7 +1151,9 @@ export type Database = {
           id?: string
           operator?: string | null
           price?: number | null
+          public_token?: string
           request_id?: string | null
+          responded_at?: string | null
           status?: Database["public"]["Enums"]["quote_status"]
           valid_until?: string | null
         }
@@ -1412,9 +1418,17 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      consume_rate_limit: {
+        Args: { p_bucket: string; p_limit: number; p_window_seconds: number }
+        Returns: number
+      }
       delete_email: {
         Args: { message_id: number; queue_name: string }
         Returns: boolean
+      }
+      get_quote_by_token: {
+        Args: { p_token: string }
+        Returns: Json
       }
       enqueue_email: {
         Args: { payload: Json; queue_name: string }
@@ -1435,6 +1449,10 @@ export type Database = {
           source_queue: string
         }
         Returns: number
+      }
+      respond_to_quote: {
+        Args: { p_decision: string; p_token: string }
+        Returns: Json
       }
       read_email_batch: {
         Args: { batch_size: number; queue_name: string; vt: number }
