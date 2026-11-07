@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { verified } from "@/lib/claims";
 import { motion } from "framer-motion";
 import {
   Plane, Shield, Globe, Clock, FileText, ArrowRight, Users, Building2,
@@ -57,7 +58,7 @@ const coreCapabilities = [
 
 const operationalStrengths = [
   { icon: Zap, title: "Rapid Deployment", stat: "48h", desc: "Aircraft on station within 48–72 hours for urgent requirements. AOG replacement and emergency mobilization." },
-  { icon: Radar, title: "Global Sourcing Network", stat: "7,000+", desc: "Access to 7,000+ vetted aircraft worldwide through our operator network — narrow-body to wide-body." },
+  { icon: Radar, title: "Global Sourcing Network", stat: "Global", desc: "Access to vetted aircraft worldwide through our operator network — narrow-body to wide-body." },
   { icon: Target, title: "Aircraft Flexibility", stat: "All Types", desc: "From turboprops to B777s. VIP configuration, cargo, combi, and special mission aircraft available." },
   { icon: ShieldCheck, title: "Regulatory Compliance", stat: "100%", desc: "AOC structuring, overflight permits, slot coordination, and full regulatory awareness across jurisdictions." },
   { icon: Navigation, title: "Complex Routing", stat: "Global", desc: "Multi-sector missions, positioning flights, technical stops, and ETOPS routing planned and executed." },
@@ -75,13 +76,13 @@ const useCases = [
   { title: "Corporate Shuttle", desc: "Scheduled workforce transport between production sites, HQs, and remote locations.", priority: "medium" },
 ];
 
+// Claims appear only with proof on file (src/lib/claims.ts).
 const trustSignals = [
-  "ARGUS Registered Broker",
-  "WYVERN Certified Network",
-  "ICAO Compliant Operations",
+  ...verified(["argusBroker", "wyvernBroker"]).map((c) => c.label),
+  "Licensed Operators Only",
   "Global AOC Structuring",
   "24/7 Operations Desk",
-  "DCAA License No. 3342665",
+  ...verified(["dcaaLicence"]).map((c) => c.label),
 ];
 
 /* ─── Component ─── */

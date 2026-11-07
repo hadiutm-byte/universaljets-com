@@ -26,12 +26,12 @@ const charterCategories: CharterCategory[] = [
     slug: "leisure",
     image: leisureImg,
     justification:
-      "Operators sell their own fleet — we source from 7,000+ aircraft globally to find the right jet at the right price for your trip. That means better availability, better positioning, and no hidden fees from fleet-tied operators trying to fill their own planes.",
+      "Operators sell their own fleet — we source across the whole market to find the right jet at the right price for your trip. That means better availability, better positioning, and no hidden fees from fleet-tied operators trying to fill their own planes.",
     differentiators: [
       "Access every aircraft on the market, not just one fleet",
       "Competitive pricing through multi-operator sourcing",
       "24/7 concierge for dining, hotels, and ground transport",
-      "18+ years arranging leisure charters worldwide",
+      "One advisor from first call to landing",
     ],
     aircraft: [
       { name: "Bombardier Challenger 350", link: "/fleet" },
@@ -121,10 +121,10 @@ const charterCategories: CharterCategory[] = [
     slug: "group",
     image: groupImg,
     justification:
-      "Airlines sell seats — we sell solutions. Sports teams, corporate delegations, concert tours, and pilgrimages require coordinated scheduling, ground handling, and catering that commercial carriers can't customize. We've moved 50,000+ passengers including FIFA World Cup 2022.",
+      "Airlines sell seats — we sell solutions. Sports teams, corporate delegations, concert tours, and pilgrimages require coordinated scheduling, ground handling, and catering that commercial carriers can't customize. We handle group logistics for 12 to 200+ passengers with coordinated scheduling, ground handling and catering.",
     differentiators: [
-      "50,000+ group passengers moved globally",
-      "FIFA World Cup 2022 logistics partner",
+      "Group movements from 12 to 200+ passengers",
+      "One contract, one invoice, one point of contact",
       "Full ground handling and catering coordination",
       "VIP airliners configured for team and group travel",
     ],
@@ -394,8 +394,8 @@ const CharterSolutionsSection = () => {
             Global Access. Uncompromised.
           </h3>
           <p className="text-muted-foreground text-base md:text-lg leading-relaxed mb-8">
-            Universal Jets sources from 7,000+ vetted aircraft across six continents — every operator
-            verified through ARGUS and Wyvern before they reach your itinerary.
+            Universal Jets sources from licensed operators across six continents, and puts each
+            operator's certificate and insurance in front of you before you book.
           </p>
           <Link
             to="/request-flight"

@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { verified } from "@/lib/claims";
 import { motion } from "framer-motion";
 import {
   Shield, Globe, Clock, ArrowRight, AlertTriangle, Check,
@@ -61,7 +62,7 @@ const operationalStrengths = [
   { icon: Radio, title: "24/7 Crisis Desk", stat: "Always On", desc: "Dedicated crisis operations team with direct lines to security firms, embassies, and ground handlers in conflict zones." },
   { icon: Navigation, title: "Complex Routing", stat: "Global", desc: "NOTAM monitoring, restricted airspace navigation, alternate airport planning, and fuel contingency for denied diversion zones." },
   { icon: ShieldCheck, title: "Security Coordination", stat: "End-to-End", desc: "Integration with private security contractors, armored ground transport, secure assembly points, and protected embarkation." },
-  { icon: MapPin, title: "Regional Expertise", stat: "190+", desc: "Deep operational knowledge across Middle East, Africa, Central Asia, and Eastern Europe. Established handler networks in austere locations." },
+  { icon: MapPin, title: "Regional Expertise", stat: "Regional", desc: "Deep operational knowledge across Middle East, Africa, Central Asia, and Eastern Europe. Established handler networks in austere locations." },
   { icon: Plane, title: "Aircraft Flexibility", stat: "All Types", desc: "From light jets for small-team extractions to wide-body aircraft for mass evacuations. Cargo-configured options for asset recovery." },
 ];
 
@@ -74,13 +75,13 @@ const scenarios = [
   { title: "Asset & Evidence Recovery", desc: "Secure extraction of critical documents, equipment, and digital assets from compromised locations.", priority: "medium" },
 ];
 
+// Claims appear only with proof on file (src/lib/claims.ts).
 const trustSignals = [
-  "ARGUS Registered Broker",
+  ...verified(["argusBroker"]).map((c) => c.label),
   "Conflict Zone Experience",
   "Global Security Network",
   "24/7 Crisis Operations",
-  "190+ Country Reach",
-  "DCAA License No. 3342665",
+  ...verified(["countriesServed", "dcaaLicence"]).map((c) => c.label),
 ];
 
 /* ─── Page schema ─── */

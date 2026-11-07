@@ -42,10 +42,10 @@ const FleetSection = () => {
         >
           <p className="text-[11px] tracking-[0.5em] uppercase text-primary mb-6 font-medium">Aircraft Categories</p>
           <h2 className="text-3xl md:text-5xl lg:text-6xl font-display font-semibold text-foreground mb-6">
-            Access to 7,000+ Aircraft <span className="text-gradient-gold italic">Worldwide</span>
+            The Right Aircraft, <span className="text-gradient-gold italic">Worldwide</span>
           </h2>
           <p className="text-[14px] md:text-[15px] text-muted-foreground font-light leading-[1.9] max-w-xl mx-auto">
-            From light jets to ultra long-range aircraft, we work with vetted operators across Europe, the Middle East, the United States, and beyond.
+            From light jets to ultra long-range aircraft, we work with licensed operators across Europe, the Middle East, the United States, and beyond.
           </p>
         </motion.div>
 

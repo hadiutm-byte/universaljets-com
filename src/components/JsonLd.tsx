@@ -28,8 +28,7 @@ export const organizationSchema = {
   },
   image: "https://universaljets.com/og-image.jpg",
   description:
-    "Dubai-based private jet charter brokerage with 18+ years of experience. On-demand charter, empty legs, jet cards, ACMI leasing, and 24/7 concierge across 190+ countries.",
-  foundingDate: "2006",
+    "Dubai-based independent private jet charter brokerage. On-demand charter, empty legs, jet cards, membership, ACMI leasing and 24/7 concierge worldwide.",
   foundingLocation: {
     "@type": "Place",
     name: "Dubai, United Arab Emirates",
@@ -145,10 +144,10 @@ export const serviceSchema = {
   serviceType: "Private Aviation Charter Brokerage",
   areaServed: {
     "@type": "Place",
-    name: "Worldwide — 190+ countries",
+    name: "Worldwide",
   },
   description:
-    "On-demand private jet charter brokerage with access to 7,000+ vetted aircraft globally. Services include empty leg flights, jet card programs, ACMI leasing, cargo charter, medical evacuation, and full concierge coordination.",
+    "On-demand private jet charter brokerage sourcing from licensed operators worldwide. Services include empty leg flights, jet card programs, ACMI leasing, cargo charter, medical evacuation, and full concierge coordination.",
   hasOfferCatalog: {
     "@type": "OfferCatalog",
     name: "Charter Services",

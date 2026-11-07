@@ -1,13 +1,18 @@
-import { ShieldCheck, Award, CheckCircle2, Globe } from "lucide-react";
+import { ShieldCheck, Award, CheckCircle2, Globe, FileCheck } from "lucide-react";
+import { CLAIMS, isVerified, type ClaimKey } from "@/lib/claims";
 
-const badges = [
-  { icon: ShieldCheck, label: "ARGUS Rated", desc: "International safety audit" },
-  { icon: Award, label: "WYVERN Wingman", desc: "Operator verification" },
-  { icon: CheckCircle2, label: "IS-BAO Compliant", desc: "Safety management standard" },
-  { icon: Globe, label: "190+ Countries", desc: "Global operational reach" },
+// Only claims with proof on file (src/lib/claims.ts) are shown.
+const candidates: { key: ClaimKey; icon: typeof ShieldCheck }[] = [
+  { key: "argusBroker", icon: ShieldCheck },
+  { key: "wyvernBroker", icon: Award },
+  { key: "isbaoOperators", icon: CheckCircle2 },
+  { key: "countriesServed", icon: Globe },
+  { key: "dcaaLicence", icon: FileCheck },
+  { key: "diezLicence", icon: FileCheck },
 ];
+const badges = candidates.filter((c) => isVerified(c.key)).map((c) => ({ icon: c.icon, label: CLAIMS[c.key].label, desc: CLAIMS[c.key].detail }));
 
-const CertificationBadges = () => (
+const CertificationBadges = () => badges.length === 0 ? null : (
   <section className="py-12 md:py-16 px-4 border-t border-b border-foreground/5" aria-label="Safety certifications">
     <div className="max-w-6xl mx-auto">
       <p className="text-center text-primary font-semibold tracking-[0.25em] uppercase text-[11px] mb-8">

@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect, useCallback } from "react";
+import { verified } from "@/lib/claims";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Send, ArrowRight, Calendar, Briefcase, Users, Globe, ChevronRight,
@@ -34,9 +35,9 @@ const sectionFade = {
 /* ─── Content from live site ─── */
 const WHY_VALUES = [
   { icon: Heart, title: "Family First", desc: "We treat every team member like family. Your growth is our growth, your success is our success." },
-  { icon: Globe, title: "Global Reach", desc: "Work with clients and partners across 190+ countries. Your office is the world." },
+  { icon: Globe, title: "Global Reach", desc: "Work with clients and partners around the world. Your office is the world." },
   { icon: TrendingUp, title: "Unlimited Growth", desc: "No ceilings, no limits. We promote from within and invest in your professional development." },
-  { icon: Award, title: "Industry Leaders", desc: "ARGUS Registered, Wyvern Certified, DCAA Licensed. Join a company that sets the standard." },
+  { icon: Award, title: "Industry Leaders", desc: "Licensed in Dubai and held to the standard we promise clients. Join a company that keeps its word." },
   { icon: Briefcase, title: "Rewarding Culture", desc: "Competitive compensation, performance bonuses, and the satisfaction of working in the world's most exciting industry." },
   { icon: Plane, title: "Aviation Passion", desc: "If you love aviation, you'll love working here. Every day brings new challenges and extraordinary experiences." },
 ];
@@ -44,9 +45,9 @@ const WHY_VALUES = [
 const PRINCIPLES = [
   { icon: Scale, title: "Anti-Corruption", desc: "Zero-tolerance policy towards bribery and corruption. We comply fully with UAE, UK, and US anti-corruption laws." },
   { icon: Leaf, title: "Environmental Responsibility", desc: "Carbon offset programmes, sustainable aviation fuel partnerships, and paperless operations for a greener future." },
-  { icon: HardHat, title: "Health & Safety", desc: "Non-negotiable safety standards — ARGUS Platinum, Wyvern Wingman, IS-BAO certified operators only." },
+  { icon: HardHat, title: "Health & Safety", desc: "Non-negotiable safety standards: licensed operators only, with certificate and insurance checked on every flight." },
   { icon: BookOpen, title: "Ethical Business Practices", desc: "Fair pricing, transparent dealings, and client confidentiality upheld in every interaction." },
-  { icon: FileCheck, title: "Regulatory Compliance", desc: "DCAA License #3342665, DIEZ License #50370, with full GCAA, GACA, EASA, and FAA compliance." },
+  { icon: FileCheck, title: "Regulatory Compliance", desc: `${verified(["dcaaLicence", "diezLicence"]).map((c) => c.label).join(", ")}. Every flight runs under the operator's own air operator certificate and its regulator's rules.` },
   { icon: Shield, title: "Code of Ethics", desc: "Human rights, diversity, data privacy, whistleblower protections — our compass for every decision." },
 ];
 

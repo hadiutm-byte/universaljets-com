@@ -29,7 +29,7 @@ const advantages = [
 ];
 
 const whyChoose = [
-  { icon: Shield, title: "Safety Certified", desc: "Every operator vetted through ARGUS and WYVERN standards." },
+  { icon: Shield, title: "Operators Checked", desc: "Each operator's certificate and insurance are checked before an aircraft is confirmed." },
   { icon: Zap, title: "Rapid Response", desc: "Aircraft confirmed within hours, not days. Priority positioning." },
   { icon: Star, title: "Transparent Pricing", desc: "No hidden fees, no surprises. What you see is what you pay." },
   { icon: Users, title: "Dedicated Team", desc: "Personal aviation advisor for all your jet card needs." },
@@ -39,7 +39,7 @@ const faqs = [
   { q: "How do I purchase a Jet Card?", a: "Complete the inquiry form and our team will prepare a tailored proposal based on your flying patterns, preferred aircraft category, and estimated annual usage. Cards are activated upon payment." },
   { q: "What aircraft can I access?", a: "Your Altus Jet Card provides access to the full range of aircraft classes — from very light jets to ultra long range. There are no fleet restrictions." },
   { q: "Do unused hours expire?", a: "No. Unused hours carry forward and never expire. Your investment is fully protected." },
-  { q: "Can I use the card for international flights?", a: "Yes. The Altus Jet Card Global provides worldwide coverage across 160+ countries. All positioning, permits, and handling are managed end-to-end." },
+  { q: "Can I use the card for international flights?", a: "Yes. The Altus Jet Card Global provides worldwide coverage. All positioning, permits, and handling are managed end-to-end." },
   { q: "How is the Jet Card different from Membership?", a: "The Jet Card is a prepaid hour balance with locked-in rates and no recurring fees. Membership is a monthly subscription that provides priority access, exclusive rates, and concierge support. Both include full concierge services." },
 ];
 
@@ -110,7 +110,7 @@ const JetCardPage = () => (
     <section className="py-5 border-y border-border bg-muted/30">
       <div className="container mx-auto px-8">
         <div className="flex flex-wrap justify-center items-center gap-x-8 gap-y-2">
-          {["Fixed rates", "Zero hidden fees", "Hours carry forward", "Any aircraft class", "Global coverage", "160+ countries"].map((s, i) => (
+          {["Fixed rates", "Zero hidden fees", "Hours carry forward", "Any aircraft class", "Global coverage", "Worldwide positioning"].map((s, i) => (
             <div key={i} className="flex items-center gap-1.5">
               <Check className="w-3 h-3 text-primary" strokeWidth={2} />
               <span className="text-[8px] tracking-[0.15em] uppercase text-muted-foreground font-light whitespace-nowrap">{s}</span>
@@ -197,7 +197,7 @@ const JetCardPage = () => (
             We source the best aircraft globally for every mission.
           </p>
           <p className="text-[10px] tracking-[0.15em] text-muted-foreground font-light">
-            7,000+ vetted aircraft • ARGUS/WYVERN certified • 160+ countries
+            Independent broker • Fixed hourly rates • Worldwide
           </p>
         </motion.div>
       </div>

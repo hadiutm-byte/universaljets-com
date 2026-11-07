@@ -1,14 +1,12 @@
 import { motion } from "framer-motion";
 import { ShieldCheck } from "lucide-react";
 import { FadeReveal, StaggerContainer, StaggerItem, GlassCard, FloatingElement } from "./ui/ScrollEffects";
+import { verified } from "@/lib/claims";
 
-const certifications = [
-  { name: "WYVERN", sub: "Wingman Certified" },
-  { name: "ARGUS", sub: "Platinum / Gold Rated" },
-  { name: "ICAO", sub: "Compliant Operators" },
-];
+// Only claims with proof on file (src/lib/claims.ts) are shown.
+const certifications = verified(["wyvernBroker", "argusBroker", "isbaoOperators", "dcaaLicence"]).map((c) => ({ name: c.short, sub: c.label.replace(`${c.short} `, "") }));
 
-const SafetySection = () => (
+const SafetySection = () => certifications.length === 0 ? null : (
   <section id="safety" className="section-padding relative overflow-hidden">
     <div className="grid-overlay" />
 
@@ -45,7 +43,7 @@ const SafetySection = () => (
 
       <FadeReveal delay={0.3}>
         <p className="text-center text-[12px] text-muted-foreground/70 font-light italic">
-          Every flight is verified before confirmation.
+          Every operator's certificate and insurance are checked before a flight is confirmed.
         </p>
       </FadeReveal>
     </div>

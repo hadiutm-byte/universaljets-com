@@ -510,8 +510,8 @@ const SearchResults = () => {
                             <Shield size={14} className="text-primary/60" />
                           </div>
                           <div>
-                            <p className="text-[11px] text-foreground font-medium">Verified Operator</p>
-                            <p className="text-[9px] text-muted-foreground font-light">ARGUS / WYVERN certified</p>
+                            <p className="text-[11px] text-foreground font-medium">Licensed Operator</p>
+                            <p className="text-[9px] text-muted-foreground font-light">Certificate and insurance on request</p>
                           </div>
                         </div>
                       )}
