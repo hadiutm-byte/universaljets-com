@@ -30,6 +30,8 @@ export interface Claim {
   /** What the claim means, for a sub-line. */
   detail: string;
   proof?: Proof;
+  /** What has been found so far when it is not yet proof. Never rendered. */
+  evidence?: string;
 }
 
 export const CLAIMS = {
@@ -53,9 +55,26 @@ export const CLAIMS = {
       note: "Number carried over from the previous site. Check it against the licence document and record the expiry date here.",
     },
   },
-  argusBroker: { short: "ARGUS", label: "ARGUS Registered Broker", detail: "Charter broker registration" },
-  wyvernBroker: { short: "WYVERN", label: "WYVERN Certified", detail: "Broker programme" },
-  isbaoOperators: { short: "IS-BAO", label: "IS-BAO registered operators", detail: "Operator safety standard" },
+  argusBroker: {
+    short: "ARGUS",
+    label: "ARGUS Certified Charter Broker",
+    detail: "Audited charter broker designation",
+    evidence:
+      "Checked 2026-11-07: not on the ARGUS Broker Registry (argus.aero/brokerregistry, 20 brokers, all Certified). The Registered tier the site used to claim was retired in 2026; only the audited Certified tier remains.",
+  },
+  wyvernBroker: {
+    short: "WYVERN",
+    label: "WYVERN Broker member",
+    detail: "WYVERN Broker Membership programme",
+    evidence:
+      "WYVERN press room, checked 2026-11-07: 'Universal Jets LTD (London, UK) has successfully enrolled in the WYVERN Broker Membership program', published 6 April 2023 (wyvernltd.com/wyvern-press-room/we-welcome-universal-jets-as-a-new-wyvern-broker/). Membership, not Wingman certification, and in the name of the UK company. Publish once WYVERN confirms the membership is current and covers the FZCO.",
+  },
+  isbaoOperators: {
+    short: "IS-BAO",
+    label: "IS-BAO registered operators",
+    detail: "Operator safety standard",
+    evidence: "IS-BAO applies to operators, not brokers. Could only be stated per flight, for an operator that holds it.",
+  },
   yearsInAviation: { short: "18+", label: "18+ years in private aviation", detail: "Years arranging private flights" },
   aircraftNetwork: { short: "7,000+", label: "7,000+ aircraft worldwide", detail: "Aircraft reachable through operator partners" },
   countriesServed: { short: "190+", label: "190+ countries served", detail: "Countries flights have been arranged to" },
@@ -81,6 +100,7 @@ export interface PressMention {
   publishedOn?: string;
 }
 
+/** Checked 2026-11-07: no article mentioning Universal Jets found on any of these sites. */
 export const PRESS: PressMention[] = [
   { outlet: "Arabian Business" },
   { outlet: "Gulf News" },
