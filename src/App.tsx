@@ -6,6 +6,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import ErrorBoundary from "./components/ErrorBoundary.tsx";
 const Index = lazy(() => import("./pages/Index.tsx"));
+const DuskHomePage = lazy(() => import("./pages/preview/DuskHomePage.tsx"));
 import ScrollToTop from "./components/ScrollToTop.tsx";
 import CookieConsent from "./components/CookieConsent.tsx";
 import ContentProtection from "./components/ContentProtection.tsx";
@@ -109,6 +110,7 @@ const App = () => (
         <Suspense fallback={<PageLoader />}>
           <Routes>
             <Route path="/" element={<Index />} />
+            <Route path="/preview/dusk" element={<DuskHomePage />} />
             <Route path="/members" element={<MembersPage />} />
             <Route path="/membership" element={<MembersPage />} />
             <Route path="/membership/enroll" element={<MembershipEnrollPage />} />

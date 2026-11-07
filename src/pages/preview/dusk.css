@@ -1,0 +1,853 @@
+/* Dusk: the direction-D homepage, scoped under .dusk so nothing leaks into the
+   rest of the site. Tokens first, then layout, then each band in page order. */
+
+.dusk {
+  --espresso: #2a2622;
+  --ink: #14120f;
+  --sand: #f1ece2;
+  --stone: #dcd4c5;
+  --gold: #efbb39;
+  --gold-deep: #8a6a12;
+  --light: #e4ded3;
+  --dark: #1c1915;
+  --dark-muted: #55504a;
+  --serif: "Cormorant Garamond", "Times New Roman", serif;
+  --sans: "Montserrat", system-ui, sans-serif;
+  --measure: 1320px;
+  --pad: clamp(20px, 4vw, 64px);
+
+  background: var(--ink);
+  color: #fff;
+  font-family: var(--sans);
+  font-weight: 300;
+  font-size: 16px;
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+}
+
+.dusk *,
+.dusk *::before,
+.dusk *::after {
+  box-sizing: border-box;
+}
+
+.dusk a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.dusk :focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 3px;
+}
+
+/* ── Type ─────────────────────────────────────────────────────────── */
+
+.dusk .label {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.dusk .serif {
+  font-family: var(--serif);
+  font-weight: 500;
+  line-height: 1.04;
+  letter-spacing: -0.005em;
+}
+
+.dusk .serif em {
+  font-style: italic;
+  color: var(--gold);
+}
+
+.dusk .display {
+  font-size: clamp(44px, 7vw, 96px);
+}
+
+.dusk .h2 {
+  font-size: clamp(36px, 4.6vw, 64px);
+}
+
+.dusk .h3 {
+  font-size: clamp(26px, 2.6vw, 34px);
+}
+
+.dusk .lede {
+  max-width: 56ch;
+  font-size: clamp(16px, 1.25vw, 18px);
+  line-height: 1.75;
+}
+
+/* ── Buttons ──────────────────────────────────────────────────────── */
+
+.dusk .btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-height: 52px;
+  padding: 0 28px;
+  border: 1.5px solid currentColor;
+  background: transparent;
+  color: inherit;
+  font-family: var(--sans);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background-color 0.25s ease, color 0.25s ease, transform 0.25s ease;
+}
+
+.dusk .btn:hover {
+  transform: translateY(-1px);
+}
+
+.dusk .btn--gold {
+  border-color: var(--gold);
+  background: var(--gold);
+  color: var(--ink);
+}
+
+.dusk .btn--gold:hover {
+  background: #f6d06b;
+  border-color: #f6d06b;
+}
+
+.dusk .btn--light:hover {
+  background: #fff;
+  color: var(--ink);
+}
+
+.dusk .btn--dark:hover {
+  background: var(--dark);
+  color: #fff;
+}
+
+.dusk .btn--chip {
+  min-height: 44px;
+  padding: 0 18px;
+  font-size: 11px;
+}
+
+/* ── Header ───────────────────────────────────────────────────────── */
+
+.dusk .header {
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  background: rgba(42, 38, 34, 0.92);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.dusk .header__row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  align-items: center;
+  gap: 12px;
+  max-width: var(--measure);
+  margin: 0 auto;
+  padding: 12px var(--pad);
+}
+
+.dusk .header__left,
+.dusk .header__right {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+}
+
+.dusk .header__right {
+  justify-content: flex-end;
+}
+
+.dusk .wordmark {
+  padding: 14px 0;
+  font-size: 15px;
+  font-weight: 300;
+  letter-spacing: 0.5em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.dusk .wordmark b {
+  font-weight: 400;
+  color: var(--gold);
+}
+
+.dusk .menu-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 46px;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: #fff;
+  cursor: pointer;
+}
+
+.dusk .menu-btn__lines {
+  display: inline-grid;
+  gap: 5px;
+  width: 22px;
+}
+
+.dusk .menu-btn__lines i {
+  display: block;
+  height: 1.5px;
+  background: currentColor;
+}
+
+.dusk .nav {
+  display: none;
+}
+
+.dusk .cta-bar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-height: 48px;
+  background: var(--gold);
+  color: var(--ink);
+}
+
+@media (min-width: 961px) {
+  .dusk .nav {
+    display: flex;
+    gap: 28px;
+  }
+
+  .dusk .nav a {
+    position: relative;
+    padding: 6px 0;
+  }
+
+  .dusk .nav a::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 1px;
+    background: var(--gold);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.3s ease;
+  }
+
+  .dusk .nav a:hover::after {
+    transform: scaleX(1);
+  }
+
+  .dusk .cta-bar {
+    display: none;
+  }
+
+  .dusk .menu-btn {
+    display: none;
+  }
+}
+
+/* ── Menu overlay ─────────────────────────────────────────────────── */
+
+.dusk .menu {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: flex;
+  flex-direction: column;
+  background: var(--espresso);
+  color: #fff;
+  overflow-y: auto;
+}
+
+.dusk .menu__row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px var(--pad);
+}
+
+.dusk .menu__links {
+  display: flex;
+  flex-direction: column;
+  padding: 24px var(--pad) 40px;
+}
+
+.dusk .menu__links a {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  font-family: var(--serif);
+  font-size: clamp(30px, 5vw, 44px);
+  font-weight: 500;
+  line-height: 1.1;
+}
+
+.dusk .menu__links a svg {
+  flex: 0 0 auto;
+  stroke: var(--gold);
+}
+
+.dusk .menu__foot {
+  margin-top: auto;
+  padding: 24px var(--pad) 40px;
+  display: grid;
+  gap: 12px;
+  color: var(--light);
+  font-size: 14px;
+}
+
+/* ── Hero ─────────────────────────────────────────────────────────── */
+
+.dusk .hero {
+  position: relative;
+  min-height: min(88svh, 900px);
+  display: grid;
+  align-items: end;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.dusk .hero__media {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+}
+
+.dusk .hero__media img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.dusk .hero__media::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, rgba(20, 18, 15, 0.25) 0%, rgba(20, 18, 15, 0.1) 40%, rgba(20, 18, 15, 0.82) 100%);
+}
+
+.dusk .hero__inner {
+  width: 100%;
+  max-width: var(--measure);
+  margin: 0 auto;
+  padding: clamp(96px, 16vh, 180px) var(--pad) clamp(48px, 8vh, 96px);
+  display: grid;
+  justify-items: center;
+  gap: 28px;
+  text-align: center;
+}
+
+.dusk .hero__lede {
+  max-width: 48ch;
+  color: var(--light);
+  font-size: clamp(16px, 1.3vw, 19px);
+}
+
+.dusk .hero__actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 14px;
+}
+
+/* ── Request strip ────────────────────────────────────────────────── */
+
+.dusk .request {
+  background: var(--sand);
+  color: var(--dark);
+}
+
+.dusk .request__inner {
+  max-width: var(--measure);
+  margin: 0 auto;
+  padding: clamp(40px, 6vw, 72px) var(--pad);
+  display: grid;
+  gap: 28px;
+}
+
+.dusk .request__head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px 32px;
+}
+
+.dusk .trip-types {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.dusk .trip-types button {
+  min-height: 44px;
+  padding: 0 18px;
+  border: 1.5px solid var(--dark);
+  background: transparent;
+  color: var(--dark);
+  font-family: var(--sans);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.dusk .trip-types button[aria-pressed="true"] {
+  background: var(--dark);
+  color: #fff;
+}
+
+.dusk .fields {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(200px, 100%), 1fr));
+  gap: 20px 28px;
+  align-items: end;
+}
+
+.dusk .field {
+  display: grid;
+  gap: 2px;
+}
+
+.dusk .field label {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--dark-muted);
+}
+
+.dusk .field input {
+  width: 100%;
+  height: 48px;
+  padding: 0;
+  border: 0;
+  border-bottom: 1px solid var(--dark);
+  border-radius: 0;
+  background: transparent;
+  color: var(--dark);
+  font-family: var(--serif);
+  font-size: 24px;
+}
+
+.dusk .field input::placeholder {
+  color: #8a847a;
+  opacity: 1;
+}
+
+.dusk .request__note {
+  font-size: 13px;
+  color: var(--dark-muted);
+}
+
+/* ── Generic band ─────────────────────────────────────────────────── */
+
+.dusk .band {
+  padding: clamp(72px, 10vw, 136px) var(--pad);
+}
+
+.dusk .band__inner {
+  max-width: var(--measure);
+  margin: 0 auto;
+}
+
+.dusk .band--sand {
+  background: var(--sand);
+  color: var(--dark);
+}
+
+.dusk .band--stone {
+  background: var(--stone);
+  color: var(--dark);
+}
+
+.dusk .band--espresso {
+  background: var(--espresso);
+}
+
+.dusk .band__head {
+  display: grid;
+  justify-items: center;
+  gap: 18px;
+  margin-bottom: clamp(40px, 6vw, 72px);
+  text-align: center;
+}
+
+.dusk .band__head .label {
+  color: var(--gold-deep);
+}
+
+.dusk .band--espresso .band__head .label,
+.dusk .band--ink .band__head .label {
+  color: var(--gold);
+}
+
+/* ── Pillars ──────────────────────────────────────────────────────── */
+
+.dusk .pillars {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr));
+  gap: 40px 32px;
+}
+
+.dusk .pillar {
+  display: grid;
+  justify-items: center;
+  gap: 16px;
+  text-align: center;
+}
+
+.dusk .pillar svg {
+  fill: none;
+  stroke: var(--gold-deep);
+  stroke-width: 1.3;
+}
+
+.dusk .pillar p {
+  margin: 0;
+  max-width: 34ch;
+  color: var(--dark-muted);
+  font-size: 15px;
+}
+
+/* ── Aircraft ─────────────────────────────────────────────────────── */
+
+.dusk .cats {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  padding-bottom: 6px;
+  margin-bottom: 36px;
+  scrollbar-width: none;
+}
+
+.dusk .cats::-webkit-scrollbar {
+  display: none;
+}
+
+.dusk .cats button {
+  flex: 0 0 auto;
+  min-height: 44px;
+  padding: 0 18px;
+  border: 1.5px solid rgba(255, 255, 255, 0.5);
+  background: transparent;
+  color: #fff;
+  font-family: var(--sans);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: border-color 0.25s ease, background-color 0.25s ease;
+}
+
+.dusk .cats button[aria-selected="true"] {
+  border-color: var(--gold);
+  background: var(--gold);
+  color: var(--ink);
+}
+
+.dusk .aircraft {
+  display: grid;
+  gap: 32px;
+}
+
+@media (min-width: 900px) {
+  .dusk .aircraft {
+    grid-template-columns: 1.3fr 1fr;
+    align-items: center;
+    gap: 56px;
+  }
+}
+
+.dusk .aircraft__media {
+  position: relative;
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+  background: #000;
+}
+
+.dusk .aircraft__media img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.dusk .aircraft__copy {
+  display: grid;
+  gap: 18px;
+}
+
+.dusk .specs {
+  display: grid;
+  grid-template-columns: repeat(3, auto);
+  justify-content: start;
+  gap: 24px 40px;
+  margin: 0;
+  padding: 0;
+}
+
+.dusk .specs div {
+  display: grid;
+  gap: 4px;
+}
+
+.dusk .specs dt {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--light);
+}
+
+.dusk .specs dd {
+  margin: 0;
+  font-family: var(--serif);
+  font-size: 30px;
+  line-height: 1;
+}
+
+.dusk .aircraft__note {
+  color: var(--light);
+  font-size: 13px;
+}
+
+/* ── Destinations ─────────────────────────────────────────────────── */
+
+.dusk .dest {
+  display: grid;
+  gap: 24px;
+}
+
+@media (min-width: 900px) {
+  .dusk .dest {
+    grid-template-columns: 2fr 1fr;
+  }
+}
+
+.dusk .dest__feature {
+  position: relative;
+  display: grid;
+  align-content: end;
+  min-height: 460px;
+  padding: 36px;
+  color: #fff;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.dusk .dest__feature img {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 1.2s ease;
+}
+
+.dusk .dest__feature:hover img {
+  transform: scale(1.04);
+}
+
+.dusk .dest__feature::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(to top, rgba(20, 18, 15, 0.85), rgba(20, 18, 15, 0) 60%);
+}
+
+.dusk .dest__list {
+  display: grid;
+  align-content: start;
+  gap: 2px;
+}
+
+.dusk .dest__list a {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 20px 0;
+  border-bottom: 1px solid rgba(28, 25, 21, 0.15);
+  font-family: var(--serif);
+  font-size: 28px;
+  line-height: 1;
+}
+
+.dusk .dest__list a span {
+  font-family: var(--sans);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--dark-muted);
+}
+
+/* ── Programmes ───────────────────────────────────────────────────── */
+
+.dusk .programmes {
+  display: grid;
+  gap: 24px;
+}
+
+@media (min-width: 800px) {
+  .dusk .programmes {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.dusk .programme {
+  display: grid;
+  align-content: start;
+  gap: 18px;
+  padding: clamp(28px, 4vw, 48px);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+}
+
+.dusk .programme ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 10px;
+  color: var(--light);
+  font-size: 15px;
+}
+
+.dusk .programme li {
+  display: flex;
+  gap: 12px;
+}
+
+.dusk .programme li::before {
+  content: "";
+  flex: 0 0 18px;
+  height: 1px;
+  margin-top: 12px;
+  background: var(--gold);
+}
+
+/* ── Missions ─────────────────────────────────────────────────────── */
+
+.dusk .missions {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(260px, 100%), 1fr));
+  gap: 20px;
+}
+
+.dusk .mission {
+  position: relative;
+  display: grid;
+  align-content: end;
+  min-height: 340px;
+  padding: 28px;
+  color: #fff;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.dusk .mission img {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 1.2s ease;
+}
+
+.dusk .mission:hover img {
+  transform: scale(1.05);
+}
+
+.dusk .mission::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(to top, rgba(20, 18, 15, 0.88), rgba(20, 18, 15, 0.05) 65%);
+}
+
+.dusk .mission p {
+  margin: 6px 0 0;
+  color: var(--light);
+  font-size: 14px;
+}
+
+/* ── Footer ───────────────────────────────────────────────────────── */
+
+.dusk .foot {
+  background: var(--espresso);
+  padding: clamp(64px, 8vw, 112px) var(--pad) 40px;
+}
+
+.dusk .foot__inner {
+  max-width: var(--measure);
+  margin: 0 auto;
+  display: grid;
+  gap: 40px;
+}
+
+@media (min-width: 900px) {
+  .dusk .foot__inner {
+    grid-template-columns: 1.2fr 1fr 1fr;
+  }
+}
+
+.dusk .foot h2 {
+  margin: 0 0 12px;
+}
+
+.dusk .foot address {
+  font-style: normal;
+  color: var(--light);
+  font-size: 15px;
+  line-height: 1.9;
+}
+
+.dusk .foot__links {
+  display: grid;
+  gap: 10px;
+  align-content: start;
+  font-size: 14px;
+  color: var(--light);
+}
+
+.dusk .foot__links a:hover {
+  color: var(--gold);
+}
+
+.dusk .foot__legal {
+  grid-column: 1 / -1;
+  padding-top: 28px;
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+  color: #b9b2a6;
+  font-size: 12px;
+  line-height: 1.8;
+}
+
+/* ── Motion preferences ───────────────────────────────────────────── */
+
+@media (prefers-reduced-motion: reduce) {
+  .dusk .dest__feature img,
+  .dusk .mission img,
+  .dusk .btn {
+    transition: none;
+  }
+}
