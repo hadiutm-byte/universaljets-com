@@ -70,7 +70,7 @@ const charterCategories: CharterCategory[] = [
       "Bed-to-bed transfer coordination worldwide",
       "ICU stretcher and medical crew sourcing",
       "Overflight and conflict-zone permit handling",
-      "Response within 2 hours, departure within 6",
+      "Prompt response and planning for each trip",
     ],
     aircraft: [
       { name: "Learjet 35A Air Ambulance", link: "/fleet" },
@@ -118,7 +118,7 @@ const charterCategories: CharterCategory[] = [
   },
   {
     title: "Group",
-    tagline: "12 to 200+ passengers. Six continents.",
+    tagline: "12 to 200+ passengers.",
     slug: "group",
     image: groupImg,
     justification:

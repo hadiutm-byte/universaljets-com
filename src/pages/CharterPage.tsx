@@ -65,7 +65,7 @@ const charterData: Record<string, {
   government: {
     title: "Government & Diplomatic",
     headline: "State-Level Logistics. Classified Clearance.",
-    description: "Diplomatic missions, VIP head-of-state transport, classified cargo movements, and official delegations. We coordinate security protocols and overflight permissions for each mission, and full compliance with international aviation regulations for sensitive state operations.",
+    description: "Diplomatic missions, VIP head-of-state transport, classified cargo movements, and official delegations. We coordinate security protocols and overflight permissions for each mission, and coordination with the applicable aviation authorities for sensitive state operations.",
     image: "https://d2xsxph8kpxj0f.cloudfront.net/310519663441238946/F94ypwks3ADk2wFrxZVnWB/corporate-executive-jet-a3dWZJiLaShszow9sv8fuB.webp",
     aircraft: ["Boeing BBJ", "Airbus ACJ319", "Gulfstream G650ER", "Global 7500"],
   },
@@ -93,7 +93,7 @@ const charterData: Record<string, {
   diplomatic: {
     title: "Diplomatic Flights",
     headline: "Sovereign Airspace. Sovereign Service.",
-    description: "Embassy evacuations, diplomatic courier flights, UN missions, and international organization transport. We navigate the most complex regulatory environments with full diplomatic clearance coordination, secure communication capabilities, and protocol-compliant cabin configurations.",
+    description: "Embassy evacuations, diplomatic courier flights, UN missions, and international organization transport. We coordinate diplomatic clearances for each mission, secure communication capabilities, and protocol-compliant cabin configurations.",
     image: "https://d2xsxph8kpxj0f.cloudfront.net/310519663441238946/F94ypwks3ADk2wFrxZVnWB/corporate-executive-jet-a3dWZJiLaShszow9sv8fuB.webp",
     aircraft: ["Gulfstream G650ER", "Global 7500", "Airbus ACJ320", "Boeing BBJ"],
   },

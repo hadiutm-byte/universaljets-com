@@ -388,7 +388,7 @@ const PartnerPage = () => {
                     <Check className="w-6 h-6 text-primary" strokeWidth={1.5} />
                   </div>
                   <h3 className="font-display text-lg mb-2 text-foreground">Inquiry Received</h3>
-                  <p className="text-[11px] text-foreground/40 font-extralight">Our partnerships team will contact you within 24 hours.</p>
+                  <p className="text-[11px] text-foreground/40 font-extralight">Our partnerships team will be in touch.</p>
                 </div>
               ) : (
                 <form onSubmit={handleSubmit} className="space-y-5">

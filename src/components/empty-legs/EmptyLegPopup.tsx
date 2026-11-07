@@ -189,7 +189,7 @@ const EmptyLegPopup = ({ leg, onClose }: EmptyLegPopupProps) => {
               {submitted ? (
                 <motion.div key="success" initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="text-center py-3 space-y-3">
                   <p className="text-[12px] text-primary font-medium mb-1">Request Received ✓</p>
-                  <p className="text-[10px] text-muted-foreground font-light">We'll get back to you within the hour.</p>
+                  <p className="text-[10px] text-muted-foreground font-light">We'll get back to you shortly.</p>
                   <MembershipUpsell variant="inline" showReferral={false} className="text-left mt-3" />
                 </motion.div>
               ) : showRequestForm ? (

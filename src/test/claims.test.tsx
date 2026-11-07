@@ -79,10 +79,11 @@ describe("proof switch", () => {
   it("never reintroduces the copy the pre-merge review removed", () => {
     // Phrases the re-review confirmed as unproven: regulator approvals, timed delivery,
     // priority promises, certification and track-record labels. Claim-gated lines are exempt.
-    const banned = /GCAA|GACA|EASA|\bFAA\b|ICAO Compliant|48–72|30-Minute|within hours, not days|Priority aircraft|priority positioning|six continents|Verified Aircraft|Hazmat-[Cc]ertified|Trusted by UHNW|Rolls-Royce & Maybach|Certified [Oo]perators?|Certified operator|first-priority|Whole Market|selected for safety/;
+    const banned = /full compliance|full regulatory|most complex regulatory|Conflict Zone Experience|Global Security Network|six continents|5,000\+ airports|Immediate \(24h\)|within (the hour|minutes|\d+ ?hours?)|respond within|will reach out within|founded [^.]*in \d{4}|GCAA|GACA|EASA|\bFAA\b|ICAO Compliant|48–72|within hours, not days|Priority aircraft|priority positioning|Priority access|Verified Aircraft|Hazmat-certified|Trusted by UHNW|Rolls-Royce & Maybach|certified operators?|first-priority|Whole Market|selected for safety|guarantee[ds]?\b|exclusive rates/i;
     const offenders: string[] = [];
     for (const file of publicSourceFiles(SRC)) {
       if (file.endsWith(path.join("lib", "claims.ts"))) continue;
+      if (/(Terms|Privacy|Cookies)Page\.tsx$/.test(file)) continue;
       fs.readFileSync(file, "utf8").split("\n").forEach((line, i) => {
         if (banned.test(line) && !/isVerified\(|claim: "/.test(line)) offenders.push(`${path.relative(SRC, file)}:${i + 1}`);
       });

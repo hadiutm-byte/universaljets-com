@@ -77,8 +77,6 @@ const scenarios = [
 
 const trustSignals = [
   ...(isVerified("argus") ? ["ARGUS Registered Broker"] : []),
-  "Conflict Zone Experience",
-  "Global Security Network",
   "24/7 Crisis Operations",
   ...(isVerified("countryCount") ? [`${FIGURES.countryCount} Country Reach`] : []),
   "DCAA License No. 3342665",
@@ -357,7 +355,7 @@ const EvacuationPage = () => {
                   <Select onValueChange={v => set("urgency", v)}>
                     <SelectTrigger className={inputClass}><SelectValue placeholder="Select" /></SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="immediate">Immediate (24h)</SelectItem>
+                      <SelectItem value="immediate">Immediate</SelectItem>
                       <SelectItem value="urgent">Urgent</SelectItem>
                       <SelectItem value="contingency">Contingency Planning</SelectItem>
                       <SelectItem value="standby">Standby Contract</SelectItem>

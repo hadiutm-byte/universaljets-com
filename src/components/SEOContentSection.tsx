@@ -17,7 +17,7 @@ const SEOContentSection = () => (
         <FadeReveal>
           <h3 className="text-[10px] tracking-[0.4em] uppercase text-primary/60 font-medium mb-4">Why Private Jet Charter?</h3>
           <p className="mb-4">
-            Private jet charter gives you complete control over your schedule, route, and cabin experience. Unlike commercial aviation, a charter flight operates on your timetable — depart from any of 5,000+ airports worldwide, skip security queues, and arrive closer to your final destination. Universal Jets arranges on-demand charter flights, empty leg deals, and jet card programs for leisure travelers, executives, and corporate teams.
+            Private jet charter gives you complete control over your schedule, route, and cabin experience. Unlike commercial aviation, a charter flight operates on your timetable — depart from a wide range of airports, skip security queues, and arrive closer to your final destination. Universal Jets arranges on-demand charter flights, empty leg deals, and jet card programs for leisure travelers, executives, and corporate teams.
           </p>
           <p>
             Whether you need a light jet for a short European hop, a super-midsize aircraft for transatlantic travel, or a VIP airliner for group movements, we source the right aircraft at competitive rates from {aircraftReach()}. {vettingSentence()}

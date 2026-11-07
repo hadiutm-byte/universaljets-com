@@ -60,9 +60,9 @@ const partnerCards = [
 
 const memberBenefits = [
   { icon: Crown, title: "Hotel Upgrades", desc: "Complimentary suite upgrades at partner luxury hotels worldwide", claim: "partnerBrands" as const },
-  { icon: Gem, title: "Spa & Wellness", desc: "Priority access and exclusive rates at premium spas and retreats", claim: "partnerBrands" as const },
+  { icon: Gem, title: "Spa & Wellness", desc: "Member access at premium spas and retreats, as arranged", claim: "partnerBrands" as const },
   { icon: Star, title: "Premium Transport", desc: "Luxury ground transport and yacht charters at preferential rates", claim: "partnerBrands" as const },
-  { icon: Gift, title: "Travel Privileges", desc: "VIP lounge access, fast-track, and curated travel experiences" },
+  { icon: Gift, title: "Travel Privileges", desc: "Curated travel arrangements for members", claim: "partnerBrands" as const },
 ];
 
 const PartnersSection = () => (

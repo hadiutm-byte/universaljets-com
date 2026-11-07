@@ -20,7 +20,7 @@ const certifications = onlyVerified([
 const howCards = [
   { num: "01", title: "Access", desc: "We analyze the entire global market — not just one fleet.", icon: Compass },
   { num: "02", title: "Precision", desc: "We match aircraft, routing, and pricing intelligently.", icon: Target },
-  { num: "03", title: "Execution", desc: "You receive tailored options within minutes.", icon: Zap },
+  { num: "03", title: "Execution", desc: "You receive tailored options.", icon: Zap },
 ];
 
 const regions = [
@@ -175,10 +175,10 @@ const AboutPage = () => (
               <div className="w-10 h-[1px] bg-primary/40 mb-8" />
               <div className="space-y-5 text-[14px] md:text-[15px] text-white/60 font-light leading-[2]">
                 <p>
-                  Private aviation is no longer a luxury reserved for the privileged few. It is essential for those who refuse to compromise on time, privacy, and precision. When I founded Universal Jets in 2018, my singular commitment was clear: to build the world's most capable aviation brokerage, one that serves every client with the same level of excellence, transparency, and unwavering integrity.
+                  Private aviation is no longer a luxury reserved for the privileged few. It is essential for those who refuse to compromise on time, privacy, and precision. When I founded Universal Jets, my singular commitment was clear: to build the world's most capable aviation brokerage, one that serves every client with the same level of excellence, transparency, and unwavering integrity.
                 </p>
                 <p>
-                  My experience spans nearly two decades, serving the most discerning clients, from managing VIP accounts at Michelin-starred hotels in France and Abu Dhabi, to commanding luxury yacht operations across the Mediterranean, to building travel management enterprises catering to high-net-worth individuals. Every role taught me one lesson: excellence is non-negotiable. Our clients don't just book flights. They expect seamless experiences where every detail is anticipated, every concern resolved before it arises, and every journey unforgettable.
+                  My experience spans nearly two decades, serving the most discerning clients, from managing VIP accounts at commanding luxury yacht operations across the Mediterranean, to building travel management enterprises catering to high-net-worth individuals. Every role taught me one lesson: excellence is non-negotiable. Our clients don't just book flights. They expect seamless experiences where every detail is anticipated, every concern resolved before it arises, and every journey unforgettable.
                 </p>
                 <p>
                   Today, the aviation industry stands at a pivotal moment. Global commerce is accelerating. High-net-worth individuals demand unprecedented flexibility. Governments and humanitarian organizations require rapid-response capabilities. Dubai, at the crossroads of East and West, is the epicenter of this transformation. Universal Jets was built precisely for this moment.

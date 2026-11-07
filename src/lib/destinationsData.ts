@@ -101,7 +101,7 @@ export const destinations: Destination[] = [
     ],
     lifestyle: [
       "Mayfair & Knightsbridge luxury shopping",
-      "Michelin-starred private dining",
+      "Private dining arranged on request",
       "Cotswolds & country estate weekends",
       "Wimbledon & Royal Ascot hospitality",
     ],
@@ -357,7 +357,7 @@ export const destinations: Destination[] = [
     concierge: [
       "Le Bourget VIP lounge & fast-track customs",
       "Chauffeur service to Place Vendôme, Champs-Élysées, or Versailles",
-      "Michelin-star restaurant reservations",
+      "Restaurant reservations arranged on request",
       "Fashion Week show access & front-row coordination",
       "Private museum & gallery tours",
     ],

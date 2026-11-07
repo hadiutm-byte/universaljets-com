@@ -23,7 +23,7 @@ const FinalCTASection = () => {
         <p className="text-[15px] text-white/85 font-light leading-[2.1] mb-12 max-w-md mx-auto tracking-[0.01em]">
           Speak directly with an aviation advisor.
           <br />
-          We respond within minutes.
+          Our advisors will be in touch.
         </p>
         <div className="flex flex-col sm:flex-row items-center justify-center gap-5">
           <motion.button

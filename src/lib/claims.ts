@@ -49,7 +49,7 @@ export const CLAIMS: Record<ClaimKey, Claim> = {
   worldCup2022: { verified: false, proof: "Contract or reference for FIFA World Cup 2022 movements" },
   guaranteedAvailability: { verified: false, proof: "Approved Jet Card terms that guarantee availability" },
   partnerBrands: { verified: false, proof: "A signed partner agreement or written permission for every brand, hotel, dealer or benefit named on any page (footer, homepage, /partners, member benefit lists)" },
-  membershipTerms: { verified: false, proof: "Owner-approved membership terms: notice periods, request limits, coverage, support levels, overage fees, cancellation and rate locks" },
+  membershipTerms: { verified: false, proof: "Owner-approved membership terms: notice periods, request limits, coverage, support levels, overage fees, cancellation, rate locks, family cover and the referral credit" },
   cobrandCards: { verified: false, proof: "A signed card-issuer agreement for each network named (Visa, Mastercard, Amex)" },
 };
 

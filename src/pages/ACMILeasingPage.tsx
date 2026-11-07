@@ -60,7 +60,7 @@ const operationalStrengths = [
   { icon: Zap, title: "Rapid Deployment", stat: "On request", desc: "Aircraft mobilised for urgent requirements, including AOG replacement and emergency movements." },
   { icon: Radar, title: "Global Sourcing Network", stat: isVerified("aircraftCount") ? FIGURES.aircraftCount : "Worldwide", desc: `Access to ${aircraftReach()} through our operator network — narrow-body to wide-body.` },
   { icon: Target, title: "Aircraft Flexibility", stat: "All Types", desc: "From turboprops to B777s. VIP configuration, cargo, combi, and special mission aircraft available." },
-  { icon: ShieldCheck, title: "Regulatory Support", stat: "AOC", desc: "AOC structuring, overflight permits, and slot coordination across jurisdictions." },
+  { icon: ShieldCheck, title: "Regulatory Support", stat: "Planning", desc: "Operational structuring, overflight permits, and slot coordination across jurisdictions." },
   { icon: Navigation, title: "Complex Routing", stat: "Global", desc: "Multi-sector missions, positioning flights, technical stops, and ETOPS routing planned and executed." },
   { icon: Radio, title: "Mission Planning", stat: "24/7", desc: "Dedicated operations desk for flight planning, crew scheduling, ground handling, and real-time mission support." },
 ];
@@ -79,7 +79,7 @@ const useCases = [
 const trustSignals = [
   ...(isVerified("argus") ? ["ARGUS Registered Broker"] : []),
   ...(isVerified("wyvern") ? ["WYVERN Certified Network"] : []),
-  "Global AOC Structuring",
+  "Global Operational Planning",
   "24/7 Operations Desk",
   "DCAA License No. 3342665",
 ];
@@ -112,7 +112,7 @@ const ACMILeasingPage = () => {
         },
       });
       setSubmitted(true);
-      toast.success("Operational inquiry received. Our team will respond within 24 hours.");
+      toast.success("Operational inquiry received. Our team will respond shortly.");
     } catch {
       toast.error("Something went wrong. Please try again.");
     } finally {
@@ -335,7 +335,7 @@ const ACMILeasingPage = () => {
               Discuss an ACMI / <span className="text-gradient-gold italic">Mission Requirement</span>
             </h2>
             <p className="text-[13px] text-white/60 font-extralight leading-[2] max-w-md mx-auto">
-              Tell us your operational requirements — our team will structure a proposal within 24 hours.
+              Tell us your operational requirements — our team will structure a proposal.
             </p>
           </motion.div>
 
@@ -353,7 +353,7 @@ const ACMILeasingPage = () => {
                 </div>
                 <h3 className="font-display text-lg text-white mb-3">Operational Inquiry Received</h3>
                 <p className="text-[12px] text-white/60 font-extralight leading-[2] max-w-sm mx-auto">
-                  Our operations team will review your requirements and respond within 24 hours with a structured proposal.
+                  Our operations team will review your requirements and respond with a structured proposal.
                 </p>
               </div>
             ) : (

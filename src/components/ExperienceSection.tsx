@@ -5,7 +5,7 @@ import interiorImage from "@/assets/jet-interior.jpg";
 const experiences = [
   { icon: Heart, title: "Pets Onboard", desc: "Your companions fly with you — no cargo hold, no restrictions. Private aviation means your pets travel in comfort by your side." },
   { icon: Cigarette, title: "Smoking Flights", desc: "For clients who prefer it, we source smoking-permitted aircraft. Particularly popular on Middle East and Mediterranean routes." },
-  { icon: UtensilsCrossed, title: "VIP Catering", desc: "From Michelin-star menus to dietary-specific meals, every flight features bespoke catering curated to your preferences." },
+  { icon: UtensilsCrossed, title: "VIP Catering", desc: "From chef-designed menus to dietary-specific meals, every flight features bespoke catering curated to your preferences." },
   { icon: Sparkles, title: "Concierge Services", desc: "Ground transport, hotel reservations, event access, special requests — we handle everything beyond the flight." },
 ];
 

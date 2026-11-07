@@ -77,15 +77,15 @@ const benefits = [
   { icon: Star, title: "Member Rates", desc: "Preferential pricing across charter bookings, as set out in your membership terms.", claim: "membershipTerms" as const },
   { icon: HeartHandshake, title: "24/7 Concierge", desc: "From hotel suites to ground transport, your concierge handles every detail beyond the flight." },
   { icon: Calendar, title: "Flexible Cancellation", desc: "Plans change. Cancellation terms are set out in your membership terms.", claim: "membershipTerms" as const },
-  { icon: Users, title: "Family & Associate Coverage", desc: "Extend your membership benefits to immediate family and designated associates." },
-  { icon: Award, title: "Referral Programme", desc: "Refer 3 members, earn $1,000 in flight credit toward your next charter booking." },
+  { icon: Users, title: "Family & Associate Coverage", desc: "Extend your membership benefits to immediate family and designated associates.", claim: "membershipTerms" as const },
+  { icon: Award, title: "Referral Programme", desc: "Refer 3 members, earn $1,000 in flight credit toward your next charter booking.", claim: "membershipTerms" as const },
 ];
 
 const faqs = [
-  { q: "Can I upgrade or downgrade my membership tier?", a: "Yes. You may upgrade or downgrade at any time. Changes take effect at the start of your next billing cycle. Speak with your advisor to arrange the transition." },
-  { q: "What happens if I exceed my annual charter request allowance?", a: "Additional requests beyond your tier allowance are handled at the applicable overage fee. Maverick members enjoy unlimited requests with no overage fees." },
-  { q: "Is there a commitment period?", a: "Membership is on a rolling monthly basis with no long-term contract required. You may cancel at any time with 30 days' notice." },
-  { q: "Can family members or associates use my membership?", a: "Yes. Benefits extend to immediate family and designated associates traveling under your account." },
+  { q: "Can I upgrade or downgrade my membership tier?", a: "Yes. You may upgrade or downgrade at any time. Changes take effect at the start of your next billing cycle. Speak with your advisor to arrange the transition.", claim: "membershipTerms" as const },
+  { q: "What happens if I exceed my annual charter request allowance?", a: "Additional requests beyond your tier allowance are handled at the applicable overage fee. Maverick members enjoy unlimited requests with no overage fees.", claim: "membershipTerms" as const },
+  { q: "Is there a commitment period?", a: "Membership is on a rolling monthly basis with no long-term contract required. You may cancel at any time with 30 days' notice.", claim: "membershipTerms" as const },
+  { q: "Can family members or associates use my membership?", a: "Yes. Benefits extend to immediate family and designated associates traveling under your account.", claim: "membershipTerms" as const },
   { q: "What's the difference between Membership, Jet Card, and On-Demand?", a: "Membership is a monthly subscription that includes concierge support, with terms set out in writing. The Altus Jet Card lets you purchase flight hours at locked-in rates. On-Demand charter offers maximum flexibility with no commitment." },
 ];
 
@@ -328,7 +328,7 @@ const MembersPage = () => (
           variants={stagger}
           className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5"
         >
-          {trustPillars.map((p, i) => (
+          {onlyVerified(trustPillars as Array<{ icon: typeof Clock; title: string; desc: string; claim?: ClaimKey }>).map((p, i) => (
             <motion.div
               key={i}
               variants={fadeUp}
@@ -537,7 +537,7 @@ const MembersPage = () => (
         </motion.div>
 
         <Accordion type="single" collapsible className="space-y-2">
-          {faqs.map((faq, i) => (
+          {onlyVerified(faqs as Array<{ q: string; a: string; claim?: ClaimKey }>).map((faq, i) => (
             <AccordionItem key={i} value={`faq-${i}`} className="border border-[hsl(228,12%,20%)] rounded-xl px-6 bg-[hsl(228,14%,11%)]">
               <AccordionTrigger className="text-[13px] text-white/90 font-medium text-left py-5 hover:no-underline hover:text-white transition-colors [&>svg]:text-white/50">
                 {faq.q}
@@ -569,7 +569,7 @@ const MembersPage = () => (
             <span className="text-gradient-gold italic">Starts Here</span>
           </h2>
           <p className="text-[13px] text-white/70 font-light leading-[1.9] mb-10 max-w-md mx-auto">
-            Choose your tier and complete enrollment online. Your dedicated advisor will reach out within 24 hours to tailor your experience.
+            Choose your tier and complete enrollment online. Your dedicated advisor will reach out to tailor your experience.
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center mb-8">

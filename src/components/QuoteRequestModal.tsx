@@ -699,7 +699,7 @@ const QuoteRequestModal = ({ open, onClose, flightData }: QuoteRequestModalProps
               <div>
                 <h3 className="font-display text-2xl font-semibold text-foreground">Request Received</h3>
                 <p className="text-[13px] text-muted-foreground font-light mt-2 max-w-sm mx-auto">
-                  Our aviation team is reviewing your request. You'll receive a personalised quote within the hour.
+                  Our aviation team is reviewing your request. You'll receive a personalised quote from your advisor.
                 </p>
               </div>
 

@@ -579,7 +579,7 @@ const CareersPage = () => {
               <div className="text-center mb-10">
                 <p className="text-[10px] tracking-[0.4em] uppercase text-primary/50 mb-4">Next Step</p>
                 <h2 className="font-display text-2xl md:text-3xl font-semibold mb-3">Select Your Time</h2>
-                <p className="text-muted-foreground text-xs font-light">We confirm within 24 hours.</p>
+                <p className="text-muted-foreground text-xs font-light">We will confirm by email.</p>
               </div>
               <div className="space-y-5 mb-10">
                 {[
